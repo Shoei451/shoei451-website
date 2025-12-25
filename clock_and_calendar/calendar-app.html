@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="../images/favicon.png" />
+  <title>学生用カレンダー設計アプリ</title>
+  <style>
+    :root{
+  --bg:#f8fafc;
+  --panel:#ffffff;
+  --muted:#94a3b8;
+  --text:#0f172a;
+  --sub:#64748b;
+  --brand:#10b981;
+  --accent:#3b82f6;
+  --danger:#ef4444;
+  --warn:#f59e0b;
+  --ok:#10b981;
+  --border:#e2e8f0;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color:var(--text);
+  -webkit-tap-highlight-color: transparent;
+  min-height:100vh;
+}
+
+.app{max-width:1200px; margin:0 auto; padding:20px;}
+header{display:flex; align-items:center; gap:16px; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); padding:16px 20px; border-radius:20px; box-shadow:var(--shadow-lg)}
+.brand{display:flex; align-items:center; gap:12px; min-width:250px}
+.brand .logo{
+  width:40px; height:40px; border-radius:12px; 
+  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow:0 4px 15px rgba(102,126,234,0.4);
+  flex-shrink:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-weight:800;
+  font-size:20px;
+}
+.brand h1{font-size:20px; margin:0; letter-spacing:0.3px; color:#fff; font-weight:700}
+.controls{display:flex; flex-direction:column; gap:8px; width:100%}
+.controls .row-nav{display:flex; gap:8px; flex-wrap:wrap}
+.controls .row-action{display:flex; gap:8px; flex-wrap:wrap}
+.controls .row-export{display:flex; gap:8px; flex-wrap:wrap}
+.controls .row-danger{display:flex; gap:8px; flex-wrap:wrap}
+
+@media (max-width: 768px){
+  .app{padding:12px;}
+  header{gap:12px; padding:12px 16px; border-radius:16px; margin-bottom:16px}
+  .brand h1{font-size:16px}
+  .brand .hint{display:none}
+  .brand .logo{width:36px; height:36px; font-size:18px}
+  .controls{gap:6px}
+  .controls .row-nav, .controls .row-action, .controls .row-export, .controls .row-danger{gap:6px}
+}
+button, select, input, textarea{
+  background:rgba(255,255,255,0.95); 
+  color:var(--text); 
+  border:1px solid rgba(255,255,255,0.3); 
+  border-radius:12px; 
+  padding:10px 14px;
+  font-size:14px; 
+  min-height:44px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-shadow: var(--shadow);
+}
+button{
+  cursor:pointer; 
+  touch-action:manipulation;
+  font-weight:600;
+}
+button:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+button:active{
+  transform: translateY(0);
+}
+button.primary{
+  background: linear-gradient(135deg, var(--brand), #059669); 
+  border:none; 
+  box-shadow:0 4px 15px rgba(16,185,129,0.3);
+  color:#fff;
+}
+button.ghost{
+  background:rgba(255,255,255,0.2); 
+  border:1px solid rgba(255,255,255,0.4);
+  color:#fff;
+  backdrop-filter: blur(5px);
+}
+button.warn{
+  background:linear-gradient(135deg, var(--warn), #d97706); 
+  border:none;
+  color:#fff;
+  box-shadow:0 4px 15px rgba(245,158,11,0.3);
+}
+button.danger{
+  background:linear-gradient(135deg, var(--danger), #dc2626); 
+  border:none; 
+  color:#fff;
+  box-shadow:0 4px 15px rgba(239,68,68,0.3);
+}
+
+@media (max-width: 768px){
+  button, select, input, textarea{
+    padding:12px 14px; font-size:15px; min-height:48px; border-radius:10px;
+  }
+}
+
+.grid{display:grid; grid-template-columns: 2fr 1fr; gap:12px}
+@media (max-width: 980px){ .grid{grid-template-columns:1fr; gap:8px} }
+
+.panel{
+  background: rgba(255,255,255,0.95); 
+  border:1px solid rgba(255,255,255,0.3); 
+  border-radius:20px; 
+  overflow:hidden; 
+  box-shadow:var(--shadow-lg);
+  backdrop-filter: blur(10px);
+}
+.panel-header{
+  display:flex; 
+  align-items:center; 
+  justify-content:space-between; 
+  padding:16px 20px; 
+  border-bottom:1px solid var(--border); 
+  flex-wrap:wrap; 
+  gap:12px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+}
+.panel-body{padding:20px; overflow-x:auto}
+
+@media (max-width: 768px){
+  .panel{border-radius:16px}
+  .panel-header{padding:12px 16px; font-size:14px}
+  .panel-body{padding:16px}
+}
+
+.calendar{
+  display:grid; 
+  grid-template-columns: repeat(7, minmax(0, 1fr)); 
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid var(--border);
+  width:100%;
+}
+.dow{
+  font-size:13px; 
+  text-align:center; 
+  color:var(--sub); 
+  padding:12px 0; 
+  font-weight:700;
+  min-width:60px;
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+  border-bottom:2px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.cell{
+  min-height:110px; 
+  border-right:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  position:relative; 
+  padding:8px; 
+  background: #ffffff;
+  transition: all 0.2s ease; 
+  cursor:pointer; 
+  min-width:60px; 
+  word-break:break-word;
+}
+.cell:nth-child(7n){border-right:none}
+.cell:hover{
+  background:#f8fafc;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+.cell:active{background:#f1f5f9}
+.date{
+  font-size:13px; 
+  color:var(--sub); 
+  margin-bottom:6px;
+  font-weight:600;
+}
+.today{
+  background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(99,102,241,0.1));
+}
+.today .date{
+  color:#fff;
+  background: linear-gradient(135deg, var(--accent), #6366f1);
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:8px;
+  font-weight:700;
+}
+
+@media (max-width: 768px){
+  .calendar{font-size:12px; grid-template-columns: repeat(7, minmax(50px, 1fr)); border-radius:10px}
+  .dow{font-size:11px; padding:10px 2px; min-width:50px; letter-spacing:0.3px}
+  .cell{min-height:80px; padding:4px; min-width:50px}
+  .date{font-size:12px; margin-bottom:4px; padding:3px 6px}
+}
+
+@media (max-width: 480px){
+  .calendar{grid-template-columns: repeat(7, minmax(45px, 1fr))}
+  .dow{font-size:10px; padding:8px 1px; min-width:45px}
+  .cell{min-height:70px; padding:3px; min-width:45px}
+  .date{font-size:11px; padding:2px 5px}
+}
+
+.chip{
+  display:inline-block; 
+  padding:4px 8px; 
+  border-radius:8px; 
+  font-size:11px; 
+  margin:3px 3px 0 0; 
+  white-space:nowrap; 
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  max-width:100%; 
+  cursor:pointer; 
+  line-height:1.3;
+  font-weight:600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+.chip:hover{
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 768px){
+  .chip{font-size:9px; padding:3px 6px; margin:2px 2px 0 0; line-height:1.2; border-radius:6px}
+}
+
+@media (max-width: 480px){
+  .chip{font-size:8px; padding:2px 4px; margin:1px 1px 0 0}
+}
+
+.legend{display:flex; gap:8px; flex-wrap:wrap}
+.legend .chip{
+  border:1px solid rgba(255,255,255,0.3); 
+  cursor:pointer;
+  backdrop-filter: blur(5px);
+}
+.legend .chip:hover{
+  transform: scale(1.05);
+}
+
+.flex{display:flex; gap:8px; flex-wrap:wrap}
+.row{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+@media (max-width:640px){ .row{grid-template-columns:1fr; gap:6px} }
+
+.kpi{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:20px}
+.kpi .card{
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+  border:none;
+  border-radius:16px; 
+  padding:16px;
+  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
+  transition: transform 0.2s ease;
+}
+.kpi .card:hover{
+  transform: translateY(-2px);
+}
+.kpi .num{font-size:28px; font-weight:800; color:#fff; line-height:1}
+.kpi .lbl{font-size:12px; color:rgba(255,255,255,0.9); margin-top:4px; font-weight:600; text-transform: uppercase; letter-spacing:0.5px}
+
+@media (max-width: 768px){
+  .kpi{gap:8px; margin-bottom:16px}
+  .kpi .card{padding:12px; border-radius:12px}
+  .kpi .num{font-size:22px}
+  .kpi .lbl{font-size:10px}
+}
+
+.list{display:flex; flex-direction:column; gap:12px; max-height:400px; overflow:auto}
+.item{
+  border:1px solid var(--border); 
+  border-radius:16px; 
+  padding:16px; 
+  background:#f8fafc; 
+  display:grid; 
+  grid-template-columns: 1fr auto; 
+  gap:12px; 
+  align-items:start;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+.item:hover{
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.item .meta{font-size:12px; color:var(--sub); margin-top:6px; display:flex; gap:8px; flex-wrap:wrap}
+.item .meta::before{content:'📅'; margin-right:2px}
+
+@media (max-width: 768px){
+  .list{max-height:none; gap:10px}
+  .item{padding:12px; gap:10px; font-size:14px; grid-template-columns:1fr; border-radius:12px}
+  .item .meta{font-size:11px; margin-top:4px}
+  .item > div:last-child{
+    display:flex; flex-direction:row; justify-content:flex-start; flex-wrap:wrap; width:100%; gap:6px;
+  }
+}
+
+.badge{
+  font-size:11px; 
+  border:1px solid var(--border); 
+  padding:4px 10px; 
+  border-radius:20px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color:#fff;
+  font-weight:600;
+  box-shadow: 0 2px 8px rgba(102,126,234,0.3);
+}
+
+dialog{
+  border:none; 
+  border-radius:24px; 
+  padding:0; 
+  width:min(720px, 94vw); 
+  background:#ffffff; 
+  color:var(--text); 
+  max-height:90vh; 
+  overflow:hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
+.modal-head{
+  padding:20px 24px; 
+  border-bottom:1px solid var(--border); 
+  display:flex; 
+  align-items:center; 
+  justify-content:space-between; 
+  flex-wrap:wrap; 
+  gap:12px; 
+  position:sticky; 
+  top:0; 
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  z-index:10;
+}
+.modal-head strong{
+  font-size:20px;
+  font-weight:700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.modal-body{padding:24px; overflow-y:auto; max-height: calc(90vh - 80px)}
+.modal-body label{
+  display:block;
+  margin-bottom:16px;
+  font-weight:600;
+  color:var(--sub);
+  font-size:13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top:4px;
+}
+.modal-body input, .modal-body select, .modal-body textarea{
+  width:100%;
+  margin-top:8px;
+  border-radius:10px;
+}
+
+@media (max-width: 768px){
+  dialog{width:96vw; max-height:95vh; border-radius:20px}
+  .modal-head{padding:16px 20px; font-size:16px}
+  .modal-head strong{font-size:18px}
+  .modal-body{padding:20px}
+}
+
+.hint{font-size:12px; color:rgba(255,255,255,0.8); font-weight:500}
+
+@media (max-width: 768px){
+  .hint{font-size:11px}
+}
+
+.heat-0{background: #ffffff}
+.heat-1{background: #f0f9ff}
+.heat-2{background: #dbeafe}
+.heat-3{background: #bfdbfe}
+.heat-4{background: #93c5fd}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand" aria-label="アプリ名">
+        <div class="logo">📚</div>
+        <h1>学生用カレンダー <span class="hint"><br>課題/試験/授業を一括管理</span></h1>
+      </div>
+      <div class="controls">
+        <div class="row-nav">
+          <button id="prevBtn" title="前の月">◀</button>
+          <select id="monthSelect" title="月"></select>
+          <select id="yearSelect" title="年"></select>
+          <button id="todayBtn" class="ghost">今日</button>
+        </div>
+        <div class="row-action">
+          <button id="addBtn" class="primary">＋ 予定を追加</button>
+          <button id="exportPdfBtn" class="primary">PDFエクスポート</button>
+        </div>
+        <div class="row-export">
+          <button id="exportBtn" class="ghost">エクスポート</button>
+          <label class="ghost" style="padding:12px 14px; cursor:pointer; border-radius:12px; display:inline-flex; align-items:center; min-height:48px; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); color:#fff; backdrop-filter:blur(5px); font-weight:600; transition:all 0.2s ease">インポート<input type="file" id="importFile" accept="application/json" hidden></label>
+        </div>
+        <div class="row-danger">
+          <button id="clearBtn" class="warn" title="全データ削除">全消去</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-header">
+          <div class="legend" id="legend"></div>
+          <div class="hint">クリックで日付に予定を追加／予定を編集</div>
+        </div>
+        <div id="calendar" class="calendar" aria-label="カレンダー"></div>
+      </section>
+
+      <aside class="panel">
+        <div class="panel-header">
+          <strong>ダッシュボード</strong>
+          <div class="flex">
+            <select id="filterCourse">
+              <option value="">すべての科目</option>
+            </select>
+            <select id="filterType">
+              <option value="">すべての種類</option>
+              <option>時程変更</option>
+              <option>課題提出日</option>
+              <option>定期試験 / 学校模試</option>
+              <option>東進模試</option>
+              <option>部活動</option>
+              <option>長期休み</option>
+              <option>その他</option>
+            </select>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="kpi">
+            <div class="card"><div class="lbl">今月の予定</div><div id="kpiTotal" class="num">0</div></div>
+            <div class="card"><div class="lbl">全体の予定</div><div id="kpiAll" class="num">0</div></div>
+            <div class="card"><div class="lbl">近日（7日）</div><div id="kpiSoon" class="num">0</div></div>
+          </div>
+          <h3>近日の締切</h3>
+          <div id="upcoming" class="list"></div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <dialog id="eventModal">
+    <form method="dialog" id="eventForm">
+      <div class="modal-head">
+        <strong id="modalTitle">予定を追加</strong>
+        <div class="flex">
+          <button type="button" value="cancel" onclick="modal.close()">閉じる</button>
+          <button id="deleteBtn" class="danger" type="button" style="display:none">削除</button>
+          <button id="saveBtn" class="primary" type="submit">保存</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="eventId">
+        
+        <div class="row">
+          <label>タイトル
+            <input id="title" required placeholder="例: 英語課題 Unit5 提出">
+          </label>
+          <label id="courseLabel">科目（自由入力）
+            <input id="course" list="courseList" placeholder="例: 英語">
+            <datalist id="courseList"></datalist>
+          </label>
+        </div>
+        <div class="row">
+          <label>日付
+            <input id="date" type="date" required>
+          </label>
+          <label>
+            <input type="checkbox" id="multiDate" style="width:auto; margin-right:8px">
+            複数日に登録
+          </label>
+        </div>
+        <div class="row" id="endDateRow" style="display:none">
+          <label>終了日（複数日登録時）
+            <input id="endDate" type="date">
+          </label>
+        </div>
+        <div class="row">
+          <label>種類
+            <select id="type">
+              <option>時程変更</option>
+              <option>課題提出日</option>
+              <option>定期試験 / 学校模試</option>
+              <option>東進模試</option>
+              <option>部活動</option>
+              <option>長期休み</option>
+              <option>その他</option>
+            </select>
+          </label>
+          
+        </div>
+        <div class="row">
+          <label>メモ
+            <textarea id="notes" rows="3" placeholder="必要な持ち物／提出方法など"></textarea>
+          </label>
+        </div>
+        <div class="hint" id="multiDateHint" style="display:none; color:var(--accent); font-weight:600">
+          ✓ 複数日に同じ予定を登録します（開始日〜終了日の各日に個別の予定として作成）
+        </div>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    const $ = (sel, el=document) => el.querySelector(sel);
+    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+
+    const uid = () => Math.random().toString(36).slice(2)+Date.now().toString(36);
+
+    const colorFromCourse = (name) => {
+      if(!name) return '#64748b';
+      let h=0; for(let i=0;i<name.length;i++){ h = (h*31 + name.charCodeAt(i)) % 360; }
+      return `hsl(${h},70%,50%)`;
+    };
+
+    const colorFromType = (type) => {
+      const typeColors = {
+        '時程変更': '#8a9990',
+        '定期試験 / 学校模試': '#f7a500',
+        '東進模試': '#009c88',
+        '部活動': '#00c3ff',
+        '長期休み': '#ff6b9d'
+      };
+      return typeColors[type] || null;
+    };
+
+    const storage = {
+      get(){ try{ return JSON.parse(localStorage.getItem('student-calendar-v1')||'[]'); }catch{ return [] } },
+      set(data){ localStorage.setItem('student-calendar-v1', JSON.stringify(data)); }
+    };
+
+    const state = {
+      events: storage.get(),
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      filterCourse: '',
+      filterType: ''
+    };
+
+    const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+    const monthSelect = $('#monthSelect');
+    const yearSelect = $('#yearSelect');
+    for(let m=0;m<12;m++){ const opt=document.createElement('option'); opt.value=m; opt.textContent=monthNames[m]; monthSelect.appendChild(opt); }
+    const thisYear = new Date().getFullYear();
+    for(let y=thisYear-3; y<=thisYear+3; y++){ const opt=document.createElement('option'); opt.value=y; opt.textContent=y+'年'; yearSelect.appendChild(opt); }
+
+    function render(){
+      monthSelect.value = state.month; yearSelect.value = state.year;
+      renderLegend();
+      renderCalendar();
+      renderDashboard();
+      fillCourseDatalist();
+    }
+
+    function getMonthMatrix(y,m){
+       const days = [];
+       const last = new Date(y, m+1, 0).getDate(); // 月末日
+    for(let d=1; d<=last; d++){
+    days.push(new Date(y, m, d));
+      }
+    return days;
+
+      //const first = new Date(y,m,1); const start = new Date(first); start.setDate(first.getDate() - ((first.getDay()+6)%7));
+      //const cells = [];
+      //for(let i=0;i<42;i++){ const d = new Date(start); d.setDate(start.getDate()+i); cells.push(d); }
+      //return cells;
+    }
+
+
+    function renderCalendar(){
+      const cal = $('#calendar'); cal.innerHTML='';
+      const dows = ['月','火','水','木','金','土','日'];
+      dows.forEach(d=>{ const h=document.createElement('div'); h.className='dow'; h.textContent=d; cal.appendChild(h); });
+
+      const cells = getMonthMatrix(state.year, state.month);
+      const todayStr = formatDate(new Date());
+
+      const filtered = state.events.filter(e=>
+        (!state.filterCourse || e.course===state.filterCourse) &&
+        (!state.filterType || e.type===state.filterType)
+      );
+
+      const counts = {};
+      filtered.forEach(e=>{ counts[e.date]=(counts[e.date]||0)+1; });
+
+      cells.forEach(d=>{
+        const dStr = formatDate(d);
+        const inMonth = (d.getMonth()===state.month);
+        const cell = document.createElement('div'); cell.className='cell heat-'+Math.min(4, counts[dStr]||0);
+        if(!inMonth) cell.style.opacity=0.35;
+        if(dStr===todayStr) cell.classList.add('today');
+
+        const dateEl = document.createElement('div'); dateEl.className='date'; dateEl.textContent = `${d.getDate()}`; cell.appendChild(dateEl);
+
+        filtered.filter(e=>e.date===dStr && inMonth).sort((a,b)=>a.title.localeCompare(b.title)).slice(0,4).forEach(e=>{
+          const chip = document.createElement('div'); chip.className='chip'; chip.title = `${e.title}（${e.course||'科目未設定'}）`;
+          const typeColor = colorFromType(e.type);
+          chip.style.background = typeColor || colorFromCourse(e.course);
+          chip.style.color = '#fff';
+          chip.textContent = e.title||'無題';
+          chip.onclick = () => openModal(e);
+          cell.appendChild(chip);
+        });
+
+        cell.onclick = (ev)=>{ if(ev.target===cell || ev.target===dateEl) openModal({date:dStr}); };
+
+        cal.appendChild(cell);
+      });
+    }
+
+    function sortByTime(a,b){ return (a.start||'24:00') < (b.start||'24:00') ? -1 : 1; }
+
+    function sortByTime(a,b){ return (a.start||'24:00') < (b.start||'24:00') ? -1 : 1; }
+
+    function formatDate(d){
+      const dt = (d instanceof Date)? d : new Date(d);
+      return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,'0')+"-"+String(dt.getDate()).padStart(2,'0');
+    }
+
+    function renderLegend(){
+      const box = $('#legend'); box.innerHTML='';
+      const courses = [...new Set(state.events.map(e=>e.course).filter(Boolean))].sort();
+      const fc = $('#filterCourse'); fc.innerHTML = '<option value="">すべての科目</option>' + courses.map(c=>`<option>${c}</option>`).join('');
+      courses.forEach(c=>{
+        const el = document.createElement('span'); el.className='chip'; el.textContent=c; el.style.background=colorFromCourse(c); el.style.color='#fff';
+        el.onclick = ()=>{ state.filterCourse = (state.filterCourse===c?'':c); $('#filterCourse').value = state.filterCourse; render(); };
+        box.appendChild(el);
+      });
+    }
+
+    function renderDashboard(){
+      const now = new Date();
+      const monthStart = new Date(state.year, state.month, 1);
+      const monthEnd = new Date(state.year, state.month+1, 0);
+
+      const filtered = state.events.filter(e=>(!state.filterCourse || e.course===state.filterCourse) && (!state.filterType || e.type===state.filterType));
+      const inMonth = filtered.filter(e=>{ const d=new Date(e.date); return d>=monthStart && d<=monthEnd; });
+
+      $('#kpiTotal').textContent = inMonth.length;
+      $('#kpiAll').textContent = filtered.length;
+      $('#kpiSoon').textContent = filtered.filter(e=>{ const d=new Date(e.date); const diff=(d-now)/(1000*60*60*24); return diff>=0 && diff<=7; }).length;
+
+      const upcoming = filtered
+        .filter(e=> new Date(e.date) >= new Date(now.getFullYear(), now.getMonth(), now.getDate()))
+        .sort((a,b)=> new Date(a.date)-new Date(b.date))
+        .slice(0,20);
+
+      const box = $('#upcoming'); box.innerHTML='';
+      if(upcoming.length===0){ box.innerHTML = '<div class="hint">直近の予定はありません。</div>'; return; }
+      upcoming.forEach(e=>{
+        const it = document.createElement('div'); it.className='item';
+        const left = document.createElement('div');
+        left.innerHTML = `<div><strong>${escapeHtml(e.title||'無題')}</strong></div>
+          <div class="meta">${e.date} ／ ${e.course||'科目未設定'} ／ ${e.type}</div>
+          ${e.notes? `<div class="hint">${escapeHtml(e.notes)}</div>`:''}`;
+        const right = document.createElement('div'); right.style.display='flex'; right.style.flexDirection='column'; right.style.gap='6px'; right.style.alignItems='end';
+        const edit = document.createElement('button'); edit.textContent='編集'; edit.onclick=()=>openModal(e); right.appendChild(edit);
+        it.appendChild(left); it.appendChild(right); box.appendChild(it);
+      });
+    }
+
+    function fillCourseDatalist(){
+      const list = $('#courseList'); list.innerHTML='';
+      [...new Set(state.events.map(e=>e.course).filter(Boolean))].sort().forEach(c=>{
+        const opt=document.createElement('option'); opt.value=c; list.appendChild(opt);
+      });
+    }
+
+    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+
+    const modal = $('#eventModal');
+    
+    function updateCourseVisibility(){
+      const type = $('#type').value;
+      const courseLabel = $('#courseLabel');
+      const courseInput = $('#course');
+      const noCourseTypes = ['時程変更', '定期試験 / 学校模試', '東進模試', '部活動', '長期休み'];
+      
+      if(noCourseTypes.includes(type)){
+        courseInput.disabled = true;
+        courseInput.style.background = '#e2e8f0';
+        courseInput.style.color = '#94a3b8';
+        courseLabel.style.opacity = '0.5';
+      } else {
+        courseInput.disabled = false;
+        courseInput.style.background = 'rgba(255,255,255,0.95)';
+        courseInput.style.color = 'var(--text)';
+        courseLabel.style.opacity = '1';
+      }
+    }
+    
+    function toggleMultiDate(){
+      const isMulti = $('#multiDate').checked;
+      $('#endDateRow').style.display = isMulti ? '' : 'none';
+      $('#multiDateHint').style.display = isMulti ? 'block' : 'none';
+      if(isMulti){
+        $('#endDate').required = true;
+      } else {
+        $('#endDate').required = false;
+      }
+    }
+    
+    function openModal(e={}){
+      $('#modalTitle').textContent = e.id ? '予定を編集' : '予定を追加';
+      $('#eventId').value = e.id||'';
+      $('#title').value = e.title||'';
+      $('#course').value = e.course||'';
+      $('#date').value = e.date || formatDate(new Date(state.year,state.month,1));
+      $('#endDate').value = '';
+      $('#multiDate').checked = false;
+      $('#type').value = e.type||'課題提出日';
+      $('#notes').value = e.notes||'';
+      updateCourseVisibility();
+      toggleMultiDate();
+      $('#deleteBtn').style.display = e.id ? '' : 'none';
+      modal.showModal();
+      setTimeout(()=>$('#title').focus(), 50);
+    }
+
+    $('#type').addEventListener('change', updateCourseVisibility);
+    $('#multiDate').addEventListener('change', toggleMultiDate);
+
+    $('#eventForm').addEventListener('submit', (ev)=>{
+      ev.preventDefault();
+      const id = $('#eventId').value || uid();
+      const isMulti = $('#multiDate').checked;
+      const startDate = $('#date').value;
+      const endDate = $('#endDate').value;
+      
+      const evObj = {
+        id,
+        title: $('#title').value.trim()||'無題',
+        course: $('#course').value.trim(),
+        date: startDate,
+        type: $('#type').value,
+        notes: $('#notes').value.trim()
+      };
+      
+      if(isMulti && endDate && endDate >= startDate){
+        // 複数日登録：開始日から終了日まで各日に個別の予定を作成
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const existingIds = [];
+        
+        // 既存の予定IDを削除（編集時）
+        if(id && state.events.find(e=>e.id===id)){
+          state.events = state.events.filter(e=>e.id!==id);
+        }
+        
+        // 各日付ごとに予定を作成
+        for(let d = new Date(start); d <= end; d.setDate(d.getDate()+1)){
+          const dateStr = formatDate(d);
+          const newId = uid();
+          existingIds.push(newId);
+          state.events.push({
+            ...evObj,
+            id: newId,
+            date: dateStr
+          });
+        }
+      } else {
+        // 単一日登録
+        const i = state.events.findIndex(e=>e.id===id);
+        if(i>=0) state.events[i]=evObj; else state.events.push(evObj);
+      }
+      
+      storage.set(state.events);
+      modal.close();
+      render();
+    });
+
+    $('#deleteBtn').onclick = ()=>{
+      const id = $('#eventId').value; if(!id) return;
+      if(confirm('この予定を削除しますか？')){
+        state.events = state.events.filter(e=>e.id!==id);
+        storage.set(state.events); modal.close(); render();
+      }
+    };
+
+    function toggleDone(id){
+      const e = state.events.find(x=>x.id===id); if(!e) return;
+      e.completed = !e.completed; storage.set(state.events); render();
+    }
+
+    function toggleDone(id){
+      const e = state.events.find(x=>x.id===id); if(!e) return;
+      e.completed = !e.completed; storage.set(state.events); render();
+    }
+
+    $('#prevBtn').onclick = ()=>{ const d = new Date(state.year, state.month-1, 1); state.year=d.getFullYear(); state.month=d.getMonth(); render(); };
+    $('#todayBtn').onclick = ()=>{ const now=new Date(); state.year=now.getFullYear(); state.month=now.getMonth(); state.filterCourse=''; state.filterType=''; render(); };
+
+    monthSelect.onchange = ()=>{ state.month = Number(monthSelect.value); render(); };
+    yearSelect.onchange = ()=>{ state.year = Number(yearSelect.value); render(); };
+
+    $('#filterCourse').onchange = (e)=>{ state.filterCourse = e.target.value; render(); };
+    $('#filterType').onchange = (e)=>{ state.filterType = e.target.value; render(); };
+
+    $('#addBtn').onclick = ()=> openModal({ date: formatDate(new Date(state.year, state.month, 1)) });
+
+    $('#exportBtn').onclick = ()=>{
+      const blob = new Blob([JSON.stringify(state.events,null,2)], {type:'application/json'});
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+      a.download = 'student-calendar-data.json'; a.click(); URL.revokeObjectURL(a.href);
+    };
+
+    $('#importFile').onchange = async (e)=>{
+      const file = e.target.files[0]; if(!file) return;
+      try{
+        const text = await file.text();
+        const data = JSON.parse(text);
+        if(!Array.isArray(data)) throw new Error('JSON形式が不正です');
+        const map = new Map(state.events.map(ev=>[ev.id, ev]));
+        data.forEach(ev=>{ if(!ev.id) ev.id=uid(); map.set(ev.id, ev); });
+        state.events = Array.from(map.values());
+        storage.set(state.events); render();
+        alert('インポートしました。');
+      }catch(err){ alert('インポートに失敗: '+err.message); }
+      e.target.value='';
+    };
+
+    $('#clearBtn').onclick = ()=>{
+      if(confirm('本当に全データを削除しますか？この操作は取り消せません。')){
+        state.events = []; storage.set(state.events); render();
+      }
+    };
+
+    $('#exportPdfBtn').onclick = () => {
+      const element = document.getElementById('calendar');
+      const opt = {
+        margin:       0.5,
+        filename:     `カレンダー_${state.year}_${state.month+1}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2 },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+      };
+      html2pdf().set(opt).from(element).save();
+    };
+
+    render();
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>

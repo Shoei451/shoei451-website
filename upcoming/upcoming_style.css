@@ -1,0 +1,215 @@
+.project-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px var(--shadow);
+    text-align: left;
+    transition: all 0.4s;
+    opacity: 0;
+    transform: translateY(50px);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.project-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px var(--shadow);
+    border-color: var(--accent);
+}
+
+.project-header {
+    margin-bottom: 15px;
+}
+
+.project-icon {
+    font-size: 2.5rem;
+    margin-right: 15px;
+}
+
+.project-title-wrapper {
+    flex: 1;
+}
+
+.project-title {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin: 0 0 5px 0;
+}
+
+.project-subtitle {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-style: italic;
+}
+
+.status-badge {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.status-planning {
+    background: #6c757d;
+    color: #ffffff;
+}
+
+.status-designing {
+    background: #17a2b8;
+    color: #ffffff;
+}
+
+.status-developing {
+    background: #ffc107;
+    color: #000000;
+}
+
+.status-testing {
+    background: #fd7e14;
+    color: #ffffff;
+}
+
+.status-launching {
+    background: #28a745;
+    color: #ffffff;
+}
+
+.project-description {
+    color: var(--content);
+    line-height: 1.6;
+    margin: 15px 0;
+}
+
+.project-meta {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    color: var(--secondary);
+}
+
+.project-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.progress-section {
+    margin-top: 20px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+body.dark .progress-bar-container {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #FABA40, #313A49);
+    border-radius: 10px;
+    transition: width 1s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.progress-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+.project-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.tag {
+    padding: 4px 12px;
+    background: var(--accent);
+    color: #ffffff;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.legend {
+    max-width: 1200px;
+    margin: 40px auto 60px;
+    padding: 30px;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.legend h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: var(--primary);
+}
+
+.legend-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .project-header {
+        flex-direction: column;
+    }
+    
+    .project-meta {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

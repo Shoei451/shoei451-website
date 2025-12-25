@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="quiz-style.css">
+    <link rel="icon" href="../../images/favicon.png">
+    <title>Idiom Quiz — Shoei451</title>
+</head>
+<body>
+    <div class="logo-switches">
+        <button id="theme-toggle" aria-label="Toggle theme">
+            <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="quiz-wrapper">
+        <h1>Vintage 冬季課題 イディオムクイズ</h1>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <h2>Welcome to the Idiom Quiz!</h2>
+            <p class="note">Test your knowledge of English idioms. You'll be presented with fill-in-the-blank questions.</p>
+            
+            <div class="explanation">
+                <ul>
+                    <li>出題形式は4択となっています。例文とその日本語訳が表示されるので、当てはまる適切なイディオムを選んでください。</li>
+                    <li>選択肢のイディオムは、 "3単現のs" や "過去形" などの語形変化がない状態で出ます（仕様上こうなっています）。</li>
+                    <li>解答後に正誤発表があり、その後の解説では
+                        <ol>
+                            <li><b>対応するVintage問題番号</b></li>
+                            <li><b>イディオム</b></li>
+                            <li><b>意味</b></li>
+                            <li><b>フル例文</b></li>
+                            <li><b>覚え方のコツ</b></li>
+                        </ol>が表示されます。
+                    </li>
+                </ul>
+            </div>
+            <div class="explanation">
+                <ul>
+                  <li>問題に取り組むごとに、正誤がデータベースに記録され、イディオムごとの正解率が計算されます。モード選択では、<b>正解率の低い問題（＝みんなが間違えがちな問題）を重点的に出題するモード</b>を選べるようになります。</li>
+                    <li>例文は、classroomにSpreadSheetで上がっていたものに空欄を挿入して加工して利用しています。<b>そのため、空欄の作り忘れなど、たまにアプリ側のミスがあります。<br>ミスがある場合は、正解発表後の画面でデータの誤りを報告してください。</b><br>
+                    データの誤りの例: <ul>
+                      <li>例文 - "It's hard to _____ fact from fiction."</li>
+                      <li>イディオム - "distinguish A from B"</li>
+                      <li>誤りの理由 - イディオムに対して、空欄が不十分です。（fromの部分が空欄になっていない）</li>
+                    </ul></li>
+                </ul>
+            </div>
+            
+            <div class="field">
+                <label for="quizMode"><b>Quiz Mode:</b></label>
+                <select id="quizMode">
+                    <option value="random">Random Practice （全267問からランダム出題）</option>
+                    <option value="difficult">Focus on Weak Areas （みんなの正答率が50%未満のものから出題）</option>
+                    <option value="unattempted">Not Yet Attempted （みんなの取り組み数が5未満の問題）</option>
+                    <option value="mixed">Mixed Review (Smart Mix: 60% difficult + 30% medium + 10% easy)</option>
+                </select>
+            </div>
+            
+            <div class="field">
+                <label for="questionCount"><b>Number of Questions （出題数）:</b></label>
+                <select id="questionCount">
+                    <option value="5">5 Questions</option>
+                    <option value="10" selected>10 Questions</option>
+                    <option value="20">20 Questions</option>
+                    <option value="30">30 Questions</option>
+                    <option value="50">50 Questions</option>
+                    <option value="all">All Questions</option>
+                </select>
+            </div>
+            
+            <button id="startBtn">Start Quiz</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="screen hidden">
+            <div class="top-bar">
+                <button id="homeBtn" style="background: var(--secondary); color: white;">Go Back to Home</button>
+                <div id="score">Score: 0/0</div>
+            </div>
+            
+            <div id="progressOuter">
+                <div id="progressBar"></div>
+            </div>
+
+            <div id="question"></div>
+            <div id="questionJp"></div>
+            <div id="choices"></div>
+
+            <div id="feedback" class="feedback hidden"></div>
+            <button id="nextBtn" class="hidden">Next Question</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen hidden">
+            <h2>Quiz Complete!</h2>
+            <div id="finalScore"></div>
+            <button id="restartBtn">Restart Quiz</button>
+        </div>
+
+        <div id="loading" class="loading hidden">Loading questions...</div>
+        <div id="error" class="error hidden"></div>
+    </div>
+    <script src="quiz-logic.js"></script>
+    <script>
+      
+        // Toggle report form visibility
+        function toggleReportForm(questionId) {
+            const form = document.getElementById(`reportForm${questionId}`);
+            form.classList.toggle('hidden');
+        }
+
+        // Submit corruption report
+        async function submitReport(questionId) {
+            const reasonSelect = document.getElementById(`reportReason${questionId}`);
+            const messageDiv = document.getElementById(`reportMessage${questionId}`);
+            const reason = reasonSelect.value;
+            
+            if (!reason) {
+                messageDiv.innerHTML = '<p class="report-error">理由を選択してください</p>';
+                return;
+            }
+            
+            messageDiv.innerHTML = '<p style="text-align: center;">送信中...</p>';
+            
+            const success = await reportCorruption(questionId, reason);
+            
+            if (success) {
+                messageDiv.innerHTML = '<p class="report-success">報告ありがとうございました！</p>';
+                reasonSelect.disabled = true;
+                document.querySelector(`#reportForm${questionId} button`).disabled = true;
+            } else {
+                messageDiv.innerHTML = '<p class="report-error">送信に失敗しました。もう一度お試しください。</p>';
+            }
+        }
+    </script>
+</body>
+</html>

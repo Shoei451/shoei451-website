@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <link rel="icon" href="../images/bio-favicon.png" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2024年度生物基礎フォーム集</title>
+  <style>
+      body {
+      margin: 0;
+      font-family: "Inter", "Segoe UI", sans-serif;
+      background: #f3f7f4;
+      color: #222;
+    }
+    header {
+      background: linear-gradient(90deg, #12e33f, #0fbf34);
+      color: #fff;
+      padding: 26px;
+      text-align: center;
+      font-size: 1.7rem;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.20);
+      border-bottom: 3px solid rgba(255,255,255,0.25);
+      transition: transform 0.45s ;
+    }
+    .header-hidden {
+      transform: translateX(120%);
+    }
+    #search {
+      width: 92%;
+      margin: 20px auto;
+      display: block;
+      padding: 14px 18px;
+      border-radius: 14px;
+      border: 1px solid #cfd8cf;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    #search:focus {
+      border-color: #12e33f;
+      box-shadow: 0 0 0 3px rgba(18,227,63,0.25);
+    }
+    .container {
+      width: 92%;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+    .section-title {
+      font-size: 1.25rem;
+      margin: 32px 0 16px;
+      font-weight: 700;
+      color: #0f4d1e;
+      border-left: 6px solid #12e33f;
+      padding-left: 10px;
+    }
+    .card {
+      background: #fff;
+      padding: 18px 20px;
+      margin-bottom: 14px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #e7eee7;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+      border-color: #12e33f33;
+    }
+    .card a {
+      text-decoration: none;
+      color: #0b6f24;
+      font-size: 1.08rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card a::after {
+      content: "↗";
+      font-size: 1.2rem;
+      color: #12e33f;
+      opacity: 0.8;
+    }
+  .note{font-size:0.82rem;color:#666;margin-top:-6px;margin-bottom:10px;} 
+  /* --- Dark Mode -------------------------------------------------- */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #111;
+        color: #e7e7e7;
+      }
+      header {
+        background: linear-gradient(90deg, #0ca32d, #087e22);
+        color: #fff;
+        box-shadow: 0 4px 14px rgba(0,0,0,0.6);
+        border-bottom: 2px solid rgba(255,255,255,0.15);
+      }
+      #search {
+        background: #1c1c1c;
+        color: #e7e7e7;
+        border: 1px solid #333;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      }
+      #search:focus {
+        border-color: #12e33f;
+        box-shadow: 0 0 0 3px rgba(18,227,63,0.35);
+      }
+      .section-title {
+        color: #c8fbd7;
+        border-left: 6px solid #12e33f;
+      }
+      .card {
+        background: #1b1b1b;
+        border: 1px solid #2c2c2c;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      }
+      .card:hover {
+        border-color: #12e33f55;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.7);
+      }
+      .card a {
+        color: #9cf0b1;
+      }
+      .card a::after {
+        color: #12e33f;
+      }
+      .note {
+        color: #aaa;
+      }
+      section {
+        background: #1b1b1b !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.55) !important;
+      }
+      section h2 {
+        color: #c8fbd7 !important;
+      }
+      section a {
+        color: #12e33f !important;
+      }
+    }  </style>
+</head>
+<body>
+
+<header>生物基礎<br>語句確認フォーム集</header>
+
+<input id="search" type="text" placeholder="キーワード検索（例：DNA / 免疫 / タンパク質）" />
+
+<div class="container" id="list">
+
+  <!-- Section 1 -->
+  <div class="section-title">① 代謝・酵素・ATP</div>
+  <div class="note">※このセクションのフォームは学校アカウントでのみ開けます。</div>
+  <div class="card restricted" data-key="代謝 atp"><span class="badge"></span>
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScX0ODmCN24_z0dCfsKMXkucM7-9B_gsRJPKlryMSMwueKGPw/viewform">代謝とATP</a>
+  </div>
+  <div class="card restricted" data-key="呼吸 光合成"><span class="badge"></span>
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfcV9SuJF0Lfs__DKXUshgJ0Dsm17Sgz12LQsDp3Y6Ref1G6Q/viewform">呼吸と光合成</a>
+  </div>
+  <div class="card restricted" data-key="酵素"><span class="badge"></span>
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScKTyPPPOBYWj8tUqUCyr4Q16pW-1XsW73xYtF41h_eBUQ33Q/viewform">酵素</a>
+  </div>
+
+  <!-- Section 2 -->
+  <div class="section-title">② 遺伝子とDNA</div>
+  <div class="note">※このセクションのフォームは学校アカウントでのみ開けます。</div>
+  <div class="card" data-key="遺伝子 本体 証明">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScJS31fdJf_l6wdU1ehkj_ergP0IfGVHLLpXNbr18VsP0CBuQ/viewform">遺伝子の本体の証明</a>
+  </div>
+  <div class="card" data-key="dna 構造">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScMZN7PisMIpYbjGloWoxTFVQBLkkmFA6ckrwH4IjVwzCc-iA/viewform">DNAの構造</a>
+  </div>
+  <div class="card" data-key="遺伝情報 複製">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdX4nUW_dlNDtIeKm1m139At9jDar_BRH9roGL06lXuTDvRCA/viewform">遺伝情報の複製</a>
+  </div>
+  <div class="card" data-key="遺伝情報 体細胞分裂 分配">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdIifmFzYPx0byLtP2qtkgcmqaYa6ivDCivibHmjwBpcqviWQ/viewform">遺伝情報の分配（体細胞分裂）</a>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-title">③ タンパク質の合成</div>
+  <div class="note">※このセクションのフォームは学校アカウントでのみ開けます。</div>
+  <div class="card" data-key="アミノ酸 タンパク質 構造">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdBXAW1YpmMBkmVamN4XhUCWzZIyqY_6C5a31PAckEIkHRfFQ/viewform">アミノ酸・タンパク質の構造</a>
+  </div>
+  <div class="card" data-key="転写">
+    <a target="_blank" href="https://forms.gle/hfE5FpKRCxVVz9389">転写</a>
+  </div>
+  <div class="card" data-key="翻訳 タンパク質合成">
+    <a target="_blank" href="https://forms.gle/278TJirESMsoDRYRA">翻訳</a>
+  </div>
+  <div class="card" data-key="全能性 ゲノム">
+    <a target="_blank" href="https://forms.gle/7ZwmkFnPFiSKNMcy5">全能性とゲノム</a>
+  </div>
+
+  <!-- Section 4 -->
+  <div class="section-title">④ 情報伝達・ホルモン系</div>
+  <div class="note">※このセクションのフォームは学校アカウントでのみ開けます。</div>
+  <div class="card" data-key="情報伝達 神経 ホルモン">
+    <a target="_blank" href="https://forms.gle/ZV9T7Jjgx32VsfWn9">体内での情報伝達</a>
+  </div>
+  <div class="card" data-key="自律神経 系統">
+    <a target="_blank" href="https://forms.gle/h1tZrBvHzPTEx29Z7">自律神経系</a>
+  </div>
+  <div class="card" data-key="内分泌 ホルモン">
+    <a target="_blank" href="https://forms.gle/cUDjLfwLR26ea3nHA">内分泌腺とホルモン</a>
+  </div>
+
+  <!-- Section 5 -->
+  <div class="section-title">⑤ 体内環境の維持</div>
+  <div class="note">※このセクションのフォームは学校アカウントでのみ開けます。</div>
+  <div class="card" data-key="体内環境 恒常性">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSeV7NmK7hKWEasM-Zm6hrMFDP2PyS74EinLLyu0IcOpR1AKXA/viewform">体内環境維持のしくみ</a>
+  </div>
+  <div class="card" data-key="糖尿病 腎臓 尿">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSd2xtyZTLmHDt0d7o1JxiX2P_WIeamyQ_bniraeB2RTS7G96w/viewform">糖尿病と腎臓・尿</a>
+  </div>
+
+  <!-- Section 6 -->
+  <div class="section-title">⑥ 血液・体液・免疫</div>
+  <div class="note">※このセクションのフォームは学校アカウントでのみ開けます。</div>
+  <div class="card" data-key="血液 循環 体液">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdKX_NdvGaa3CWA0O_VhIqT1QYCm4FfLc-StaWXDmYikh7ktA/viewform">血液の循環</a>
+  </div>
+  <div class="card" data-key="血液凝固 浸透圧">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdboAUni4JBtP55GGYnFqh_MO-Fjdmd-f672NFQenR5pB1uVQ/viewform">血液凝固・浸透圧</a>
+  </div>
+  <div class="card" data-key="免疫 仕組み">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSfh2fme01hcwpMzsBGXvL2vMWBCpOwANae8DBwI5nBOWoIssw/viewform">免疫</a>
+  </div>
+
+  <!-- Section 7 -->
+  <div class="section-title">⑦ 生態系</div>
+  <div class="card" data-key="遷移 乾性 湿性">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSehJzajPNu0PsCTXKL8d0kVvr0HscakZMBbSdcYZjWBQEEY_A/viewform">乾性遷移と湿性遷移</a>
+  </div>
+  <div class="card" data-key="バイオーム 気候 植生">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSd1op_ZaNSaqSDjh8IGGgm1VthADwqNKmL2wv2-XT5FJF_J0Q/viewform">バイオーム</a>
+  </div>
+  <div class="card" data-key="生態系 物質 循環">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScxp8oGm8aI4vSzzR1NHxhEB0udF2pGlaYiX-vNVRmlmexiEQ/viewform">生態系と物質の循環</a>
+  </div>
+  <div class="card" data-key="生態系 収支 環境">
+    <a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLScNImBuaIHPG_4NcE5GH1aoy_kbGEeyFdcrQCOGYEU7mnJJeg/viewform">生態系における物質収支</a>
+  </div>
+
+</div>
+
+<script>
+  const searchBox = document.getElementById("search");
+  const cards = document.querySelectorAll(".card");
+
+  searchBox.addEventListener("input", () => {
+    const q = searchBox.value.toLowerCase();
+    cards.forEach(card => {
+      const key = card.dataset.key.toLowerCase();
+      card.style.display = key.includes(q) ? "block" : "none";
+    });
+  });
+</script>
+
+
+
+<!-- メッセージ & 外部リンク -->
+<section style="width:92%;margin:40px auto;padding:20px;background:#ffffff;border-radius:16px;box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+<h2 style="font-size:1.2rem;margin-bottom:10px;color:#0f4d1e;">サイト制作者からのメッセージ</h2>
+<p style="font-size:0.95rem;color:#444;line-height:1.6;">生物教師Y.T先生による語句確認用フォームです。学習目的以外での利用はお控えください。</p>
+
+</section>
+
+</body>
+</html>

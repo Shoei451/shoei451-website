@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.png">
+<title>Upcoming Projects — Shoei Okamoto</title>
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="upcoming_style.css">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Header -->
+<header>
+    <h1>🚀 Upcoming Projects</h1>
+    <p>開発中・企画中のプロジェクト</p>
+</header>
+
+<!-- Introduction -->
+<section class="intro">
+    <a href="../index.html" class="back-link">Back to Home</a>
+    <h2>What's Coming Next</h2>
+    <p>現在開発中・計画中のプロジェクトです。進捗状況をリアルタイムで確認できます。</p>
+</section>
+
+<!-- Status Legend -->
+<section class="legend">
+    <h3>Status Guide</h3>
+    <div class="legend-items">
+        <div class="legend-item">
+            <span class="legend-badge status-planning">Planning</span>
+            <span>企画・設計中</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-badge status-designing">Designing</span>
+            <span>デザイン作成中</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-badge status-developing">Developing</span>
+            <span>開発中</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-badge status-testing">Testing</span>
+            <span>テスト中</span>
+        </div>
+        <div class="legend-item">
+            <span class="legend-badge status-launching">Launching Soon</span>
+            <span>もうすぐ公開</span>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Container -->
+<section class="cards-container" id="projects-container">
+    <!-- Projects will be generated from list.js -->
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script src="projects-list.js"></script>
+<script>
+// Theme Toggle
+if (localStorage.getItem("pref-theme") === "dark") {
+    document.body.classList.add('dark');
+} else if (localStorage.getItem("pref-theme") === "light") {
+    document.body.classList.remove('dark');
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
+}
+
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    if (document.body.classList.contains('dark')) {
+        localStorage.setItem('pref-theme', 'dark');
+    } else {
+        localStorage.setItem('pref-theme', 'light');
+    }
+});
+
+// Generate Project Cards
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('projects-container');
+    
+    upcomingProjects.forEach(project => {
+        const projectCard = document.createElement('div');
+        projectCard.className = 'project-card';
+        
+        const tagsHTML = project.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+        
+        projectCard.innerHTML = `
+    <div class="project-header">
+        <div style="display: flex; align-items: center;">
+            <span class="project-icon">${project.icon}</span>
+            <div class="project-title-wrapper">
+                <h3 class="project-title">${project.title}</h3>
+                <p class="project-subtitle">${project.titleEN}</p>
+            </div>
+        </div>
+    </div>
+    
+    <p class="project-description">${project.description}</p>
+            
+            <div class="project-meta">
+                <span class="status-badge status-${project.status}">${project.statusText}</span>
+                <div class="project-meta-item">
+                    <span>📅</span>
+                    <span>Target: ${project.targetDate}</span>
+                </div>
+                <div class="project-meta-item">
+                    <span>⏱️</span>
+                    <span>Est. ${project.estimatedTime}</span>
+                </div>
+            </div>
+            
+            <div class="progress-section">
+                <div class="progress-label">
+                    <span>Progress</span>
+                    <span>${project.progress}%</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" style="width: 0%" data-progress="${project.progress}"></div>
+                </div>
+            </div>
+            
+            <div class="project-tags">
+                ${tagsHTML}
+            </div>
+        `;
+        
+        container.appendChild(projectCard);
+    });
+    
+    // Animate Cards
+    const cards = document.querySelectorAll('.project-card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('animate');
+                
+                // Animate progress bar
+                const progressBar = entry.target.querySelector('.progress-bar');
+                const targetProgress = progressBar.getAttribute('data-progress');
+                setTimeout(() => {
+                    progressBar.style.width = targetProgress + '%';
+                }, 300);
+                
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
+});
+</script>
+
+</body>
+</html>

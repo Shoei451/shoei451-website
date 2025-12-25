@@ -1,0 +1,9466 @@
+[
+  {
+    "year": 3000,
+    "is_bc": true,
+    "event": "メソポタミア文明の成立",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 3000,
+    "is_bc": true,
+    "event": "エジプト文明の成立",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 1600,
+    "is_bc": true,
+    "event": "殷王朝の成立",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 509,
+    "is_bc": true,
+    "event": "ローマ共和政の成立",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 327,
+    "is_bc": true,
+    "event": "アレクサンドロス大王のインド遠征",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 268,
+    "is_bc": true,
+    "event": "アショーカ王の即位",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 221,
+    "is_bc": true,
+    "event": "秦の中国統一",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 202,
+    "is_bc": true,
+    "event": "前漢の成立",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 27,
+    "is_bc": true,
+    "event": "ローマ帝国の成立",
+    "chapter": "第1章",
+    "period": "紀元前",
+    "link": null
+  },
+  {
+    "year": 320,
+    "is_bc": false,
+    "event": "グプタ朝の成立",
+    "chapter": "第1章",
+    "period": "1~1000",
+    "link": null
+  },
+  {
+    "year": 395,
+    "is_bc": false,
+    "event": "ローマ帝国の東西分裂",
+    "chapter": "第1章",
+    "period": "1~1000",
+    "link": null
+  },
+  {
+    "year": 618,
+    "is_bc": false,
+    "event": "唐の成立",
+    "chapter": "第1章",
+    "period": "1~1000",
+    "link": null
+  },
+  {
+    "year": 800,
+    "is_bc": false,
+    "event": "カール大帝の戴冠",
+    "chapter": "第2章",
+    "period": "1~1000",
+    "link": null
+  },
+  {
+    "year": 962,
+    "is_bc": false,
+    "event": "神聖ローマ帝国の成立",
+    "chapter": "第2章",
+    "period": "1~1000",
+    "link": null
+  },
+  {
+    "year": 1096,
+    "is_bc": false,
+    "event": "第1回十字軍",
+    "chapter": "第2章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1215,
+    "is_bc": false,
+    "event": "マグナ・カルタ（大憲章）",
+    "chapter": "第2章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1492,
+    "is_bc": false,
+    "event": "コロンブスの新大陸到達",
+    "chapter": "第3章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1498,
+    "is_bc": false,
+    "event": "ヴァスコ・ダ・ガマのインド航路発見",
+    "chapter": "第3章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1517,
+    "is_bc": false,
+    "event": "ルターの95か条の論題",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1519,
+    "is_bc": false,
+    "event": "マゼランの世界周航開始",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1618,
+    "is_bc": false,
+    "event": "三十年戦争の開始",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1648,
+    "is_bc": false,
+    "event": "ウェストファリア条約",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1688,
+    "is_bc": false,
+    "event": "名誉革命",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "フランス革命の勃発",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1804,
+    "is_bc": false,
+    "event": "ナポレオンの皇帝即位",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1815,
+    "is_bc": false,
+    "event": "ウィーン会議",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "フランス二月革命",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1206,
+    "is_bc": false,
+    "event": "チンギス・ハンのモンゴル帝国建国",
+    "chapter": "第4章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1271,
+    "is_bc": false,
+    "event": "元の建国",
+    "chapter": "第4章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1368,
+    "is_bc": false,
+    "event": "明の建国",
+    "chapter": "第4章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1644,
+    "is_bc": false,
+    "event": "清の中国支配開始",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1840,
+    "is_bc": false,
+    "event": "アヘン戦争",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "辛亥革命",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1949,
+    "is_bc": false,
+    "event": "中華人民共和国の成立",
+    "chapter": "第4章",
+    "period": "1945~",
+    "link": null
+  },
+  {
+    "year": 1603,
+    "is_bc": false,
+    "event": "江戸幕府の成立",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "明治維新",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "日清戦争",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1904,
+    "is_bc": false,
+    "event": "日露戦争",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1950,
+    "is_bc": false,
+    "event": "朝鮮戦争の開始",
+    "chapter": "第5章",
+    "period": "1945~",
+    "link": null
+  },
+  {
+    "year": 622,
+    "is_bc": false,
+    "event": "ヒジュラ（イスラーム暦元年）",
+    "chapter": "第6章",
+    "period": "1~1000",
+    "link": null
+  },
+  {
+    "year": 1258,
+    "is_bc": false,
+    "event": "モンゴル軍によるバグダード陥落",
+    "chapter": "第6章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1299,
+    "is_bc": false,
+    "event": "オスマン帝国の成立",
+    "chapter": "第6章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1453,
+    "is_bc": false,
+    "event": "コンスタンティノープルの陥落",
+    "chapter": "第6章",
+    "period": "1001~1500",
+    "link": null
+  },
+  {
+    "year": 1526,
+    "is_bc": false,
+    "event": "ムガル帝国の成立",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1857,
+    "is_bc": false,
+    "event": "インド大反乱（セポイの乱）",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1776,
+    "is_bc": false,
+    "event": "アメリカ独立宣言",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "アメリカ南北戦争の開始",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 2001,
+    "is_bc": false,
+    "event": "アメリカ同時多発テロ",
+    "chapter": "第8章",
+    "period": "1945~",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "第一次世界大戦の開始",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシア革命",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "ヴェルサイユ条約",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1929,
+    "is_bc": false,
+    "event": "世界恐慌",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1939,
+    "is_bc": false,
+    "event": "第二次世界大戦の開始",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "国際連合の成立",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1962,
+    "is_bc": false,
+    "event": "キューバ危機",
+    "chapter": "第11章",
+    "period": "1945~",
+    "link": null
+  },
+  {
+    "year": 1989,
+    "is_bc": false,
+    "event": "ベルリンの壁崩壊",
+    "chapter": "第11章",
+    "period": "1945~",
+    "link": null
+  },
+  {
+    "year": 1991,
+    "is_bc": false,
+    "event": "ソ連の崩壊",
+    "chapter": "第11章",
+    "period": "1945~",
+    "link": null
+  },
+  {
+    "year": 1501,
+    "is_bc": false,
+    "event": "サファヴィー教団のイスマーイール１世、イランにサファヴィー朝を興す。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1503,
+    "is_bc": false,
+    "event": "ダ＝ヴィンチ、『モナ＝リザ』制作開始。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1504,
+    "is_bc": false,
+    "event": "ミケランジェロ、『ダヴィデ像』を制作。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1506,
+    "is_bc": false,
+    "event": "ローマ教皇ユリウス２世、サン＝ピエトロ大聖堂の大改修を開始。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1507,
+    "is_bc": false,
+    "event": "ヴァルトゼーミュラーの世界図、はじめてアメリカ大陸の名で記載。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1508,
+    "is_bc": false,
+    "event": "王陽明が陽明学を説き始める。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1509,
+    "is_bc": false,
+    "event": "ポルトガル海軍、ディウ沖の海戦でマムルーク朝エジプトの海軍を破る。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1509,
+    "is_bc": false,
+    "event": "エラスムスが『愚神礼賛』刊行。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1510,
+    "is_bc": false,
+    "event": "ポルトガルのアルブケルケ、インド西岸のゴアを占領。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1511,
+    "is_bc": false,
+    "event": "ポルトガル、マラッカ王国を攻撃、マラッカを占領。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1512,
+    "is_bc": false,
+    "event": "ミケランジェロ、ユリウス２世の要請でシスティナ礼拝堂天井絵を制作。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1513,
+    "is_bc": false,
+    "event": "この頃マキァヴェリが『君主論』を著作。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1514,
+    "is_bc": false,
+    "event": "チャルディランの戦い。オスマン帝国軍がサファヴィー朝軍を破る。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1515,
+    "is_bc": false,
+    "event": "フランソワ１世、イタリア戦争の再開を宣言。ミラノを攻略。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1515,
+    "is_bc": false,
+    "event": "ポルトガル、ホルムズ島を占領。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1516,
+    "is_bc": false,
+    "event": "トマス＝モア、『ユートピア』を発表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1516,
+    "is_bc": false,
+    "event": "この頃、イギリスで第一次エンクロージャーが進む。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1516,
+    "is_bc": false,
+    "event": "レオナルド＝ダ＝ヴィンチ、フランスに赴きフランソワ１世に仕える。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1517,
+    "is_bc": false,
+    "event": "ルター、九十五ヶ条の論題を発表、宗教改革始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1517,
+    "is_bc": false,
+    "event": "ポルトガルの商人が広州で通商を開始。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1517,
+    "is_bc": false,
+    "event": "マムルーク朝、オスマン帝国によって滅ぼされる。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1519,
+    "is_bc": false,
+    "event": "チューリヒでツヴィングリの宗教改革始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1519,
+    "is_bc": false,
+    "event": "カール５世、神聖ローマ皇帝に選出される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1519,
+    "is_bc": false,
+    "event": "マゼラン、世界周航に出発。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1520,
+    "is_bc": false,
+    "event": "ラファエロの没。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1520,
+    "is_bc": false,
+    "event": "マゼラン、マゼラン海峡を発見。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1521,
+    "is_bc": false,
+    "event": "皇帝カール５世がヴォルムス帝国議会を召集。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1521,
+    "is_bc": false,
+    "event": "ヴォルムス勅令でルター追放される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1521,
+    "is_bc": false,
+    "event": "仏王フランソワ１世、イタリアに侵攻。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1521,
+    "is_bc": false,
+    "event": "この年、ルター、聖書のドイツ語訳。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1521,
+    "is_bc": false,
+    "event": "マゼラン、フィリピンに到達。ラプラプに殺害される。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1521,
+    "is_bc": false,
+    "event": "コルテスによるアステカ王国の滅亡。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1522,
+    "is_bc": false,
+    "event": "スレイマン１世、ロードス島を占領。ヨハネ騎士団、クレタ島に逃れる。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1522,
+    "is_bc": false,
+    "event": "ポルトガル、モルッカ諸島テルナテの香辛料貿易独占権を得る。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1523,
+    "is_bc": false,
+    "event": "スウェーデン、カルマル同盟から独立してヴァーサ王朝成立。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1523,
+    "is_bc": false,
+    "event": "寧波（明州）で日明両国の商人が衝突（寧波の乱）。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1524,
+    "is_bc": false,
+    "event": "トマス＝ミュンツァーの指導するドイツ農民戦争が始まる。～２５",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1525,
+    "is_bc": false,
+    "event": "パヴィアの戦いでフランソワ１世、カール５世のスペイン軍の捕虜となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1525,
+    "is_bc": false,
+    "event": "ポーランド王国を宗主国とするプロイセン公国が成立。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1526,
+    "is_bc": false,
+    "event": "カール５世、シュパイアー帝国議会（第１回）、ルター派を容認。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1526,
+    "is_bc": false,
+    "event": "スレイマン１世、モハーチの戦いでハンガリー軍を破る。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1526,
+    "is_bc": false,
+    "event": "パーニーパットの戦い。バーブルがロディー朝を破る。ムガル帝国成立。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1527,
+    "is_bc": false,
+    "event": "カール５世によるローマの劫略。フィレンツェではメディチ家を追放。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1529,
+    "is_bc": false,
+    "event": "カール５世、シュパイアー帝国議会（第２回）、ルター派を否認。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1529,
+    "is_bc": false,
+    "event": "スペインとポルトガルのサラゴサ条約締結。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1529,
+    "is_bc": false,
+    "event": "スレイマン１世のオスマン帝国軍がウィーンを包囲（第１回）。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1530,
+    "is_bc": false,
+    "event": "フィレンツェ、神聖ローマ皇帝軍に敗れ、メディチ家復権。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1530,
+    "is_bc": false,
+    "event": "コレージュ＝ド＝フランス設立。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1530,
+    "is_bc": false,
+    "event": "ヨハネ騎士団、マルタ島を与えられる。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1530,
+    "is_bc": false,
+    "event": "この頃から日本での銀の生産が増加。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1531,
+    "is_bc": false,
+    "event": "ビルマ人、タウングー朝を建てる。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1532,
+    "is_bc": false,
+    "event": "ラブレー、『ガルガンチュワとパンタグリュエル物語』を書き始める。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1533,
+    "is_bc": false,
+    "event": "ピサロにるインカ帝国の滅亡。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1534,
+    "is_bc": false,
+    "event": "イグナティウス＝ロヨラら、イエズス会を結成。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1534,
+    "is_bc": false,
+    "event": "英ヘンリ８世、首長法（国王至上法）制定。国教会成立",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1534,
+    "is_bc": false,
+    "event": "カルティエ、カナダに上陸、フランス領と宣言。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1535,
+    "is_bc": false,
+    "event": "ヘンリ８世、トマス＝モアを処刑。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1535,
+    "is_bc": false,
+    "event": "スレイマン１世、フランソワ１世にカピチュレーションを認める(年代疑問あり)。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1536,
+    "is_bc": false,
+    "event": "ヘンリ８世、ウェールズをイングランド王国に併合。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1536,
+    "is_bc": false,
+    "event": "カルヴァン、『キリスト教綱要』を発表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1536,
+    "is_bc": false,
+    "event": "インカの反乱起こる。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1538,
+    "is_bc": false,
+    "event": "プレヴェザの海戦でオスマン海軍が勝利。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1540,
+    "is_bc": false,
+    "event": "ローマ教皇パウルス３世、イエズス会を公認。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1541,
+    "is_bc": false,
+    "event": "イングランド王ヘンリ８世、アイルランド王を称す。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1541,
+    "is_bc": false,
+    "event": "カルヴァン、ジュネーヴで神権政治を行う。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1541,
+    "is_bc": false,
+    "event": "ミケランジェロ、「最後の審判」を完成。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1542,
+    "is_bc": false,
+    "event": "ラス＝カサス、『インディアスの破壊についての簡潔な報告』をカルロス１世に提出。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1543,
+    "is_bc": false,
+    "event": "コペルニクス死去。死後、地動説公表される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1543,
+    "is_bc": false,
+    "event": "ポルトガル人、種子島に漂着。 → 南蛮貿易",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1545,
+    "is_bc": false,
+    "event": "ローマ教皇パウルス３世、トリエント公会議召集 ～１５６３年まで。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1545,
+    "is_bc": false,
+    "event": "南米ボリビアでポトシ銀山の採掘始まる。 → 銀",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1546,
+    "is_bc": false,
+    "event": "ドイツでシュマルカルデン戦争始まる。～47年",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1547,
+    "is_bc": false,
+    "event": "モスクワ大公国のイヴァン４世（雷帝）が初めて公式にツァーリを称す。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1549,
+    "is_bc": false,
+    "event": "フランシスコ＝ザビエル、キリスト教の日本布教開始。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1550,
+    "is_bc": false,
+    "event": "モンゴルのアルタン＝ハン、北京を包囲。 → 北虜南倭。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1553,
+    "is_bc": false,
+    "event": "王直による「嘉靖の大倭寇」。 → 後期倭寇",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1555,
+    "is_bc": false,
+    "event": "アウクスブルクの和議でルター派の信仰が認めらた。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1555,
+    "is_bc": false,
+    "event": "この年、イスタンブルでコーヒーが普及。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1555,
+    "is_bc": false,
+    "event": "ムガル帝国のフマーユーン、スール朝からデリーを奪回。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1556,
+    "is_bc": false,
+    "event": "神聖ローマ皇帝カール５世（スペイン王カルロス１世）退位（引退は前年）。ハプスブルク帝国がオーストリアとスペインに分割される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1557,
+    "is_bc": false,
+    "event": "スペインのフェリペ２世、破産宣言。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1557,
+    "is_bc": false,
+    "event": "ポルトガル人、マカオ居留を認められる。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1558,
+    "is_bc": false,
+    "event": "イギリス、エリザベス１世即位。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1559,
+    "is_bc": false,
+    "event": "カトー＝カンブレジ条約によりイタリア戦争終結。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1559,
+    "is_bc": false,
+    "event": "英、首長法（国王至上法）再制定し統一法も制定。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1560,
+    "is_bc": false,
+    "event": "仏、カトリーヌ＝ド＝メディシス、摂政となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1561,
+    "is_bc": false,
+    "event": "フェリペ２世、都をマドリードに定める。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1562,
+    "is_bc": false,
+    "event": "フランスでユグノー戦争始まる。～1598年",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1564,
+    "is_bc": false,
+    "event": "スペイン、レガスピを派遣してフィリピンの領有を宣言。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1564,
+    "is_bc": false,
+    "event": "この年、アクバル、非ムスリムへの人頭税（ジズヤ）を廃止。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1567,
+    "is_bc": false,
+    "event": "明で張居正の改革。海禁を停止する。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1568,
+    "is_bc": false,
+    "event": "ネーデルラント独立戦争始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1569,
+    "is_bc": false,
+    "event": "ポーランド王国・リトアニアを正式に併合。「ルブリンの合同」",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1571,
+    "is_bc": false,
+    "event": "レパントの海戦でオスマン海軍敗北。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1571,
+    "is_bc": false,
+    "event": "スペイン、マニラ市を建設。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1571,
+    "is_bc": false,
+    "event": "ムガル帝国のアクバル帝、ファテープル＝シークリーを造営。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1572,
+    "is_bc": false,
+    "event": "ポーランドのヤゲウォ朝が断絶、シュラフタによる選挙王制となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1572,
+    "is_bc": false,
+    "event": "サンバルテルミの虐殺。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1575,
+    "is_bc": false,
+    "event": "朝鮮王朝で党争が始まる。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1578,
+    "is_bc": false,
+    "event": "李時珍が『本草綱目』を完成させる。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1579,
+    "is_bc": false,
+    "event": "ユトレヒト同盟が成立。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1580,
+    "is_bc": false,
+    "event": "スペインのポルトガル併合。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1580,
+    "is_bc": false,
+    "event": "この頃、明で一条鞭法が広がる。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1581,
+    "is_bc": false,
+    "event": "ネーデルラント連邦共和国、独立を宣言。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1581,
+    "is_bc": false,
+    "event": "モスクワ大公国のイヴァン４世（雷帝）、皇太子を撲殺。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1581,
+    "is_bc": false,
+    "event": "イェルマーク、シベリア遠征を開始。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1582,
+    "is_bc": false,
+    "event": "ローマ教皇グレゴリウス１３世、グレゴリウス暦を定める。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1582,
+    "is_bc": false,
+    "event": "日本で本能寺の変。織田信長死す。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1584,
+    "is_bc": false,
+    "event": "スペイン、平戸に商館を設ける。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1585,
+    "is_bc": false,
+    "event": "天正遣欧使節、ローマ教皇に謁見。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1587,
+    "is_bc": false,
+    "event": "エリザベス１世、メアリ＝ステュアートを処刑。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1587,
+    "is_bc": false,
+    "event": "豊臣秀吉、バテレン追放令を出す。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1588,
+    "is_bc": false,
+    "event": "スペインの無敵艦隊、イギリス海軍に敗れる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1589,
+    "is_bc": false,
+    "event": "モスクワの大主教が総主教として独立承認される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1589,
+    "is_bc": false,
+    "event": "アンリ４世が即位してブルボン朝始まる（パリには入れず）。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1592,
+    "is_bc": false,
+    "event": "豊臣秀吉の朝鮮侵略（壬辰の倭乱）。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1593,
+    "is_bc": false,
+    "event": "アンリ４世、カトリックに改宗。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1594,
+    "is_bc": false,
+    "event": "アンリ４世、パリ入城。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1596,
+    "is_bc": false,
+    "event": "オランダの商船、初めてジャワ島のバンテンに来る。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1597,
+    "is_bc": false,
+    "event": "豊臣秀吉の朝鮮侵略（丁酉の倭乱）。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1597,
+    "is_bc": false,
+    "event": "サファヴィー朝のアッバース１世、イスファハーンに遷都。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1598,
+    "is_bc": false,
+    "event": "モスクワ大公国、ボリス＝ゴドゥノフをツァーリに選出。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1598,
+    "is_bc": false,
+    "event": "アンリ４世、ナントの王令を発する。ユグノー戦争終結。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1600,
+    "is_bc": false,
+    "event": "ジョルダーノ＝ブルーノ、地動説を説いて有罪とされ刑死。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1600,
+    "is_bc": false,
+    "event": "関ヶ原の戦い。徳川家康（東軍）の勝利。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1600,
+    "is_bc": false,
+    "event": "イギリス東インド会社の設立。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1601,
+    "is_bc": false,
+    "event": "イギリス、救貧法を制定。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1602,
+    "is_bc": false,
+    "event": "マテオ＝リッチ、『坤輿万国全図』を作製。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1602,
+    "is_bc": false,
+    "event": "オランダ東インド会社を設立。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1603,
+    "is_bc": false,
+    "event": "エリザベス１世死去。ジェームズ１世即位しステュアート朝へ。スコットランドとイングランド王国が同君連合となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1603,
+    "is_bc": false,
+    "event": "徳川家康、江戸幕府を開く。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1605,
+    "is_bc": false,
+    "event": "イギリスで火薬陰謀事件起きる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1607,
+    "is_bc": false,
+    "event": "マテオ＝リッチ、徐光啓と協力して『幾何原本』発刊。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1607,
+    "is_bc": false,
+    "event": "ヴァージニア植民地の建設。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1609,
+    "is_bc": false,
+    "event": "ネーデルラント連邦共和国（オランダ）、事実上の独立を達成。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1609,
+    "is_bc": false,
+    "event": "ガリレイ、望遠鏡を改良、天体を観測。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1609,
+    "is_bc": false,
+    "event": "ケプラー、『新天文学』発表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1609,
+    "is_bc": false,
+    "event": "グロティウスが『海洋自由論』を刊行。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1609,
+    "is_bc": false,
+    "event": "薩摩の島津氏、琉球を武力制圧。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1609,
+    "is_bc": false,
+    "event": "オランダ、平戸に商館設置。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1610,
+    "is_bc": false,
+    "event": "アンリ４世、暗殺される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1610,
+    "is_bc": false,
+    "event": "ハドソン、北米探検。ハドソン湾発見。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1613,
+    "is_bc": false,
+    "event": "ミハイル＝ロマノフ皇帝となり、ロマノフ朝始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1613,
+    "is_bc": false,
+    "event": "伊達政宗、支倉常長らを慶長遣欧使節として派遣。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1613,
+    "is_bc": false,
+    "event": "徳川家康、キリスト教禁教令。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1616,
+    "is_bc": false,
+    "event": "ヌルハチ、後金（アイシン）を建国。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1618,
+    "is_bc": false,
+    "event": "ベーメンの反乱から三十年戦争始まる。～１６４８年。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1618,
+    "is_bc": false,
+    "event": "ブランデンブルク選帝侯国とプロイセン公国が合体、ブランデンブルク＝プロイセンとなる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1619,
+    "is_bc": false,
+    "event": "オランダ東インド会社、ジャワ島にバタヴィアを建設。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1619,
+    "is_bc": false,
+    "event": "アメリカのヴァージニア植民地で初めて黒人奴隷売買。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1620,
+    "is_bc": false,
+    "event": "プラハ郊外のビーラー＝ホラの戦い。プロテスタント軍、カトリック軍に敗れる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1620,
+    "is_bc": false,
+    "event": "フランシス＝ベーコン、『新オルガヌム』を著作。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1620,
+    "is_bc": false,
+    "event": "ピューリタンのピルグリム＝ファーザーズがメイフラワー号で北米に移住。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1621,
+    "is_bc": false,
+    "event": "オランダ西インド会社を設立。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1622,
+    "is_bc": false,
+    "event": "サファヴィー朝のアッバース１世、ホルムズ島からポルトガルを駆逐。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1623,
+    "is_bc": false,
+    "event": "アッバース１世、バグダードを占領。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1623,
+    "is_bc": false,
+    "event": "モルッカ諸島でオランダとイギリスが衝突、アンボイナ事件起きる。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1624,
+    "is_bc": false,
+    "event": "フランス、ルイ１３世のもと、リシュリュー宰相となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1624,
+    "is_bc": false,
+    "event": "オランダ、台湾にゼーランディア城を築く。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1624,
+    "is_bc": false,
+    "event": "江戸幕府、スペイン船の来港を禁止。 → 鎖国",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1625,
+    "is_bc": false,
+    "event": "デンマーク王クリスチャン４世、三十年戦争に介入。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1625,
+    "is_bc": false,
+    "event": "オランダのグロティウス、『戦争と平和の法』を著す。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1625,
+    "is_bc": false,
+    "event": "オランダがニューアムステルダムを設置。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1628,
+    "is_bc": false,
+    "event": "イギリス議会、チャールズ１世に権利の請願を提出。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1628,
+    "is_bc": false,
+    "event": "イギリスのハーヴェー、血液循環説を発表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1630,
+    "is_bc": false,
+    "event": "スウェーデン王グスタフ＝アドルフ、ドイツに侵攻。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1632,
+    "is_bc": false,
+    "event": "グスタフ＝アドルフ、リュッツェンの戦いで戦死。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1632,
+    "is_bc": false,
+    "event": "ガリレイ、『天文対話』を刊行。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1633,
+    "is_bc": false,
+    "event": "ガリレオ裁判でガリレイ有罪となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1634,
+    "is_bc": false,
+    "event": "ヴァレンシュタイン、暗殺される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1635,
+    "is_bc": false,
+    "event": "リシュリュー、三十年戦争に介入。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1636,
+    "is_bc": false,
+    "event": "後金のホンタイジ、国号を清とする。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1637,
+    "is_bc": false,
+    "event": "デカルト、『方法序説』を刊行。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1637,
+    "is_bc": false,
+    "event": "宋応星、『天工開物』を刊行。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1637,
+    "is_bc": false,
+    "event": "清が朝鮮王朝に出兵、服属させる。",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1639,
+    "is_bc": false,
+    "event": "スコットランドの反乱起きる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1639,
+    "is_bc": false,
+    "event": "徐光啓『農政全書』刊行。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1639,
+    "is_bc": false,
+    "event": "江戸幕府、ポルトガル船の来港を禁止。 → 鎖国",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1639,
+    "is_bc": false,
+    "event": "イギリス、マドラス（チェンナイ）を獲得。。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1640,
+    "is_bc": false,
+    "event": "イギリスで、短期議会開催。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1640,
+    "is_bc": false,
+    "event": "カタルーニャの反乱起こる。～５２年",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1640,
+    "is_bc": false,
+    "event": "イギリスで、長期議会開催。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1640,
+    "is_bc": false,
+    "event": "ポルトガル、独立を回復。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1641,
+    "is_bc": false,
+    "event": "江戸幕府、オランダ商館を出島に移す。 → 鎖国",
+    "chapter": "第5章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1642,
+    "is_bc": false,
+    "event": "ピューリタン革命始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1642,
+    "is_bc": false,
+    "event": "レンブラント、『夜警』を描き、不評を買う。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1642,
+    "is_bc": false,
+    "event": "タスマン、タスマニア島に達する。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1643,
+    "is_bc": false,
+    "event": "フランス・ブルボン朝、ルイ１４世、５歳で即位、宰相マザランが支える。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1644,
+    "is_bc": false,
+    "event": "李自成の乱によって明の滅亡。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1645,
+    "is_bc": false,
+    "event": "ネースビーの戦いでクロムウェルの指揮する議会軍が勝利。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1645,
+    "is_bc": false,
+    "event": "清朝の順治帝、紫禁城に入城。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1648,
+    "is_bc": false,
+    "event": "ポーランド王国でウクライナの反乱起きる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1648,
+    "is_bc": false,
+    "event": "フランスでフロンドの乱はじまる。～４９年 高等法院の反乱。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1648,
+    "is_bc": false,
+    "event": "三十年戦争終結。ウェストファリア条約締結。ネーデルラント連邦共和国承認される。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1649,
+    "is_bc": false,
+    "event": "チャールズ１世、処刑。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1649,
+    "is_bc": false,
+    "event": "クロムウェル、アイルランド征服。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1650,
+    "is_bc": false,
+    "event": "クロムウェル、スコットランド遠征。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1651,
+    "is_bc": false,
+    "event": "クロムウェル、航海法（第１次）を制定。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1651,
+    "is_bc": false,
+    "event": "この年、ホッブズ、『リヴァイアサン』を発表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1652,
+    "is_bc": false,
+    "event": "英蘭戦争（第１次）に突入。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1652,
+    "is_bc": false,
+    "event": "ロンドンにコーヒーハウス出現。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1653,
+    "is_bc": false,
+    "event": "クロムウェル、護国卿就任。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1653,
+    "is_bc": false,
+    "event": "フロンドの乱おわる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1655,
+    "is_bc": false,
+    "event": "クロムウェル、ジャマイカを征服。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1659,
+    "is_bc": false,
+    "event": "フランスとスペインがピレネー条約で講和。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1660,
+    "is_bc": false,
+    "event": "イギリス、チャールズ２世国王復帰、王政復古。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1660,
+    "is_bc": false,
+    "event": "ロンドン王立協会設立。（１６６２年 特許状を得る）",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1661,
+    "is_bc": false,
+    "event": "ヴェルサイユ宮殿の造営始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1661,
+    "is_bc": false,
+    "event": "清、遷界令を出す。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1661,
+    "is_bc": false,
+    "event": "鄭成功、台湾に入る。 → 鄭氏台湾",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1664,
+    "is_bc": false,
+    "event": "コルベール、フランス東インド会社・フランス西インド会社を設立。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1664,
+    "is_bc": false,
+    "event": "ニューアムステルダムをイギリスが奪いニューヨークと改称。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1665,
+    "is_bc": false,
+    "event": "英蘭戦争（第２次）となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1666,
+    "is_bc": false,
+    "event": "四日海戦でオランダ海軍、イギリス海軍を破る。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1666,
+    "is_bc": false,
+    "event": "ロンドン大火。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1667,
+    "is_bc": false,
+    "event": "ロシア、ポーランドからウクライナ東半分を奪う。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1667,
+    "is_bc": false,
+    "event": "ルイ１４世がフランドルに侵入、南ネーデルラント戦争始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1667,
+    "is_bc": false,
+    "event": "ミルトン、『失楽園』を著す。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1667,
+    "is_bc": false,
+    "event": "康煕帝親政開始。清朝の全盛期始まる。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1669,
+    "is_bc": false,
+    "event": "ハンザ同盟の最後の総会。ハンザ、消滅する。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1670,
+    "is_bc": false,
+    "event": "チャールズ２世とルイ１４世のドーヴァーの密約。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1670,
+    "is_bc": false,
+    "event": "ロシアでステンカ＝ラージンの反乱。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1672,
+    "is_bc": false,
+    "event": "第３次英蘭戦争とオランダ侵略戦争が始まる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1673,
+    "is_bc": false,
+    "event": "イギリス議会、審査法を制定。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1673,
+    "is_bc": false,
+    "event": "呉三桂ら、三藩の乱を起こす。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1673,
+    "is_bc": false,
+    "event": "フランス、ポンディシェリ・シャンデルナゴルを購入。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1674,
+    "is_bc": false,
+    "event": "シヴァージー、マラーター王国を樹立。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1679,
+    "is_bc": false,
+    "event": "イギリス議会、人身保護法を制定。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1679,
+    "is_bc": false,
+    "event": "アウラングゼーブ帝、ジズヤを復活させる。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1681,
+    "is_bc": false,
+    "event": "康煕帝、三藩の乱を鎮定。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1682,
+    "is_bc": false,
+    "event": "ルイ１４世、ヴェルサイユ宮殿で執務開始。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1683,
+    "is_bc": false,
+    "event": "康煕帝、鄭氏台湾を征服。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1683,
+    "is_bc": false,
+    "event": "オスマン帝国軍、第２次ウィーン包囲に失敗。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1684,
+    "is_bc": false,
+    "event": "ライプニッツ、微積分法を公表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1684,
+    "is_bc": false,
+    "event": "清朝、海禁を解除する。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1685,
+    "is_bc": false,
+    "event": "ジェームズ２世即位。カトリック復活を策す。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1685,
+    "is_bc": false,
+    "event": "ルイ１４世がナントの王令の廃止に踏み切る。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1685,
+    "is_bc": false,
+    "event": "この年、清、広州など４港に海関を置く。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1687,
+    "is_bc": false,
+    "event": "この年、ニュートン、『プリンキピア』を発表。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1688,
+    "is_bc": false,
+    "event": "ルイ１４世、ファルツ戦争（アウクスブルク同盟戦争）開始。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1688,
+    "is_bc": false,
+    "event": "オランダのオラニエ公ウィレム、イギリス上陸。名誉革命。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1689,
+    "is_bc": false,
+    "event": "権利の宣言。メアリ２世・ウィリアム３世が共同統治。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1689,
+    "is_bc": false,
+    "event": "権利の章典、寛容法を制定。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1689,
+    "is_bc": false,
+    "event": "ロシアのピョートル１世と清の康煕帝、ネルチンスク条約を締結。",
+    "chapter": "第4章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1689,
+    "is_bc": false,
+    "event": "北米で英仏間のウィリアム王戦争。",
+    "chapter": "第8章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1690,
+    "is_bc": false,
+    "event": "ウィリアム３世、アイルランドでジェームズ２世を破る。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1690,
+    "is_bc": false,
+    "event": "ロック、『統治二論』を著す。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1690,
+    "is_bc": false,
+    "event": "イギリス、カルカッタ、フランスはシャンデルナゴルをベンガル地方に建設。",
+    "chapter": "第7章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1694,
+    "is_bc": false,
+    "event": "イングランド銀行設立。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1697,
+    "is_bc": false,
+    "event": "ライスワイク条約。アルザスフランス領となる。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1699,
+    "is_bc": false,
+    "event": "カルロヴィッツ条約を締結。",
+    "chapter": "第6章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1700,
+    "is_bc": false,
+    "event": "ピョートル１世、スウェーデンの北方戦争開戦。～１７２０年。",
+    "chapter": "第3章",
+    "period": "1501~1700",
+    "link": null
+  },
+  {
+    "year": 1701,
+    "is_bc": false,
+    "event": "プロイセン公国、プロイセン王国に昇格。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1701,
+    "is_bc": false,
+    "event": "イギリス、ウィリアム３世王位継承法制定。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1701,
+    "is_bc": false,
+    "event": "スペイン継承戦争が勃発。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1702,
+    "is_bc": false,
+    "event": "日本、赤穂浪士の吉良邸討ち入り。",
+    "chapter": "第5章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1702,
+    "is_bc": false,
+    "event": "北米植民地をめぐる英仏間のアン女王戦争始まる。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1703,
+    "is_bc": false,
+    "event": "イギリスとポルトガルの間でメシュエン条約締結。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1704,
+    "is_bc": false,
+    "event": "ローマ教皇、イエズス会の中国布教法を否定。 → 典礼問題",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1707,
+    "is_bc": false,
+    "event": "イングランドとスコットランドが合同し大ブリテン王国成立。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1709,
+    "is_bc": false,
+    "event": "ポルタヴァの戦い。ピョートル１世、カール１２世のスウェーデン軍を破る。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1711,
+    "is_bc": false,
+    "event": "康煕帝、盛世滋生人丁制を実施。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1712,
+    "is_bc": false,
+    "event": "ピョートル１世、新都のペテルブルクを建設。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1712,
+    "is_bc": false,
+    "event": "ニューコメン、蒸気機関を最初に実用化。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1713,
+    "is_bc": false,
+    "event": "ユトレヒト条約締結し、スペイン継承戦争・アン女王戦争終結。イギリス、アシエント（奴隷供給権）獲得。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1713,
+    "is_bc": false,
+    "event": "オーストリア、プラグマティッシェ＝ザンクティオンを定める。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1714,
+    "is_bc": false,
+    "event": "フランス、オーストリア間のラシュタット条約成立。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1714,
+    "is_bc": false,
+    "event": "イギリス、ジョージ１世が即位、ハノーヴァー朝が成立。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1715,
+    "is_bc": false,
+    "event": "フランスのルイ１４世が死去。ルイ１５世即位（５歳）。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1719,
+    "is_bc": false,
+    "event": "デフォー、『ロビンソン＝クルーソー』を発表。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1719,
+    "is_bc": false,
+    "event": "宣教師ブーヴェら『皇輿全覧図』を献上。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1720,
+    "is_bc": false,
+    "event": "イギリスで南海泡沫事件おきる。株価暴落。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1721,
+    "is_bc": false,
+    "event": "北方戦争、ニスタットの和約で講和。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1721,
+    "is_bc": false,
+    "event": "ウォルポール内閣発足。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1722,
+    "is_bc": false,
+    "event": "清、康煕帝没。雍正帝即位。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1723,
+    "is_bc": false,
+    "event": "フランス、ルイ１５世親政開始。宮廷でロココ美術が流行。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1723,
+    "is_bc": false,
+    "event": "清、雍正帝、キリスト教布教を禁止（宣教師をマカオに追放）。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1726,
+    "is_bc": false,
+    "event": "スウィフト、『ガリヴァー旅行記』を刊行。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1727,
+    "is_bc": false,
+    "event": "清とロシア、キャフタ条約締結。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1728,
+    "is_bc": false,
+    "event": "ベーリング、ベーリング海峡を発見。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1729,
+    "is_bc": false,
+    "event": "清朝で軍機処が設置される。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1732,
+    "is_bc": false,
+    "event": "ジョージア植民地生まれ、北米にイギリスの１３植民地成立。。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1733,
+    "is_bc": false,
+    "event": "ポーランド継承戦争が起きる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1733,
+    "is_bc": false,
+    "event": "この年、ジョン＝ケイの飛び梭の発明。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1734,
+    "is_bc": false,
+    "event": "ヴォルテール、『哲学書簡』を刊行。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1735,
+    "is_bc": false,
+    "event": "ダービー（子）、コークス製鉄法完成。製鉄業本格化。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1735,
+    "is_bc": false,
+    "event": "清、雍正帝没。乾隆帝即位。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1736,
+    "is_bc": false,
+    "event": "ナーディル＝シャー、イランにアフシャール朝を建国。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1739,
+    "is_bc": false,
+    "event": "ナーディル＝シャー、デリーを略奪。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1740,
+    "is_bc": false,
+    "event": "プロイセン王国のフリードリヒ２世即位。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1740,
+    "is_bc": false,
+    "event": "オーストリア継承戦争が始まる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1741,
+    "is_bc": false,
+    "event": "マリア＝テレジア、ハンガリー議会で演説。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1741,
+    "is_bc": false,
+    "event": "ロシアのベーリング探検隊、アラスカ上陸。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1742,
+    "is_bc": false,
+    "event": "イギリスウォルポール首相辞任。責任内閣制の始まり。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1744,
+    "is_bc": false,
+    "event": "インドで第１次カーナティック戦争。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1744,
+    "is_bc": false,
+    "event": "北米植民地でのジョージ王戦争。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1745,
+    "is_bc": false,
+    "event": "フランス、ポンパドゥール夫人、ルイ１５世の公式愛妾となる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1747,
+    "is_bc": false,
+    "event": "ドゥッラーニー朝のアフガン王国が成立。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1747,
+    "is_bc": false,
+    "event": "フリードリヒ２世がサンスーシ宮殿完成させる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1748,
+    "is_bc": false,
+    "event": "アーヘンの和約。シュレジェンをプロイセン王国に割譲。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1748,
+    "is_bc": false,
+    "event": "モンテスキューが『法の精神』を著す。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1750,
+    "is_bc": false,
+    "event": "ヴォルテール、フリードリヒ２世に招かれる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1751,
+    "is_bc": false,
+    "event": "フランスのディドロ・ダランベールら『百科全書』刊行開始。（～72）",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1752,
+    "is_bc": false,
+    "event": "ビルマにアラウンパヤーがコンバウン朝を建てる。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1753,
+    "is_bc": false,
+    "event": "この年スウェーデンのリンネ、『植物の種』を著す。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1754,
+    "is_bc": false,
+    "event": "北米でフレンチ＝インディアン戦争起こる。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1755,
+    "is_bc": false,
+    "event": "リスボンで大地震。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1756,
+    "is_bc": false,
+    "event": "フランスとオーストリアの提携成立。外交革命。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1756,
+    "is_bc": false,
+    "event": "七年戦争始まる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1757,
+    "is_bc": false,
+    "event": "乾隆帝、外国貿易を広州だけに限定する。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1757,
+    "is_bc": false,
+    "event": "イギリス東インド会社軍、プラッシーの戦いでフランス・ベンガル太守軍を破る。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1758,
+    "is_bc": false,
+    "event": "乾隆帝、西モンゴルのジュンガルを滅ぼす。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1759,
+    "is_bc": false,
+    "event": "乾隆帝、東トルキスタンのウイグル人を押さえ新疆とする。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1760,
+    "is_bc": false,
+    "event": "この頃からイギリス産業革命本格化する。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1762,
+    "is_bc": false,
+    "event": "ルソー、『社会契約論』発表。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1762,
+    "is_bc": false,
+    "event": "ロシアのエカチェリーナ２世即位。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1763,
+    "is_bc": false,
+    "event": "七年戦争、普墺間のフベルトゥスブルク条約で講和。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1763,
+    "is_bc": false,
+    "event": "イギリスとフランス・スペイン間のパリ条約で講和。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1763,
+    "is_bc": false,
+    "event": "ジョージ３世の国王の宣言。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1764,
+    "is_bc": false,
+    "event": "イギリス東インド会社軍、ベンガル太守軍をブクサールの戦いで破る。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1764,
+    "is_bc": false,
+    "event": "イギリス、砂糖法制定。アメリカ植民地が反発。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1764,
+    "is_bc": false,
+    "event": "この頃ハーグリーヴズがジェニー紡績機を発明。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1765,
+    "is_bc": false,
+    "event": "イギリス東インド会社、ベンガルなどのディーワーニー（徴税権）を与えられる。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1765,
+    "is_bc": false,
+    "event": "イギリス、印紙法制定。アメリカ植民地が反発。翌年、廃止になる。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1765,
+    "is_bc": false,
+    "event": "ヴァージニア植民地議会。代表なくして課税なしを決議。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1766,
+    "is_bc": false,
+    "event": "フランス、ロレーヌを併合。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1767,
+    "is_bc": false,
+    "event": "ビルマのコンバウン朝が、タイのアユタヤ朝を滅ぼす。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1767,
+    "is_bc": false,
+    "event": "イギリスとマイソール王国との間で第一次マイソール戦争（～1769）。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1768,
+    "is_bc": false,
+    "event": "エカチェリーナ２世、ロシア＝トルコ戦争（第一次）開始。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1768,
+    "is_bc": false,
+    "event": "クック、第１回太平洋探検に出発。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1768,
+    "is_bc": false,
+    "event": "タイでタークシンが王位につく。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1769,
+    "is_bc": false,
+    "event": "アークライト、水力紡績機を発明。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1769,
+    "is_bc": false,
+    "event": "この年、ワットが蒸気機関を改良。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1770,
+    "is_bc": false,
+    "event": "マリ＝アントワネット、フランス皇太子（後のルイ１６世）と結婚。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1770,
+    "is_bc": false,
+    "event": "クック、オーストラリアに上陸。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1771,
+    "is_bc": false,
+    "event": "ベトナムで西山の乱（タイソンの乱）始まる。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1772,
+    "is_bc": false,
+    "event": "第１回ポーランド分割。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1773,
+    "is_bc": false,
+    "event": "この年、ロシアでプガチョフの反乱起こる。～１７７５年。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1773,
+    "is_bc": false,
+    "event": "イギリス、ベンガル総督を設け直轄支配に。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1773,
+    "is_bc": false,
+    "event": "イギリス議会、茶法を制定。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1773,
+    "is_bc": false,
+    "event": "ボストン茶会事件起きる。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1774,
+    "is_bc": false,
+    "event": "ロシア・オスマン帝国間のキュチュク＝カイナルジャ条約。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1774,
+    "is_bc": false,
+    "event": "フィラデルフィアで大陸会議を開催。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1775,
+    "is_bc": false,
+    "event": "イギリス、マラーター同盟を攻撃、第一次マラーター戦争（～82）始まる。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1775,
+    "is_bc": false,
+    "event": "アメリカ独立戦争始まる。～1781/10",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1775,
+    "is_bc": false,
+    "event": "第２回大陸会議、ワシントンを総司令官に任命。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1776,
+    "is_bc": false,
+    "event": "アダム＝スミス、『諸国民の富』を刊行。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1776,
+    "is_bc": false,
+    "event": "フランス、ルイ１６世がテュルゴー財務総監を罷免。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1776,
+    "is_bc": false,
+    "event": "トマス＝ペイン、『コモン＝センス』を発表。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1776,
+    "is_bc": false,
+    "event": "アメリカ独立宣言。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1777,
+    "is_bc": false,
+    "event": "アメリカ大陸会議、連合規約を採択。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1778,
+    "is_bc": false,
+    "event": "クック、ハワイ諸島に到達。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1778,
+    "is_bc": false,
+    "event": "アメリカ独立戦争に、フランスが参戦。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1779,
+    "is_bc": false,
+    "event": "クロンプトン、ミュール紡績機を発明。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1780,
+    "is_bc": false,
+    "event": "ロシアのエカチェリーナ２世、武装中立同盟提唱。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1780,
+    "is_bc": false,
+    "event": "第４次英蘭戦争が起きる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1780,
+    "is_bc": false,
+    "event": "第２次マイソール戦争（～1784）。マイソール王国軍、マドラス攻撃。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1780,
+    "is_bc": false,
+    "event": "ペルーでインディオのトゥパク＝アマルの反乱。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1781,
+    "is_bc": false,
+    "event": "オーストリア、ヨーゼフ２世、宗教寛容令・農奴解放令制定。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1781,
+    "is_bc": false,
+    "event": "アメリカ連合規約発効。アメリカ合衆国発足。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1781,
+    "is_bc": false,
+    "event": "ヨークタウンの戦いで独立軍勝利。アメリカ独立戦争終わる。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1782,
+    "is_bc": false,
+    "event": "清で『四庫全書』書写終わる。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1782,
+    "is_bc": false,
+    "event": "タイでタークシン王、処刑される。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1782,
+    "is_bc": false,
+    "event": "タイでラーマ１世、ラタナコーシン朝を建てる。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1783,
+    "is_bc": false,
+    "event": "ロシア、エカチェリーナ２世、クリム＝ハン国を滅ぼしクリミア半島を併合。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1783,
+    "is_bc": false,
+    "event": "パリ条約、アメリカ合衆国の独立承認される。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1784,
+    "is_bc": false,
+    "event": "カートライト、力織機を発明。翌年特許取得。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1786,
+    "is_bc": false,
+    "event": "英仏通商条約締結。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1787,
+    "is_bc": false,
+    "event": "日本、松平定信の寛政の改革始まる。",
+    "chapter": "第5章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1787,
+    "is_bc": false,
+    "event": "ロシア＝トルコ戦争（第二次）開始。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1787,
+    "is_bc": false,
+    "event": "アメリカで憲法制定会議開催。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1788,
+    "is_bc": false,
+    "event": "イギリス、オーストラリアを流刑植民地とし入植開始。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1788,
+    "is_bc": false,
+    "event": "アメリカ合衆国憲法発効。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "シェイエス、『第三身分とは何か』を発表。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "フランス、全国三部会開催。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "第三身分代表、国民議会と改称。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "球戯場の誓い（テニスコートの誓い）。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "ルイ１６世、財務長官ネッケルを罷免。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "バスティーユ牢獄襲撃。フランス革命始まる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "フランスの農村に大恐怖が広がる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "フランス国民議会、封建的特権の廃止を決議。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "フランス国民議会、人権宣言（ラ＝ファイエットが起草）。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "パリの女性、ヴェルサイユ行進。国王と議会、パリに移る。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "フランス国民議会、教会財産の国有化を決議。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1789,
+    "is_bc": false,
+    "event": "ワシントン、初代アメリカ大統領就任。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1790,
+    "is_bc": false,
+    "event": "フランス、アッシニアを紙幣として流通させる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1790,
+    "is_bc": false,
+    "event": "フランス、聖職者民事基本法制定。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1790,
+    "is_bc": false,
+    "event": "第３次マイソール戦争（～92年）。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "フランスでル＝シャプリエ法で労働者の団結を禁止。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "ヴァレンヌ逃亡事件。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "シャン＝ド＝マルスの虐殺事件起きる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "ピルニッツ宣言。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "フランス、１７９１年憲法成立。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "フランス、オランプ＝ド＝グージュ、『女性の権利宣言』を発表。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "フランス、立法議会開会。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "ハイチでトゥーサン＝ルヴェルチュールの黒人反乱始まる。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1791,
+    "is_bc": false,
+    "event": "アメリカ、憲法修正第１条～１０条（権利章典）発効。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "スウェーデン国王グスタフ３世、仮面舞踏会で銃撃される。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "ジロンド派内閣、対オーストリア開戦。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "フランス議会「祖国は危機にあり」と宣言。義勇兵の中からラ＝マルセイエーズが生まれる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "８月１０日事件。サンキュロットがテュイルリー宮殿を占拠。王権停止。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "ヴァルミーの戦い。フランス軍がプロイセン・オーストリア連合軍を破る。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "フランス国民公会開催。王政廃止を決議。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "フランス第一共和政発足。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "イギリスでウルストンクラフト、『女性の権利の擁護』発表。（女性解放運動）",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1792,
+    "is_bc": false,
+    "event": "ロシアのエカチェリーナ２世、ラクスマンを日本に派遣。",
+    "chapter": "第5章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "ルイ１６世処刑。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "第２回ポーランド分割。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "フランスで徴兵制、整備始まる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "ピットが働きかけ、第１回対仏大同盟結成。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "ヴァンデーの反乱始まる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "サンキュロットが決起、国民公会からジロンド派の追放。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "１７９３年憲法（ジャコバン憲法）制定（実施は延期）。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "マラー、暗殺される。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "封建地代の無償廃止。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "ジャコバン派による恐怖政治本格化。最高価格令制定。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "フランスで革命暦（共和暦）制定。～１８０１年１月まで",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "マリ＝アントワネット、処刑される。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "エベールらの主導で「理性崇拝の祭典」挙行。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "ホイットニーの綿繰り機、綿花プランテーションで実用化。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "イギリス、清にマカートニーを派遣。乾隆帝に謁見。貿易は認められず。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1793,
+    "is_bc": false,
+    "event": "イギリス、インド・ベンガルなどでザミンダーリー制導入。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1794,
+    "is_bc": false,
+    "event": "ポーランド分割に対し、コシューシコが蜂起。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1794,
+    "is_bc": false,
+    "event": "ダントンらギロチンにかけられる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1794,
+    "is_bc": false,
+    "event": "ロベスピエール、独裁制を敷き、恐怖政治頂点に。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1794,
+    "is_bc": false,
+    "event": "化学者ラヴォワジェ、処刑される。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1794,
+    "is_bc": false,
+    "event": "最高存在の祭典。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1794,
+    "is_bc": false,
+    "event": "テルミドールのクーデタ。ロベスピエール失脚。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1795,
+    "is_bc": false,
+    "event": "オランダにバタヴィア共和国成立。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1795,
+    "is_bc": false,
+    "event": "フランス１７９５年憲法制定。普通選挙制を廃止。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1795,
+    "is_bc": false,
+    "event": "第３回ポーランド分割。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1795,
+    "is_bc": false,
+    "event": "総裁政府発足。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1796,
+    "is_bc": false,
+    "event": "ナポレオン、イタリア遠征。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1796,
+    "is_bc": false,
+    "event": "バブーフの陰謀事件。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1796,
+    "is_bc": false,
+    "event": "ジェンナー、種痘を試みる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1796,
+    "is_bc": false,
+    "event": "清朝、乾隆帝、嘉慶帝に譲位。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1796,
+    "is_bc": false,
+    "event": "清朝で白蓮教徒の乱起こる。",
+    "chapter": "第4章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1796,
+    "is_bc": false,
+    "event": "イラン、カージャール朝のアーガー＝ムハンマドが統一。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1797,
+    "is_bc": false,
+    "event": "カンポ＝フォルミオの和約。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1798,
+    "is_bc": false,
+    "event": "ナポレオン、エジプト遠征し、アレクサンドリアを占領。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "第２回対仏大同盟。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "ナポレオン、ブリュメール１８日のクーデタ。フランス革命の終結。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "統領政府成立。ナポレオン、第一統領となる。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "フランス軍、ロゼッタ＝ストーンを発見。",
+    "chapter": "第6章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "第4次マイソール戦争。ティプー＝スルタン戦死（5/4）。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "この年、オランダ東インド会社解散。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1799,
+    "is_bc": false,
+    "event": "この年、ラホールにシク王国成立。",
+    "chapter": "第7章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1800,
+    "is_bc": false,
+    "event": "ロバート＝オーウェン、ニューラナークで社会改良実験を開始。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1800,
+    "is_bc": false,
+    "event": "フランス銀行設立。",
+    "chapter": "第3章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1800,
+    "is_bc": false,
+    "event": "ハイチでトゥサン＝ルベルチュールが権力樹立。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1800,
+    "is_bc": false,
+    "event": "アメリカ大統領選挙、リパブリカン党のジェファソンが当選（1801/3/4就任）。",
+    "chapter": "第8章",
+    "period": "1701~1800",
+    "link": null
+  },
+  {
+    "year": 1801,
+    "is_bc": false,
+    "event": "イギリスがアイルランド併合。大ブリテンおよびアイルランド連合王国となる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1801,
+    "is_bc": false,
+    "event": "ナポレオンとローマ教皇の宗教協約成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1802,
+    "is_bc": false,
+    "event": "アミアンの和約成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1802,
+    "is_bc": false,
+    "event": "ベトナム、阮福暎が阮朝（都フエ）を建てる。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1803,
+    "is_bc": false,
+    "event": "ワッハーブ派、メッカを占領。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1803,
+    "is_bc": false,
+    "event": "第２次マラーター戦争。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1803,
+    "is_bc": false,
+    "event": "アメリカがフランスからルイジアナを買収。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1804,
+    "is_bc": false,
+    "event": "ナポレオン法典公布。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1804,
+    "is_bc": false,
+    "event": "ナポレオン１世即位。第一帝政開始。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1804,
+    "is_bc": false,
+    "event": "イラン＝ロシア戦争（第１次）。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1804,
+    "is_bc": false,
+    "event": "ハイチの独立。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1805,
+    "is_bc": false,
+    "event": "第３回対仏大同盟。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1805,
+    "is_bc": false,
+    "event": "トラファルガーの海戦。ネルソンの英海軍が勝利。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1805,
+    "is_bc": false,
+    "event": "アウステルリッツの三帝会戦。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1805,
+    "is_bc": false,
+    "event": "ムハンマド＝アリーがエジプト総督となる。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1806,
+    "is_bc": false,
+    "event": "ナポレオン、弟ルイを国王にオランダ王国とする。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1806,
+    "is_bc": false,
+    "event": "ライン同盟結成。神聖ローマ帝国の消滅。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1806,
+    "is_bc": false,
+    "event": "イエナの戦い。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1806,
+    "is_bc": false,
+    "event": "大陸封鎖令。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1807,
+    "is_bc": false,
+    "event": "イギリス、奴隷貿易禁止。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1807,
+    "is_bc": false,
+    "event": "ティルジット条約。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1807,
+    "is_bc": false,
+    "event": "プロイセン国制改革始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1807,
+    "is_bc": false,
+    "event": "ナポレオン、ポルトガルに出兵。ポルトガル独立戦争始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1807,
+    "is_bc": false,
+    "event": "フィヒテ、「ドイツ国民に告ぐ」を講演。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1807,
+    "is_bc": false,
+    "event": "フルトン、蒸気船をハドソン川で運行。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1808,
+    "is_bc": false,
+    "event": "スペインで反ナポレオンの反乱起きる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1808,
+    "is_bc": false,
+    "event": "イギリス船フェートン号、長崎のオランダ商館を襲撃。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1808,
+    "is_bc": false,
+    "event": "アメリカ、奴隷貿易禁止発効。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1809,
+    "is_bc": false,
+    "event": "ナポレオン１世、ローマ教皇領を併合。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1810,
+    "is_bc": false,
+    "event": "ナポレオン１世、ハプスブルク家の皇女マリア＝ルイザと再婚。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1810,
+    "is_bc": false,
+    "event": "メキシコ、イダルゴの蜂起。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1811,
+    "is_bc": false,
+    "event": "朝鮮王朝で洪景来の乱起こる。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1811,
+    "is_bc": false,
+    "event": "エジプトでムハンマド＝アリーがマムルークを一掃。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1811,
+    "is_bc": false,
+    "event": "パラグアイが独立宣言。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1812,
+    "is_bc": false,
+    "event": "スペインでカディス憲法制定される。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1812,
+    "is_bc": false,
+    "event": "ナポレオンのロシア遠征開始。９月、モスクワ入城。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1812,
+    "is_bc": false,
+    "event": "アメリカ・イギリス戦争（米英戦争）勃発。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1813,
+    "is_bc": false,
+    "event": "第４回対仏大同盟。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1813,
+    "is_bc": false,
+    "event": "ライプツィヒの戦い（諸国民戦争）。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1813,
+    "is_bc": false,
+    "event": "イギリス東インド会社のインド貿易の独占権を廃止。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1814,
+    "is_bc": false,
+    "event": "ナポレオン退位。ルイ１８世王政復古。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1814,
+    "is_bc": false,
+    "event": "ノルウェー独立宣言。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1814,
+    "is_bc": false,
+    "event": "ウィーン会議、開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1814,
+    "is_bc": false,
+    "event": "イギリスとネパールのグルカ戦争起こる。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1814,
+    "is_bc": false,
+    "event": "イギリス、インドでライヤットワーリー制を導入。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1815,
+    "is_bc": false,
+    "event": "ナポレオン、エルバ島脱出。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1815,
+    "is_bc": false,
+    "event": "イギリス、穀物法制定。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1815,
+    "is_bc": false,
+    "event": "ドイツ連邦成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1815,
+    "is_bc": false,
+    "event": "ウィーン議定書調印。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1815,
+    "is_bc": false,
+    "event": "ワーテルローの戦い。ナポレオンの百日天下に終わる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1816,
+    "is_bc": false,
+    "event": "イギリスで金本位制始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1817,
+    "is_bc": false,
+    "event": "ドイツでブルシェンシャフトの蜂起。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1817,
+    "is_bc": false,
+    "event": "第３次マラーター戦争。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1818,
+    "is_bc": false,
+    "event": "四国同盟にフランスが加わり五国同盟となる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1818,
+    "is_bc": false,
+    "event": "ムハンマド＝アリー、ワッハーブ王国（第１次）を滅ぼす。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1819,
+    "is_bc": false,
+    "event": "イギリスでピータールー事件起きる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1819,
+    "is_bc": false,
+    "event": "オーストリアでカールスバートの決議。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1819,
+    "is_bc": false,
+    "event": "イギリスで工場法改正。幼児労働の制限明文化。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1819,
+    "is_bc": false,
+    "event": "ラッフルズ、シンガポールを建設開始。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1819,
+    "is_bc": false,
+    "event": "蒸気船のサヴァンナ号が大西洋横断。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1819,
+    "is_bc": false,
+    "event": "シモン＝ボリバル、大コロンビア共和国独立を実現。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1820,
+    "is_bc": false,
+    "event": "スペインでスペイン立憲革命起きる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1820,
+    "is_bc": false,
+    "event": "ナポリでカルボナリの蜂起。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1820,
+    "is_bc": false,
+    "event": "アメリカでミズーリ協定成立。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1821,
+    "is_bc": false,
+    "event": "ギリシア独立戦争始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1821,
+    "is_bc": false,
+    "event": "サルデーニャ王国のトリノでカルボナリが蜂起。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1821,
+    "is_bc": false,
+    "event": "ペルー独立を宣言。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1821,
+    "is_bc": false,
+    "event": "メキシコ独立を宣言。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1822,
+    "is_bc": false,
+    "event": "ブラジルの独立。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1823,
+    "is_bc": false,
+    "event": "アメリカ、モンロー大統領、モンロー教書を発表。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1824,
+    "is_bc": false,
+    "event": "第一次イギリス＝ビルマ戦争。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1825,
+    "is_bc": false,
+    "event": "ロシア、ニコライ１世即位、デカブリストの反乱起きる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1825,
+    "is_bc": false,
+    "event": "スティーヴンソンの蒸気機関車、イギリスのストックトン－ダーリントン間で走る。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1826,
+    "is_bc": false,
+    "event": "マフムト２世、イェニチェリの全廃。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1826,
+    "is_bc": false,
+    "event": "ボリバル、パナマ会議を召集。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1827,
+    "is_bc": false,
+    "event": "ギリシア独立戦争のナヴァリノの海戦。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1828,
+    "is_bc": false,
+    "event": "イギリス、審査法を廃止。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1828,
+    "is_bc": false,
+    "event": "ロシア・イラン間のトルコマンチャーイ条約。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1829,
+    "is_bc": false,
+    "event": "イギリス、カトリック教徒解放法制定。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1829,
+    "is_bc": false,
+    "event": "インドでラームモーハン＝ローイらが運動しサティ（寡婦殉死）禁止される。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1829,
+    "is_bc": false,
+    "event": "アメリカ、ジャクソン大統領就任。ジャクソニアン＝デモクラシー。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "フランス軍、アルジェリア出兵。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "フランスで七月革命起こる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "イギリス、マンチェスター・リヴァプール鉄道開通。鉄道の時代、始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "ベルギー王国独立宣言。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "ポーランドの反乱起こる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "ロンドン会議でギリシア王国独立承認。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "ジャクソン大統領、インディアン強制移住法。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "大コロンビア共和国、コロンビア、ベネズエラ、エクアドルの三国に分裂。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "この頃からベルギーで産業革命始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1830,
+    "is_bc": false,
+    "event": "1830年代にフランス産業革命進展。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1831,
+    "is_bc": false,
+    "event": "ロンドン会議、ベルギーの独立承認。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1831,
+    "is_bc": false,
+    "event": "イタリアの反乱。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1831,
+    "is_bc": false,
+    "event": "ファラデー、電磁誘導を発見。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1831,
+    "is_bc": false,
+    "event": "マッツィーニ、青年イタリアを結成。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1831,
+    "is_bc": false,
+    "event": "エジプト＝トルコ戦争始まる。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1832,
+    "is_bc": false,
+    "event": "イギリス、第１回選挙法改正。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1832,
+    "is_bc": false,
+    "event": "アメリカで民主党発足。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1833,
+    "is_bc": false,
+    "event": "イギリス、奴隷制度を廃止。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1833,
+    "is_bc": false,
+    "event": "イギリス、一般工場法制定。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1833,
+    "is_bc": false,
+    "event": "イギリス東インド会社の中国貿易での独占権廃止。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1833,
+    "is_bc": false,
+    "event": "ロシアとトルコ、ウンキャル＝スケレッシ条約締結。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1834,
+    "is_bc": false,
+    "event": "ドイツ関税同盟成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1834,
+    "is_bc": false,
+    "event": "イギリス、ネイピアを清に派遣、武力で交渉し失敗。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1835,
+    "is_bc": false,
+    "event": "ドイツの鉄道、運行始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1836,
+    "is_bc": false,
+    "event": "テキサス共和国、独立宣言。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1837,
+    "is_bc": false,
+    "event": "ヴィクトリア即位。～1901年 イギリス第二帝国と言われる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1837,
+    "is_bc": false,
+    "event": "ハノーファー王国でゲッティンゲン七教授事件。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1838,
+    "is_bc": false,
+    "event": "チャーティスト運動盛んになり、人民憲章を提出。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1838,
+    "is_bc": false,
+    "event": "トルコ＝イギリス通商条約締結。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1838,
+    "is_bc": false,
+    "event": "アフガン戦争（第一次）～42。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1839,
+    "is_bc": false,
+    "event": "第２次エジプト＝トルコ戦争の開始。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1839,
+    "is_bc": false,
+    "event": "アブデュルメジト１世、ギュルハネ勅令を出す。タンジマートの開始。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1840,
+    "is_bc": false,
+    "event": "アヘン戦争始まる。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1840,
+    "is_bc": false,
+    "event": "ロンドン会議、ロンドン４国条約締結。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1840,
+    "is_bc": false,
+    "event": "イギリス、ニュージーランドでマオリ人とワイタンギ条約を結ぶ。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1840,
+    "is_bc": false,
+    "event": "1840年代にドイツの産業革命進展。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1841,
+    "is_bc": false,
+    "event": "ムハンマド＝アリー、エジプト総督世襲を認められムハンマド＝アリー朝成立。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1841,
+    "is_bc": false,
+    "event": "イギリス軍、アフガン戦争でアフガン王国軍に敗れる。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1842,
+    "is_bc": false,
+    "event": "イギリスと清朝、南京条約を締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1844,
+    "is_bc": false,
+    "event": "モールス、ワシントン－ボルチモア間で電信機の実用化に成功。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1845,
+    "is_bc": false,
+    "event": "アイルランドでジャガイモ飢饉始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1845,
+    "is_bc": false,
+    "event": "イギリス、上海に租界を設ける。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1845,
+    "is_bc": false,
+    "event": "イギリス、北インドで第１次シク戦争。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1845,
+    "is_bc": false,
+    "event": "アメリカ、テキサスを合併。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1846,
+    "is_bc": false,
+    "event": "イギリス、穀物法の廃止。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1846,
+    "is_bc": false,
+    "event": "アメリカ＝メキシコ戦争始まる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1847,
+    "is_bc": false,
+    "event": "アフリカでリベリアが独立。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "ヨーロッパ各地で一連の１８４８年革命が起きる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "フランスの二月革命。第二共和政成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "マルクスとエンゲルスが『共産党宣言』発表。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "ウィーン三月革命、メッテルニヒ失脚。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "ハンガリーでコシュートが独立宣言。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "ベルリンでベルリン三月革命。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "サルデーニャ王国国王カルロ＝アルベルト、オーストリアに宣戦布告。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "フランス四月普通選挙。ブルジョワ共和派が勝利。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "フランクフルト国民議会開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "パリの六月暴動鎮圧される。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "ルイ＝ナポレオン、大統領に就任。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "カージャール朝イランでバーブ教徒の反乱拡がる。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "イギリス、北インドで第２次シク戦争。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "カリフォルニアで金鉱発見。ゴールド＝ラッシュ始まる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "アメリカ＝メキシコ戦争終わる。カリフォルニアなどアメリカ領となる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1848,
+    "is_bc": false,
+    "event": "アメリカのセネカ・フォールズで女性の権利宣言採択。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1849,
+    "is_bc": false,
+    "event": "ローマ共和国を樹立。年末に崩壊。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1849,
+    "is_bc": false,
+    "event": "イギリス、航海法廃止。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1849,
+    "is_bc": false,
+    "event": "北インドのシク王国滅亡。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1849,
+    "is_bc": false,
+    "event": "アメリカ、黒人奴隷ハリエット＝タブマン逃亡、地下鉄道運動に加わる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1850,
+    "is_bc": false,
+    "event": "洪秀全、金田村で挙兵。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1850,
+    "is_bc": false,
+    "event": "アメリカ、カリフォルニアを自由州とする代わりに逃亡奴隷法制定。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1851,
+    "is_bc": false,
+    "event": "第１回ロンドン万国博覧会開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1851,
+    "is_bc": false,
+    "event": "ルイ＝ナポレオン、１８５１年のクーデタ。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1851,
+    "is_bc": false,
+    "event": "太平天国建国。～１８６４年",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1852,
+    "is_bc": false,
+    "event": "ナポレオン３世が即位。第二帝政始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1852,
+    "is_bc": false,
+    "event": "ストウ、『アンクル＝トムの小屋』を発表。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "クリミア戦争始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "太平天国、南京を占領、天京と改称。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "曾国藩、湘軍（湘勇）を編制。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "この年、太平天国で天朝田畝制度定める。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "ペリー艦隊、浦賀に来港。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "ロシアのプチャーチン、長崎に来港。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1853,
+    "is_bc": false,
+    "event": "インドの鉄道、ボンベイで開設。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1854,
+    "is_bc": false,
+    "event": "日米和親条約締結。日本の開国。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1854,
+    "is_bc": false,
+    "event": "アメリカでカンザス・ネブラスカ法成立。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1854,
+    "is_bc": false,
+    "event": "アメリカで共和党発足。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1855,
+    "is_bc": false,
+    "event": "パリ万国博覧会（第１回）開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1855,
+    "is_bc": false,
+    "event": "クリミア戦争で、英仏などの連合軍、セヴァストーポリ要塞を占領。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1855,
+    "is_bc": false,
+    "event": "日露和親条約を締結。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1855,
+    "is_bc": false,
+    "event": "イギリス、タイのラーマ４世とボウリング条約締結。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1856,
+    "is_bc": false,
+    "event": "パリ条約締結。クリミア戦争終結。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1856,
+    "is_bc": false,
+    "event": "アロー戦争始まる。～１８６０年",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1856,
+    "is_bc": false,
+    "event": "オスマン帝国、改革勅令を発布。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1857,
+    "is_bc": false,
+    "event": "インド大反乱（シパーヒーの乱）始まる。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "カヴールとナポレオン３世、プロンビエール密約。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "ロシアと清、アイグン条約締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "清、英・仏と天津条約締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "日米修好通商条約を締結。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "イギリス、インド統治法制定。イギリス東インド会社解散。ムガル帝国の滅亡。イギリス、インドを直接統治開始。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "ナポレオン３世、インドシナ出兵。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1858,
+    "is_bc": false,
+    "event": "大西洋に海底電信ケーブルを敷設。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1859,
+    "is_bc": false,
+    "event": "ワラキア公国とモルダヴィア公国、ルーマニア公国として統一。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1859,
+    "is_bc": false,
+    "event": "サルデーニャ王国軍と仏軍、ロンバルディアに攻め入り、イタリア統一戦争始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1859,
+    "is_bc": false,
+    "event": "ナポレオン３世、ヴィラフランカの和約。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1859,
+    "is_bc": false,
+    "event": "この年、ダーウィンが進化論を発表。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "英仏通商条約の締結。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "中部イタリアはサルデーニャ王国に併合。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "ガリバルディ、シチリア島を占領。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "ナイティンゲール、看護学校を開設。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "ヴィットーリオ＝エマヌエーレ２世とガリバルディの会見。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "ロシア、極東にウラジヴォストーク港を建設。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "英仏軍、北京占領。10/18、円明園焼討。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "清、英・仏と北京条約締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "清、ロシアと北京条約締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1860,
+    "is_bc": false,
+    "event": "アメリカで共和党のリンカン、大統領に当選。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "ロシアで農奴解放令。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "イタリア王国が成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "清に総理各国事務衙門が設けられる。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "清、同治帝即位。実権は西太后に。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "この年から、清で同治の中興（～７４年）、洋務運動（～８４年）。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "南北戦争勃発。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1861,
+    "is_bc": false,
+    "event": "ナポレオン３世、メキシコ出兵。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1862,
+    "is_bc": false,
+    "event": "プロイセン王国、ビスマルク首相就任。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1862,
+    "is_bc": false,
+    "event": "フランス、ベトナムとサイゴン条約締結。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1862,
+    "is_bc": false,
+    "event": "アメリカ、ホームステッド法を施行。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1863,
+    "is_bc": false,
+    "event": "ポーランドの反乱。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1863,
+    "is_bc": false,
+    "event": "フランス、カンボジア保護国化。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1863,
+    "is_bc": false,
+    "event": "アメリカのリンカン大統領、奴隷解放宣言。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1863,
+    "is_bc": false,
+    "event": "ゲティスバーグの戦いで北軍が大勝。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1863,
+    "is_bc": false,
+    "event": "リンカン、ゲティスバーグの演説。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1864,
+    "is_bc": false,
+    "event": "デンマーク戦争。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1864,
+    "is_bc": false,
+    "event": "デュナンの提唱で国際赤十字創設。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1864,
+    "is_bc": false,
+    "event": "第１インターナショナル結成。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1864,
+    "is_bc": false,
+    "event": "天京陥落し、太平天国滅亡。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1865,
+    "is_bc": false,
+    "event": "パリで万国電信連合発足。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1865,
+    "is_bc": false,
+    "event": "南軍が降伏し、南北戦争終結。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1865,
+    "is_bc": false,
+    "event": "リンカン、暗殺される。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1865,
+    "is_bc": false,
+    "event": "アメリカ南部で黒人奴隷を解放。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1865,
+    "is_bc": false,
+    "event": "アメリカ合衆国憲法修正第１３条発効。黒人奴隷制廃止。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1865,
+    "is_bc": false,
+    "event": "南北戦争終わり、アメリカの産業革命本格化。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1866,
+    "is_bc": false,
+    "event": "普墺戦争始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1866,
+    "is_bc": false,
+    "event": "イタリア、オーストリアよりヴェネツィアを併合。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1866,
+    "is_bc": false,
+    "event": "大院君政権の朝鮮、米艦シャーマン号を焼き払う。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "オーストリアとハンガリー王国のアウスグライヒ。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "イギリス、選挙法改正(第２回)。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "ビスマルクの主導により北ドイツ連邦成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "オレンジ自由国でダイヤモンド鉱発見。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "アメリカ、ロシアよりアラスカを買収。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "メキシコ皇帝マクシミリアン処刑される。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "カナダ、自治領となる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1867,
+    "is_bc": false,
+    "event": "この年、ノーベルがダイナマイトの特許を取得。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "スペイン９月革命。プロヌンシアミエント成功。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "捻軍、李鴻章の淮軍によって鎮圧される。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "日本、王政復古の宣言。明治維新始まる。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "日本、戊辰戦争始まる。～11/6 会津藩降伏。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "日本、明治改元。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "ハワイに初めて日本人移民が渡航。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1868,
+    "is_bc": false,
+    "event": "アメリカ、憲法修正第１４条発効、黒人市民権付与。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1869,
+    "is_bc": false,
+    "event": "スエズ運河開通。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1869,
+    "is_bc": false,
+    "event": "アメリカ、大陸横断鉄道完成。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "エムス電報事件発生。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "普仏戦争勃発。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "スダンの戦いでナポレオン３世",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "フランス、パリで国防政府成立。第三共和政の開始。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "イタリア王国、教皇領を占領し、統一を完成。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "清で仇教運動激化し、天津教案起こる。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1870,
+    "is_bc": false,
+    "event": "アメリカ、憲法修正第１５条制定。黒人投票権を保障。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1871,
+    "is_bc": false,
+    "event": "ドイツ帝国成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1871,
+    "is_bc": false,
+    "event": "普仏戦争の講和、フランクフルト条約締結。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1871,
+    "is_bc": false,
+    "event": "パリでパリ＝コミューン成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1871,
+    "is_bc": false,
+    "event": "日本と清朝、日清修好条規を締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1871,
+    "is_bc": false,
+    "event": "マラーター王国、プーナをイギリスに割譲し滅亡。インドのイギリス領を拡大。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1871,
+    "is_bc": false,
+    "event": "アメリカ、フィラデルフィアで国際万国博覧会開催。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1872,
+    "is_bc": false,
+    "event": "日本と清、日清修好条規の交換。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1872,
+    "is_bc": false,
+    "event": "清、出洋教育局を設置、幼童をアメリカに派遣。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1872,
+    "is_bc": false,
+    "event": "日本、琉球藩設置。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1873,
+    "is_bc": false,
+    "event": "ドイツ、三国同盟（三帝同盟）成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1873,
+    "is_bc": false,
+    "event": "エジプト、ムハンマド＝アリー朝のイスマーイール＝パシャ、スエズ運河株の４４％をイギリスに売却。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1873,
+    "is_bc": false,
+    "event": "イギリス、インドでライヤットワーリー制を採用。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1874,
+    "is_bc": false,
+    "event": "イギリスで自由党ディズレーリ内閣成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1875,
+    "is_bc": false,
+    "event": "清、日本軍の台湾出兵の賠償金を払う。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1875,
+    "is_bc": false,
+    "event": "オスマン帝国、財政破綻。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1876,
+    "is_bc": false,
+    "event": "清、イギリスと芝罘条約締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1876,
+    "is_bc": false,
+    "event": "清、左宗棠、新疆に遠征、イリ地方を除き清朝の支配下におく。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1876,
+    "is_bc": false,
+    "event": "朝鮮、日本と日朝修好条規を締結。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1876,
+    "is_bc": false,
+    "event": "日本、廃刀令を公布。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1876,
+    "is_bc": false,
+    "event": "オスマン帝国、ミドハト憲法を公布。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1877,
+    "is_bc": false,
+    "event": "日本、西南戦争。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1877,
+    "is_bc": false,
+    "event": "ロシア＝トルコ戦争始まる。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1877,
+    "is_bc": false,
+    "event": "オスマン帝国、露土戦争開始とともにミドハト憲法を停止。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1877,
+    "is_bc": false,
+    "event": "イギリス、ヴィクトリア女王がインド皇帝を兼任。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1878,
+    "is_bc": false,
+    "event": "ベルリン会議開催。サン＝ステファノ条約を修正。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1878,
+    "is_bc": false,
+    "event": "清、劉銘伝、台湾巡撫に就任。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1878,
+    "is_bc": false,
+    "event": "ロシア＝トルコ戦争講和。サン＝ステファノ条約。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1879,
+    "is_bc": false,
+    "event": "ビスマルク、独墺同盟を締結。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1879,
+    "is_bc": false,
+    "event": "清、ロシアとイリ条約（リヴァディア条約）。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1879,
+    "is_bc": false,
+    "event": "イギリスとロシアの間で第二次アフガン戦争。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1880,
+    "is_bc": false,
+    "event": "フランス、チュニジア侵攻を決定。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1880,
+    "is_bc": false,
+    "event": "トランスヴァール（南アフリカ）、イギリスに対し反乱。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1881,
+    "is_bc": false,
+    "event": "フランス、チュニジアを保護国化。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1881,
+    "is_bc": false,
+    "event": "オスマン帝国、外国の管理下に。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1881,
+    "is_bc": false,
+    "event": "フランスと清、サイゴン条約を締結。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1882,
+    "is_bc": false,
+    "event": "イタリアが加わり三国同盟成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1882,
+    "is_bc": false,
+    "event": "清、朝鮮と中朝商民水陸貿易章程を締結。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1882,
+    "is_bc": false,
+    "event": "エジプトでウラービーの反乱。イギリス軍が鎮圧。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1883,
+    "is_bc": false,
+    "event": "ドイツ、社会保険制度開始。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1883,
+    "is_bc": false,
+    "event": "フランスと清、清仏戦争（～８５年）。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1884,
+    "is_bc": false,
+    "event": "イギリス、選挙法改正(第３回)。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1884,
+    "is_bc": false,
+    "event": "清、朝鮮の金玉均らと甲申政変を企てるが、袁世凱に鎮圧され失敗。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1885,
+    "is_bc": false,
+    "event": "清と日本、天津条約を締結。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1885,
+    "is_bc": false,
+    "event": "スーダンでイギリスの ゴードン将軍戦死。マフディーの反乱成立。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1885,
+    "is_bc": false,
+    "event": "コンゴ自由国、ベルギーレオポルド２世の個人領として成立",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1885,
+    "is_bc": false,
+    "event": "清とフランス、天津条約を締結。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1885,
+    "is_bc": false,
+    "event": "ビルマのコンバウン朝滅亡。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1885,
+    "is_bc": false,
+    "event": "インド国民会議を開催。国民会議派を結成。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1886,
+    "is_bc": false,
+    "event": "この年、ドイツのダイムラーらがガソリン自動車の実用化に成功。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1886,
+    "is_bc": false,
+    "event": "イギリス、ビルマ併合を声明。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1887,
+    "is_bc": false,
+    "event": "イギリス植民地会議開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1887,
+    "is_bc": false,
+    "event": "ドイツとロシア、独露再保障条約締結。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1887,
+    "is_bc": false,
+    "event": "フランス領インドシナ連邦成立。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1888,
+    "is_bc": false,
+    "event": "ドイツ帝国、ヴィルヘルム２世が即位。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1888,
+    "is_bc": false,
+    "event": "ブラジルで奴隷制度廃止（世界で最後）。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1889,
+    "is_bc": false,
+    "event": "フランス、ブーランジェ事件。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1889,
+    "is_bc": false,
+    "event": "イタリア、エチオピアとウッチャリ条約を締結。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1889,
+    "is_bc": false,
+    "event": "第２インターナショナル発足（～１９１９年）。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1889,
+    "is_bc": false,
+    "event": "大日本帝国憲法公布。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1889,
+    "is_bc": false,
+    "event": "ワシントンでパン＝アメリカ会議開催。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1890,
+    "is_bc": false,
+    "event": "ヴィルヘルム２世、ビスマルクを罷免。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1890,
+    "is_bc": false,
+    "event": "ドイツ社会主義者鎮圧法失効。ドイツ社会民主党合法化。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1890,
+    "is_bc": false,
+    "event": "アメリカ、シャーマン反トラスト法制定。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1890,
+    "is_bc": false,
+    "event": "アメリカ、ウーンデットニーの虐殺。インディアンの抵抗終わる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1890,
+    "is_bc": false,
+    "event": "1890年代から、ロシアの産業革命進む。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1890,
+    "is_bc": false,
+    "event": "この年、アメリカ、フロンティアの消滅。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1891,
+    "is_bc": false,
+    "event": "ロシア、シベリア鉄道の建設工事開始。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1891,
+    "is_bc": false,
+    "event": "ロシア皇太子ニコライ、日本で遭難（大津事件）。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1891,
+    "is_bc": false,
+    "event": "イランでタバコ＝ボイコット運動起こる。",
+    "chapter": "第6章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1892,
+    "is_bc": false,
+    "event": "アメリカで人民党結党。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1892,
+    "is_bc": false,
+    "event": "フランスでパナマ事件ひろがる。。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1893,
+    "is_bc": false,
+    "event": "イギリスで独立労働党結成。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1893,
+    "is_bc": false,
+    "event": "フランス軍艦、バンコク砲撃（パークナーム事件）。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1893,
+    "is_bc": false,
+    "event": "ニュージーランドで世界最初の女性参政権認められる。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1893,
+    "is_bc": false,
+    "event": "タイのラーマ５世、ラオス宗主権を放棄。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1893,
+    "is_bc": false,
+    "event": "ハワイ王国、リリウオカラニが退位し滅亡。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "露仏同盟、正式な軍事同盟として成立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "フランスでドレフュス事件起きる。～１９０６年、無罪となる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "孫文、ハワイで興中会を組織。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "朝鮮で全琫準の率いる東学が蜂起、甲午農民戦争始まる。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "日本軍、朝鮮王宮を占領、朝鮮王朝の甲午改革を要求。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "豊島沖で交戦開始、日清戦争の開始。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1894,
+    "is_bc": false,
+    "event": "日清戦争の宣戦布告。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "ロシア、フランス、ドイツの三国干渉。5/5 日本、遼東半島を還付。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "清朝、日本との下関条約を締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "日本への割譲に反対し、台湾民主国独立宣言。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "閔妃暗殺事件。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "南アフリカでジェームソン侵入事件でセシル＝ローズ失脚。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "キューバ独立戦争（第二次）始まる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1895,
+    "is_bc": false,
+    "event": "日清戦争を契機に日本の産業革命始まる。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "イタリア軍、エチオピア軍にアドワの戦いで大敗。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "アテネで第１回国際オリンピック大会開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "清の李鴻章、ロシアに東清鉄道の敷設権を認める密約。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "日清通商航海条約締結。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "朝鮮王朝の高宗の露館播遷。親日政権倒れる。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "フィリピン革命始まる。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "フィリピンでホセ＝リサール銃殺される。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "アメリカ最高裁判所、黒人分離政策を合憲とする判決を出す。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "アメリカ、共和党マッキンリー",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1896,
+    "is_bc": false,
+    "event": "イギリスとフランス、タイ（シャム）を緩衝国とする宣言。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1897,
+    "is_bc": false,
+    "event": "朝鮮王国、国号を大韓帝国に改める。",
+    "chapter": "第5章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "エミール＝ゾラ、『私は弾劾する！』を発表。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "ヴィルヘルム２世、第一次艦隊法制定。英独の建艦競争始まる。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "イギリスとフランス、ファショダ事件で衝突回避。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "ドイツ、清から膠州湾を租借。列強による中国分割始まる。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "ロシア、清から旅順・大連を租借。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "光緒帝、戊戌の変法を宣言。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "清の九竜半島北部をイギリスが９９年間租借。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "イギリス、清から威海衛を租借。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "戊戌の政変。康有為・梁啓超日本に亡命。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "フランス、清から広州湾を租借。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "アギナルド、フィリピン共和国の独立を宣言。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "キューバでメイン号事件起こる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "米西戦争（アメリカ＝スペイン戦争）始まる。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "アメリカ、ハワイ併合。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "米西戦争の講和条約パリ条約。",
+    "chapter": "第8章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1898,
+    "is_bc": false,
+    "event": "英・仏・独・露による中国分割が進む。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1899,
+    "is_bc": false,
+    "event": "第１回ハーグ万国平和会議開催。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1899,
+    "is_bc": false,
+    "event": "アメリカ国務長官ジョン＝ヘイ、中国の門戸開放・機会均等を宣言。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1899,
+    "is_bc": false,
+    "event": "フィリピン＝アメリカ戦争始まる。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1899,
+    "is_bc": false,
+    "event": "フランス、ラオス保護国化。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1899,
+    "is_bc": false,
+    "event": "南アフリカ戦争（イギリスとブール人の戦争）開戦。",
+    "chapter": "第7章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1900,
+    "is_bc": false,
+    "event": "ケア＝ハーディ、労働代表委員会設立。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1900,
+    "is_bc": false,
+    "event": "ドイツ、第２次艦隊法制定。英独の建艦競争激化。",
+    "chapter": "第3章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1900,
+    "is_bc": false,
+    "event": "義和団の蜂起、北京を占領。北京－天津間の鉄道破壊。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1900,
+    "is_bc": false,
+    "event": "清朝、義和団に押され列国に宣戦布告。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1900,
+    "is_bc": false,
+    "event": "義和団事件で、８ヵ国連合軍、北京入城。",
+    "chapter": "第4章",
+    "period": "1801~1900",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "ハーグに常設仲裁裁判所設立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "マルコーニ、大西洋横断無線通信に成功。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "清の西太后、光緒新政を宣言。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "清朝と８カ国、北京議定書締結。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "オーストラリア連邦発足。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "オーストラリアで有色人種の移民を制限する白豪主義採用。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "アメリカ議会、キューバのプラット条項を認める。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "キューバ制憲議会、プラット条項を受容。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1901,
+    "is_bc": false,
+    "event": "マッキンリー暗殺され、セオドア＝ローズヴェルト大統領に昇格。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1902,
+    "is_bc": false,
+    "event": "日英同盟（第１次）締結。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1902,
+    "is_bc": false,
+    "event": "南アフリカ戦争（ブール戦争）終結。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1902,
+    "is_bc": false,
+    "event": "キューバ共和国の独立。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1903,
+    "is_bc": false,
+    "event": "ロシア、東清鉄道完成。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1903,
+    "is_bc": false,
+    "event": "ロシア社会民主労働党実質的結党。ボリシェヴィキとメンシェヴィキの二派対立始まる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1903,
+    "is_bc": false,
+    "event": "ライト兄弟、飛行機を飛ばす。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1903,
+    "is_bc": false,
+    "event": "ドイツ、オスマン帝国とバグダード鉄道会社設立で本協定締結。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1903,
+    "is_bc": false,
+    "event": "パナマ、コロンビアから独立。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1903,
+    "is_bc": false,
+    "event": "アメリカとパナマ、パナマ運河条約締結。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1904,
+    "is_bc": false,
+    "event": "ニューヨークで女性参政権を求めるデモ実行。国際女性デーの起源(一説による)。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1904,
+    "is_bc": false,
+    "event": "英仏協商成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1904,
+    "is_bc": false,
+    "event": "日露戦争、両国が宣戦布告。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1904,
+    "is_bc": false,
+    "event": "第１次日韓協約。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1904,
+    "is_bc": false,
+    "event": "ベトナムのファン＝ボイ＝チャウは維新会を組織。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "ロシアで血の日曜日事件。第１次ロシア革命始まる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "ヴィルヘルム２世、第１次モロッコ事件（タンジール事件）を起こす。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "フランス社会党結成。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "第２次日英同盟締結。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "ニコライ２世、十月宣言でドゥーマ開設を約束。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "フランス、政教分離法制定。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "孫文ら、東京で中国同盟会を結成。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "清朝で科挙の廃止。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "満州に関する日清条約締結。清が日本のロシア権益継承を認める。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "日露戦争の日本海海戦、ロシアのバルチック艦隊全滅。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "アメリカと日本、秘密協定の桂＝タフト協定締結。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "日露戦争の講和、ポーツマス条約締結。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "第２次日韓協約によって韓国の保護国化。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "イラン立憲革命始まる。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "ファン＝ボイ＝チャウが提唱し東遊（ドンズー）運動始まる。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "ドイツ領東アフリカでマジマジ反乱始まる。～1907/8",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "インド総督カーゾン、ベンガル分割令を制定。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1905,
+    "is_bc": false,
+    "event": "この年、アインシュタイン、特殊相対性理論などを提唱。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1906,
+    "is_bc": false,
+    "event": "イギリス、労働党成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1906,
+    "is_bc": false,
+    "event": "モロッコ問題協議のためアルヘシラス会議開催。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1906,
+    "is_bc": false,
+    "event": "日本、南満州鉄道株式会社設立。（07/4/1開業）",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1906,
+    "is_bc": false,
+    "event": "インド国民会議派、カルカッタ大会四綱領を採択。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1906,
+    "is_bc": false,
+    "event": "全インド＝ムスリム連盟結成。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1906,
+    "is_bc": false,
+    "event": "アメリカ、サンフランシスコで日本人学童隔離。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "日仏協約成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "第二回ハーグ万国平和会議開催。大韓皇帝高宗のハーグ密使事件が起きる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "第１次日露協約。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "英露協商締結。三国協商が成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "激しい抗日運動の中で、高宗辞任。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "第３次日韓協約。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "韓国で義兵闘争激化。1906に始まり、1909に最も盛ん。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1907,
+    "is_bc": false,
+    "event": "ニュージーランド、自治領となる。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1908,
+    "is_bc": false,
+    "event": "ベルギー領コンゴ成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1908,
+    "is_bc": false,
+    "event": "オーストリア＝ハンガリー帝国がボスニア・ヘルツェゴヴィナ併合。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1908,
+    "is_bc": false,
+    "event": "清朝、憲法大綱を公布。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1908,
+    "is_bc": false,
+    "event": "清朝、光緒帝(11/14)・西太后(11/15)相次いで死去。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1908,
+    "is_bc": false,
+    "event": "青年トルコ革命起きる。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1908,
+    "is_bc": false,
+    "event": "ジャワでブディ＝ウトモ結成。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1909,
+    "is_bc": false,
+    "event": "安重根が伊藤博文を暗殺する。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1909,
+    "is_bc": false,
+    "event": "ピアリー、北極点に到達（疑問あり）。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1909,
+    "is_bc": false,
+    "event": "アメリカのデュボイス、全国黒人向上協会を組織。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1909,
+    "is_bc": false,
+    "event": "フォード、自動車の大量生産開始。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1910,
+    "is_bc": false,
+    "event": "日本で大逆事件、検挙始まる。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1910,
+    "is_bc": false,
+    "event": "日本による韓国併合。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1910,
+    "is_bc": false,
+    "event": "南アフリカ連邦が成立。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1910,
+    "is_bc": false,
+    "event": "マデロら蜂起しメキシコ革命。→1911 5 ディアス国外追放。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "第２次モロッコ事件起きる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "第３次日英同盟締結。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "イギリスで議会法が成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "武昌蜂起から辛亥革命（第一革命）始まる。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "イタリア＝トルコ戦争。イタリア軍、トリポリ占領。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "ベンガル分割令を撤回。インド帝国首都をデリーに遷す。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "メキシコのサパタ、農地改革を求め蜂起。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1911,
+    "is_bc": false,
+    "event": "アムンゼン、南極点に到達。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "タイタニック号沈没。（アメリカ合衆国への移民）",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "ブルガリア・ギリシアなどバルカン同盟結成。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "第１次バルカン戦争起きる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "中華民国発足。孫文、臨時大総統。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "宣統帝退位。清滅亡する。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "袁世凱が臨時大総統就任。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "中華民国臨時約法公布。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "孫文・宋教仁ら国民党を結成。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "明治天皇没。大正と改元。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "フランス、モロッコ保護国化。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "ファン＝ボイ＝チャウ、ベトナム光復会を組織。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "イスラーム商人同盟、サレカット＝イスラム（イスラーム同盟）に改称。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1912,
+    "is_bc": false,
+    "event": "アメリカ大統領選挙、民主党ウィルソンが当選。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1913,
+    "is_bc": false,
+    "event": "第２次バルカン戦争起きる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1913,
+    "is_bc": false,
+    "event": "宋教仁暗殺される。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1913,
+    "is_bc": false,
+    "event": "第二革命失敗、袁世凱独裁強まる。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1913,
+    "is_bc": false,
+    "event": "日本、桂内閣総辞職（大正政変、第一次護憲運動）。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1913,
+    "is_bc": false,
+    "event": "メキシコ大統領マデロ殺害される。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "孫文、東京で中華革命党結成。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "パナマ運河開通。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "サライェヴォ事件。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "オーストリア＝ハンガリー帝国がセルビアに宣戦布告、第一次世界大戦が始まる。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "フランス社会党の指導者ジャン＝ジョレス暗殺される。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "ドイツ、ロシアに宣戦布告。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "ドイツ、フランスに宣戦布告。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "ドイツ軍ベルギー侵攻。イギリス、ドイツに宣戦。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "日本の参戦。ドイツに宣戦。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "イギリス議会、アイルランド自治法成立するも、大戦勃発により実施延期。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "日本軍、ドイツの青島要塞を攻略。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1914,
+    "is_bc": false,
+    "event": "オスマン帝国の第一次世界大戦参戦。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "日本、中国に対し二十一カ条の要求提出。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "中国、二十一カ条の要求の大筋を受諾。国恥記念日とされる。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "陳独秀ら『新青年』を刊行。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "ハーシム家のフセイン、イギリスとフセイン・マクマホン協定締結。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "ドイツ軍、初めて毒ガスを使用。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "トルコでアルメニア人虐殺事件起こる。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "英仏、オーストラリア、ニュージーランド連合軍、ガリポリ上陸するも失敗。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "イタリア、イギリスなどとのロンドン秘密条約。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "ルシタニア号事件。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "連合国側にイタリアが参戦。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "イギリスにアスキス連立内閣成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1915,
+    "is_bc": false,
+    "event": "ブルガリアが参加。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1916,
+    "is_bc": false,
+    "event": "イギリスとフランス、サイクス・ピコ協定を締結。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1916,
+    "is_bc": false,
+    "event": "アラブ、フセイン＝イブン＝アリーの指導でアラブの反乱起こる。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1916,
+    "is_bc": false,
+    "event": "ヴェルダンの戦い。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1916,
+    "is_bc": false,
+    "event": "イースター蜂起。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1916,
+    "is_bc": false,
+    "event": "ソンムの戦い。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1916,
+    "is_bc": false,
+    "event": "ロイド＝ジョージがイギリスの挙国一致内閣を組閣。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "日本の寺内正毅、段祺瑞と西原借款を締結。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "イギリスのバルフォア宣言。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "第一次世界大戦にブラジルが参戦。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "アメリカ、ドイツと断交。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアの二月革命。ロマノフ朝の滅亡。臨時政府の成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアのレーニン、四月テーゼ発表。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "中国、参戦。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "アメリカ、ドイツに宣戦布告。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアで臨時政府の解体。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアでケレンスキー、臨時政府首相に。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアの十月革命。臨時政府崩壊。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアにソヴィエト政権樹立。人民委員会議（議長レーニン）成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "ロシアで平和に関する布告、土地に関する布告発布。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1917,
+    "is_bc": false,
+    "event": "フィンランド、ロシアから独立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "日本の米騒動。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "日本の原敬、内閣を組閣。初の政党内閣。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "ロシアがブレスト＝リトフスク条約締結。第一次世界大戦から離脱。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "米・英・仏・伊・日の連合国、シベリア出兵を開始。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "フィンランド、ロシアから独立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "ウィルソンの十四カ条の原則発表。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "ドイツでキール軍港の水平兵反乱、ドイツ革命始まる。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "ドイツで皇帝ヴィルヘルム２世退位。ヴァイマル共和政成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "オーストリア＝ハンガリー帝国、ハンガリー独立宣言で分裂。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "オーストリアで共和国成立。皇帝カール１世退位。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "連合国、ドイツとの休戦協定締結。第一次世界大戦の終結。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "チェコスロヴァキア共和国の成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1918,
+    "is_bc": false,
+    "event": "ユーゴスラヴィア王国成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "中国で五四運動。日本の二十一カ条の要求撤回を要求。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "朝鮮で三・一独立運動起こる。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "朝鮮で大韓民国臨時政府が樹立。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "トルコでムスタファ＝ケマルが抵抗運動開始。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "イギリスとイラン、英イラン条約締結。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "インドでローラーット法制定。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "インドでアムリットサール虐殺事件起きる。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "インド、インド統治法公布。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "ロシアでコミンテルン結成。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "パリ講和会議開催。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "ヴァイマル憲法制定。ヴァイマル共和政。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "ヴェルサイユ条約締結。第一次世界大戦終結。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1919,
+    "is_bc": false,
+    "event": "国際労働機関（ＩＬＯ）設立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1920,
+    "is_bc": false,
+    "event": "国際連盟、イギリスにパレスチナ・イラク、フランスにシリアの委任統治を承認。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1920,
+    "is_bc": false,
+    "event": "インドでガンディーが非暴力・不服従運動開始。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1920,
+    "is_bc": false,
+    "event": "アメリカ、女性参政権を認める憲法修正第１９条制定。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1920,
+    "is_bc": false,
+    "event": "アメリカ、禁酒法発効。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1920,
+    "is_bc": false,
+    "event": "国際連盟設立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1920,
+    "is_bc": false,
+    "event": "国際司法常設裁判所（ＰＣＩＪ）設立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1921,
+    "is_bc": false,
+    "event": "中国、上海で中国共産党成立。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1921,
+    "is_bc": false,
+    "event": "国際連盟、モンゴルの独立を承認。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1921,
+    "is_bc": false,
+    "event": "アメリカ、ワシントン会議開催。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1921,
+    "is_bc": false,
+    "event": "ムスタファ＝ケマル、ギリシア軍を撃破。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1921,
+    "is_bc": false,
+    "event": "インドでムスリム連盟、カリフ制廃止運動。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1921,
+    "is_bc": false,
+    "event": "ソ連、ネップ（新経済政策）開始。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1922,
+    "is_bc": false,
+    "event": "イギリスでアイルランド自由国成立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1922,
+    "is_bc": false,
+    "event": "ワシントン会議、四カ国条約・九カ国条約・五カ国条約調印。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1922,
+    "is_bc": false,
+    "event": "ムッソリーニ、ローマ進軍。政権掌握。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1922,
+    "is_bc": false,
+    "event": "ソ連邦成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1923,
+    "is_bc": false,
+    "event": "ギリシアとトルコ、ローザンヌ条約締結。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1923,
+    "is_bc": false,
+    "event": "トルコ共和国成立。ムスタファ＝ケマル、初代大統領。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1923,
+    "is_bc": false,
+    "event": "イランでレザー＝ハーン、首相に就任。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1923,
+    "is_bc": false,
+    "event": "ドイツでミュンヘン一揆。ヒトラー逮捕。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1924,
+    "is_bc": false,
+    "event": "孫文、国民党第１回全国代表大会。連ソ・容共・扶助工農の三大政策。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1924,
+    "is_bc": false,
+    "event": "中国、黄埔軍官学校開校。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1924,
+    "is_bc": false,
+    "event": "ソ連でレーニン没。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1924,
+    "is_bc": false,
+    "event": "イギリス、労働党初のマクドナルド内閣成立。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1925,
+    "is_bc": false,
+    "event": "孫文没。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1925,
+    "is_bc": false,
+    "event": "ロカルノ条約締結。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1926,
+    "is_bc": false,
+    "event": "イギリス、帝国会議。自治領を本国と平等な地位と承認。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1926,
+    "is_bc": false,
+    "event": "中国、蔣介石が北伐開始。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1927,
+    "is_bc": false,
+    "event": "中国で蔣介石、上海クーデタ。南京に国民政府成立。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1928,
+    "is_bc": false,
+    "event": "中国で張作霖、爆殺される。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1928,
+    "is_bc": false,
+    "event": "不戦条約（ケロッグ＝ブリアン条約）締結。",
+    "chapter": "第9章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1929,
+    "is_bc": false,
+    "event": "ソ連でスターリン、第１次五ヵ年計画開始。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1929,
+    "is_bc": false,
+    "event": "アメリカでウォール街の株価大暴落。世界恐慌始まる。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1929,
+    "is_bc": false,
+    "event": "バチカン市国が独立。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1929,
+    "is_bc": false,
+    "event": "インドでラホール会議。ネルー議長。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1930,
+    "is_bc": false,
+    "event": "ロンドン海軍軍縮会議開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1930,
+    "is_bc": false,
+    "event": "ガンディー、塩の行進。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1931,
+    "is_bc": false,
+    "event": "イギリスの金本位制停止。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1931,
+    "is_bc": false,
+    "event": "ウェストミンスター憲章を制定、イギリス連邦が発足。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1931,
+    "is_bc": false,
+    "event": "柳条湖事件。満州事変始まる。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1931,
+    "is_bc": false,
+    "event": "関東軍。錦州を爆撃。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1931,
+    "is_bc": false,
+    "event": "瑞金に中華ソヴィエト共和国臨時政府成立。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "ジュネーヴ軍縮会議始まる。（～1934）",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "イギリス、保護関税法を制定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "ローザンヌ会議で賠償協定調印。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "イギリス連邦諸国、オタワ連邦会議。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "ドイツ総選挙、ナチス第一党となる。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "アムステルダム国際反戦大会開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "ポルトガル、サラザール独裁政治始まる。",
+    "chapter": "第3章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "上海事変（第一次）。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "国際連盟のリットン調査団来日。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "満州国建国宣言。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "日満議定書締結。日本、満州国を承認。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "リットン調査団報告書、日本・中国に手交される。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "日本で五・一五事件。犬養首相ら殺害される。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "イブン＝サウード、サウジアラビア王国樹立。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "イラク王国、イギリスの委任統治終わり、独立。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "タイ立憲革命。ピブン政権成立。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "イギリス、マクドナルド挙国一致内閣、コミュナル裁定。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1932,
+    "is_bc": false,
+    "event": "ガンディーとアンベードカル、不可触民にかんするプーナ協定。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "ドイツ、ヒトラー内閣成立。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "ドイツ、国会議事堂放火事件。3/9 ディミトロフら逮捕される。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "アメリカ、フランクリン＝ローズヴェルト大統領、ニューディール政策を開始。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "ドイツ議会、全権委任法通過。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "アメリカの金本位制停止。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "ロンドン世界通貨経済会議開催。成果なく終わる。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "東欧諸国、侵略の定義に関する条約調印。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "ドイツの国際連盟脱退。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "アメリカのソ連の承認。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "日本軍、熱河作戦実行。長城を越え北平に迫る。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "国際連盟、リットン報告書をもとに日本に対する撤兵勧告可決。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "日中両軍、塘沽停戦協定締結。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1933,
+    "is_bc": false,
+    "event": "日本の国際連盟脱退。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1934,
+    "is_bc": false,
+    "event": "ヒトラー総統となる。フューラー国家。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1934,
+    "is_bc": false,
+    "event": "ソ連の国際連盟加盟。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1934,
+    "is_bc": false,
+    "event": "日本、ワシントン海軍軍備制限条約破棄を通告。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1934,
+    "is_bc": false,
+    "event": "満州国、帝政となり溥儀が即位。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1934,
+    "is_bc": false,
+    "event": "中国共産党、長征開始。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "ドイツ、住民投票でザール編入を決める。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "ドイツの再軍備宣言。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "ストレーザ戦線成立。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "仏ソ相互援助条約調印。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "英独海軍協定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "アメリカ、ワグナー法制定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "フランス人民戦線成立。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "コミンテルン第７回大会、反ファシズム人民戦線に転換。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "アメリカ議会、中立法承認。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "ドイツ、ニュルンベルク法制定。ユダヤ人排斥強まる。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "ムッソリーニ、エチオピア侵入を実行。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "遵義会議で毛沢東が中国共産党の主導権を握る。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "梅津・何応欽協定締結。日本軍の華北分離工作が進む。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "中国共産党の八・一宣言。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "中国共産党、長征を終える。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "中国の通貨統一（幣制改革）。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "日本、華北に冀東防共自治政府（当初は委員会）を設置。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "日本の華北分離工作に抗議し、中国で十二・九学生運動起こる。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "パフレヴィー朝、国号をペルシャからイランに変更。",
+    "chapter": "第6章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1935,
+    "is_bc": false,
+    "event": "新インド統治法成立。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1936,
+    "is_bc": false,
+    "event": "スペイン人民戦線成立。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1937,
+    "is_bc": false,
+    "event": "支那事変（日中戦争）勃発。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1938,
+    "is_bc": false,
+    "event": "ドイツ、オーストリア併合（アンシュルス）。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1938,
+    "is_bc": false,
+    "event": "ミュンヘン会談開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1939,
+    "is_bc": false,
+    "event": "ドイツ、ポーランド侵攻。第二次世界大戦始まる。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1939,
+    "is_bc": false,
+    "event": "アメリカ、第二次中立法制定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1940,
+    "is_bc": false,
+    "event": "日独伊三国同盟締結。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1940,
+    "is_bc": false,
+    "event": "日本、北部仏印進駐。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "アメリカ、武器貸与法成立。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "独ソ戦開始。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "チャーチル・Ｆ＝ローズヴェルト、大西洋憲章。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "日本軍、真珠湾攻撃、マレー半島占領。アメリカの参戦。太平洋戦争始まる。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "日本軍、南部仏印進駐。",
+    "chapter": "第4章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "日ソ中立条約調印。",
+    "chapter": "第5章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1941,
+    "is_bc": false,
+    "event": "ホー＝チ＝ミン、ベトナム独立同盟（ベトミン）を結成。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1942,
+    "is_bc": false,
+    "event": "連合国２６ヵ国による連合国共同宣言。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1942,
+    "is_bc": false,
+    "event": "ナチス＝ドイツ、ユダヤ人絶滅政策を最終決定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1942,
+    "is_bc": false,
+    "event": "ミッドウェー海戦、日本海軍敗北。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1942,
+    "is_bc": false,
+    "event": "ガンディー、「インドを立ち去れ」運動を開始。",
+    "chapter": "第7章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1942,
+    "is_bc": false,
+    "event": "アメリカ、原子爆弾開発のマンハッタン計画に着手。",
+    "chapter": "第8章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "カサブランカ会談開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "コミンテルンの解散を決定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "イタリアのバドリオ内閣、降伏。10/13 ドイツに宣戦布告。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "米英ソ３国外相、国際連合設立のモスクワ宣言。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "カイロ会談開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "テヘラン会談開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1943,
+    "is_bc": false,
+    "event": "連合国首脳、カイロ宣言を発表。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1944,
+    "is_bc": false,
+    "event": "ブレトン＝ウッズ会議開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1944,
+    "is_bc": false,
+    "event": "ダンバートン＝オークス会議開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "ヤルタ会談開催。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "ヤルタ協定成立。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "サンフランシスコ会議開催。6/25 国際連合憲章の採択。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "ムッソリーニ処刑される。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "ヒトラー自殺。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "ドイツの無条件降伏。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "「四ヵ国宣言」でドイツ４カ国分割占領決定。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "国際連合憲章、５０ヵ国で調印。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "ポツダム会談開催。～8/2",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  },
+  {
+    "year": 1945,
+    "is_bc": false,
+    "event": "イギリス労働党、選挙で勝利。",
+    "chapter": "第10章",
+    "period": "1901~1945",
+    "link": null
+  }
+]

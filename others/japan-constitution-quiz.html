@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="../images/favicon.png" />
+<title>日本国憲法クイズ — Shoei451</title>
+
+<!-- Google Fonts: Noto Sans JP -->
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+<style>
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #f0f4f8;
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .container {
+    max-width: 700px;
+    width: 100%;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+  }
+  h1 {
+    margin-bottom: 24px;
+    color: #333;
+  }
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 24px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  }
+  label {
+    font-weight: 600;
+    margin-right: 8px;
+    color: #555;
+  }
+  select {
+    padding: 6px 10px;
+    font-size: 1em;
+    border-radius: 6px;
+    border: 1.8px solid #ccc;
+    margin-bottom: 16px;
+    min-width: 150px;
+  }
+  button {
+    margin: 12px 8px;
+    padding: 12px 24px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    user-select: none;
+  }
+  button:hover:not(:disabled) {
+    background-color: #3a9d46;
+    color: white;
+  }
+  button:disabled {
+    cursor: default;
+    opacity: 0.6;
+  }
+  #startScreen button {
+    background-color: #4caf50;
+    color: white;
+    font-weight: 700;
+  }
+  #quizScreen {
+    margin-top: 20px;
+  }
+  #question {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #222;
+  }
+  #choices {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 24px;
+  }
+  #choices button {
+    background-color: #eee;
+    color: #333;
+    text-align: left;
+    padding-left: 18px;
+    box-shadow: inset 0 0 0 2px #ddd;
+  }
+  #choices button.correct {
+    background-color: #c8f7c5;
+    box-shadow: inset 0 0 0 2px #4caf50;
+    color: #25632a;
+    font-weight: 700;
+  }
+  #choices button.incorrect {
+    background-color: #f7c5c5;
+    box-shadow: inset 0 0 0 2px #e53935;
+    color: #7a1a18;
+    font-weight: 700;
+  }
+  #nextBtn {
+    background-color: #4caf50;
+    color: white;
+    font-weight: 700;
+    padding: 12px 40px;
+    border-radius: 30px;
+    display: none;
+    margin: 0 auto 20px;
+  }
+  #nextBtn:hover:enabled {
+    background-color: #3a9d46;
+  }
+  .progress-container {
+    width: 100%;
+    background: #ddd;
+    height: 12px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 12px;
+    background: #4caf50;
+    width: 0%;
+    border-radius: 10px 0 0 10px;
+    transition: width 0.3s ease;
+  }
+  #score {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #444;
+  }
+
+  /* レスポンシブ対応 */
+  @media (max-width: 480px) {
+    .container {
+      padding: 20px;
+    }
+    button {
+      font-size: 1em;
+      padding: 10px 18px;
+    }
+    #question {
+      font-size: 1.1em;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- スタート画面 -->
+    <div id="startScreen">
+      <h1>日本国憲法クイズ</h1>
+      <img src="https://www.shugiin.go.jp/internet/index.nsf/html/images/top_img20150929.jpg/$File/top_img20150929.jpg" 
+           alt="日本国憲法関連のイメージ画像" />
+
+      <div>
+        <label for="chapterSelect">出題範囲を選択：</label>
+        <select id="chapterSelect">
+          <option value="all">全範囲</option>
+          <!-- JSで追加 -->
+        </select>
+      </div>
+
+      <div>
+        <label for="countSelect">出題数：</label>
+        <select id="countSelect">
+          <option value="10">10問</option>
+          <option value="20">20問</option>
+          <option value="30">30問</option>
+          <option value="40">40問</option>
+          <option value="50">50問</option>
+          <option value="all">全問</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="modeSelect">出題モード：</label>
+        <select id="modeSelect">
+          <option value="numberToHeading">番号 → 見出し</option>
+          <option value="headingToNumber">見出し → 番号</option>
+        </select>
+      </div>
+
+      <button onclick="startQuiz()">クイズ開始</button>
+    </div>
+
+    <!-- クイズ画面 -->
+    <div id="quizScreen" class="hidden" aria-live="polite">
+      <div id="question" aria-label="問題文"></div>
+      <div id="choices" role="list"></div>
+
+      <button id="nextBtn" aria-label="次の問題へ">次の問題</button>
+
+      <div class="progress-container" aria-label="進捗バー">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div id="score" aria-live="polite">スコア: 0 / 0</div>
+    </div>
+
+  </div>
+
+<script>
+const data = [
+  { number: "第1条", heading: "天皇の地位、国民主権", chapter: "第1章" },
+  { number: "第2条", heading: "皇位の継承", chapter: "第1章" },
+  { number: "第3条", heading: "天皇の国事行為に対する助言と承認", chapter: "第1章" },
+  { number: "第4条", heading: "天皇の権能の限界", chapter: "第1章" },
+  { number: "第5条", heading: "摂政の設置とその権能", chapter: "第1章" },
+  { number: "第6条", heading: "天皇の任命権", chapter: "第1章" },
+  { number: "第7条", heading: "天皇の国事行為", chapter: "第1章" },
+  { number: "第8条", heading: "皇室財産・皇室の特権", chapter: "第1章" },
+  { number: "第9条", heading: "戦争の放棄、戦力及び交戦権の否認", chapter: "第2章" },
+  { number: "第10条", heading: "日本国民たる要件", chapter: "第3章" },
+  { number: "第11条", heading: "基本的人権の享有", chapter: "第3章" },
+  { number: "第12条", heading: "自由・権利の保持と責任", chapter: "第3章" },
+  { number: "第13条", heading: "個人の尊重と幸福追求権", chapter: "第3章" },
+  { number: "第14条", heading: "法の下の平等", chapter: "第3章" },
+  { number: "第15条", heading: "公務員の選定罷免と公の奉仕者", chapter: "第3章" },
+  { number: "第16条", heading: "請願権", chapter: "第3章" },
+  { number: "第17条", heading: "国家賠償請求権", chapter: "第3章" },
+  { number: "第18条", heading: "奴隷的拘束・苦役の禁止", chapter: "第3章" },
+  { number: "第19条", heading: "思想及び良心の自由", chapter: "第3章" },
+  { number: "第20条", heading: "信教の自由", chapter: "第3章" },
+  { number: "第21条", heading: "集会・結社・表現の自由", chapter: "第3章" },
+  { number: "第22条", heading: "居住・移転・職業選択の自由", chapter: "第3章" },
+  { number: "第23条", heading: "学問の自由", chapter: "第3章" },
+  { number: "第24条", heading: "婚姻と家族に関する基本原則", chapter: "第3章" },
+  { number: "第25条", heading: "生存権、国の社会的使命", chapter: "第3章" },
+  { number: "第26条", heading: "教育を受ける権利と義務", chapter: "第3章" },
+  { number: "第27条", heading: "勤労の権利と義務、勤労条件", chapter: "第3章" },
+  { number: "第28条", heading: "労働基本権（団結権など）", chapter: "第3章" },
+  { number: "第29条", heading: "財産権", chapter: "第3章" },
+  { number: "第30条", heading: "納税の義務", chapter: "第3章" },
+  { number: "第31条", heading: "法定手続の保障", chapter: "第3章" },
+  { number: "第32条", heading: "裁判を受ける権利", chapter: "第3章" },
+  { number: "第33条", heading: "逮捕の要件", chapter: "第3章" },
+  { number: "第34条", heading: "拘禁の要件と保障", chapter: "第3章" },
+  { number: "第35条", heading: "住居侵入・捜索・押収の制限", chapter: "第3章" },
+  { number: "第36条", heading: "拷問及び残虐刑の禁止", chapter: "第3章" },
+  { number: "第37条", heading: "刑事被告人の権利", chapter: "第3章" },
+  { number: "第38条", heading: "自己負罪拒否・証拠能力", chapter: "第3章" },
+  { number: "第39条", heading: "刑罰不遡及・二重処罰の禁止", chapter: "第3章" },
+  { number: "第40条", heading: "刑事補償請求権", chapter: "第3章" },
+  { number: "第41条", heading: "国会の地位、立法権", chapter: "第4章" },
+  { number: "第42条", heading: "両院制", chapter: "第4章" },
+  { number: "第43条", heading: "両議院の組織", chapter: "第4章" },
+  { number: "第44条", heading: "議員及び選挙人の資格", chapter: "第4章" },
+  { number: "第45条", heading: "衆議院議員の任期", chapter: "第4章" },
+  { number: "第46条", heading: "参議院議員の任期", chapter: "第4章" },
+  { number: "第47条", heading: "選挙に関する事項", chapter: "第4章" },
+  { number: "第48条", heading: "両議院議員兼職の禁止", chapter: "第4章" },
+  { number: "第49条", heading: "議員の歳費", chapter: "第4章" },
+  { number: "第50条", heading: "議員の不逮捕特権", chapter: "第4章" },
+  { number: "第51条", heading: "議員の発言、表決の無責任", chapter: "第4章" },
+  { number: "第52条", heading: "常会", chapter: "第4章" },
+  { number: "第53条", heading: "臨時会", chapter: "第4章" },
+  { number: "第54条", heading: "衆議院の解散、特別会、参議院の緊急集会", chapter: "第4章" },
+  { number: "第55条", heading: "資格争訟の裁判", chapter: "第4章" },
+  { number: "第56条", heading: "定足数、表決", chapter: "第4章" },
+  { number: "第57条", heading: "会議の公開、会議録、表決の記載", chapter: "第4章" },
+  { number: "第58条", heading: "役員の選任、議院規則、懲罰", chapter: "第4章" },
+  { number: "第59条", heading: "法律案の議決、衆議院の優越", chapter: "第4章" },
+  { number: "第60条", heading: "衆議院の予算先議、予算議決に関する優越", chapter: "第4章" },
+  { number: "第61条", heading: "条約の承認に関する衆議院の優越", chapter: "第4章" },
+  { number: "第62条", heading: "議院の国政調査権", chapter: "第4章" },
+  { number: "第63条", heading: "閣僚の議院出席の権利と義務", chapter: "第4章" },
+  { number: "第64条", heading: "弾劾裁判所", chapter: "第4章" },
+  { number: "第65条", heading: "行政権", chapter: "第5章" },
+  { number: "第66条", heading: "内閣の組織、国会に対する連帯責任", chapter: "第5章" },
+  { number: "第67条", heading: "内閣総理大臣の指名、衆議院の優越", chapter: "第5章" },
+  { number: "第68条", heading: "国務大臣の任命及び罷免", chapter: "第5章" },
+  { number: "第69条", heading: "内閣不信任決議の効果", chapter: "第5章" },
+  { number: "第70条", heading: "総理の欠缺、新国会の召集と内閣の総辞職", chapter: "第5章" },
+  { number: "第71条", heading: "総辞職後の内閣", chapter: "第5章" },
+  { number: "第72条", heading: "内閣総理大臣の職務", chapter: "第5章" },
+  { number: "第73条", heading: "内閣の職務", chapter: "第5章" },
+  { number: "第74条", heading: "法律、政令の署名", chapter: "第5章" },
+  { number: "第75条", heading: "国務大臣の特典", chapter: "第5章" },
+  { number: "第76条", heading: "司法権、裁判所、特別裁判所の禁止、裁判官の独立", chapter: "第6章" },
+  { number: "第77条", heading: "最高裁判所の規則制定権", chapter: "第6章" },
+  { number: "第78条", heading: "裁判官の身分の保障", chapter: "第6章" },
+  { number: "第79条", heading: "最高裁判所の裁判官、国民審査、定年、報酬", chapter: "第6章" },
+  { number: "第80条", heading: "下級裁判所の裁判官、任期、定年、報酬", chapter: "第6章" },
+  { number: "第81条", heading: "法令審査権と最高裁判所", chapter: "第6章" },
+  { number: "第82条", heading: "裁判の公開", chapter: "第6章" },
+  { number: "第83条", heading: "財政処理の基本原則", chapter: "第7章" },
+  { number: "第84条", heading: "課税", chapter: "第7章" },
+  { number: "第85条", heading: "国費の支出及び国の債務負担", chapter: "第7章" },
+  { number: "第86条", heading: "予算", chapter: "第7章" },
+  { number: "第87条", heading: "予備費", chapter: "第7章" },
+  { number: "第88条", heading: "皇室財産、皇室の費用", chapter: "第7章" },
+  { number: "第89条", heading: "公の財産の支出又は利用の制限", chapter: "第7章" },
+  { number: "第90条", heading: "決算検査、会計検査院", chapter: "第7章" },
+  { number: "第91条", heading: "財政状況の報告", chapter: "第7章" },
+  { number: "第92条", heading: "地方自治の基本原則", chapter: "第8章" },
+  { number: "第93条", heading: "地方公共団体の機関、その直接選挙", chapter: "第8章" },
+  { number: "第94条", heading: "地方公共団体の権能", chapter: "第8章" },
+  { number: "第95条", heading: "特別法の住民投票", chapter: "第8章" },
+  { number: "第96条", heading: "改正の手続、その公布", chapter: "第9章" },
+  { number: "第97条", heading: "基本的人権の本質", chapter: "第10章" },
+  { number: "第98条", heading: "最高法規、条約及び国際法規の遵守", chapter: "第10章" },
+  { number: "第99条", heading: "憲法尊重擁護の義務", chapter: "第10章" },
+  { number: "第100条", heading: "憲法施行期日、準備手続", chapter: "第11章" },
+  { number: "第101条", heading: "経過規定 ─ 参議院未成立の間の国会", chapter: "第11章" },
+  { number: "第102条", heading: "経過規定 ─ 第一期の参議院議員の任期", chapter: "第11章" },
+  { number: "第103条", heading: "経過規定 ─ 公務員の地位", chapter: "第11章" },
+];
+
+// chapterSelectに章をセット
+const chapters = [...new Set(data.map(d => d.chapter))];
+const chapterSelect = document.getElementById('chapterSelect');
+const countSelect = document.getElementById('countSelect');
+const modeSelect = document.getElementById('modeSelect');
+const questionDiv = document.getElementById('question');
+const choicesDiv = document.getElementById('choices');
+const scoreDiv = document.getElementById('score');
+const nextBtn = document.getElementById('nextBtn');
+const progressBar = document.getElementById('progressBar');
+
+const startScreen = document.getElementById('startScreen');
+const quizScreen = document.getElementById('quizScreen');
+
+let currentSet = [];
+let currentIndex = 0;
+let correctAnswer = '';
+let score = 0;
+let total = 0;
+let questionCount = 0;
+
+function shuffle(array) {
+  // Fisher-Yates shuffleで完全ランダムに変更
+  const arr = array.slice();
+  for(let i = arr.length -1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i+1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// 章セレクトセットアップ
+function setupChapterSelect() {
+  chapters.forEach(ch => {
+    const option = document.createElement('option');
+    option.value = ch;
+    option.textContent = ch;
+    chapterSelect.appendChild(option);
+  });
+}
+
+// クイズ開始
+function startQuiz() {
+  const selectedChapter = chapterSelect.value;
+  let filtered = selectedChapter === "all" ? data.slice() : data.filter(d => d.chapter === selectedChapter);
+  filtered = shuffle(filtered);
+
+  const selectedCount = countSelect.value === "all" ? filtered.length : parseInt(countSelect.value, 10);
+  currentSet = filtered.slice(0, selectedCount);
+
+  currentIndex = 0;
+  score = 0;
+  total = 0;
+  questionCount = currentSet.length;
+
+  startScreen.classList.add('hidden');
+  quizScreen.classList.remove('hidden');
+  nextBtn.style.display = 'none';
+  updateProgress();
+  scoreDiv.textContent = `スコア: 0 / 0`;
+  showQuestion();
+}
+
+// 問題表示
+function showQuestion() {
+  if (currentSet.length === 0) return;
+
+  const q = currentSet[currentIndex];
+  const mode = modeSelect.value;
+  questionDiv.textContent = mode === 'numberToHeading' ? `${q.number} の見出しは？` : `「${q.heading}」は何条？`;
+
+  const others = shuffle(currentSet.filter(item => item !== q)).slice(0, 2);
+  let options = [];
+
+  if (mode === 'numberToHeading') {
+    correctAnswer = q.heading;
+    options = shuffle([q.heading, ...others.map(o => o.heading)]);
+  } else {
+    correctAnswer = q.number;
+    options = shuffle([q.number, ...others.map(o => o.number)]);
+  }
+
+  choicesDiv.innerHTML = '';
+  options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.textContent = opt;
+    btn.setAttribute('role', 'listitem');
+    btn.onclick = () => checkAnswer(btn);
+    choicesDiv.appendChild(btn);
+  });
+
+  nextBtn.style.display = 'none';
+  updateProgress();
+}
+
+// 回答判定
+function checkAnswer(button) {
+  total++;
+  const buttons = choicesDiv.querySelectorAll('button');
+  buttons.forEach(btn => {
+    btn.disabled = true;
+    if (btn.textContent === correctAnswer) btn.classList.add('correct');
+    else if (btn === button) btn.classList.add('incorrect');
+  });
+  if (button.textContent === correctAnswer) score++;
+  scoreDiv.textContent = `スコア: ${score} / ${total}`;
+
+  nextBtn.style.display = 'inline-block';
+}
+
+// 次の問題へ
+function nextQuestion() {
+  currentIndex++;
+  if (currentIndex >= currentSet.length) {
+    // 終了画面に切り替え
+    questionDiv.textContent = `クイズ終了！あなたのスコアは ${score} / ${total} です。`;
+    choicesDiv.innerHTML = '';
+    nextBtn.textContent = 'もう一度挑戦する';
+    nextBtn.style.display = 'inline-block';
+    nextBtn.onclick = () => location.reload();
+    updateProgress();
+    scoreDiv.textContent = '';
+  } else {
+    nextBtn.textContent = '次の問題';
+    showQuestion();
+  }
+}
+
+// 進捗バー更新
+function updateProgress() {
+  const percent = questionCount ? (currentIndex / questionCount) * 100 : 0;
+  progressBar.style.width = percent + "%";
+}
+
+// 初期化
+setupChapterSelect();
+nextBtn.addEventListener('click', nextQuestion);
+</script>
+
+</body>
+</html>

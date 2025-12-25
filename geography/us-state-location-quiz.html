@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>U.S. State Location Quiz</title>
+  <link rel="icon" href="../images/favicon.png" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      color:#FABA40
+    }
+    #map {
+      width: 90%;
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+    }
+    svg path {
+      fill: #ccc;
+      stroke: #fff;
+      stroke-width: 1;
+      cursor: pointer;
+      transition: fill 0.3s;
+    }
+    svg path.correct {
+      fill: #4CAF50 !important;
+    }
+    svg path.incorrect {
+      fill: #F44336 !important;
+    }
+    #question {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+    #score {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>U.S. State Location Quiz</h1>
+  <div id="question">Loading...</div>
+  <div id="score">Score: 0</div>
+  <svg id="map" viewBox="0 0 959 593"></svg>
+
+  <script>
+    const states = [
+      { name: "Alabama", abbr: "AL" }, { name: "Alaska", abbr: "AK" }, { name: "Arizona", abbr: "AZ" },
+      { name: "Arkansas", abbr: "AR" }, { name: "California", abbr: "CA" }, { name: "Colorado", abbr: "CO" },
+      { name: "Connecticut", abbr: "CT" }, { name: "Delaware", abbr: "DE" }, { name: "Florida", abbr: "FL" },
+      { name: "Georgia", abbr: "GA" }, { name: "Hawaii", abbr: "HI" }, { name: "Idaho", abbr: "ID" },
+      { name: "Illinois", abbr: "IL" }, { name: "Indiana", abbr: "IN" }, { name: "Iowa", abbr: "IA" },
+      { name: "Kansas", abbr: "KS" }, { name: "Kentucky", abbr: "KY" }, { name: "Louisiana", abbr: "LA" },
+      { name: "Maine", abbr: "ME" }, { name: "Maryland", abbr: "MD" }, { name: "Massachusetts", abbr: "MA" },
+      { name: "Michigan", abbr: "MI" }, { name: "Minnesota", abbr: "MN" }, { name: "Mississippi", abbr: "MS" },
+      { name: "Missouri", abbr: "MO" }, { name: "Montana", abbr: "MT" }, { name: "Nebraska", abbr: "NE" },
+      { name: "Nevada", abbr: "NV" }, { name: "New Hampshire", abbr: "NH" }, { name: "New Jersey", abbr: "NJ" },
+      { name: "New Mexico", abbr: "NM" }, { name: "New York", abbr: "NY" }, { name: "North Carolina", abbr: "NC" },
+      { name: "North Dakota", abbr: "ND" }, { name: "Ohio", abbr: "OH" }, { name: "Oklahoma", abbr: "OK" },
+      { name: "Oregon", abbr: "OR" }, { name: "Pennsylvania", abbr: "PA" }, { name: "Rhode Island", abbr: "RI" },
+      { name: "South Carolina", abbr: "SC" }, { name: "South Dakota", abbr: "SD" }, { name: "Tennessee", abbr: "TN" },
+      { name: "Texas", abbr: "TX" }, { name: "Utah", abbr: "UT" }, { name: "Vermont", abbr: "VT" },
+      { name: "Virginia", abbr: "VA" }, { name: "Washington", abbr: "WA" }, { name: "West Virginia", abbr: "WV" },
+      { name: "Wisconsin", abbr: "WI" }, { name: "Wyoming", abbr: "WY" }
+    ];
+
+    let currentState = null;
+    let score = 0;
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function pickState() {
+      document.querySelectorAll("path").forEach(p => {
+        p.classList.remove("correct", "incorrect");
+      });
+      currentState = states[Math.floor(Math.random() * states.length)];
+      document.getElementById("question").textContent = `Click on: ${currentState.name}`;
+    }
+
+    function loadSVG() {
+      fetch("https://cdn.jsdelivr.net/npm/us-atlas/states-10m.json")
+        .then(res => res.json())
+        .then(us => {
+          const svg = document.getElementById("map");
+          const projection = d3.geoAlbersUsa().scale(1280).translate([480, 300]);
+          const path = d3.geoPath().projection(projection);
+
+          const statesMap = topojson.feature(us, us.objects.states).features;
+
+          svg.innerHTML = ""; // Clear if already loaded
+          statesMap.forEach((d) => {
+            const el = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            el.setAttribute("d", path(d));
+            const stateAbbr = idToAbbr(d.id);
+            if (stateAbbr) {
+              el.setAttribute("data-abbr", stateAbbr);
+              el.addEventListener("click", () => handleClick(stateAbbr, el));
+              svg.appendChild(el);
+            }
+          });
+
+          pickState();
+        });
+    }
+
+   function handleClick(abbr, element) {
+  if (!currentState) return;
+
+  // Prevent repeated clicks from triggering multiple times
+  if (document.querySelector("path.correct") || document.querySelector("path.incorrect")) return;
+
+  const allPaths = document.querySelectorAll("svg path");
+  const correctEl = [...allPaths].find(p => p.getAttribute("data-abbr") === currentState.abbr);
+
+  if (abbr === currentState.abbr) {
+    element.classList.add("correct");
+    score++;
+    document.getElementById("score").textContent = `Score: ${score}`;
+  } else {
+    element.classList.add("incorrect");
+    if (correctEl) correctEl.classList.add("correct");
+  }
+
+  setTimeout(pickState, 1500); // Wait 1.5 seconds before next question
+}
+
+
+    function idToAbbr(id) {
+      const mapping = {
+        "01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT","10":"DE","11":"DC",
+        "12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN","19":"IA","20":"KS","21":"KY",
+        "22":"LA","23":"ME","24":"MD","25":"MA","26":"MI","27":"MN","28":"MS","29":"MO","30":"MT",
+        "31":"NE","32":"NV","33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH",
+        "40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN","48":"TX","49":"UT",
+        "50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"
+      };
+      return mapping[String(id).padStart(2, "0")];
+    }
+
+    // Load D3 + TopoJSON libs
+    const d3Script = document.createElement("script");
+    d3Script.src = "https://d3js.org/d3.v7.min.js";
+    d3Script.onload = () => {
+      const topoScript = document.createElement("script");
+      topoScript.src = "https://unpkg.com/topojson-client@3";
+      topoScript.onload = loadSVG;
+      document.body.appendChild(topoScript);
+    };
+    document.body.appendChild(d3Script);
+  </script>
+</body>
+</html>

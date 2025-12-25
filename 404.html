@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 - Page Not Found</title>
+<link rel="stylesheet" href="/css/common.css">
+<style>
+.error-container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.error-code {
+    font-size: 10rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, #313A49 0%, #FABA40 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin: 0;
+    line-height: 1;
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+}
+
+.error-title {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin: 20px 0;
+}
+
+.error-message {
+    font-size: 1 rem;
+    color: var(--secondary);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+}
+
+.error-emoji {
+    font-size: 5rem;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.error-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.error-button {
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(49, 58, 73, 0.4);
+}
+
+.btn-secondary {
+    background: var(--card-bg);
+    color: var(--primary);
+}
+
+.btn-secondary:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+}
+
+.suggested-links {
+    margin-top: 60px;
+    max-width: 800px;
+}
+
+.suggested-links h3 {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-bottom: 30px;
+}
+
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.link-card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.link-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px var(--shadow);
+    background: linear-gradient(135deg, #FABA40, #313A49);
+    color: #ffffff;
+}
+
+.link-card span {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.link-card h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--primary);
+    transition: color 0.3s;
+}
+
+.link-card:hover h4 {
+    color: #ffffff;
+}
+
+@media (max-width: 768px) {
+    .error-code {
+        font-size: 6rem;
+    }
+    
+    .error-title {
+        font-size: 1.8rem;
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .error-button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Error Container -->
+<div class="error-container">
+    <div class="error-emoji">🤔</div>
+    <h1 class="error-code">404</h1>
+    <h2 class="error-title">Page Not Found</h2>
+    <p class="error-message">
+        お探しのページが見つかりませんでした。<br>
+        URLが間違っているか、ページが移動・削除された可能性があります。
+    </p>
+    
+    <div class="error-actions">
+        <a href="/index.html" class="error-button btn-primary">
+            Go back to home
+        </a>
+        <a href="javascript:history.back()" class="error-button btn-secondary">
+            Return to previous page
+        </a>
+    </div>
+    
+    
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script>
+// Theme Toggle
+if (localStorage.getItem("pref-theme") === "dark") {
+    document.body.classList.add('dark');
+} else if (localStorage.getItem("pref-theme") === "light") {
+    document.body.classList.remove('dark');
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
+}
+
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    if (document.body.classList.contains('dark')) {
+        localStorage.setItem('pref-theme', 'dark');
+    } else {
+        localStorage.setItem('pref-theme', 'light');
+    }
+});
+
+// Easter egg: change emoji on click
+const errorEmoji = document.querySelector('.error-emoji');
+const emojis = ['🤔', '😅', '🙈', '🔍', '🗺️', '🚀', '💡'];
+let emojiIndex = 0;
+
+errorEmoji.addEventListener('click', () => {
+    emojiIndex = (emojiIndex + 1) % emojis.length;
+    errorEmoji.textContent = emojis[emojiIndex];
+});
+</script>
+
+</body>
+</html>

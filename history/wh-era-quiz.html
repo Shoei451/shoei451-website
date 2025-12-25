@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>世界史年代クイズ — Shoei451</title>
+  <link rel="icon" href="../images/worldhistoryquiz.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    /* ===== Variables ===== */
+    :root {
+        --theme: #ffffff;
+        --entry: #FABA40;
+        --primary: #313A49;
+        --secondary: #171d1e;
+        --content: #313A49;
+        --card-bg: #FABA40;
+        --accent: #FABA40;
+        --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body.dark {
+        --theme: #313A49;
+        --entry: #2e2e33;
+        --primary: #ffffff;
+        --secondary: #A8AEB2;
+        --content: #ffffff;
+        --card-bg: #2e2e33;
+        --accent: #FABA40;
+        --shadow: rgba(0, 0, 0, 0.3);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        background-color: var(--theme);
+        color: var(--content);
+        transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* ===== Quiz Container ===== */
+    .quiz-wrapper {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+
+    h1, h2, h3 {
+      text-align: center;
+      color: var(--primary);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* ===== Buttons ===== */
+    button {
+      background: var(--accent);
+      color: var(--primary);
+      border: none;
+      border-radius: 25px;
+      padding: 12px 24px;
+      margin: 8px 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s;
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px var(--shadow);
+      opacity: 0.9;
+    }
+
+    button.section-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin-bottom: 10px;
+      padding: 15px 20px;
+    }
+
+    /* ===== Screen Sections ===== */
+    .screen {
+      margin-top: 20px;
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ===== Form Fields ===== */
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .field input, .field select, .field textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 2px solid var(--accent);
+      background: var(--theme);
+      color: var(--content);
+      box-sizing: border-box;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .field input:focus, .field select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
+    }
+
+    /* ===== Quiz Elements ===== */
+    #question {
+      font-size: 1.8em;
+      margin: 24px 0;
+      text-align: center;
+      font-weight: 700;
+      color: var(--primary);
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 4px 15px var(--shadow);
+    }
+
+    #choices button {
+      display: block;
+      width: 100%;
+      margin: 12px 0;
+      text-align: left;
+      padding: 16px 20px;
+      font-size: 1rem;
+      background: var(--card-bg);
+    }
+
+    #choices button:hover:not(:disabled) {
+      background: var(--primary);
+      color: var(--accent);
+    }
+
+    .correct {
+      background: #4caf50 !important;
+      color: #fff !important;
+    }
+
+    .incorrect {
+      background: #f44336 !important;
+      color: #fff !important;
+    }
+
+    /* ===== Progress Bar ===== */
+    #progressOuter {
+      width: 100%;
+      height: 12px;
+      background: var(--card-bg);
+      border-radius: 6px;
+      overflow: hidden;
+      margin: 16px 0;
+      box-shadow: inset 0 2px 4px var(--shadow);
+    }
+
+    #progressBar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.3s;
+    }
+
+    #score {
+      text-align: right;
+      font-size: 16px;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .note {
+      font-size: 13px;
+      color: var(--secondary);
+      margin-top: 12px;
+      padding: 12px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      opacity: 0.8;
+    }
+
+    #addMessage {
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    /* ===== Theme Toggle ===== */
+    .logo-switches {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    #theme-toggle {
+      background: var(--theme);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      padding: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      box-shadow: 0 4px 12px var(--shadow);
+    }
+
+    #theme-toggle:hover {
+      background: var(--accent);
+      transform: rotate(180deg) scale(1.1);
+    }
+
+    #moon, #sun {
+      display: none;
+      width: 24px;
+      height: 24px;
+      stroke: var(--primary);
+    }
+
+    #theme-toggle:hover #moon,
+    #theme-toggle:hover #sun {
+      stroke: #ffffff;
+    }
+
+    body.dark #sun {
+      display: block;
+      stroke: var(--accent);
+    }
+
+    body.dark #moon {
+      display: none;
+    }
+
+    body:not(.dark) #moon {
+      display: block;
+    }
+
+    body:not(.dark) #sun {
+      display: none;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2rem;
+      }
+
+      #question {
+        font-size: 1.4em;
+      }
+
+      button {
+        font-size: 13px;
+        padding: 10px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<div class="logo-switches">
+  <button id="theme-toggle" aria-label="テーマ切り替え">
+    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+</div>
+
+<div class="quiz-wrapper">
+  <h1>世界史年代クイズ</h1>
+  <div style="text-align: center">
+  <img src="../images/worldhistoryquiz.png" width="200" length="200">
+</div>
+
+  <!-- スタート画面 -->
+  <div id="startScreen" class="screen">
+    <h2>モード選択</h2>
+    <div class="field">
+      <label for="modeSelect">出題モード</label>
+      <select id="modeSelect">
+        <option value="yearToEvent">【年号出題モード】</option>
+        <option value="eventToYear">【出来事出題モード】</option>
+      </select>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <button onclick="showSectionScreen()">セクションを選ぶ</button>
+      <button onclick="showAddQuestionScreen()">問題を追加する</button>
+    </div>
+
+    <p class="note">
+      データは Supabase の DB から読み込まれます。<br>
+      問題データは、「世界史の窓」年表を参考に作りました。<br>
+      参考リンク : <a href="https://www.y-history.net/appendix/appendix-yogo-nenpyo.html" target="_blank">年表世界史＆用語索引</a>
+    </p>
+  </div>
+
+  <!-- セクション選択画面 -->
+  <div id="sectionScreen" class="screen hidden">
+    <div class="top-bar">
+      <h2>出題範囲を選択</h2>
+      <button onclick="backToStart()">戻る</button>
+    </div>
+    <div id="sectionButtons"></div>
+  </div>
+
+  <!-- 設定画面 -->
+  <div id="settingsScreen" class="screen hidden">
+    <div class="top-bar">
+      <h2>出題設定</h2>
+      <button onclick="backToSectionScreen()">戻る</button>
+    </div>
+    <p id="selectedSectionDisplay" style="text-align: center; font-size: 1.1rem; margin-bottom: 20px; color: var(--primary); font-weight: 600;"></p>
+
+    <div class="field">
+      <label for="countSelect">出題数</label>
+      <select id="countSelect">
+        <option value="10">10問</option>
+        <option value="20">20問</option>
+        <option value="30">30問</option>
+        <option value="all">全問</option>
+      </select>
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="startQuiz()">クイズ開始</button>
+    </div>
+  </div>
+
+  <!-- 問題追加画面 -->
+  <div id="addQuestionScreen" class="screen hidden">
+    <div class="top-bar">
+      <h2>問題を追加する</h2>
+      <button onclick="backToStart()">戻る</button>
+    </div>
+
+    <div class="field">
+      <label for="newYear">年号（例：1640 / 前3000頃）</label>
+      <input id="newYear" type="text" placeholder="例：1640 / 前3000頃（紀元前のものには必ず 「前」 をつけて入力してください。）">
+    </div>
+
+    <div class="field">
+      <label for="newEvent">出来事</label>
+      <input id="newEvent" type="text" placeholder="例：イギリスで、長期議会開催。">
+    </div>
+
+    <div class="field">
+      <label for="newChapter">章（分野）</label>
+      <select id="newChapter">
+        <option value="第1章">古代文明圏【オリエント・ギリシア・ローマ・中国古代】</option>
+        <option value="第2章">中世ヨーロッパ</option>
+        <option value="第3章">近現代ヨーロッパ</option>
+        <option value="第4章">東アジア（中国・モンゴル）</option>
+        <option value="第5章">東アジア（日本・朝鮮）</option>
+        <option value="第6章">イスラーム世界</option>
+        <option value="第7章">南アジア・東南アジア</option>
+        <option value="第8章">アメリカ大陸</option>
+        <option value="第9章">第一次世界大戦</option>
+        <option value="第10章">第二次世界大戦</option>
+        <option value="第11章">戦後国際史</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>自動判定された時代区分</label>
+      <input id="newPeriod" type="text" disabled placeholder="年号入力で自動表示">
+    </div>
+
+    <div class="field">
+      <label for="newLink">参考リンク（任意）</label>
+      <input id="newLink" type="text" placeholder="https://...">
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="addQuestion()">この内容で問題を追加</button>
+    </div>
+    <p id="addMessage"></p>
+
+    <p class="note">
+      「前」で始まる年号は BC として扱われます（例：前3000頃 → 紀元前3000年）。
+    </p>
+  </div>
+
+  <!-- クイズ画面 -->
+  <div id="quizScreen" class="screen hidden">
+    <div class="top-bar">
+      <button onclick="location.reload()">最初に戻る</button>
+      <div id="score">正解数: 0 / 0</div>
+    </div>
+
+    <div id="progressOuter">
+      <div id="progressBar"></div>
+    </div>
+
+    <div id="question">問題がここに表示されます</div>
+    <div id="choices"></div>
+
+    <button id="nextBtn" style="display:none; margin: 20px auto; display: block;">次へ</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Theme Toggle
+  const themeToggle = document.getElementById('theme-toggle');
+  const currentTheme = localStorage.getItem('theme') || 'light';
+  if (currentTheme === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    const theme = document.body.classList.contains('dark') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+  });
+
+  // Supabase 初期化
+  const supabaseUrl = "https://gjuqsyaugrsshmjerhme.supabase.co";
+  const supabaseKey = "sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU";
+  const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
+
+  let allData = [];
+  let currentSet = [];
+  let currentIndex = 0;
+  let correctAnswer = '';
+  let score = 0;
+  let total = 0;
+  let questionCount = 0;
+  let selectedSection = '';
+  let currentMode = '';
+
+  const periods = [
+    { value: "~0", label: "紀元前" },
+    { value: "1~1000", label: "1年~1000年" },
+    { value: "1001~1500", label: "1001年~1500年" },
+    { value: "1501~1700", label: "1501年~1700年" },
+    { value: "1701~1800", label: "1701年~1800年" },
+    { value: "1801~1900", label: "1801年~1900年" },
+    { value: "1901~1945", label: "1901年~1945年" },
+    { value: "1945~", label: "1945年~" }
+  ];
+
+  const chapters = [
+    { value: "第1章", label: "古代文明圏【オリエント・ギリシア・ローマ・中国古代】" },
+    { value: "第2章", label: "中世ヨーロッパ" },
+    { value: "第3章", label: "近現代ヨーロッパ" },
+    { value: "第4章", label: "東アジア（中国・モンゴル）" },
+    { value: "第5章", label: "東アジア（日本・朝鮮）" },
+    { value: "第6章", label: "イスラーム世界" },
+    { value: "第7章", label: "南アジア・東南アジア" },
+    { value: "第8章", label: "アメリカ大陸" },
+    { value: "第9章", label: "第一次世界大戦" },
+    { value: "第10章", label: "第二次世界大戦" },
+    { value: "第11章", label: "戦後国際史" },
+  ];
+
+  function parseYearInput(yearStr) {
+    const is_bc = yearStr.startsWith('前');
+    const numericYear = parseInt(yearStr.replace(/[^\d]/g, ''));
+    return { numericYear, is_bc };
+  }
+
+  function formatYear(q) {
+    return q.is_bc ? `前${q.year}年` : `${q.year}年`;
+  }
+
+  function determinePeriod(year, is_bc) {
+    if (is_bc) return "~0";
+    if (year <= 1000) return "1~1000";
+    if (year <= 1500) return "1001~1500";
+    if (year <= 1700) return "1501~1700";
+    if (year <= 1800) return "1701~1800";
+    if (year <= 1900) return "1801~1900";
+    if (year <= 1945) return "1901~1945";
+    return "1945~";
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const newYearInput = document.getElementById('newYear');
+    if (newYearInput) {
+      newYearInput.addEventListener('input', function () {
+        const yearStr = this.value.trim();
+        if (!yearStr) {
+          document.getElementById('newPeriod').value = '';
+          return;
+        }
+        const { numericYear, is_bc } = parseYearInput(yearStr);
+        if (!numericYear || isNaN(numericYear)) {
+          document.getElementById('newPeriod').value = '';
+          return;
+        }
+        const period = determinePeriod(numericYear, is_bc);
+        const periodLabels = {
+          "~0": "紀元前",
+          "1~1000": "1年~1000年",
+          "1001~1500": "1001年~1500年",
+          "1501~1700": "1501年~1700年",
+          "1701~1800": "1701年~1800年",
+          "1801~1900": "1801年~1900年",
+          "1901~1945": "1901年~1945年",
+          "1945~": "1945年~"
+        };
+        document.getElementById('newPeriod').value = periodLabels[period] || '';
+      });
+    }
+  });
+
+  async function loadQuestions() {
+    const { data, error } = await supabaseClient
+      .from('world_history_quiz')
+      .select('*')
+      .order('is_bc', { ascending: false })
+      .order('year', { ascending: true });
+
+    if (error) {
+      console.error('読み込みエラー:', error);
+      return;
+    }
+
+    allData = data || [];
+    console.log(`Supabaseから ${allData.length} 件の問題を読み込みました`);
+  }
+
+  async function addQuestion() {
+    const yearStr = document.getElementById('newYear').value.trim();
+    const event = document.getElementById('newEvent').value.trim();
+    const chapter = document.getElementById('newChapter').value;
+    const link = document.getElementById('newLink').value.trim();
+
+    if (!yearStr || !event) {
+      alert('年号と出来事を入力してください。');
+      return;
+    }
+
+    const { numericYear, is_bc } = parseYearInput(yearStr);
+    if (!numericYear || isNaN(numericYear)) {
+      alert('年号が解釈できません。');
+      return;
+    }
+
+    const sameYearQuestions = allData.filter(q => q.year === numericYear && q.is_bc === is_bc);
+    if (sameYearQuestions.length > 0) {
+      let message = `同じ年号「${yearStr}」の問題が既に${sameYearQuestions.length}件存在します:\n\n`;
+      sameYearQuestions.forEach((q, index) => {
+        message += `${index + 1}. ${q.event} (${q.chapter})\n`;
+      });
+      message += `\nこのまま追加してもよろしいですか？`;
+      if (!confirm(message)) {
+        return;
+      }
+    }
+
+    const period = determinePeriod(numericYear, is_bc);
+
+    const newQuestion = {
+      year: numericYear,
+      is_bc,
+      event,
+      chapter,
+      period,
+      link: link || null
+    };
+
+    const { error } = await supabaseClient
+      .from('world_history_quiz')
+      .insert(newQuestion);
+
+    if (error) {
+      alert('保存エラー: ' + error.message);
+      return;
+    }
+
+    allData.push(newQuestion);
+
+    document.getElementById('newYear').value = '';
+    document.getElementById('newEvent').value = '';
+    document.getElementById('newLink').value = '';
+    document.getElementById('newPeriod').value = '';
+    document.getElementById('addMessage').textContent = '問題を追加しました！';
+    setTimeout(() => {
+      document.getElementById('addMessage').textContent = '';
+    }, 3000);
+  }
+
+  function shuffle(array) {
+    const arr = array.slice();
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  function showSectionScreen() {
+    currentMode = document.getElementById('modeSelect').value;
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('sectionScreen').classList.remove('hidden');
+
+    const sectionButtons = document.getElementById('sectionButtons');
+    sectionButtons.innerHTML = '';
+
+    const sections = currentMode === 'yearToEvent' ? periods : chapters;
+
+    sections.forEach(section => {
+      const btn = document.createElement('button');
+      btn.className = 'section-btn';
+      btn.textContent = section.label;
+      btn.onclick = () => selectSection(section.value, section.label);
+      sectionButtons.appendChild(btn);
+    });
+  }
+
+  function selectSection(value, label) {
+    selectedSection = value;
+    document.getElementById('sectionScreen').classList.add('hidden');
+    document.getElementById('settingsScreen').classList.remove('hidden');
+    document.getElementById('selectedSectionDisplay').textContent = `選択: ${label}`;
+  }
+
+  function backToStart() {
+    document.getElementById('startScreen').classList.remove('hidden');
+    document.getElementById('sectionScreen').classList.add('hidden');
+    document.getElementById('settingsScreen').classList.add('hidden');
+    document.getElementById('addQuestionScreen').classList.add('hidden');
+  }
+
+  function backToSectionScreen() {
+    document.getElementById('settingsScreen').classList.add('hidden');
+    document.getElementById('sectionScreen').classList.remove('hidden');
+  }
+
+  function showAddQuestionScreen() {
+    document.getElementById('startScreen').classList.add('hidden');
+    document.getElementById('addQuestionScreen').classList.remove('hidden');
+  }
+
+  function startQuiz() {
+    const countValue = document.getElementById('countSelect').value;
+
+    let filtered = allData.filter(q => {
+      if (currentMode === 'yearToEvent') {
+        return q.period === selectedSection;
+      } else {
+        return q.chapter === selectedSection;
+      }
+    });
+
+    if (filtered.length === 0) {
+      alert('該当する問題がありません。');
+      return;
+    }
+
+    questionCount = countValue === 'all' ? filtered.length : parseInt(countValue);
+    questionCount = Math.min(questionCount, filtered.length);
+
+    currentSet = shuffle(filtered).slice(0, questionCount);
+    currentIndex = 0;
+    score = 0;
+    total = questionCount;
+
+    document.getElementById('settingsScreen').classList.add('hidden');
+    document.getElementById('quizScreen').classList.remove('hidden');
+
+    showQuestion();
+  }
+
+  function showQuestion() {
+    if (currentIndex >= currentSet.length) {
+      showResult();
+      return;
+    }
+
+    const current = currentSet[currentIndex];
+    const questionDiv = document.getElementById('question');
+    const choicesDiv = document.getElementById('choices');
+    const nextBtn = document.getElementById('nextBtn');
+
+    nextBtn.style.display = 'none';
+    choicesDiv.innerHTML = '';
+
+    if (currentMode === 'yearToEvent') {
+      questionDiv.textContent = formatYear(current);
+      correctAnswer = current.event;
+
+      const others = allData.filter(q => q.event !== current.event || q.year !== current.year || q.is_bc !== current.is_bc);
+      const shuffledOthers = shuffle(others).slice(0, 3);
+      const choices = shuffle([current, ...shuffledOthers]);
+
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = choice.event;
+        btn.onclick = () => checkAnswer(choice.event, btn);
+        choicesDiv.appendChild(btn);
+      });
+
+    } else {
+      questionDiv.textContent = current.event;
+      correctAnswer = formatYear(current);
+
+      const others = allData.filter(q => q.year !== current.year || q.is_bc !== current.is_bc || q.event !== current.event);
+      const shuffledOthers = shuffle(others).slice(0, 3);
+      const choices = shuffle([current, ...shuffledOthers]);
+
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        btn.textContent = formatYear(choice);
+        btn.onclick = () => checkAnswer(formatYear(choice), btn);
+        choicesDiv.appendChild(btn);
+      });
+    }
+
+    updateProgress();
+  }
+
+  function checkAnswer(selected, btn) {
+    const buttons = document.getElementById('choices').getElementsByTagName('button');
+
+    for (let b of buttons) {
+      b.disabled = true;
+      if (b.textContent === correctAnswer) {
+        b.classList.add('correct');
+      }
+    }
+
+    if (selected === correctAnswer) {
+      btn.classList.add('correct');
+      score++;
+    } else {
+      btn.classList.add('incorrect');
+    }
+
+    const current = currentSet[currentIndex];
+    if (current.link) {
+      const linkDiv = document.createElement('div');
+      linkDiv.style.marginTop = '16px';
+      linkDiv.style.textAlign = 'center';
+      linkDiv.innerHTML = `<a href="${current.link}" target="_blank" style="color: var(--accent); font-weight: 600; text-decoration: underline;">参考リンクはこちら</a>`;
+      document.getElementById('choices').appendChild(linkDiv);
+    }
+
+    document.getElementById('nextBtn').style.display = 'block';
+    updateScore();
+  }
+
+  function updateProgress() {
+    const progress = ((currentIndex + 1) / total) * 100;
+    document.getElementById('progressBar').style.width = progress + '%';
+  }
+
+  function updateScore() {
+    document.getElementById('score').textContent = `正解数: ${score} / ${currentIndex + 1}`;
+  }
+
+  function showResult() {
+    const percentage = Math.round((score / total) * 100);
+    document.getElementById('question').textContent = 'クイズ終了！';
+    document.getElementById('choices').innerHTML = `
+      <p style="font-size: 1.5em; margin: 20px 0; text-align: center; color: var(--primary); font-weight: 700;">
+        ${score} / ${total} 問正解<br>
+        正答率: ${percentage}%
+      </p>
+    `;
+    const nextBtn = document.getElementById('nextBtn');
+    nextBtn.textContent = '最初に戻る';
+    nextBtn.style.display = 'block';
+    nextBtn.onclick = () => {
+      location.reload();
+    };
+  }
+
+  document.getElementById('nextBtn').addEventListener('click', function () {
+    if (currentIndex < currentSet.length) {
+      currentIndex++;
+      showQuestion();
+    }
+  });
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    await loadQuestions();
+  });
+</script>
+</body>
+</html>
