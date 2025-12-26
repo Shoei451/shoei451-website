@@ -301,7 +301,7 @@ const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-let currentSemester = '2024-term1';
+let currentSemester = '2025-term1';
 
 // アクセス確認
 async function verifyAccess() {
@@ -374,7 +374,7 @@ async function loadExamPapers(semester) {
     
     try {
         // Supabase Storageから学期別フォルダのPDFリスト取得
-        // フォルダ構造: exam-papers/geography/2024-term1/*.pdf
+        // フォルダ構造: exam-papers/geography/2025-term1/*.pdf
         const { data: files, error } = await supabaseClient
             .storage
             .from('exam-papers')
@@ -431,9 +431,9 @@ async function loadExamPapers(semester) {
             const card = document.createElement('div');
             card.className = 'exam-card';
             card.innerHTML = `
-                <h3>地理総合 ${year}年度 第${termNum}学期 ${examType}</h3>
+                <h3>地理総合 ${year}年度 ${termNum}学期 ${examType}</h3>
                 <div class="exam-meta">
-                    <span class="exam-badge">📅 ${year}年度 第${termNum}学期</span>
+                    <span class="exam-badge">📅 ${year}年度 ${termNum}学期</span>
                     <span class="exam-badge">📝 ${examType}</span>
                     <span class="exam-badge">📄 ${(file.metadata?.size / 1024).toFixed(0)} KB</span>
                 </div>
