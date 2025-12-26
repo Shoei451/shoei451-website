@@ -231,7 +231,7 @@
     <p>学校メンバー限定公開</p>
 </header>
 <section class="intro">
-    <a href="../index.html" class="back-link">Back to Home</a>
+    <a href="index.html" class="back-link">Back to Home Economics Top</a>
 </section>
 <!-- Access Form -->
 <div id="accessForm" class="access-form">
@@ -254,14 +254,12 @@
         <p><strong>📌 アクセスコードについて：</strong></p>
         <p>• Classroomまたは掲示板で共有されています</p>
         <p>• コードは定期的に変更されます</p>
-        <p>• 不明な場合はクラス代表に確認してください</p>
     </div>
 </div>
 
 <!-- Protected Content -->
 <div id="protectedContent" class="protected-content">
     <section class="intro">
-        <a href="../index.html" class="back-link">ホームに戻る</a>
         <h2>定期テスト過去問データベース</h2>
         
         <div class="note-box">
@@ -317,11 +315,13 @@ themeToggle.addEventListener('click', () => {
     }
 });
 
+
 // Supabase設定
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// 現在の選択
 let currentSubject = 'home-economics';
 let currentSemester = '2024-term1';
 
