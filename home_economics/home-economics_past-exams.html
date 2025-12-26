@@ -78,15 +78,15 @@
 
     <!-- 科目タブ -->
     <div class="subject-tabs">
-        <button class="subject-tab active" onclick="switchView('home-economics', '2024-term1')">🧵 家庭基礎 - 第1学期</button>
-        <button class="subject-tab" onclick="switchView('home-economics', '2024-term2')">🧵 家庭基礎 - 第2学期</button>
-        <button class="subject-tab" onclick="switchView('home-economics', '2024-term3')">🧵 家庭基礎 - 第3学期</button>
+        <button class="subject-tab active" onclick="switchView('home-economics', '2025-term1')">🧵 家庭基礎 - 1学期</button>
+        <button class="subject-tab" onclick="switchView('home-economics', '2025-term2')">🧵 家庭基礎 - 2学期</button>
+        <button class="subject-tab" onclick="switchView('home-economics', '2025-term3')">🧵 家庭基礎 - 3学期</button>
     </div>
     
     <div class="subject-tabs">
-        <button class="subject-tab" onclick="switchView('healthcare', '2024-term1')">❤️ 保健 - 第1学期</button>
-        <button class="subject-tab" onclick="switchView('healthcare', '2024-term2')">❤️ 保健 - 第2学期</button>
-        <button class="subject-tab" onclick="switchView('healthcare', '2024-term3')">❤️ 保健 - 第3学期</button>
+        <button class="subject-tab" onclick="switchView('healthcare', '2025-term1')">❤️ 保健 - 1学期</button>
+        <button class="subject-tab" onclick="switchView('healthcare', '2025-term2')">❤️ 保健 - 2学期</button>
+        <button class="subject-tab" onclick="switchView('healthcare', '2025-term3')">❤️ 保健 - 3学期</button>
     </div>
 
     <div id="currentSelection"></div>
@@ -99,7 +99,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
 <script>
 // Theme Toggle
 if (localStorage.getItem("pref-theme") === "dark") {
