@@ -200,7 +200,8 @@
     { value: "1701~1800", label: "1701年~1800年" },
     { value: "1801~1900", label: "1801年~1900年" },
     { value: "1901~1945", label: "1901年~1945年" },
-    { value: "1946~", label: "1946年~" }
+    { value: "1946~1989", label: "1946年~1989年" },
+    { value: "1990~", label: "1990年~" },
   ];
 
   const chapters = [
@@ -235,7 +236,8 @@
     if (year <= 1800) return "1701~1800";
     if (year <= 1900) return "1801~1900";
     if (year <= 1945) return "1901~1945";
-    return "1946~";
+    if (year <= 1989) return "1946~1989";
+    return "1990~";
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -261,7 +263,8 @@
           "1701~1800": "1701年~1800年",
           "1801~1900": "1801年~1900年",
           "1901~1945": "1901年~1945年",
-          "1946~": "1946年~"
+          "1946~1989": "1946年~1989年",
+          "1990~": "1990年~",
         };
         document.getElementById('newPeriod').value = periodLabels[period] || '';
       });
@@ -460,10 +463,9 @@
     questionDiv.textContent = formatYear(current);
     correctAnswer = current.event;
 
-    // 🔴 修正：同じセクション内からのみダミー選択肢を選ぶ
     const othersInSameSection = allData.filter(q => 
-      q.period === current.period && // 同じ時代区分
-      (q.event !== current.event || q.year !== current.year || q.is_bc !== current.is_bc) // 正解以外
+      q.period === current.period &&
+      (q.event !== current.event || q.year !== current.year || q.is_bc !== current.is_bc)
     );
     const shuffledOthers = shuffle(othersInSameSection).slice(0, 3);
     const choices = shuffle([current, ...shuffledOthers]);
@@ -476,16 +478,45 @@
     });
 
   } else {
+    // 🔴 出来事→年号モード
     questionDiv.textContent = current.event;
     correctAnswer = formatYear(current);
 
-    // 🔴 修正：同じ章からのみダミー選択肢を選ぶ
     const othersInSameChapter = allData.filter(q => 
-      q.chapter === current.chapter && // 同じ章
-      (q.year !== current.year || q.is_bc !== current.is_bc || q.event !== current.event) // 正解以外
+      q.chapter === current.chapter &&
+      (q.year !== current.year || q.is_bc !== current.is_bc || q.event !== current.event)
     );
-    const shuffledOthers = shuffle(othersInSameChapter).slice(0, 3);
-    const choices = shuffle([current, ...shuffledOthers]);
+    
+    // 🔴 年号の重複を除外
+    const uniqueYears = new Set();
+    uniqueYears.add(`${current.is_bc}-${current.year}`); // 正解を先に追加
+    
+    const uniqueOthers = [];
+    for (const q of shuffle(othersInSameChapter)) {
+      const yearKey = `${q.is_bc}-${q.year}`;
+      if (!uniqueYears.has(yearKey)) {
+        uniqueYears.add(yearKey);
+        uniqueOthers.push(q);
+      }
+      if (uniqueOthers.length >= 3) break;
+    }
+    
+    // 🔴 不足する場合は全データから補充（年号重複を避ける）
+    if (uniqueOthers.length < 3) {
+      const allOthers = allData.filter(q => 
+        q.year !== current.year || q.is_bc !== current.is_bc
+      );
+      for (const q of shuffle(allOthers)) {
+        const yearKey = `${q.is_bc}-${q.year}`;
+        if (!uniqueYears.has(yearKey)) {
+          uniqueYears.add(yearKey);
+          uniqueOthers.push(q);
+        }
+        if (uniqueOthers.length >= 3) break;
+      }
+    }
+
+    const choices = shuffle([current, ...uniqueOthers]);
 
     choices.forEach(choice => {
       const btn = document.createElement('button');
@@ -497,35 +528,68 @@
 
   updateProgress();
 }
+
   function checkAnswer(selected, btn) {
-    const buttons = document.getElementById('choices').getElementsByTagName('button');
+  const buttons = document.getElementById('choices').getElementsByTagName('button');
+  const current = currentSet[currentIndex];
 
-    for (let b of buttons) {
-      b.disabled = true;
-      if (b.textContent === correctAnswer) {
-        b.classList.add('correct');
-      }
+  for (let b of buttons) {
+    b.disabled = true;
+    if (b.textContent === correctAnswer) {
+      b.classList.add('correct');
     }
-
-    if (selected === correctAnswer) {
-      btn.classList.add('correct');
-      score++;
-    } else {
-      btn.classList.add('incorrect');
-    }
-
-    const current = currentSet[currentIndex];
-    if (current.link) {
-      const linkDiv = document.createElement('div');
-      linkDiv.style.marginTop = '16px';
-      linkDiv.style.textAlign = 'center';
-      linkDiv.innerHTML = `<a href="${current.link}" target="_blank" style="color: var(--accent); font-weight: 600; text-decoration: underline;">参考リンクはこちら</a>`;
-      document.getElementById('choices').appendChild(linkDiv);
-    }
-
-    document.getElementById('nextBtn').style.display = 'block';
-    updateScore();
   }
+
+  const isCorrect = selected === correctAnswer;
+  
+  if (isCorrect) {
+    btn.classList.add('correct');
+    score++;
+  } else {
+    btn.classList.add('incorrect');
+    
+    // 🔴 年代→出来事モードで間違えた場合、各選択肢に年号を追加表示
+    if (currentMode === 'yearToEvent') {
+      showYearsForAllChoices();
+    }
+  }
+
+  if (current.link) {
+    const linkDiv = document.createElement('div');
+    linkDiv.style.marginTop = '16px';
+    linkDiv.style.textAlign = 'center';
+    linkDiv.innerHTML = `<a href="${current.link}" target="_blank" style="color: var(--accent); font-weight: 600; text-decoration: underline;">参考リンクはこちら</a>`;
+    document.getElementById('choices').appendChild(linkDiv);
+  }
+
+  document.getElementById('nextBtn').style.display = 'block';
+  updateScore();
+}
+
+// 🔴 各選択肢に年号を追加表示する関数
+function showYearsForAllChoices() {
+  const buttons = document.getElementById('choices').querySelectorAll('button');
+  
+  buttons.forEach(btn => {
+    const eventText = btn.textContent;
+    
+    // この出来事に対応する年号を検索
+    const question = allData.find(q => q.event === eventText);
+    
+    if (question) {
+      const yearText = formatYear(question);
+      
+      // 既存のテキストの下に年号を追加
+      btn.innerHTML = `
+        <div style="font-weight: 600; margin-bottom: 6px;">${eventText}</div>
+        <div style="font-size: 0.85em; opacity: 0.9; font-weight: 500;">
+           ${yearText}
+        </div>
+      `;
+    }
+  });
+}
+
 
   function updateProgress() {
     const progress = ((currentIndex + 1) / total) * 100;
