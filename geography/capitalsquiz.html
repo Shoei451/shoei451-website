@@ -357,6 +357,7 @@ let index = 0;
 let correct = 0;
 let questionCount = 10;
 let currentAnswer = "";
+let currentAnswerJP = "";
 
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -405,6 +406,7 @@ function loadQuestion() {
 
   const q = quizList[index];
   currentAnswer = q.capital;
+  currentAnswerJP = q.capitalJP;
 
   document.getElementById("flag").style.display = "block";
   document.getElementById("flag").src = `https://flagcdn.com/w320/${q.code}.png`;
@@ -445,7 +447,7 @@ function showAnswer(sel) {
     result.textContent = "Correct!";
     result.classList.add("correct");
   } else {
-    result.textContent = "Wrong! Answer: " + currentAnswer;
+    result.textContent = "Wrong! Answer: " + currentAnswer + " (" + currentAnswerJP + ")";
     result.classList.add("wrong");
   }
 
