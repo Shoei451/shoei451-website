@@ -3,66 +3,184 @@
 <head>
 <link rel="icon" href="../images/favicon.png" />
 <meta charset="UTF-8" />
-<title>World Capitals Quiz</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>World Capitals Quiz — Shoei451</title>
+<link rel="stylesheet" href="../css/common.css">
 <style>
-  body {
-  font-family: Arial, sans-serif;
-  background-color: #FABA40;
-  margin: 0;              /* remove default margin */
-  padding: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;  /* center horizontally */
-  align-items: center;      /* center vertically */
+/* Quiz-specific styles */
+.quiz-wrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 .quiz-box {
-  background: white;
+  background: var(--card-bg);
   padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  max-width: 600px;
-  width: 90%;             /* responsive width */
+  border-radius: 20px;
+  box-shadow: 0 10px 30px var(--shadow);
   text-align: center;
+  animation: fadeInUp 0.6s ease-out;
 }
 
-  .flag { width: 120px; margin: 1rem 0; border: 1px solid #ccc; }
-
-  .options button {
-    display: block;         /* ← 縦並び */
-    width: 100%;
-    margin: 0.5rem 0;
-    padding: 0.7rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #A8AEB2;
-    cursor: pointer;
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-
-  .options button:hover { background-color: #FABA40; }
-
-  .controls button, .start-screen button {
-    margin-top: 1rem;
-    padding: 0.6rem 1.5rem;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #FABA40;
-    color: black;
-    cursor: pointer;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .start-screen select { padding: 0.4rem; margin: 0.5rem; }
+.quiz-box h2 {
+  color: var(--primary);
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.quiz-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin: 20px 0;
+  box-shadow: 0 4px 15px var(--shadow);
+}
+
+.flag {
+  width: 180px;
+  max-width: 100%;
+  margin: 1.5rem auto;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.field {
+  margin: 20px 0;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.field select {
+  width: 100%;
+  max-width: 300px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--accent);
+  background: var(--theme);
+  color: var(--content);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.field select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
+}
+
+button {
+  background: var(--accent);
+  color: var(--primary);
+  border: #1a2b3c 2px solid;
+  border-radius: 25px;
+  padding: 14px 32px;
+  margin: 12px 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px var(--shadow);
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--shadow);
+  opacity: 0.9;
+}
+
+.options {
+  margin: 24px 0;
+}
+
+.options button {
+  display: block;
+  width: 100%;
+  max-width: 500px;
+  margin: 12px auto;
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 1rem;
+  background: var(--theme);
+  border: 2px solid var(--accent);
+}
+
+.options button:hover {
+  background: var(--primary);
+  color: #ffffff;
+  border-color: var(--primary);
+}
+
+#country {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 20px 0;
+}
+
+#score {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+
+/* Progress Bar */
+#progressOuter {
+  width: 100%;
+  height: 12px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 16px 0;
+  box-shadow: inset 0 2px 4px var(--shadow);
+}
+
+body.dark #progressOuter {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#progressBar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  transition: width 0.3s;
+  border-radius: 6px;
+}
+
+#result {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin: 20px 0;
+  min-height: 30px;
+}
 
 @keyframes correctAnim {
-  0% { transform: scale(1); color: green; }
-  50% { transform: scale(1.3); }
+  0% { transform: scale(1); color: #4CAF50; }
+  50% { transform: scale(1.2); }
   100% { transform: scale(1); }
 }
 
 @keyframes wrongAnim {
-  0% { transform: translateX(0); color: red; }
+  0% { transform: translateX(0); color: #F44336; }
   25% { transform: translateX(-10px); }
   50% { transform: translateX(10px); }
   75% { transform: translateX(-10px); }
@@ -71,279 +189,172 @@
 
 #result.correct {
   animation: correctAnim 0.6s ease;
-  font-weight: bold;
+  color: #4CAF50;
 }
 
 #result.wrong {
   animation: wrongAnim 0.6s ease;
-  font-weight: bold;
+  color: #F44336;
 }
 
+.note {
+  font-size: 0.9rem;
+  color: var(--secondary);
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+.note a {
+  color: whitesmoke;
+  text-decoration: underline;
+}
+
+.note a:hover {
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .quiz-box {
+    padding: 1.5rem;
+  }
+
+  .quiz-box h2 {
+    font-size: 1.5rem;
+  }
+
+  .flag {
+    width: 140px;
+  }
+
+  #country {
+    font-size: 1.2rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 12px 24px;
+  }
+
+  .options button {
+    padding: 14px 16px;
+    font-size: 0.95rem;
+  }
+}
 </style>
 </head>
 
 <body>
 
-<!-- ✅ スタート画面 -->
+<!-- Theme Toggle -->
+<span class="logo-switches">
+  <button id="theme-toggle" title="Toggle Theme">
+    <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+    <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+</span>
 
-<div class="quiz-box start-screen" id="startScreen">
-<h2>World Capitals Quiz</h2>
-<img src="../images/capital-quiz.webp"width="450" height="250">
+<!-- Header -->
+<header>
+  <h1>🏛️ World Capitals Quiz</h1>
+  <p>Test your knowledge of world capitals</p>
+</header>
 
-  <div>
-    出題数：
-    <select id="questionCount" >
-      <option value="5">5問</option>
-      <option value="10" selected>10問</option>
-      <option value="20">20問</option>
-      <option value="30">30問</option>
-    </select>
+<div class="quiz-wrapper">
+  <a href="index.html" class="back-link">Back to Geography</a>
+
+  <!-- Start Screen -->
+  <div class="quiz-box" id="startScreen">
+    <h2>World Capitals Quiz</h2>
+    <img src="../images/capital-quiz.webp" alt="World Capitals" class="quiz-image">
+
+    <div class="field">
+      <label for="questionCount">出題数：</label>
+      <select id="questionCount">
+        <option value="5">5問</option>
+        <option value="10" selected>10問</option>
+        <option value="20">20問</option>
+        <option value="30">30問</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="regionSelect">地域：</label>
+      <select id="regionSelect">
+        <option value="all">全世界</option>
+        <option value="asia">アジア</option>
+        <option value="europe">ヨーロッパ</option>
+        <option value="africa">アフリカ</option>
+        <option value="americas">アメリカ大陸</option>
+        <option value="oceania">オセアニア</option>
+      </select>
+    </div>
+
+    <button onclick="startGame()">START</button>
+
+    <p class="note">
+      ※画像は下記サイトより使わせていただきました<br>
+      <a href="https://visit-idea.com/en/quiz/quiz-capital-medium" target="_blank" rel="noopener">https://visit-idea.com/en/quiz/quiz-capital-medium</a>
+    </p>
   </div>
 
-  <div>
-    地域：
-    <select id="regionSelect">
-      <option value="all">全世界</option>
-      <option value="asia">アジア</option>
-      <option value="europe">ヨーロッパ</option>
-      <option value="africa">アフリカ</option>
-      <option value="americas">アメリカ大陸</option>
-      <option value="oceania">オセアニア</option>
-    </select>
-  </div>
+  <!-- Quiz Screen -->
+  <div class="quiz-box" id="quizScreen" style="display:none;">
+    <div id="score">Score: 0 / 0</div>
+    <div id="progressOuter">
+      <div id="progressBar"></div>
+    </div>
 
-  <button onclick="startGame()">START</button>
-<p>※画像は下記サイトより使わせていただきました</p>
-<a href="https://visit-idea.com/en/quiz/quiz-capital-medium">https://visit-idea.com/en/quiz/quiz-capital-medium</a>
+    <img id="flag" class="flag" alt="Flag" />
+    <div id="country"></div>
+    <div class="options" id="options"></div>
+    <div id="result"></div>
 
-
-</div>
-
-<!-- ✅ クイズ画面 -->
-<div class="quiz-box" id="quizScreen" style="display:none;">
-  <div id="score">Score: 0 / 0</div>
-
-
-
-  <img id="flag" class="flag" />
-  <div id="country"></div>
-  <div class="options" id="options"></div>
-  <div id="result"></div>
-
- 
-  <div class="controls">
     <button onclick="goToTop()">Go Back to the Top</button>
   </div>
 </div>
 
+<!-- Footer -->
+<footer>
+  <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<script src="countries_data.js"></script>
 <script>
-/* ✅ 国データ（地域付き） */
-const countries = [
-/* ===== ASIA（49）===== */
-{country:"Japan",capital:"Tokyo",capitalJP:"東京",code:"jp",region:"asia"},
-{country:"China",capital:"Beijing",capitalJP:"北京",code:"cn",region:"asia"},
-{country:"South Korea",capital:"Seoul",capitalJP:"ソウル",code:"kr",region:"asia"},
-{country:"North Korea",capital:"Pyongyang",capitalJP:"平壌",code:"kp",region:"asia"},
-{country:"Mongolia",capital:"Ulaanbaatar",capitalJP:"ウランバートル",code:"mn",region:"asia"},
-{country:"Taiwan",capital:"Taipei",capitalJP:"台北",code:"tw",region:"asia"},
-{country:"India",capital:"New Delhi",capitalJP:"ニューデリー",code:"in",region:"asia"},
-{country:"Pakistan",capital:"Islamabad",capitalJP:"イスラマバード",code:"pk",region:"asia"},
-{country:"Bangladesh",capital:"Dhaka",capitalJP:"ダッカ",code:"bd",region:"asia"},
-{country:"Sri Lanka",capital:"Sri Jayawardenepura Kotte",capitalJP:"スリ・ジャヤワルデネプラ・コッテ",code:"lk",region:"asia"},
-{country:"Nepal",capital:"Kathmandu",capitalJP:"カトマンズ",code:"np",region:"asia"},
-{country:"Bhutan",capital:"Thimphu",capitalJP:"ティンプー",code:"bt",region:"asia"},
-{country:"Myanmar",capital:"Naypyidaw",capitalJP:"ネピドー",code:"mm",region:"asia"},
-{country:"Thailand",capital:"Bangkok",capitalJP:"バンコク",code:"th",region:"asia"},
-{country:"Laos",capital:"Vientiane",capitalJP:"ビエンチャン",code:"la",region:"asia"},
-{country:"Cambodia",capital:"Phnom Penh",capitalJP:"プノンペン",code:"kh",region:"asia"},
-{country:"Vietnam",capital:"Hanoi",capitalJP:"ハノイ",code:"vn",region:"asia"},
-{country:"Malaysia",capital:"Kuala Lumpur",capitalJP:"クアラルンプール",code:"my",region:"asia"},
-{country:"Singapore",capital:"Singapore",capitalJP:"シンガポール",code:"sg",region:"asia"},
-{country:"Indonesia",capital:"Jakarta",capitalJP:"ジャカルタ",code:"id",region:"asia"},
-{country:"Philippines",capital:"Manila",capitalJP:"マニラ",code:"ph",region:"asia"},
-{country:"Brunei",capital:"Bandar Seri Begawan",capitalJP:"バンダルスリブガワン",code:"bn",region:"asia"},
-{country:"Iran",capital:"Tehran",capitalJP:"テヘラン",code:"ir",region:"asia"},
-{country:"Iraq",capital:"Baghdad",capitalJP:"バグダッド",code:"iq",region:"asia"},
-{country:"Israel",capital:"Jerusalem",capitalJP:"エルサレム",code:"il",region:"asia"},
-{country:"Jordan",capital:"Amman",capitalJP:"アンマン",code:"jo",region:"asia"},
-{country:"Lebanon",capital:"Beirut",capitalJP:"ベイルート",code:"lb",region:"asia"},
-{country:"Syria",capital:"Damascus",capitalJP:"ダマスカス",code:"sy",region:"asia"},
-{country:"Turkey",capital:"Ankara",capitalJP:"アンカラ",code:"tr",region:"asia"},
-{country:"Saudi Arabia",capital:"Riyadh",capitalJP:"リヤド",code:"sa",region:"asia"},
-{country:"Yemen",capital:"Sana'a",capitalJP:"サナア",code:"ye",region:"asia"},
-{country:"Oman",capital:"Muscat",capitalJP:"マスカット",code:"om",region:"asia"},
-{country:"United Arab Emirates",capital:"Abu Dhabi",capitalJP:"アブダビ",code:"ae",region:"asia"},
-{country:"Qatar",capital:"Doha",capitalJP:"ドーハ",code:"qa",region:"asia"},
-{country:"Kuwait",capital:"Kuwait City",capitalJP:"クウェート",code:"kw",region:"asia"},
-{country:"Bahrain",capital:"Manama",capitalJP:"マナーマ",code:"bh",region:"asia"},
-{country:"Kazakhstan",capital:"Astana",capitalJP:"アスタナ",code:"kz",region:"asia"},
-{country:"Uzbekistan",capital:"Tashkent",capitalJP:"タシケント",code:"uz",region:"asia"},
-{country:"Turkmenistan",capital:"Ashgabat",capitalJP:"アシガバート",code:"tm",region:"asia"},
-{country:"Kyrgyzstan",capital:"Bishkek",capitalJP:"ビシュケク",code:"kg",region:"asia"},
-{country:"Tajikistan",capital:"Dushanbe",capitalJP:"ドゥシャンベ",code:"tj",region:"asia"},
-{country:"Afghanistan",capital:"Kabul",capitalJP:"カブール",code:"af",region:"asia"},
-{country:"Georgia",capital:"Tbilisi",capitalJP:"トビリシ",code:"ge",region:"asia"},
-{country:"Armenia",capital:"Yerevan",capitalJP:"エレバン",code:"am",region:"asia"},
-{country:"Azerbaijan",capital:"Baku",capitalJP:"バクー",code:"az",region:"asia"},
-{country:"Timor-Leste",capital:"Dili",capitalJP:"ディリ",code:"tl",region:"asia"},
-{country:"Palestine",capital:"Ramallah",capitalJP:"ラマッラー",code:"ps",region:"asia"},
+// Theme Toggle
+if (localStorage.getItem("pref-theme") === "dark") {
+  document.body.classList.add('dark');
+} else if (localStorage.getItem("pref-theme") === "light") {
+  document.body.classList.remove('dark');
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  document.body.classList.add('dark');
+}
 
-/* ===== EUROPE（44）===== */
-{country:"United Kingdom",capital:"London",capitalJP:"ロンドン",code:"gb",region:"europe"},
-{country:"Ireland",capital:"Dublin",capitalJP:"ダブリン",code:"ie",region:"europe"},
-{country:"France",capital:"Paris",capitalJP:"パリ",code:"fr",region:"europe"},
-{country:"Germany",capital:"Berlin",capitalJP:"ベルリン",code:"de",region:"europe"},
-{country:"Spain",capital:"Madrid",capitalJP:"マドリード",code:"es",region:"europe"},
-{country:"Portugal",capital:"Lisbon",capitalJP:"リスボン",code:"pt",region:"europe"},
-{country:"Italy",capital:"Rome",capitalJP:"ローマ",code:"it",region:"europe"},
-{country:"Belgium",capital:"Brussels",capitalJP:"ブリュッセル",code:"be",region:"europe"},
-{country:"Netherlands",capital:"Amsterdam",capitalJP:"アムステルダム",code:"nl",region:"europe"},
-{country:"Luxembourg",capital:"Luxembourg",capitalJP:"ルクセンブルク",code:"lu",region:"europe"},
-{country:"Switzerland",capital:"Bern",capitalJP:"ベルン",code:"ch",region:"europe"},
-{country:"Austria",capital:"Vienna",capitalJP:"ウィーン",code:"at",region:"europe"},
-{country:"Denmark",capital:"Copenhagen",capitalJP:"コペンハーゲン",code:"dk",region:"europe"},
-{country:"Norway",capital:"Oslo",capitalJP:"オスロ",code:"no",region:"europe"},
-{country:"Sweden",capital:"Stockholm",capitalJP:"ストックホルム",code:"se",region:"europe"},
-{country:"Finland",capital:"Helsinki",capitalJP:"ヘルシンキ",code:"fi",region:"europe"},
-{country:"Iceland",capital:"Reykjavik",capitalJP:"レイキャヴィーク",code:"is",region:"europe"},
-{country:"Poland",capital:"Warsaw",capitalJP:"ワルシャワ",code:"pl",region:"europe"},
-{country:"Czech Republic",capital:"Prague",capitalJP:"プラハ",code:"cz",region:"europe"},
-{country:"Slovakia",capital:"Bratislava",capitalJP:"ブラチスラヴァ",code:"sk",region:"europe"},
-{country:"Hungary",capital:"Budapest",capitalJP:"ブダペスト",code:"hu",region:"europe"},
-{country:"Slovenia",capital:"Ljubljana",capitalJP:"リュブリャナ",code:"si",region:"europe"},
-{country:"Croatia",capital:"Zagreb",capitalJP:"ザグレブ",code:"hr",region:"europe"},
-{country:"Bosnia and Herzegovina",capital:"Sarajevo",capitalJP:"サラエヴォ",code:"ba",region:"europe"},
-{country:"Serbia",capital:"Belgrade",capitalJP:"ベオグラード",code:"rs",region:"europe"},
-{country:"Montenegro",capital:"Podgorica",capitalJP:"ポドゴリツァ",code:"me",region:"europe"},
-{country:"North Macedonia",capital:"Skopje",capitalJP:"スコピエ",code:"mk",region:"europe"},
-{country:"Romania",capital:"Bucharest",capitalJP:"ブカレスト",code:"ro",region:"europe"},
-{country:"Bulgaria",capital:"Sofia",capitalJP:"ソフィア",code:"bg",region:"europe"},
-{country:"Greece",capital:"Athens",capitalJP:"アテネ",code:"gr",region:"europe"},
-{country:"Albania",capital:"Tirana",capitalJP:"ティラナ",code:"al",region:"europe"},
-{country:"Moldova",capital:"Chișinău",capitalJP:"キシナウ",code:"md",region:"europe"},
-{country:"Ukraine",capital:"Kyiv",capitalJP:"キーウ",code:"ua",region:"europe"},
-{country:"Belarus",capital:"Minsk",capitalJP:"ミンスク",code:"by",region:"europe"},
-{country:"Lithuania",capital:"Vilnius",capitalJP:"ヴィリニュス",code:"lt",region:"europe"},
-{country:"Latvia",capital:"Riga",capitalJP:"リガ",code:"lv",region:"europe"},
-{country:"Estonia",capital:"Tallinn",capitalJP:"タリン",code:"ee",region:"europe"},
-{country:"Russia",capital:"Moscow",capitalJP:"モスクワ",code:"ru",region:"europe"},
-{country:"Andorra",capital:"Andorra la Vella",capitalJP:"アンドラ・ラ・ベリャ",code:"ad",region:"europe"},
-{country:"Monaco",capital:"Monaco",capitalJP:"モナコ",code:"mc",region:"europe"},
-{country:"Liechtenstein",capital:"Vaduz",capitalJP:"ファドゥーツ",code:"li",region:"europe"},
-{country:"San Marino",capital:"San Marino",capitalJP:"サンマリノ",code:"sm",region:"europe"},
-{country:"Vatican City",capital:"Vatican City",capitalJP:"バチカン市国",code:"va",region:"europe"},
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  if (document.body.classList.contains('dark')) {
+    localStorage.setItem('pref-theme', 'dark');
+  } else {
+    localStorage.setItem('pref-theme', 'light');
+  }
+});
 
-/* ===== AFRICA（54）===== */
-{country:"Egypt",capital:"Cairo",capitalJP:"カイロ",code:"eg",region:"africa"},
-{country:"Libya",capital:"Tripoli",capitalJP:"トリポリ",code:"ly",region:"africa"},
-{country:"Tunisia",capital:"Tunis",capitalJP:"チュニス",code:"tn",region:"africa"},
-{country:"Algeria",capital:"Algiers",capitalJP:"アルジェ",code:"dz",region:"africa"},
-{country:"Morocco",capital:"Rabat",capitalJP:"ラバト",code:"ma",region:"africa"},
-{country:"Sudan",capital:"Khartoum",capitalJP:"ハルツーム",code:"sd",region:"africa"},
-{country:"South Sudan",capital:"Juba",capitalJP:"ジュバ",code:"ss",region:"africa"},
-{country:"Ethiopia",capital:"Addis Ababa",capitalJP:"アディスアベバ",code:"et",region:"africa"},
-{country:"Eritrea",capital:"Asmara",capitalJP:"アスマラ",code:"er",region:"africa"},
-{country:"Djibouti",capital:"Djibouti",capitalJP:"ジブチ",code:"dj",region:"africa"},
-{country:"Somalia",capital:"Mogadishu",capitalJP:"モガディシュ",code:"so",region:"africa"},
-{country:"Kenya",capital:"Nairobi",capitalJP:"ナイロビ",code:"ke",region:"africa"},
-{country:"Uganda",capital:"Kampala",capitalJP:"カンパラ",code:"ug",region:"africa"},
-{country:"Rwanda",capital:"Kigali",capitalJP:"キガリ",code:"rw",region:"africa"},
-{country:"Burundi",capital:"Gitega",capitalJP:"ギテガ",code:"bi",region:"africa"},
-{country:"Tanzania",capital:"Dodoma",capitalJP:"ドドマ",code:"tz",region:"africa"},
-{country:"DR Congo",capital:"Kinshasa",capitalJP:"キンシャサ",code:"cd",region:"africa"},
-{country:"Republic of the Congo",capital:"Brazzaville",capitalJP:"ブラザヴィル",code:"cg",region:"africa"},
-{country:"Gabon",capital:"Libreville",capitalJP:"リーブルヴィル",code:"ga",region:"africa"},
-{country:"Equatorial Guinea",capital:"Malabo",capitalJP:"マラボ",code:"gq",region:"africa"},
-{country:"Cameroon",capital:"Yaoundé",capitalJP:"ヤウンデ",code:"cm",region:"africa"},
-{country:"Central African Republic",capital:"Bangui",capitalJP:"バンギ",code:"cf",region:"africa"},
-{country:"Chad",capital:"N'Djamena",capitalJP:"ンジャメナ",code:"td",region:"africa"},
-{country:"Nigeria",capital:"Abuja",capitalJP:"アブジャ",code:"ng",region:"africa"},
-{country:"Niger",capital:"Niamey",capitalJP:"ニアメ",code:"ne",region:"africa"},
-{country:"Mali",capital:"Bamako",capitalJP:"バマコ",code:"ml",region:"africa"},
-{country:"Burkina Faso",capital:"Ouagadougou",capitalJP:"ワガドゥグ",code:"bf",region:"africa"},
-{country:"Senegal",capital:"Dakar",capitalJP:"ダカール",code:"sn",region:"africa"},
-{country:"Gambia",capital:"Banjul",capitalJP:"バンジュール",code:"gm",region:"africa"},
-{country:"Guinea",capital:"Conakry",capitalJP:"コナクリ",code:"gn",region:"africa"},
-{country:"Guinea-Bissau",capital:"Bissau",capitalJP:"ビサウ",code:"gw",region:"africa"},
-{country:"Sierra Leone",capital:"Freetown",capitalJP:"フリータウン",code:"sl",region:"africa"},
-{country:"Liberia",capital:"Monrovia",capitalJP:"モンロビア",code:"lr",region:"africa"},
-{country:"Côte d'Ivoire",capital:"Yamoussoukro",capitalJP:"ヤムスークロ",code:"ci",region:"africa"},
-{country:"Ghana",capital:"Accra",capitalJP:"アクラ",code:"gh",region:"africa"},
-{country:"Togo",capital:"Lomé",capitalJP:"ロメ",code:"tg",region:"africa"},
-{country:"Benin",capital:"Porto-Novo",capitalJP:"ポルトノボ",code:"bj",region:"africa"},
-{country:"Cape Verde",capital:"Praia",capitalJP:"プライア",code:"cv",region:"africa"},
-{country:"South Africa",capital:"Pretoria",capitalJP:"プレトリア",code:"za",region:"africa"},
-{country:"Lesotho",capital:"Maseru",capitalJP:"マセル",code:"ls",region:"africa"},
-{country:"Eswatini",capital:"Mbabane",capitalJP:"ムババネ",code:"sz",region:"africa"},
-{country:"Botswana",capital:"Gaborone",capitalJP:"ガボローネ",code:"bw",region:"africa"},
-{country:"Zimbabwe",capital:"Harare",capitalJP:"ハラレ",code:"zw",region:"africa"},
-{country:"Zambia",capital:"Lusaka",capitalJP:"ルサカ",code:"zm",region:"africa"},
-{country:"Mozambique",capital:"Maputo",capitalJP:"マプト",code:"mz",region:"africa"},
-{country:"Malawi",capital:"Lilongwe",capitalJP:"リロングウェ",code:"mw",region:"africa"},
-{country:"Namibia",capital:"Windhoek",capitalJP:"ウィントフック",code:"na",region:"africa"},
-{country:"Angola",capital:"Luanda",capitalJP:"ルアンダ",code:"ao",region:"africa"},
-{country:"Sao Tome and Principe",capital:"São Tomé",capitalJP:"サントメ",code:"st",region:"africa"},
-{country:"Seychelles",capital:"Victoria",capitalJP:"ヴィクトリア",code:"sc",region:"africa"},
-{country:"Mauritius",capital:"Port Louis",capitalJP:"ポートルイス",code:"mu",region:"africa"},
-{country:"Comoros",capital:"Moroni",capitalJP:"モロニ",code:"km",region:"africa"},
-{country:"Madagascar",capital:"Antananarivo",capitalJP:"アンタナナリボ",code:"mg",region:"africa"},
-{country:"Mauritania",capital:"Nouakchott",capitalJP:"ヌアクショット",code:"mr",region:"africa"},
-
-/* ===== AMERICAS（35）===== */
-{country:"Canada",capital:"Ottawa",capitalJP:"オタワ",code:"ca",region:"americas"},
-{country:"United States",capital:"Washington, D.C.",capitalJP:"ワシントンD.C.",code:"us",region:"americas"},
-{country:"Mexico",capital:"Mexico City",capitalJP:"メキシコシティ",code:"mx",region:"americas"},
-{country:"Guatemala",capital:"Guatemala City",capitalJP:"グアテマラシティ",code:"gt",region:"americas"},
-{country:"Belize",capital:"Belmopan",capitalJP:"ベルモパン",code:"bz",region:"americas"},
-{country:"Honduras",capital:"Tegucigalpa",capitalJP:"テグシガルパ",code:"hn",region:"americas"},
-{country:"El Salvador",capital:"San Salvador",capitalJP:"サンサルバドル",code:"sv",region:"americas"},
-{country:"Nicaragua",capital:"Managua",capitalJP:"マナグア",code:"ni",region:"americas"},
-{country:"Costa Rica",capital:"San José",capitalJP:"サンホセ",code:"cr",region:"americas"},
-{country:"Panama",capital:"Panama City",capitalJP:"パナマシティ",code:"pa",region:"americas"},
-{country:"Cuba",capital:"Havana",capitalJP:"ハバナ",code:"cu",region:"americas"},
-{country:"Jamaica",capital:"Kingston",capitalJP:"キングストン",code:"jm",region:"americas"},
-{country:"Haiti",capital:"Port-au-Prince",capitalJP:"ポルトープランス",code:"ht",region:"americas"},
-{country:"Dominican Republic",capital:"Santo Domingo",capitalJP:"サントドミンゴ",code:"do",region:"americas"},
-{country:"Bahamas",capital:"Nassau",capitalJP:"ナッソー",code:"bs",region:"americas"},
-{country:"Barbados",capital:"Bridgetown",capitalJP:"ブリッジタウン",code:"bb",region:"americas"},
-{country:"Grenada",capital:"St. George's",capitalJP:"セントジョージズ",code:"gd",region:"americas"},
-{country:"Saint Lucia",capital:"Castries",capitalJP:"カストリーズ",code:"lc",region:"americas"},
-{country:"Saint Vincent and the Grenadines",capital:"Kingstown",capitalJP:"キングスタウン",code:"vc",region:"americas"},
-{country:"Saint Kitts and Nevis",capital:"Basseterre",capitalJP:"バステール",code:"kn",region:"americas"},
-{country:"Trinidad and Tobago",capital:"Port of Spain",capitalJP:"ポートオブスペイン",code:"tt",region:"americas"},
-{country:"Colombia",capital:"Bogotá",capitalJP:"ボゴタ",code:"co",region:"americas"},
-{country:"Venezuela",capital:"Caracas",capitalJP:"カラカス",code:"ve",region:"americas"},
-{country:"Guyana",capital:"Georgetown",capitalJP:"ジョージタウン",code:"gy",region:"americas"},
-{country:"Suriname",capital:"Paramaribo",capitalJP:"パラマリボ",code:"sr",region:"americas"},
-{country:"Ecuador",capital:"Quito",capitalJP:"キト",code:"ec",region:"americas"},
-{country:"Peru",capital:"Lima",capitalJP:"リマ",code:"pe",region:"americas"},
-{country:"Brazil",capital:"Brasília",capitalJP:"ブラジリア",code:"br",region:"americas"},
-{country:"Bolivia",capital:"Sucre",capitalJP:"スクレ",code:"bo",region:"americas"},
-{country:"Paraguay",capital:"Asunción",capitalJP:"アスンシオン",code:"py",region:"americas"},
-{country:"Uruguay",capital:"Montevideo",capitalJP:"モンテビデオ",code:"uy",region:"americas"},
-{country:"Argentina",capital:"Buenos Aires",capitalJP:"ブエノスアイレス",code:"ar",region:"americas"},
-{country:"Chile",capital:"Santiago",capitalJP:"サンティアゴ",code:"cl",region:"americas"},
-
-/* ===== OCEANIA（13）===== */
-{country:"Australia",capital:"Canberra",capitalJP:"キャンベラ",code:"au",region:"oceania"},
-{country:"New Zealand",capital:"Wellington",capitalJP:"ウェリントン",code:"nz",region:"oceania"},
-{country:"Papua New Guinea",capital:"Port Moresby",capitalJP:"ポートモレスビー",code:"pg",region:"oceania"},
-{country:"Solomon Islands",capital:"Honiara",capitalJP:"ホニアラ",code:"sb",region:"oceania"},
-{country:"Fiji",capital:"Suva",capitalJP:"スバ",code:"fj",region:"oceania"},
-{country:"Vanuatu",capital:"Port Vila",capitalJP:"ポートヴィラ",code:"vu",region:"oceania"},
-{country:"Samoa",capital:"Apia",capitalJP:"アピア",code:"ws",region:"oceania"},
-{country:"Tonga",capital:"Nukuʻalofa",capitalJP:"ヌクアロファ",code:"to",region:"oceania"},
-{country:"Kiribati",capital:"Tarawa",capitalJP:"タラワ",code:"ki",region:"oceania"},
-{country:"Tuvalu",capital:"Funafuti",capitalJP:"フナフティ",code:"tv",region:"oceania"},
-{country:"Nauru",capital:"Yaren",capitalJP:"ヤレン",code:"nr",region:"oceania"},
-{country:"Micronesia",capital:"Palikir",capitalJP:"パリキール",code:"fm",region:"oceania"},
-{country:"Marshall Islands",capital:"Majuro",capitalJP:"マジュロ",code:"mh",region:"oceania"}
-];
-
+// Quiz Logic
 let quizList = [];
 let index = 0;
 let correct = 0;
-
 let questionCount = 10;
 let currentAnswer = "";
 
@@ -354,7 +365,11 @@ function shuffle(arr) {
   }
 }
 
-/* ✅ スタート処理 */
+function updateProgress() {
+  const progress = (index / quizList.length) * 100;
+  document.getElementById('progressBar').style.width = progress + '%';
+}
+
 function startGame() {
   document.getElementById("startScreen").style.display = "none";
   document.getElementById("quizScreen").style.display = "block";
@@ -371,23 +386,30 @@ function startGame() {
 
   index = 0;
   correct = 0;
+  updateProgress();
   loadQuestion();
 }
 
-
 function loadQuestion() {
   if (index >= quizList.length) {
-    document.getElementById("result").textContent =
-      `Final Score: ${correct} / ${quizList.length}`;
+    const percentage = Math.round((correct / quizList.length) * 100);
+    document.getElementById("result").innerHTML = `
+      <strong>Quiz Complete!</strong><br>
+      Final Score: ${correct} / ${quizList.length} (${percentage}%)
+    `;
+    document.getElementById("flag").style.display = "none";
+    document.getElementById("country").textContent = "";
+    document.getElementById("options").innerHTML = "";
     return;
   }
 
-  const q = quizList[index++];
+  const q = quizList[index];
   currentAnswer = q.capital;
 
-  document.getElementById("flag").src =
-    `https://flagcdn.com/w320/${q.code}.png`;
+  document.getElementById("flag").style.display = "block";
+  document.getElementById("flag").src = `https://flagcdn.com/w320/${q.code}.png`;
   document.getElementById("country").textContent = q.country;
+  document.getElementById("result").textContent = "";
 
   let options = [q.capital];
   while (options.length < 4) {
@@ -400,24 +422,23 @@ function loadQuestion() {
   const box = document.getElementById("options");
   box.innerHTML = "";
   options.forEach(opt => {
-  const countryObj = countries.find(c => c.capital === opt); // 英語名からオブジェクト取得
-  const btn = document.createElement("button");
+    const countryObj = countries.find(c => c.capital === opt);
+    const btn = document.createElement("button");
+    btn.innerHTML = `${countryObj.capital}<br><small>${countryObj.capitalJP}</small>`;
+    btn.onclick = () => showAnswer(opt);
+    box.appendChild(btn);
+  });
 
-  // 英語の首都と日本語の首都を改行で表示
-  btn.innerHTML = `${countryObj.capital}<br><small>${countryObj.capitalJP}</small>`;
-
-  btn.onclick = () => showAnswer(opt);
-  box.appendChild(btn);
-});
+  updateProgress();
 }
+
 function showAnswer(sel) {
   const result = document.getElementById("result");
   
-  // Remove classes to reset animation
   result.classList.remove("correct", "wrong");
+  void result.offsetWidth;
 
-  // Trigger reflow to allow animation to restart
-  void result.offsetWidth;  // This forces the browser to reflow
+  index++;
 
   if (sel === currentAnswer) {
     correct++;
@@ -428,21 +449,27 @@ function showAnswer(sel) {
     result.classList.add("wrong");
   }
 
-  document.getElementById("score").textContent =
-    `Score: ${correct} / ${index}`;
+  document.getElementById("score").textContent = `Score: ${correct} / ${index}`;
 
-  setTimeout(loadQuestion, 1500);
+  // Disable all buttons
+  document.querySelectorAll("#options button").forEach(btn => {
+    btn.disabled = true;
+    btn.style.cursor = "not-allowed";
+    btn.style.opacity = "0.6";
+  });
+
+  setTimeout(() => {
+    loadQuestion();
+  }, 1500);
 }
 
 function goToTop() {
- 
   document.getElementById("quizScreen").style.display = "none";
   document.getElementById("startScreen").style.display = "block";
-
   document.getElementById("result").textContent = "";
   document.getElementById("score").textContent = "Score: 0 / 0";
+  document.getElementById("progressBar").style.width = "0%";
 }
-
 </script>
 
 </body>

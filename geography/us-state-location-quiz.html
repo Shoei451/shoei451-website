@@ -1,157 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>U.S. State Location Quiz</title>
-  <link rel="icon" href="../images/favicon.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../css/common.css" />
+
+  <!-- クイズ専用CSS（最小限） -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    main.quiz-container {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
       text-align: center;
-      padding: 20px;
-      color:#FABA40
     }
+
+    main.quiz-container h1 {
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+
+    #question {
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      margin-top: 10px;
+      color: var(--secondary);
+    }
+
+    #score {
+      margin-top: 6px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    /* SVG map */
     #map {
-      width: 90%;
-      max-width: 800px;
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 959 / 593;
       margin: 20px auto;
       display: block;
     }
+
     svg path {
-      fill: #ccc;
-      stroke: #fff;
-      stroke-width: 1;
+      fill: #f4e2b8;
+      stroke: var(--theme);
+      stroke-width: 0.8;
       cursor: pointer;
-      transition: fill 0.3s;
+      transition: fill 0.25s;
     }
+
     svg path.correct {
       fill: #4CAF50 !important;
     }
+
     svg path.incorrect {
       fill: #F44336 !important;
     }
-    #question {
-      font-size: 1.5em;
-      margin-top: 20px;
-    }
-    #score {
-      margin-top: 10px;
-      font-weight: bold;
+
+    @media (pointer: coarse) {
+      svg path {
+        stroke-width: 1.2;
+      }
     }
   </style>
 </head>
-<body>
-  <h1>U.S. State Location Quiz</h1>
-  <div id="question">Loading...</div>
-  <div id="score">Score: 0</div>
-  <svg id="map" viewBox="0 0 959 593"></svg>
 
+<body>
+  <!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+  <!-- 必要なら共通ヘッダーをここに置ける -->
+  <!-- <header>...</header> -->
+   <!-- Header -->
+   <header>
+    <h1>U.S. State Location Quiz</h1>
+    <p>アメリカの州をクリックして位置を当てよう</p>
+   </header>
+
+
+  <main class="quiz-container">
+    <a href="index.html" class="back-link">Back to Geography Top</a>
+
+    <div id="question">Loading…</div>
+    <div id="score">Score: 0</div>
+    <svg id="map"></svg>
+  </main>
+
+  <!-- クイズロジック -->
   <script>
     const states = [
-      { name: "Alabama", abbr: "AL" }, { name: "Alaska", abbr: "AK" }, { name: "Arizona", abbr: "AZ" },
-      { name: "Arkansas", abbr: "AR" }, { name: "California", abbr: "CA" }, { name: "Colorado", abbr: "CO" },
-      { name: "Connecticut", abbr: "CT" }, { name: "Delaware", abbr: "DE" }, { name: "Florida", abbr: "FL" },
-      { name: "Georgia", abbr: "GA" }, { name: "Hawaii", abbr: "HI" }, { name: "Idaho", abbr: "ID" },
-      { name: "Illinois", abbr: "IL" }, { name: "Indiana", abbr: "IN" }, { name: "Iowa", abbr: "IA" },
-      { name: "Kansas", abbr: "KS" }, { name: "Kentucky", abbr: "KY" }, { name: "Louisiana", abbr: "LA" },
-      { name: "Maine", abbr: "ME" }, { name: "Maryland", abbr: "MD" }, { name: "Massachusetts", abbr: "MA" },
-      { name: "Michigan", abbr: "MI" }, { name: "Minnesota", abbr: "MN" }, { name: "Mississippi", abbr: "MS" },
-      { name: "Missouri", abbr: "MO" }, { name: "Montana", abbr: "MT" }, { name: "Nebraska", abbr: "NE" },
-      { name: "Nevada", abbr: "NV" }, { name: "New Hampshire", abbr: "NH" }, { name: "New Jersey", abbr: "NJ" },
-      { name: "New Mexico", abbr: "NM" }, { name: "New York", abbr: "NY" }, { name: "North Carolina", abbr: "NC" },
-      { name: "North Dakota", abbr: "ND" }, { name: "Ohio", abbr: "OH" }, { name: "Oklahoma", abbr: "OK" },
-      { name: "Oregon", abbr: "OR" }, { name: "Pennsylvania", abbr: "PA" }, { name: "Rhode Island", abbr: "RI" },
-      { name: "South Carolina", abbr: "SC" }, { name: "South Dakota", abbr: "SD" }, { name: "Tennessee", abbr: "TN" },
-      { name: "Texas", abbr: "TX" }, { name: "Utah", abbr: "UT" }, { name: "Vermont", abbr: "VT" },
-      { name: "Virginia", abbr: "VA" }, { name: "Washington", abbr: "WA" }, { name: "West Virginia", abbr: "WV" },
+      { name: "Alabama", abbr: "AL" }, { name: "Alaska", abbr: "AK" },
+      { name: "Arizona", abbr: "AZ" }, { name: "Arkansas", abbr: "AR" },
+      { name: "California", abbr: "CA" }, { name: "Colorado", abbr: "CO" },
+      { name: "Connecticut", abbr: "CT" }, { name: "Delaware", abbr: "DE" },
+      { name: "Florida", abbr: "FL" }, { name: "Georgia", abbr: "GA" },
+      { name: "Hawaii", abbr: "HI" }, { name: "Idaho", abbr: "ID" },
+      { name: "Illinois", abbr: "IL" }, { name: "Indiana", abbr: "IN" },
+      { name: "Iowa", abbr: "IA" }, { name: "Kansas", abbr: "KS" },
+      { name: "Kentucky", abbr: "KY" }, { name: "Louisiana", abbr: "LA" },
+      { name: "Maine", abbr: "ME" }, { name: "Maryland", abbr: "MD" },
+      { name: "Massachusetts", abbr: "MA" }, { name: "Michigan", abbr: "MI" },
+      { name: "Minnesota", abbr: "MN" }, { name: "Mississippi", abbr: "MS" },
+      { name: "Missouri", abbr: "MO" }, { name: "Montana", abbr: "MT" },
+      { name: "Nebraska", abbr: "NE" }, { name: "Nevada", abbr: "NV" },
+      { name: "New Hampshire", abbr: "NH" }, { name: "New Jersey", abbr: "NJ" },
+      { name: "New Mexico", abbr: "NM" }, { name: "New York", abbr: "NY" },
+      { name: "North Carolina", abbr: "NC" }, { name: "North Dakota", abbr: "ND" },
+      { name: "Ohio", abbr: "OH" }, { name: "Oklahoma", abbr: "OK" },
+      { name: "Oregon", abbr: "OR" }, { name: "Pennsylvania", abbr: "PA" },
+      { name: "Rhode Island", abbr: "RI" }, { name: "South Carolina", abbr: "SC" },
+      { name: "South Dakota", abbr: "SD" }, { name: "Tennessee", abbr: "TN" },
+      { name: "Texas", abbr: "TX" }, { name: "Utah", abbr: "UT" },
+      { name: "Vermont", abbr: "VT" }, { name: "Virginia", abbr: "VA" },
+      { name: "Washington", abbr: "WA" }, { name: "West Virginia", abbr: "WV" },
       { name: "Wisconsin", abbr: "WI" }, { name: "Wyoming", abbr: "WY" }
     ];
 
     let currentState = null;
     let score = 0;
-
-    function shuffle(array) {
-      return array.sort(() => Math.random() - 0.5);
-    }
+    let topoData = null;
 
     function pickState() {
-      document.querySelectorAll("path").forEach(p => {
-        p.classList.remove("correct", "incorrect");
-      });
+      document.querySelectorAll("path").forEach(p =>
+        p.classList.remove("correct", "incorrect")
+      );
       currentState = states[Math.floor(Math.random() * states.length)];
-      document.getElementById("question").textContent = `Click on: ${currentState.name}`;
+      document.getElementById("question").textContent =
+        `Click on: ${currentState.name}`;
     }
 
-    function loadSVG() {
-      fetch("https://cdn.jsdelivr.net/npm/us-atlas/states-10m.json")
-        .then(res => res.json())
-        .then(us => {
-          const svg = document.getElementById("map");
-          const projection = d3.geoAlbersUsa().scale(1280).translate([480, 300]);
-          const path = d3.geoPath().projection(projection);
+    function handleClick(abbr, el) {
+      if (!currentState) return;
+      if (document.querySelector(".correct, .incorrect")) return;
 
-          const statesMap = topojson.feature(us, us.objects.states).features;
+      const correctEl = [...document.querySelectorAll("path")]
+        .find(p => p.dataset.abbr === currentState.abbr);
 
-          svg.innerHTML = ""; // Clear if already loaded
-          statesMap.forEach((d) => {
-            const el = document.createElementNS("http://www.w3.org/2000/svg", "path");
-            el.setAttribute("d", path(d));
-            const stateAbbr = idToAbbr(d.id);
-            if (stateAbbr) {
-              el.setAttribute("data-abbr", stateAbbr);
-              el.addEventListener("click", () => handleClick(stateAbbr, el));
-              svg.appendChild(el);
-            }
-          });
+      if (abbr === currentState.abbr) {
+        el.classList.add("correct");
+        score++;
+        document.getElementById("score").textContent = `Score: ${score}`;
+      } else {
+        el.classList.add("incorrect");
+        correctEl?.classList.add("correct");
+      }
 
-          pickState();
-        });
+      setTimeout(pickState, 1500);
     }
 
-   function handleClick(abbr, element) {
-  if (!currentState) return;
+    function renderMap() {
+      const svg = document.getElementById("map");
+      const width = svg.clientWidth;
+      const height = width * (593 / 959);
 
-  // Prevent repeated clicks from triggering multiple times
-  if (document.querySelector("path.correct") || document.querySelector("path.incorrect")) return;
+      svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+      svg.innerHTML = "";
 
-  const allPaths = document.querySelectorAll("svg path");
-  const correctEl = [...allPaths].find(p => p.getAttribute("data-abbr") === currentState.abbr);
+      const projection = d3.geoAlbersUsa()
+        .scale(width * 1.35)
+        .translate([width / 2, height / 2]);
 
-  if (abbr === currentState.abbr) {
-    element.classList.add("correct");
-    score++;
-    document.getElementById("score").textContent = `Score: ${score}`;
-  } else {
-    element.classList.add("incorrect");
-    if (correctEl) correctEl.classList.add("correct");
-  }
+      const path = d3.geoPath().projection(projection);
 
-  setTimeout(pickState, 1500); // Wait 1.5 seconds before next question
-}
+      const features = topojson.feature(
+        topoData,
+        topoData.objects.states
+      ).features;
 
+      features.forEach(d => {
+        const abbr = idToAbbr(d.id);
+        if (!abbr) return;
+
+        const el = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "path"
+        );
+        el.setAttribute("d", path(d));
+        el.dataset.abbr = abbr;
+        el.addEventListener("click", () => handleClick(abbr, el));
+        svg.appendChild(el);
+      });
+    }
 
     function idToAbbr(id) {
-      const mapping = {
-        "01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT","10":"DE","11":"DC",
-        "12":"FL","13":"GA","15":"HI","16":"ID","17":"IL","18":"IN","19":"IA","20":"KS","21":"KY",
-        "22":"LA","23":"ME","24":"MD","25":"MA","26":"MI","27":"MN","28":"MS","29":"MO","30":"MT",
-        "31":"NE","32":"NV","33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND","39":"OH",
-        "40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD","47":"TN","48":"TX","49":"UT",
-        "50":"VT","51":"VA","53":"WA","54":"WV","55":"WI","56":"WY"
+      const map = {
+        "01":"AL","02":"AK","04":"AZ","05":"AR","06":"CA","08":"CO","09":"CT",
+        "10":"DE","11":"DC","12":"FL","13":"GA","15":"HI","16":"ID","17":"IL",
+        "18":"IN","19":"IA","20":"KS","21":"KY","22":"LA","23":"ME","24":"MD",
+        "25":"MA","26":"MI","27":"MN","28":"MS","29":"MO","30":"MT","31":"NE",
+        "32":"NV","33":"NH","34":"NJ","35":"NM","36":"NY","37":"NC","38":"ND",
+        "39":"OH","40":"OK","41":"OR","42":"PA","44":"RI","45":"SC","46":"SD",
+        "47":"TN","48":"TX","49":"UT","50":"VT","51":"VA","53":"WA","54":"WV",
+        "55":"WI","56":"WY"
       };
-      return mapping[String(id).padStart(2, "0")];
+      return map[String(id).padStart(2, "0")];
     }
 
-    // Load D3 + TopoJSON libs
+    /* D3 + TopoJSON 読み込み */
     const d3Script = document.createElement("script");
     d3Script.src = "https://d3js.org/d3.v7.min.js";
     d3Script.onload = () => {
       const topoScript = document.createElement("script");
       topoScript.src = "https://unpkg.com/topojson-client@3";
-      topoScript.onload = loadSVG;
+      topoScript.onload = () => {
+        fetch("https://cdn.jsdelivr.net/npm/us-atlas/states-10m.json")
+          .then(r => r.json())
+          .then(data => {
+            topoData = data;
+            renderMap();
+            pickState();
+            window.addEventListener("resize", renderMap);
+          });
+      };
       document.body.appendChild(topoScript);
     };
     document.body.appendChild(d3Script);
   </script>
+  <script>
+    // Theme Toggle
+if (localStorage.getItem("pref-theme") === "dark") {
+    document.body.classList.add('dark');
+} else if (localStorage.getItem("pref-theme") === "light") {
+    document.body.classList.remove('dark');
+} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.body.classList.add('dark');
+}
+
+const themeToggle = document.getElementById('theme-toggle');
+themeToggle.addEventListener('click', () => {
+    document.body.classList.toggle('dark');
+    if (document.body.classList.contains('dark')) {
+        localStorage.setItem('pref-theme', 'dark');
+    } else {
+        localStorage.setItem('pref-theme', 'light');
+    }
+});
+  </script>>
 </body>
 </html>
