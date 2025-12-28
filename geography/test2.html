@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>地理 - デバッグ版</title>
+<link rel="icon" href="../images/favicon.png" />
+<link rel="stylesheet" href="../css/common.css">
+</head>
+<body>
+
+<div style="max-width: 1000px; margin: 50px auto; padding: 20px;">
+    <h1>🔍 地理 - デバッグモード</h1>
+    
+    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0;">
+        <h3>設定</h3>
+        <label>Supabase URL:</label>
+        <input type="text" id="urlInput" style="width: 100%; padding: 10px; margin: 5px 0;" 
+               placeholder="https://xxx.supabase.co" value="YOUR_SUPABASE_URL">
+        
+        <label>Supabase Key:</label>
+        <input type="text" id="keyInput" style="width: 100%; padding: 10px; margin: 5px 0;" 
+               placeholder="eyJhbGci..." value="YOUR_SUPABASE_ANON_KEY">
+        
+        <button onclick="testAll()" style="margin-top: 10px; padding: 12px 30px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            全パターンテスト実行
+        </button>
+    </div>
+    
+    <div id="results" style="margin-top: 20px;"></div>
+</div>
+
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+async function testAll() {
+    const url = document.getElementById('urlInput').value.trim();
+    const key = document.getElementById('keyInput').value.trim();
+    const resultsDiv = document.getElementById('results');
+    
+    if (url === 'YOUR_SUPABASE_URL' || !url) {
+        alert('Supabase URLを設定してください');
+        return;
+    }
+    
+    if (key === 'YOUR_SUPABASE_ANON_KEY' || !key) {
+        alert('Supabase Keyを設定してください');
+        return;
+    }
+    
+    const client = supabase.createClient(url, key);
+    resultsDiv.innerHTML = '<h2>テスト実行中...</h2>';
+    
+    const tests = [
+        'geography',
+        'geography/',
+        'geography/2025-term1',
+        'geography/2025-term1/',
+        'geography/2025-term2',
+        'geography/2025-term3',
+        '2025-term1/geography',
+        'exam-papers/geography/2025-term1',
+    ];
+    
+    let html = '<h2>📊 テスト結果</h2>';
+    
+    for (const path of tests) {
+        console.log(`Testing: ${path}`);
+        
+        try {
+            const { data: files, error } = await client
+                .storage
+                .from('exam-papers')
+                .list(path, {
+                    limit: 100,
+                    offset: 0,
+                    sortBy: { column: 'name', order: 'asc' }
+                });
+            
+            const fileCount = files ? files.length : 0;
+            const pdfCount = files ? files.filter(f => f.name.endsWith('.pdf')).length : 0;
+            
+            if (error) {
+                html += `
+                    <div style="background: #f8d7da; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #dc3545;">
+                        <strong>❌ ${path}</strong><br>
+                        エラー: ${error.message || JSON.stringify(error)}
+                    </div>
+                `;
+            } else if (fileCount === 0) {
+                html += `
+                    <div style="background: #fff3cd; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #ffc107;">
+                        <strong>⚠️ ${path}</strong><br>
+                        ファイル: 0個
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div style="background: #d4edda; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #28a745;">
+                        <strong>✅ ${path}</strong><br>
+                        ファイル: ${fileCount}個 (PDF: ${pdfCount}個)<br>
+                        <details style="margin-top: 10px;">
+                            <summary style="cursor: pointer;">📋 ファイル一覧を表示</summary>
+                            <ul style="margin-top: 10px;">
+                                ${files.map(f => `<li>${f.name} ${f.name.endsWith('.pdf') ? '📄' : '📁'}</li>`).join('')}
+                            </ul>
+                        </details>
+                    </div>
+                `;
+            }
+        } catch (e) {
+            html += `
+                <div style="background: #f8d7da; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #dc3545;">
+                    <strong>💥 ${path}</strong><br>
+                    例外: ${e.message}
+                </div>
+            `;
+        }
+    }
+    
+    html += `
+        <div style="background: #e7f3ff; padding: 20px; margin: 20px 0; border-radius: 8px; border-left: 4px solid #2196F3;">
+            <h3>📌 次のステップ</h3>
+            <p><strong>✅ 緑色（成功）のパス</strong>を見つけてください。</p>
+            <p>そのパスをHTMLファイルの <code>loadExamPapers()</code> 関数で使用します。</p>
+            <p>例: <code>.list('geography/2025-term1', { ... })</code></p>
+        </div>
+    `;
+    
+    resultsDiv.innerHTML = html;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    console.log('Supabase library:', typeof supabase !== 'undefined' ? 'OK' : 'NG');
+});
+</script>
+
+</body>
+</html>
