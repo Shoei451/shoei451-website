@@ -5,310 +5,7 @@
   <title>世界史年代クイズ — Shoei451</title>
   <link rel="icon" href="../images/worldhistoryquiz.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    /* ===== Variables ===== */
-    :root {
-        --theme: #ffffff;
-        --entry: #FABA40;
-        --primary: #313A49;
-        --secondary: #171d1e;
-        --content: #313A49;
-        --card-bg: #FABA40;
-        --accent: #FABA40;
-        --shadow: rgba(0, 0, 0, 0.1);
-    }
-
-    body.dark {
-        --theme: #313A49;
-        --entry: #2e2e33;
-        --primary: #ffffff;
-        --secondary: #A8AEB2;
-        --content: #ffffff;
-        --card-bg: #2e2e33;
-        --accent: #FABA40;
-        --shadow: rgba(0, 0, 0, 0.3);
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        background-color: var(--theme);
-        color: var(--content);
-        transition: background-color 0.3s, color 0.3s;
-    }
-
-    /* ===== Quiz Container ===== */
-    .quiz-wrapper {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-
-    h1, h2, h3 {
-      text-align: center;
-      color: var(--primary);
-    }
-
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 30px;
-      font-weight: 700;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    /* ===== Buttons ===== */
-    button {
-      background: var(--accent);
-      color: var(--primary);
-      border: none;
-      border-radius: 25px;
-      padding: 12px 24px;
-      margin: 8px 4px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 600;
-      transition: all 0.3s;
-      box-shadow: 0 4px 15px var(--shadow);
-    }
-
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--shadow);
-      opacity: 0.9;
-    }
-
-    button.section-btn {
-      display: block;
-      width: 100%;
-      text-align: left;
-      margin-bottom: 10px;
-      padding: 15px 20px;
-    }
-
-    /* ===== Screen Sections ===== */
-    .screen {
-      margin-top: 20px;
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ===== Form Fields ===== */
-    .field {
-      margin-bottom: 16px;
-    }
-
-    .field label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    .field input, .field select, .field textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 2px solid var(--accent);
-      background: var(--theme);
-      color: var(--content);
-      box-sizing: border-box;
-      font-size: 14px;
-      transition: all 0.3s;
-    }
-
-    .field input:focus, .field select:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
-    }
-
-    /* ===== Quiz Elements ===== */
-    #question {
-      font-size: 1.8em;
-      margin: 24px 0;
-      text-align: center;
-      font-weight: 700;
-      color: var(--primary);
-      padding: 20px;
-      background: var(--card-bg);
-      border-radius: 20px;
-      box-shadow: 0 4px 15px var(--shadow);
-    }
-
-    #choices button {
-      display: block;
-      width: 100%;
-      margin: 12px 0;
-      text-align: left;
-      padding: 16px 20px;
-      font-size: 1rem;
-      background: var(--card-bg);
-    }
-
-    #choices button:hover:not(:disabled) {
-      background: var(--primary);
-      color: var(--accent);
-    }
-
-    .correct {
-      background: #4caf50 !important;
-      color: #fff !important;
-    }
-
-    .incorrect {
-      background: #f44336 !important;
-      color: #fff !important;
-    }
-
-    /* ===== Progress Bar ===== */
-    #progressOuter {
-      width: 100%;
-      height: 12px;
-      background: var(--card-bg);
-      border-radius: 6px;
-      overflow: hidden;
-      margin: 16px 0;
-      box-shadow: inset 0 2px 4px var(--shadow);
-    }
-
-    #progressBar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--accent));
-      transition: width 0.3s;
-    }
-
-    #score {
-      text-align: right;
-      font-size: 16px;
-      margin-bottom: 12px;
-      font-weight: 600;
-      color: var(--primary);
-    }
-
-    .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .note {
-      font-size: 13px;
-      color: var(--secondary);
-      margin-top: 12px;
-      padding: 12px;
-      background: var(--card-bg);
-      border-radius: 12px;
-      opacity: 0.8;
-    }
-
-    #addMessage {
-      color: var(--accent);
-      font-weight: 600;
-      margin-top: 12px;
-      text-align: center;
-    }
-
-    /* ===== Theme Toggle ===== */
-    .logo-switches {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      z-index: 1000;
-    }
-
-    #theme-toggle {
-      background: var(--theme);
-      border: 2px solid var(--accent);
-      border-radius: 50%;
-      padding: 12px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s;
-      box-shadow: 0 4px 12px var(--shadow);
-    }
-
-    #theme-toggle:hover {
-      background: var(--accent);
-      transform: rotate(180deg) scale(1.1);
-    }
-
-    #moon, #sun {
-      display: none;
-      width: 24px;
-      height: 24px;
-      stroke: var(--primary);
-    }
-
-    #theme-toggle:hover #moon,
-    #theme-toggle:hover #sun {
-      stroke: #ffffff;
-    }
-
-    body.dark #sun {
-      display: block;
-      stroke: var(--accent);
-    }
-
-    body.dark #moon {
-      display: none;
-    }
-
-    body:not(.dark) #moon {
-      display: block;
-    }
-
-    body:not(.dark) #sun {
-      display: none;
-    }
-
-    /* ===== Responsive ===== */
-    @media (max-width: 768px) {
-      h1 {
-        font-size: 2rem;
-      }
-
-      #question {
-        font-size: 1.4em;
-      }
-
-      button {
-        font-size: 13px;
-        padding: 10px 20px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="../css/wh-era-quiz.css">
 </head>
 <body>
 
@@ -503,7 +200,7 @@
     { value: "1701~1800", label: "1701年~1800年" },
     { value: "1801~1900", label: "1801年~1900年" },
     { value: "1901~1945", label: "1901年~1945年" },
-    { value: "1945~", label: "1945年~" }
+    { value: "1946~", label: "1946年~" }
   ];
 
   const chapters = [
@@ -538,7 +235,7 @@
     if (year <= 1800) return "1701~1800";
     if (year <= 1900) return "1801~1900";
     if (year <= 1945) return "1901~1945";
-    return "1945~";
+    return "1946~";
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -564,7 +261,7 @@
           "1701~1800": "1701年~1800年",
           "1801~1900": "1801年~1900年",
           "1901~1945": "1901年~1945年",
-          "1945~": "1945年~"
+          "1946~": "1946年~"
         };
         document.getElementById('newPeriod').value = periodLabels[period] || '';
       });
@@ -572,20 +269,35 @@
   });
 
   async function loadQuestions() {
+  let allQuestions = [];
+  let start = 0;
+  const batchSize = 1000;
+  
+  while (true) {
     const { data, error } = await supabaseClient
       .from('world_history_quiz')
       .select('*')
       .order('is_bc', { ascending: false })
-      .order('year', { ascending: true });
-
+      .order('year', { ascending: true })
+      .range(start, start + batchSize - 1); // 1000件ずつ取得
+    
     if (error) {
       console.error('読み込みエラー:', error);
       return;
     }
-
-    allData = data || [];
-    console.log(`Supabaseから ${allData.length} 件の問題を読み込みました`);
+    
+    if (!data || data.length === 0) break; // データがなくなったら終了
+    
+    allQuestions.push(...data);
+    
+    if (data.length < batchSize) break; // 最後のバッチなら終了
+    
+    start += batchSize;
   }
+  
+  allData = allQuestions;
+  console.log(`Supabaseから ${allData.length} 件の問題を読み込みました`);
+}
 
   async function addQuestion() {
     const yearStr = document.getElementById('newYear').value.trim();
@@ -731,53 +443,60 @@
   }
 
   function showQuestion() {
-    if (currentIndex >= currentSet.length) {
-      showResult();
-      return;
-    }
-
-    const current = currentSet[currentIndex];
-    const questionDiv = document.getElementById('question');
-    const choicesDiv = document.getElementById('choices');
-    const nextBtn = document.getElementById('nextBtn');
-
-    nextBtn.style.display = 'none';
-    choicesDiv.innerHTML = '';
-
-    if (currentMode === 'yearToEvent') {
-      questionDiv.textContent = formatYear(current);
-      correctAnswer = current.event;
-
-      const others = allData.filter(q => q.event !== current.event || q.year !== current.year || q.is_bc !== current.is_bc);
-      const shuffledOthers = shuffle(others).slice(0, 3);
-      const choices = shuffle([current, ...shuffledOthers]);
-
-      choices.forEach(choice => {
-        const btn = document.createElement('button');
-        btn.textContent = choice.event;
-        btn.onclick = () => checkAnswer(choice.event, btn);
-        choicesDiv.appendChild(btn);
-      });
-
-    } else {
-      questionDiv.textContent = current.event;
-      correctAnswer = formatYear(current);
-
-      const others = allData.filter(q => q.year !== current.year || q.is_bc !== current.is_bc || q.event !== current.event);
-      const shuffledOthers = shuffle(others).slice(0, 3);
-      const choices = shuffle([current, ...shuffledOthers]);
-
-      choices.forEach(choice => {
-        const btn = document.createElement('button');
-        btn.textContent = formatYear(choice);
-        btn.onclick = () => checkAnswer(formatYear(choice), btn);
-        choicesDiv.appendChild(btn);
-      });
-    }
-
-    updateProgress();
+  if (currentIndex >= currentSet.length) {
+    showResult();
+    return;
   }
 
+  const current = currentSet[currentIndex];
+  const questionDiv = document.getElementById('question');
+  const choicesDiv = document.getElementById('choices');
+  const nextBtn = document.getElementById('nextBtn');
+
+  nextBtn.style.display = 'none';
+  choicesDiv.innerHTML = '';
+
+  if (currentMode === 'yearToEvent') {
+    questionDiv.textContent = formatYear(current);
+    correctAnswer = current.event;
+
+    // 🔴 修正：同じセクション内からのみダミー選択肢を選ぶ
+    const othersInSameSection = allData.filter(q => 
+      q.period === current.period && // 同じ時代区分
+      (q.event !== current.event || q.year !== current.year || q.is_bc !== current.is_bc) // 正解以外
+    );
+    const shuffledOthers = shuffle(othersInSameSection).slice(0, 3);
+    const choices = shuffle([current, ...shuffledOthers]);
+
+    choices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.textContent = choice.event;
+      btn.onclick = () => checkAnswer(choice.event, btn);
+      choicesDiv.appendChild(btn);
+    });
+
+  } else {
+    questionDiv.textContent = current.event;
+    correctAnswer = formatYear(current);
+
+    // 🔴 修正：同じ章からのみダミー選択肢を選ぶ
+    const othersInSameChapter = allData.filter(q => 
+      q.chapter === current.chapter && // 同じ章
+      (q.year !== current.year || q.is_bc !== current.is_bc || q.event !== current.event) // 正解以外
+    );
+    const shuffledOthers = shuffle(othersInSameChapter).slice(0, 3);
+    const choices = shuffle([current, ...shuffledOthers]);
+
+    choices.forEach(choice => {
+      const btn = document.createElement('button');
+      btn.textContent = formatYear(choice);
+      btn.onclick = () => checkAnswer(formatYear(choice), btn);
+      choicesDiv.appendChild(btn);
+    });
+  }
+
+  updateProgress();
+}
   function checkAnswer(selected, btn) {
     const buttons = document.getElementById('choices').getElementsByTagName('button');
 
