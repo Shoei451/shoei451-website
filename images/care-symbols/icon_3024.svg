@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="icon" viewBox="0 0 1000 1000">
+  <defs>
+    <style>.cls-1{fill:none;}</style>
+  </defs>
+  <path d="M85,85v830h830V85H85ZM422.57,155L155,422.57V155h267.57ZM845,845H155v-337.57l234.88-234.88v497.46h70V230.61h-28.07l75.61-75.61h337.57v690Z"></path>
+  <rect x="539.88" y="230.61" width="70" height="539.39"></rect>
+  <rect class="cls-1" width="1000" height="1000"></rect>
+</svg>

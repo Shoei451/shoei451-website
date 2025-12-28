@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.png">
+    <title>衣類取り扱い表示クイズ — Shoei451</title>
+    <link rel="stylesheet" href="care-symbols-style.css">
+</head>
+<body>
+    <div class="logo-switches">
+        <button id="theme-toggle" aria-label="Toggle theme">
+            <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+        </button>
+    </div>
+
+    <div class="quiz-wrapper">
+        <h1>👕 衣類取り扱い表示クイズ</h1>
+
+        <!-- Start Screen -->
+        <div id="startScreen" class="screen">
+            <h2>テスト対策クイズ</h2>
+            <p class="note">衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。</p>
+            
+            <div class="explanation">
+                <h3>📋 クイズモード</h3>
+                <ul>
+                    <li><strong>基本モード:</strong> マークを見て意味を4択で答える</li>
+                    <li><strong>素材特定モード:</strong> 実際の衣類を見て、表示の組み合わせから素材を特定する練習（Supabaseに記録）</li>
+                </ul>
+                <p style="margin-top: 12px; font-size: 0.9em; color: var(--secondary);">
+                    ※ 画像は「ICOMPO」の商用フリー素材を使用しています
+                </p>
+            </div>
+
+            <div class="mode-selection">
+                <button class="mode-btn" onclick="selectMode('basic')">
+                    <span class="mode-icon">📝</span>
+                    <span class="mode-title">基本モード</span>
+                    <span class="mode-desc">マークの意味を覚える</span>
+                </button>
+                <button class="mode-btn" onclick="selectMode('material')">
+                    <span class="mode-icon">🔍</span>
+                    <span class="mode-title">素材特定モード</span>
+                    <span class="mode-desc">実際の服から素材を推測</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Basic Mode Settings -->
+        <div id="basicSettings" class="screen hidden">
+            <div class="top-bar">
+                <button onclick="backToStart()">戻る</button>
+                <h2>基本モード - 設定</h2>
+            </div>
+
+            <div class="field">
+                <label for="categorySelect"><b>出題カテゴリー:</b></label>
+                <select id="categorySelect">
+                    <option value="all">全カテゴリー</option>
+                    <option value="washing">洗濯処理</option>
+                    <option value="bleaching">漂白処理</option>
+                    <option value="drying">乾燥処理</option>
+                    <option value="ironing">アイロン仕上げ</option>
+                    <option value="cleaning">クリーニング</option>
+                </select>
+            </div>
+            
+            <div class="field">
+                <label for="questionCount"><b>出題数:</b></label>
+                <select id="questionCount">
+                    <option value="5">5問</option>
+                    <option value="10" selected>10問</option>
+                    <option value="20">20問</option>
+                    <option value="all">全問</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="quizMode"><b>学習モード:</b></label>
+                <select id="quizMode">
+                    <option value="random">ランダム練習</option>
+                    <option value="difficult">弱点克服（正答率50%未満）</option>
+                    <option value="unattempted">未学習問題</option>
+                </select>
+            </div>
+            
+            <button id="startBasicBtn" class="primary">クイズ開始</button>
+        </div>
+
+        <!-- Material Mode (Supabase) -->
+        <div id="materialMode" class="screen hidden">
+            <div class="top-bar">
+                <button onclick="backToStart()">戻る</button>
+                <h2>素材特定モード</h2>
+            </div>
+
+            <div class="material-instructions">
+                <h3>📖 使い方</h3>
+                <ol>
+                    <li>手元にある衣類のタグを確認</li>
+                    <li>洗濯表示記号を入力（該当するものをすべて選択）</li>
+                    <li>素材名を予想して入力</li>
+                    <li>正解を確認（データベースに記録されます）</li>
+                </ol>
+                <p class="note">※ 同じ素材でも製品によって表示が異なる場合があります</p>
+            </div>
+
+            <div class="material-input-section">
+                <h3>洗濯表示記号を選択</h3>
+                <div id="symbolSelector" class="symbol-grid">
+                    <!-- JavaScript で生成 -->
+                </div>
+
+                <div class="field" style="margin-top: 24px;">
+                    <label><b>予想する素材:</b></label>
+                    <input type="text" id="materialGuess" placeholder="例: 綿100%, ポリエステル65%・綿35%" />
+                </div>
+
+                <button id="submitMaterialBtn" class="primary">素材を推測</button>
+                
+                <div id="materialResult" class="material-result hidden"></div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen (Basic Mode) -->
+        <div id="quizScreen" class="screen hidden">
+            <div class="top-bar">
+                <button id="homeBtn">最初に戻る</button>
+                <div id="score">スコア: 0/0</div>
+            </div>
+            
+            <div id="progressOuter">
+                <div id="progressBar"></div>
+            </div>
+
+            <div id="categoryBadge" class="category-badge"></div>
+            
+            <div class="symbol-display">
+                <img id="symbolImage" src="" alt="洗濯表示記号" />
+            </div>
+
+            <div id="question">この記号の意味は？</div>
+            <div id="choices"></div>
+
+            <div id="feedback" class="feedback hidden"></div>
+            <button id="nextBtn" class="hidden">次の問題</button>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="resultsScreen" class="screen hidden">
+            <h2>クイズ完了！</h2>
+            <div id="finalScore"></div>
+            <div id="categoryBreakdown" class="category-breakdown"></div>
+            <button id="restartBtn">もう一度挑戦</button>
+            <button id="reviewBtn" class="ghost">間違えた問題を復習</button>
+        </div>
+
+        <div id="loading" class="loading hidden">読み込み中...</div>
+        <div id="error" class="error hidden"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="care-symbols-data.js"></script>
+    <script src="care-symbols-logic.js"></script>
+</body>
+</html>
