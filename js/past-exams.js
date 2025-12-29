@@ -1,4 +1,4 @@
-// exam-papers.js - 全科目共通スクリプト
+// exam-papers.js - 全科目共通スクリプト（アクセスログ機能付き）
 
 // bodyタグからsubject情報を取得
 const subjectConfig = {
@@ -7,24 +7,17 @@ const subjectConfig = {
     storagePath: document.body.dataset.storagePath
 };
 
-// Theme Toggle
-if (localStorage.getItem("pref-theme") === "dark") {
-    document.body.classList.add('dark');
-} else if (localStorage.getItem("pref-theme") === "light") {
-    document.body.classList.remove('dark');
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add('dark');
-}
-
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    if (document.body.classList.contains('dark')) {
-        localStorage.setItem('pref-theme', 'dark');
-    } else {
-        localStorage.setItem('pref-theme', 'light');
+// セッションID生成（ブラウザセッションごとにユニーク）
+const getSessionId = () => {
+    let sessionId = sessionStorage.getItem('session_id');
+    if (!sessionId) {
+        sessionId = `sess_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        sessionStorage.setItem('session_id', sessionId);
     }
-});
+    return sessionId;
+};
+
+
 
 // Supabase設定
 const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
@@ -32,6 +25,31 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 let currentSemester = '2025-term1';
+
+// アクセスログ記録関数
+async function logAccess(accessType, additionalData = {}) {
+    try {
+        const logData = {
+            subject: subjectConfig.subject,
+            access_type: accessType,
+            user_agent: navigator.userAgent,
+            session_id: getSessionId(),
+            ...additionalData
+        };
+        
+        const { error } = await supabaseClient
+            .from('access_logs')
+            .insert([logData]);
+        
+        if (error) {
+            console.warn('ログ記録エラー:', error);
+        } else {
+            console.log('✅ ログ記録:', accessType);
+        }
+    } catch (error) {
+        console.warn('ログ記録失敗:', error);
+    }
+}
 
 // アクセス確認
 async function verifyAccess() {
@@ -62,11 +80,21 @@ async function verifyAccess() {
             sessionStorage.setItem(accessKey, 'verified');
             sessionStorage.setItem(`${accessKey}Expiry`, Date.now() + (24 * 60 * 60 * 1000));
             
+            // ログイン成功をログに記録
+            await logAccess('login', { 
+                code_used: code.substring(0, 3) + '***' // セキュリティのため一部マスク
+            });
+            
             setTimeout(() => {
                 showProtectedContent();
             }, 500);
         } else {
             messageDiv.innerHTML = '<p class="error-message">✗ コードが正しくありません</p>';
+            
+            // ログイン失敗をログに記録
+            await logAccess('login_failed', {
+                attempted_code: code.substring(0, 2) + '***'
+            });
         }
     } catch (error) {
         console.error('認証エラー:', error);
@@ -79,6 +107,11 @@ function showProtectedContent() {
     document.getElementById('accessForm').style.display = 'none';
     document.getElementById('protectedContent').style.display = 'block';
     loadExamPapers(currentSemester);
+    
+    // ページ閲覧をログに記録
+    logAccess('page_view', {
+        semester: currentSemester
+    });
 }
 
 // 学期切り替え
@@ -93,6 +126,11 @@ function switchSemester(semester) {
     document.getElementById('examList').innerHTML = '';
     document.getElementById('loadingMessage').style.display = 'block';
     loadExamPapers(semester);
+    
+    // 学期切り替えをログに記録
+    logAccess('semester_change', {
+        semester: semester
+    });
 }
 
 // 過去問データ読み込み
@@ -206,7 +244,10 @@ async function loadExamPapers(semester) {
                 <div class="exam-meta" style="margin-top: 8px; font-size: 0.85em; color: var(--secondary);">
                     <span> ${file.name}</span>
                 </div>
-                <a href="${urlData.publicUrl}" target="_blank" class="exam-link">
+                <a href="${urlData.publicUrl}" 
+                   target="_blank" 
+                   class="exam-link"
+                   onclick="logFileDownload('${file.name}', '${semester}')">
                      PDFを開く
                 </a>
             `;
@@ -218,6 +259,14 @@ async function loadExamPapers(semester) {
         console.error('読み込みエラー:', error);
         loadingDiv.innerHTML = '<p style="color: #f44336;">データの読み込みに失敗しました。</p>';
     }
+}
+
+// ファイルダウンロードログ
+function logFileDownload(fileName, semester) {
+    logAccess('file_download', {
+        file_name: fileName,
+        semester: semester
+    });
 }
 
 // セッション確認（ページ読み込み時）
