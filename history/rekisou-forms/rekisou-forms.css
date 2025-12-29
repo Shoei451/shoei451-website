@@ -1,0 +1,61 @@
+    /* ===== Folder (Accordion) ===== */
+    .folder {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px var(--shadow);
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    .folder-header {
+      padding: 25px 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .folder-header:hover {
+      background: linear-gradient(135deg, #FABA40, #313A49);
+      color: #fff;
+    }
+
+    .folder-header span {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .folder.open .folder-header span {
+      transform: rotate(90deg);
+    }
+
+    .folder-content {
+      display: none;
+      padding: 20px 30px 30px;
+    }
+
+    .folder.open .folder-content {
+      display: block;
+    }
+
+    /* ===== Form Links ===== */
+    .form-link {
+      display: block;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      background: var(--theme);
+      box-shadow: 0 4px 15px var(--shadow);
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .form-link:hover {
+      transform: translateY(-3px);
+      background: var(--primary);
+      color: #FABA40;
+    }

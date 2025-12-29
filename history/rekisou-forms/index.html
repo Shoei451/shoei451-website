@@ -5,69 +5,7 @@
   <title>歴史総合｜Google Forms — Shoei451</title>
   <link rel="icon" type="image/png" href="../../images/favicon.png" />
   <link rel="stylesheet" href="../../css/common.css" />
-  <style>
-    /* ===== Folder (Accordion) ===== */
-    .folder {
-      background: var(--card-bg);
-      border-radius: 20px;
-      box-shadow: 0 10px 30px var(--shadow);
-      margin-bottom: 30px;
-      overflow: hidden;
-    }
-
-    .folder-header {
-      padding: 25px 30px;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--primary);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      transition: background 0.3s;
-    }
-
-    .folder-header:hover {
-      background: linear-gradient(135deg, #FABA40, #313A49);
-      color: #fff;
-    }
-
-    .folder-header span {
-      font-size: 1.2rem;
-      transition: transform 0.3s;
-    }
-
-    .folder.open .folder-header span {
-      transform: rotate(90deg);
-    }
-
-    .folder-content {
-      display: none;
-      padding: 20px 30px 30px;
-    }
-
-    .folder.open .folder-content {
-      display: block;
-    }
-
-    /* ===== Form Links ===== */
-    .form-link {
-      display: block;
-      padding: 15px 20px;
-      margin-bottom: 15px;
-      border-radius: 15px;
-      background: var(--theme);
-      box-shadow: 0 4px 15px var(--shadow);
-      font-weight: 600;
-      transition: all 0.3s;
-    }
-
-    .form-link:hover {
-      transform: translateY(-3px);
-      background: var(--primary);
-      color: #FABA40;
-    }
-  </style>
+  <link rel="stylesheet" href="rekisou-forms.css" />
 </head>
 
 <body>
@@ -101,33 +39,49 @@
   </main>
 
   <section class="tools" style="max-width: 900px;">
-<!-- ===== Folder 1 ===== -->
-<div class="folder">
-  <div class="folder-header">
-    近代の成立
-    <span>▶</span>
-  </div>
-  <div class="folder-content" data-folder="modern"></div>
-</div>
+    <!-- ===== Folder 1 ===== -->
+     <div class="folder">
+      <div class="folder-header">
+        19世紀のヨーロッパ・アメリカ・アジア
+        <span>▶</span>
+      </div>
+      <div class="folder-content" data-folder="folder1"></div>
+    </div>
+    
+    <!-- ===== Folder 2 ===== -->
+     <div class="folder">
+      <div class="folder-header">
+        明治初期の日本
+        <span>▶</span>
+      </div>
+      <div class="folder-content" data-folder="folder2"></div>
+    </div>
 
-<!-- ===== Folder 2 ===== -->
-<div class="folder">
-  <div class="folder-header">
-    帝国主義と世界分割
-    <span>▶</span>
-  </div>
-  <div class="folder-content" data-folder="imperialism"></div>
-</div>
+    <!-- ===== Folder 3 ===== -->
+     <div class="folder">
+      <div class="folder-header">
+        第二次産業革命と帝国主義
+        <span>▶</span>
+      </div>
+      <div class="folder-content" data-folder="folder3"></div>
+    </div>
+    <!-- ===== Folder 4 ===== -->
+     <div class="folder">
+      <div class="folder-header">
+        日清戦争・日露戦争
+        <span>▶</span>
+      </div>
+      <div class="folder-content" data-folder="folder4"></div>
+    </div>
 
-<!-- ===== Folder 3 ===== -->
-<div class="folder">
-  <div class="folder-header">
-    戦争と国際秩序
-    <span>▶</span>
-  </div>
-  <div class="folder-content" data-folder="war"></div>
-</div>
-
+    <!-- ===== Folder 5 ===== -->
+     <div class="folder">
+      <div class="folder-header">
+        その他・番外編
+        <span>▶</span>
+      </div>
+      <div class="folder-content" data-folder="folder5"></div>
+    </div>
 
   </section>
 
@@ -135,16 +89,15 @@
     <p>History Forms Portal</p>
   </footer>
 
+  <script src="../../js/theme-toggle.js"></script>
+  <script src="forms-data.js"></script>
   <script>
-    document.querySelectorAll('.folder-header').forEach(header => {
+  document.querySelectorAll('.folder-header').forEach(header => {
       header.addEventListener('click', () => {
         header.parentElement.classList.toggle('open');
       });
     });
-  </script>
-  <script src="../../js/theme-toggle.js"></script>
-  <script src="forms-data.js"></script>
-<script>
+
   document.querySelectorAll(".folder-content").forEach(content => {
     const key = content.dataset.folder;
     const forms = formData[key];
@@ -159,7 +112,7 @@
       content.appendChild(a);
     });
   });
-</script>
+  </script>
 
 </body>
 </html>
