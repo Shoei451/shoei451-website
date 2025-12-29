@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>歴史総合｜Google Forms — Shoei451</title>
+  <link rel="icon" type="image/png" href="../../images/favicon.png" />
+  <link rel="stylesheet" href="../../css/common.css" />
+  <style>
+    /* ===== Folder (Accordion) ===== */
+    .folder {
+      background: var(--card-bg);
+      border-radius: 20px;
+      box-shadow: 0 10px 30px var(--shadow);
+      margin-bottom: 30px;
+      overflow: hidden;
+    }
+
+    .folder-header {
+      padding: 25px 30px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--primary);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.3s;
+    }
+
+    .folder-header:hover {
+      background: linear-gradient(135deg, #FABA40, #313A49);
+      color: #fff;
+    }
+
+    .folder-header span {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .folder.open .folder-header span {
+      transform: rotate(90deg);
+    }
+
+    .folder-content {
+      display: none;
+      padding: 20px 30px 30px;
+    }
+
+    .folder.open .folder-content {
+      display: block;
+    }
+
+    /* ===== Form Links ===== */
+    .form-link {
+      display: block;
+      padding: 15px 20px;
+      margin-bottom: 15px;
+      border-radius: 15px;
+      background: var(--theme);
+      box-shadow: 0 4px 15px var(--shadow);
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .form-link:hover {
+      transform: translateY(-3px);
+      background: var(--primary);
+      color: #FABA40;
+    }
+  </style>
+</head>
+
+<body>
+    <!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+  <header>
+    <h1>歴史総合 Google Forms</h1>
+    <p>歴史総合の語句確認用 Google Forms 一覧です。</p>
+  </header>
+  <main class="intro">
+    <a href="../index.html" class="back-link">Back to History Top</a>
+    <h2>語句確認用フォーム</h2>
+    <p></p>
+  </main>
+
+  <section class="tools" style="max-width: 900px;">
+<!-- ===== Folder 1 ===== -->
+<div class="folder">
+  <div class="folder-header">
+    近代の成立
+    <span>▶</span>
+  </div>
+  <div class="folder-content" data-folder="modern"></div>
+</div>
+
+<!-- ===== Folder 2 ===== -->
+<div class="folder">
+  <div class="folder-header">
+    帝国主義と世界分割
+    <span>▶</span>
+  </div>
+  <div class="folder-content" data-folder="imperialism"></div>
+</div>
+
+<!-- ===== Folder 3 ===== -->
+<div class="folder">
+  <div class="folder-header">
+    戦争と国際秩序
+    <span>▶</span>
+  </div>
+  <div class="folder-content" data-folder="war"></div>
+</div>
+
+
+  </section>
+
+  <footer>
+    <p>History Forms Portal</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('.folder-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.parentElement.classList.toggle('open');
+      });
+    });
+  </script>
+  <script src="../../js/theme-toggle.js"></script>
+  <script src="forms-data.js"></script>
+<script>
+  document.querySelectorAll(".folder-content").forEach(content => {
+    const key = content.dataset.folder;
+    const forms = formData[key];
+    if (!forms) return;
+
+    forms.forEach(form => {
+      const a = document.createElement("a");
+      a.className = "form-link";
+      a.href = form.url;
+      a.target = "_blank";
+      a.textContent = form.title;
+      content.appendChild(a);
+    });
+  });
+</script>
+
+</body>
+</html>
