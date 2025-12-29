@@ -23,6 +23,13 @@ const formData = {
     { title: "【日露戦争とアジア 2】", url: "https://docs.google.com/forms/d/e/1FAIpQLSf-JbJbZHg7pXquRb8vvbrYjtkje8JAlX-ygQu47_6SQBaE9g/viewform?usp=sf_link" },
   ],
   folder5: [
+    { title: "【キューバ危機・緊張緩和】", url: "https://forms.gle/7NSdutc4cfUwno4L9" },
+    { title: "【中ソ対立・チェコ事件】", url: "https://forms.gle/5LsxhfUkv4mMJRrR6" },
+    { title: "【ベトナム戦争・アメリカの威信低下】", url: "https://forms.gle/czNQ3erU9bDH7YNp7" },
+    { title: "石油危機 ※問題数少なめ", url: "https://forms.gle/h5rDWJWGnjJtbUV37" },
+  ],
+  folder6: [],  
+  folder7: [
     { title: "地図問題編", url: "https://docs.google.com/forms/d/e/1FAIpQLSeP3kteUFDAXoyqaua8dBRL6w2CdAGjpsgNSAKjTdfFJCo6qw/viewform?usp=dialog" },
     { title: "番外編 授業プリントダイジェスト", url: "https://forms.gle/VN1VKxVd4TsX4ikNA" },
     { title: "番外編 公共 【古代ギリシアの哲学者たち】", url: "https://docs.google.com/forms/d/e/1FAIpQLSfVnnUuKiGdUIX9UWQpT0FNIju6BUiym5YyJstsSbUo2cDDoA/viewform?usp=sf_link" },
