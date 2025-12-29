@@ -3,352 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission Failed</title>
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <title>Mission Failed - YAJU</title>
+  <link rel="icon" type="image/svg+xml" href="resources/yaju-favicon.svg">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Press Start 2P', monospace;
-    }
-
-    body {
-      background: black;
-      color: #ff0000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow: hidden;
-      position: relative;
-      animation: backgroundPulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes backgroundPulse {
-      0%, 100% { background: black; }
-      50% { background: #1a0000; }
-    }
-
-    /* 警告ライン */
-    .warning-lines {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    .warning-line {
-      position: absolute;
-      width: 100%;
-      height: 3px;
-      background: repeating-linear-gradient(
-        90deg,
-        #ff0000 0px,
-        #ff0000 20px,
-        #ffff00 20px,
-        #ffff00 40px
-      );
-      animation: slideWarning 2s linear infinite;
-    }
-
-    @keyframes slideWarning {
-      from { transform: translateX(0); }
-      to { transform: translateX(40px); }
-    }
-
-    /* メインコンテンツ */
-    .container {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      padding: 40px;
-      max-width: 900px;
-      animation: shakeIn 0.5s ease-out;
-    }
-
-    @keyframes shakeIn {
-      0% { transform: translateX(-50px); opacity: 0; }
-      25% { transform: translateX(30px); }
-      50% { transform: translateX(-20px); }
-      75% { transform: translateX(10px); }
-      100% { transform: translateX(0); opacity: 1; }
-    }
-
-    /* タイトル */
-    .title {
-      font-size: 3em;
-      margin-bottom: 30px;
-      color: #ff0000;
-      text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
-      animation: blink 0.8s ease-in-out infinite;
-    }
-
-    @keyframes blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0.3; }
-    }
-
-    /* X マーク */
-    .cross-container {
-      width: 200px;
-      height: 200px;
-      margin: 0 auto 40px;
-      position: relative;
-    }
-
-    .cross-circle {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      border: 8px solid #ff0000;
-      animation: scaleIn 0.5s ease-out;
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0) rotate(180deg); opacity: 0; }
-      to { transform: scale(1) rotate(0); opacity: 1; }
-    }
-
-    .cross {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120px;
-      height: 120px;
-    }
-
-    .cross::before,
-    .cross::after {
-      content: '';
-      position: absolute;
-      background: #ff0000;
-      animation: drawCross 0.3s ease-out 0.3s forwards;
-      transform-origin: center;
-      opacity: 0;
-    }
-
-    .cross::before {
-      width: 12px;
-      height: 120px;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    .cross::after {
-      width: 120px;
-      height: 12px;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    @keyframes drawCross {
-      to { opacity: 1; }
-    }
-
-    /* メッセージボックス */
-    .message-box {
-      background: rgba(255, 0, 0, 0.05);
-      border: 3px solid #ff0000;
-      padding: 30px;
-      margin: 40px 0;
-      line-height: 2;
-      font-size: 1em;
-      animation: slideUp 1s ease-out 0.5s both;
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(50px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
-
-    .message-box h2 {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-      color: #ff0000;
-      animation: blink 1s ease-in-out infinite;
-    }
-
-    .message-box p {
-      font-size: 0.85em;
-      margin-bottom: 15px;
-      color: #cc0000;
-    }
-
-    .warning-text {
-      color: #ffff00;
-      animation: warningBlink 1.5s ease-in-out infinite;
-    }
-
-    @keyframes warningBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* ボタン */
-    .button-container {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 40px;
-      animation: fadeIn 1s ease-out 1s both;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    .btn {
-      background: black;
-      color: #ff0000;
-      border: 3px solid #ff0000;
-      padding: 15px 30px;
-      font-size: 1em;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .btn:hover {
-      background: #ff0000;
-      color: black;
-      box-shadow: 0 0 20px #ff0000;
-      transform: scale(1.05);
-    }
-
-    .btn.primary {
-      background: #ff0000;
-      color: black;
-    }
-
-    .btn.primary:hover {
-      background: black;
-      color: #ff0000;
-    }
-
-    /* レスポンシブ */
-    @media screen and (max-width: 768px) {
-      .container {
-        padding: 20px;
-      }
-
-      .title {
-        font-size: 2em;
-      }
-
-      .cross-container {
-        width: 150px;
-        height: 150px;
-      }
-
-      .cross-circle {
-        width: 150px;
-        height: 150px;
-        border-width: 6px;
-      }
-
-      .cross {
-        width: 90px;
-        height: 90px;
-      }
-
-      .cross::before {
-        width: 10px;
-        height: 90px;
-        transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      .cross::after {
-        width: 90px;
-        height: 10px;
-        transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      .message-box {
-        padding: 20px;
-        font-size: 0.85em;
-      }
-
-      .message-box h2 {
-        font-size: 1.2em;
-      }
-
-      .message-box p {
-        font-size: 0.75em;
-      }
-
-      .btn {
-        padding: 12px 24px;
-        font-size: 0.85em;
-      }
-    }
-
-    @media screen and (max-width: 480px) {
-      .title {
-        font-size: 1.5em;
-      }
-
-      .cross-container {
-        width: 120px;
-        height: 120px;
-      }
-
-      .cross-circle {
-        width: 120px;
-        height: 120px;
-        border-width: 5px;
-      }
-
-      .cross {
-        width: 70px;
-        height: 70px;
-      }
-
-      .cross::before {
-        width: 8px;
-        height: 70px;
-        transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      .cross::after {
-        width: 70px;
-        height: 8px;
-        transform: translate(-50%, -50%) rotate(45deg);
-      }
-
-      .message-box {
-        padding: 15px;
-        font-size: 0.75em;
-      }
-
-      .message-box h2 {
-        font-size: 1em;
-      }
-
-      .message-box p {
-        font-size: 0.65em;
-      }
-
-      .btn {
-        padding: 10px 20px;
-        font-size: 0.75em;
-      }
-
-      .button-container {
-        gap: 15px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="resources/fail.css">
 </head>
 <body>
   <!-- 警告ライン -->
@@ -365,6 +23,12 @@
     <div class="cross-container">
       <div class="cross-circle"></div>
       <div class="cross"></div>
+    </div>
+
+        <!-- ボタン -->
+    <div class="button-container">
+      <a href="index.html" class="btn primary">RETRY MISSION</a>
+      <a href="#" class="btn" onclick="window.close(); return false;">EXIT</a>
     </div>
 
     <!-- メッセージ -->
@@ -387,17 +51,14 @@
       </p>
     </div>
 
-    <!-- ボタン -->
-    <div class="button-container">
-      <a href="yaju_integrated.html" class="btn primary">RETRY MISSION</a>
-      <a href="#" class="btn" onclick="window.close(); return false;">EXIT</a>
-    </div>
+
   </div>
 
-  <!-- サウンドエフェクト -->
+  <!-- サウンドエフェクト 
   <audio id="fail-audio" autoplay>
     <source src="warning.mp3" type="audio/mpeg">
   </audio>
+  -->
 
   <script>
     // 警告音を再生（ファイルが存在する場合）

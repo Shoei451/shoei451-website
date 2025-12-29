@@ -449,3 +449,31 @@
         font-size: 1.8em;
       }
     }
+
+     /* Attribution ボタン */
+    #attribution-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background: black;
+      border: 2px solid #00ff00;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      z-index: 1000;
+      text-decoration: none;
+      font-size: 1.2em;
+      color: #00ff00;
+    }
+    
+    #attribution-btn:hover {
+      background: #00ff00;
+      color: black;
+      box-shadow: 0 0 20px #00ff00;
+      transform: scale(1.1);
+    }

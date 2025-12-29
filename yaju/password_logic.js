@@ -35,7 +35,7 @@
 
     const specialCodes = {
       "0810": { audio: "resources/hikakin.mp3", img: "resources/hikakin.png", title: "!!! SPECIAL ALERT !!!", sub: "なにを四天王" },
-      "114514": { audio: "resources/YAJU&U_8bit_cut.mp3", img: "resources/cozy.jpg", title: "!!! SPECIAL ALERT !!!", sub: "す こ こ い" }
+      "114514": { audio: "resources/YAJU&U_8bit_cut.mp3", img: "resources/cozy.png", title: "!!! SPECIAL ALERT !!!", sub: "す こ こ い" }
     };
 
     // === 残機表示更新 ===
