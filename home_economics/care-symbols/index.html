@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="/images/favicon.png">
+    <link rel="icon" href="../images/favicon.png">
     <title>衣類取り扱い表示クイズ — Shoei451</title>
-    <link rel="stylesheet" href="care-symbols-style.css">
+    <link rel="stylesheet" href="../../css/care-symbols-style.css">
 </head>
 <body>
     <div class="logo-switches">
@@ -108,31 +108,122 @@
                 <h2>素材特定モード</h2>
             </div>
 
-            <div class="material-instructions">
-                <h3>📖 使い方</h3>
-                <ol>
-                    <li>手元にある衣類のタグを確認</li>
-                    <li>洗濯表示記号を入力（該当するものをすべて選択）</li>
-                    <li>素材名を予想して入力</li>
-                    <li>正解を確認（データベースに記録されます）</li>
-                </ol>
-                <p class="note">※ 同じ素材でも製品によって表示が異なる場合があります</p>
+            <div class="material-menu">
+                <button class="mode-select-btn" onclick="showMaterialQuiz()">
+                    <span class="mode-icon">🎯</span>
+                    <span>クイズに挑戦</span>
+                </button>
+                <button class="mode-select-btn" onclick="showAddMaterial()">
+                    <span class="mode-icon">➕</span>
+                    <span>問題を追加</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Material Quiz Screen -->
+        <div id="materialQuizScreen" class="screen hidden">
+            <div class="top-bar">
+                <button onclick="backToMaterialMode()">戻る</button>
+                <div id="materialScore">スコア: 0/0</div>
             </div>
 
-            <div class="material-input-section">
-                <h3>洗濯表示記号を選択</h3>
-                <div id="symbolSelector" class="symbol-grid">
-                    <!-- JavaScript で生成 -->
+            <div id="materialProgressOuter">
+                <div id="materialProgressBar"></div>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 20px;">この服の素材構成は？</h3>
+
+            <div class="symbols-display">
+                <h4>洗濯表示記号:</h4>
+                <div id="materialSymbolsDisplay" class="symbols-row">
+                    <!-- 記号画像を表示 -->
+                </div>
+            </div>
+
+            <div id="materialQuestion">円グラフから正しい素材構成を選んでください</div>
+
+            <div id="pieChartChoices" class="pie-chart-grid">
+                <!-- 円グラフの選択肢を表示 -->
+            </div>
+
+            <div id="materialFeedback" class="feedback hidden"></div>
+            <button id="materialNextBtn" class="hidden">次の問題</button>
+        </div>
+
+        <!-- Material Results Screen -->
+        <div id="materialResultsScreen" class="screen hidden">
+            <h2>素材特定クイズ完了！</h2>
+            <div id="materialFinalScore"></div>
+            <button id="materialRestartBtn">もう一度挑戦</button>
+            <button onclick="backToMaterialMode()" class="ghost">素材モードに戻る</button>
+        </div>
+
+        <!-- Add Material Screen -->
+        <div id="addMaterialScreen" class="screen hidden">
+            <div class="top-bar">
+                <button onclick="backToMaterialMode()">戻る</button>
+                <h2>問題を追加</h2>
+            </div>
+
+            <div class="add-material-form">
+                <div class="field">
+                    <label><b>服の名前:</b></label>
+                    <input type="text" id="itemName" placeholder="例: 白いハンカチ、セーター" />
                 </div>
 
-                <div class="field" style="margin-top: 24px;">
-                    <label><b>予想する素材:</b></label>
-                    <input type="text" id="materialGuess" placeholder="例: 綿100%, ポリエステル65%・綿35%" />
+                <div class="field">
+                    <label><b>洗濯表示記号を選択（複数可）:</b></label>
+                    <div id="addSymbolSelector" class="symbol-grid">
+                        <!-- JavaScript で生成 -->
+                    </div>
                 </div>
 
-                <button id="submitMaterialBtn" class="primary">素材を推測</button>
-                
-                <div id="materialResult" class="material-result hidden"></div>
+                <div class="field">
+                    <label><b>素材の割合（合計100%）:</b></label>
+                    <div class="material-sliders">
+                        <div class="slider-item">
+                            <label>綿 (Cotton): <span id="cottonValue">0</span>%</label>
+                            <input type="range" id="cotton" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>ポリエステル (Polyester): <span id="polyesterValue">0</span>%</label>
+                            <input type="range" id="polyester" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>ウール (Wool): <span id="woolValue">0</span>%</label>
+                            <input type="range" id="wool" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>シルク (Silk): <span id="silkValue">0</span>%</label>
+                            <input type="range" id="silk" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>麻 (Linen): <span id="linenValue">0</span>%</label>
+                            <input type="range" id="linen" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>ナイロン (Nylon): <span id="nylonValue">0</span>%</label>
+                            <input type="range" id="nylon" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>アクリル (Acrylic): <span id="acrylicValue">0</span>%</label>
+                            <input type="range" id="acrylic" min="0" max="100" value="0" />
+                        </div>
+                        <div class="slider-item">
+                            <label>レーヨン (Rayon): <span id="rayonValue">0</span>%</label>
+                            <input type="range" id="rayon" min="0" max="100" value="0" />
+                        </div>
+                    </div>
+                    <div id="totalPercentage" class="total-display">合計: 0%</div>
+                </div>
+
+                <div class="field">
+                    <label>追加者の名前（任意）:</label>
+                    <input type="text" id="createdBy" placeholder="例: 山田太郎" />
+                </div>
+
+                <button id="submitMaterialDataBtn" class="primary">問題を追加</button>
+                <div id="addMaterialMessage" class="hidden"></div>
             </div>
         </div>
 
@@ -174,6 +265,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <script src="care-symbols-data.js"></script>
     <script src="care-symbols-logic.js"></script>
 </body>
