@@ -47,7 +47,7 @@
     padding: 15px;
     background: var(--accent);
     color: var(--primary);
-    border: none;
+    border: #1a2b3c 2px solid;
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 700;
@@ -109,6 +109,7 @@
 .exam-badge {
     background: var(--accent);
     color: #fff;
+    border: #1a2b3c 2px solid;
     padding: 5px 12px;
     border-radius: 12px;
     font-size: 0.85rem;

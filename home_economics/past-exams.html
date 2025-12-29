@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="../images/favicon.png" />
-<title>家庭基礎/保健 定期テスト過去問（限定公開）— Shoei451</title>
+<title>家庭基礎 定期テスト過去問（限定公開）— Shoei451</title>
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="../css/past-exams.css">
 </head>
+<body data-subject="home-economics" data-subject-name="家庭基礎" data-storage-path="home-economics"></body>
 <body>
 
 <!-- Theme Toggle -->
@@ -32,21 +33,22 @@
 
 <!-- Header -->
 <header>
-    <h1>🧵❤️ 家庭基礎/保健 定期テスト過去問</h1>
-    <p>学校メンバー限定公開</p>
+    <h1>🏠 家庭基礎 定期テスト過去問</h1>
+    <p>学校限定公開</p>
 </header>
 <section class="intro">
     <a href="index.html" class="back-link">Back to Home Economics Top</a>
 </section>
+
 <!-- Access Form -->
 <div id="accessForm" class="access-form">
-    <h2>🔒 アクセス認証</h2>
-    <p>この資料は学校メンバー限定です。<br>アクセスコードを入力してください。</p>
+    <h2>🔒 Access Authorization</h2>
+    <p>この資料は学校内限定公開です。<br>アクセスコードを入力してください。</p>
     
     <input 
         type="password" 
         id="codeInput" 
-        placeholder="アクセスコード"
+        placeholder="Enter Access Code here..."
         maxlength="20"
         onkeypress="if(event.key==='Enter') verifyAccess()"
     >
@@ -57,7 +59,7 @@
     
     <div class="note-box" style="margin-top: 30px; text-align: left;">
         <p><strong>📌 アクセスコードについて：</strong></p>
-        <p>• Classroomまたは掲示板で共有されています</p>
+        <p>• 校内で共有します</p>
         <p>• コードは定期的に変更されます</p>
     </div>
 </div>
@@ -68,28 +70,17 @@
         <h2>定期テスト過去問データベース</h2>
         
         <div class="note-box">
-            <p><strong>⚠️ 利用上の注意：</strong></p>
+            <p><strong>利用上の注意：</strong></p>
             <p>• これらの資料は学習目的でのみ使用してください</p>
-            <p>• 外部への共有・転載は厳禁です</p>
-            <p>• 実際のテスト問題とは異なる場合があります</p>
-            <p>• テストは年3回実施です。しっかり対策しましょう！</p>
         </div>
     </section>
 
-    <!-- 科目タブ -->
+    <!-- Semester Tabs -->
     <div class="subject-tabs">
-        <button class="subject-tab active" onclick="switchView('home-economics', '2025-term1')">🧵 家庭基礎 - 1学期</button>
-        <button class="subject-tab" onclick="switchView('home-economics', '2025-term2')">🧵 家庭基礎 - 2学期</button>
-        <button class="subject-tab" onclick="switchView('home-economics', '2025-term3')">🧵 家庭基礎 - 3学期</button>
+        <button class="subject-tab active" onclick="switchSemester('2025-term1')">2025年度 1学期</button>
+        <button class="subject-tab" onclick="switchSemester('2025-term2')">2025年度 2学期</button>
+        <button class="subject-tab" onclick="switchSemester('2025-term3')">2025年度 3学期</button>
     </div>
-    
-    <div class="subject-tabs">
-        <button class="subject-tab" onclick="switchView('healthcare', '2025-term1')">❤️ 保健 - 1学期</button>
-        <button class="subject-tab" onclick="switchView('healthcare', '2025-term2')">❤️ 保健 - 2学期</button>
-        <button class="subject-tab" onclick="switchView('healthcare', '2025-term3')">❤️ 保健 - 3学期</button>
-    </div>
-
-    <div id="currentSelection"></div>
 
     <div id="loadingMessage" class="loading">
         <p>📂 過去問データを読み込み中...</p>
@@ -99,200 +90,9 @@
 </div>
 
 <!-- Scripts -->
-<script src="../js/supabase.js"></script>
-<script>
-// Theme Toggle
-if (localStorage.getItem("pref-theme") === "dark") {
-    document.body.classList.add('dark');
-} else if (localStorage.getItem("pref-theme") === "light") {
-    document.body.classList.remove('dark');
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add('dark');
-}
-
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    if (document.body.classList.contains('dark')) {
-        localStorage.setItem('pref-theme', 'dark');
-    } else {
-        localStorage.setItem('pref-theme', 'light');
-    }
-});
-
-
-// Supabase設定
-const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-// 現在の選択
-let currentSubject = 'home-economics';
-let currentSemester = '2025-term1';
-
-// アクセス確認
-async function verifyAccess() {
-    const code = document.getElementById('codeInput').value.trim();
-    const messageDiv = document.getElementById('message');
-    
-    if (!code) {
-        messageDiv.innerHTML = '<p class="error-message">アクセスコードを入力してください</p>';
-        return;
-    }
-    
-    messageDiv.innerHTML = '<p style="color: var(--secondary);">確認中...</p>';
-    
-    try {
-        const { data, error } = await supabaseClient
-            .from('access_codes')
-            .select('*')
-            .eq('code', code)
-            .eq('active', true)
-            .eq('subject', 'home-economics-healthcare')
-            .single();
-        
-        if (error) throw error;
-        
-        if (data) {
-            messageDiv.innerHTML = '<p class="success-message">✓ 認証成功</p>';
-            sessionStorage.setItem('homeEconomicsAccess', 'verified');
-            sessionStorage.setItem('accessExpiry', Date.now() + (24 * 60 * 60 * 1000));
-            
-            setTimeout(() => {
-                showProtectedContent();
-            }, 500);
-        } else {
-            messageDiv.innerHTML = '<p class="error-message">✗ コードが正しくありません</p>';
-        }
-    } catch (error) {
-        console.error('認証エラー:', error);
-        messageDiv.innerHTML = '<p class="error-message">エラーが発生しました。もう一度お試しください。</p>';
-    }
-}
-
-// 保護されたコンテンツ表示
-function showProtectedContent() {
-    document.getElementById('accessForm').style.display = 'none';
-    document.getElementById('protectedContent').style.display = 'block';
-    updateSelection();
-    loadExamPapers(currentSubject, currentSemester);
-}
-
-// 表示内容切り替え
-function switchView(subject, semester) {
-    currentSubject = subject;
-    currentSemester = semester;
-    
-    document.querySelectorAll('.subject-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    event.target.classList.add('active');
-    
-    updateSelection();
-    
-    document.getElementById('examList').innerHTML = '';
-    document.getElementById('loadingMessage').style.display = 'block';
-    loadExamPapers(subject, semester);
-}
-
-// 現在の選択を表示
-function updateSelection() {
-    const subjectName = currentSubject === 'home-economics' ? '家庭基礎' : '保健';
-    const [year, term] = currentSemester.split('-');
-    const termNum = term.replace('term', '');
-    document.getElementById('currentSelection').textContent = 
-        `${subjectName} ${year}年度 第${termNum}学期`;
-}
-
-// 過去問データ読み込み
-async function loadExamPapers(subject, semester) {
-    const listDiv = document.getElementById('examList');
-    const loadingDiv = document.getElementById('loadingMessage');
-    
-    try {
-        const { data: files, error } = await supabaseClient
-            .storage
-            .from('exam-papers')
-            .list(`${subject}/${semester}`, {
-                limit: 100,
-                offset: 0,
-                sortBy: { column: 'name', order: 'asc' }
-            });
-        
-        if (error) throw error;
-        
-        loadingDiv.style.display = 'none';
-        
-        if (!files || files.length === 0) {
-            listDiv.innerHTML = '<p style="text-align: center; color: var(--secondary);">この学期の過去問はまだアップロードされていません。</p>';
-            return;
-        }
-        
-        const pdfFiles = files.filter(file => file.name.endsWith('.pdf'));
-        
-        if (pdfFiles.length === 0) {
-            listDiv.innerHTML = '<p style="text-align: center; color: var(--secondary);">この学期の過去問はまだアップロードされていません。</p>';
-            return;
-        }
-        
-        pdfFiles.forEach(file => {
-            const fileName = file.name.replace('.pdf', '');
-            const [year, term] = semester.split('-');
-            const termNum = term.replace('term', '');
-            const subjectName = subject === 'home-economics' ? '家庭基礎' : '保健';
-            
-            let examType = '';
-            if (fileName.includes('midterm') || fileName.includes('中間')) {
-                examType = '中間試験';
-            } else if (fileName.includes('final') || fileName.includes('期末')) {
-                examType = '期末試験';
-            } else if (fileName.includes('quiz')) {
-                examType = '小テスト';
-            } else {
-                examType = fileName;
-            }
-            
-            const { data: urlData } = supabaseClient
-                .storage
-                .from('exam-papers')
-                .getPublicUrl(`${subject}/${semester}/${file.name}`);
-            
-            const card = document.createElement('div');
-            card.className = 'exam-card';
-            card.innerHTML = `
-                <h3>${subjectName} ${year}年度 第${termNum}学期 ${examType}</h3>
-                <div class="exam-meta">
-                    <span class="exam-badge">📅 ${year}年度 第${termNum}学期</span>
-                    <span class="exam-badge">📝 ${examType}</span>
-                    <span class="exam-badge">📄 ${(file.metadata?.size / 1024).toFixed(0)} KB</span>
-                </div>
-                <a href="${urlData.publicUrl}" target="_blank" class="exam-link">
-                    📥 PDFを開く
-                </a>
-            `;
-            
-            listDiv.appendChild(card);
-        });
-        
-    } catch (error) {
-        console.error('読み込みエラー:', error);
-        loadingDiv.innerHTML = '<p style="color: #f44336;">データの読み込みに失敗しました。</p>';
-    }
-}
-
-// セッション確認
-window.addEventListener('DOMContentLoaded', () => {
-    const accessVerified = sessionStorage.getItem('homeEconomicsAccess');
-    const expiry = sessionStorage.getItem('accessExpiry');
-    
-    if (accessVerified === 'verified' && expiry && Date.now() < parseInt(expiry)) {
-        showProtectedContent();
-    } else {
-        sessionStorage.removeItem('homeEconomicsAccess');
-        sessionStorage.removeItem('accessExpiry');
-    }
-});
-</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/past-exams.js"></script>
+<script src="../js/theme-toggle.js"></script>
 
 </body>
 </html>

@@ -6,39 +6,7 @@
 <link rel="icon" href="../images/favicon.png" />
 <title>Home Economics — Shoei451</title>
 <link rel="stylesheet" href="../css/common.css">
-<style>
-.card-icon-img {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    margin-bottom: 15px;
-    transition: transform 0.4s;
-}
-
-.card:hover .card-icon-img {
-    transform: scale(1.2) rotate(5deg);
-}
-
-.section-divider {
-    max-width: 1200px;
-    margin: 80px auto 60px;
-    padding: 0 20px;
-}
-
-.section-title {
-    font-size: 2rem;
-    color: var(--primary);
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.section-description {
-    text-align: center;
-    color: var(--secondary);
-    margin-bottom: 40px;
-    font-size: 1.1rem;
-}
-</style>
+<link rel="stylesheet" href="../css/sub-index.css">
 </head>
 <body>
 
@@ -87,12 +55,23 @@
 
 <!-- SECTION 2-->
 <div class="section-divider">
-    <h2 class="section-title">家庭基礎 2025年度 定期試験過去問</h2>
-    <p class="section-description">家庭基礎の定期試験の過去問データです。</p>
+    <h2 class="section-title">衣類の取り扱い表示クイズ</h2>
+    <p class="section-description">衣類の取り扱い表示記号と素材を結び付けて覚えるクイズ。2つのモードから選べます</p>
 </div>
 
 <section class="cards-container" id="container2">
     <!-- Section 2 Cards-->
+</section>
+
+
+<!-- SECTION 3-->
+<div class="section-divider">
+    <h2 class="section-title">家庭基礎 2025年度 定期試験過去問</h2>
+    <p class="section-description">家庭基礎の定期試験の過去問データです。</p>
+</div>
+
+<section class="cards-container" id="container3">
+    <!-- Section 3 Cards-->
 </section>
 
 <!-- Footer -->
@@ -103,25 +82,9 @@
 <!-- Scripts -->
 <script src="list1.js"></script>
 <script src="list2.js"></script>
+<script src="list3.js"></script>
+<script src="../js/theme-toggle.js"></script>
 <script>
-// Theme Toggle
-if (localStorage.getItem("pref-theme") === "dark") {
-    document.body.classList.add('dark');
-} else if (localStorage.getItem("pref-theme") === "light") {
-    document.body.classList.remove('dark');
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add('dark');
-}
-
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    if (document.body.classList.contains('dark')) {
-        localStorage.setItem('pref-theme', 'dark');
-    } else {
-        localStorage.setItem('pref-theme', 'light');
-    }
-});
 
 // Function to generate cards
 function generateCards(items, containerId) {
@@ -150,22 +113,22 @@ function generateCards(items, containerId) {
         } else {
             iconHTML = `<div class="card-icon">${item.icon}</div>`;
         }
-        
-        
+
+
         // 外部リンクアイコンを追加
-const externalIcon = (isExternal || item.target === '_blank') ? 
+        const externalIcon = (isExternal || item.target === '_blank') ? 
     `<svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
         <polyline points="15 3 21 3 21 9"></polyline>
         <line x1="10" y1="14" x2="21" y2="3"></line>
     </svg>` : '';
-
-cardElement.innerHTML = `
+    
+    cardElement.innerHTML = `
     ${iconHTML}
     <h3>${item.title}${externalIcon}</h3>
     <p class="subtitle">${item.titleEN || ''}</p>
     <p>${item.description}</p>
-`;
+    `;
         container.appendChild(cardElement);
     });
 }
@@ -177,7 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Generate Section 2 (Optional)
     generateCards(sectionItems2, 'container2');
-        // Animate all cards
+
+    // Generate Section 3 (Optional)
+    generateCards(sectionItems3, 'container3');
+    
+    // Animate all cards
     const cards = document.querySelectorAll('.card');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
