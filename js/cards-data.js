@@ -42,4 +42,11 @@ const cardsList = [
         text: "上記の文類に収まりきらないツールはここにまとめて入れます", 
         link: "others/" 
     },
+    { 
+        icon: "🔗",
+        title: "Links for Learning", 
+        titleJP: "学習リンク集",
+        text: "おすすめの学習サイトのリンク集です", 
+        link: "learning-links.html" 
+    },
 ];
