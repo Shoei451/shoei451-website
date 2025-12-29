@@ -86,6 +86,7 @@ button:hover {
 button.primary {
     background: linear-gradient(135deg, var(--accent), #f5a623);
     color: #fff;
+    border: #1a2b3c solid 2px;
     font-size: 16px;
     padding: 14px 32px;
 }
@@ -772,5 +773,261 @@ body:not(.dark) #sun {
 
     .quiz-wrapper {
         padding: 0 16px;
+    }
+}
+
+
+/* ================================================
+   追加CSS - care-symbols-style.cssの末尾に追加
+   ================================================ */
+
+/* Material section styling with category colors */
+.material-section {
+    margin-bottom: 24px;
+    padding: 20px;
+    background: var(--theme);
+    border-radius: 16px;
+    border: 2px solid var(--accent);
+    transition: all 0.3s;
+}
+
+.material-section-title {
+    font-size: 1.2rem;
+    color: var(--primary);
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--accent);
+    text-align: left;
+    font-weight: 700;
+}
+
+/* Category-specific colors - 天然繊維（植物） */
+.material-section[data-category="natural_plant"] {
+    border-color: #66bb6a;
+}
+
+.material-section[data-category="natural_plant"] .material-section-title {
+    color: #2e7d32;
+    border-bottom-color: #66bb6a;
+}
+
+.material-section[data-category="natural_plant"] .slider-item input[type="range"]::-webkit-slider-thumb {
+    background: #66bb6a;
+}
+
+.material-section[data-category="natural_plant"] .slider-item input[type="range"]::-moz-range-thumb {
+    background: #66bb6a;
+}
+
+/* Category-specific colors - 天然繊維（動物） */
+.material-section[data-category="natural_animal"] {
+    border-color: #ffa726;
+}
+
+.material-section[data-category="natural_animal"] .material-section-title {
+    color: #e65100;
+    border-bottom-color: #ffa726;
+}
+
+.material-section[data-category="natural_animal"] .slider-item input[type="range"]::-webkit-slider-thumb {
+    background: #ffa726;
+}
+
+.material-section[data-category="natural_animal"] .slider-item input[type="range"]::-moz-range-thumb {
+    background: #ffa726;
+}
+
+/* Category-specific colors - 再生繊維 */
+.material-section[data-category="regenerated"] {
+    border-color: #26a69a;
+}
+
+.material-section[data-category="regenerated"] .material-section-title {
+    color: #00695c;
+    border-bottom-color: #26a69a;
+}
+
+.material-section[data-category="regenerated"] .slider-item input[type="range"]::-webkit-slider-thumb {
+    background: #26a69a;
+}
+
+.material-section[data-category="regenerated"] .slider-item input[type="range"]::-moz-range-thumb {
+    background: #26a69a;
+}
+
+/* Category-specific colors - 合成繊維 */
+.material-section[data-category="synthetic"] {
+    border-color: #5c6bc0;
+}
+
+.material-section[data-category="synthetic"] .material-section-title {
+    color: #3949ab;
+    border-bottom-color: #5c6bc0;
+}
+
+.material-section[data-category="synthetic"] .slider-item input[type="range"]::-webkit-slider-thumb {
+    background: #5c6bc0;
+}
+
+.material-section[data-category="synthetic"] .slider-item input[type="range"]::-moz-range-thumb {
+    background: #5c6bc0;
+}
+
+/* Category-specific colors - 皮革類 */
+.material-section[data-category="leather"] {
+    border-color: #8d6e63;
+}
+
+.material-section[data-category="leather"] .material-section-title {
+    color: #5d4037;
+    border-bottom-color: #8d6e63;
+}
+
+.material-section[data-category="leather"] .slider-item input[type="range"]::-webkit-slider-thumb {
+    background: #8d6e63;
+}
+
+.material-section[data-category="leather"] .slider-item input[type="range"]::-moz-range-thumb {
+    background: #8d6e63;
+}
+
+/* Dark mode adjustments */
+body.dark .material-section[data-category="natural_plant"] .material-section-title {
+    color: #81c784;
+}
+
+body.dark .material-section[data-category="natural_animal"] .material-section-title {
+    color: #ffb74d;
+}
+
+body.dark .material-section[data-category="regenerated"] .material-section-title {
+    color: #4db6ac;
+}
+
+body.dark .material-section[data-category="synthetic"] .material-section-title {
+    color: #7986cb;
+}
+
+body.dark .material-section[data-category="leather"] .material-section-title {
+    color: #a1887f;
+}
+
+/* Improve material sliders spacing within sections */
+.material-section .material-sliders {
+    display: grid;
+    gap: 12px;
+}
+
+.material-section .slider-item {
+    padding: 12px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.material-section .slider-item:hover {
+    transform: translateX(5px);
+}
+
+/* Material sliders container */
+#materialSlidersContainer {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+#materialSlidersContainer::-webkit-scrollbar {
+    width: 8px;
+}
+
+#materialSlidersContainer::-webkit-scrollbar-track {
+    background: var(--theme);
+    border-radius: 4px;
+}
+
+#materialSlidersContainer::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+#materialSlidersContainer::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .material-section {
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+    
+    .material-section-title {
+        font-size: 1.1rem;
+    }
+    
+    #materialSlidersContainer {
+        max-height: 500px;
+    }
+}
+
+/* Smooth transitions for section hover */
+.material-section:hover {
+    box-shadow: 0 6px 20px var(--shadow);
+    transform: translateY(-2px);
+}
+
+
+/* スライダーと数値入力の横並びレイアウト */
+.slider-input-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.material-slider {
+    flex: 1;
+    height: 8px;
+    border-radius: 5px;
+    background: #ddd;
+    outline: none;
+    -webkit-appearance: none;
+}
+
+.material-number-input {
+    width: 70px;
+    padding: 8px;
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 600;
+    background: var(--theme);
+    color: var(--primary);
+    transition: all 0.3s;
+}
+
+.material-number-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
+}
+
+/* Chrome, Safari, Edge, Opera - スピナーを非表示にしない（使いやすさ重視） */
+.material-number-input::-webkit-inner-spin-button,
+.material-number-input::-webkit-outer-spin-button {
+    opacity: 1;
+}
+
+/* スマホでの見やすさ */
+@media (max-width: 768px) {
+    .material-number-input {
+        width: 60px;
+        padding: 6px;
+        font-size: 0.9rem;
+    }
+    
+    .slider-input-container {
+        gap: 8px;
     }
 }

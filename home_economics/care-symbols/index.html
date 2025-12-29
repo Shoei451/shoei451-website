@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../css/care-symbols-style.css">
 </head>
 <body>
+    <!-- Theme Toggle -->
     <div class="logo-switches">
         <button id="theme-toggle" aria-label="Toggle theme">
             <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -33,13 +34,14 @@
         <!-- Start Screen -->
         <div id="startScreen" class="screen">
             <h2></h2>
-            <p class="note">衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。</p>
+            <p class="note">衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。<br>
+            「素材特定モード」では、<u>ぜひ問題を追加していってください。</u>服の裏タグのマークと素材構成を入力して、作問できます。</p>
             
             <div class="explanation">
                 <h3>📋 クイズモード</h3>
                 <ul>
                     <li><strong>基本モード:</strong> マークを見て意味を4択で答える</li>
-                    <li><strong>素材特定モード:</strong> 実際の衣類を見て、表示の組み合わせから素材を特定する練習（Supabaseに記録）</li>
+                    <li><strong>素材特定モード:</strong> 実際の衣類を見て、表示の組み合わせから素材を特定する練習（27種類の素材に対応）</li>
                 </ul>
                 <p style="margin-top: 12px; font-size: 0.9em; color: var(--secondary);">
                     ※ 画像は「ICOMPO」の商用フリー素材を使用しています
@@ -101,7 +103,7 @@
             <button id="startBasicBtn" class="primary">クイズ開始</button>
         </div>
 
-        <!-- Material Mode (Supabase) -->
+        <!-- Material Mode -->
         <div id="materialMode" class="screen hidden">
             <div class="top-bar">
                 <button onclick="backToStart()">戻る</button>
@@ -180,40 +182,12 @@
 
                 <div class="field">
                     <label><b>素材の割合（合計100%）:</b></label>
-                    <div class="material-sliders">
-                        <div class="slider-item">
-                            <label>綿 (Cotton): <span id="cottonValue">0</span>%</label>
-                            <input type="range" id="cotton" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>ポリエステル (Polyester): <span id="polyesterValue">0</span>%</label>
-                            <input type="range" id="polyester" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>ウール (Wool): <span id="woolValue">0</span>%</label>
-                            <input type="range" id="wool" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>シルク (Silk): <span id="silkValue">0</span>%</label>
-                            <input type="range" id="silk" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>麻 (Linen): <span id="linenValue">0</span>%</label>
-                            <input type="range" id="linen" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>ナイロン (Nylon): <span id="nylonValue">0</span>%</label>
-                            <input type="range" id="nylon" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>アクリル (Acrylic): <span id="acrylicValue">0</span>%</label>
-                            <input type="range" id="acrylic" min="0" max="100" value="0" />
-                        </div>
-                        <div class="slider-item">
-                            <label>レーヨン (Rayon): <span id="rayonValue">0</span>%</label>
-                            <input type="range" id="rayon" min="0" max="100" value="0" />
-                        </div>
+                    
+                    <!-- 素材スライダーを動的に生成 -->
+                    <div id="materialSlidersContainer">
+                        <!-- JavaScriptで動的生成 -->
                     </div>
+
                     <div id="totalPercentage" class="total-display">合計: 0%</div>
                 </div>
 
@@ -264,8 +238,10 @@
         <div id="error" class="error hidden"></div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="materials-master.js"></script>
     <script src="care-symbols-data.js"></script>
     <script src="care-symbols-logic.js"></script>
 </body>

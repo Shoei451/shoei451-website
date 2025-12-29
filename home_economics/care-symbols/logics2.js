@@ -748,22 +748,51 @@ function initializeAddMaterialForm() {
                 const sliderItem = document.createElement('div');
                 sliderItem.className = 'slider-item';
                 
-                const label = document.createElement('label');
-                label.innerHTML = `${material.nameJa} (${material.nameEn}): <span id="${material.code}Value">0</span>%`;
-                
-                const slider = document.createElement('input');
-                slider.type = 'range';
-                slider.id = material.code;
-                slider.min = '0';
-                slider.max = '100';
-                slider.value = '0';
-                slider.oninput = function() {
-                    document.getElementById(`${material.code}Value`).textContent = this.value;
-                    updateTotalPercentage();
-                };
-                
-                sliderItem.appendChild(label);
-                sliderItem.appendChild(slider);
+// === 変更後 ===
+const label = document.createElement('label');
+label.innerHTML = `${material.nameJa} (${material.nameEn})`;
+
+// スライダーと数値入力のコンテナ
+const inputContainer = document.createElement('div');
+inputContainer.className = 'slider-input-container';
+
+// スライダー
+const slider = document.createElement('input');
+slider.type = 'range';
+slider.id = material.code;
+slider.className = 'material-slider';
+slider.min = '0';
+slider.max = '100';
+slider.value = '0';
+
+// 数値入力欄
+const numberInput = document.createElement('input');
+numberInput.type = 'number';
+numberInput.id = `${material.code}Number`;
+numberInput.className = 'material-number-input';
+numberInput.min = '0';
+numberInput.max = '100';
+numberInput.value = '0';
+
+// スライダーが変更されたら数値入力も更新
+slider.oninput = function() {
+    numberInput.value = this.value;
+    updateTotalPercentage();
+};
+
+// 数値入力が変更されたらスライダーも更新
+numberInput.oninput = function() {
+    const value = Math.max(0, Math.min(100, parseInt(this.value) || 0));
+    this.value = value;
+    slider.value = value;
+    updateTotalPercentage();
+};
+
+inputContainer.appendChild(slider);
+inputContainer.appendChild(numberInput);
+
+sliderItem.appendChild(label);
+sliderItem.appendChild(inputContainer);
                 slidersDiv.appendChild(sliderItem);
             });
             
@@ -809,6 +838,7 @@ function toggleAddSymbol(symbolId, element) {
 function updateTotalPercentage() {
     const allCodes = getAllMaterialCodes();
     const total = allCodes.reduce((sum, code) => {
+        // スライダーから値を取得（数値入力と連動しているのでどちらでもOK）
         const slider = document.getElementById(code);
         return sum + (slider ? parseInt(slider.value) : 0);
     }, 0);
@@ -890,14 +920,13 @@ document.getElementById('submitMaterialDataBtn').addEventListener('click', async
         document.getElementById('createdBy').value = '';
         
         // すべてのスライダーをリセット
-        getAllMaterialCodes().forEach(code => {
-            const slider = document.getElementById(code);
-            const valueSpan = document.getElementById(`${code}Value`);
-            if (slider && valueSpan) {
-                slider.value = 0;
-                valueSpan.textContent = '0';
-            }
-        });
+        // === 変更後 ===
+getAllMaterialCodes().forEach(code => {
+    const slider = document.getElementById(code);
+    const numberInput = document.getElementById(`${code}Number`);
+    if (slider) slider.value = 0;
+    if (numberInput) numberInput.value = 0;
+});
         
         selectedSymbols.clear();
         document.querySelectorAll('#addSymbolSelector .symbol-option').forEach(el => el.classList.remove('selected'));
