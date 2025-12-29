@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Secure Terminal 2025 — Shoei451</title>
+  <link rel="icon" type="image/svg+xml" href="resources/yaju-favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="yaju.css">
+</head>
+<body>
+  <!-- ヘッダー: 残機とタイマー -->
+  <div id="header">
+    <div id="lives-container">
+      <span>LIVES:</span>
+      <div id="lives-bar">
+        <div class="life-block"></div>
+        <div class="life-block"></div>
+        <div class="life-block"></div>
+        <div class="life-block"></div>
+        <div class="life-block"></div>
+      </div>
+    </div>
+    
+    <div id="timer-container">
+      <span>TIMER:</span>
+      <div id="timer-display">05:00</div>
+      <button class="timer-btn" id="start-timer">START</button>
+      <button class="timer-btn" id="stop-timer">STOP</button>
+      <button class="timer-btn" id="restart-timer">RESTART</button>
+      <button class="timer-btn" id="reset-timer">RESET</button>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div id="container">
+    <div id="description">
+      <h2>INTRODUCTION</h2>
+      <p>You barely dodged the laser and made it into the laboratory. Inside, you find a periodic table on the wall, scattered red and blue fragments on the desk, and stacks of books. Your mission is to solve the laboratory's mystery and activate this emergency stop device!!!</p>
+      <p>命からがらレーザーをかいくぐったあなたは、実験室に入った。
+        実験室内には、壁に貼られた周期表と、机の上に散らばる赤・青の小片、そして大量の本。
+        あなたの使命は実験室内の謎を解き、この緊急停止装置を作動させることだ！！！</p>
+      <p>数字キーを押して４桁のパスワードを入力してください。</p>
+    </div>
+
+    <div id="terminal">
+      <h1>ENTER PASSWORD</h1>
+      <div id="display"></div>
+      <div class="keypad">
+        <div class="btn">1</div><div class="btn">2</div><div class="btn">3</div>
+        <div class="btn">4</div><div class="btn">5</div><div class="btn">6</div>
+        <div class="btn">7</div><div class="btn">8</div><div class="btn">9</div>
+        <div class="btn">←</div><div class="btn">0</div><div class="btn">C</div>
+        <div class="btn enter">ENTER</div>
+      </div>
+      <div id="message"></div>
+    </div>
+  </div>
+
+  <!-- サウンド -->
+  <audio id="warning-sound" src="resources/warning.mp3" preload="auto"></audio>
+  <audio id="succeed-sound" src="resources/success.mp3" preload="auto"></audio>
+  <audio id="click-sound" src="resources/click.mp3" preload="auto"></audio>
+
+  <div id="loading-bar"></div>
+
+  <div id="specialWarning">
+    <img id="sw-img" src="resources/cozy.jpg" alt="BEAST">
+    <h1 id="sw-title">!!! SPECIAL ALERT !!!</h1>
+    <p id="sw-sub">なにを四天王 by岡本</p>
+  </div>
+  <script src="password_logic.js"></script>
+
+</body>
+</html>

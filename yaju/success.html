@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission Complete</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Press Start 2P', monospace;
+    }
+
+    body {
+      background: black;
+      color: #00ff00;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* 背景アニメーション */
+    .bg-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      z-index: 0;
+    }
+
+    .grid-line {
+      position: absolute;
+      background: #00ff00;
+    }
+
+    .grid-line.horizontal {
+      width: 100%;
+      height: 2px;
+      animation: slideDown 3s linear infinite;
+    }
+
+    .grid-line.vertical {
+      width: 2px;
+      height: 100%;
+      animation: slideRight 3s linear infinite;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100vh); }
+      to { transform: translateY(100vh); }
+    }
+
+    @keyframes slideRight {
+      from { transform: translateX(-100vw); }
+      to { transform: translateX(100vw); }
+    }
+
+    /* メインコンテンツ */
+    .container {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 40px;
+      max-width: 900px;
+      animation: fadeIn 1s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* タイトル */
+    .title {
+      font-size: 3em;
+      margin-bottom: 30px;
+      text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { text-shadow: 0 0 20px #00ff00, 0 0 40px #00ff00; }
+      50% { text-shadow: 0 0 30px #00ff00, 0 0 60px #00ff00, 0 0 80px #00ff00; }
+    }
+
+    /* チェックマークアニメーション */
+    .checkmark-container {
+      width: 200px;
+      height: 200px;
+      margin: 0 auto 40px;
+      position: relative;
+    }
+
+    .checkmark-circle {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      border: 8px solid #00ff00;
+      animation: scaleIn 0.5s ease-out;
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .checkmark {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      width: 60px;
+      height: 100px;
+      border-bottom: 12px solid #00ff00;
+      border-right: 12px solid #00ff00;
+      animation: drawCheck 0.5s ease-out 0.3s forwards;
+      opacity: 0;
+    }
+
+    @keyframes drawCheck {
+      to { opacity: 1; }
+    }
+
+    /* メッセージボックス */
+    .message-box {
+      background: rgba(0, 255, 0, 0.05);
+      border: 3px solid #00ff00;
+      padding: 30px;
+      margin: 40px 0;
+      line-height: 2;
+      font-size: 1em;
+      animation: slideUp 1s ease-out 0.5s both;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .message-box h2 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      color: #00ff00;
+    }
+
+    .message-box p {
+      font-size: 0.85em;
+      margin-bottom: 15px;
+      color: #00cc00;
+    }
+
+    /* ボタン */
+    .button-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 40px;
+      animation: fadeIn 1s ease-out 1s both;
+    }
+
+    .btn {
+      background: black;
+      color: #00ff00;
+      border: 3px solid #00ff00;
+      padding: 15px 30px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn:hover {
+      background: #00ff00;
+      color: black;
+      box-shadow: 0 0 20px #00ff00;
+      transform: scale(1.05);
+    }
+
+    /* レスポンシブ */
+    @media screen and (max-width: 768px) {
+      .container {
+        padding: 20px;
+      }
+
+      .title {
+        font-size: 2em;
+      }
+
+      .checkmark-container {
+        width: 150px;
+        height: 150px;
+      }
+
+      .checkmark-circle {
+        width: 150px;
+        height: 150px;
+        border-width: 6px;
+      }
+
+      .checkmark {
+        width: 45px;
+        height: 75px;
+        border-width: 10px;
+      }
+
+      .message-box {
+        padding: 20px;
+        font-size: 0.85em;
+      }
+
+      .message-box h2 {
+        font-size: 1.2em;
+      }
+
+      .message-box p {
+        font-size: 0.75em;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        font-size: 0.85em;
+      }
+    }
+
+    @media screen and (max-width: 480px) {
+      .title {
+        font-size: 1.5em;
+      }
+
+      .checkmark-container {
+        width: 120px;
+        height: 120px;
+      }
+
+      .checkmark-circle {
+        width: 120px;
+        height: 120px;
+        border-width: 5px;
+      }
+
+      .checkmark {
+        width: 35px;
+        height: 60px;
+        border-width: 8px;
+      }
+
+      .message-box {
+        padding: 15px;
+        font-size: 0.75em;
+      }
+
+      .message-box h2 {
+        font-size: 1em;
+      }
+
+      .message-box p {
+        font-size: 0.65em;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        font-size: 0.75em;
+      }
+
+      .button-container {
+        gap: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 背景グリッドアニメーション -->
+  <div class="bg-animation">
+    <div class="grid-line horizontal" style="top: 10%;"></div>
+    <div class="grid-line horizontal" style="top: 30%; animation-delay: 1s;"></div>
+    <div class="grid-line horizontal" style="top: 50%; animation-delay: 2s;"></div>
+    <div class="grid-line horizontal" style="top: 70%; animation-delay: 0.5s;"></div>
+    <div class="grid-line horizontal" style="top: 90%; animation-delay: 1.5s;"></div>
+    
+    <div class="grid-line vertical" style="left: 15%;"></div>
+    <div class="grid-line vertical" style="left: 35%; animation-delay: 1.2s;"></div>
+    <div class="grid-line vertical" style="left: 55%; animation-delay: 0.8s;"></div>
+    <div class="grid-line vertical" style="left: 75%; animation-delay: 1.8s;"></div>
+  </div>
+
+  <!-- メインコンテンツ -->
+  <div class="container">
+    <h1 class="title">MISSION COMPLETE</h1>
+
+    <!-- チェックマーク -->
+    <div class="checkmark-container">
+      <div class="checkmark-circle"></div>
+      <div class="checkmark"></div>
+    </div>
+
+    <!-- メッセージ -->
+    <div class="message-box">
+      <h2>/// EMERGENCY STOP ACTIVATED ///</h2>
+      <p>
+        You have successfully activated the emergency stop device!<br>
+        The runaway experiment has been terminated.<br>
+        The laboratory is now safe.
+      </p>
+      <p>
+        緊急停止装置の作動に成功しました！<br>
+        暴走していた実験は停止され、実験室は安全な状態に戻りました。<br>
+        あなたの冷静な判断と勇気が、大惨事を防いだのです。
+      </p>
+      <p style="margin-top: 25px; color: #00ff00;">
+        /// MISSION STATUS: SUCCESS ///<br>
+        /// THREAT LEVEL: NEUTRALIZED ///<br>
+        /// ALL SYSTEMS: NOMINAL ///
+      </p>
+    </div>
+
+    <!-- ボタン -->
+    <div class="button-container">
+      <a href="yaju_integrated.html" class="btn">RETURN TO TERMINAL</a>
+      <a href="#" class="btn" onclick="window.close(); return false;">EXIT</a>
+    </div>
+  </div>
+
+  <!-- サウンドエフェクト -->
+  <audio id="success-audio" autoplay>
+    <source src="succeed.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    // 成功音を再生（ファイルが存在する場合）
+    const audio = document.getElementById('success-audio');
+    audio.volume = 0.5;
+    audio.play().catch(e => {
+      // 自動再生がブロックされた場合は無視
+      console.log('Audio autoplay blocked');
+    });
+
+    // キーボードショートカット
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' || e.key === 'Enter') {
+        window.location.href = 'yaju_integrated.html';
+      }
+    });
+  </script>
+</body>
+</html>
