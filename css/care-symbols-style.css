@@ -1140,7 +1140,7 @@ body.dark .material-section[data-category="leather"] .material-section-title {
 }
 
 .symbol-grid::-webkit-scrollbar-track {
-    background: var(--theme);
+    background: #1a1a1a;
     border-radius: 4px;
 }
 
