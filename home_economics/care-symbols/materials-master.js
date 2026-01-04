@@ -10,7 +10,7 @@ const MATERIALS = {
         nameJa: '綿',
         nameEn: 'Cotton',
         category: 'natural_plant',
-        color: '#E8F5E9',
+        color: '#2e7d32',
         description: '吸湿性に優れ、肌触りが良い'
     },
     linen: {
@@ -18,7 +18,7 @@ const MATERIALS = {
         nameJa: '麻',
         nameEn: 'Linen',
         category: 'natural_plant',
-        color: '#F1F8E9',
+        color: '#558b2f',
         description: '通気性が良く、涼しい'
     },
     ramie: {
@@ -26,7 +26,7 @@ const MATERIALS = {
         nameJa: 'ラミー',
         nameEn: 'Ramie',
         category: 'natural_plant',
-        color: '#F9FBE7',
+        color: '#689f38',
         description: '麻の一種、シャリ感がある'
     },
 
@@ -36,7 +36,7 @@ const MATERIALS = {
         nameJa: 'ウール',
         nameEn: 'Wool',
         category: 'natural_animal',
-        color: '#FFF3E0',
+        color: '#f57c00',
         description: '保温性が高く、弾力がある'
     },
     silk: {
@@ -44,7 +44,7 @@ const MATERIALS = {
         nameJa: 'シルク',
         nameEn: 'Silk',
         category: 'natural_animal',
-        color: '#FCE4EC',
+        color: '#c2185b',
         description: '光沢があり、肌触りが滑らか'
     },
     cashmere: {
@@ -52,7 +52,7 @@ const MATERIALS = {
         nameJa: 'カシミヤ',
         nameEn: 'Cashmere',
         category: 'natural_animal',
-        color: '#FFF8E1',
+        color: '#ffa000',
         description: '高級素材、非常に柔らかい'
     },
     mohair: {
@@ -60,7 +60,7 @@ const MATERIALS = {
         nameJa: 'モヘア',
         nameEn: 'Mohair',
         category: 'natural_animal',
-        color: '#FFF9C4',
+        color: '#f9a825',
         description: 'アンゴラヤギの毛、光沢がある'
     },
     angora: {
@@ -68,7 +68,7 @@ const MATERIALS = {
         nameJa: 'アンゴラ',
         nameEn: 'Angora',
         category: 'natural_animal',
-        color: '#FFEBEE',
+        color: '#d32f2f',
         description: 'アンゴラウサギの毛、柔らかい'
     },
     alpaca: {
@@ -76,7 +76,7 @@ const MATERIALS = {
         nameJa: 'アルパカ',
         nameEn: 'Alpaca',
         category: 'natural_animal',
-        color: '#EFEBE9',
+        color: '#5d4037',
         description: '南米産、保温性が高い'
     },
     down: {
@@ -84,7 +84,7 @@ const MATERIALS = {
         nameJa: 'ダウン',
         nameEn: 'Down',
         category: 'natural_animal',
-        color: '#ECEFF1',
+        color: '#455a64',
         description: '羽毛、軽くて保温性が高い'
     },
     feather: {
@@ -92,7 +92,7 @@ const MATERIALS = {
         nameJa: 'フェザー',
         nameEn: 'Feather',
         category: 'natural_animal',
-        color: '#E0F2F1',
+        color: '#00796b',
         description: '羽根、ダウンより硬め'
     },
 
@@ -102,7 +102,7 @@ const MATERIALS = {
         nameJa: 'レーヨン',
         nameEn: 'Rayon',
         category: 'regenerated',
-        color: '#FFF9C4',
+        color: '#fbc02d',
         description: '植物由来の再生繊維'
     },
     cupro: {
@@ -110,7 +110,7 @@ const MATERIALS = {
         nameJa: 'キュプラ',
         nameEn: 'Cupro',
         category: 'regenerated',
-        color: '#F0F4C3',
+        color: '#afb42b',
         description: '裏地によく使われる、滑らかな質感'
     },
     lyocell: {
@@ -118,7 +118,7 @@ const MATERIALS = {
         nameJa: 'リヨセル',
         nameEn: 'Lyocell',
         category: 'regenerated',
-        color: '#E8F5E9',
+        color: '#66bb6a',
         description: '環境に優しい再生繊維（テンセル）'
     },
     modal: {
@@ -126,7 +126,7 @@ const MATERIALS = {
         nameJa: 'モダール',
         nameEn: 'Modal',
         category: 'regenerated',
-        color: '#F1F8E9',
+        color: '#7cb342',
         description: 'レーヨンの改良版、柔らかい'
     },
     acetate: {
@@ -134,7 +134,7 @@ const MATERIALS = {
         nameJa: 'アセテート',
         nameEn: 'Acetate',
         category: 'regenerated',
-        color: '#FFF8E1',
+        color: '#ffb300',
         description: '光沢があり、ドレープ性が良い'
     },
     triacetate: {
@@ -142,7 +142,7 @@ const MATERIALS = {
         nameJa: 'トリアセテート',
         nameEn: 'Triacetate',
         category: 'regenerated',
-        color: '#FFFDE7',
+        color: '#fdd835',
         description: 'アセテートの改良版'
     },
 
@@ -152,7 +152,7 @@ const MATERIALS = {
         nameJa: 'ポリエステル',
         nameEn: 'Polyester',
         category: 'synthetic',
-        color: '#E3F2FD',
+        color: '#1976d2',
         description: 'シワになりにくく、乾きやすい'
     },
     nylon: {
@@ -160,7 +160,7 @@ const MATERIALS = {
         nameJa: 'ナイロン',
         nameEn: 'Nylon',
         category: 'synthetic',
-        color: '#E0F2F1',
+        color: '#0097a7',
         description: '強度が高く、軽い'
     },
     acrylic: {
@@ -168,7 +168,7 @@ const MATERIALS = {
         nameJa: 'アクリル',
         nameEn: 'Acrylic',
         category: 'synthetic',
-        color: '#F3E5F5',
+        color: '#7b1fa2',
         description: 'ウールに似た風合い'
     },
     polyurethane: {
@@ -176,7 +176,7 @@ const MATERIALS = {
         nameJa: 'ポリウレタン',
         nameEn: 'Polyurethane',
         category: 'synthetic',
-        color: '#E8EAF6',
+        color: '#512da8',
         description: '伸縮性がある（スパンデックス）'
     },
     polypropylene: {
@@ -184,7 +184,7 @@ const MATERIALS = {
         nameJa: 'ポリプロピレン',
         nameEn: 'Polypropylene',
         category: 'synthetic',
-        color: '#E1F5FE',
+        color: '#0288d1',
         description: '軽量で速乾性がある'
     },
 
@@ -194,7 +194,7 @@ const MATERIALS = {
         nameJa: 'レザー',
         nameEn: 'Leather',
         category: 'leather',
-        color: '#D7CCC8',
+        color: '#6d4c41',
         description: '本革、耐久性が高い'
     },
     suede: {
@@ -202,7 +202,7 @@ const MATERIALS = {
         nameJa: 'スエード',
         nameEn: 'Suede',
         category: 'leather',
-        color: '#BCAAA4',
+        color: '#4e342e',
         description: '起毛革、柔らかい質感'
     },
     faux_leather: {
@@ -210,7 +210,7 @@ const MATERIALS = {
         nameJa: '合成皮革',
         nameEn: 'Faux Leather',
         category: 'leather',
-        color: '#CFD8DC',
+        color: '#546e7a',
         description: '人工皮革、手入れが簡単'
     }
 };
