@@ -779,12 +779,47 @@ function initializeAddMaterialForm() {
 
 function initializeSymbolSelector() {
     const symbolSelector = document.getElementById('addSymbolSelector');
-    symbolSelector.innerHTML = '';
     selectedSymbols.clear();
     
-    materialIdentificationSymbols.forEach(symbol => {
+    // カテゴリータブのイベントリスナー設定
+    document.querySelectorAll('.symbol-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            // タブの切り替え
+            document.querySelectorAll('.symbol-tab').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            // 選択されたカテゴリーの記号を表示
+            const category = this.getAttribute('data-category');
+            displaySymbolsByCategory(category);
+        });
+    });
+    
+    // 初期表示（洗濯処理）
+    displaySymbolsByCategory('washing');
+    updateSelectedSymbolsCount();
+}
+
+function displaySymbolsByCategory(category) {
+    const symbolSelector = document.getElementById('addSymbolSelector');
+    symbolSelector.innerHTML = '';
+    
+    // カテゴリーごとの記号を取得
+    const symbolsInCategory = materialIdentificationSymbols.filter(s => s.category === category);
+    
+    if (symbolsInCategory.length === 0) {
+        symbolSelector.innerHTML = '<p style="text-align: center; color: var(--secondary);">このカテゴリーには記号がありません</p>';
+        return;
+    }
+    
+    symbolsInCategory.forEach(symbol => {
         const div = document.createElement('div');
         div.className = 'symbol-option';
+        
+        // 既に選択されている場合は selected クラスを追加
+        if (selectedSymbols.has(symbol.id)) {
+            div.classList.add('selected');
+        }
+        
         div.onclick = () => toggleAddSymbol(symbol.id, div);
         
         div.innerHTML = `
@@ -795,6 +830,25 @@ function initializeSymbolSelector() {
         symbolSelector.appendChild(div);
     });
 }
+
+function toggleAddSymbol(symbolId, element) {
+    if (selectedSymbols.has(symbolId)) {
+        selectedSymbols.delete(symbolId);
+        element.classList.remove('selected');
+    } else {
+        selectedSymbols.add(symbolId);
+        element.classList.add('selected');
+    }
+    updateSelectedSymbolsCount();
+}
+
+function updateSelectedSymbolsCount() {
+    const countElement = document.getElementById('selectedSymbolsCount');
+    if (countElement) {
+        countElement.textContent = `${selectedSymbols.size}個`;
+    }
+}
+
 
 function toggleAddSymbol(symbolId, element) {
     if (selectedSymbols.has(symbolId)) {
@@ -898,7 +952,15 @@ document.getElementById('submitMaterialDataBtn').addEventListener('click', async
                 valueSpan.textContent = '0';
             }
         });
-        
+        // submitMaterialDataBtn のイベントリスナー内でリセット後に追加
+selectedSymbols.clear();
+document.querySelectorAll('.symbol-option').forEach(el => el.classList.remove('selected'));
+updateSelectedSymbolsCount();
+
+// 最初のタブに戻す
+document.querySelectorAll('.symbol-tab').forEach(t => t.classList.remove('active'));
+document.querySelector('.symbol-tab[data-category="washing"]').classList.add('active');
+displaySymbolsByCategory('washing');
         selectedSymbols.clear();
         document.querySelectorAll('#addSymbolSelector .symbol-option').forEach(el => el.classList.remove('selected'));
         updateTotalPercentage();

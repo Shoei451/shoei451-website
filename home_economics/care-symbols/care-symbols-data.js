@@ -527,22 +527,307 @@ const categoryNames = {
     "cleaning": "クリーニング"
 };
 
-// 素材特定用のシンボルセット（よく使う記号のみ）
+
+// ========================================
+// 素材特定用のシンボルセット（拡張版）
+// care-symbols-data.js の末尾に追加または置き換え
+// ========================================
+
+// 素材特定用のシンボルセット（全記号対応）
 const materialIdentificationSymbols = [
-    { id: "wash-30-normal", label: "洗濯機30℃", imageUrl: "/images/care-symbols/wash-30-normal.svg" },
-    { id: "wash-40-normal", label: "洗濯機40℃", imageUrl: "/images/care-symbols/wash-40-normal.svg" },
-    { id: "hand-wash-30", label: "手洗い30℃", imageUrl: "/images/care-symbols/hand-wash-30.svg" },
-    { id: "wash-prohibited", label: "洗濯禁止", imageUrl: "/images/care-symbols/wash-prohibited.svg" },
-    { id: "bleach-ok", label: "漂白剤OK", imageUrl: "/images/care-symbols/bleach-ok.svg" },
-    { id: "bleach-oxygen-only", label: "酸素系OK", imageUrl: "/images/care-symbols/bleach-oxygen-only.svg" },
-    { id: "bleach-prohibited", label: "漂白剤禁止", imageUrl: "/images/care-symbols/bleach-prohibited.svg" },
-    { id: "tumble-dry-prohibited", label: "タンブル乾燥禁止", imageUrl: "/images/care-symbols/tumble-dry-prohibited.svg" },
-    { id: "hang-dry", label: "つり干し", imageUrl: "/images/care-symbols/hang-dry.svg" },
-    { id: "flat-dry", label: "平干し", imageUrl: "/images/care-symbols/flat-dry.svg" },
-    { id: "iron-210", label: "高温210℃", imageUrl: "/images/care-symbols/iron-210.svg" },
-    { id: "iron-160", label: "中温160℃", imageUrl: "/images/care-symbols/iron-160.svg" },
-    { id: "iron-120", label: "低温120℃", imageUrl: "/images/care-symbols/iron-120.svg" },
-    { id: "iron-prohibited", label: "アイロン禁止", imageUrl: "/images/care-symbols/iron-prohibited.svg" },
-    { id: "dry-clean-ok", label: "ドライクリーニングOK", imageUrl: "/images/care-symbols/dry-clean-ok.svg" },
-    { id: "dry-clean-prohibited", label: "ドライクリーニング禁止", imageUrl: "/images/care-symbols/dry-clean-prohibited.svg" }
+    // === 洗濯処理 ===
+    { 
+        id: "wash-30-normal", 
+        label: "洗濯機30℃", 
+        imageUrl: "/images/care-symbols/wash-30-normal.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-30-weak", 
+        label: "洗濯機30℃（弱）", 
+        imageUrl: "/images/care-symbols/wash-30-weak.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-30-very-weak", 
+        label: "洗濯機30℃（弱弱）", 
+        imageUrl: "/images/care-symbols/wash-30-very-weak.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-40-normal", 
+        label: "洗濯機40℃", 
+        imageUrl: "/images/care-symbols/wash-40-normal.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-40-weak", 
+        label: "洗濯機40℃（弱）", 
+        imageUrl: "/images/care-symbols/wash-40-weak.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-40-very-weak", 
+        label: "洗濯機40℃（弱弱）", 
+        imageUrl: "/images/care-symbols/wash-40-very-weak.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-50-normal", 
+        label: "洗濯機50℃", 
+        imageUrl: "/images/care-symbols/wash-50-normal.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-50-weak", 
+        label: "洗濯機50℃（弱）", 
+        imageUrl: "/images/care-symbols/wash-50-weak.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-60-normal", 
+        label: "洗濯機60℃", 
+        imageUrl: "/images/care-symbols/wash-60-normal.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-60-weak", 
+        label: "洗濯機60℃（弱）", 
+        imageUrl: "/images/care-symbols/wash-60-weak.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-70-normal", 
+        label: "洗濯機70℃", 
+        imageUrl: "/images/care-symbols/wash-70-normal.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-95-normal", 
+        label: "洗濯機95℃", 
+        imageUrl: "/images/care-symbols/wash-95-normal.svg",
+        category: "washing"
+    },
+    { 
+        id: "hand-wash-30", 
+        label: "手洗い30℃", 
+        imageUrl: "/images/care-symbols/hand-wash-30.svg",
+        category: "washing"
+    },
+    { 
+        id: "hand-wash-40", 
+        label: "手洗い40℃", 
+        imageUrl: "/images/care-symbols/hand-wash-40.svg",
+        category: "washing"
+    },
+    { 
+        id: "wash-prohibited", 
+        label: "洗濯禁止", 
+        imageUrl: "/images/care-symbols/wash-prohibited.svg",
+        category: "washing"
+    },
+
+    // === 漂白処理 ===
+    { 
+        id: "bleach-ok", 
+        label: "漂白剤OK", 
+        imageUrl: "/images/care-symbols/bleach-ok.svg",
+        category: "bleaching"
+    },
+    { 
+        id: "bleach-oxygen-only", 
+        label: "酸素系OK", 
+        imageUrl: "/images/care-symbols/bleach-oxygen-only.svg",
+        category: "bleaching"
+    },
+    { 
+        id: "bleach-prohibited", 
+        label: "漂白剤禁止", 
+        imageUrl: "/images/care-symbols/bleach-prohibited.svg",
+        category: "bleaching"
+    },
+
+    // === 乾燥処理 ===
+    { 
+        id: "tumble-dry-60", 
+        label: "タンブル乾燥60℃", 
+        imageUrl: "/images/care-symbols/tumble-dry-60.svg",
+        category: "drying"
+    },
+    { 
+        id: "tumble-dry-80", 
+        label: "タンブル乾燥80℃", 
+        imageUrl: "/images/care-symbols/tumble-dry-80.svg",
+        category: "drying"
+    },
+    { 
+        id: "tumble-dry-prohibited", 
+        label: "タンブル乾燥禁止", 
+        imageUrl: "/images/care-symbols/tumble-dry-prohibited.svg",
+        category: "drying"
+    },
+    { 
+        id: "hang-dry", 
+        label: "つり干し", 
+        imageUrl: "/images/care-symbols/hang-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "drip-hang-dry", 
+        label: "ぬれつり干し", 
+        imageUrl: "/images/care-symbols/drip-hang-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "flat-dry", 
+        label: "平干し", 
+        imageUrl: "/images/care-symbols/flat-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "drip-flat-dry", 
+        label: "ぬれ平干し", 
+        imageUrl: "/images/care-symbols/drip-flat-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "shade-hang-dry", 
+        label: "日陰つり干し", 
+        imageUrl: "/images/care-symbols/shade-hang-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "shade-drip-hang-dry", 
+        label: "日陰ぬれつり干し", 
+        imageUrl: "/images/care-symbols/shade-drip-hang-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "shade-flat-dry", 
+        label: "日陰平干し", 
+        imageUrl: "/images/care-symbols/shade-flat-dry.svg",
+        category: "drying"
+    },
+    { 
+        id: "shade-drip-flat-dry", 
+        label: "日陰ぬれ平干し", 
+        imageUrl: "/images/care-symbols/shade-drip-flat-dry.svg",
+        category: "drying"
+    },
+
+    // === アイロン仕上げ ===
+    { 
+        id: "iron-210", 
+        label: "高温210℃", 
+        imageUrl: "/images/care-symbols/iron-210.svg",
+        category: "ironing"
+    },
+    { 
+        id: "iron-160", 
+        label: "中温160℃", 
+        imageUrl: "/images/care-symbols/iron-160.svg",
+        category: "ironing"
+    },
+    { 
+        id: "iron-120", 
+        label: "低温120℃", 
+        imageUrl: "/images/care-symbols/iron-120.svg",
+        category: "ironing"
+    },
+    { 
+        id: "iron-120-no-steam", 
+        label: "低温120℃スチーム禁止", 
+        imageUrl: "/images/care-symbols/iron-120-no-steam.svg",
+        category: "ironing"
+    },
+    { 
+        id: "iron-prohibited", 
+        label: "アイロン禁止", 
+        imageUrl: "/images/care-symbols/iron-prohibited.svg",
+        category: "ironing"
+    },
+
+    // === クリーニング ===
+    { 
+        id: "dry-clean-ok", 
+        label: "ドライクリーニングOK", 
+        imageUrl: "/images/care-symbols/dry-clean-ok.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "dry-clean-weak", 
+        label: "ドライクリーニングOK（弱）", 
+        imageUrl: "/images/care-symbols/dry-clean-weak.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "petroleum-only", 
+        label: "石油系のみOK", 
+        imageUrl: "/images/care-symbols/petroleum-only.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "petroleum-only-weak", 
+        label: "石油系のみOK（弱）", 
+        imageUrl: "/images/care-symbols/petroleum-only-weak.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "dry-clean-prohibited", 
+        label: "ドライクリーニング禁止", 
+        imageUrl: "/images/care-symbols/dry-clean-prohibited.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "wet-clean-ok", 
+        label: "ウェットクリーニングOK", 
+        imageUrl: "/images/care-symbols/wet-clean-ok.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "wet-clean-weak", 
+        label: "ウェットクリーニングOK（弱）", 
+        imageUrl: "/images/care-symbols/wet-clean-weak.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "wet-clean-very-weak", 
+        label: "ウェットクリーニングOK（弱弱）", 
+        imageUrl: "/images/care-symbols/wet-clean-very-weak.svg",
+        category: "cleaning"
+    },
+    { 
+        id: "wet-clean-prohibited", 
+        label: "ウェットクリーニング禁止", 
+        imageUrl: "/images/care-symbols/wet-clean-prohibited.svg",
+        category: "cleaning"
+    }
 ];
+
+// カテゴリー名の定義（記号選択画面での表示用）
+const symbolCategoryNames = {
+    washing: "🧺 洗濯処理",
+    bleaching: "🧴 漂白処理",
+    drying: "🌤️ 乾燥処理",
+    ironing: "🔥 アイロン仕上げ",
+    cleaning: "🧼 クリーニング"
+};
+
+// カテゴリーごとに記号を取得する関数
+function getSymbolsByCategory() {
+    const grouped = {
+        washing: [],
+        bleaching: [],
+        drying: [],
+        ironing: [],
+        cleaning: []
+    };
+    
+    materialIdentificationSymbols.forEach(symbol => {
+        if (grouped[symbol.category]) {
+            grouped[symbol.category].push(symbol);
+        }
+    });
+    
+    return grouped;
+}

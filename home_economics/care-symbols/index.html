@@ -175,9 +175,23 @@
 
                 <div class="field">
                     <label><b>洗濯表示記号を選択（複数可）:</b></label>
-                    <div id="addSymbolSelector" class="symbol-grid">
+                    <!-- カテゴリータブ -->
+                     <div class="symbol-category-tabs">
+                        <button class="symbol-tab active" data-category="washing">🧺 洗濯</button>
+                        <button class="symbol-tab" data-category="bleaching">🧴 漂白</button>
+                        <button class="symbol-tab" data-category="drying">🌤️ 乾燥</button>
+                        <button class="symbol-tab" data-category="ironing">🔥 アイロン</button>
+                        <button class="symbol-tab" data-category="cleaning">🧼 クリーニング</button>
+                    </div>
+                    <!-- 記号グリッド -->
+                     <div id="addSymbolSelector" class="symbol-grid">
                         <!-- JavaScript で生成 -->
                     </div>
+                        <!-- 選択中の記号表示 -->
+                         <div id="selectedSymbolsDisplay" class="selected-symbols-display">
+                            <strong>選択中: </strong>
+                            <span id="selectedSymbolsCount">0個</span>
+                        </div>
                 </div>
 
                 <div class="field">

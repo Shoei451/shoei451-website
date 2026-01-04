@@ -1031,3 +1031,141 @@ body.dark .material-section[data-category="leather"] .material-section-title {
         gap: 8px;
     }
 }
+
+/* 1月4日追加*/
+/* Symbol category tabs */
+.symbol-category-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.symbol-tab {
+    padding: 10px 16px;
+    background: var(--theme);
+    border: 2px solid var(--accent);
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--primary);
+    transition: all 0.3s;
+}
+
+.symbol-tab:hover {
+    background: var(--accent);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.symbol-tab.active {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(250, 186, 64, 0.4);
+}
+
+/* Selected symbols display */
+.selected-symbols-display {
+    margin-top: 16px;
+    padding: 12px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+#selectedSymbolsCount {
+    font-weight: 700;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+/* Symbol grid improvements */
+.symbol-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 12px;
+    background: var(--theme);
+    border-radius: 12px;
+    border: 2px solid var(--accent);
+}
+
+.symbol-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background: var(--card-bg);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.symbol-option:hover {
+    border-color: var(--accent);
+    transform: scale(1.05);
+}
+
+.symbol-option.selected {
+    border-color: var(--primary);
+    background: rgba(250, 186, 64, 0.2);
+    box-shadow: 0 4px 12px rgba(250, 186, 64, 0.3);
+}
+
+.symbol-option img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-bottom: 6px;
+}
+
+.symbol-option label {
+    font-size: 0.75rem;
+    text-align: center;
+    cursor: pointer;
+    color: var(--primary);
+    line-height: 1.3;
+}
+
+/* スクロールバーのスタイル */
+.symbol-grid::-webkit-scrollbar {
+    width: 8px;
+}
+
+.symbol-grid::-webkit-scrollbar-track {
+    background: var(--theme);
+    border-radius: 4px;
+}
+
+.symbol-grid::-webkit-scrollbar-thumb {
+    background: var(--accent);
+    border-radius: 4px;
+}
+
+.symbol-grid::-webkit-scrollbar-thumb:hover {
+    background: var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .symbol-category-tabs {
+        flex-direction: column;
+    }
+    
+    .symbol-tab {
+        width: 100%;
+        text-align: center;
+    }
+    
+    .symbol-grid {
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 8px;
+        max-height: 300px;
+    }
+}
