@@ -1062,6 +1062,7 @@ body.dark .material-section[data-category="leather"] .material-section-title {
 .symbol-tab.active {
     background: var(--accent);
     color: #fff;
+    border: #1a2b3c solid 2px;
     box-shadow: 0 4px 12px rgba(250, 186, 64, 0.4);
 }
 
