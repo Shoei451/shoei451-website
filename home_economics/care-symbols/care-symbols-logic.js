@@ -656,10 +656,7 @@ function showMaterialFeedback(question, isCorrect) {
                 <div class="feedback-value">${compositionText}</div>
             </div>
             ${question.created_by ? `
-            <div class="feedback-item">
-                <span class="feedback-label">追加者</span>
-                <div class="feedback-value">${question.created_by}</div>
-            </div>
+            
             ` : ''}
         </div>
     `;
