@@ -845,7 +845,7 @@ function toggleAddSymbol(symbolId, element) {
 function updateSelectedSymbolsCount() {
     const countElement = document.getElementById('selectedSymbolsCount');
     if (countElement) {
-        countElement.textContent = `${selectedSymbols.size}個`;
+        countElement.textContent = ``;
     }
 }
 
