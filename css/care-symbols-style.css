@@ -475,6 +475,12 @@ body.dark .symbol-display {
     transition: all 0.3s;
     border: 3px solid transparent;
     text-align: center;
+
+    /* 追加: Flexboxで中央揃え */
+    display: flex;
+    flex-direction: column;
+    align-items: center;      /* 追加: 水平方向中央 */
+    justify-content: center;  /* 追加: 垂直方向中央 */
 }
 
 .pie-chart-option:hover {
@@ -496,6 +502,7 @@ body.dark .symbol-display {
     max-width: 200px;
     max-height: 200px;
     margin: 0 auto;
+    
 }
 
 .pie-chart-label {
@@ -503,6 +510,22 @@ body.dark .symbol-display {
     font-size: 0.9rem;
     color: var(--secondary);
     font-weight: 600;
+    display: block;
+
+    text-align: center;       /* 確認: 中央揃え */
+    width: 100%;              /* 追加: 幅を100%に */
+}
+
+/* Chart.jsのコンテナも中央揃え */
+.pie-chart-option canvas {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* Canvasの親要素も中央揃え */
+.pie-chart-option > * {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 /* Material sliders */
