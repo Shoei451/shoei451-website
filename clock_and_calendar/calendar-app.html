@@ -4,402 +4,64 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" href="../images/favicon.png" />
-  <title>学生用カレンダー設計アプリ</title>
-  <style>
-    :root{
-  --bg:#f8fafc;
-  --panel:#ffffff;
-  --muted:#94a3b8;
-  --text:#0f172a;
-  --sub:#64748b;
-  --brand:#10b981;
-  --accent:#3b82f6;
-  --danger:#ef4444;
-  --warn:#f59e0b;
-  --ok:#10b981;
-  --border:#e2e8f0;
-  --shadow: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-lg: 0 10px 25px rgba(0,0,0,0.1);
-}
-
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0; 
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans JP", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color:var(--text);
-  -webkit-tap-highlight-color: transparent;
-  min-height:100vh;
-}
-
-.app{max-width:1200px; margin:0 auto; padding:20px;}
-header{display:flex; align-items:center; gap:16px; justify-content:space-between; margin-bottom:20px; flex-wrap:wrap; background:rgba(255,255,255,0.15); backdrop-filter:blur(10px); padding:16px 20px; border-radius:20px; box-shadow:var(--shadow-lg)}
-.brand{display:flex; align-items:center; gap:12px; min-width:250px}
-.brand .logo{
-  width:40px; height:40px; border-radius:12px; 
-  background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  box-shadow:0 4px 15px rgba(102,126,234,0.4);
-  flex-shrink:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#fff;
-  font-weight:800;
-  font-size:20px;
-}
-.brand h1{font-size:20px; margin:0; letter-spacing:0.3px; color:#fff; font-weight:700}
-.controls{display:flex; flex-direction:column; gap:8px; width:100%}
-.controls .row-nav{display:flex; gap:8px; flex-wrap:wrap}
-.controls .row-action{display:flex; gap:8px; flex-wrap:wrap}
-.controls .row-export{display:flex; gap:8px; flex-wrap:wrap}
-.controls .row-danger{display:flex; gap:8px; flex-wrap:wrap}
-
-@media (max-width: 768px){
-  .app{padding:12px;}
-  header{gap:12px; padding:12px 16px; border-radius:16px; margin-bottom:16px}
-  .brand h1{font-size:16px}
-  .brand .hint{display:none}
-  .brand .logo{width:36px; height:36px; font-size:18px}
-  .controls{gap:6px}
-  .controls .row-nav, .controls .row-action, .controls .row-export, .controls .row-danger{gap:6px}
-}
-button, select, input, textarea{
-  background:rgba(255,255,255,0.95); 
-  color:var(--text); 
-  border:1px solid rgba(255,255,255,0.3); 
-  border-radius:12px; 
-  padding:10px 14px;
-  font-size:14px; 
-  min-height:44px;
-  font-family: inherit;
-  transition: all 0.2s ease;
-  box-shadow: var(--shadow);
-}
-button{
-  cursor:pointer; 
-  touch-action:manipulation;
-  font-weight:600;
-}
-button:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-button:active{
-  transform: translateY(0);
-}
-button.primary{
-  background: linear-gradient(135deg, var(--brand), #059669); 
-  border:none; 
-  box-shadow:0 4px 15px rgba(16,185,129,0.3);
-  color:#fff;
-}
-button.ghost{
-  background:rgba(255,255,255,0.2); 
-  border:1px solid rgba(255,255,255,0.4);
-  color:#fff;
-  backdrop-filter: blur(5px);
-}
-button.warn{
-  background:linear-gradient(135deg, var(--warn), #d97706); 
-  border:none;
-  color:#fff;
-  box-shadow:0 4px 15px rgba(245,158,11,0.3);
-}
-button.danger{
-  background:linear-gradient(135deg, var(--danger), #dc2626); 
-  border:none; 
-  color:#fff;
-  box-shadow:0 4px 15px rgba(239,68,68,0.3);
-}
-
-@media (max-width: 768px){
-  button, select, input, textarea{
-    padding:12px 14px; font-size:15px; min-height:48px; border-radius:10px;
-  }
-}
-
-.grid{display:grid; grid-template-columns: 2fr 1fr; gap:12px}
-@media (max-width: 980px){ .grid{grid-template-columns:1fr; gap:8px} }
-
-.panel{
-  background: rgba(255,255,255,0.95); 
-  border:1px solid rgba(255,255,255,0.3); 
-  border-radius:20px; 
-  overflow:hidden; 
-  box-shadow:var(--shadow-lg);
-  backdrop-filter: blur(10px);
-}
-.panel-header{
-  display:flex; 
-  align-items:center; 
-  justify-content:space-between; 
-  padding:16px 20px; 
-  border-bottom:1px solid var(--border); 
-  flex-wrap:wrap; 
-  gap:12px;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
-}
-.panel-body{padding:20px; overflow-x:auto}
-
-@media (max-width: 768px){
-  .panel{border-radius:16px}
-  .panel-header{padding:12px 16px; font-size:14px}
-  .panel-body{padding:16px}
-}
-
-.calendar{
-  display:grid; 
-  grid-template-columns: repeat(7, minmax(0, 1fr)); 
-  border-radius:12px;
-  overflow:hidden;
-  border:1px solid var(--border);
-  width:100%;
-}
-.dow{
-  font-size:13px; 
-  text-align:center; 
-  color:var(--sub); 
-  padding:12px 0; 
-  font-weight:700;
-  min-width:60px;
-  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
-  border-bottom:2px solid var(--border);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.cell{
-  min-height:110px; 
-  border-right:1px solid var(--border);
-  border-bottom:1px solid var(--border);
-  position:relative; 
-  padding:8px; 
-  background: #ffffff;
-  transition: all 0.2s ease; 
-  cursor:pointer; 
-  min-width:60px; 
-  word-break:break-word;
-}
-.cell:nth-child(7n){border-right:none}
-.cell:hover{
-  background:#f8fafc;
-  box-shadow: inset 0 0 0 2px var(--accent);
-}
-.cell:active{background:#f1f5f9}
-.date{
-  font-size:13px; 
-  color:var(--sub); 
-  margin-bottom:6px;
-  font-weight:600;
-}
-.today{
-  background: linear-gradient(135deg, rgba(59,130,246,0.1), rgba(99,102,241,0.1));
-}
-.today .date{
-  color:#fff;
-  background: linear-gradient(135deg, var(--accent), #6366f1);
-  display:inline-block;
-  padding:4px 8px;
-  border-radius:8px;
-  font-weight:700;
-}
-
-@media (max-width: 768px){
-  .calendar{font-size:12px; grid-template-columns: repeat(7, minmax(50px, 1fr)); border-radius:10px}
-  .dow{font-size:11px; padding:10px 2px; min-width:50px; letter-spacing:0.3px}
-  .cell{min-height:80px; padding:4px; min-width:50px}
-  .date{font-size:12px; margin-bottom:4px; padding:3px 6px}
-}
-
-@media (max-width: 480px){
-  .calendar{grid-template-columns: repeat(7, minmax(45px, 1fr))}
-  .dow{font-size:10px; padding:8px 1px; min-width:45px}
-  .cell{min-height:70px; padding:3px; min-width:45px}
-  .date{font-size:11px; padding:2px 5px}
-}
-
-.chip{
-  display:inline-block; 
-  padding:4px 8px; 
-  border-radius:8px; 
-  font-size:11px; 
-  margin:3px 3px 0 0; 
-  white-space:nowrap; 
-  overflow:hidden; 
-  text-overflow:ellipsis; 
-  max-width:100%; 
-  cursor:pointer; 
-  line-height:1.3;
-  font-weight:600;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: all 0.2s ease;
-}
-.chip:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-@media (max-width: 768px){
-  .chip{font-size:9px; padding:3px 6px; margin:2px 2px 0 0; line-height:1.2; border-radius:6px}
-}
-
-@media (max-width: 480px){
-  .chip{font-size:8px; padding:2px 4px; margin:1px 1px 0 0}
-}
-
-.legend{display:flex; gap:8px; flex-wrap:wrap}
-.legend .chip{
-  border:1px solid rgba(255,255,255,0.3); 
-  cursor:pointer;
-  backdrop-filter: blur(5px);
-}
-.legend .chip:hover{
-  transform: scale(1.05);
-}
-
-.flex{display:flex; gap:8px; flex-wrap:wrap}
-.row{display:grid; grid-template-columns:1fr 1fr; gap:8px}
-@media (max-width:640px){ .row{grid-template-columns:1fr; gap:6px} }
-
-.kpi{display:grid; grid-template-columns: repeat(3, 1fr); gap:12px; margin-bottom:20px}
-.kpi .card{
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-  border:none;
-  border-radius:16px; 
-  padding:16px;
-  box-shadow: 0 4px 15px rgba(102,126,234,0.3);
-  transition: transform 0.2s ease;
-}
-.kpi .card:hover{
-  transform: translateY(-2px);
-}
-.kpi .num{font-size:28px; font-weight:800; color:#fff; line-height:1}
-.kpi .lbl{font-size:12px; color:rgba(255,255,255,0.9); margin-top:4px; font-weight:600; text-transform: uppercase; letter-spacing:0.5px}
-
-@media (max-width: 768px){
-  .kpi{gap:8px; margin-bottom:16px}
-  .kpi .card{padding:12px; border-radius:12px}
-  .kpi .num{font-size:22px}
-  .kpi .lbl{font-size:10px}
-}
-
-.list{display:flex; flex-direction:column; gap:12px; max-height:400px; overflow:auto}
-.item{
-  border:1px solid var(--border); 
-  border-radius:16px; 
-  padding:16px; 
-  background:#f8fafc; 
-  display:grid; 
-  grid-template-columns: 1fr auto; 
-  gap:12px; 
-  align-items:start;
-  box-shadow: var(--shadow);
-  transition: all 0.2s ease;
-}
-.item:hover{
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.item .meta{font-size:12px; color:var(--sub); margin-top:6px; display:flex; gap:8px; flex-wrap:wrap}
-.item .meta::before{content:'📅'; margin-right:2px}
-
-@media (max-width: 768px){
-  .list{max-height:none; gap:10px}
-  .item{padding:12px; gap:10px; font-size:14px; grid-template-columns:1fr; border-radius:12px}
-  .item .meta{font-size:11px; margin-top:4px}
-  .item > div:last-child{
-    display:flex; flex-direction:row; justify-content:flex-start; flex-wrap:wrap; width:100%; gap:6px;
-  }
-}
-
-.badge{
-  font-size:11px; 
-  border:1px solid var(--border); 
-  padding:4px 10px; 
-  border-radius:20px;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  color:#fff;
-  font-weight:600;
-  box-shadow: 0 2px 8px rgba(102,126,234,0.3);
-}
-
-dialog{
-  border:none; 
-  border-radius:24px; 
-  padding:0; 
-  width:min(720px, 94vw); 
-  background:#ffffff; 
-  color:var(--text); 
-  max-height:90vh; 
-  overflow:hidden;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-}
-dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
-.modal-head{
-  padding:20px 24px; 
-  border-bottom:1px solid var(--border); 
-  display:flex; 
-  align-items:center; 
-  justify-content:space-between; 
-  flex-wrap:wrap; 
-  gap:12px; 
-  position:sticky; 
-  top:0; 
-  background: linear-gradient(to bottom, #ffffff, #f8fafc);
-  z-index:10;
-}
-.modal-head strong{
-  font-size:20px;
-  font-weight:700;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.modal-body{padding:24px; overflow-y:auto; max-height: calc(90vh - 80px)}
-.modal-body label{
-  display:block;
-  margin-bottom:16px;
-  font-weight:600;
-  color:var(--sub);
-  font-size:13px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top:4px;
-}
-.modal-body input, .modal-body select, .modal-body textarea{
-  width:100%;
-  margin-top:8px;
-  border-radius:10px;
-}
-
-@media (max-width: 768px){
-  dialog{width:96vw; max-height:95vh; border-radius:20px}
-  .modal-head{padding:16px 20px; font-size:16px}
-  .modal-head strong{font-size:18px}
-  .modal-body{padding:20px}
-}
-
-.hint{font-size:12px; color:rgba(255,255,255,0.8); font-weight:500}
-
-@media (max-width: 768px){
-  .hint{font-size:11px}
-}
-
-.heat-0{background: #ffffff}
-.heat-1{background: #f0f9ff}
-.heat-2{background: #dbeafe}
-.heat-3{background: #bfdbfe}
-.heat-4{background: #93c5fd}
-  </style>
+  <title>学生用カレンダー - Supabase連携版</title>
+  <link rel="stylesheet" href="../css/calendar_app_styles.css" />
 </head>
 <body>
-  <div class="app">
+  <!-- Auth Screen -->
+  <div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <h1>📚 学生用カレンダー</h1>
+      <p>複数デバイス間で予定を同期</p>
+      
+      <div id="authError" class="error-message" style="display:none;"></div>
+      
+      <form id="authForm" class="auth-form">
+        <div>
+          <label for="authEmail">メールアドレス</label>
+          <input type="email" id="authEmail" required placeholder="your@email.com">
+        </div>
+        <div>
+          <label for="authPassword">パスワード</label>
+          <input type="password" id="authPassword" required placeholder="6文字以上">
+        </div>
+        <button type="submit" id="authSubmit">ログイン</button>
+      </form>
+      
+      <div class="auth-toggle">
+        <span id="authToggleText">アカウントをお持ちでない場合</span>
+        <button type="button" id="authToggleBtn">新規登録</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main App -->
+  <div class="app" id="mainApp">
     <header>
       <div class="brand" aria-label="アプリ名">
         <div class="logo">📚</div>
         <h1>学生用カレンダー <span class="hint"><br>課題/試験/授業を一括管理</span></h1>
       </div>
+      
+      <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+        <div class="user-info">
+          <span id="userEmail"></span>
+        </div>
+        <div class="sync-status" id="syncStatus">
+          <span class="loading-spinner"></span>
+          <span>同期中...</span>
+        </div>
+        <button id="theme-toggle" title="テーマ切替">
+          <svg id="moon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+          </svg>
+          <svg id="sun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+          </svg>
+        </button>
+        <button id="logoutBtn" class="danger">ログアウト</button>
+      </div>
+      
       <div class="controls">
         <div class="row-nav">
           <button id="prevBtn" title="前の月">◀</button>
@@ -413,7 +75,10 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
         </div>
         <div class="row-export">
           <button id="exportBtn" class="ghost">エクスポート</button>
-          <label class="ghost" style="padding:12px 14px; cursor:pointer; border-radius:12px; display:inline-flex; align-items:center; min-height:48px; background:rgba(255,255,255,0.2); border:1px solid rgba(255,255,255,0.4); color:#fff; backdrop-filter:blur(5px); font-weight:600; transition:all 0.2s ease">インポート<input type="file" id="importFile" accept="application/json" hidden></label>
+          <label class="ghost" style="padding:12px 14px; cursor:pointer; border-radius:12px; display:inline-flex; align-items:center; min-height:48px;">
+            インポート
+            <input type="file" id="importFile" accept="application/json" hidden>
+          </label>
         </div>
         <div class="row-danger">
           <button id="clearBtn" class="warn" title="全データ削除">全消去</button>
@@ -441,6 +106,7 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
               <option value="">すべての種類</option>
               <option>時程変更</option>
               <option>課題提出日</option>
+              <option>試験</option>
               <option>定期試験 / 学校模試</option>
               <option>東進模試</option>
               <option>部活動</option>
@@ -451,9 +117,18 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
         </div>
         <div class="panel-body">
           <div class="kpi">
-            <div class="card"><div class="lbl">今月の予定</div><div id="kpiTotal" class="num">0</div></div>
-            <div class="card"><div class="lbl">全体の予定</div><div id="kpiAll" class="num">0</div></div>
-            <div class="card"><div class="lbl">近日（7日）</div><div id="kpiSoon" class="num">0</div></div>
+            <div class="card">
+              <div class="lbl">今月の予定</div>
+              <div id="kpiTotal" class="num">0</div>
+            </div>
+            <div class="card">
+              <div class="lbl">全体の予定</div>
+              <div id="kpiAll" class="num">0</div>
+            </div>
+            <div class="card">
+              <div class="lbl">近日（7日）</div>
+              <div id="kpiSoon" class="num">0</div>
+            </div>
           </div>
           <h3>近日の締切</h3>
           <div id="upcoming" class="list"></div>
@@ -467,13 +142,16 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
       <div class="modal-head">
         <strong id="modalTitle">予定を追加</strong>
         <div class="flex">
-          <button type="button" value="cancel" onclick="modal.close()">閉じる</button>
+          <button type="button" value="cancel" onclick="eventModal.close()">閉じる</button>
           <button id="deleteBtn" class="danger" type="button" style="display:none">削除</button>
           <button id="saveBtn" class="primary" type="submit">保存</button>
         </div>
       </div>
       <div class="modal-body">
         <input type="hidden" id="eventId">
+        <input type="hidden" id="groupId">
+        
+        <div id="groupWarning" style="display:none; background:#fff3cd; color:#856404; padding:12px; border-radius:8px; margin-bottom:16px; font-size:13px;"></div>
         
         <div class="row">
           <label>タイトル
@@ -493,6 +171,14 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
             複数日に登録
           </label>
         </div>
+        <div class="row">
+          <label>開始時刻（任意）
+            <input id="start" type="time" placeholder="例: 09:00">
+          </label>
+          <label>終了時刻（任意）
+            <input id="end" type="time" placeholder="例: 17:00">
+          </label>
+        </div>
         <div class="row" id="endDateRow" style="display:none">
           <label>終了日（複数日登録時）
             <input id="endDate" type="date">
@@ -503,6 +189,7 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
             <select id="type">
               <option>時程変更</option>
               <option>課題提出日</option>
+              <option>試験</option>
               <option>定期試験 / 学校模試</option>
               <option>東進模試</option>
               <option>部活動</option>
@@ -510,357 +197,785 @@ dialog::backdrop{background:rgba(0,0,0,0.6); backdrop-filter: blur(8px)}
               <option>その他</option>
             </select>
           </label>
-          
         </div>
         <div class="row">
           <label>メモ
             <textarea id="notes" rows="3" placeholder="必要な持ち物／提出方法など"></textarea>
           </label>
         </div>
-        <div class="hint" id="multiDateHint" style="display:none; color:var(--accent); font-weight:600">
+        <div class="hint" id="multiDateHint" style="display:none; color:var(--brand); font-weight:600">
           ✓ 複数日に同じ予定を登録します（開始日〜終了日の各日に個別の予定として作成）
         </div>
       </div>
     </form>
   </dialog>
 
-  <script>
-    const $ = (sel, el=document) => el.querySelector(sel);
-    const $$ = (sel, el=document) => Array.from(el.querySelectorAll(sel));
+  <script type="module">
+    import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-    const uid = () => Math.random().toString(36).slice(2)+Date.now().toString(36);
+    // =====================================
+    // Supabase Configuration
+    // =====================================
+    const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs'
+    
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+
+    // =====================================
+    // State Management
+    // =====================================
+    const state = {
+      user: null,
+      events: [],
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      filterCourse: '',
+      filterType: '',
+      isAuthMode: 'login' // 'login' or 'signup'
+    }
+
+    // =====================================
+    // Utility Functions
+    // =====================================
+    const $ = (sel, el = document) => el.querySelector(sel)
+    const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel))
+
+    const uid = () => Math.random().toString(36).slice(2) + Date.now().toString(36)
 
     const colorFromCourse = (name) => {
-      if(!name) return '#64748b';
-      let h=0; for(let i=0;i<name.length;i++){ h = (h*31 + name.charCodeAt(i)) % 360; }
-      return `hsl(${h},70%,50%)`;
-    };
+      if (!name) return '#64748b'
+      let h = 0
+      for (let i = 0; i < name.length; i++) {
+        h = (h * 31 + name.charCodeAt(i)) % 360
+      }
+      return `hsl(${h}, 70%, 50%)`
+    }
 
     const colorFromType = (type) => {
       const typeColors = {
         '時程変更': '#8a9990',
+        '試験': '#e63946',
         '定期試験 / 学校模試': '#f7a500',
         '東進模試': '#009c88',
         '部活動': '#00c3ff',
         '長期休み': '#ff6b9d'
-      };
-      return typeColors[type] || null;
-    };
-
-    const storage = {
-      get(){ try{ return JSON.parse(localStorage.getItem('student-calendar-v1')||'[]'); }catch{ return [] } },
-      set(data){ localStorage.setItem('student-calendar-v1', JSON.stringify(data)); }
-    };
-
-    const state = {
-      events: storage.get(),
-      year: new Date().getFullYear(),
-      month: new Date().getMonth(),
-      filterCourse: '',
-      filterType: ''
-    };
-
-    const monthNames = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
-    const monthSelect = $('#monthSelect');
-    const yearSelect = $('#yearSelect');
-    for(let m=0;m<12;m++){ const opt=document.createElement('option'); opt.value=m; opt.textContent=monthNames[m]; monthSelect.appendChild(opt); }
-    const thisYear = new Date().getFullYear();
-    for(let y=thisYear-3; y<=thisYear+3; y++){ const opt=document.createElement('option'); opt.value=y; opt.textContent=y+'年'; yearSelect.appendChild(opt); }
-
-    function render(){
-      monthSelect.value = state.month; yearSelect.value = state.year;
-      renderLegend();
-      renderCalendar();
-      renderDashboard();
-      fillCourseDatalist();
-    }
-
-    function getMonthMatrix(y,m){
-       const days = [];
-       const last = new Date(y, m+1, 0).getDate(); // 月末日
-    for(let d=1; d<=last; d++){
-    days.push(new Date(y, m, d));
       }
-    return days;
-
-      //const first = new Date(y,m,1); const start = new Date(first); start.setDate(first.getDate() - ((first.getDay()+6)%7));
-      //const cells = [];
-      //for(let i=0;i<42;i++){ const d = new Date(start); d.setDate(start.getDate()+i); cells.push(d); }
-      //return cells;
+      return typeColors[type] || null
     }
 
-
-    function renderCalendar(){
-      const cal = $('#calendar'); cal.innerHTML='';
-      const dows = ['月','火','水','木','金','土','日'];
-      dows.forEach(d=>{ const h=document.createElement('div'); h.className='dow'; h.textContent=d; cal.appendChild(h); });
-
-      const cells = getMonthMatrix(state.year, state.month);
-      const todayStr = formatDate(new Date());
-
-      const filtered = state.events.filter(e=>
-        (!state.filterCourse || e.course===state.filterCourse) &&
-        (!state.filterType || e.type===state.filterType)
-      );
-
-      const counts = {};
-      filtered.forEach(e=>{ counts[e.date]=(counts[e.date]||0)+1; });
-
-      cells.forEach(d=>{
-        const dStr = formatDate(d);
-        const inMonth = (d.getMonth()===state.month);
-        const cell = document.createElement('div'); cell.className='cell heat-'+Math.min(4, counts[dStr]||0);
-        if(!inMonth) cell.style.opacity=0.35;
-        if(dStr===todayStr) cell.classList.add('today');
-
-        const dateEl = document.createElement('div'); dateEl.className='date'; dateEl.textContent = `${d.getDate()}`; cell.appendChild(dateEl);
-
-        filtered.filter(e=>e.date===dStr && inMonth).sort((a,b)=>a.title.localeCompare(b.title)).slice(0,4).forEach(e=>{
-          const chip = document.createElement('div'); chip.className='chip'; chip.title = `${e.title}（${e.course||'科目未設定'}）`;
-          const typeColor = colorFromType(e.type);
-          chip.style.background = typeColor || colorFromCourse(e.course);
-          chip.style.color = '#fff';
-          chip.textContent = e.title||'無題';
-          chip.onclick = () => openModal(e);
-          cell.appendChild(chip);
-        });
-
-        cell.onclick = (ev)=>{ if(ev.target===cell || ev.target===dateEl) openModal({date:dStr}); };
-
-        cal.appendChild(cell);
-      });
+    function formatDate(d) {
+      const dt = d instanceof Date ? d : new Date(d)
+      return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0')
     }
 
-    function sortByTime(a,b){ return (a.start||'24:00') < (b.start||'24:00') ? -1 : 1; }
-
-    function sortByTime(a,b){ return (a.start||'24:00') < (b.start||'24:00') ? -1 : 1; }
-
-    function formatDate(d){
-      const dt = (d instanceof Date)? d : new Date(d);
-      return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,'0')+"-"+String(dt.getDate()).padStart(2,'0');
+    function escapeHtml(s) {
+      return (s || '').replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]))
     }
 
-    function renderLegend(){
-      const box = $('#legend'); box.innerHTML='';
-      const courses = [...new Set(state.events.map(e=>e.course).filter(Boolean))].sort();
-      const fc = $('#filterCourse'); fc.innerHTML = '<option value="">すべての科目</option>' + courses.map(c=>`<option>${c}</option>`).join('');
-      courses.forEach(c=>{
-        const el = document.createElement('span'); el.className='chip'; el.textContent=c; el.style.background=colorFromCourse(c); el.style.color='#fff';
-        el.onclick = ()=>{ state.filterCourse = (state.filterCourse===c?'':c); $('#filterCourse').value = state.filterCourse; render(); };
-        box.appendChild(el);
-      });
+    // =====================================
+    // Theme Management
+    // =====================================
+    const themeToggle = $('#theme-toggle')
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme === 'dark') {
+      document.body.classList.add('dark')
     }
 
-    function renderDashboard(){
-      const now = new Date();
-      const monthStart = new Date(state.year, state.month, 1);
-      const monthEnd = new Date(state.year, state.month+1, 0);
+    themeToggle.onclick = () => {
+      document.body.classList.toggle('dark')
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light')
+    }
 
-      const filtered = state.events.filter(e=>(!state.filterCourse || e.course===state.filterCourse) && (!state.filterType || e.type===state.filterType));
-      const inMonth = filtered.filter(e=>{ const d=new Date(e.date); return d>=monthStart && d<=monthEnd; });
+    // =====================================
+    // Sync Status Management
+    // =====================================
+    function updateSyncStatus(status) {
+      const syncStatus = $('#syncStatus')
+      syncStatus.className = 'sync-status'
+      
+      if (status === 'synced') {
+        syncStatus.classList.add('synced')
+        syncStatus.innerHTML = '<span>✓</span><span>同期済み</span>'
+      } else if (status === 'syncing') {
+        syncStatus.classList.add('syncing')
+        syncStatus.innerHTML = '<span class="loading-spinner"></span><span>同期中...</span>'
+      } else if (status === 'error') {
+        syncStatus.classList.add('error')
+        syncStatus.innerHTML = '<span>⚠</span><span>同期エラー</span>'
+      }
+    }
 
-      $('#kpiTotal').textContent = inMonth.length;
-      $('#kpiAll').textContent = filtered.length;
-      $('#kpiSoon').textContent = filtered.filter(e=>{ const d=new Date(e.date); const diff=(d-now)/(1000*60*60*24); return diff>=0 && diff<=7; }).length;
+    // =====================================
+    // Authentication
+    // =====================================
+    const authScreen = $('#authScreen')
+    const mainApp = $('#mainApp')
+    const authForm = $('#authForm')
+    const authError = $('#authError')
+    const authToggleBtn = $('#authToggleBtn')
+    const authToggleText = $('#authToggleText')
+    const authSubmit = $('#authSubmit')
+    const logoutBtn = $('#logoutBtn')
+
+    authToggleBtn.onclick = () => {
+      state.isAuthMode = state.isAuthMode === 'login' ? 'signup' : 'login'
+      if (state.isAuthMode === 'signup') {
+        authSubmit.textContent = '新規登録'
+        authToggleText.textContent = 'すでにアカウントをお持ちの場合'
+        authToggleBtn.textContent = 'ログイン'
+      } else {
+        authSubmit.textContent = 'ログイン'
+        authToggleText.textContent = 'アカウントをお持ちでない場合'
+        authToggleBtn.textContent = '新規登録'
+      }
+      authError.style.display = 'none'
+    }
+
+    authForm.onsubmit = async (e) => {
+      e.preventDefault()
+      authError.style.display = 'none'
+      authSubmit.disabled = true
+      authSubmit.textContent = '処理中...'
+
+      const email = $('#authEmail').value
+      const password = $('#authPassword').value
+
+      try {
+        let result
+        if (state.isAuthMode === 'signup') {
+          result = await supabase.auth.signUp({ email, password })
+          if (result.error) throw result.error
+          authError.textContent = '確認メールを送信しました。メールを確認してログインしてください。'
+          authError.style.background = '#e0f2e9'
+          authError.style.color = '#0d5c2d'
+          authError.style.display = 'block'
+          authForm.reset()
+        } else {
+          result = await supabase.auth.signInWithPassword({ email, password })
+          if (result.error) throw result.error
+        }
+      } catch (error) {
+        authError.textContent = error.message
+        authError.style.display = 'block'
+        authSubmit.disabled = false
+        authSubmit.textContent = state.isAuthMode === 'login' ? 'ログイン' : '新規登録'
+      }
+    }
+
+    logoutBtn.onclick = async () => {
+      if (confirm('ログアウトしますか？')) {
+        await supabase.auth.signOut()
+      }
+    }
+
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session) {
+        state.user = session.user
+        authScreen.style.display = 'none'
+        mainApp.classList.add('visible')
+        $('#userEmail').textContent = session.user.email
+        loadEvents()
+      } else {
+        state.user = null
+        authScreen.style.display = 'flex'
+        mainApp.classList.remove('visible')
+      }
+    })
+
+    // Check initial session
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session) {
+      state.user = session.user
+      authScreen.style.display = 'none'
+      mainApp.classList.add('visible')
+      $('#userEmail').textContent = session.user.email
+      await loadEvents()
+    }
+
+    // =====================================
+    // Supabase Event Management
+    // =====================================
+    async function loadEvents() {
+      try {
+        updateSyncStatus('syncing')
+        const { data, error } = await supabase
+          .from('events')
+          .select('*')
+          .eq('user_id', state.user.id)
+          .order('date', { ascending: true })
+
+        if (error) throw error
+
+        state.events = data || []
+        render()
+        updateSyncStatus('synced')
+      } catch (error) {
+        console.error('Error loading events:', error)
+        updateSyncStatus('error')
+      }
+    }
+
+    async function saveEvent(event) {
+      try {
+        updateSyncStatus('syncing')
+        const eventData = {
+          ...event,
+          user_id: state.user.id
+        }
+
+        const { data, error } = await supabase
+          .from('events')
+          .upsert(eventData)
+          .select()
+
+        if (error) throw error
+
+        await loadEvents()
+        updateSyncStatus('synced')
+        return data
+      } catch (error) {
+        console.error('Error saving event:', error)
+        updateSyncStatus('error')
+        throw error
+      }
+    }
+
+    async function deleteEvent(id) {
+      try {
+        updateSyncStatus('syncing')
+        const { error } = await supabase
+          .from('events')
+          .delete()
+          .eq('id', id)
+          .eq('user_id', state.user.id)
+
+        if (error) throw error
+
+        await loadEvents()
+        updateSyncStatus('synced')
+      } catch (error) {
+        console.error('Error deleting event:', error)
+        updateSyncStatus('error')
+        throw error
+      }
+    }
+
+    async function deleteEventGroup(groupId) {
+      try {
+        updateSyncStatus('syncing')
+        const { error } = await supabase
+          .from('events')
+          .delete()
+          .eq('group_id', groupId)
+          .eq('user_id', state.user.id)
+
+        if (error) throw error
+
+        await loadEvents()
+        updateSyncStatus('synced')
+      } catch (error) {
+        console.error('Error deleting event group:', error)
+        updateSyncStatus('error')
+        throw error
+      }
+    }
+
+    async function updateEventGroup(groupId, updates) {
+      try {
+        updateSyncStatus('syncing')
+        const { error } = await supabase
+          .from('events')
+          .update(updates)
+          .eq('group_id', groupId)
+          .eq('user_id', state.user.id)
+
+        if (error) throw error
+
+        await loadEvents()
+        updateSyncStatus('synced')
+      } catch (error) {
+        console.error('Error updating event group:', error)
+        updateSyncStatus('error')
+        throw error
+      }
+    }
+
+    async function clearAllEvents() {
+      try {
+        updateSyncStatus('syncing')
+        const { error } = await supabase
+          .from('events')
+          .delete()
+          .eq('user_id', state.user.id)
+
+        if (error) throw error
+
+        await loadEvents()
+        updateSyncStatus('synced')
+      } catch (error) {
+        console.error('Error clearing events:', error)
+        updateSyncStatus('error')
+        throw error
+      }
+    }
+
+    // Subscribe to realtime changes
+    supabase
+      .channel('events')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'events' }, (payload) => {
+        if (state.user && payload.new?.user_id === state.user.id) {
+          loadEvents()
+        }
+      })
+      .subscribe()
+
+    // =====================================
+    // Calendar Rendering
+    // =====================================
+    const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
+    const monthSelect = $('#monthSelect')
+    const yearSelect = $('#yearSelect')
+
+    for (let m = 0; m < 12; m++) {
+      const opt = document.createElement('option')
+      opt.value = m
+      opt.textContent = monthNames[m]
+      monthSelect.appendChild(opt)
+    }
+
+    const thisYear = new Date().getFullYear()
+    for (let y = thisYear - 3; y <= thisYear + 3; y++) {
+      const opt = document.createElement('option')
+      opt.value = y
+      opt.textContent = y + '年'
+      yearSelect.appendChild(opt)
+    }
+
+    function render() {
+      monthSelect.value = state.month
+      yearSelect.value = state.year
+      renderLegend()
+      renderCalendar()
+      renderDashboard()
+      fillCourseDatalist()
+    }
+
+    function getMonthMatrix(y, m) {
+      const days = []
+      const last = new Date(y, m + 1, 0).getDate()
+      for (let d = 1; d <= last; d++) {
+        days.push(new Date(y, m, d))
+      }
+      return days
+    }
+
+    function renderCalendar() {
+      const cal = $('#calendar')
+      cal.innerHTML = ''
+      const dows = ['月', '火', '水', '木', '金', '土', '日']
+      dows.forEach(d => {
+        const h = document.createElement('div')
+        h.className = 'dow'
+        h.textContent = d
+        cal.appendChild(h)
+      })
+
+      const cells = getMonthMatrix(state.year, state.month)
+      const todayStr = formatDate(new Date())
+
+      const filtered = state.events.filter(e =>
+        (!state.filterCourse || e.course === state.filterCourse) &&
+        (!state.filterType || e.type === state.filterType)
+      )
+
+      const counts = {}
+      filtered.forEach(e => {
+        counts[e.date] = (counts[e.date] || 0) + 1
+      })
+
+      cells.forEach(d => {
+        const dStr = formatDate(d)
+        const inMonth = d.getMonth() === state.month
+        const cell = document.createElement('div')
+        cell.className = 'cell heat-' + Math.min(4, counts[dStr] || 0)
+        if (!inMonth) cell.style.opacity = 0.35
+        if (dStr === todayStr) cell.classList.add('today')
+
+        const dateEl = document.createElement('div')
+        dateEl.className = 'date'
+        dateEl.textContent = `${d.getDate()}`
+        cell.appendChild(dateEl)
+
+        filtered
+          .filter(e => e.date === dStr && inMonth)
+          .sort((a, b) => a.title.localeCompare(b.title))
+          .slice(0, 4)
+          .forEach(e => {
+            const chip = document.createElement('div')
+            chip.className = 'chip'
+            const timeStr = e.start ? ` ${e.start}` : ''
+            chip.title = `${e.title}（${e.course || '科目未設定'}）${timeStr}`
+            const typeColor = colorFromType(e.type)
+            chip.style.background = typeColor || colorFromCourse(e.course)
+            chip.style.color = '#fff'
+            chip.textContent = `${timeStr ? timeStr + ' ' : ''}${e.title || '無題'}`
+            chip.onclick = () => openModal(e)
+            cell.appendChild(chip)
+          })
+
+        cell.onclick = ev => {
+          if (ev.target === cell || ev.target === dateEl) openModal({ date: dStr })
+        }
+
+        cal.appendChild(cell)
+      })
+    }
+
+    function renderLegend() {
+      const box = $('#legend')
+      box.innerHTML = ''
+      const courses = [...new Set(state.events.map(e => e.course).filter(Boolean))].sort()
+      const fc = $('#filterCourse')
+      fc.innerHTML = '<option value="">すべての科目</option>' + courses.map(c => `<option>${c}</option>`).join('')
+      courses.forEach(c => {
+        const el = document.createElement('span')
+        el.className = 'chip'
+        el.textContent = c
+        el.style.background = colorFromCourse(c)
+        el.style.color = '#fff'
+        el.onclick = () => {
+          state.filterCourse = state.filterCourse === c ? '' : c
+          $('#filterCourse').value = state.filterCourse
+          render()
+        }
+        box.appendChild(el)
+      })
+    }
+
+    function renderDashboard() {
+      const now = new Date()
+      const monthStart = new Date(state.year, state.month, 1)
+      const monthEnd = new Date(state.year, state.month + 1, 0)
+
+      const filtered = state.events.filter(e =>
+        (!state.filterCourse || e.course === state.filterCourse) &&
+        (!state.filterType || e.type === state.filterType)
+      )
+      const inMonth = filtered.filter(e => {
+        const d = new Date(e.date)
+        return d >= monthStart && d <= monthEnd
+      })
+
+      $('#kpiTotal').textContent = inMonth.length
+      $('#kpiAll').textContent = filtered.length
+      $('#kpiSoon').textContent = filtered.filter(e => {
+        const d = new Date(e.date)
+        const diff = (d - now) / (1000 * 60 * 60 * 24)
+        return diff >= 0 && diff <= 7
+      }).length
 
       const upcoming = filtered
-        .filter(e=> new Date(e.date) >= new Date(now.getFullYear(), now.getMonth(), now.getDate()))
-        .sort((a,b)=> new Date(a.date)-new Date(b.date))
-        .slice(0,20);
+        .filter(e => new Date(e.date) >= new Date(now.getFullYear(), now.getMonth(), now.getDate()))
+        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .slice(0, 20)
 
-      const box = $('#upcoming'); box.innerHTML='';
-      if(upcoming.length===0){ box.innerHTML = '<div class="hint">直近の予定はありません。</div>'; return; }
-      upcoming.forEach(e=>{
-        const it = document.createElement('div'); it.className='item';
-        const left = document.createElement('div');
-        left.innerHTML = `<div><strong>${escapeHtml(e.title||'無題')}</strong></div>
-          <div class="meta">${e.date} ／ ${e.course||'科目未設定'} ／ ${e.type}</div>
-          ${e.notes? `<div class="hint">${escapeHtml(e.notes)}</div>`:''}`;
-        const right = document.createElement('div'); right.style.display='flex'; right.style.flexDirection='column'; right.style.gap='6px'; right.style.alignItems='end';
-        const edit = document.createElement('button'); edit.textContent='編集'; edit.onclick=()=>openModal(e); right.appendChild(edit);
-        it.appendChild(left); it.appendChild(right); box.appendChild(it);
-      });
+      const box = $('#upcoming')
+      box.innerHTML = ''
+      if (upcoming.length === 0) {
+        box.innerHTML = '<div class="hint">直近の予定はありません。</div>'
+        return
+      }
+      upcoming.forEach(e => {
+        const it = document.createElement('div')
+        it.className = 'item'
+        const left = document.createElement('div')
+        const timeStr = e.start ? ` ${e.start}${e.end ? '-' + e.end : ''}` : ''
+        left.innerHTML = `<div><strong>${escapeHtml(e.title || '無題')}</strong></div>
+          <div class="meta">${e.date}${timeStr} ／ ${e.course || '科目未設定'} ／ ${e.type}</div>
+          ${e.notes ? `<div class="hint">${escapeHtml(e.notes)}</div>` : ''}`
+        const right = document.createElement('div')
+        right.style.display = 'flex'
+        right.style.flexDirection = 'column'
+        right.style.gap = '6px'
+        right.style.alignItems = 'end'
+        const edit = document.createElement('button')
+        edit.textContent = '編集'
+        edit.onclick = () => openModal(e)
+        right.appendChild(edit)
+        it.appendChild(left)
+        it.appendChild(right)
+        box.appendChild(it)
+      })
     }
 
-    function fillCourseDatalist(){
-      const list = $('#courseList'); list.innerHTML='';
-      [...new Set(state.events.map(e=>e.course).filter(Boolean))].sort().forEach(c=>{
-        const opt=document.createElement('option'); opt.value=c; list.appendChild(opt);
-      });
+    function fillCourseDatalist() {
+      const list = $('#courseList')
+      list.innerHTML = ''
+      ;[...new Set(state.events.map(e => e.course).filter(Boolean))].sort().forEach(c => {
+        const opt = document.createElement('option')
+        opt.value = c
+        list.appendChild(opt)
+      })
     }
 
-    function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m])); }
+    // =====================================
+    // Event Modal
+    // =====================================
+    const eventModal = $('#eventModal')
 
-    const modal = $('#eventModal');
-    
-    function updateCourseVisibility(){
-      const type = $('#type').value;
-      const courseLabel = $('#courseLabel');
-      const courseInput = $('#course');
-      const noCourseTypes = ['時程変更', '定期試験 / 学校模試', '東進模試', '部活動', '長期休み'];
-      
-      if(noCourseTypes.includes(type)){
-        courseInput.disabled = true;
-        courseInput.style.background = '#e2e8f0';
-        courseInput.style.color = '#94a3b8';
-        courseLabel.style.opacity = '0.5';
+    function updateCourseVisibility() {
+      const type = $('#type').value
+      const courseLabel = $('#courseLabel')
+      const courseInput = $('#course')
+      const noCourseTypes = ['時程変更', '試験', '定期試験 / 学校模試', '東進模試', '部活動', '長期休み']
+
+      if (noCourseTypes.includes(type)) {
+        courseInput.disabled = true
+        courseInput.style.background = '#e2e8f0'
+        courseInput.style.color = '#94a3b8'
+        courseLabel.style.opacity = '0.5'
       } else {
-        courseInput.disabled = false;
-        courseInput.style.background = 'rgba(255,255,255,0.95)';
-        courseInput.style.color = 'var(--text)';
-        courseLabel.style.opacity = '1';
+        courseInput.disabled = false
+        courseInput.style.background = 'var(--panel)'
+        courseInput.style.color = 'var(--text)'
+        courseLabel.style.opacity = '1'
       }
     }
-    
-    function toggleMultiDate(){
-      const isMulti = $('#multiDate').checked;
-      $('#endDateRow').style.display = isMulti ? '' : 'none';
-      $('#multiDateHint').style.display = isMulti ? 'block' : 'none';
-      if(isMulti){
-        $('#endDate').required = true;
+
+    function toggleMultiDate() {
+      const isMulti = $('#multiDate').checked
+      $('#endDateRow').style.display = isMulti ? '' : 'none'
+      $('#multiDateHint').style.display = isMulti ? 'block' : 'none'
+      if (isMulti) {
+        $('#endDate').required = true
       } else {
-        $('#endDate').required = false;
+        $('#endDate').required = false
       }
     }
-    
-    function openModal(e={}){
-      $('#modalTitle').textContent = e.id ? '予定を編集' : '予定を追加';
-      $('#eventId').value = e.id||'';
-      $('#title').value = e.title||'';
-      $('#course').value = e.course||'';
-      $('#date').value = e.date || formatDate(new Date(state.year,state.month,1));
-      $('#endDate').value = '';
-      $('#multiDate').checked = false;
-      $('#type').value = e.type||'課題提出日';
-      $('#notes').value = e.notes||'';
-      updateCourseVisibility();
-      toggleMultiDate();
-      $('#deleteBtn').style.display = e.id ? '' : 'none';
-      modal.showModal();
-      setTimeout(()=>$('#title').focus(), 50);
+
+    function openModal(e = {}) {
+      const isGrouped = e.group_id && state.events.filter(ev => ev.group_id === e.group_id).length > 1
+      
+      $('#modalTitle').textContent = e.id ? '予定を編集' : '予定を追加'
+      $('#eventId').value = e.id || ''
+      $('#groupId').value = e.group_id || ''
+      $('#title').value = e.title || ''
+      $('#course').value = e.course || ''
+      $('#date').value = e.date || formatDate(new Date(state.year, state.month, 1))
+      $('#endDate').value = ''
+      $('#multiDate').checked = false
+      $('#type').value = e.type || '課題提出日'
+      $('#notes').value = e.notes || ''
+      
+      // グループ編集の警告を表示
+      if (isGrouped) {
+        $('#groupWarning').style.display = 'block'
+        const groupEvents = state.events.filter(ev => ev.group_id === e.group_id)
+        const dates = groupEvents.map(ev => ev.date).sort()
+        $('#groupWarning').innerHTML = `⚠️ この予定は${dates[0]}〜${dates[dates.length-1]}の${groupEvents.length}日間のグループ予定です。編集すると全ての日付に反映されます。`
+      } else {
+        $('#groupWarning').style.display = 'none'
+      }
+      
+      updateCourseVisibility()
+      toggleMultiDate()
+      $('#deleteBtn').style.display = e.id ? '' : 'none'
+      eventModal.showModal()
+      setTimeout(() => $('#title').focus(), 50)
     }
 
-    $('#type').addEventListener('change', updateCourseVisibility);
-    $('#multiDate').addEventListener('change', toggleMultiDate);
+    $('#type').addEventListener('change', updateCourseVisibility)
+    $('#multiDate').addEventListener('change', toggleMultiDate)
 
-    $('#eventForm').addEventListener('submit', (ev)=>{
-      ev.preventDefault();
-      const id = $('#eventId').value || uid();
-      const isMulti = $('#multiDate').checked;
-      const startDate = $('#date').value;
-      const endDate = $('#endDate').value;
-      
+    $('#eventForm').addEventListener('submit', async (ev) => {
+      ev.preventDefault()
+      const id = $('#eventId').value || uid()
+      const groupId = $('#groupId').value
+      const isMulti = $('#multiDate').checked
+      const startDate = $('#date').value
+      const endDate = $('#endDate').value
+
       const evObj = {
-        id,
-        title: $('#title').value.trim()||'無題',
+        title: $('#title').value.trim() || '無題',
         course: $('#course').value.trim(),
-        date: startDate,
         type: $('#type').value,
         notes: $('#notes').value.trim()
-      };
-      
-      if(isMulti && endDate && endDate >= startDate){
-        // 複数日登録：開始日から終了日まで各日に個別の予定を作成
-        const start = new Date(startDate);
-        const end = new Date(endDate);
-        const existingIds = [];
-        
-        // 既存の予定IDを削除（編集時）
-        if(id && state.events.find(e=>e.id===id)){
-          state.events = state.events.filter(e=>e.id!==id);
-        }
-        
-        // 各日付ごとに予定を作成
-        for(let d = new Date(start); d <= end; d.setDate(d.getDate()+1)){
-          const dateStr = formatDate(d);
-          const newId = uid();
-          existingIds.push(newId);
-          state.events.push({
+      }
+
+      try {
+        if (isMulti && endDate && endDate >= startDate) {
+          // 複数日登録（新規作成時）
+          const start = new Date(startDate)
+          const end = new Date(endDate)
+          const newGroupId = uid() // 新しいグループID
+
+          // 各日付ごとに予定を作成
+          for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)) {
+            const dateStr = formatDate(d)
+            const newId = uid()
+            await saveEvent({
+              ...evObj,
+              id: newId,
+              group_id: newGroupId,
+              date: dateStr
+            })
+          }
+        } else if (groupId && state.events.filter(e => e.group_id === groupId).length > 1) {
+          // グループ予定の編集
+          await updateEventGroup(groupId, evObj)
+        } else {
+          // 単一日登録または単独予定の編集
+          await saveEvent({
             ...evObj,
-            id: newId,
-            date: dateStr
-          });
+            id,
+            group_id: groupId || null,
+            date: startDate
+          })
+        }
+
+        eventModal.close()
+        render()
+      } catch (error) {
+        alert('保存に失敗しました: ' + error.message)
+      }
+    })
+
+    $('#deleteBtn').onclick = async () => {
+      const id = $('#eventId').value
+      const groupId = $('#groupId').value
+      if (!id) return
+      
+      const isGrouped = groupId && state.events.filter(e => e.group_id === groupId).length > 1
+      
+      if (isGrouped) {
+        const groupEvents = state.events.filter(e => e.group_id === groupId)
+        if (confirm(`この予定は${groupEvents.length}日間のグループ予定です。全ての日付を削除しますか？\n\n個別の日だけ削除したい場合は「キャンセル」を押してください。`)) {
+          try {
+            await deleteEventGroup(groupId)
+            eventModal.close()
+            render()
+          } catch (error) {
+            alert('削除に失敗しました: ' + error.message)
+          }
+        } else {
+          // 個別削除のオプションを提供
+          if (confirm('この日だけ削除しますか？')) {
+            try {
+              await deleteEvent(id)
+              eventModal.close()
+              render()
+            } catch (error) {
+              alert('削除に失敗しました: ' + error.message)
+            }
+          }
         }
       } else {
-        // 単一日登録
-        const i = state.events.findIndex(e=>e.id===id);
-        if(i>=0) state.events[i]=evObj; else state.events.push(evObj);
+        if (confirm('この予定を削除しますか？')) {
+          try {
+            await deleteEvent(id)
+            eventModal.close()
+            render()
+          } catch (error) {
+            alert('削除に失敗しました: ' + error.message)
+          }
+        }
       }
-      
-      storage.set(state.events);
-      modal.close();
-      render();
-    });
-
-    $('#deleteBtn').onclick = ()=>{
-      const id = $('#eventId').value; if(!id) return;
-      if(confirm('この予定を削除しますか？')){
-        state.events = state.events.filter(e=>e.id!==id);
-        storage.set(state.events); modal.close(); render();
-      }
-    };
-
-    function toggleDone(id){
-      const e = state.events.find(x=>x.id===id); if(!e) return;
-      e.completed = !e.completed; storage.set(state.events); render();
     }
 
-    function toggleDone(id){
-      const e = state.events.find(x=>x.id===id); if(!e) return;
-      e.completed = !e.completed; storage.set(state.events); render();
+    // =====================================
+    // Navigation Controls
+    // =====================================
+    $('#prevBtn').onclick = () => {
+      const d = new Date(state.year, state.month - 1, 1)
+      state.year = d.getFullYear()
+      state.month = d.getMonth()
+      render()
     }
 
-    $('#prevBtn').onclick = ()=>{ const d = new Date(state.year, state.month-1, 1); state.year=d.getFullYear(); state.month=d.getMonth(); render(); };
-    $('#todayBtn').onclick = ()=>{ const now=new Date(); state.year=now.getFullYear(); state.month=now.getMonth(); state.filterCourse=''; state.filterType=''; render(); };
+    $('#todayBtn').onclick = () => {
+      const now = new Date()
+      state.year = now.getFullYear()
+      state.month = now.getMonth()
+      state.filterCourse = ''
+      state.filterType = ''
+      render()
+    }
 
-    monthSelect.onchange = ()=>{ state.month = Number(monthSelect.value); render(); };
-    yearSelect.onchange = ()=>{ state.year = Number(yearSelect.value); render(); };
+    monthSelect.onchange = () => {
+      state.month = Number(monthSelect.value)
+      render()
+    }
 
-    $('#filterCourse').onchange = (e)=>{ state.filterCourse = e.target.value; render(); };
-    $('#filterType').onchange = (e)=>{ state.filterType = e.target.value; render(); };
+    yearSelect.onchange = () => {
+      state.year = Number(yearSelect.value)
+      render()
+    }
 
-    $('#addBtn').onclick = ()=> openModal({ date: formatDate(new Date(state.year, state.month, 1)) });
+    $('#filterCourse').onchange = e => {
+      state.filterCourse = e.target.value
+      render()
+    }
 
-    $('#exportBtn').onclick = ()=>{
-      const blob = new Blob([JSON.stringify(state.events,null,2)], {type:'application/json'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-      a.download = 'student-calendar-data.json'; a.click(); URL.revokeObjectURL(a.href);
-    };
+    $('#filterType').onchange = e => {
+      state.filterType = e.target.value
+      render()
+    }
 
-    $('#importFile').onchange = async (e)=>{
-      const file = e.target.files[0]; if(!file) return;
-      try{
-        const text = await file.text();
-        const data = JSON.parse(text);
-        if(!Array.isArray(data)) throw new Error('JSON形式が不正です');
-        const map = new Map(state.events.map(ev=>[ev.id, ev]));
-        data.forEach(ev=>{ if(!ev.id) ev.id=uid(); map.set(ev.id, ev); });
-        state.events = Array.from(map.values());
-        storage.set(state.events); render();
-        alert('インポートしました。');
-      }catch(err){ alert('インポートに失敗: '+err.message); }
-      e.target.value='';
-    };
+    $('#addBtn').onclick = () => openModal({ date: formatDate(new Date(state.year, state.month, 1)) })
 
-    $('#clearBtn').onclick = ()=>{
-      if(confirm('本当に全データを削除しますか？この操作は取り消せません。')){
-        state.events = []; storage.set(state.events); render();
+    // =====================================
+    // Export/Import/Clear
+    // =====================================
+    $('#exportBtn').onclick = () => {
+      const blob = new Blob([JSON.stringify(state.events, null, 2)], { type: 'application/json' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = 'student-calendar-data.json'
+      a.click()
+      URL.revokeObjectURL(a.href)
+    }
+
+    $('#importFile').onchange = async e => {
+      const file = e.target.files[0]
+      if (!file) return
+      try {
+        const text = await file.text()
+        const data = JSON.parse(text)
+        if (!Array.isArray(data)) throw new Error('JSON形式が不正です')
+
+        for (const ev of data) {
+          if (!ev.id) ev.id = uid()
+          await saveEvent(ev)
+        }
+
+        alert('インポートしました。')
+      } catch (err) {
+        alert('インポートに失敗: ' + err.message)
       }
-    };
+      e.target.value = ''
+    }
+
+    $('#clearBtn').onclick = async () => {
+      if (confirm('本当に全データを削除しますか？この操作は取り消せません。')) {
+        try {
+          await clearAllEvents()
+        } catch (error) {
+          alert('削除に失敗しました: ' + error.message)
+        }
+      }
+    }
 
     $('#exportPdfBtn').onclick = () => {
-      const element = document.getElementById('calendar');
+      const element = document.getElementById('calendar')
       const opt = {
-        margin:       0.5,
-        filename:     `カレンダー_${state.year}_${state.month+1}.pdf`,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2 },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-      };
-      html2pdf().set(opt).from(element).save();
-    };
-
-    render();
+        margin: 0.5,
+        filename: `カレンダー_${state.year}_${state.month + 1}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'landscape' }
+      }
+      html2pdf().set(opt).from(element).save()
+    }
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </body>
