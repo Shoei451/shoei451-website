@@ -369,28 +369,32 @@
     }
 
     supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        state.user = session.user
-        authScreen.style.display = 'none'
-        mainApp.classList.add('visible')
-        $('#userEmail').textContent = session.user.email
-        loadEvents()
-      } else {
-        state.user = null
-        authScreen.style.display = 'flex'
-        mainApp.classList.remove('visible')
-      }
-    })
+  if (session) {
+    state.user = session.user
+    authScreen.style.display = 'none'
+    mainApp.classList.add('visible')
+    $('#userEmail').textContent = session.user.email
+    loadEvents()
+    // DOM要素が初期化された後に再レンダリング
+    setTimeout(() => render(), 100)
+  } else {
+    state.user = null
+    authScreen.style.display = 'flex'
+    mainApp.classList.remove('visible')
+  }
+})
 
-    // Check initial session
-    const { data: { session } } = await supabase.auth.getSession()
-    if (session) {
-      state.user = session.user
-      authScreen.style.display = 'none'
-      mainApp.classList.add('visible')
-      $('#userEmail').textContent = session.user.email
-      await loadEvents()
-    }
+  // Check initial session
+const { data: { session } } = await supabase.auth.getSession()
+if (session) {
+  state.user = session.user
+  authScreen.style.display = 'none'
+  mainApp.classList.add('visible')
+  $('#userEmail').textContent = session.user.email
+  await loadEvents()
+  // DOM要素が初期化された後に再レンダリング
+  setTimeout(() => render(), 100)
+}
 
     // =====================================
     // Supabase Event Management
@@ -552,13 +556,18 @@
     }
 
     function render() {
-      monthSelect.value = state.month
-      yearSelect.value = state.year
-      renderLegend()
-      renderCalendar()
-      renderDashboard()
-      fillCourseDatalist()
-    }
+  // DOM要素がまだ初期化されていない場合はスキップ
+  if (!monthSelect || !yearSelect) {
+    return
+  }
+  
+  monthSelect.value = state.month
+  yearSelect.value = state.year
+  renderLegend()
+  renderCalendar()
+  renderDashboard()
+  fillCourseDatalist()
+}
 
     function getMonthMatrix(y, m) {
       const days = []
