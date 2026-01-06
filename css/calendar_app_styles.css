@@ -297,7 +297,7 @@ button:active {
 }
 
 button.primary {
-  background: var(--gradient-main);
+  background: #FABA40;
   border: none;
   box-shadow: 0 4px 15px rgba(250, 186, 64, 0.3);
   color: #fff;
