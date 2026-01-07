@@ -32,7 +32,7 @@ const cardsList = [
         title: "Blogs", 
         titleJP: "学習記録",
         text: "Blogs to share what I learned, or what I thought.", 
-        link: "blogs/" 
+        link: "https://lateral-level-5c0.notion.site/Blog-Posts-beta-Shoei451-2e15c4a6006b80e98703dc7991fc2ce3?source=copy_link" 
     },
     
     { 
