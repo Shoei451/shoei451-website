@@ -4,7 +4,7 @@
 const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // ===== 文法データベース =====
 
@@ -52,7 +52,7 @@ const commonWordPresets = {
 // 作品情報を保存
 async function saveTextInfo(textData) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('classical_texts')
             .insert([{
                 title: textData.title,
@@ -75,7 +75,7 @@ async function saveTextInfo(textData) {
 // 登場人物を保存
 async function saveCharacter(textId, characterData) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('characters')
             .insert([{
                 text_id: textId,
@@ -98,7 +98,7 @@ async function saveCharacter(textId, characterData) {
 // 本文を保存
 async function savePassage(textId, passageData) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('text_passages')
             .insert([{
                 text_id: textId,
@@ -121,7 +121,7 @@ async function savePassage(textId, passageData) {
 // 単語解析を保存
 async function saveWordAnalysis(passageId, wordData) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('word_analyses')
             .insert([{
                 passage_id: passageId,
@@ -150,7 +150,7 @@ async function saveWordAnalysis(passageId, wordData) {
 // 係り結びを保存
 async function saveKakariMusubi(passageId, kakariData) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('kakari_musubi')
             .insert([{
                 passage_id: passageId,
@@ -174,7 +174,7 @@ async function saveKakariMusubi(passageId, kakariData) {
 // 作品一覧を取得
 async function getTextsList() {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('classical_texts')
             .select('*')
             .order('created_at', { ascending: false });
@@ -191,7 +191,7 @@ async function getTextsList() {
 async function getTextDetail(textId) {
     try {
         // 作品情報
-        const { data: textData, error: textError } = await supabase
+        const { data: textData, error: textError } = await supabaseClient
             .from('classical_texts')
             .select('*')
             .eq('id', textId)
@@ -200,7 +200,7 @@ async function getTextDetail(textId) {
         if (textError) throw textError;
         
         // 登場人物
-        const { data: characters, error: charError } = await supabase
+        const { data: characters, error: charError } = await supabaseClient
             .from('characters')
             .select('*')
             .eq('text_id', textId);
@@ -208,7 +208,7 @@ async function getTextDetail(textId) {
         if (charError) throw charError;
         
         // 本文
-        const { data: passages, error: passError } = await supabase
+        const { data: passages, error: passError } = await supabaseClient
             .from('text_passages')
             .select('*')
             .eq('text_id', textId)
@@ -231,7 +231,7 @@ async function getTextDetail(textId) {
 // 本文の単語解析を取得
 async function getWordAnalyses(passageId) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('word_analyses')
             .select(`
                 *,
@@ -252,7 +252,7 @@ async function getWordAnalyses(passageId) {
 // 係り結びを取得
 async function getKakariMusubi(passageId) {
     try {
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
             .from('kakari_musubi')
             .select(`
                 *,
