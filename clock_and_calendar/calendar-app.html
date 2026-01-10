@@ -409,7 +409,7 @@ if (session) {
       try {
         updateSyncStatus('syncing')
         const { data, error } = await supabase
-          .from('events')
+          .from('calendar_app')
           .select('*')
           .eq('user_id', state.user.id)
           .order('date', { ascending: true })
@@ -434,7 +434,7 @@ if (session) {
         }
 
         const { data, error } = await supabase
-          .from('events')
+          .from('calendar_app')
           .upsert(eventData)
           .select()
 
@@ -454,7 +454,7 @@ if (session) {
       try {
         updateSyncStatus('syncing')
         const { error } = await supabase
-          .from('events')
+          .from('calendar_app')
           .delete()
           .eq('id', id)
           .eq('user_id', state.user.id)
@@ -474,7 +474,7 @@ if (session) {
       try {
         updateSyncStatus('syncing')
         const { error } = await supabase
-          .from('events')
+          .from('calendar_app')
           .delete()
           .eq('group_id', groupId)
           .eq('user_id', state.user.id)
@@ -494,7 +494,7 @@ if (session) {
       try {
         updateSyncStatus('syncing')
         const { error } = await supabase
-          .from('events')
+          .from('calendar_app')
           .update(updates)
           .eq('group_id', groupId)
           .eq('user_id', state.user.id)
@@ -514,7 +514,7 @@ if (session) {
       try {
         updateSyncStatus('syncing')
         const { error } = await supabase
-          .from('events')
+          .from('calendar_app')
           .delete()
           .eq('user_id', state.user.id)
 
@@ -532,7 +532,7 @@ if (session) {
     // Subscribe to realtime changes
     supabase
       .channel('events')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'events' }, (payload) => {
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'calendar_app' }, (payload) => {
         if (state.user && payload.new?.user_id === state.user.id) {
           loadEvents()
         }
