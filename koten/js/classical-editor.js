@@ -133,6 +133,7 @@ function parseText() {
         conjugation_type: '',
         conjugation_form: '',
         usage_note: '',
+        particle_type: '',
         is_auxiliary: false,
         honorific_type: '',
         honorific_from_character_id: '',
@@ -156,10 +157,13 @@ function renderWordsList() {
         const conjugationInfo = word.conjugation_type ? 
             `${word.conjugation_type}・${word.conjugation_form || ''}` : '';
         
+        const particleInfo = word.particle_type ? `[${word.particle_type}]` : '';
+        const usageInfo = word.usage_note ? `(${word.usage_note})` : '';
+        
         item.innerHTML = `
             <div class="word-item-text">${word.surface_form}</div>
             <div class="word-item-info">
-                ${posInfo}
+                ${posInfo} ${particleInfo} ${usageInfo}
                 ${conjugationInfo ? `<br>${conjugationInfo}` : ''}
                 ${word.is_auxiliary ? ' [補助]' : ''}
                 ${word.honorific_type ? ` [${word.honorific_type}]` : ''}
@@ -178,14 +182,11 @@ function openWordPanel(index) {
     document.getElementById('wordPartOfSpeech').value = word.part_of_speech;
     document.getElementById('wordConjugationType').value = word.conjugation_type;
     document.getElementById('wordConjugationForm').value = word.conjugation_form;
+    document.getElementById('wordUsageNote').value = word.usage_note;
     
-    // 用法フィールドの表示切り替え
-    updateUsageNoteField(word.part_of_speech);
-    
-    if (word.part_of_speech === '助詞' && ['係助詞', '接続助詞', '格助詞', '副助詞', '終助詞', '間投助詞'].includes(word.usage_note)) {
-        document.getElementById('wordUsageNoteSelect').value = word.usage_note;
-    } else {
-        document.getElementById('wordUsageNote').value = word.usage_note;
+    // 助詞の種類（particle_typeフィールド）
+    if (word.particle_type) {
+        document.getElementById('particleTypeSelect').value = word.particle_type;
     }
     
     document.getElementById('isAuxiliary').checked = word.is_auxiliary;
@@ -219,12 +220,13 @@ function saveWordAnalysis() {
     word.part_of_speech = document.getElementById('wordPartOfSpeech').value;
     word.conjugation_type = document.getElementById('wordConjugationType').value;
     word.conjugation_form = document.getElementById('wordConjugationForm').value;
+    word.usage_note = document.getElementById('wordUsageNote').value;
     
-    // 用法の取得（助詞の場合はselectから、それ以外はinputから）
+    // 助詞の種類を別フィールドに保存
     if (word.part_of_speech === '助詞') {
-        word.usage_note = document.getElementById('wordUsageNoteSelect').value;
+        word.particle_type = document.getElementById('particleTypeSelect').value;
     } else {
-        word.usage_note = document.getElementById('wordUsageNote').value;
+        word.particle_type = '';
     }
     
     word.is_auxiliary = document.getElementById('isAuxiliary').checked;
@@ -244,15 +246,12 @@ function saveWordAnalysis() {
 }
 
 function updateUsageNoteField(partOfSpeech) {
-    const inputField = document.getElementById('wordUsageNote');
-    const selectField = document.getElementById('wordUsageNoteSelect');
+    const particleGroup = document.getElementById('particleTypeGroup');
     
     if (partOfSpeech === '助詞') {
-        inputField.classList.add('hidden');
-        selectField.classList.remove('hidden');
+        particleGroup.classList.remove('hidden');
     } else {
-        inputField.classList.remove('hidden');
-        selectField.classList.add('hidden');
+        particleGroup.classList.add('hidden');
     }
 }
 
