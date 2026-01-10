@@ -562,7 +562,7 @@ button.danger {
 }
 
 .kpi .card {
-  background: var(--gradient-main);
+  background: linear-gradient( #faba40, #1a2b3c 85%);
   border: none;
   border-radius: 16px;
   padding: 16px;

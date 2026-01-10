@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.png" />
+<title>古典文法エディタ — Shoei451</title>
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="css/classical-grammar.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Header -->
+<header>
+    <h1>古典文法エディタ</h1>
+    <p>Classical Japanese Grammar Analyzer</p>
+</header>
+
+<!-- Main Container -->
+<div class="app-container">
+    
+    <!-- Mode Selection -->
+    <div id="modeSelection" class="mode-selection">
+        <div class="mode-card" onclick="switchMode('edit')">
+            <div class="mode-icon">✍️</div>
+            <h2>編集モード</h2>
+            <p>品詞分解を作成・編集</p>
+        </div>
+        <div class="mode-card" onclick="switchMode('view')">
+            <div class="mode-icon">📖</div>
+            <h2>閲覧モード</h2>
+            <p>品詞分解を表示</p>
+        </div>
+    </div>
+
+    <!-- Edit Mode -->
+    <div id="editMode" class="hidden">
+        <div class="toolbar">
+            <button onclick="saveText()" class="btn-primary">💾 保存</button>
+            <button onclick="loadText()" class="btn-secondary">📂 読み込み</button>
+            <button onclick="switchMode('view')" class="btn-secondary">👁️ 閲覧モード</button>
+            <button onclick="switchMode('select')" class="btn-ghost">🏠 戻る</button>
+        </div>
+
+        <!-- Text Info Form -->
+        <div class="text-info-panel">
+            <h3>作品情報</h3>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>作品名</label>
+                    <input type="text" id="textTitle" placeholder="例: 源氏物語">
+                </div>
+                <div class="form-group">
+                    <label>作者</label>
+                    <input type="text" id="textAuthor" placeholder="例: 紫式部">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>時代</label>
+                    <input type="text" id="textPeriod" placeholder="例: 平安時代">
+                </div>
+                <div class="form-group">
+                    <label>ジャンル</label>
+                    <input type="text" id="textGenre" placeholder="例: 物語">
+                </div>
+            </div>
+        </div>
+
+        <!-- Characters Management -->
+        <div class="characters-panel">
+            <h3>登場人物</h3>
+            <div class="characters-input">
+                <input type="text" id="newCharacterName" placeholder="人物名">
+                <input type="text" id="newCharacterStatus" placeholder="身分（例: 帝、后）">
+                <button onclick="addCharacter()" class="btn-add">＋ 追加</button>
+            </div>
+            <div id="charactersList" class="characters-list"></div>
+        </div>
+        
+        <!-- Text Editor -->
+        <div class="editor-panel">
+            <div class="panel-title-row">
+                <h3>本文入力 <span class="hint">（「/」で単語を区切るか、ボタンで挿入してください）</span></h3>
+                <button onclick="parseText()" class="btn-parse">📝 品詞分解開始</button>
+            </div>
+            <div class="editor-controls">
+                <button onclick="insertSlash()" class="btn-secondary btn-insert-slash">/ を挿入</button>
+                <span class="hint">カーソル位置に「/」を挿入します</span>
+            </div>
+            <textarea id="textInput" placeholder="春/は/あけぼの/。/やうやう/白く/なり/ゆく/山ぎは/、/すこし/明かり/て..."></textarea>
+        </div>
+
+        <!-- Word Analysis Panel -->
+        <div id="wordAnalysisPanel" class="word-analysis-panel hidden">
+            <div class="panel-header">
+                <h3>単語の編集</h3>
+                <button onclick="closeWordPanel()" class="btn-close">✕</button>
+            </div>
+            <div class="panel-body">
+                <div class="word-display">
+                    <span id="currentWord" class="current-word"></span>
+                </div>
+
+                <!-- Basic Info -->
+                <div class="form-section">
+                    <h4>基本情報</h4>
+                    <div class="form-group">
+                        <label>品詞</label>
+                        <select id="wordPartOfSpeech" onchange="updateConjugationOptions()">
+                            <option value="">選択してください</option>
+                            <option value="動詞">動詞</option>
+                            <option value="形容詞">形容詞</option>
+                            <option value="形容動詞">形容動詞</option>
+                            <option value="助動詞">助動詞</option>
+                            <option value="助詞">助詞</option>
+                            <option value="名詞">名詞</option>
+                            <option value="代名詞">代名詞</option>
+                            <option value="副詞">副詞</option>
+                            <option value="接続詞">接続詞</option>
+                            <option value="感動詞">感動詞</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="conjugationTypeGroup">
+                        <label>活用の種類</label>
+                        <select id="wordConjugationType" onchange="updateConjugationFormOptions()">
+                            <option value="">選択してください</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="conjugationFormGroup">
+                        <label>活用形</label>
+                        <select id="wordConjugationForm">
+                            <option value="">選択してください</option>
+                        </select>
+                    </div>
+                    <div class="form-group" id="usageNoteGroup">
+                        <label>用法・補足</label>
+                        <input type="text" id="wordUsageNote" placeholder="例: 順接、逆接など">
+                        <select id="wordUsageNoteSelect" class="hidden">
+                            <option value="">選択してください</option>
+                            <option value="係助詞">係助詞</option>
+                            <option value="接続助詞">接続助詞</option>
+                            <option value="格助詞">格助詞</option>
+                            <option value="副助詞">副助詞</option>
+                            <option value="終助詞">終助詞</option>
+                            <option value="間投助詞">間投助詞</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Special Marks -->
+                <div class="form-section">
+                    <h4>特殊マーク</h4>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isAuxiliary">
+                            <span>補助動詞</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Honorific Settings -->
+                <div class="form-section">
+                    <h4>敬語設定</h4>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isHonorific" onchange="toggleHonorificSettings()">
+                            <span>敬語として設定</span>
+                        </label>
+                    </div>
+                    <div id="honorificSettings" class="hidden">
+                        <div class="form-group">
+                            <label>敬語の種類</label>
+                            <select id="honorificType">
+                                <option value="">選択してください</option>
+                                <option value="尊敬語">尊敬語</option>
+                                <option value="謙譲語">謙譲語</option>
+                                <option value="丁寧語">丁寧語</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>誰から？</label>
+                            <select id="honorificFrom">
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>誰へ？</label>
+                            <select id="honorificTo">
+                                <option value="">選択してください</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kakari-Musubi Settings -->
+                <div class="form-section">
+                    <h4>係り結び設定</h4>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="isKakari" onchange="toggleKakariSettings()">
+                            <span>係助詞</span>
+                        </label>
+                    </div>
+                    <div id="kakariSettings" class="hidden">
+                        <div class="form-group">
+                            <label>係助詞の種類</label>
+                            <select id="kakariType">
+                                <option value="">選択してください</option>
+                                <option value="ぞ">ぞ</option>
+                                <option value="なむ">なむ</option>
+                                <option value="や">や</option>
+                                <option value="か">か</option>
+                                <option value="こそ">こそ</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>結びの語（単語番号）</label>
+                            <input type="number" id="musubiPosition" placeholder="結びの語の位置" min="0">
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="saveWordAnalysis()" class="btn-primary btn-full">保存</button>
+            </div>
+        </div>
+
+        <!-- Words List -->
+        <div id="wordsListPanel" class="words-list-panel hidden">
+            <h3>単語一覧</h3>
+            <div id="wordsList" class="words-list"></div>
+        </div>
+    </div>
+
+    <!-- View Mode -->
+    <div id="viewMode" class="hidden">
+        <div class="toolbar">
+            <button onclick="switchMode('edit')" class="btn-secondary">✍️ 編集モード</button>
+            <button onclick="switchMode('select')" class="btn-ghost">🏠 戻る</button>
+        </div>
+
+        <div class="viewer-container">
+            <div class="text-header">
+                <h2 id="viewTitle"></h2>
+                <p id="viewMeta"></p>
+            </div>
+            
+            <div id="charactersDiagram" class="characters-diagram"></div>
+            
+            <svg id="kakariMusubiSvg" class="kakari-musubi-overlay"></svg>
+            
+            <div id="viewText" class="view-text"></div>
+        </div>
+
+        <!-- Word Tooltip -->
+        <div id="wordTooltip" class="word-tooltip hidden"></div>
+    </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/theme-toggle.js"></script>
+<script src="js/classical-data.js"></script>
+<script src="js/classical-editor.js"></script>
+<script src="js/classical-viewer.js"></script>
+
+</body>
+</html>

@@ -75,7 +75,14 @@
         </div>
         <div class="row-export">
           <button id="exportBtn" class="ghost">エクスポート</button>
-          <label class="ghost" style="padding:12px 14px; cursor:pointer; border-radius:12px; display:inline-flex; align-items:center; min-height:48px;">
+          <label class="ghost" style="
+          padding:12px 14px; 
+          cursor:pointer; 
+          border: #aaaaaa 2px solid;
+          border-radius:12px; 
+          display:inline-flex; 
+          align-items:center; 
+          min-height:48px;">
             インポート
             <input type="file" id="importFile" accept="application/json" hidden>
           </label>
@@ -216,9 +223,8 @@
     // =====================================
     // Supabase Configuration
     // =====================================
-    const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co'
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs'
-    
+    const SUPABASE_URL = 'https://abfuanjincelcyrlswsp.supabase.co'
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiZnVhbmppbmNlbGN5cmxzd3NwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc4NjE4MDIsImV4cCI6MjA4MzQzNzgwMn0.OD7371E7A1ZRiqF6SGXnp2JSzPowg2zTt-V36GQ7x9A'
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     // =====================================
