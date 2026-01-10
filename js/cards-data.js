@@ -20,6 +20,7 @@ const cardsList = [
         text: "「家庭基礎」のテスト対策ツール集です", 
         link: "home_economics/" 
     },
+    /*
     { 
         icon: "⏳",
         title: "Clock and Calendar", 
@@ -27,6 +28,7 @@ const cardsList = [
         text: "入試カウントダウンなど", 
         link: "clock_and_calendar/" 
     },
+    */
     { 
         icon: "📰",
         title: "Blogs", 
