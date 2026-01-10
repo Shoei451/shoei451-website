@@ -44,6 +44,13 @@ const cardsList = [
         text: "上記の文類に収まりきらないツールはここにまとめて入れます", 
         link: "others/" 
     },
+    {
+        icon: "💡",
+        title: "Japanese Classics learning tool", 
+        titleJP: "(beta)デジタル古文品詞分解",
+        text: "古文の品詞分解のためのオンラインツールです (開発中)", 
+        link: "koten/" 
+    },
     { 
         icon: "🔗",
         title: "Links for Learning", 
