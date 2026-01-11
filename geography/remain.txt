@@ -1,0 +1,67 @@
+  <style>
+    /* 最低限の見た目（common.cssがあれば上書きされる） */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .access-form {
+      max-width: 420px;
+      width: 100%;
+      padding: 2rem;
+      border-radius: 12px;
+      background: var(--card-bg, #fff);
+      box-shadow: 0 8px 24px rgba(0,0,0,.08);
+      text-align: center;
+    }
+
+    .access-form h1 {
+      font-size: 1.4rem;
+      margin-bottom: .5rem;
+    }
+
+    .access-form p {
+      color: var(--secondary, #666);
+      font-size: .95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: .8rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: .8rem;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: none;
+      background: #4f46e5;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    #message {
+      margin-top: 1rem;
+      font-size: .95rem;
+    }
+
+    .error-message {
+      color: #e53935;
+    }
+
+    .success-message {
+      color: #2e7d32;
+    }
+  </style>

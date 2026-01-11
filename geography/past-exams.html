@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="../images/favicon.png" />
-<title>地理総合 定期テスト過去問（限定公開）— Shoei451</title>
-<link rel="stylesheet" href="../css/common.css">
-<link rel="stylesheet" href="../css/past-exams.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="../images/favicon.png" />
+  <title>地理総合 定期テスト過去問（限定公開）— Shoei451</title>
+
+  <!-- 共通CSS（任意） -->
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/past-exams.css" />
+  <link rel="icon" href="../images/favicon.png" />
+
+
 </head>
-<body data-subject="geography" data-subject-name="地理総合" data-storage-path="geography"></body>
-<body>
+
+<body
+  data-subject="geography"
+  data-subject-name="地理総合"
+>
+
 
 <!-- Theme Toggle -->
 <span class="logo-switches">
@@ -40,58 +49,35 @@
     <a href="index.html" class="back-link">Back to Geography Top</a>
 </section>
 
-<!-- Access Form -->
-<div id="accessForm" class="access-form">
-    <h2>🔒 Access Authorization</h2>
-    <p>この資料は校内限定公開です。<br>アクセスコードを入力してください。</p>
-    
-    <input 
-        type="password" 
-        id="codeInput" 
-        placeholder="Enter Access Code here..."
-        maxlength="20"
-        onkeypress="if(event.key==='Enter') verifyAccess()"
-    >
-    
+
+  <div class="access-form">
+    <h1>🔒 Access Authorization</h1>
+    <p>このページは校内限定公開です。<br>アクセスコードを入力してください。</p>
+
+    <input
+      type="password"
+      id="codeInput"
+      placeholder="Access Code"
+      maxlength="20"
+      autocomplete="off"
+    />
+
     <button onclick="verifyAccess()">確認</button>
-    
+
     <div id="message"></div>
-    
     <div class="note-box" style="margin-top: 30px; text-align: left;">
         <p><strong>📌 アクセスコードについて：</strong></p>
         <p>• 校内で共有します</p>
         <p>• コードは定期的に変更されます</p>
     </div>
-</div>
+  </div>
 
-<!-- Protected Content -->
-<div id="protectedContent" class="protected-content">
-    <section class="intro">
-        <h2>定期テスト過去問データベース</h2>
-        
-        <div class="note-box">
-            <p><strong>利用上の注意：</strong></p>
-            <p>• これらの資料は学習目的でのみ使用してください</p>
-        </div>
-    </section>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Semester Tabs -->
-    <div class="subject-tabs">
-        <button class="subject-tab active" onclick="switchSemester('2025-term1')">2025年度 1学期</button>
-        <button class="subject-tab" onclick="switchSemester('2025-term2')">2025年度 2学期</button>
-        <button class="subject-tab" onclick="switchSemester('2025-term3')">2025年度 3学期</button>
-    </div>
-
-    <div id="loadingMessage" class="loading">
-        <p>📂 過去問データを読み込み中...</p>
-    </div>
-
-    <div id="examList" class="exam-list"></div>
-</div>
-
-<!-- Scripts -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../js/past-exams.js"></script>
-<script src="../js/theme-toggle.js"></script>
+  <!-- ゲート用JS -->
+  <script src="../js/past-exams.js"></script>
+  <!-- テーマ切替用JS -->
+  <script src="../js/theme-toggle.js"></script>
 </body>
 </html>

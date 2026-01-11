@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.png" />
+<title>【科目名】定期テスト過去問（限定公開）— Shoei451</title>
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/past-exams.css">
+</head>
+<!-- 
+    ⚠️ 重要：bodyタグのdata属性を必ず設定してください
+    - data-subject: データベースの科目ID（例: geography, world_history）
+    - data-subject-name: 表示用の科目名（例: 地理総合, 世界史）
+    - data-storage-path: 旧Storageパス（互換性のため残していますが、使用されません）
+-->
+<body data-subject="科目ID" data-subject-name="科目名" data-storage-path="科目ID">
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Header -->
+<header>
+    <h1>📚 【科目名】定期テスト過去問</h1>
+    <p>校内限定公開</p>
+</header>
+
+<section class="intro">
+    <a href="index.html" class="back-link">Back to 【科目名】 Top</a>
+</section>
+
+<!-- Access Form -->
+<div id="accessForm" class="access-form">
+    <h2>🔒 Access Authorization</h2>
+    <p>この資料は校内限定公開です。<br>アクセスコードを入力してください。</p>
+    
+    <input 
+        type="password" 
+        id="codeInput" 
+        placeholder="Enter Access Code here..."
+        maxlength="20"
+        onkeypress="if(event.key==='Enter') verifyAccess()"
+    >
+    
+    <button onclick="verifyAccess()">確認</button>
+    
+    <div id="message"></div>
+    
+    <div class="note-box" style="margin-top: 30px; text-align: left;">
+        <p><strong>📌 アクセスコードについて：</strong></p>
+        <p>• 校内で共有します</p>
+        <p>• コードは定期的に変更されます</p>
+    </div>
+</div>
+
+<!-- Protected Content -->
+<div id="protectedContent" class="protected-content">
+    <section class="intro">
+        <h2>定期テスト過去問データベース</h2>
+        
+        <div class="note-box">
+            <p><strong>⚠️ 利用上の注意：</strong></p>
+            <p>• これらの資料は学習目的でのみ使用してください</p>
+            <p>• 再配布や商用利用は固く禁じます</p>
+            <p>• 問題の内容について質問がある場合は、担当教員に確認してください</p>
+        </div>
+    </section>
+
+    <!-- Semester Tabs -->
+    <div class="subject-tabs">
+        <button class="subject-tab active" onclick="switchSemester('2025-term1')">2025年度 1学期</button>
+        <button class="subject-tab" onclick="switchSemester('2025-term2')">2025年度 2学期</button>
+        <button class="subject-tab" onclick="switchSemester('2025-term3')">2025年度 3学期</button>
+        <button class="subject-tab" onclick="switchSemester('2026-term1')">2026年度 1学期</button>
+        <button class="subject-tab" onclick="switchSemester('2026-term2')">2026年度 2学期</button>
+        <button class="subject-tab" onclick="switchSemester('2026-term3')">2026年度 3学期</button>
+    </div>
+
+    <div id="loadingMessage" class="loading">
+        <p>📂 過去問データを読み込み中...</p>
+    </div>
+
+    <div id="examList" class="exam-list"></div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/past-exams.js"></script>
+<script src="../js/theme-toggle.js"></script>
+
+</body>
+</html>

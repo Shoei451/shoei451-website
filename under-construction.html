@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="images/favicon.png" />
+<title>制作中 — Shoei451</title>
+<link rel="stylesheet" href="css/common.css">
+<style>
+.construction-container {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.construction-icon {
+    font-size: 8rem;
+    margin-bottom: 30px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.construction-title {
+    font-size: 3rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #313A49 0%, #FABA40 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 20px;
+}
+
+.construction-message {
+    font-size: 1.2rem;
+    color: var(--secondary);
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.8;
+}
+
+.construction-actions {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.construction-button {
+    padding: 15px 35px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background: var(--primary);
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(49, 58, 73, 0.4);
+}
+
+@media (max-width: 768px) {
+    .construction-icon {
+        font-size: 5rem;
+    }
+    
+    .construction-title {
+        font-size: 2rem;
+    }
+    
+    .construction-message {
+        font-size: 1.1rem;
+    }
+    
+    .construction-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .construction-button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Construction Container -->
+<div class="construction-container">
+    <div class="construction-icon">🚧</div>
+    <h1 class="construction-title">このページは現在制作中です</h1>
+    <p class="construction-message">
+        このページは開発中のため、まだ公開されていません。<br>
+        より良いコンテンツをお届けするため、鋭意制作中です。
+    </p>
+    
+    <div class="construction-actions">
+        <a href="index.html" class="construction-button btn-primary">
+            ホームに戻る
+        </a>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script src="js/theme-toggle.js"></script>
+<script>
+// Easter egg: change icon on click
+const constructionIcon = document.querySelector('.construction-icon');
+const icons = ['🚧', '⚙️', '🔧', '🏗️', '🛠️', '⚡'];
+let iconIndex = 0;
+
+constructionIcon.addEventListener('click', () => {
+    iconIndex = (iconIndex + 1) % icons.length;
+    constructionIcon.textContent = icons[iconIndex];
+});
+</script>
+
+</body>
+</html>
