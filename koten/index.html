@@ -7,6 +7,27 @@
 <title>古典文法エディタ — Shoei451</title>
 <link rel="stylesheet" href="../css/common.css">
 <link rel="stylesheet" href="css/classical-grammar.css">
+<style>
+    /* ===== Back to Home Link ===== */
+.back-link {
+    display: inline-block;
+    text-align: center;
+    padding: 12px 24px;
+    background: var(--accent);  /* またはお好みの色（例: #148b9d） */
+    color: #ffffff;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(20, 139, 157, 0.3);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    transform: translateY(-2px);
+    background: #faba40;  /* ホバー時の色 */
+    box-shadow: 0 6px 20px rgba(20, 139, 157, 0.4);
+}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;600;700&family=Shippori+Mincho:wght@400;600;800&display=swap" rel="stylesheet">
@@ -39,6 +60,13 @@
     <p>Classical Japanese Grammar Analyzer</p>
 </header>
 
+<section class="intro">
+    <a href="../index.html" class="back-link">Back to Home</a>
+    <h2>古文 デジタル品詞分解</h2>
+    <p>このツールは、古典文学作品の品詞分解をデジタル化し、分析・閲覧するためのものです。</p>
+</section>
+
+
 <!-- Main Container -->
 <div class="app-container">
     
@@ -59,10 +87,10 @@
     <!-- Edit Mode -->
     <div id="editMode" class="hidden">
         <div class="toolbar">
-            <button onclick="saveText()" class="btn-primary">💾 保存</button>
-            <button onclick="loadText()" class="btn-secondary">📂 読み込み</button>
-            <button onclick="switchMode('view')" class="btn-secondary">👁️ 閲覧モード</button>
-            <button onclick="switchMode('select')" class="btn-ghost">🏠 戻る</button>
+            <button onclick="saveText()" class="btn-primary">save</button>
+            <button onclick="loadText()" class="btn-secondary">📂 Load saved data</button>
+            <button onclick="switchMode('view')" class="btn-secondary">view</button>
+            <button onclick="switchMode('select')" class="btn-ghost">Back</button>
         </div>
 
         <!-- Text Info Form -->

@@ -1,0 +1,47 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- グラデーション -->
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2d1b0f;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#6b5d54;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FABA40;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c8936d;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="200" height="200" rx="40" fill="url(#bg)"/>
+  
+  <!-- 巻物のシルエット -->
+  <g transform="translate(100, 100)">
+    <!-- 左の軸 -->
+    <rect x="-70" y="-50" width="12" height="100" rx="6" fill="url(#accent)"/>
+    
+    <!-- 本体 -->
+    <rect x="-58" y="-45" width="96" height="90" fill="#faf8f3" rx="4"/>
+    
+    <!-- 右の軸 -->
+    <rect x="38" y="-50" width="12" height="100" rx="6" fill="url(#accent)"/>
+    
+    <!-- テキスト装飾 -->
+    <line x1="-45" y1="-25" x2="25" y2="-25" stroke="#2d1b0f" stroke-width="3" stroke-linecap="round"/>
+    <line x1="-45" y1="-10" x2="10" y2="-10" stroke="#6b5d54" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-45" y1="5" x2="20" y2="5" stroke="#6b5d54" stroke-width="2" stroke-linecap="round"/>
+    
+    <!-- 品詞マーカー（色付き） -->
+    <rect x="-45" y="18" width="22" height="12" fill="#d4e4f7" rx="2" opacity="0.8"/>
+    <rect x="-20" y="18" width="15" height="12" fill="#ffd4e5" rx="2" opacity="0.8"/>
+    <rect x="0" y="18" width="25" height="12" fill="#fff4d4" rx="2" opacity="0.8"/>
+    
+    <!-- 敬語アイコン -->
+    <circle cx="-30" cy="-30" r="8" fill="#FABA40"/>
+    <text x="-30" y="-26" font-size="10" fill="white" font-weight="700" text-anchor="middle">尊</text>
+    
+    <!-- 係り結びの矢印 -->
+    <path d="M -35 -5 Q -10 -15, 15 -5" stroke="#FABA40" stroke-width="2" fill="none"/>
+    <polygon points="15,-5 12,-3 12,-7" fill="#FABA40"/>
+  </g>
+</svg>
