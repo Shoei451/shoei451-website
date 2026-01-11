@@ -649,6 +649,8 @@ button.ghost:hover {
     border: none;
     width: 40px;
     height: 40px;
+    min-width: 40px;
+    min-height: 40px;
     border-radius: 50%;
     font-size: 1.5rem;
     cursor: pointer;
@@ -656,6 +658,8 @@ button.ghost:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
 }
 
 .close-btn:hover {
@@ -690,6 +694,13 @@ button.ghost:hover {
     text-align: center;
     font-size: 0.9rem;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    line-height: 1.4;
+}
+
+.ascii-table th.ascii-corner-cell {
+    background: var(--accent);
+    font-size: 0.75rem;
+    line-height: 1.3;
 }
 
 .ascii-table td {

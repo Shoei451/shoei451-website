@@ -13,12 +13,10 @@ themeToggle.addEventListener('click', () => {
     localStorage.setItem('hex-quiz-theme', theme);
 });
 
-/*
 // Supabase 初期化
 const supabaseUrl = "https://gjuqsyaugrsshmjerhme.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzM0NzMwNzEsImV4cCI6MjA0OTA0OTA3MX0.sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU";
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
-*/
 
 // グローバル変数
 let allQuestions = [];
@@ -621,8 +619,8 @@ function closeASCIITable() {
 function generateASCIITableHTML() {
     let html = '<table class="ascii-table">';
     
-    // ヘッダー行
-    html += '<tr><th>下位4ビット</th>';
+    // ヘッダー行（左上セルは常にアクセントカラー）
+    html += '<tr><th class="ascii-corner-cell">上位4ビット →<br>下位4ビット ↓</th>';
     for (let i = 0; i < 16; i++) {
         html += `<th>${i.toString(16).toUpperCase()}</th>`;
     }
@@ -676,7 +674,7 @@ function showResult() {
     
     // カテゴリー別成績
     const breakdown = document.getElementById('categoryBreakdown');
-    breakdown.innerHTML = '<h3>📊 分野別成績</h3>';
+    breakdown.innerHTML = '<h3>分野別成績</h3>';
     
     const categoryStats = {};
     selectedCategories.forEach(cat => {
