@@ -51,6 +51,13 @@ const cardsList = [
         text: "古文の品詞分解のためのオンラインツールです (開発中)", 
         link: "koten/" 
     },
+    {
+        icon: "💻",
+        title: "Informatics_1", 
+        titleJP: "情報I学習ツール",
+        text: "情報Iの学習に役立つツールです", 
+        link: "informatics1/" 
+    },
     { 
         icon: "🔗",
         title: "Links for Learning", 
