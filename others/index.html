@@ -103,6 +103,16 @@
     <!-- Section 3 Cards-->
 </section>
 
+<!-- SECTION 4-->
+<div class="section-divider">
+    <h2 class="section-title">保健</h2>
+    <p class="section-description">保健の学習ツールです。</p>
+</div>
+
+<section class="cards-container" id="container4">
+    <!-- Section 4 Cards-->
+</section>
+
 <!-- Footer -->
 <footer>
     <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
@@ -112,6 +122,7 @@
 <script src="list1.js"></script>
 <script src="list2.js"></script>
 <script src="list3.js"></script>
+<script src="list4.js"></script>
 <script>
 // Theme Toggle
 if (localStorage.getItem("pref-theme") === "dark") {
@@ -188,6 +199,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Generate Section 3 (Optional)
     generateCards(sectionItems3, 'container3');
+
+    // Generate Section 4 (Optional)
+    generateCards(sectionItems4, 'container4');
 
         // Animate all cards
     const cards = document.querySelectorAll('.card');
