@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.png" />
+<title>16進法クイズ — Shoei451</title>
+<link rel="stylesheet" href="hex-quiz-style.css">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Header -->
+<header>
+    <h1>16進法クイズ</h1>
+    <p>Hexadecimal Quiz — Master binary, decimal, and hexadecimal conversions</p>
+</header>
+<a href="../index.html" class="back-link" >Back to Home</a>
+<!-- Quiz Container -->
+<div class="quiz-wrapper">
+    
+    <!-- Start Screen -->
+    <div id="startScreen" class="screen">
+        <h2>出題分野を選択</h2>
+        
+        <div class="category-selection">
+            <div class="category-group">
+                <h3>【基本編】</h3>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="conversion_dec_hex" checked>
+                    <span>基数変換（10進⇔16進）</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="conversion_bin_hex" checked>
+                    <span>基数変換（2進⇔16進）</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="calc_hex_hex" checked>
+                    <span>16進数同士の四則演算</span>
+                </label>
+            </div>
+            
+            <div class="category-group">
+                <h3>【応用編】</h3>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="calc_mixed_base" checked>
+                    <span>複数基数混合計算</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="calc_negative" checked>
+                    <span>負の数を含む計算</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="color_code" checked>
+                    <span>カラーコード → RGB値</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" name="category" value="ascii_binary" checked>
+                    <span>ASCII文字コード（2進数変換）</span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="selection-controls">
+            <button onclick="selectAll()" class="ghost">すべて選択</button>
+            <button onclick="deselectAll()" class="ghost">すべて解除</button>
+        </div>
+        
+        <div class="field">
+            <label for="countSelect">問題数:</label>
+            <select id="countSelect">
+                <option value="10">10問</option>
+                <option value="20">20問</option>
+                <option value="50">50問</option>
+                <option value="all">全問</option>
+            </select>
+        </div>
+        
+        <button onclick="startQuiz()" class="primary">クイズを開始</button>
+        <div id="errorMessage" class="error-message"></div>
+    </div>
+    
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="screen hidden">
+        <div class="quiz-layout">
+            <!-- Left: Question Area -->
+            <div class="question-area">
+                <div class="top-bar">
+                    <div id="progressInfo">問題 1 / 10</div>
+                    <div id="score">正解数: 0</div>
+                </div>
+                
+                <div id="progressOuter">
+                    <div id="progressBar"></div>
+                </div>
+                
+                <div id="questionCard" class="question-card">
+                    <div id="categoryBadge" class="category-badge"></div>
+                    <div id="question" class="question-text"></div>
+                    <div id="colorPreview" class="color-preview hidden"></div>
+                </div>
+                
+                <div id="choices" class="choices"></div>
+                
+                <div id="explanation" class="explanation hidden"></div>
+                
+                <div class="navigation-buttons">
+                    <button onclick="showASCIITable()" id="asciiTableBtn" class="ghost hidden">📊 ASCII表を見る</button>
+                    <button onclick="previousQuestion()" id="prevBtn" class="ghost">← 前へ</button>
+                    <button onclick="nextQuestion()" id="nextBtn" class="primary">次へ →</button>
+                </div>
+            </div>
+            
+            <!-- Right: Mark Sheet -->
+            <div class="mark-sheet">
+                <h3>解答状況</h3>
+                <div id="markSheetGrid" class="mark-sheet-grid"></div>
+                <div class="mark-sheet-controls">
+                    <button onclick="showResult()" class="primary">結果を見る</button>
+                    <button onclick="backToStart()" class="ghost">中断</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Result Screen -->
+    <div id="resultScreen" class="screen hidden">
+        <h2>クイズ終了！</h2>
+        <div id="resultSummary" class="result-summary"></div>
+        <div id="categoryBreakdown" class="category-breakdown"></div>
+        <button onclick="backToStart()" class="primary">最初に戻る</button>
+    </div>
+</div>
+
+<!-- ASCII Table Modal -->
+<div id="asciiModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>ASCII文字コード表</h3>
+            <button onclick="closeASCIITable()" class="close-btn">✕</button>
+        </div>
+        <div class="modal-body">
+            <div id="asciiTableContainer"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+-->
+
+<script src="hex-quiz-logic.js"></script>
+
+</body>
+</html>
