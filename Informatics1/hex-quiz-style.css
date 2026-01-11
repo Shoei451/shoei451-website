@@ -830,44 +830,22 @@ body:not(.dark) #sun {
     }
 }
 
-/*==== back-to-top button ====*/
+/* ===== Back to Home Link ===== */
 .back-link {
     display: inline-block;
     text-align: center;
-    
-    margin-bottom: 30px;
     padding: 12px 24px;
-    background: #148b9d;
+    background: var(--accent);
     color: #ffffff;
     border-radius: 25px;
     font-weight: 600;
     transition: all 0.3s;
     box-shadow: 0 4px 15px rgba(20, 139, 157, 0.3);
+    text-decoration: none;
 }
 
 .back-link:hover {
     transform: translateY(-2px);
-    color: #1a2b3c;
+    background: #0d6b7a;
     box-shadow: 0 6px 20px rgba(20, 139, 157, 0.4);
-}
-
-/* ===== Content Sections ===== */
-.intro, .tools {
-    max-width: 800px;
-    margin: 60px auto;
-    padding: 0 20px;
-    text-align: center;
-}
-
-.intro h2, .tools h2 { 
-    font-size: 2.5rem; 
-    margin-bottom: 20px; 
-    color: var(--primary);
-    font-weight: 700;
-}
-
-.intro p, .tools p { 
-    font-size: 1.1rem; 
-    color: var(--secondary);
-    line-height: 1.8;
 }
