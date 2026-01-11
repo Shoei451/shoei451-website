@@ -186,22 +186,47 @@
     box-shadow: 0 4px 15px rgba(250, 186, 64, 0.4);
 }
 
+
+/* go button */
 .go-button {
   margin-top: 1.5rem;
   width: 100%;
-  padding: 1.2rem;
-  font-size: 1.1rem;
-  font-weight: bold;
-  border-radius: 999px;
-  border: none;
-  background: linear-gradient(90deg, #4f46e5, #6366f1);
-  color: white;
+  padding: 1rem;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: var(--card-bg, #fff);
+  color: var(--text-main, #111);
   cursor: pointer;
-  animation: pulse 1.6s infinite;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+
+  animation: fadeInUp 0.3s ease-out;
 }
 
-@keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-  100% { transform: scale(1); }
+.go-button:hover,
+.go-button:focus-visible {
+  background: linear-gradient( #ffffff,#faba40 10%);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  transform: translateY(-1px);
+}
+
+.go-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1) inset;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
