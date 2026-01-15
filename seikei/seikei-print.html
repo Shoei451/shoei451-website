@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>政治・経済 年表（印刷用）— Shoei451</title>
+  <link rel="icon" href="../images/favicon.png" />
+  <style>
+    /* ===== Print-Optimized Styles ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Yu Gothic', 'Meiryo', sans-serif;
+      line-height: 1.6;
+      padding: 20px;
+      background: #ffffff;
+      color: #000000;
+    }
+
+    .print-header {
+      text-align: center;
+      margin-bottom: 30px;
+      border-bottom: 3px solid #313A49;
+      padding-bottom: 20px;
+    }
+
+    .print-header h1 {
+      font-size: 2rem;
+      color: #313A49;
+      margin-bottom: 10px;
+    }
+
+    .print-header p {
+      color: #666;
+      font-size: 0.9rem;
+    }
+
+    .controls {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #f5f5f5;
+      border-radius: 8px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .controls label {
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .controls select {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 0.95rem;
+    }
+
+    .controls button {
+      padding: 8px 20px;
+      background: #313A49;
+      color: #ffffff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .controls button:hover {
+      background: #FABA40;
+      color: #313A49;
+    }
+
+    .timeline-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+
+    .timeline-table thead {
+      background: #313A49;
+      color: #ffffff;
+    }
+
+    .timeline-table th {
+      padding: 12px 10px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid #313A49;
+    }
+
+    .timeline-table tbody tr {
+      border-bottom: 1px solid #ddd;
+    }
+
+    .timeline-table tbody tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+
+    .timeline-table td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+
+    .col-date {
+      width: 120px;
+      min-width: 120px;
+      white-space: nowrap;
+    }
+
+    .col-title {
+      width: 25%;
+      font-weight: 600;
+    }
+
+    .col-category {
+      width: 100px;
+      text-align: center;
+    }
+
+    .col-description {
+      width: auto;
+    }
+
+    .category-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .category-政治 {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+
+    .category-経済 {
+      background: #fff3e0;
+      color: #f57c00;
+    }
+
+    .category-国際関係 {
+      background: #e8f5e9;
+      color: #388e3c;
+    }
+
+    .category-社会政策 {
+      background: #f3e5f5;
+      color: #7b1fa2;
+    }
+
+    .category-その他 {
+      background: #fce4ec;
+      color: #c2185b;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #666;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px;
+      color: #999;
+    }
+
+    /* Print-specific styles */
+    @media print {
+      body {
+        padding: 0;
+      }
+
+      .controls {
+        display: none !important;
+      }
+
+      .print-header {
+        page-break-after: avoid;
+      }
+
+      .timeline-table {
+        page-break-inside: auto;
+      }
+
+      .timeline-table tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
+
+      .timeline-table thead {
+        display: table-header-group;
+      }
+
+      .timeline-table tbody {
+        display: table-row-group;
+      }
+
+      .timeline-table th,
+      .timeline-table td {
+        border: 1px solid #000;
+        padding: 8px;
+      }
+    }
+
+    @page {
+      margin: 2cm;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="print-header">
+    <h1>📅 政治・経済 学習用年表</h1>
+    <p>Shoei451 学習ツール | 印刷用</p>
+  </div>
+
+  <div class="controls">
+    <label for="categoryFilter">カテゴリ:</label>
+    <select id="categoryFilter">
+      <option value="all">すべて</option>
+      <option value="政治">政治</option>
+      <option value="経済">経済</option>
+      <option value="国際関係">国際関係</option>
+      <option value="社会政策">社会政策</option>
+      <option value="その他">その他</option>
+    </select>
+
+    <button onclick="window.print()">🖨️ 印刷する</button>
+  </div>
+
+  <div id="loadingIndicator" class="loading">
+    読み込み中...
+  </div>
+
+  <table id="timelineTable" class="timeline-table" style="display: none;">
+    <thead>
+      <tr>
+        <th class="col-date">日付</th>
+        <th class="col-title">イベント名</th>
+        <th class="col-category">カテゴリ</th>
+        <th class="col-description">説明</th>
+      </tr>
+    </thead>
+    <tbody id="timelineBody">
+      <!-- Events will be dynamically inserted here -->
+    </tbody>
+  </table>
+
+  <div id="emptyState" class="empty-state" style="display: none;">
+    <p>該当するイベントが見つかりませんでした</p>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Supabase Configuration
+    const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
+
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let allEvents = [];
+    let currentCategory = 'all';
+
+    // Load events
+    async function loadEvents() {
+      try {
+        const { data, error } = await supabase
+          .from('politics_economics_events')
+          .select('*')
+          .order('event_date', { ascending: false });
+
+        if (error) throw error;
+
+        allEvents = data || [];
+        renderEvents();
+
+      } catch (error) {
+        console.error('Error:', error);
+        document.getElementById('loadingIndicator').innerHTML = 
+          '<p style="color: red;">データの読み込みに失敗しました</p>';
+      }
+    }
+
+    // Render events
+    function renderEvents() {
+      const loadingIndicator = document.getElementById('loadingIndicator');
+      const timelineTable = document.getElementById('timelineTable');
+      const timelineBody = document.getElementById('timelineBody');
+      const emptyState = document.getElementById('emptyState');
+
+      loadingIndicator.style.display = 'none';
+
+      const filtered = currentCategory === 'all' 
+        ? allEvents 
+        : allEvents.filter(event => event.category === currentCategory);
+
+      if (filtered.length === 0) {
+        timelineTable.style.display = 'none';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      timelineTable.style.display = 'table';
+      emptyState.style.display = 'none';
+
+      timelineBody.innerHTML = filtered.map(event => `
+        <tr>
+          <td class="col-date">${formatDate(event.event_date)}</td>
+          <td class="col-title">${escapeHtml(event.title)}</td>
+          <td class="col-category">
+            <span class="category-badge category-${event.category}">
+              ${event.category}
+            </span>
+          </td>
+          <td class="col-description">${escapeHtml(event.description || '')}</td>
+        </tr>
+      `).join('');
+    }
+
+    // Category filter
+    document.getElementById('categoryFilter').addEventListener('change', (e) => {
+      currentCategory = e.target.value;
+      renderEvents();
+    });
+
+    // Utility functions
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}年${month}月${day}日`;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', loadEvents);
+  </script>
+</body>
+</html>
