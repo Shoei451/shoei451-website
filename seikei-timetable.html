@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>政治・経済 学習用年表 — Shoei451</title>
+  <link rel="icon" href="../images/favicon.png" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="seikei-timeline.css" />
+</head>
+
+<body>
+  <!-- Theme Toggle -->
+  <span class="logo-switches">
+    <button id="theme-toggle" title="テーマ切り替え">
+      <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </button>
+  </span>
+
+  <!-- Header -->
+  <header>
+    <h1>📅 政治・経済 学習用年表</h1>
+    <p>インタラクティブな年表で重要イベントを整理</p>
+  </header>
+
+  <!-- Back Link -->
+  <section class="intro">
+    <a href="../" class="back-link">← ホームに戻る</a>
+  </section>
+
+  <!-- Controls Section -->
+  <section class="controls-section">
+    <div class="controls-container">
+      <!-- Search Bar -->
+      <div class="search-box">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="🔍 イベントを検索..." 
+          autocomplete="off"
+        />
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="category-tabs">
+        <button class="category-tab active" data-category="all">すべて</button>
+        <button class="category-tab" data-category="政治">政治</button>
+        <button class="category-tab" data-category="経済">経済</button>
+        <button class="category-tab" data-category="国際関係">国際関係</button>
+        <button class="category-tab" data-category="社会政策">社会政策</button>
+        <button class="category-tab" data-category="その他">その他</button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <button id="addEventBtn" class="btn-primary">
+          ➕ イベントを追加
+        </button>
+        <button id="printBtn" class="btn-secondary" onclick="window.open('seikei-print.html', '_blank')">
+          🖨️ 印刷用表示
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Timeline Table -->
+  <section class="timeline-section">
+    <div class="timeline-container">
+      <div id="loadingIndicator" class="loading">
+        読み込み中...
+      </div>
+
+      <table id="timelineTable" class="timeline-table" style="display: none;">
+        <thead>
+          <tr>
+            <th class="col-date">日付</th>
+            <th class="col-title">イベント名</th>
+            <th class="col-category">カテゴリ</th>
+            <th class="col-description">説明</th>
+            <th class="col-actions">操作</th>
+          </tr>
+        </thead>
+        <tbody id="timelineBody">
+          <!-- Events will be dynamically inserted here -->
+        </tbody>
+      </table>
+
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <p>📭 該当するイベントが見つかりませんでした</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Add/Edit Event Modal -->
+  <div id="eventModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">イベントを追加</h2>
+        <button class="close-btn" onclick="closeModal()">×</button>
+      </div>
+
+      <form id="eventForm" class="event-form">
+        <div class="form-group">
+          <label for="eventDate">日付 *</label>
+          <input 
+            type="date" 
+            id="eventDate" 
+            required 
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="eventTitle">イベント名 *</label>
+          <input 
+            type="text" 
+            id="eventTitle" 
+            placeholder="例：消費税率10%に引き上げ" 
+            required 
+            maxlength="200"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="eventCategory">カテゴリ *</label>
+          <select id="eventCategory" required>
+            <option value="">選択してください</option>
+            <option value="政治">政治</option>
+            <option value="経済">経済</option>
+            <option value="国際関係">国際関係</option>
+            <option value="社会政策">社会政策</option>
+            <option value="その他">その他</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="eventDescription">説明</label>
+          <textarea 
+            id="eventDescription" 
+            placeholder="イベントの詳細説明を入力..."
+            rows="4"
+            maxlength="1000"
+          ></textarea>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" onclick="closeModal()">
+            キャンセル
+          </button>
+          <button type="submit" class="btn-submit">
+            保存
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>政治・経済学習ツール by Shoei451</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/theme-toggle.js"></script>
+  <script src="seikei-timeline.js"></script>
+</body>
+</html>
