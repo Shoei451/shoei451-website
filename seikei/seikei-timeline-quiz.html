@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政治・経済 年代当てクイズ</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --accent-gold: #FABA40;
+            --accent-navy: #1A2B3C;
+            --bg-light: #FFFFFF;
+            --bg-light-secondary: #F5F5F5;
+            --text-light: #1A2B3C;
+            --text-light-secondary: #666666;
+            --border-light: #E0E0E0;
+            --shadow-light: rgba(26, 43, 60, 0.1);
+        }
+
+        body.dark {
+            --bg-light: #1A2B3C;
+            --bg-light-secondary: #243447;
+            --text-light: #F5F5F5;
+            --text-light-secondary: #B0B0B0;
+            --border-light: #3A4A5C;
+            --shadow-light: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: var(--bg-light-secondary);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 20px;
+            box-shadow: 0 2px 10px var(--shadow-light);
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--accent-navy);
+            font-weight: 700;
+        }
+
+        body.dark h1 {
+            color: var(--accent-gold);
+        }
+
+        .logo-switches {
+            display: flex;
+            align-items: center;
+        }
+
+        #theme-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        #theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        body:not(.dark) #sun {
+            display: none;
+        }
+
+        body.dark #moon {
+            display: none;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            flex: 1;
+        }
+
+        .setup-screen, .quiz-screen, .result-screen {
+            background: var(--bg-light-secondary);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px var(--shadow-light);
+        }
+
+        .setup-screen h2, .quiz-screen h2, .result-screen h2 {
+            color: var(--accent-navy);
+            margin-bottom: 30px;
+            font-size: 1.5rem;
+        }
+
+        body.dark .setup-screen h2, 
+        body.dark .quiz-screen h2, 
+        body.dark .result-screen h2 {
+            color: var(--accent-gold);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group select,
+        .form-group input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group select:focus,
+        .form-group input[type="number"]:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.1);
+        }
+
+        .category-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-chip {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .category-chip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .category-chip.selected {
+            border-color: var(--accent-navy);
+            box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.3);
+        }
+
+        body.dark .category-chip.selected {
+            border-color: var(--accent-gold);
+        }
+
+        .category-chip.国際政治 { background: #E3F2FD; color: #1565C0; }
+        .category-chip.国際経済 { background: #F3E5F5; color: #6A1B9A; }
+        .category-chip.国内政治 { background: #FFF3E0; color: #E65100; }
+        .category-chip.日銀金融政策 { background: #E8F5E9; color: #2E7D32; }
+        .category-chip.農業 { background: #FFF9C4; color: #F57F17; }
+        .category-chip.消費者生活・公害対策 { background: #E0F2F1; color: #00695C; }
+        .category-chip.労働問題 { background: #FCE4EC; color: #C2185B; }
+        .category-chip.社会保障 { background: #F1F8E9; color: #558B2F; }
+
+        body.dark .category-chip.国際政治 { background: #1565C0; color: #E3F2FD; }
+        body.dark .category-chip.国際経済 { background: #6A1B9A; color: #F3E5F5; }
+        body.dark .category-chip.国内政治 { background: #E65100; color: #FFF3E0; }
+        body.dark .category-chip.日銀金融政策 { background: #2E7D32; color: #E8F5E9; }
+        body.dark .category-chip.農業 { background: #F57F17; color: #FFF9C4; }
+        body.dark .category-chip.消費者生活・公害対策 { background: #00695C; color: #E0F2F1; }
+        body.dark .category-chip.労働問題 { background: #C2185B; color: #FCE4EC; }
+        body.dark .category-chip.社会保障 { background: #558B2F; color: #F1F8E9; }
+
+        button {
+            background: var(--accent-gold);
+            color: var(--accent-navy);
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .quiz-question {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .question-number {
+            color: var(--text-light-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .event-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            margin: 20px 0;
+        }
+
+        .event-description {
+            color: var(--text-light-secondary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .answer-input {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .answer-input input {
+            width: 200px;
+            padding: 15px;
+            font-size: 1.5rem;
+            text-align: center;
+            border: 3px solid var(--border-light);
+            border-radius: 8px;
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
+        .answer-input input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 4px rgba(250, 186, 64, 0.2);
+        }
+
+        .answer-input label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .feedback {
+            text-align: center;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .feedback.correct {
+            background: #E8F5E9;
+            color: #2E7D32;
+            border: 2px solid #2E7D32;
+        }
+
+        .feedback.incorrect {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 2px solid #C62828;
+        }
+
+        body.dark .feedback.correct {
+            background: #2E7D32;
+            color: #E8F5E9;
+        }
+
+        body.dark .feedback.incorrect {
+            background: #C62828;
+            color: #FFEBEE;
+        }
+
+        .quiz-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .score-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .score-card {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 8px var(--shadow-light);
+        }
+
+        .score-card .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-gold);
+            margin: 10px 0;
+        }
+
+        .score-card .label {
+            color: var(--text-light-secondary);
+            font-size: 0.9rem;
+        }
+
+        .mistakes-list {
+            margin-top: 30px;
+        }
+
+        .mistake-item {
+            background: var(--bg-light);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 8px var(--shadow-light);
+        }
+
+        .mistake-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .mistake-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .mistake-answers {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+
+        .your-answer {
+            color: #C62828;
+        }
+
+        .correct-answer {
+            color: #2E7D32;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            .setup-screen, .quiz-screen, .result-screen {
+                padding: 25px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .answer-input input {
+                width: 150px;
+                font-size: 1.2rem;
+            }
+
+            .score-summary {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>📅 政治・経済 年代当てクイズ</h1>
+            <span class="logo-switches">
+                <button id="theme-toggle" type="button" title="Toggle Theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </span>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Setup Screen -->
+        <div id="setupScreen" class="setup-screen">
+            <h2>クイズ設定</h2>
+            
+            <div class="form-group">
+                <label>出題カテゴリを選択（複数選択可）</label>
+                <div class="category-chips" id="categorySelection"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="questionCount">出題数</label>
+                <input type="number" id="questionCount" min="5" max="50" value="10">
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button id="startQuizBtn" onclick="startQuiz()">クイズを開始</button>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="quiz-screen hidden">
+            <div class="quiz-question">
+                <div class="question-number" id="questionNumber"></div>
+                <div id="categoryChip"></div>
+                <div class="event-title" id="eventTitle"></div>
+                <div class="event-description" id="eventDescription"></div>
+            </div>
+
+            <div class="answer-input">
+                <label for="yearInput">この出来事は何年？</label>
+                <input type="text" id="yearInput" placeholder="Type here..." maxlength="4" inputmode="numeric">
+            </div>
+
+            <div id="feedback" class="feedback hidden"></div>
+
+            <div class="quiz-controls">
+                <button id="submitAnswerBtn" onclick="submitAnswer()">回答する</button>
+                <button id="nextQuestionBtn" class="hidden" onclick="nextQuestion()">次の問題</button>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="resultScreen" class="result-screen hidden">
+            <h2>クイズ結果</h2>
+            
+            <div class="score-summary">
+                <div class="score-card">
+                    <div class="label">正解数</div>
+                    <div class="number" id="correctCount"></div>
+                </div>
+                <div class="score-card">
+                    <div class="label">不正解数</div>
+                    <div class="number" id="incorrectCount"></div>
+                </div>
+                <div class="score-card">
+                    <div class="label">正解率</div>
+                    <div class="number" id="accuracy"></div>
+                </div>
+            </div>
+
+            <div id="mistakesList" class="mistakes-list"></div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="resetQuiz()">もう一度挑戦</button>
+            </div>
+        </div>
+
+        <div id="loadingScreen" class="loading">
+            <p>データを読み込み中...</p>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
+        
+        const quizApiClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // State
+        let allEvents = [];
+        let selectedCategories = new Set();
+        let quizQuestions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let currentAnswer = null;
+
+        const categories = ['国際政治', '国際経済', '国内政治', '日銀金融政策', '農業', '消費者生活・公害対策', '労働問題', '社会保障'];
+
+        // Theme handling
+        (function initTheme() {
+            if (localStorage.getItem("pref-theme") === "dark") {
+                document.body.classList.add('dark');
+            } else if (localStorage.getItem("pref-theme") === "light") {
+                document.body.classList.remove('dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark');
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.body.classList.toggle('dark');
+                    if (document.body.classList.contains('dark')) {
+                        localStorage.setItem('pref-theme', 'dark');
+                    } else {
+                        localStorage.setItem('pref-theme', 'light');
+                    }
+                });
+            }
+
+            // Initialize
+            init();
+        });
+
+        async function init() {
+            await loadEvents();
+            renderCategorySelection();
+            hideLoading();
+        }
+
+        async function loadEvents() {
+            try {
+                const { data, error } = await quizApiClient
+                    .from('seikei_events')
+                    .select('*');
+
+                if (error) throw error;
+                allEvents = data || [];
+            } catch (error) {
+                console.error('Error loading events:', error);
+                alert('データの読み込みに失敗しました。ページをリロードしてください。');
+            }
+        }
+
+        function renderCategorySelection() {
+            const container = document.getElementById('categorySelection');
+            container.innerHTML = categories.map(cat => 
+                `<div class="category-chip ${cat}" onclick="toggleCategory('${cat}')">${cat}</div>`
+            ).join('');
+        }
+
+        function toggleCategory(category) {
+            if (selectedCategories.has(category)) {
+                selectedCategories.delete(category);
+            } else {
+                selectedCategories.add(category);
+            }
+            updateCategoryUI();
+        }
+
+        function updateCategoryUI() {
+            categories.forEach(cat => {
+                const elem = document.querySelector(`.category-chip.${cat}`);
+                if (selectedCategories.has(cat)) {
+                    elem.classList.add('selected');
+                } else {
+                    elem.classList.remove('selected');
+                }
+            });
+        }
+
+        function startQuiz() {
+            if (selectedCategories.size === 0) {
+                alert('少なくとも1つのカテゴリを選択してください');
+                return;
+            }
+
+            const count = parseInt(document.getElementById('questionCount').value);
+            if (count < 5 || count > 50) {
+                alert('出題数は5〜50の範囲で指定してください');
+                return;
+            }
+
+            // Filter events by selected categories
+            const filteredEvents = allEvents.filter(e => selectedCategories.has(e.category));
+            
+            if (filteredEvents.length < count) {
+                alert(`選択したカテゴリには${filteredEvents.length}個のイベントしかありません`);
+                return;
+            }
+
+            // Randomly select questions
+            quizQuestions = shuffleArray(filteredEvents).slice(0, count);
+            currentQuestionIndex = 0;
+            userAnswers = [];
+            
+            showScreen('quiz');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            
+            document.getElementById('questionNumber').textContent = 
+                `問題 ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+            
+            document.getElementById('categoryChip').innerHTML = 
+                `<span class="category-chip ${question.category}">${question.category}</span>`;
+            
+            document.getElementById('eventTitle').textContent = question.title;
+            document.getElementById('eventDescription').textContent = question.description || '';
+            
+            document.getElementById('yearInput').value = '';
+            document.getElementById('yearInput').focus();
+            document.getElementById('feedback').classList.add('hidden');
+            document.getElementById('submitAnswerBtn').classList.remove('hidden');
+            document.getElementById('nextQuestionBtn').classList.add('hidden');
+            
+            currentAnswer = null;
+        }
+
+        function submitAnswer() {
+            const input = document.getElementById('yearInput').value.trim();
+            
+            if (!input || !/^\d{4}$/.test(input)) {
+                alert('4桁の年を半角数字で入力してください（例：1945）');
+                return;
+            }
+
+            const userYear = parseInt(input);
+            const question = quizQuestions[currentQuestionIndex];
+            const correctYear = parseInt(question.date.substring(0, 4));
+            const isCorrect = userYear === correctYear;
+
+            currentAnswer = {
+                question: question,
+                userAnswer: userYear,
+                correctAnswer: correctYear,
+                isCorrect: isCorrect
+            };
+
+            userAnswers.push(currentAnswer);
+
+            // Show feedback
+            const feedback = document.getElementById('feedback');
+            feedback.classList.remove('hidden', 'correct', 'incorrect');
+            
+            if (isCorrect) {
+                feedback.classList.add('correct');
+                feedback.innerHTML = `✓ 正解！<br>${correctYear}年`;
+            } else {
+                feedback.classList.add('incorrect');
+                feedback.innerHTML = `× 不正解<br>あなたの回答: ${userYear}年<br>正解: ${correctYear}年`;
+            }
+
+            document.getElementById('submitAnswerBtn').classList.add('hidden');
+            document.getElementById('nextQuestionBtn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= quizQuestions.length) {
+                showResults();
+            } else {
+                showQuestion();
+            }
+        }
+
+        function showResults() {
+            const correctCount = userAnswers.filter(a => a.isCorrect).length;
+            const incorrectCount = userAnswers.length - correctCount;
+            const accuracy = Math.round((correctCount / userAnswers.length) * 100);
+
+            document.getElementById('correctCount').textContent = correctCount;
+            document.getElementById('incorrectCount').textContent = incorrectCount;
+            document.getElementById('accuracy').textContent = accuracy + '%';
+
+            // Show mistakes
+            const mistakes = userAnswers.filter(a => !a.isCorrect);
+            const mistakesList = document.getElementById('mistakesList');
+            
+            if (mistakes.length > 0) {
+                mistakesList.innerHTML = `
+                    <h3 style="color: var(--text-light); margin-bottom: 20px;">間違えた問題（復習用）</h3>
+                    ${mistakes.map(m => `
+                        <div class="mistake-item">
+                            <div class="mistake-header">
+                                <span class="mistake-title">${m.question.title}</span>
+                                <span class="category-chip ${m.question.category}">${m.question.category}</span>
+                            </div>
+                            <div style="color: var(--text-light-secondary); font-size: 0.9rem; margin-top: 5px;">
+                                ${m.question.description || ''}
+                            </div>
+                            <div class="mistake-answers">
+                                <span class="your-answer">あなたの回答: ${m.userAnswer}年</span>
+                                <span class="correct-answer">正解: ${m.correctAnswer}年</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                `;
+            } else {
+                mistakesList.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: var(--text-light-secondary);">
+                        🎉 完璧です！全問正解おめでとうございます！
+                    </div>
+                `;
+            }
+
+            showScreen('result');
+        }
+
+        function resetQuiz() {
+            selectedCategories.clear();
+            updateCategoryUI();
+            document.getElementById('questionCount').value = 10;
+            showScreen('setup');
+        }
+
+        function showScreen(screen) {
+            document.getElementById('setupScreen').classList.add('hidden');
+            document.getElementById('quizScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('loadingScreen').classList.add('hidden');
+
+            if (screen === 'setup') {
+                document.getElementById('setupScreen').classList.remove('hidden');
+            } else if (screen === 'quiz') {
+                document.getElementById('quizScreen').classList.remove('hidden');
+            } else if (screen === 'result') {
+                document.getElementById('resultScreen').classList.remove('hidden');
+            }
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingScreen').classList.add('hidden');
+            document.getElementById('setupScreen').classList.remove('hidden');
+        }
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        // Allow Enter key to submit
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('quizScreen').classList.contains('hidden')) {
+                if (!document.getElementById('submitAnswerBtn').classList.contains('hidden')) {
+                    submitAnswer();
+                } else if (!document.getElementById('nextQuestionBtn').classList.contains('hidden')) {
+                    nextQuestion();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

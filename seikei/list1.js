@@ -21,5 +21,13 @@ const sectionItems1 = [
         description: "target指定で新しいタブで開く",
         link: "seikei-timeline.html",
         target: "_blank"  // Force new tab even for internal links
+    },
+    {
+        icon: "🚀",
+        title: "政治・経済 学習用年表 クイズ版",
+        titleEN: "Political and Economic Timeline for Learning - Quiz Version",
+        description: "target指定で新しいタブで開く",
+        link: "seikei-timeline-quiz.html",
+        target: "_blank"  // Force new tab even for internal links
     }
 ];
