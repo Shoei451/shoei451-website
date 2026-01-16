@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>政治・経済 年代当てクイズ</title>
+    <title>政治・経済 年代クイズ — Shoei451</title>
+    <link rel="icon" href="../images/favicon.png" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         :root {
@@ -192,22 +193,22 @@
         }
 
         .category-chip.国際政治 { background: #E3F2FD; color: #1565C0; }
-        .category-chip.国際経済 { background: #F3E5F5; color: #6A1B9A; }
-        .category-chip.国内政治 { background: #FFF3E0; color: #E65100; }
+        .category-chip.国際経済 { background: #FFF9C4; color: #F57F17; }
+        .category-chip.国内政治 { background: #BBDEFB; color: #0D47A1; }
         .category-chip.日銀金融政策 { background: #E8F5E9; color: #2E7D32; }
-        .category-chip.農業 { background: #FFF9C4; color: #F57F17; }
+        .category-chip.農業 { background: #F1F8E9; color: #558B2F; }
         .category-chip.消費者生活・公害対策 { background: #E0F2F1; color: #00695C; }
         .category-chip.労働問題 { background: #FCE4EC; color: #C2185B; }
-        .category-chip.社会保障 { background: #F1F8E9; color: #558B2F; }
+        .category-chip.社会保障 { background: #FFF3E0; color: #E65100; }
 
         body.dark .category-chip.国際政治 { background: #1565C0; color: #E3F2FD; }
-        body.dark .category-chip.国際経済 { background: #6A1B9A; color: #F3E5F5; }
-        body.dark .category-chip.国内政治 { background: #E65100; color: #FFF3E0; }
+        body.dark .category-chip.国際経済 { background: #F57F17; color: #FFF9C4; }
+        body.dark .category-chip.国内政治 { background: #0D47A1; color: #BBDEFB; }
         body.dark .category-chip.日銀金融政策 { background: #2E7D32; color: #E8F5E9; }
-        body.dark .category-chip.農業 { background: #F57F17; color: #FFF9C4; }
+        body.dark .category-chip.農業 { background: #558B2F; color: #F1F8E9; }
         body.dark .category-chip.消費者生活・公害対策 { background: #00695C; color: #E0F2F1; }
         body.dark .category-chip.労働問題 { background: #C2185B; color: #FCE4EC; }
-        body.dark .category-chip.社会保障 { background: #558B2F; color: #F1F8E9; }
+        body.dark .category-chip.社会保障 { background: #E65100; color: #FFF3E0; }
 
         button {
             background: var(--accent-gold);
@@ -455,6 +456,10 @@
             
             <div class="form-group">
                 <label>出題カテゴリを選択（複数選択可）</label>
+                <div style="margin-bottom: 15px; display: flex; gap: 10px;">
+                    <button type="button" onclick="selectAllCategories()" style="padding: 8px 16px; font-size: 0.9rem;">全選択</button>
+                    <button type="button" onclick="clearAllCategories()" style="padding: 8px 16px; font-size: 0.9rem; background: var(--bg-light-secondary); color: var(--text-light); border: 2px solid var(--border-light);">選択解除</button>
+                </div>
                 <div class="category-chips" id="categorySelection"></div>
             </div>
 
@@ -479,7 +484,7 @@
 
             <div class="answer-input">
                 <label for="yearInput">この出来事は何年？</label>
-                <input type="text" id="yearInput" placeholder="Type here..." maxlength="4" inputmode="numeric">
+                <input type="text" id="yearInput" placeholder="1945" maxlength="4" inputmode="numeric">
             </div>
 
             <div id="feedback" class="feedback hidden"></div>
@@ -601,6 +606,16 @@
             } else {
                 selectedCategories.add(category);
             }
+            updateCategoryUI();
+        }
+
+        function selectAllCategories() {
+            categories.forEach(cat => selectedCategories.add(cat));
+            updateCategoryUI();
+        }
+
+        function clearAllCategories() {
+            selectedCategories.clear();
             updateCategoryUI();
         }
 

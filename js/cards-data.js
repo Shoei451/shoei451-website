@@ -20,6 +20,13 @@ const cardsList = [
         text: "「家庭基礎」のテスト対策ツール集です", 
         link: "home_economics/" 
     },
+    { 
+        icon: "",
+        title: "Politics and Economics", 
+        titleJP: "政治・経済学習ツール",
+        text: "政治・経済の学習に役立つツール集です", 
+        link: "seikei/" 
+    },
     /*
     { 
         icon: "⏳",
