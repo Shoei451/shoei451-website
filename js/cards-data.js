@@ -21,7 +21,7 @@ const cardsList = [
         link: "home_economics/" 
     },
     { 
-        icon: "",
+        icon: "🏛️",
         title: "Politics and Economics", 
         titleJP: "政治・経済学習ツール",
         text: "政治・経済の学習に役立つツール集です", 
