@@ -1,0 +1,371 @@
+/* ===== Markdown Viewer - Minimal & Readable Design ===== */
+
+/* ===== Variables (Add to common.css or define here) ===== */
+:root {
+    /* Markdown専用カラー */
+    --markdown-bg: #f8f9fa;
+    --markdown-border: #e9ecef;
+    --markdown-code-bg: #f1f3f5;
+    --markdown-quote-bg: rgba(91, 155, 213, 0.05);
+    --markdown-accent: #5B9BD5;
+    --markdown-accent-hover: #4A8EC2;
+}
+
+body.dark {
+    /* Markdown専用カラー (ダークモード) */
+    --markdown-bg: #2a2d35;
+    --markdown-border: #3a3d45;
+    --markdown-code-bg: #1e2127;
+    --markdown-quote-bg: rgba(91, 155, 213, 0.1);
+    --markdown-accent: #5B9BD5;
+    --markdown-accent-hover: #7AAFDB;
+}
+
+/* ===== Wrapper ===== */
+.markdown-wrapper {
+    max-width: 850px;
+    margin: 60px auto 100px;
+    padding: 0 20px;
+}
+
+/* ===== Content Container ===== */
+.markdown-content {
+    background: var(--markdown-bg);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 50px;
+    color: var(--content);
+    line-height: 1.8;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+body.dark .markdown-content {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== Typography ===== */
+.markdown-content h1 {
+    font-size: 2.2rem;
+    color: var(--primary);
+    margin: 0 0 1.5rem 0;
+    font-weight: 700;
+    border-bottom: 2px solid var(--markdown-accent);
+    padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin: 2.5rem 0 1rem 0;
+    font-weight: 600;
+}
+
+.markdown-content h3 {
+    font-size: 1.4rem;
+    color: var(--primary);
+    margin: 2rem 0 0.8rem 0;
+    font-weight: 600;
+}
+
+.markdown-content h4 {
+    font-size: 1.1rem;
+    color: var(--primary);
+    margin: 1.5rem 0 0.6rem 0;
+    font-weight: 600;
+}
+
+.markdown-content h5,
+.markdown-content h6 {
+    font-size: 1rem;
+    color: var(--primary);
+    margin: 1.2rem 0 0.5rem 0;
+    font-weight: 600;
+}
+
+.markdown-content p {
+    margin: 1rem 0;
+    color: var(--secondary);
+    font-size: 1.05rem;
+}
+
+/* ===== Lists ===== */
+.markdown-content ul,
+.markdown-content ol {
+    margin: 1rem 0 1rem 2rem;
+    color: var(--secondary);
+}
+
+.markdown-content li {
+    margin: 0.5rem 0;
+    line-height: 1.7;
+}
+
+.markdown-content ul ul,
+.markdown-content ol ol,
+.markdown-content ul ol,
+.markdown-content ol ul {
+    margin: 0.3rem 0 0.3rem 1.5rem;
+}
+
+/* ===== Links ===== */
+.markdown-content a {
+    color: var(--markdown-accent);
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.markdown-content a:hover {
+    color: var(--markdown-accent-hover);
+    text-decoration: none;
+}
+
+/* ===== Code ===== */
+.markdown-content code {
+    background: var(--markdown-code-bg);
+    color: var(--primary);
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+    font-size: 0.9em;
+    border: 1px solid var(--markdown-border);
+}
+
+.markdown-content pre {
+    background: var(--markdown-code-bg);
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 1px solid var(--markdown-border);
+}
+
+.markdown-content pre code {
+    background: none;
+    padding: 0;
+    border: none;
+    font-size: 0.95em;
+    display: block;
+    line-height: 1.6;
+    color: var(--content);
+}
+
+/* ===== Blockquotes ===== */
+.markdown-content blockquote {
+    border-left: 3px solid var(--markdown-accent);
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--markdown-quote-bg);
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    color: var(--secondary);
+}
+
+.markdown-content blockquote p {
+    margin: 0.5rem 0;
+}
+
+.markdown-content blockquote > :first-child {
+    margin-top: 0;
+}
+
+.markdown-content blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+/* ===== Tables ===== */
+.markdown-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.markdown-content th {
+    background: var(--markdown-accent);
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.markdown-content td {
+    padding: 12px;
+    border-bottom: 1px solid var(--markdown-border);
+    color: var(--secondary);
+}
+
+.markdown-content tr:last-child td {
+    border-bottom: none;
+}
+
+.markdown-content tr:hover {
+    background: var(--markdown-quote-bg);
+}
+
+/* ===== Images ===== */
+.markdown-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: block;
+}
+
+/* ===== Horizontal Rule ===== */
+.markdown-content hr {
+    border: none;
+    border-top: 1px solid var(--markdown-border);
+    margin: 2rem 0;
+}
+
+/* ===== Strong & Emphasis ===== */
+.markdown-content strong {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.markdown-content em {
+    font-style: italic;
+}
+
+/* ===== Task Lists ===== */
+.markdown-content input[type="checkbox"] {
+    margin-right: 0.5rem;
+    cursor: pointer;
+}
+
+/* ===== Loading State ===== */
+.loading {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--secondary);
+    font-size: 1.2rem;
+}
+
+.loading::after {
+    content: '...';
+    animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+    0%, 20% { content: '.'; }
+    40% { content: '..'; }
+    60%, 100% { content: '...'; }
+}
+
+/* ===== File Selector ===== */
+.file-selector {
+    max-width: 850px;
+    margin: 40px auto 20px;
+    padding: 0 20px;
+}
+
+.file-selector select {
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 1.1rem;
+    border: 2px solid var(--markdown-accent);
+    border-radius: 8px;
+    background: var(--markdown-bg);
+    color: var(--primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.file-selector select:hover {
+    border-color: var(--markdown-accent-hover);
+    box-shadow: 0 2px 8px rgba(91, 155, 213, 0.2);
+}
+
+.file-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.2);
+}
+
+/* ===== Animation ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .markdown-wrapper {
+        margin: 40px auto 80px;
+    }
+
+    .markdown-content {
+        padding: 30px 25px;
+        border-radius: 8px;
+    }
+
+    .markdown-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.5rem;
+    }
+
+    .markdown-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .markdown-content h4 {
+        font-size: 1rem;
+    }
+
+    .markdown-content p {
+        font-size: 1rem;
+    }
+
+    .markdown-content pre {
+        padding: 15px;
+        font-size: 0.85rem;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+        margin-left: 1.5rem;
+    }
+
+    .file-selector select {
+        padding: 12px 16px;
+        font-size: 1rem;
+    }
+}
+
+/* ===== Print Styles ===== */
+@media print {
+    .markdown-wrapper {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .markdown-content {
+        box-shadow: none;
+        border-radius: 0;
+        padding: 20px;
+    }
+
+    .markdown-content a {
+        text-decoration: underline;
+        color: #000;
+    }
+
+    .markdown-content a[href]:after {
+        content: " (" attr(href) ")";
+        font-size: 0.8em;
+    }
+}
