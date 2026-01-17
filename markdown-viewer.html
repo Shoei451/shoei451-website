@@ -6,8 +6,247 @@
   <title>Documents — Shoei451</title>
   <link rel="icon" type="image/png" href="images/favicon.png" />
   <link rel="stylesheet" href="css/common.css" />
-  
   <style>
+    /* ===== Markdown Content Styling (Minimal & Readable) ===== */
+.markdown-wrapper {
+  max-width: 850px; /* 少し狭めて読みやすく */
+  margin: 60px auto 100px;
+  padding: 0 20px;
+}
+
+.markdown-content {
+  background: var(--card-bg);
+  border-radius: 12px; /* よりシンプルに */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08); /* 控えめな影 */
+  padding: 50px;
+  animation: fadeInUp 0.6s ease-out forwards;
+  color: var(--content);
+  line-height: 1.8;
+}
+
+/* Typography */
+.markdown-content h1 {
+  font-size: 2.2rem; /* 少し小さく */
+  color: var(--primary);
+  margin: 0 0 1.5rem 0;
+  font-weight: 700;
+  border-bottom: 2px solid #5B9BD5; /* 青系アクセント */
+  padding-bottom: 0.5rem;
+}
+
+.markdown-content h2 {
+  font-size: 1.8rem;
+  color: var(--primary);
+  margin: 2.5rem 0 1rem 0;
+  font-weight: 600;
+}
+
+.markdown-content h3 {
+  font-size: 1.4rem;
+  color: var(--primary);
+  margin: 2rem 0 0.8rem 0;
+  font-weight: 600;
+}
+
+.markdown-content h4 {
+  font-size: 1.1rem;
+  color: var(--primary);
+  margin: 1.5rem 0 0.6rem 0;
+}
+
+.markdown-content p {
+  margin: 1rem 0;
+  color: var(--secondary);
+  font-size: 1.05rem;
+}
+
+/* Lists */
+.markdown-content ul,
+.markdown-content ol {
+  margin: 1rem 0 1rem 2rem;
+  color: var(--secondary);
+}
+
+.markdown-content li {
+  margin: 0.5rem 0;
+  line-height: 1.7;
+}
+
+/* Links */
+.markdown-content a {
+  color: #5B9BD5; /* 青系リンク */
+  text-decoration: underline;
+  transition: all 0.3s;
+}
+
+.markdown-content a:hover {
+  color: #4A8EC2; /* 少し濃い青 */
+  text-decoration: none;
+}
+
+/* Code blocks */
+.markdown-content code {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--primary);
+  padding: 3px 8px;
+  border-radius: 4px; /* よりシンプル */
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.9em;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.markdown-content pre {
+  background: rgba(0, 0, 0, 0.03);
+  padding: 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.markdown-content pre code {
+  background: none;
+  padding: 0;
+  border: none;
+  font-size: 0.95em;
+  display: block;
+  line-height: 1.6;
+}
+
+/* Blockquotes */
+.markdown-content blockquote {
+  border-left: 3px solid #5B9BD5; /* 青系アクセント */
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  background: rgba(91, 155, 213, 0.05);
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  color: var(--secondary);
+}
+
+/* Tables */
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.markdown-content th {
+  background: #5B9BD5; /* 青系ヘッダー */
+  color: #ffffff;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.markdown-content td {
+  padding: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--secondary);
+}
+
+.markdown-content tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown-content tr:hover {
+  background: rgba(91, 155, 213, 0.05);
+}
+
+/* Images */
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Horizontal rule */
+.markdown-content hr {
+  border: none;
+  border-top: 1px solid rgba(91, 155, 213, 0.3);
+  margin: 2rem 0;
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--secondary);
+  font-size: 1.2rem;
+}
+
+.loading::after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0%, 20% { content: '.'; }
+  40% { content: '..'; }
+  60%, 100% { content: '...'; }
+}
+
+/* File selector */
+.file-selector {
+  max-width: 850px;
+  margin: 40px auto 20px;
+  padding: 0 20px;
+}
+
+.file-selector select {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1.1rem;
+  border: 2px solid #5B9BD5;
+  border-radius: 8px;
+  background: var(--card-bg);
+  color: var(--primary);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.file-selector select:hover {
+  border-color: #4A8EC2;
+  box-shadow: 0 2px 8px rgba(91, 155, 213, 0.2);
+}
+
+.file-selector select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(91, 155, 213, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .markdown-content {
+    padding: 30px 25px;
+    border-radius: 8px;
+  }
+
+  .markdown-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .markdown-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .markdown-content h3 {
+    font-size: 1.2rem;
+  }
+
+  .markdown-content pre {
+    padding: 15px;
+    font-size: 0.85rem;
+  }
+}
+  </style>
+  <!--<style>
     /* ===== Markdown Content Styling ===== */
     .markdown-wrapper {
       max-width: 900px;
@@ -248,7 +487,7 @@
         font-size: 0.85rem;
       }
     }
-  </style>
+  </style>-->
 </head>
 
 <body>
