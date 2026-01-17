@@ -25,15 +25,42 @@
 
     .embed-card iframe {
       width: 100%;
-      height: 500px;
+      height: 600px;
       border: 0;
       border-radius: 15px;
       background: var(--theme);
     }
 
+    .fallback-notice {
+      text-align: center;
+      margin-top: 20px;
+      padding: 20px;
+      background: rgba(250, 186, 64, 0.1);
+      border-radius: 12px;
+      border-left: 4px solid var(--accent);
+    }
+
+    .fallback-notice p {
+      color: var(--secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .fallback-notice a {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: underline;
+      transition: all 0.3s;
+    }
+
+    .fallback-notice a:hover {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
     @media (max-width: 768px) {
       .embed-card iframe {
-        height: 420px;
+        height: 500px;
       }
     }
   </style>
@@ -77,11 +104,23 @@
 
 <section class="embed-wrapper">
   <div class="embed-card">
-    <iframe
-      src="https://raindrop.io/Shoei451/embed/me"
-      allowfullscreen
-      loading="lazy">
-    </iframe>
+    <!-- Raindrop.io Embed - Replace COLLECTION_ID with your actual collection ID -->
+    <iframe style="border: 0; width: 100%; height: 450px;" 
+    allowfullscreen frameborder="0" 
+    src="https://raindrop.io/Shoei451/embed/me"></iframe>
+  </div>
+  
+  <!-- Fallback Instructions -->
+  <div class="fallback-notice">
+    <p>
+      📌 <strong>埋め込みが表示されない場合:</strong><br>
+      以下のリンクから直接コレクションにアクセスできます。
+    </p>
+    <p style="margin-top: 15px;">
+      <a href="https://raindrop.io/Shoei451" target="_blank" rel="noopener noreferrer">
+        → Raindrop.io コレクションを開く
+      </a>
+    </p>
   </div>
 </section>
 
@@ -90,5 +129,23 @@
 </footer>
 
 <script src="js/theme-toggle.js"></script>
+
+<script>
+// Optional: Check if iframe loaded successfully and show fallback if needed
+window.addEventListener('load', function() {
+  const iframe = document.querySelector('.embed-card iframe');
+  const fallback = document.querySelector('.fallback-notice');
+  
+  iframe.addEventListener('error', function() {
+    fallback.style.display = 'block';
+    fallback.style.background = 'rgba(244, 67, 54, 0.1)';
+    fallback.style.borderLeftColor = '#F44336';
+    fallback.querySelector('p').innerHTML = 
+      '⚠️ <strong>埋め込みの読み込みに失敗しました</strong><br>' +
+      '下のリンクから直接コレクションにアクセスしてください。';
+  });
+});
+</script>
+
 </body>
 </html>

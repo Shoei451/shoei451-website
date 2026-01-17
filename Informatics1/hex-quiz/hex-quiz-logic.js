@@ -620,7 +620,7 @@ function generateASCIITableHTML() {
     let html = '<table class="ascii-table">';
     
     // ヘッダー行（左上セルは常にアクセントカラー）
-    html += '<tr><th class="ascii-corner-cell">上位4ビット →<br>下位4ビット ↓</th>';
+    html += '<tr><th class="ascii-corner-cell">下位4ビット →<br>上位4ビット ↓</th>';
     for (let i = 0; i < 16; i++) {
         html += `<th>${i.toString(16).toUpperCase()}</th>`;
     }
