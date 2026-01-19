@@ -6,6 +6,257 @@
     <title>中国王朝史年表</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
+        /* === Solarized + Chinese Color Palette === */
+:root {
+    /* Solarized Light Base */
+    --solarized-base3: #fdf6e3;
+    --solarized-base2: #eee8d5;
+    --solarized-base1: #93a1a1;
+    --solarized-base0: #839496;
+    --solarized-base00: #657b83;
+    --solarized-base01: #586e75;
+    --solarized-base02: #073642;
+    --solarized-base03: #002b36;
+    
+    /* Chinese Palette */
+    --chinese-cream: #e6e0ae;
+    --chinese-gold: #dfbc5e;
+    --chinese-coral: #ee6146;
+    --chinese-red: #d73c37;
+    --chinese-crimson: #b51f09;
+    
+    /* Application Colors - Light */
+    --accent-primary: var(--chinese-red);
+    --accent-secondary: var(--chinese-gold);
+    --bg-light: var(--solarized-base3);
+    --bg-light-secondary: var(--solarized-base2);
+    --text-light: var(--solarized-base02);
+    --text-light-secondary: var(--solarized-base01);
+    --border-light: var(--chinese-cream);
+    --shadow-light: rgba(215, 60, 55, 0.15);
+}
+
+body.dark {
+    /* Application Colors - Dark */
+    --accent-primary: var(--chinese-coral);
+    --accent-secondary: var(--chinese-gold);
+    --bg-light: var(--solarized-base03);
+    --bg-light-secondary: var(--solarized-base02);
+    --text-light: var(--solarized-base2);
+    --text-light-secondary: var(--solarized-base1);
+    --border-light: var(--solarized-base01);
+    --shadow-light: rgba(0, 43, 54, 0.5);
+}
+
+/* Header with Chinese red accent */
+header {
+    background: var(--bg-light-secondary);
+    border-bottom: 3px solid var(--accent-primary);
+    padding: 20px;
+    margin-bottom: 30px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px var(--shadow-light);
+}
+
+h1 {
+    font-size: 1.8rem;
+    color: var(--accent-primary);
+    font-weight: 700;
+}
+
+/* Buttons with Chinese gold */
+button {
+    background: var(--accent-secondary);
+    color: var(--solarized-base03);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    font-size: 0.95rem;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-light);
+    background: var(--chinese-gold);
+}
+
+/* Active tab with red accent */
+.tab.active {
+    color: var(--accent-primary);
+    border-bottom-color: var(--accent-primary);
+    font-weight: 600;
+}
+
+/* Table headers */
+.timeline-table thead {
+    background: var(--accent-primary);
+    color: var(--solarized-base3);
+}
+
+body.dark .timeline-table thead {
+    background: var(--chinese-crimson);
+    color: var(--solarized-base2);
+}
+
+/* Event date highlighting */
+.event-date {
+    font-weight: 600;
+    color: var(--accent-primary);
+    white-space: nowrap;
+}
+
+/* Category chip colors - Chinese themed */
+.category-chip.王朝成立 {
+    background: var(--chinese-gold);
+    color: var(--solarized-base03);
+}
+
+body.dark .category-chip.王朝成立 {
+    background: var(--chinese-gold);
+    color: var(--solarized-base03);
+}
+
+.category-chip.王朝滅亡 {
+    background: var(--chinese-crimson);
+    color: var(--solarized-base3);
+}
+
+body.dark .category-chip.王朝滅亡 {
+    background: var(--chinese-red);
+    color: var(--solarized-base3);
+}
+
+.category-chip.反乱 {
+    background: var(--chinese-coral);
+    color: var(--solarized-base3);
+}
+
+body.dark .category-chip.反乱 {
+    background: var(--chinese-coral);
+    color: var(--solarized-base03);
+}
+
+.category-chip.戦争 {
+    background: var(--chinese-red);
+    color: var(--solarized-base3);
+}
+
+body.dark .category-chip.戦争 {
+    background: var(--chinese-crimson);
+    color: var(--solarized-base3);
+}
+
+.category-chip.外交 {
+    background: var(--chinese-cream);
+    color: var(--solarized-base02);
+}
+
+body.dark .category-chip.外交 {
+    background: var(--solarized-base01);
+    color: var(--chinese-cream);
+}
+
+.category-chip.内政 {
+    background: var(--solarized-base2);
+    color: var(--solarized-base02);
+}
+
+body.dark .category-chip.内政 {
+    background: var(--solarized-base01);
+    color: var(--solarized-base2);
+}
+
+.category-chip.経済 {
+    background: var(--chinese-gold);
+    color: var(--solarized-base03);
+    opacity: 0.8;
+}
+
+body.dark .category-chip.経済 {
+    background: var(--chinese-gold);
+    color: var(--solarized-base03);
+}
+
+.category-chip.文化 {
+    background: var(--chinese-cream);
+    color: var(--chinese-red);
+}
+
+body.dark .category-chip.文化 {
+    background: var(--chinese-gold);
+    color: var(--solarized-base02);
+    opacity: 0.7;
+}
+
+.category-chip.その他 {
+    background: var(--solarized-base1);
+    color: var(--solarized-base3);
+}
+
+body.dark .category-chip.その他 {
+    background: var(--solarized-base01);
+    color: var(--solarized-base1);
+}
+
+/* Edit button */
+.btn-edit {
+    background: var(--chinese-coral);
+    color: var(--solarized-base3);
+}
+
+body.dark .btn-edit {
+    background: var(--chinese-gold);
+    color: var(--solarized-base03);
+}
+
+/* Delete button */
+.btn-delete {
+    background: var(--chinese-crimson);
+    color: var(--solarized-base3);
+}
+
+/* Modal headers */
+.modal-header h2 {
+    color: var(--accent-primary);
+    font-size: 1.5rem;
+}
+
+/* Input focus states */
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px rgba(223, 188, 94, 0.2);
+}
+
+.search-box:focus {
+    outline: none;
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 0 3px rgba(223, 188, 94, 0.2);
+}
+
+/* Hover effects with Chinese colors */
+.timeline-table tbody tr:hover {
+    background: rgba(230, 224, 174, 0.2);
+}
+
+body.dark .timeline-table tbody tr:hover {
+    background: rgba(223, 188, 94, 0.1);
+}
+
+.tab:hover {
+    color: var(--text-light);
+    background: rgba(230, 224, 174, 0.15);
+    transform: translateY(0);
+}
+</style>
+    <!--<style>
         :root {
             --accent-gold: #FABA40;
             --accent-navy: #1A2B3C;
@@ -537,7 +788,7 @@
                 box-shadow: none;
             }
         }
-    </style>
+    </style>-->
 </head>
 <body>
     <header>
