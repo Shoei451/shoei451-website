@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中国王朝史年表</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --accent-gold: #FABA40;
+            --accent-navy: #1A2B3C;
+            --bg-light: #FFFFFF;
+            --bg-light-secondary: #F5F5F5;
+            --text-light: #1A2B3C;
+            --text-light-secondary: #666666;
+            --border-light: #E0E0E0;
+            --shadow-light: rgba(26, 43, 60, 0.1);
+        }
+
+        body.dark {
+            --bg-light: #1A2B3C;
+            --bg-light-secondary: #243447;
+            --text-light: #F5F5F5;
+            --text-light-secondary: #B0B0B0;
+            --border-light: #3A4A5C;
+            --shadow-light: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: var(--bg-light-secondary);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 20px;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px var(--shadow-light);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            color: var(--accent-navy);
+            font-weight: 700;
+        }
+
+        body.dark h1 {
+            color: var(--accent-gold);
+        }
+
+        .logo-switches {
+            display: flex;
+            align-items: center;
+        }
+
+        #theme-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        #theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--text-light);
+            transition: all 0.3s;
+        }
+
+        body:not(.dark) #sun {
+            display: none;
+        }
+
+        body.dark #moon {
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: var(--accent-gold);
+            color: var(--accent-navy);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 2px solid var(--border-light);
+            border-radius: 5px;
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            width: 250px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-light);
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light-secondary);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text-light);
+            background: rgba(250, 186, 64, 0.1);
+            transform: translateY(0);
+        }
+
+        .tab.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-light-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+
+        .timeline-table thead {
+            background: var(--accent-navy);
+            color: white;
+        }
+
+        body.dark .timeline-table thead {
+            background: var(--accent-gold);
+            color: var(--accent-navy);
+        }
+
+        .timeline-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .timeline-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .timeline-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .timeline-table tbody tr:hover {
+            background: rgba(250, 186, 64, 0.1);
+        }
+
+        .event-date {
+            font-weight: 600;
+            color: var(--accent-navy);
+            white-space: nowrap;
+        }
+
+        body.dark .event-date {
+            color: var(--accent-gold);
+        }
+
+        .event-title {
+            font-weight: 500;
+        }
+
+        .event-description {
+            color: var(--text-light-secondary);
+            font-size: 0.9rem;
+        }
+
+        .category-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .category-chip.王朝成立 {
+            background: #E3F2FD;
+            color: #1565C0;
+        }
+
+        body.dark .category-chip.王朝成立 {
+            background: #1565C0;
+            color: #E3F2FD;
+        }
+
+        .category-chip.王朝滅亡 {
+            background: #FFF9C4;
+            color: #F57F17;
+        }
+
+        body.dark .category-chip.王朝滅亡 {
+            background: #F57F17;
+            color: #FFF9C4;
+        }
+
+        .category-chip.反乱 {
+            background: #BBDEFB;
+            color: #0D47A1;
+        }
+
+        body.dark .category-chip.反乱 {
+            background: #0D47A1;
+            color: #BBDEFB;
+        }
+
+        .category-chip.戦争 {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        body.dark .category-chip.戦争 {
+            background: #2E7D32;
+            color: #E8F5E9;
+        }
+
+        .category-chip.外交 {
+            background: #F1F8E9;
+            color: #558B2F;
+        }
+
+        body.dark .category-chip.外交 {
+            background: #558B2F;
+            color: #F1F8E9;
+        }
+
+        .category-chip.内政 {
+            background: #E0F2F1;
+            color: #00695C;
+        }
+
+        body.dark .category-chip.内政 {
+            background: #00695C;
+            color: #E0F2F1;
+        }
+
+        .category-chip.経済 {
+            background: #FCE4EC;
+            color: #C2185B;
+        }
+
+        body.dark .category-chip.経済 {
+            background: #C2185B;
+            color: #FCE4EC;
+        }
+
+        .category-chip.文化 {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        body.dark .category-chip.文化 {
+            background: #E65100;
+            color: #FFF3E0;
+        }
+
+        .category-chip.その他 {
+            background: #F3E5F5;
+            color: #6A1B9A;
+        }
+
+        body.dark .category-chip.その他 {
+            background: #6A1B9A;
+            color: #F3E5F5;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+        .btn-edit {
+            background: var(--accent-navy);
+            color: white;
+        }
+
+        body.dark .btn-edit {
+            background: var(--accent-gold);
+            color: var(--accent-navy);
+        }
+
+        .btn-delete {
+            background: #E74C3C;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px var(--shadow-light);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--accent-navy);
+            font-size: 1.5rem;
+        }
+
+        body.dark .modal-header h2 {
+            color: var(--accent-gold);
+        }
+
+        .close-modal {
+            background: transparent;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 5px;
+            background: var(--bg-light-secondary);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            background: var(--bg-light-secondary);
+            color: var(--text-light);
+            border: 2px solid var(--border-light);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light-secondary);
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .controls {
+                width: 100%;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .timeline-table {
+                font-size: 0.9rem;
+            }
+
+            .timeline-table th,
+            .timeline-table td {
+                padding: 10px;
+            }
+
+            .event-actions {
+                flex-direction: column;
+            }
+        }
+
+        @media print {
+            header, .controls, .event-actions, #theme-toggle {
+                display: none !important;
+            }
+
+            body {
+                background: white;
+                color: black;
+            }
+
+            .timeline-table {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>📜 中国王朝史年表</h1>
+            <div class="controls">
+                <input type="text" id="searchBox" class="search-box" placeholder="イベントを検索...">
+                <button id="addEventBtn">+ イベント追加</button>
+                <span class="logo-switches">
+                    <button id="theme-toggle" type="button" title="Toggle Theme">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs" id="categoryTabs">
+            <button class="tab active" data-category="all">すべて</button>
+            <button class="tab" data-category="王朝成立">王朝成立</button>
+            <button class="tab" data-category="王朝滅亡">王朝滅亡</button>
+            <button class="tab" data-category="反乱">反乱</button>
+            <button class="tab" data-category="戦争">戦争</button>
+            <button class="tab" data-category="外交">外交</button>
+            <button class="tab" data-category="内政">内政</button>
+            <button class="tab" data-category="経済">経済</button>
+            <button class="tab" data-category="文化">文化</button>
+            <button class="tab" data-category="その他">その他</button>
+        </div>
+
+        <div id="timelineContainer">
+            <div class="loading">読み込み中...</div>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Event -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">イベントを追加</h2>
+                <button class="close-modal" id="closeModal" type="button">×</button>
+            </div>
+            <form id="eventForm">
+                <input type="hidden" id="eventId">
+                
+                <div class="form-group">
+                    <label for="eventTitle">イベント名 *</label>
+                    <input type="text" id="eventTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDateType">日付の形式</label>
+                    <select id="eventDateType">
+                        <option value="year">年のみ</option>
+                        <option value="full">完全な日付</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="yearOnlyGroup">
+                    <label for="eventYear">年</label>
+                    <input type="number" id="eventYear" min="-3000" max="2100" placeholder="例: 221（紀元前は負の数で: -221）">
+                </div>
+
+                <div class="form-group" id="fullDateGroup" style="display: none;">
+                    <label for="eventDate">日付</label>
+                    <input type="date" id="eventDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventCategory">カテゴリ *</label>
+                    <select id="eventCategory" required>
+                        <option value="">選択してください</option>
+                        <option value="王朝成立">王朝成立</option>
+                        <option value="王朝滅亡">王朝滅亡</option>
+                        <option value="反乱">反乱</option>
+                        <option value="戦争">戦争</option>
+                        <option value="外交">外交</option>
+                        <option value="内政">内政</option>
+                        <option value="経済">経済</option>
+                        <option value="文化">文化</option>
+                        <option value="その他">その他</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">説明</label>
+                    <textarea id="eventDescription"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">キャンセル</button>
+                    <button type="submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration
+        const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
+        
+        const apiClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // State
+        let events = [];
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Theme handling
+        (function initTheme() {
+            if (localStorage.getItem("pref-theme") === "dark") {
+                document.body.classList.add('dark');
+            } else if (localStorage.getItem("pref-theme") === "light") {
+                document.body.classList.remove('dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark');
+            }
+        })();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.body.classList.toggle('dark');
+                    if (document.body.classList.contains('dark')) {
+                        localStorage.setItem('pref-theme', 'dark');
+                    } else {
+                        localStorage.setItem('pref-theme', 'light');
+                    }
+                });
+            }
+
+            // Date type switching
+            const dateTypeSelect = document.getElementById('eventDateType');
+            const yearOnlyGroup = document.getElementById('yearOnlyGroup');
+            const fullDateGroup = document.getElementById('fullDateGroup');
+            
+            dateTypeSelect.addEventListener('change', function() {
+                if (this.value === 'year') {
+                    yearOnlyGroup.style.display = 'block';
+                    fullDateGroup.style.display = 'none';
+                } else {
+                    yearOnlyGroup.style.display = 'none';
+                    fullDateGroup.style.display = 'block';
+                }
+            });
+
+            init();
+        });
+
+        async function init() {
+            await loadEvents();
+            setupEventListeners();
+        }
+
+        async function loadEvents() {
+            try {
+                const { data, error } = await apiClient
+                    .from('chinese_history')
+                    .select('*')
+                    .order('year', { ascending: true });
+
+                if (error) throw error;
+                events = data || [];
+                renderTimeline();
+            } catch (error) {
+                console.error('Error loading events:', error);
+                document.getElementById('timelineContainer').innerHTML = `
+                    <div class="empty-state">
+                        <p>⚠️ データの読み込みに失敗しました</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Supabaseの設定を確認してください</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            
+            const filteredEvents = events.filter(event => {
+                const matchesCategory = currentCategory === 'all' || event.category === currentCategory;
+                const matchesSearch = !searchQuery || 
+                    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (event.description && event.description.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filteredEvents.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p>イベントがありません</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">「+ イベント追加」ボタンから新しいイベントを追加してください</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">日付</th>
+                            <th style="width: 30%;">イベント名</th>
+                            <th style="width: 15%;">カテゴリ</th>
+                            <th>説明</th>
+                            <th style="width: 150px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filteredEvents.map(event => `
+                            <tr>
+                                <td class="event-date">${formatDate(event.year, event.date_type, event.full_date)}</td>
+                                <td class="event-title">${escapeHtml(event.title)}</td>
+                                <td><span class="category-chip ${escapeHtml(event.category)}">${escapeHtml(event.category)}</span></td>
+                                <td class="event-description">${escapeHtml(event.description || '')}</td>
+                                <td class="event-actions">
+                                    <button class="btn-edit" onclick="editEvent(${event.id})">編集</button>
+                                    <button class="btn-delete" onclick="deleteEvent(${event.id})">削除</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        function formatDate(year, dateType, fullDate) {
+            if (dateType === 'full' && fullDate) {
+                const date = new Date(fullDate);
+                const y = date.getFullYear();
+                const m = String(date.getMonth() + 1).padStart(2, '0');
+                const d = String(date.getDate()).padStart(2, '0');
+                if (y < 0) {
+                    return `前${Math.abs(y)}/${m}/${d}`;
+                }
+                return `${y}/${m}/${d}`;
+            }
+            
+            // Year only
+            if (year < 0) {
+                return `前${Math.abs(year)}年`;
+            }
+            return `${year}年`;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function setupEventListeners() {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentCategory = e.target.dataset.category;
+                    renderTimeline();
+                });
+            });
+
+            document.getElementById('searchBox').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderTimeline();
+            });
+
+            document.getElementById('addEventBtn').addEventListener('click', openAddModal);
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('cancelBtn').addEventListener('click', closeModal);
+            document.getElementById('eventForm').addEventListener('submit', handleFormSubmit);
+            
+            document.getElementById('eventModal').addEventListener('click', (e) => {
+                if (e.target.id === 'eventModal') closeModal();
+            });
+        }
+
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'イベントを追加';
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventDateType').value = 'year';
+            document.getElementById('yearOnlyGroup').style.display = 'block';
+            document.getElementById('fullDateGroup').style.display = 'none';
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        function editEvent(id) {
+            const event = events.find(e => e.id === id);
+            if (!event) return;
+
+            document.getElementById('modalTitle').textContent = 'イベントを編集';
+            document.getElementById('eventId').value = event.id;
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventCategory').value = event.category;
+            document.getElementById('eventDescription').value = event.description || '';
+            
+            // Handle date type
+            if (event.date_type === 'full' && event.full_date) {
+                document.getElementById('eventDateType').value = 'full';
+                document.getElementById('eventDate').value = event.full_date;
+                document.getElementById('yearOnlyGroup').style.display = 'none';
+                document.getElementById('fullDateGroup').style.display = 'block';
+            } else {
+                document.getElementById('eventDateType').value = 'year';
+                document.getElementById('eventYear').value = event.year;
+                document.getElementById('yearOnlyGroup').style.display = 'block';
+                document.getElementById('fullDateGroup').style.display = 'none';
+            }
+            
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        async function deleteEvent(id) {
+            if (!confirm('このイベントを削除してもよろしいですか?')) return;
+
+            try {
+                const { error } = await apiClient
+                    .from('chinese_history')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+                await loadEvents();
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                alert('削除に失敗しました');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('eventModal').classList.remove('active');
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const dateType = document.getElementById('eventDateType').value;
+            let yearValue;
+            let fullDateValue = null;
+            
+            if (dateType === 'year') {
+                const year = document.getElementById('eventYear').value;
+                if (!year) {
+                    alert('年を入力してください');
+                    return;
+                }
+                yearValue = parseInt(year);
+            } else {
+                const fullDate = document.getElementById('eventDate').value;
+                if (!fullDate) {
+                    alert('日付を入力してください');
+                    return;
+                }
+                fullDateValue = fullDate;
+                yearValue = new Date(fullDate).getFullYear();
+            }
+
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                year: yearValue,
+                date_type: dateType,
+                full_date: fullDateValue,
+                category: document.getElementById('eventCategory').value,
+                description: document.getElementById('eventDescription').value
+            };
+
+            const eventId = document.getElementById('eventId').value;
+
+            try {
+                if (eventId) {
+                    const { error } = await apiClient
+                        .from('chinese_history')
+                        .update(eventData)
+                        .eq('id', eventId);
+
+                    if (error) throw error;
+                } else {
+                    const { error } = await apiClient
+                        .from('chinese_history')
+                        .insert([eventData]);
+
+                    if (error) throw error;
+                }
+
+                closeModal();
+                await loadEvents();
+            } catch (error) {
+                console.error('Error saving event:', error);
+                alert('保存に失敗しました');
+            }
+        }
+    </script>
+</body>
+</html>
