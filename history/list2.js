@@ -17,4 +17,22 @@ const sectionItems2 = [
         link: "wh-timeline.html",
         target: "_blank"
     },
+    {
+        icon: "../images/worldhistoryquiz.png",  // Using image
+        iconType: "image",
+        title: "中国王朝史年表",
+        titleEN: "Chinese Dynasities Timeline",
+        description: "中国史のオンライン年表",
+        link: "chinese-history-timeline.html",
+        target: "_blank"
+    },
+    {
+        icon: "../images/worldhistoryquiz.png",  // Using image
+        iconType: "image",
+        title: "中国史年代クイズ",
+        titleEN: "Chinese History Era quiz",
+        description: "中国史における出来事の、西暦をマスター",
+        link: "chinese-history-quiz.html",
+        target: "_blank"
+    },
 ];
