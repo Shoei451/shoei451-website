@@ -18,7 +18,7 @@ const sectionItems2 = [
         target: "_blank"
     },
     {
-        icon: "../images/worldhistoryquiz.png",  // Using image
+        icon: "../images/chinese-history.svg",  // Using image
         iconType: "image",
         title: "中国王朝史年表",
         titleEN: "Chinese Dynasities Timeline",
@@ -27,7 +27,7 @@ const sectionItems2 = [
         target: "_blank"
     },
     {
-        icon: "../images/worldhistoryquiz.png",  // Using image
+        icon: "../images/chinese-history.svg",  // Using image
         iconType: "image",
         title: "中国史年代クイズ",
         titleEN: "Chinese History Era quiz",
