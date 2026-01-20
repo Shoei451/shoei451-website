@@ -72,4 +72,11 @@ const cardsList = [
         text: "おすすめの学習サイトのリンク集です", 
         link: "learning-links.html" 
     },
+    { 
+        icon: "📑",
+        title: "Docs", 
+        titleJP: "Markdownドキュメント集",
+        text: "Markdownで作ったオンラインプリントなど", 
+        link: "docs/" 
+    }
 ];
