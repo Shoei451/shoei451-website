@@ -7,7 +7,7 @@ const sectionItems1 = [
         link: "us-state-location-quiz.html",
     },
     {
-        icon: "🏛️",  
+        icon: "🏙️",  
         title: "首都クイズ",
         titleEN: "World Capitals' Quiz",
         description: "世界各国・地域の首都名を答えるクイズです",
