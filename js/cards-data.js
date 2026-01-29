@@ -78,7 +78,7 @@ const cardsList = [
         icon: "📑",
         title: "Docs", 
         titleJP: "Markdownドキュメント集",
-        text: "Markdownで作ったオンラインプリントなど", 
+        text: "Markdownで作ったオンラインプリントなど（別domainへ移動します）", 
         link: "https://451-markdown.netlify.app" 
     }
 ];
