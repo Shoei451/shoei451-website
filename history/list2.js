@@ -23,7 +23,7 @@ const sectionItems2 = [
         title: "中国王朝史年表",
         titleEN: "Chinese Dynasities Timeline",
         description: "中国史のオンライン年表",
-        link: "chinese-history/timeline.html",
+        link: "china/timeline.html",
         target: "_blank"
     },
     {
@@ -32,7 +32,7 @@ const sectionItems2 = [
         title: "中国史年代クイズ",
         titleEN: "Chinese History Era quiz",
         description: "中国史における出来事の、西暦をマスター",
-        link: "chinese-history/",
+        link: "china/",
         target: "_blank"
     },
     {
@@ -41,7 +41,7 @@ const sectionItems2 = [
         title: "中国文化史クイズ",
         titleEN: "Chinese Culture History Quiz",
         description: "中国の文化史に関するクイズアプリ",
-        link: "chinese-history/culture_quiz/",
+        link: "china/culture_quiz/",
         target: "_blank" 
     }
 ];
