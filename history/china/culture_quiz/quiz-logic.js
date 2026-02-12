@@ -68,7 +68,11 @@ function generatePersonToDynastyQuiz() {
 }
 
 function generateDynastyToPeopleQuiz() {
-  const questions = dynasties.map(dynasty => {
+  const availableDynasties = dynasties.filter(
+    dynasty => quizData.some(person => person.dynasty === dynasty)
+  );
+
+  const questions = availableDynasties.map(dynasty => {
     const correctPeople = quizData.filter(p => p.dynasty === dynasty);
     const wrongPeople = quizData
       .filter(p => p.dynasty !== dynasty)
