@@ -35,4 +35,13 @@ const sectionItems2 = [
         link: "chinese-history/",
         target: "_blank"
     },
+    {
+        icon: "../images/chinese-culture-history_quiz.png",  // Using image
+        iconType: "image",
+        title: "中国文化史クイズ",
+        titleEN: "Chinese Culture History Quiz",
+        description: "中国の文化史に関するクイズアプリ",
+        link: "chinese-history/culture_quiz/",
+        target: "_blank" 
+    }
 ];
