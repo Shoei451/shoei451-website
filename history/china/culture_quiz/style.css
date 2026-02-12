@@ -189,7 +189,7 @@ body {
 /* クイズコンテナ */
 .quiz-container {
   max-width: 48rem;
-  margin: 0 auto;
+  margin: 5rem auto 0;
 }
 
 .quiz-header {
@@ -340,7 +340,7 @@ body {
 /* マッチング */
 .matching-container {
   max-width: 80rem;
-  margin: 0 auto;
+  margin: 5rem auto 0;
 }
 
 .matching-grid {
@@ -395,7 +395,7 @@ body {
 /* グルーピング */
 .grouping-container {
   max-width: 90rem;
-  margin: 0 auto;
+  margin: 5rem auto 0;
 }
 
 .ungrouped-area {
@@ -485,7 +485,7 @@ body {
 /* タイムライン */
 .timeline-container {
   max-width: 48rem;
-  margin: 0 auto;
+  margin: 5rem auto 0;
 }
 
 .sortable-list {
@@ -640,8 +640,17 @@ body {
     flex-direction: column;
   }
 
+  
   .control-btn {
     padding: 0.5rem 1rem;
     font-size: 0.85rem;
+  }
+
+  
+  .quiz-container,
+  .matching-container,
+  .grouping-container,
+  .timeline-container {
+    margin-top: 6.5rem;
   }
 }

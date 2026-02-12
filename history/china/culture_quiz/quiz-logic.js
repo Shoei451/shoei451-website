@@ -126,62 +126,57 @@ function generateGroupingQuiz() {
 function generateTimelineQuiz() {
   const items = shuffle(quizData).slice(0, 6);
   state.timelineData = {
-    items: shuffle(items.map(p => ({ name: p.name, dynasty: p.dynasty, era: p.era }))),
+    items: shuffle(items.map(p => ({ name: p.name, era: p.era }))),
     correctOrder: items.sort((a, b) => a.era - b.era).map(p => p.name)
   };
 }
 
 function generateTrueFalseQuiz() {
-  const allStatements = [];
-  
-  // 正しい文（人物と王朝）
+  const dynastyStatements = [];
+  const workStatements = [];
+
   quizData.forEach(person => {
-    allStatements.push({
+    dynastyStatements.push({
       statement: `${person.name}は${person.dynasty}の人物である`,
       correct: true
     });
-  });
-  
-  // 正しい文（人物と作品）
-  quizData.filter(p => p.works.length > 0).forEach(person => {
-    allStatements.push({
-      statement: `${person.name}の代表作に『${person.works[0]}』がある`,
-      correct: true
-    });
-  });
-  
-  // 間違った文（人物と違う王朝）
-  quizData.forEach(person => {
-    const wrongDynasty = dynasties.filter(d => d !== person.dynasty)[
-      Math.floor(Math.random() * (dynasties.length - 1))
-    ];
-    allStatements.push({
+
+    const wrongDynasties = dynasties.filter(d => d !== person.dynasty);
+    const wrongDynasty = wrongDynasties[Math.floor(Math.random() * wrongDynasties.length)];
+    dynastyStatements.push({
       statement: `${person.name}は${wrongDynasty}の人物である`,
       correct: false
     });
   });
-  
-  // 間違った文（人物と違う作品）
+
   const peopleWithWorks = quizData.filter(p => p.works.length > 0);
   peopleWithWorks.forEach(person => {
-    const otherPerson = peopleWithWorks.filter(p => p.name !== person.name)[
-      Math.floor(Math.random() * (peopleWithWorks.length - 1))
-    ];
-    if (otherPerson) {
-      allStatements.push({
-        statement: `${person.name}の代表作に『${otherPerson.works[0]}』がある`,
+    workStatements.push({
+      statement: `${person.name}の代表作に『${person.works[0]}』がある`,
+      correct: true
+    });
+
+    const otherPeople = peopleWithWorks.filter(p => p.name !== person.name);
+    if (otherPeople.length > 0) {
+      const randomOther = otherPeople[Math.floor(Math.random() * otherPeople.length)];
+      workStatements.push({
+        statement: `${person.name}の代表作に『${randomOther.works[0]}』がある`,
         correct: false
       });
     }
   });
-  
-  state.quizQuestions = shuffle(allStatements).slice(0, 10).map(s => ({
+
+  const mixedStatements = shuffle([
+    ...shuffle(dynastyStatements).slice(0, 5),
+    ...shuffle(workStatements).slice(0, 5)
+  ]);
+
+  state.quizQuestions = mixedStatements.map(s => ({
     question: s.statement,
     correct: s.correct,
     type: 'truefalse'
   }));
 }
-
 // イベントハンドラ
 function startQuiz(quizMode) {
   resetState();
@@ -741,7 +736,7 @@ function renderTimeline() {
            ondragover="handleTimelineDragOver(event)"
            ondrop="handleTimelineDrop(${idx}, event)">
         <div class="drag-handle">⋮⋮</div>
-        <div class="item-content">${item.name} (${item.dynasty})</div>
+        <div class="item-content">${item.name}</div>
       </div>
     `;
   });
