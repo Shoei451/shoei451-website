@@ -124,7 +124,16 @@ function generateGroupingQuiz() {
 }
 
 function generateTimelineQuiz() {
-  const items = shuffle(quizData).slice(0, 6);
+  const dynastyRepresentativeMap = new Map();
+
+  dynasties.forEach(dynasty => {
+    const candidates = quizData.filter(person => person.dynasty === dynasty);
+    if (candidates.length === 0) return;
+    const selected = candidates[Math.floor(Math.random() * candidates.length)];
+    dynastyRepresentativeMap.set(dynasty, selected);
+  });
+
+  const items = shuffle([...dynastyRepresentativeMap.values()]).slice(0, 6);
   state.timelineData = {
     items: shuffle(items.map(p => ({ name: p.name, era: p.era }))),
     correctOrder: items.sort((a, b) => a.era - b.era).map(p => p.name)
@@ -395,6 +404,18 @@ function renderControlBar() {
   `;
 }
 
+function renderProgressBar(current, total) {
+  const percentage = Math.round((current / total) * 100);
+  return `
+    <div class="progress-wrap">
+      <div class="progress-track">
+        <div class="progress-fill" style="width: ${percentage}%;"></div>
+      </div>
+      <div class="progress-label">進捗 ${current} / ${total}</div>
+    </div>
+  `;
+}
+
 function renderMenu() {
   return `
     <div class="pattern-bg">
@@ -517,7 +538,7 @@ function renderQuiz() {
         <div>問題 ${state.currentQuestion + 1} / ${state.quizQuestions.length}</div>
         <div class="score">正解: ${state.score}</div>
       </div>
-      
+      ${renderProgressBar(state.currentQuestion + 1, state.quizQuestions.length)}
       <div class="quiz-box">
         <h2 class="question-title">${current.question}</h2>
         <p class="question-subtitle">
@@ -564,7 +585,7 @@ function renderTrueFalse() {
         <div>問題 ${state.currentQuestion + 1} / ${state.quizQuestions.length}</div>
         <div class="score">正解: ${state.score}</div>
       </div>
-      
+      ${renderProgressBar(state.currentQuestion + 1, state.quizQuestions.length)}
       <div class="quiz-box">
         <h2 class="question-title">${current.question}</h2>
         <p class="question-subtitle">この記述は正しいですか？</p>
