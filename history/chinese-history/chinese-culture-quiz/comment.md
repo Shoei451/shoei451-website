@@ -1,0 +1,31 @@
+```html
+
+<!DOCTYPE html>
+
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中国王朝文化史クイズ</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app" class="container"></div>
+  <script src="quizdata.js"></script>
+  <script src="quiz-logic.js"></script>
+</body>
+
+</html>
+
+
+
+```
+
+
+
+長いのでこんなふうに分けました。
+
+コントロールボタンについてですが、絵文字と「メニュー」ではわかりにくいので、ちょっとしたsvgもつくって「Back to home」にして
+
+favicon.svgの制作もお願い
