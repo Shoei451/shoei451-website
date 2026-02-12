@@ -36,7 +36,7 @@ const sectionItems2 = [
         target: "_blank"
     },
     {
-        icon: "../images/chinese-history.png",  // Using image
+        icon: "../images/chinese-history.svg",  // Using image
         iconType: "image",
         title: "中国文化史クイズ",
         titleEN: "Chinese Culture History Quiz",
