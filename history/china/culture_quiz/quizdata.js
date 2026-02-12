@@ -13,5 +13,6 @@ const quizData = [
   { name: "曹雪芹", dynasty: "清", works: ["紅楼夢"], category: "小説家", era: 1715 },
   { name: "呉承恩", dynasty: "明", works: ["西遊記"], category: "小説家", era: 1500 }
 ];
-const dynasties = ["前漢","後漢","東晋","唐","宋","元","明","清"];
+const dynasties = ["殷","西周","東周","春秋","戦国","秦","前漢","新","後漢","三国","西晋",
+  "東晋","唐","宋","元","明","清"];
 const categories = ["詩人","書家","歴史家","劇作家","小説家"];
