@@ -19,7 +19,19 @@ const quizData = [
   { name: "法顕", dynasty: "東晋", works: ["仏国記（グプタ朝時代）"], category: "宗教指導者", era: 337 },
   { name: "玄奘", dynasty: "唐", works: ["大唐西域記（ヴァルダナ朝時代）"], category: "宗教指導者", era: 602 },
   { name: "義浄", dynasty: "唐", works: ["南海寄帰内法伝（ヴァルダナ朝～ハルシャ朝時代）"], category: "宗教指導者", era: 635 },
-  { name: "陶淵明（陶潜）", dynasty: "東晋", works: ["帰去来辞","飲酒"], category: "詩人", era: 365 },
+  { name: "陶淵明（陶潜）", dynasty: "東晋", works: ["桃花源記","帰去来辞","飲酒"], category: "詩人", era: 365 },
+  //{ name: "謝霊運", dynasty: "南北朝", works: ["登山賦","四時山行"], category: "詩人", era: 385 },
+  { name: "王維", dynasty: "唐", works: ["山居秋暝","送元二使安西"], category: "詩人", era: 701 },
+  { name: "昭明太子", dynasty: "（南北朝）梁", works: ["文選（詩文集・四六駢儷体）"], category: "文学者", era: 501 },
+  { name: "顧愷之", dynasty: "東晋", works: ["女史箴図"], category: "画家", era: 344 },
+  { name: "仏図澄", dynasty: "前秦", works: ["敦煌莫高窟壁画","洛陽での布教"], category: "宗教指導者", era: 350 },
+  { name: "鳩摩羅什", dynasty: "前秦", works: ["大乗仏教経典の漢訳"], category: "宗教指導者", era: 344 },
+  { name: "達磨" , dynasty: "（南北朝）宋", works: ["禅宗の開祖"], category: "宗教指導者", era: 440 }, 
+  { name: "孔穎達（くようだつ / こうえいたつ）", dynasty: "唐", works: ["五経正義（儒学の官学化）"], category: "哲学者", era: 574 },
+  { name: "呉道玄", dynasty: "唐", works: ["山水画（八十七神仙図巻）"], category: "画家", era: 680 },
+  { name: "柳宗元" , dynasty: "唐", works: ["永州八記（古文復興）","捕蛇者説（古文復興）"], category: "詩人", era: 773 },
+  { name: "韓愈", dynasty: "唐", works: ["師説（古文復興）","原道（古文復興）"], category: "詩人", era: 768 },
+  
 
   { name: "李白", dynasty: "唐", works: ["静夜思","早発白帝城","将進酒"], category: "詩人", era: 700 },
   { name: "杜甫", dynasty: "唐", works: ["春望","茅屋為秋風所破歌"], category: "詩人", era: 712 },
@@ -35,5 +47,5 @@ const quizData = [
   { name: "呉承恩", dynasty: "明", works: ["西遊記"], category: "小説家", era: 1500 }
 ];
 const dynasties = ["殷","西周","東周","春秋","戦国","秦","前漢","新","後漢","三国","西晋",
-  "東晋","唐","宋","元","明","清"];
-const categories = ["詩人","書家","歴史家","劇作家","小説家","宗教指導者","哲学者",];
+  "東晋","北魏","（南北朝）宋","（南北朝）梁","前秦","唐","宋","元","明","清"];
+const categories = ["詩人","書家","歴史家","劇作家","小説家","宗教指導者","哲学者","政治家","技術者","文学者"];
