@@ -31,7 +31,12 @@ const quizData = [
   { name: "呉道玄", dynasty: "唐", works: ["山水画（八十七神仙図巻）"], category: "画家", era: 680 },
   { name: "柳宗元" , dynasty: "唐", works: ["永州八記（古文復興）","捕蛇者説（古文復興）"], category: "詩人", era: 773 },
   { name: "韓愈", dynasty: "唐", works: ["師説（古文復興）","原道（古文復興）"], category: "詩人", era: 768 },
-  
+  { name: "周敦頤", dynasty: "北宋", works: ["太極図説（宋学の祖）","愛蓮説（宋学の祖）"], category: "哲学者", era: 1017 },
+  //{ name: "程頤・程顥", dynasty: "北宋", works: ["理気二元論","性即理"], category: "哲学者", era: 1033 },
+  { name: "朱熹", dynasty: "南宋", works: ["理気二元論", "大義名分論", "四書集注","性即理、存天理滅人欲"], category: "哲学者", era: 1130 },
+  { name: "王陽明", dynasty: "明", works: ["伝習録","心即理、知行合一"], category: "哲学者", era: 1472 },
+  { name: "司馬光" , dynasty: "北宋", works: ["資治通鑑"], category: "歴史家", era: 1019 },
+
 
   { name: "李白", dynasty: "唐", works: ["静夜思","早発白帝城","将進酒"], category: "詩人", era: 700 },
   { name: "杜甫", dynasty: "唐", works: ["春望","茅屋為秋風所破歌"], category: "詩人", era: 712 },
