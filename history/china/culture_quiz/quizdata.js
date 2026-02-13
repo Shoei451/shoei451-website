@@ -35,7 +35,9 @@ const quizData = [
   //{ name: "程頤・程顥", dynasty: "北宋", works: ["理気二元論","性即理"], category: "哲学者", era: 1033 },
   { name: "朱熹", dynasty: "南宋", works: ["理気二元論", "大義名分論", "四書集注","性即理、存天理滅人欲"], category: "哲学者", era: 1130 },
   { name: "王陽明", dynasty: "明", works: ["伝習録","心即理、知行合一"], category: "哲学者", era: 1472 },
-  { name: "司馬光" , dynasty: "北宋", works: ["資治通鑑"], category: "歴史家", era: 1019 },
+  { name: "司馬光" , dynasty: "北宋", works: ["資治通鑑（編年体）"], category: "歴史家", era: 1019 },
+  { name: "王重陽", dynasty: "金", works: ["全真教の創始"], category: "宗教指導者", era: 1113 },
+  { name: "徽宗" , dynasty: "北宋", works: ["桃鳩図（院体画）"], category: "画家", era: 1082 },
 
 
   { name: "李白", dynasty: "唐", works: ["静夜思","早発白帝城","将進酒"], category: "詩人", era: 700 },
@@ -52,5 +54,5 @@ const quizData = [
   { name: "呉承恩", dynasty: "明", works: ["西遊記"], category: "小説家", era: 1500 }
 ];
 const dynasties = ["殷","西周","東周","春秋","戦国","秦","前漢","新","後漢","三国","西晋",
-  "東晋","北魏","（南北朝）宋","（南北朝）梁","前秦","唐","宋","元","明","清"];
+  "東晋","北魏","（南北朝）宋","（南北朝）梁","前秦","唐","宋","金","元","明","清"];
 const categories = ["詩人","書家","歴史家","劇作家","小説家","宗教指導者","哲学者","政治家","技術者","文学者"];
