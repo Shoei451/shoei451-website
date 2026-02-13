@@ -165,7 +165,7 @@ function generateTrueFalseQuiz() {
   const peopleWithWorks = quizData.filter(p => p.works.length > 0);
   peopleWithWorks.forEach(person => {
     workStatements.push({
-      statement: `${person.name}の代表作に『${person.works[0]}』がある`,
+      statement: `${person.name}の主な功績に『${person.works[0]}』がある`,
       correct: true
     });
 
@@ -173,7 +173,7 @@ function generateTrueFalseQuiz() {
     if (otherPeople.length > 0) {
       const randomOther = otherPeople[Math.floor(Math.random() * otherPeople.length)];
       workStatements.push({
-        statement: `${person.name}の代表作に『${randomOther.works[0]}』がある`,
+        statement: `${person.name}の主な功績に『${randomOther.works[0]}』がある`,
         correct: false
       });
     }
