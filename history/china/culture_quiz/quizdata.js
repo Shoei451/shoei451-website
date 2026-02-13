@@ -1,5 +1,26 @@
 
 const quizData = [
+  { name: "孔子", dynasty: "春秋", works: ["春秋"], category: "哲学者", era: -551 } ,
+  { name: "老子", dynasty: "春秋", works: ["道徳経"], category: "哲学者", era: -600 },
+  { name: "孟子", dynasty: "戦国", works: ["孟子"], category: "哲学者", era: -372 },
+  { name: "荘子", dynasty: "戦国", works: ["荘子"], category: "哲学者", era: -369 },
+  { name: "釈迦", dynasty: "春秋", works: ["仏典"], category: "宗教指導者", era: -563 },
+  { name: "老子（道教）", dynasty: "春秋", works: ["道教経典"], category: "宗教指導者", era: -600 },
+  { name: "屈原", dynasty: "戦国", works: ["楚辞"], category: "詩人", era: -340 },
+  //{ name: "商鞅", dynasty: "戦国", works: ["変法"], category: "政治家", era: -390 },
+  { name: "韓非子", dynasty: "戦国", works: ["韓非子"], category: "哲学者", era: -280 },
+  { name: "公孫竜", dynasty: "戦国", works: ["『白馬非馬論』"], category: "哲学者", era: -320 },
+  { name: "董仲舒", dynasty: "前漢", works: ["（儒学の官学化）,（『五経』の編纂）"], category: "哲学者", era: -179 },
+  { name: "鄭玄・馬融", dynasty: "後漢", works: ["五経注（訓詁学）"], category: "哲学者", era: 127 },
+  { name: "蔡倫", dynasty: "後漢", works: ["製紙法の改良"], category: "技術者", era: 50 },
+  { name: "張陵", dynasty: "後漢", works: ["五斗米道の創始"], category: "宗教指導者", era: 34 },
+  { name: "張角", dynasty: "後漢", works: ["太平道の創始"], category: "宗教指導者", era: 184 },
+  { name: "寇謙之", dynasty: "北魏", works: ["道教の体系化（新天師道）"], category: "宗教指導者", era: 365 },
+  { name: "法顕", dynasty: "東晋", works: ["仏国記（グプタ朝時代）"], category: "宗教指導者", era: 337 },
+  { name: "玄奘", dynasty: "唐", works: ["大唐西域記（ヴァルダナ朝時代）"], category: "宗教指導者", era: 602 },
+  { name: "義浄", dynasty: "唐", works: ["南海寄帰内法伝（ヴァルダナ朝～ハルシャ朝時代）"], category: "宗教指導者", era: 635 },
+  { name: "陶淵明（陶潜）", dynasty: "東晋", works: ["帰去来辞","飲酒"], category: "詩人", era: 365 },
+
   { name: "李白", dynasty: "唐", works: ["静夜思","早発白帝城","将進酒"], category: "詩人", era: 700 },
   { name: "杜甫", dynasty: "唐", works: ["春望","茅屋為秋風所破歌"], category: "詩人", era: 712 },
   { name: "白居易", dynasty: "唐", works: ["長恨歌","琵琶行"], category: "詩人", era: 772 },
@@ -15,4 +36,4 @@ const quizData = [
 ];
 const dynasties = ["殷","西周","東周","春秋","戦国","秦","前漢","新","後漢","三国","西晋",
   "東晋","唐","宋","元","明","清"];
-const categories = ["詩人","書家","歴史家","劇作家","小説家"];
+const categories = ["詩人","書家","歴史家","劇作家","小説家","宗教指導者","哲学者",];
