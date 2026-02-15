@@ -5,7 +5,6 @@ const quizData = [
   { name: "孟子", dynasty: "戦国", works: ["孟子"], category: "哲学者", era: -372 },
   { name: "荘子", dynasty: "戦国", works: ["荘子"], category: "哲学者", era: -369 },
   { name: "釈迦", dynasty: "春秋", works: ["仏典"], category: "宗教指導者", era: -563 },
-  { name: "老子（道教）", dynasty: "春秋", works: ["道教経典"], category: "宗教指導者", era: -600 },
   { name: "屈原", dynasty: "戦国", works: ["楚辞"], category: "詩人", era: -340 },
   //{ name: "商鞅", dynasty: "戦国", works: ["変法"], category: "政治家", era: -390 },
   { name: "韓非子", dynasty: "戦国", works: ["韓非子"], category: "哲学者", era: -280 },
