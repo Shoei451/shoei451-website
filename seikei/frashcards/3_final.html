@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>政治・経済 — 一問一答 3学期期末試験</title>
+</head>
+<body>
+
+<!-- Wind particles -->
+<div class="ascii-wind" style="top:15%; left:5%; --duration:18s; --delay:0s; --tx:120px; --ty:40px;">~</div>
+<div class="ascii-wind" style="top:40%; left:10%; --duration:22s; --delay:3s; --tx:80px; --ty:-30px;">~~</div>
+<div class="ascii-wind" style="top:70%; left:3%; --duration:15s; --delay:6s; --tx:100px; --ty:20px;">~</div>
+<div class="ascii-wind" style="top:25%; right:8%; --duration:20s; --delay:1s; --tx:-90px; --ty:50px;">~~</div>
+<div class="ascii-wind" style="top:60%; right:12%; --duration:17s; --delay:4s; --tx:-70px; --ty:-20px;">~</div>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="header-meta">SEIKEI-3 // KIMMATSUSHIKEN // 3学期期末試験対策</div>
+    <h1 class="site-title cursor-blink">政治・経済 一問一答</h1>
+    <p class="site-subtitle">TERMINAL FLASHCARD SYSTEM — <span id="total-count">0</span> QUESTIONS LOADED</p>
+
+    <!-- Category tabs -->
+    <nav class="nav-bar" id="tabs"></nav>
+  </header>
+
+  <!-- STATS -->
+  <div class="data-section" data-protocol="STATUS :: LIVE">
+    <div class="data-viz">
+      <div class="stat-block">
+        <div class="stat-label">ANSWERED</div>
+        <div class="stat-value" id="s-answered">0</div>
+      </div>
+      <div class="stat-block correct-block">
+        <div class="stat-label">CORRECT</div>
+        <div class="stat-value" id="s-correct">0</div>
+      </div>
+      <div class="stat-block wrong-block">
+        <div class="stat-label">WRONG</div>
+        <div class="stat-value" id="s-wrong">0</div>
+      </div>
+      <div class="stat-block" style="border-left-color:var(--sol-violet);">
+        <div class="stat-label">ACCURACY</div>
+        <div class="stat-value" id="s-pct" style="color:var(--sol-violet);">—%</div>
+      </div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+      </div>
+      <span class="progress-label" id="progress-label">0 / 0</span>
+    </div>
+  </div>
+
+  <!-- QUIZ AREA -->
+  <div id="quiz-area">
+
+    <div class="section-header" id="section-header">LOADING...</div>
+
+    <div class="card" id="quiz-card" data-index="Q—">
+      <div class="card-meta-row">
+        <span class="category-tag" id="card-category">—</span>
+        <span class="q-num" id="card-number">— / —</span>
+      </div>
+      <div class="question-text" id="card-question">読み込み中…</div>
+
+      <div class="btn-row" id="reveal-row">
+        <button class="btn btn-primary" onclick="revealAnswer()">[ REVEAL ANSWER ]</button>
+      </div>
+
+      <div class="terminal-output" id="answer-area">
+        <div class="answer-value" id="card-answer"></div>
+      </div>
+
+      <div class="btn-row" id="mark-row" style="display:none; margin-top:var(--space-sm);">
+        <button class="btn btn-correct" onclick="mark(true)">[ ✓ CORRECT ]</button>
+        <button class="btn btn-wrong"   onclick="mark(false)">[ ✗ WRONG ]</button>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="controls-row">
+      <button class="btn" onclick="shuffleAndRestart()">[ 🔀 SHUFFLE ]</button>
+      <button class="btn" onclick="restart()">[ ↺ RESTART ]</button>
+    </div>
+
+  </div>
+
+  <!-- RESULT SCREEN -->
+  <div class="result-screen" id="result-screen">
+    <div class="section-header">SESSION COMPLETE</div>
+    <div class="terminal-result">
+      <div>$ session --summary</div>
+      <div class="result-score-line" id="result-score"></div>
+      <div class="result-msg" id="result-msg"></div>
+      <div id="result-detail" style="color:var(--sol-base1);"></div>
+    </div>
+    <div class="controls-row" style="margin-top:var(--space-md);">
+      <button class="btn btn-primary" onclick="restart()">[ ↺ AGAIN ]</button>
+      <button class="btn" onclick="shuffleAndRestart()">[ 🔀 SHUFFLE ]</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-ascii">~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</div>
+    <div>SEIKEI-3 FINAL REVIEW SYS. // CASPIAN WIND EDITION</div>
+  </footer>
+
+</div><!-- /container -->
+
+<script src="3_final_data.js"></script>
+<script src="logic.js"></script>
+</body>
+</html>
