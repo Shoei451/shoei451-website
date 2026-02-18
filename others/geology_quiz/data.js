@@ -395,7 +395,7 @@ const ORGANISMS = [
 
 // 画像パスを取得する関数（images/ フォルダに organism.id.png を置く）
 function getImagePath(organismId) {
-  return `images/${organismId}.png`;
+  return `images/${organismId}.jpg`;
 }
 
 // 期間IDから期間オブジェクトを取得
