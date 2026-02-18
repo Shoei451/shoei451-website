@@ -314,7 +314,7 @@ function renderMain() {
         ${isExpanded ? `<div class="org-card-header">` : ''}
         <div class="org-card-img-wrap">
           <img src="${getImagePath(org.id)}" alt="${org.name}"
-               onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+               onerror="if(this.dataset.fallbackTried!=='1'){this.dataset.fallbackTried='1';this.src=getImageFallbackPath('${org.id}', this.src);return;} this.style.display='none'; this.nextElementSibling.style.display='block';" />
           <div class="org-emoji-sm" style="display:none">${org.emoji}</div>
         </div>
         <div class="org-card-body">

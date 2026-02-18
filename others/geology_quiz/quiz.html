@@ -481,6 +481,17 @@ function renderQuestion() {
   const img   = document.getElementById('orgImg');
   const emoji = document.getElementById('orgEmoji');
   img.style.display = ''; emoji.style.display = 'none';
+  img.dataset.organismId = org.id;
+  img.dataset.fallbackTried = '0';
+  img.onerror = function() {
+    if (this.dataset.fallbackTried !== '1') {
+      this.dataset.fallbackTried = '1';
+      this.src = getImageFallbackPath(this.dataset.organismId, this.src);
+      return;
+    }
+    this.style.display = 'none';
+    document.getElementById('orgEmoji').style.display = 'block';
+  };
   img.src = getImagePath(org.id); img.alt = org.name;
   emoji.textContent = org.emoji;
 

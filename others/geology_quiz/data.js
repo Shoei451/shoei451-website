@@ -394,8 +394,13 @@ const ORGANISMS = [
 ];
 
 // 画像パスを取得する関数（images/ フォルダに organism.id.png を置く）
-function getImagePath(organismId) {
-  return `images/${organismId}.jpg`;
+function getImagePath(organismId, ext = "png") {
+  return `images/${organismId}.${ext}`;
+}
+
+function getImageFallbackPath(organismId, currentSrc = "") {
+  const isPng = String(currentSrc).toLowerCase().includes(".png");
+  return getImagePath(organismId, isPng ? "jpg" : "png");
 }
 
 // 期間IDから期間オブジェクトを取得
