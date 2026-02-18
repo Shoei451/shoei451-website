@@ -1,23 +1,29 @@
 /* ===== Variables ===== */
 :root {
     --theme: #ffffff;
-    --entry: #FABA40;
-    --primary: #313A49;
-    --secondary: #171d1e;
-    --content: #313A49;
-    --card-bg: #FABA40;
+    --entry: #e8edf3;
+    --primary: #1f2a3a;
+    --secondary: #4b5a6d;
+    --content: #1f2a3a;
+    --card-bg: #f4f7fb;
+    --border: #d7e0ea;
     --accent: #FABA40;
+    --accent-text: #8a5a00;
+    --accent-contrast: #1a2535;
     --shadow: rgba(0, 0, 0, 0.1);
 }
 
 body.dark {
-    --theme: #313A49;
-    --entry: #2e2e33;
-    --primary: #ffffff;
-    --secondary: #A8AEB2;
-    --content: #ffffff;
-    --card-bg: #2e2e33;
-    --accent: #FABA40;
+    --theme: #121a24;
+    --entry: #1b2430;
+    --primary: #f3f6fb;
+    --secondary: #c0c8d2;
+    --content: #e7ecf3;
+    --card-bg: #1d2733;
+    --border: #324152;
+    --accent: #f5be4c;
+    --accent-text: #ffd98f;
+    --accent-contrast: #1a2433;
     --shadow: rgba(0, 0, 0, 0.3);
 }
 
@@ -43,7 +49,7 @@ a {
 }
 
 a:hover { 
-    color: var(--accent); 
+    color: var(--accent-text); 
 }
 
 /* ===== Header ===== */
@@ -126,7 +132,7 @@ header p {
 
 #theme-toggle:hover #moon,
 #theme-toggle:hover #sun {
-    stroke: #ffffff;
+    stroke: var(--accent-contrast);
 }
 
 body.dark #sun { 
@@ -172,7 +178,7 @@ body:not(.dark) #sun {
     margin-bottom: 30px;
     padding: 12px 24px;
     background: #FABA40;
-    color: #ffffff;
+    color: var(--accent-contrast);
     border-radius: 25px;
     font-weight: 600;
     transition: all 0.3s;
@@ -206,7 +212,7 @@ body:not(.dark) #sun {
     transform: translateY(50px);
     position: relative;
     overflow: hidden;
-    border: 2px solid transparent;
+    border: 2px solid var(--border);
 }
 
 .card::before {
@@ -309,11 +315,12 @@ nav a {
     transition: all 0.3s;
     box-shadow: 0 4px 15px var(--shadow);
     display: inline-block;
+    border: 1px solid var(--border);
 }
 
 nav a:hover { 
-    background: var(--primary);
-    color: #FABA40;
+    background: var(--accent);
+    color: var(--accent-contrast);
     transform: translateY(-2px);
     box-shadow: 0 6px 20px var(--shadow);
 }
@@ -338,7 +345,7 @@ footer a {
 }
 
 footer a:hover { 
-    color: var(--theme);
+    color: var(--accent-text);
 }
 
 /* ===== Responsive ===== */

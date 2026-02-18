@@ -1,23 +1,29 @@
 /* ===== Variables ===== */
 :root {
     --theme: #ffffff;
-    --entry: #FABA40;
-    --primary: #313A49;
-    --secondary: #171d1e;
-    --content: #313A49;
-    --card-bg: #FABA40;
+    --entry: #e8edf3;
+    --primary: #1f2a3a;
+    --secondary: #4b5a6d;
+    --content: #1f2a3a;
+    --card-bg: #f4f7fb;
+    --border: #d7e0ea;
     --accent: #FABA40;
+    --accent-text: #8a5a00;
+    --accent-contrast: #1a2535;
     --shadow: rgba(0, 0, 0, 0.1);
 }
 
 body.dark {
-    --theme: #313A49;
-    --entry: #2e2e33;
-    --primary: #ffffff;
-    --secondary: #A8AEB2;
-    --content: #ffffff;
-    --card-bg: #2e2e33;
-    --accent: #FABA40;
+    --theme: #121a24;
+    --entry: #1b2430;
+    --primary: #f3f6fb;
+    --secondary: #c0c8d2;
+    --content: #e7ecf3;
+    --card-bg: #1d2733;
+    --border: #324152;
+    --accent: #f5be4c;
+    --accent-text: #ffd98f;
+    --accent-contrast: #1a2433;
     --shadow: rgba(0, 0, 0, 0.3);
 }
 
@@ -65,7 +71,7 @@ h2 {
 /* ===== Buttons ===== */
 button {
     background: var(--accent);
-    color: var(--primary);
+    color: var(--accent-contrast);
     border: none;
     border-radius: 25px;
     padding: 12px 24px;
@@ -85,7 +91,7 @@ button:hover {
 
 button.primary {
     background: linear-gradient(135deg, var(--accent), #f5a623);
-    color: #fff;
+    color: var(--accent-contrast);
     border: #1a2b3c solid 2px;
     font-size: 16px;
     padding: 14px 32px;
@@ -219,7 +225,7 @@ body.dark .symbol-display {
     font-weight: 600;
     margin-bottom: 16px;
     background: linear-gradient(135deg, var(--accent), #f5a623);
-    color: #fff;
+    color: var(--accent-contrast);
 }
 
 /* ===== Quiz Elements ===== */
@@ -247,8 +253,8 @@ body.dark .symbol-display {
 }
 
 #choices button:hover:not(:disabled) {
-    background: var(--primary);
-    color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-contrast);
 }
 
 .correct {
@@ -649,7 +655,7 @@ body.dark .symbol-display {
 
 #theme-toggle:hover #moon,
 #theme-toggle:hover #sun {
-    stroke: #ffffff;
+    stroke: var(--accent-contrast);
 }
 
 body.dark #sun {
@@ -706,7 +712,7 @@ body:not(.dark) #sun {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: var(--accent);
+    color: var(--accent-text);
     margin-bottom: 8px;
     display: block;
 }
@@ -1078,13 +1084,13 @@ body.dark .material-section[data-category="leather"] .material-section-title {
 
 .symbol-tab:hover {
     background: var(--accent);
-    color: #fff;
+    color: var(--accent-contrast);
     transform: translateY(-2px);
 }
 
 .symbol-tab.active {
     background: var(--accent);
-    color: #fff;
+    color: var(--accent-contrast);
     border: #1a2b3c solid 2px;
     box-shadow: 0 4px 12px rgba(250, 186, 64, 0.4);
 }

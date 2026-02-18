@@ -46,8 +46,8 @@
     width: 100%;
     padding: 15px;
     background: var(--accent);
-    color: var(--primary);
-    border: #1a2b3c 2px solid;
+    color: var(--accent-contrast);
+    border: 2px solid var(--accent-contrast);
     border-radius: 12px;
     font-size: 1.1rem;
     font-weight: 700;
@@ -108,8 +108,8 @@
 
 .exam-badge {
     background: var(--accent);
-    color: #fff;
-    border: #1a2b3c 2px solid;
+    color: var(--accent-contrast);
+    border: 2px solid var(--accent-contrast);
     padding: 5px 12px;
     border-radius: 12px;
     font-size: 0.85rem;
@@ -121,7 +121,7 @@
     margin-top: 10px;
     padding: 10px 20px;
     background: var(--primary);
-    color: var(--accent);
+    color: var(--theme);
     border-radius: 10px;
     text-decoration: none;
     font-weight: 600;
@@ -177,12 +177,12 @@
 
 .subject-tab:hover {
     background: var(--accent);
-    color: #fff;
+    color: var(--accent-contrast);
 }
 
 .subject-tab.active {
     background: var(--accent);
-    color: #fff;
+    color: var(--accent-contrast);
     box-shadow: 0 4px 15px rgba(250, 186, 64, 0.4);
 }
 
