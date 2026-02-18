@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>クイズ｜地質年代クイズ</title>
-  <link rel="icon" href="../../images/favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="data.js"></script>
@@ -18,83 +17,76 @@
       background:
         repeating-linear-gradient(180deg,
           transparent 0, transparent 79px,
-          rgba(140,90,30,.05) 79px, rgba(140,90,30,.05) 81px),
-        linear-gradient(180deg, #0a0604 0%, #1a0f08 50%, #0e0b06 100%);
+          rgba(160,120,60,.05) 79px, rgba(160,120,60,.05) 81px),
+        linear-gradient(180deg, #fdf6e3 0%, #f7edd0 50%, #faf3e0 100%);
       font-family: 'Noto Serif JP', Georgia, serif;
-      color: #e8d5b0;
+      color: #2a1f0a;
     }
 
-    /* ─── Scrollbar ─── */
     ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #0a0604; }
-    ::-webkit-scrollbar-thumb { background: #6a4a20; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: #f7edd0; }
+    ::-webkit-scrollbar-thumb { background: #c8a060; border-radius: 3px; }
 
     /* ─── Header ─── */
     .header {
       position: sticky; top: 0; z-index: 100;
-      background: rgba(0,0,0,.6);
+      background: rgba(253,246,227,.92);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(200,160,60,.2);
+      border-bottom: 1px solid rgba(180,130,40,.22);
       padding: 12px 20px;
       display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
     }
     .header-btn {
-      background: rgba(200,160,60,.1);
-      border: 1px solid rgba(200,160,60,.35);
-      color: #c8a040; border-radius: 8px;
+      background: rgba(180,130,30,.12);
+      border: 1px solid rgba(180,130,30,.4);
+      color: #7a5008; border-radius: 8px;
       padding: 7px 14px; font-size: 13px;
       cursor: pointer; font-family: inherit;
-      transition: background .2s;
-      text-decoration: none; display: inline-block;
+      transition: background .2s; text-decoration: none;
+      display: inline-block; font-weight: 600;
     }
-    .header-btn:hover { background: rgba(200,160,60,.22); }
+    .header-btn:hover { background: rgba(180,130,30,.22); }
     .header-btn.blue {
-      background: rgba(74,144,208,.1);
-      border-color: rgba(74,144,208,.35);
-      color: #6ab0e8;
+      background: rgba(60,120,200,.1);
+      border-color: rgba(60,120,200,.35);
+      color: #1a5a9a;
     }
-    .header-btn.blue:hover { background: rgba(74,144,208,.22); }
+    .header-btn.blue:hover { background: rgba(60,120,200,.2); }
 
     .progress-wrap { flex: 1; min-width: 0; }
     .progress-label {
       display: flex; justify-content: space-between;
-      font-size: 12px; color: #7a6040; margin-bottom: 6px;
+      font-size: 12px; color: #9a7840; margin-bottom: 6px;
     }
-    .progress-label span.gold { color: #c8a040; font-weight: 700; }
-    .progress-label span.green { color: #60cc90; font-weight: 700; }
+    .progress-label span.gold { color: #8b6010; font-weight: 700; }
+    .progress-label span.green { color: #1a7a40; font-weight: 700; }
     .progress-bar-bg {
-      height: 4px; background: rgba(255,255,255,.08);
-      border-radius: 2px; overflow: hidden;
+      height: 5px; background: rgba(180,130,40,.18);
+      border-radius: 3px; overflow: hidden;
     }
     .progress-bar-fill {
-      height: 100%; border-radius: 2px;
-      background: linear-gradient(90deg, #c8a040, #e8c870);
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #b8900a, #e0b830);
       transition: width .5s ease;
     }
 
     /* ─── Main Quiz Area ─── */
-    .quiz-main {
-      max-width: 640px; margin: 0 auto;
-      padding: 28px 16px 0;
-    }
+    .quiz-main { max-width: 640px; margin: 0 auto; padding: 28px 16px 40px; }
 
-    /* Question chip */
     .q-chip {
-      display: inline-block;
-      padding: 4px 14px; border-radius: 20px;
-      background: rgba(200,160,60,.1);
-      border: 1px solid rgba(200,160,60,.3);
-      font-size: 12px; color: #c8a040;
-      letter-spacing: .12em; margin-bottom: 20px;
+      display: inline-block; padding: 4px 14px; border-radius: 20px;
+      background: rgba(180,130,30,.12); border: 1px solid rgba(180,130,30,.35);
+      font-size: 12px; color: #7a5008; letter-spacing: .12em; margin-bottom: 20px; font-weight: 600;
     }
 
     /* Organism card */
     .org-card {
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(200,160,60,.2);
-      border-radius: 16px;
-      padding: 28px 24px;
+      background: rgba(255,252,240,.9);
+      border: 1px solid rgba(180,130,40,.25);
+      border-radius: 16px; padding: 28px 24px;
       text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,.08);
       animation: fadeUp .45s ease both;
     }
     @keyframes fadeUp {
@@ -103,382 +95,236 @@
     }
 
     .org-image-wrap {
-      width: 180px; height: 180px;
-      margin: 0 auto 20px;
-      border-radius: 12px;
-      background: rgba(0,0,0,.45);
-      border: 1px solid rgba(200,160,60,.18);
-      display: flex; align-items: center; justify-content: center;
-      overflow: hidden;
+      width: 190px; height: 190px; margin: 0 auto 20px;
+      border-radius: 14px; background: #efe8d4;
+      border: 1px solid rgba(180,130,40,.25);
+      display: flex; align-items: center; justify-content: center; overflow: hidden;
       animation: float 4s ease-in-out infinite;
+      box-shadow: 0 4px 16px rgba(0,0,0,.08);
     }
     @keyframes float {
       0%,100% { transform: translateY(0) rotate(0deg); }
       50%      { transform: translateY(-7px) rotate(1deg); }
     }
-    .org-image-wrap img {
-      width: 100%; height: 100%; object-fit: cover;
-      border-radius: 12px;
-    }
-    .org-emoji-fallback {
-      font-size: 72px; line-height: 1;
-    }
+    .org-image-wrap img { width: 100%; height: 100%; object-fit: cover; border-radius: 14px; }
+    .org-emoji-fallback { font-size: 72px; line-height: 1; }
 
     .org-name {
-      font-size: clamp(20px, 5vw, 26px);
-      font-weight: 700; color: #e8d0a0;
-      margin-bottom: 6px;
+      font-size: clamp(20px, 5vw, 26px); font-weight: 700;
+      color: #2a1f0a; margin-bottom: 6px;
     }
-    .org-name-en {
-      font-size: 13px; color: #6a5830;
-      font-style: italic; margin-bottom: 10px;
-    }
+    .org-name-en { font-size: 13px; color: #9a7840; font-style: italic; margin-bottom: 10px; }
     .index-badge {
-      display: inline-block;
-      padding: 2px 10px; border-radius: 10px;
-      background: rgba(200,160,60,.18);
-      border: 1px solid rgba(200,160,60,.45);
-      font-size: 11px; color: #c8a040;
-      letter-spacing: .08em; margin-bottom: 12px;
+      display: inline-block; padding: 3px 10px; border-radius: 10px;
+      background: rgba(180,130,30,.15); border: 1px solid rgba(180,130,30,.45);
+      font-size: 11px; color: #8b6010; letter-spacing: .08em;
+      margin-bottom: 12px; font-weight: 700;
     }
-    .org-hint {
-      font-size: 13px; color: #a09070;
-      line-height: 1.85; max-width: 420px; margin: 0 auto;
-    }
+    .org-hint { font-size: 13px; color: #6a5030; line-height: 1.85; max-width: 420px; margin: 0 auto; }
 
     /* Feedback box */
     .feedback-box {
-      margin-top: 18px; padding: 16px 18px;
-      border-radius: 12px;
-      animation: fadeUp .4s ease both;
-      text-align: left;
+      margin-top: 18px; padding: 16px 18px; border-radius: 12px;
+      animation: fadeUp .4s ease both; text-align: left;
     }
-    .feedback-box.correct {
-      background: rgba(0,200,100,.08);
-      border: 1px solid rgba(0,200,100,.35);
-    }
-    .feedback-box.wrong {
-      background: rgba(220,60,0,.08);
-      border: 1px solid rgba(220,60,0,.35);
-    }
-    .feedback-title {
-      font-size: 17px; font-weight: 700; margin-bottom: 6px;
-    }
-    .feedback-box.correct .feedback-title { color: #60cc90; }
-    .feedback-box.wrong .feedback-title   { color: #ff7050; }
-    .feedback-correct-label {
-      font-size: 13px; color: #e8c870; font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .feedback-hint { font-size: 12px; color: #a09070; line-height: 1.75; }
+    .feedback-box.correct { background: rgba(0,160,80,.08); border: 1px solid rgba(0,160,80,.3); }
+    .feedback-box.wrong   { background: rgba(200,50,0,.08); border: 1px solid rgba(200,50,0,.25); }
+    .feedback-title { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .feedback-box.correct .feedback-title { color: #0a8040; }
+    .feedback-box.wrong   .feedback-title { color: #c03010; }
+    .feedback-correct-label { font-size: 13px; color: #8b6010; font-weight: 700; margin-bottom: 4px; }
+    .feedback-hint { font-size: 12px; color: #6a5030; line-height: 1.75; }
 
-    /* Next button */
-    .next-btn-wrap { text-align: center; margin: 18px 0 8px; }
-    .next-btn {
-      padding: 12px 44px;
-      background: linear-gradient(135deg, #c8a040, #e8c870);
-      border: none; border-radius: 24px;
-      font-size: 15px; font-weight: 700;
-      color: #1a0f00; cursor: pointer;
-      font-family: inherit; letter-spacing: .08em;
-      box-shadow: 0 4px 20px rgba(200,160,60,.4);
-      transition: transform .15s, box-shadow .15s;
-    }
-    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(200,160,60,.5); }
-
-    /* ─── Open Drawer Button ─── */
+    /* Open drawer button */
     .open-drawer-btn {
-      display: block; width: 100%;
-      margin-top: 20px;
+      display: block; width: 100%; margin-top: 20px;
       padding: 14px;
-      background: linear-gradient(135deg, rgba(200,160,60,.18), rgba(200,160,60,.1));
-      border: 1px solid rgba(200,160,60,.45);
-      border-radius: 12px;
-      color: #e8c870; font-family: inherit;
-      font-size: 15px; font-weight: 700;
-      letter-spacing: .1em; cursor: pointer;
-      transition: all .2s;
+      background: linear-gradient(135deg, rgba(180,130,30,.18), rgba(180,130,30,.1));
+      border: 1px solid rgba(180,130,30,.5);
+      border-radius: 12px; color: #6a4808;
+      font-family: inherit; font-size: 15px; font-weight: 700;
+      letter-spacing: .1em; cursor: pointer; transition: all .2s;
       animation: pulseGlow 2.5s ease-in-out infinite;
     }
     .open-drawer-btn:hover {
-      background: linear-gradient(135deg, rgba(200,160,60,.32), rgba(200,160,60,.2));
-      transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(200,160,60,.25);
+      background: linear-gradient(135deg, rgba(180,130,30,.3), rgba(180,130,30,.18));
+      transform: translateY(-2px); box-shadow: 0 6px 24px rgba(180,130,30,.2);
       animation: none;
     }
     @keyframes pulseGlow {
-      0%,100% { box-shadow: 0 0 0 rgba(200,160,60,0); }
-      50%      { box-shadow: 0 0 18px rgba(200,160,60,.22); }
+      0%,100% { box-shadow: 0 0 0 rgba(180,130,30,0); }
+      50%      { box-shadow: 0 0 18px rgba(180,130,30,.2); }
     }
+
+    /* Next button */
+    .next-btn-wrap { text-align: center; margin: 20px 0 8px; }
+    .next-btn {
+      padding: 13px 44px;
+      background: linear-gradient(135deg, #b8900a, #d8b030);
+      border: none; border-radius: 24px;
+      font-size: 15px; font-weight: 700;
+      color: #fff; cursor: pointer;
+      font-family: inherit; letter-spacing: .08em;
+      box-shadow: 0 4px 18px rgba(180,130,30,.35);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .next-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(180,130,30,.4); }
 
     /* ─── Drawer Overlay ─── */
     .drawer-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 140;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(3px);
-      opacity: 0;
-      transition: opacity .3s ease;
+      display: none; position: fixed; inset: 0; z-index: 140;
+      background: rgba(0,0,0,.3); backdrop-filter: blur(3px);
+      opacity: 0; transition: opacity .3s ease;
     }
-    .drawer-overlay.visible {
-      display: block;
-    }
-    .drawer-overlay.open {
-      opacity: 1;
-    }
+    .drawer-overlay.visible { display: block; }
+    .drawer-overlay.open { opacity: 1; }
 
     /* ─── Answer Drawer ─── */
     .answer-drawer {
-      position: fixed; top: 0; left: 0; bottom: 0;
-      z-index: 150;
-      width: min(340px, 88vw);
-      background: rgba(10,6,4,.97);
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 150;
+      width: min(360px, 90vw);
+      background: rgba(253,246,227,.98);
       backdrop-filter: blur(16px);
-      border-right: 1px solid rgba(200,160,60,.25);
-      box-shadow: 6px 0 40px rgba(0,0,0,.7);
+      border-right: 1px solid rgba(180,130,40,.3);
+      box-shadow: 6px 0 40px rgba(0,0,0,.15);
       transform: translateX(-100%);
       transition: transform .32s cubic-bezier(.4,0,.2,1);
-      display: flex; flex-direction: column;
-      overflow: hidden;
+      display: flex; flex-direction: column; overflow: hidden;
     }
-    .answer-drawer.open {
-      transform: translateX(0);
-    }
+    .answer-drawer.open { transform: translateX(0); }
 
-    /* Drawer header */
     .drawer-header {
       padding: 16px 18px 12px;
-      border-bottom: 1px solid rgba(200,160,60,.15);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-shrink: 0;
+      border-bottom: 1px solid rgba(180,130,40,.2);
+      display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+      background: rgba(255,250,235,.8);
     }
-    .drawer-header-title {
-      font-size: 13px; color: #c8a040;
-      letter-spacing: .12em; font-weight: 600;
-    }
+    .drawer-header-title { font-size: 13px; color: #7a5008; letter-spacing: .12em; font-weight: 700; }
     .drawer-close-btn {
       width: 30px; height: 30px;
-      background: rgba(200,160,60,.1);
-      border: 1px solid rgba(200,160,60,.3);
-      border-radius: 6px; color: #c8a040;
-      font-size: 16px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background .18s; flex-shrink: 0;
+      background: rgba(180,130,30,.12); border: 1px solid rgba(180,130,30,.35);
+      border-radius: 6px; color: #7a5008; font-size: 16px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background .18s;
     }
-    .drawer-close-btn:hover { background: rgba(200,160,60,.22); }
+    .drawer-close-btn:hover { background: rgba(180,130,30,.25); }
 
-    /* Drawer body */
-    .drawer-body {
-      flex: 1; overflow-y: auto;
-      padding: 14px 16px 24px;
-    }
+    .drawer-body { flex: 1; overflow-y: auto; padding: 14px 16px 28px; }
     .drawer-body::-webkit-scrollbar { width: 4px; }
-    .drawer-body::-webkit-scrollbar-thumb { background: #6a4a20; border-radius: 2px; }
+    .drawer-body::-webkit-scrollbar-thumb { background: #c8a060; border-radius: 2px; }
 
     .answer-instruction {
-      font-size: 10px; color: #6a5830;
-      letter-spacing: .18em; margin-bottom: 14px;
-      text-align: center;
+      font-size: 10px; color: #9a7840;
+      letter-spacing: .18em; margin-bottom: 14px; text-align: center;
     }
 
-    /* Era group block */
-    .era-group {
-      margin-bottom: 10px;
-    }
+    /* Era group */
+    .era-group { margin-bottom: 14px; }
     .era-group-label {
-      font-size: 10px; font-weight: 700;
-      letter-spacing: .18em; text-transform: uppercase;
-      padding: 3px 10px 3px 8px;
-      border-left: 3px solid;
-      margin-bottom: 6px;
-    }
-    .era-group.precambrian .era-group-label { color: #ffd090; border-color: #9b5320; }
-    .era-group.paleozoic   .era-group-label { color: #90ffd0; border-color: #1d8e62; }
-    .era-group.mesozoic    .era-group-label { color: #90c8ff; border-color: #2a6aca; }
-    .era-group.cenozoic    .era-group-label { color: #ffb870; border-color: #ca6510; }
-
-    .period-buttons {
-      display: flex; flex-wrap: wrap; gap: 6px;
+      font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      padding: 3px 10px 3px 8px; border-left: 3px solid; margin-bottom: 7px;
     }
 
+    /* Precambrian */
+    .era-group.precambrian .era-group-label { color: #8b4010; border-color: #c87830; background: rgba(180,100,40,.08); }
+    .era-group.precambrian .period-btn { background: rgba(180,100,40,.1); color: #6a2e08; border-color: rgba(180,100,40,.3); }
+    .era-group.precambrian .period-btn:hover:not(:disabled) { background: rgba(180,100,40,.22); }
+    /* Paleozoic */
+    .era-group.paleozoic .era-group-label { color: #0a6030; border-color: #1a8a50; background: rgba(30,140,80,.08); }
+    .era-group.paleozoic .period-btn { background: rgba(30,140,80,.1); color: #0a5028; border-color: rgba(30,140,80,.3); }
+    .era-group.paleozoic .period-btn:hover:not(:disabled) { background: rgba(30,140,80,.22); }
+    /* Mesozoic */
+    .era-group.mesozoic .era-group-label { color: #1a4a9a; border-color: #2a70cc; background: rgba(40,100,200,.08); }
+    .era-group.mesozoic .period-btn { background: rgba(40,100,200,.1); color: #1a3a7a; border-color: rgba(40,100,200,.3); }
+    .era-group.mesozoic .period-btn:hover:not(:disabled) { background: rgba(40,100,200,.2); }
+    /* Cenozoic */
+    .era-group.cenozoic .era-group-label { color: #8b4a08; border-color: #c87020; background: rgba(200,100,20,.08); }
+    .era-group.cenozoic .period-btn { background: rgba(200,100,20,.1); color: #6a3008; border-color: rgba(200,100,20,.3); }
+    .era-group.cenozoic .period-btn:hover:not(:disabled) { background: rgba(200,100,20,.22); }
+
+    .period-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
     .period-btn {
-      flex: 1 1 auto;
-      min-width: 80px;
-      padding: 8px 6px;
-      border-radius: 8px;
-      border: 1px solid rgba(255,255,255,.12);
+      flex: 1 1 auto; min-width: 76px;
+      padding: 8px 6px; border-radius: 8px; border: 1px solid;
       font-size: clamp(11px, 2.5vw, 13px);
-      font-family: inherit; font-weight: 600;
+      font-family: inherit; font-weight: 700;
       cursor: pointer; text-align: center;
-      transition: all .18s ease;
-      line-height: 1.3;
+      transition: all .18s ease; line-height: 1.3;
     }
-    /* per-era colors */
-    .era-group.precambrian .period-btn {
-      background: rgba(155,83,32,.28); color: #ffd090;
-    }
-    .era-group.precambrian .period-btn:hover:not(:disabled) {
-      background: rgba(155,83,32,.55); transform: scale(1.04);
-    }
-    .era-group.paleozoic .period-btn {
-      background: rgba(29,142,98,.25); color: #90ffd0;
-    }
-    .era-group.paleozoic .period-btn:hover:not(:disabled) {
-      background: rgba(29,142,98,.5); transform: scale(1.04);
-    }
-    .era-group.mesozoic .period-btn {
-      background: rgba(42,106,202,.25); color: #90c8ff;
-    }
-    .era-group.mesozoic .period-btn:hover:not(:disabled) {
-      background: rgba(42,106,202,.5); transform: scale(1.04);
-    }
-    .era-group.cenozoic .period-btn {
-      background: rgba(202,101,16,.25); color: #ffb870;
-    }
-    .era-group.cenozoic .period-btn:hover:not(:disabled) {
-      background: rgba(202,101,16,.5); transform: scale(1.04);
-    }
-
     .period-btn:disabled { cursor: default; }
     .period-btn.state-correct {
-      background: rgba(0,200,100,.35) !important;
-      border-color: rgba(0,200,100,.7) !important;
-      color: #90ffb8 !important;
-      box-shadow: 0 0 10px rgba(0,200,100,.25);
+      background: rgba(0,160,80,.2) !important;
+      border-color: rgba(0,160,80,.6) !important;
+      color: #0a6030 !important;
+      box-shadow: 0 0 10px rgba(0,160,80,.2);
     }
     .period-btn.state-wrong {
-      background: rgba(220,60,0,.35) !important;
-      border-color: rgba(220,60,0,.7) !important;
-      color: #ff9070 !important;
+      background: rgba(200,50,0,.15) !important;
+      border-color: rgba(200,50,0,.5) !important;
+      color: #9a2010 !important;
     }
-    .period-btn.state-dim {
-      opacity: .28;
-    }
+    .period-btn.state-dim { opacity: .3; }
+    .period-btn:hover:not(:disabled) { transform: scale(1.04); }
 
     /* ─── Results Screen ─── */
     #results-screen { display: none; }
-    .results-wrap {
-      max-width: 680px; margin: 0 auto;
-      padding: 36px 16px 60px;
-    }
+    .results-wrap { max-width: 680px; margin: 0 auto; padding: 36px 16px 60px; }
     .results-title {
-      text-align: center;
-      font-family: 'Cinzel', serif;
-      font-size: clamp(22px, 5vw, 30px);
-      margin-bottom: 8px;
+      text-align: center; font-family: 'Cinzel', serif;
+      font-size: clamp(22px, 5vw, 30px); margin-bottom: 8px;
     }
-    .score-ring-wrap {
-      width: 150px; height: 150px;
-      margin: 24px auto;
-      position: relative;
-    }
+    .score-ring-wrap { width: 150px; height: 150px; margin: 24px auto; position: relative; }
     .score-ring-wrap svg { transform: rotate(-90deg); }
-    .score-ring-inner {
-      position: absolute; inset: 0;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-    }
-    .score-num {
-      font-family: 'Cinzel', serif;
-      font-size: 38px; font-weight: 700; line-height: 1;
-    }
-    .score-denom { font-size: 14px; color: #6a5830; }
-    .score-pct { font-size: 16px; color: #a09070; text-align: center; margin-bottom: 32px; }
+    .score-ring-inner { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .score-num { font-family: 'Cinzel', serif; font-size: 38px; font-weight: 700; line-height: 1; }
+    .score-denom { font-size: 14px; color: #9a7840; }
+    .score-pct { font-size: 16px; color: #6a5030; text-align: center; margin-bottom: 32px; }
     .score-pct strong { font-size: 22px; font-weight: 700; }
 
-    /* Era breakdown */
-    .era-breakdown {
-      display: flex; flex-wrap: wrap; gap: 12px;
-      justify-content: center; margin-bottom: 36px;
-    }
-    .era-score-card {
-      padding: 14px 18px; border-radius: 10px;
-      text-align: center; min-width: 110px;
-    }
+    .era-breakdown { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 36px; }
+    .era-score-card { padding: 14px 18px; border-radius: 10px; text-align: center; min-width: 110px; }
     .era-score-label { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
     .era-score-num { font-size: 24px; font-weight: 700; }
     .era-score-num span { font-size: 14px; opacity: .6; }
 
-    /* History list */
-    .history-title {
-      font-size: 13px; color: #8a7050;
-      letter-spacing: .18em; text-align: center;
-      margin-bottom: 14px; text-transform: uppercase;
-    }
+    .history-title { font-size: 13px; color: #9a7840; letter-spacing: .18em; text-align: center; margin-bottom: 14px; text-transform: uppercase; }
     .history-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
-    .history-item {
-      display: flex; align-items: center; gap: 14px;
-      padding: 12px 14px; border-radius: 10px;
-    }
-    .history-item.correct {
-      background: rgba(0,200,100,.06);
-      border: 1px solid rgba(0,200,100,.2);
-    }
-    .history-item.wrong {
-      background: rgba(220,60,0,.06);
-      border: 1px solid rgba(220,60,0,.2);
-    }
-    .history-icon {
-      width: 26px; height: 26px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; flex-shrink: 0;
-    }
-    .history-item.correct .history-icon { background: rgba(0,200,100,.2); color: #60cc90; }
-    .history-item.wrong   .history-icon { background: rgba(220,60,0,.2);  color: #ff7050; }
+    .history-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border-radius: 10px; }
+    .history-item.correct { background: rgba(0,160,80,.06); border: 1px solid rgba(0,160,80,.2); }
+    .history-item.wrong   { background: rgba(200,50,0,.06);  border: 1px solid rgba(200,50,0,.18); }
+    .history-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+    .history-item.correct .history-icon { background: rgba(0,160,80,.15); color: #0a7a38; }
+    .history-item.wrong   .history-icon { background: rgba(200,50,0,.15);  color: #b02808; }
     .history-emoji { font-size: 32px; flex-shrink: 0; }
     .history-body { flex: 1; min-width: 0; }
     .history-name { font-size: 14px; font-weight: 700; }
-    .history-item.correct .history-name { color: #90d0a0; }
-    .history-item.wrong   .history-name { color: #e09080; }
-    .history-answer { font-size: 11px; color: #6a5830; margin-top: 3px; }
-    .history-answer .wrong-ans { color: #e09080; }
-    .history-index-badge {
-      flex-shrink: 0;
-      padding: 2px 8px; border-radius: 8px;
-      background: rgba(200,160,60,.15);
-      border: 1px solid rgba(200,160,60,.3);
-      font-size: 9px; color: #c8a040;
-    }
+    .history-item.correct .history-name { color: #0a6030; }
+    .history-item.wrong   .history-name { color: #9a2010; }
+    .history-answer { font-size: 11px; color: #9a7840; margin-top: 3px; }
+    .history-answer .wrong-ans { color: #c03010; }
+    .history-index-badge { flex-shrink: 0; padding: 2px 8px; border-radius: 8px; background: rgba(180,130,30,.12); border: 1px solid rgba(180,130,30,.3); font-size: 9px; color: #8b6010; font-weight: 700; }
 
-    /* Result action buttons */
-    .result-actions {
-      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
-    }
-    .result-btn {
-      padding: 12px 30px; border-radius: 24px;
-      font-size: 14px; font-weight: 700;
-      font-family: inherit; cursor: pointer;
-      letter-spacing: .06em; transition: all .18s;
-    }
-    .result-btn.primary {
-      background: linear-gradient(135deg, #c8a040, #e8c870);
-      border: none; color: #1a0f00;
-      box-shadow: 0 4px 20px rgba(200,160,60,.4);
-    }
+    .result-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .result-btn { padding: 12px 30px; border-radius: 24px; font-size: 14px; font-weight: 700; font-family: inherit; cursor: pointer; letter-spacing: .06em; transition: all .18s; }
+    .result-btn.primary { background: linear-gradient(135deg, #b8900a, #d8b030); border: none; color: #fff; box-shadow: 0 4px 18px rgba(180,130,30,.35); }
     .result-btn.primary:hover { transform: translateY(-2px); }
-    .result-btn.secondary {
-      background: rgba(255,255,255,.04);
-      border: 1px solid rgba(200,160,60,.3);
-      color: #c8a040;
-    }
-    .result-btn.secondary:hover { background: rgba(200,160,60,.1); }
+    .result-btn.secondary { background: rgba(180,130,30,.08); border: 1px solid rgba(180,130,30,.35); color: #7a5008; }
+    .result-btn.secondary:hover { background: rgba(180,130,30,.16); }
 
     /* ─── Flash overlay ─── */
     .flash-overlay {
-      pointer-events: none;
-      position: fixed; inset: 0; z-index: 200;
+      pointer-events: none; position: fixed; inset: 0; z-index: 200;
       opacity: 0; transition: opacity .15s;
     }
-    .flash-overlay.correct-flash { background: rgba(0,200,100,.14); }
-    .flash-overlay.wrong-flash   { background: rgba(220,60,0,.14); }
+    .flash-overlay.correct-flash { background: rgba(0,160,80,.12); }
+    .flash-overlay.wrong-flash   { background: rgba(200,50,0,.12); }
 
     /* ─── Responsive ─── */
     @media (max-width: 480px) {
       .org-image-wrap { width: 150px; height: 150px; }
-      .period-btn { min-width: 68px; font-size: 11px; padding: 7px 4px; }
+      .period-btn { min-width: 64px; font-size: 11px; padding: 7px 4px; }
       .header { padding: 10px 12px; gap: 10px; }
-      .quiz-main { padding: 20px 14px 0; }
-      .answer-drawer { width: 92vw; }
+      .quiz-main { padding: 20px 14px 40px; }
+      .answer-drawer { width: 94vw; }
     }
   </style>
 </head>
@@ -486,15 +332,11 @@
 
 <div class="flash-overlay" id="flashOverlay"></div>
 
-<!-- ════════════════════════════════════════
-     QUIZ SCREEN
-════════════════════════════════════════ -->
+<!-- ════════════ QUIZ SCREEN ════════════ -->
 <div id="quiz-screen">
 
-  <!-- Header -->
   <header class="header">
     <a href="index.html" class="header-btn">← ホーム</a>
-
     <div class="progress-wrap">
       <div class="progress-label">
         <span>問題 <span class="gold" id="qCurrent">1</span> / <span id="qTotal">15</span></span>
@@ -504,20 +346,18 @@
         <div class="progress-bar-fill" id="progressBar" style="width:0%"></div>
       </div>
     </div>
-
     <a href="timeline.html" class="header-btn blue">年表 →</a>
   </header>
 
-  <!-- Quiz body -->
   <div class="quiz-main" id="quizMain">
     <div style="text-align:center">
       <span class="q-chip">この生物が主に活躍した時代はどれ？</span>
     </div>
 
-    <!-- Organism card -->
     <div class="org-card" id="orgCard">
       <div class="org-image-wrap" id="orgImageWrap">
-        <img id="orgImg" src="" alt="" onerror="this.style.display='none'; document.getElementById('orgEmoji').style.display='block';" />
+        <img id="orgImg" src="" alt=""
+             onerror="this.style.display='none'; document.getElementById('orgEmoji').style.display='block';" />
         <div class="org-emoji-fallback" id="orgEmoji" style="display:none"></div>
       </div>
       <div class="org-name" id="orgName"></div>
@@ -526,7 +366,6 @@
       <p class="org-hint" id="orgHint"></p>
       <div id="feedbackBox"></div>
 
-      <!-- Open drawer button (shown only when not yet answered) -->
       <button class="open-drawer-btn" id="openDrawerBtn" onclick="openDrawer()">
         🗓️　年代を選ぶ　→
       </button>
@@ -535,14 +374,14 @@
         <button class="next-btn" id="nextBtn">次の問題 →</button>
       </div>
     </div>
-  </div><!-- .quiz-main -->
+  </div>
 
 </div><!-- #quiz-screen -->
 
-<!-- ── Drawer Overlay ── -->
+<!-- Overlay -->
 <div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
 
-<!-- ── Answer Drawer ── -->
+<!-- Answer Drawer -->
 <div class="answer-drawer" id="answerDrawer">
   <div class="drawer-header">
     <div class="drawer-header-title">🗓️　年代を選択</div>
@@ -555,36 +394,28 @@
 </div>
 
 
-<!-- ════════════════════════════════════════
-     RESULTS SCREEN
-════════════════════════════════════════ -->
+<!-- ════════════ RESULTS SCREEN ════════════ -->
 <div id="results-screen">
   <div class="results-wrap">
-    <div style="text-align:center; margin-bottom:4px; font-size:52px" id="resultsIcon">🏆</div>
-    <div class="results-title" id="resultsTitle" style="color:#e8c870"></div>
+    <div style="text-align:center;margin-bottom:4px;font-size:52px" id="resultsIcon">🏆</div>
+    <div class="results-title" id="resultsTitle"></div>
     <div class="score-ring-wrap">
       <svg width="150" height="150" viewBox="0 0 150 150">
-        <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="11"/>
+        <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(180,130,40,.15)" stroke-width="11"/>
         <circle id="scoreRingArc" cx="75" cy="75" r="62" fill="none"
-                stroke="#e8c870" stroke-width="11" stroke-linecap="round"
-                stroke-dasharray="0 390" style="transition: stroke-dasharray 1.2s ease;"/>
+                stroke="#b8900a" stroke-width="11" stroke-linecap="round"
+                stroke-dasharray="0 390" style="transition:stroke-dasharray 1.2s ease;"/>
       </svg>
       <div class="score-ring-inner">
-        <div class="score-num" id="scoreBig" style="color:#e8c870"></div>
+        <div class="score-num" id="scoreBig"></div>
         <div class="score-denom" id="scoreDenom"></div>
       </div>
     </div>
     <div class="score-pct" id="scorePct"></div>
-
-    <!-- Era breakdown -->
-    <div style="font-size:13px;color:#8a7050;letter-spacing:.18em;text-align:center;margin-bottom:14px;text-transform:uppercase;">── 時代別スコア ──</div>
+    <div style="font-size:13px;color:#9a7840;letter-spacing:.18em;text-align:center;margin-bottom:14px;text-transform:uppercase;">── 時代別スコア ──</div>
     <div class="era-breakdown" id="eraBreakdown"></div>
-
-    <!-- History -->
     <div class="history-title">── 解答一覧 ──</div>
     <div class="history-list" id="historyList"></div>
-
-    <!-- Actions -->
     <div class="result-actions">
       <button class="result-btn primary" onclick="restartQuiz()">もう一度挑戦</button>
       <a href="timeline.html" class="result-btn secondary">年表で復習</a>
@@ -594,21 +425,16 @@
 
 
 <script>
-// ══════════════════════════════════
-// Drawer
-// ══════════════════════════════════
+// ── Drawer ──
 function openDrawer() {
   const overlay = document.getElementById('drawerOverlay');
   const drawer  = document.getElementById('answerDrawer');
   overlay.classList.add('visible');
-  // Trigger reflow for transition
   void overlay.offsetWidth;
   overlay.classList.add('open');
   drawer.classList.add('open');
-  // Scroll drawer body to top
   drawer.querySelector('.drawer-body').scrollTop = 0;
 }
-
 function closeDrawer() {
   const overlay = document.getElementById('drawerOverlay');
   const drawer  = document.getElementById('answerDrawer');
@@ -617,14 +443,8 @@ function closeDrawer() {
   setTimeout(() => overlay.classList.remove('visible'), 320);
 }
 
-// ══════════════════════════════════
-// Quiz State
-// ══════════════════════════════════
-let quizList = [];
-let current = 0;
-let score = 0;
-let answered = false;
-let history = [];
+// ── Quiz State ──
+let quizList = [], current = 0, score = 0, answered = false, history = [];
 
 function shuffle(arr) {
   const a = [...arr];
@@ -643,67 +463,47 @@ function init() {
   renderQuestion();
 }
 
-// ══════════════════════════════════
-// Render one question
-// ══════════════════════════════════
+// ── Render Question ──
 function renderQuestion() {
   answered = false;
   const org = quizList[current];
   const total = quizList.length;
 
-  // Progress
   document.getElementById('qCurrent').textContent = current + 1;
   document.getElementById('qTotal').textContent = total;
   document.getElementById('qScore').textContent = score;
   document.getElementById('qAnswered').textContent = current;
   document.getElementById('progressBar').style.width = (current / total * 100) + '%';
 
-  // Organism card — re-trigger animation
   const card = document.getElementById('orgCard');
-  card.style.animation = 'none';
-  void card.offsetWidth;
-  card.style.animation = '';
+  card.style.animation = 'none'; void card.offsetWidth; card.style.animation = '';
 
-  // Image
-  const img = document.getElementById('orgImg');
+  const img   = document.getElementById('orgImg');
   const emoji = document.getElementById('orgEmoji');
-  img.style.display = '';
-  emoji.style.display = 'none';
-  img.src = getImagePath(org.id);
-  img.alt = org.name;
+  img.style.display = ''; emoji.style.display = 'none';
+  img.src = getImagePath(org.id); img.alt = org.name;
   emoji.textContent = org.emoji;
 
-  // Text
   document.getElementById('orgName').textContent = org.name;
   document.getElementById('orgNameEn').textContent = org.nameEn;
   document.getElementById('orgHint').textContent = org.hint;
+  document.getElementById('indexBadgeWrap').innerHTML = org.isIndexFossil
+    ? '<span class="index-badge">示準化石</span>' : '';
 
-  // Index fossil badge
-  const badgeWrap = document.getElementById('indexBadgeWrap');
-  badgeWrap.innerHTML = org.isIndexFossil
-    ? '<span class="index-badge">示準化石</span>'
-    : '';
-
-  // Clear feedback & next
   document.getElementById('feedbackBox').innerHTML = '';
   document.getElementById('nextBtnWrap').style.display = 'none';
   document.getElementById('answerInstruction').textContent = '─── 時代を選んでください ───';
 
-  // Show "open drawer" button, hide next btn
   const openBtn = document.getElementById('openDrawerBtn');
-  if (openBtn) { openBtn.style.display = ''; }
+  if (openBtn) openBtn.style.display = '';
 
-  // Render answer buttons (fresh, not answered)
   renderAnswerButtons(null, null);
 }
 
-// ══════════════════════════════════
-// Render answer button groups
-// ══════════════════════════════════
+// ── Render Answer Buttons ──
 function renderAnswerButtons(selectedId, correctId) {
   const container = document.getElementById('answerButtons');
   container.innerHTML = '';
-
   ERA_GROUPS.forEach(group => {
     const div = document.createElement('div');
     div.className = 'era-group ' + group.id;
@@ -719,26 +519,19 @@ function renderAnswerButtons(selectedId, correctId) {
     group.periods.forEach(pid => {
       const period = getPeriodById(pid);
       if (!period) return;
-
       const btn = document.createElement('button');
       btn.className = 'period-btn';
       btn.dataset.periodId = pid;
       btn.textContent = period.name;
 
       if (selectedId !== null) {
-        // Show result state
         btn.disabled = true;
-        if (pid === correctId) {
-          btn.classList.add('state-correct');
-        } else if (pid === selectedId && pid !== correctId) {
-          btn.classList.add('state-wrong');
-        } else {
-          btn.classList.add('state-dim');
-        }
+        if (pid === correctId) btn.classList.add('state-correct');
+        else if (pid === selectedId) btn.classList.add('state-wrong');
+        else btn.classList.add('state-dim');
       } else {
         btn.addEventListener('click', () => handleAnswer(pid));
       }
-
       btnRow.appendChild(btn);
     });
 
@@ -747,16 +540,13 @@ function renderAnswerButtons(selectedId, correctId) {
   });
 }
 
-// ══════════════════════════════════
-// Handle answer selection
-// ══════════════════════════════════
+// ── Handle Answer ──
 function handleAnswer(selectedPeriodId) {
   if (answered) return;
   answered = true;
 
   const org = quizList[current];
   const correct = selectedPeriodId === org.correctPeriod;
-
   if (correct) score++;
   history.push({ org, correct, selected: selectedPeriodId });
 
@@ -766,16 +556,15 @@ function handleAnswer(selectedPeriodId) {
   flashOv.style.opacity = '1';
   setTimeout(() => { flashOv.style.opacity = '0'; flashOv.className = 'flash-overlay'; }, 600);
 
-  // Close drawer after brief delay so user sees result state in buttons
+  // Close drawer
   setTimeout(() => closeDrawer(), 600);
 
-  // Update answer buttons
+  // Update buttons
   renderAnswerButtons(selectedPeriodId, org.correctPeriod);
 
-  // Feedback box
+  // Feedback
   const correctPeriod = getPeriodById(org.correctPeriod);
-  const fb = document.getElementById('feedbackBox');
-  fb.innerHTML = `
+  document.getElementById('feedbackBox').innerHTML = `
     <div class="feedback-box ${correct ? 'correct' : 'wrong'}">
       <div class="feedback-title">${correct ? '✓　正解！' : '✗　不正解'}</div>
       <div class="feedback-correct-label">正解：${correctPeriod ? correctPeriod.name : ''}（${org.periodLabel}）</div>
@@ -783,18 +572,15 @@ function handleAnswer(selectedPeriodId) {
     </div>
   `;
 
-  // Update progress
   document.getElementById('qScore').textContent = score;
   document.getElementById('qAnswered').textContent = current + 1;
   document.getElementById('progressBar').style.width = ((current + 1) / quizList.length * 100) + '%';
-
-  // Instruction + Next button
   document.getElementById('answerInstruction').textContent = '─── 確認後、次の問題へ ───';
-  const nextWrap = document.getElementById('nextBtnWrap');
-  const nextBtn = document.getElementById('nextBtn');
-  // Hide "year select" button, show "next" button
+
   const openBtn = document.getElementById('openDrawerBtn');
   if (openBtn) openBtn.style.display = 'none';
+  const nextWrap = document.getElementById('nextBtnWrap');
+  const nextBtn  = document.getElementById('nextBtn');
   nextWrap.style.display = '';
   const isLast = current + 1 >= quizList.length;
   nextBtn.textContent = isLast ? '結果を見る →' : '次の問題 →';
@@ -804,68 +590,62 @@ function handleAnswer(selectedPeriodId) {
 function nextQuestion() {
   current++;
   renderQuestion();
-  // Scroll org card into view
   document.getElementById('orgCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
-// ══════════════════════════════════
-// Results
-// ══════════════════════════════════
+// ── Results ──
 function showResults() {
   document.getElementById('quiz-screen').style.display = 'none';
-  const rs = document.getElementById('results-screen');
-  rs.style.display = '';
+  document.getElementById('results-screen').style.display = '';
 
   const total = quizList.length;
   const pct = Math.round(score / total * 100);
 
-  const grade = pct >= 90 ? { label: '地質博士！', icon: '🏆', color: '#e8c870' }
-              : pct >= 70 ? { label: 'よくできました', icon: '🌟', color: '#90d0a0' }
-              : pct >= 50 ? { label: 'まずまずです', icon: '📚', color: '#90b0e0' }
-              :             { label: 'もう一度挑戦！', icon: '🦴', color: '#e09080' };
+  const grade = pct >= 90 ? { label: '地質博士！', icon: '🏆', color: '#8b6010' }
+              : pct >= 70 ? { label: 'よくできました', icon: '🌟', color: '#1a7a40' }
+              : pct >= 50 ? { label: 'まずまずです', icon: '📚', color: '#1a4a9a' }
+              :             { label: 'もう一度挑戦！', icon: '🦴', color: '#9a3010' };
 
   document.getElementById('resultsIcon').textContent = grade.icon;
-  document.getElementById('resultsTitle').textContent = grade.label;
-  document.getElementById('resultsTitle').style.color = grade.color;
-  document.getElementById('scoreBig').textContent = score;
-  document.getElementById('scoreBig').style.color = grade.color;
+  const titleEl = document.getElementById('resultsTitle');
+  titleEl.textContent = grade.label; titleEl.style.color = grade.color;
+  const bigEl = document.getElementById('scoreBig');
+  bigEl.textContent = score; bigEl.style.color = grade.color;
   document.getElementById('scoreDenom').textContent = '/ ' + total;
   document.getElementById('scorePct').innerHTML = `正解率 <strong style="color:${grade.color}">${pct}%</strong>`;
 
-  // Ring animation
   const circ = 2 * Math.PI * 62;
   const arc = document.getElementById('scoreRingArc');
   arc.style.stroke = grade.color;
-  setTimeout(() => {
-    arc.style.strokeDasharray = `${circ * pct / 100} ${circ}`;
-  }, 100);
+  setTimeout(() => { arc.style.strokeDasharray = `${circ * pct / 100} ${circ}`; }, 100);
 
-  // Era breakdown
+  // Era colors for result cards (light theme)
+  const eraResultStyles = {
+    precambrian: { bg: 'rgba(180,100,40,.1)', border: 'rgba(180,100,40,.3)', text: '#8b4010' },
+    paleozoic:   { bg: 'rgba(30,140,80,.1)',  border: 'rgba(30,140,80,.3)',  text: '#0a6030' },
+    mesozoic:    { bg: 'rgba(40,100,200,.1)', border: 'rgba(40,100,200,.3)', text: '#1a4a9a' },
+    cenozoic:    { bg: 'rgba(200,100,20,.1)', border: 'rgba(200,100,20,.3)', text: '#8b4a08' },
+  };
+
   const eb = document.getElementById('eraBreakdown');
   eb.innerHTML = '';
   ERA_GROUPS.forEach(group => {
-    const groupHistory = history.filter(h => {
-      const p = getPeriodById(h.org.correctPeriod);
-      return p && p.era === group.id;
-    });
+    const groupHistory = history.filter(h => { const p = getPeriodById(h.org.correctPeriod); return p && p.era === group.id; });
     if (groupHistory.length === 0) return;
     const gs = groupHistory.filter(h => h.correct).length;
     const gt = groupHistory.length;
+    const s = eraResultStyles[group.id] || {};
     const card = document.createElement('div');
     card.className = 'era-score-card';
-    card.style.cssText = `background:${group.barColor}22; border:1px solid ${group.barColor}44;`;
-    card.innerHTML = `
-      <div class="era-score-label" style="color:${group.textColor}">${group.name}</div>
-      <div class="era-score-num" style="color:${group.textColor}">${gs}<span>/${gt}</span></div>
-    `;
+    card.style.cssText = `background:${s.bg};border:1px solid ${s.border};`;
+    card.innerHTML = `<div class="era-score-label" style="color:${s.text}">${group.name}</div><div class="era-score-num" style="color:${s.text}">${gs}<span>/${gt}</span></div>`;
     eb.appendChild(card);
   });
 
-  // History list
   const hl = document.getElementById('historyList');
   hl.innerHTML = '';
   history.forEach(h => {
-    const selPeriod = getPeriodById(h.selected);
+    const selPeriod  = getPeriodById(h.selected);
     const corrPeriod = getPeriodById(h.org.correctPeriod);
     const item = document.createElement('div');
     item.className = 'history-item ' + (h.correct ? 'correct' : 'wrong');
@@ -887,14 +667,8 @@ function showResults() {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function restartQuiz() {
-  init();
-  window.scrollTo({ top: 0 });
-}
+function restartQuiz() { init(); window.scrollTo({ top: 0 }); }
 
-// ══════════════════════════════════
-// Start
-// ══════════════════════════════════
 init();
 </script>
 </body>

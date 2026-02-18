@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>地質年代クイズ</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="icon" href="../../images/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet" />
   <script src="data.js"></script>
   <style>
@@ -15,164 +14,109 @@
       background:
         repeating-linear-gradient(180deg,
           transparent 0, transparent 79px,
-          rgba(140,90,30,.05) 79px, rgba(140,90,30,.05) 81px),
-        linear-gradient(180deg, #0a0604 0%, #1a0f08 50%, #0e0b06 100%);
+          rgba(160,120,60,.06) 79px, rgba(160,120,60,.06) 81px),
+        linear-gradient(180deg, #fdf6e3 0%, #f7edd0 50%, #faf3e0 100%);
       font-family: 'Noto Serif JP', Georgia, serif;
-      color: #e8d5b0;
+      color: #2a1f0a;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      padding: 40px 20px;
-      text-align: center;
+      padding: 40px 20px; text-align: center;
     }
     ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: #0a0604; }
-    ::-webkit-scrollbar-thumb { background: #6a4a20; border-radius: 3px; }
+    ::-webkit-scrollbar-track { background: #f7edd0; }
+    ::-webkit-scrollbar-thumb { background: #c8a060; border-radius: 3px; }
 
-    /* Era rainbow bar */
     .era-bar {
       display: flex; width: 100%; max-width: 560px;
-      height: 6px; border-radius: 3px; overflow: hidden; margin-bottom: 52px;
+      height: 7px; border-radius: 4px; overflow: hidden; margin-bottom: 52px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.12);
     }
     .era-bar div { flex: 1; }
 
-    /* Fossil float */
     .fossil-float {
       animation: float 4s ease-in-out infinite;
       font-size: 58px; margin-bottom: 20px;
+      filter: drop-shadow(0 4px 10px rgba(160,100,20,.2));
     }
     @keyframes float {
       0%,100% { transform: translateY(0) rotate(0deg); }
       50%      { transform: translateY(-9px) rotate(2deg); }
     }
 
-    /* Title */
     h1 {
       font-family: 'Cinzel', serif;
-      font-size: clamp(28px, 7vw, 54px);
-      font-weight: 700; letter-spacing: .08em;
-      background: linear-gradient(135deg, #e8c870 0%, #f8e090 40%, #c8a040 70%, #e8c870 100%);
+      font-size: clamp(28px, 7vw, 54px); font-weight: 700; letter-spacing: .08em;
+      background: linear-gradient(135deg, #8b5e10 0%, #b8800a 40%, #7a4e08 70%, #a06c10 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; margin-bottom: 8px; line-height: 1.2;
     }
     .subtitle {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(11px, 2vw, 15px);
-      letter-spacing: .22em; color: #a08850;
-      text-transform: uppercase; margin-bottom: 12px;
+      font-family: 'Cinzel', serif; font-size: clamp(11px, 2vw, 14px);
+      letter-spacing: .22em; color: #9a7830; text-transform: uppercase; margin-bottom: 12px;
     }
     .divider {
-      width: 60px; height: 1px;
-      background: linear-gradient(90deg, transparent, #c8a040, transparent);
+      width: 60px; height: 1.5px;
+      background: linear-gradient(90deg, transparent, #b8900a, transparent);
       margin: 0 auto 28px;
     }
-    .tagline {
-      font-size: clamp(13px, 2vw, 15px);
-      color: #b09070; max-width: 380px;
-      line-height: 1.9; margin-bottom: 56px;
-    }
+    .tagline { font-size: clamp(13px, 2vw, 15px); color: #5a4520; max-width: 380px; line-height: 1.95; margin-bottom: 56px; }
 
-    /* Nav cards */
-    .nav-cards {
-      display: flex; gap: 22px; flex-wrap: wrap;
-      justify-content: center; margin-bottom: 52px;
-    }
+    .nav-cards { display: flex; gap: 22px; flex-wrap: wrap; justify-content: center; margin-bottom: 52px; }
     .nav-card {
-      width: 210px; padding: 28px 20px;
-      border-radius: 14px; cursor: pointer;
-      text-decoration: none; display: block;
-      transition: transform .25s, box-shadow .25s;
-      text-align: center;
+      width: 220px; padding: 28px 20px; border-radius: 16px; cursor: pointer;
+      text-decoration: none; display: block; transition: transform .25s, box-shadow .25s;
+      text-align: center; box-shadow: 0 4px 18px rgba(0,0,0,.1);
     }
-    .nav-card:hover { transform: translateY(-6px); }
+    .nav-card:hover { transform: translateY(-6px); box-shadow: 0 12px 36px rgba(0,0,0,.16); }
     .nav-card-icon { font-size: 38px; margin-bottom: 14px; }
-    .nav-card-title {
-      font-size: 14px; font-weight: 700;
-      letter-spacing: .05em; margin-bottom: 7px;
-    }
-    .nav-card-sub { font-size: 11px; color: #a09070; margin-bottom: 16px; line-height: 1.6; }
-    .nav-card-btn {
-      display: inline-block; padding: 6px 16px;
-      border-radius: 20px; font-size: 11px;
-      letter-spacing: .1em;
-    }
+    .nav-card-title { font-size: 14px; font-weight: 700; letter-spacing: .05em; margin-bottom: 7px; }
+    .nav-card-sub { font-size: 11px; color: #7a6040; margin-bottom: 16px; line-height: 1.65; }
+    .nav-card-btn { display: inline-block; padding: 7px 18px; border-radius: 20px; font-size: 11px; letter-spacing: .1em; font-weight: 600; }
 
-    /* Legend */
     .legend { display: flex; gap: 18px; flex-wrap: wrap; justify-content: center; }
     .legend-item { display: flex; align-items: center; gap: 7px; }
     .legend-dot { width: 11px; height: 11px; border-radius: 2px; }
-    .legend-label { font-size: 11px; color: #8a7050; }
+    .legend-label { font-size: 11px; color: #7a6040; }
 
-    @media (max-width: 480px) {
-      .nav-cards { flex-direction: column; align-items: center; }
-    }
+    @media (max-width: 480px) { .nav-cards { flex-direction: column; align-items: center; } }
   </style>
 </head>
 <body>
-
-<!-- Era bar -->
 <div class="era-bar" id="eraBar"></div>
-
-<!-- Floating fossil -->
 <div class="fossil-float">🦴</div>
-
-<!-- Title -->
 <h1>地質年代クイズ</h1>
 <div class="subtitle">Geological Eras &amp; Life</div>
 <div class="divider"></div>
-<p class="tagline">
-  地球46億年の歴史を旅しよう。<br>
-  生物の進化と地質年代の変遷を、<br>
-  インタラクティブな年表とクイズで学ぶ。
-</p>
+<p class="tagline">地球46億年の歴史を旅しよう。<br>生物の進化と地質年代の変遷を、<br>インタラクティブな年表とクイズで学ぶ。</p>
 
-<!-- Nav cards -->
 <div class="nav-cards">
   <a href="timeline.html" class="nav-card"
-     style="background:linear-gradient(135deg,#6b402088,#6b402066);border:1px solid rgba(200,160,60,.3);box-shadow:0 4px 20px rgba(0,0,0,.35);">
+     style="background:linear-gradient(135deg,#fffbe8,#fdf3cc);border:1px solid rgba(180,130,30,.35);">
     <div class="nav-card-icon">📜</div>
-    <div class="nav-card-title" style="color:#c8a040">インタラクティブ年表</div>
+    <div class="nav-card-title" style="color:#8b6010">インタラクティブ年表</div>
     <div class="nav-card-sub">地質年代と生物を視覚的に<br>クリックして詳細を確認</div>
-    <div class="nav-card-btn" style="background:rgba(200,160,60,.15);border:1px solid rgba(200,160,60,.4);color:#c8a040">
-      年表を見る →
-    </div>
+    <div class="nav-card-btn" style="background:rgba(180,130,30,.15);border:1px solid rgba(180,130,30,.4);color:#7a5008">年表を見る →</div>
   </a>
   <a href="quiz.html" class="nav-card"
-     style="background:linear-gradient(135deg,#1a3a7a88,#1a3a7a66);border:1px solid rgba(74,144,208,.3);box-shadow:0 4px 20px rgba(0,0,0,.35);">
+     style="background:linear-gradient(135deg,#eaf4ff,#d8ecff);border:1px solid rgba(60,120,200,.3);">
     <div class="nav-card-icon">🔬</div>
-    <div class="nav-card-title" style="color:#6ab0e8">クイズに挑戦</div>
+    <div class="nav-card-title" style="color:#1a5a9a">クイズに挑戦</div>
     <div class="nav-card-sub">15問・「紀」で答える<br>生物と時代を結びつける</div>
-    <div class="nav-card-btn" style="background:rgba(74,144,208,.15);border:1px solid rgba(74,144,208,.4);color:#6ab0e8">
-      クイズを始める →
-    </div>
+    <div class="nav-card-btn" style="background:rgba(60,120,200,.12);border:1px solid rgba(60,120,200,.35);color:#1a5a9a">クイズを始める →</div>
   </a>
 </div>
 
-<!-- Era legend -->
 <div class="legend" id="legend"></div>
-
-<!-- Bottom bar -->
 <div class="era-bar" id="eraBar2" style="margin-top:40px;margin-bottom:0"></div>
 
 <script>
-// Build era color bars and legend from data
-const bars = ['eraBar', 'eraBar2'];
-bars.forEach(id => {
+['eraBar','eraBar2'].forEach(id => {
   const el = document.getElementById(id);
-  ERA_GROUPS.forEach(g => {
-    const d = document.createElement('div');
-    d.style.background = g.color;
-    el.appendChild(d);
-  });
+  ERA_GROUPS.forEach(g => { const d = document.createElement('div'); d.style.background = g.color; el.appendChild(d); });
 });
-
 const legend = document.getElementById('legend');
 ERA_GROUPS.forEach(g => {
-  legend.innerHTML += `
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${g.color}"></div>
-      <span class="legend-label">${g.name}</span>
-    </div>
-  `;
+  legend.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${g.color}"></div><span class="legend-label">${g.name}</span></div>`;
 });
 </script>
 </body>
