@@ -1,6 +1,6 @@
-const sectionItems2 = [
+const sectionItems3 = [
     {
-        icon: "💰",
+        icon: "🗒️",
         title: "3学期期末試験対策用 一問一答",
         titleEN: "Political and Economic Flashcards for 3rd Final Exam",
         description: "戦後経済史の年表です",
