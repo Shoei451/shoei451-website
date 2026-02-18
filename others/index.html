@@ -83,6 +83,17 @@
     <!-- Section 1 Cards-->
 </section>
 
+<!-- SECTION 2-->
+<div class="section-divider">
+    <h2 class="section-title">地学基礎</h2>
+    <p class="section-description">地学基礎の知識クイズです</p>
+</div>
+
+<section class="cards-container" id="container2">
+    <!-- Section 2 Cards-->
+</section>
+
+
 
 <!-- SECTION 3-->
 <div class="section-divider">
@@ -111,6 +122,7 @@
 
 <!-- Scripts -->
 <script src="list1.js"></script>
+<script src="list2.js"></script>
 <script src="list3.js"></script>
 <script src="list4.js"></script>
 <script>
@@ -183,7 +195,9 @@ cardElement.innerHTML = `
 document.addEventListener('DOMContentLoaded', () => {
     // Generate Section 1
     generateCards(sectionItems1, 'container1');
-    
+
+    // Generate Section 2
+    generateCards(sectionItems2, 'container2');
     
 
     // Generate Section 3 (Optional)
