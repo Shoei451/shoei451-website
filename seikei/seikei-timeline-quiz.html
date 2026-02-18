@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>戦後経済史 年代クイズ — Shoei451</title>
+    <title>謌ｦ蠕檎ｵ梧ｸ亥彰 蟷ｴ莉｣繧ｯ繧､繧ｺ 窶・Shoei451</title>
     <link rel="icon" href="../images/favicon.png" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
@@ -163,52 +163,74 @@
         }
 
         .category-chips {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 10px;
         }
 
-        .category-chip {
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
+        button.category-chip {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
-            border: 2px solid transparent;
+            border: 2px solid var(--border-light);
+            background: var(--bg-light);
+            color: var(--text-light);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .category-chip:hover {
-            transform: translateY(-2px);
+        button.category-chip::before {
+            content: "";
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid var(--border-light);
+            background: transparent;
+            flex-shrink: 0;
+        }
+
+        button.category-chip:hover {
+            border-color: var(--accent-gold);
             box-shadow: 0 4px 8px var(--shadow-light);
         }
 
-        .category-chip.selected {
-            border-color: var(--accent-navy);
-            box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.3);
+        button.category-chip.selected {
+            border-color: var(--accent-gold);
+            background: rgba(250, 186, 64, 0.14);
+            box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
         }
 
-        body.dark .category-chip.selected {
+        button.category-chip.selected::before {
+            background: var(--accent-gold);
             border-color: var(--accent-gold);
         }
 
-        .category-chip.国際政治 { background: #E3F2FD; color: #1565C0; }
-        .category-chip.国際経済 { background: #FFF9C4; color: #F57F17; }
-        .category-chip.国内政治 { background: #BBDEFB; color: #0D47A1; }
-        .category-chip.日銀金融政策 { background: #E8F5E9; color: #2E7D32; }
-        .category-chip.農業 { background: #F1F8E9; color: #558B2F; }
-        .category-chip.消費者生活・公害対策 { background: #E0F2F1; color: #00695C; }
-        .category-chip.労働問題 { background: #FCE4EC; color: #C2185B; }
-        .category-chip.社会保障 { background: #FFF3E0; color: #E65100; }
+        .category-chip.is-badge {
+            width: auto;
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 999px;
+            cursor: default;
+            background: rgba(250, 186, 64, 0.15);
+            border-color: rgba(250, 186, 64, 0.4);
+            color: var(--text-light);
+            text-align: center;
+        }
 
-        body.dark .category-chip.国際政治 { background: #1565C0; color: #E3F2FD; }
-        body.dark .category-chip.国際経済 { background: #F57F17; color: #FFF9C4; }
-        body.dark .category-chip.国内政治 { background: #0D47A1; color: #BBDEFB; }
-        body.dark .category-chip.日銀金融政策 { background: #2E7D32; color: #E8F5E9; }
-        body.dark .category-chip.農業 { background: #558B2F; color: #F1F8E9; }
-        body.dark .category-chip.消費者生活・公害対策 { background: #00695C; color: #E0F2F1; }
-        body.dark .category-chip.労働問題 { background: #C2185B; color: #FCE4EC; }
-        body.dark .category-chip.社会保障 { background: #E65100; color: #FFF3E0; }
+        .category-chip.is-badge::before {
+            display: none;
+        }
+
+        body.dark button.category-chip.selected {
+            background: rgba(250, 186, 64, 0.22);
+        }
 
         button {
             background: var(--accent-gold);
@@ -427,8 +449,8 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>📅 戦後経済史 年代クイズ</h1>
-            <button onclick="window.location.href='index.html'">政治・経済ホームへ戻る</button>
+            <h1>套 謌ｦ蠕檎ｵ梧ｸ亥彰 蟷ｴ莉｣繧ｯ繧､繧ｺ</h1>
+            <button onclick="window.location.href='index.html'">謾ｿ豐ｻ繝ｻ邨梧ｸ医・繝ｼ繝縺ｸ謌ｻ繧・/button>
             <span class="logo-switches">
                 <button id="theme-toggle" type="button" title="Toggle Theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -453,24 +475,24 @@
     <div class="container">
         <!-- Setup Screen -->
         <div id="setupScreen" class="setup-screen">
-            <h2>クイズ設定</h2>
+            <h2>繧ｯ繧､繧ｺ險ｭ螳・/h2>
             
             <div class="form-group">
-                <label>出題カテゴリを選択（複数選択可）</label>
+                <label>蜃ｺ鬘後き繝・ざ繝ｪ繧帝∈謚橸ｼ郁､・焚驕ｸ謚槫庄・・/label>
                 <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-                    <button type="button" onclick="selectAllCategories()" style="padding: 8px 16px; font-size: 0.9rem;">全選択</button>
-                    <button type="button" onclick="clearAllCategories()" style="padding: 8px 16px; font-size: 0.9rem; background: var(--bg-light-secondary); color: var(--text-light); border: 2px solid var(--border-light);">選択解除</button>
+                    <button type="button" onclick="selectAllCategories()" style="padding: 8px 16px; font-size: 0.9rem;">蜈ｨ驕ｸ謚・/button>
+                    <button type="button" onclick="clearAllCategories()" style="padding: 8px 16px; font-size: 0.9rem; background: var(--bg-light-secondary); color: var(--text-light); border: 2px solid var(--border-light);">驕ｸ謚櫁ｧ｣髯､</button>
                 </div>
                 <div class="category-chips" id="categorySelection"></div>
             </div>
 
             <div class="form-group">
-                <label for="questionCount">出題数</label>
+                <label for="questionCount">蜃ｺ鬘梧焚</label>
                 <input type="number" id="questionCount" min="5" max="50" value="10">
             </div>
 
             <div style="text-align: center; margin-top: 30px;">
-                <button id="startQuizBtn" onclick="startQuiz()">クイズを開始</button>
+                <button id="startQuizBtn" onclick="startQuiz()">繧ｯ繧､繧ｺ繧帝幕蟋・/button>
             </div>
         </div>
 
@@ -484,33 +506,33 @@
             </div>
 
             <div class="answer-input">
-                <label for="yearInput">この出来事は何年？</label>
+                <label for="yearInput">縺薙・蜃ｺ譚･莠九・菴募ｹｴ・・/label>
                 <input type="text" id="yearInput" placeholder="Type here..." maxlength="4" inputmode="numeric">
             </div>
 
             <div id="feedback" class="feedback hidden"></div>
 
             <div class="quiz-controls">
-                <button id="submitAnswerBtn" onclick="submitAnswer()">回答する</button>
-                <button id="nextQuestionBtn" class="hidden" onclick="nextQuestion()">次の問題</button>
+                <button id="submitAnswerBtn" onclick="submitAnswer()">蝗樒ｭ斐☆繧・/button>
+                <button id="nextQuestionBtn" class="hidden" onclick="nextQuestion()">谺｡縺ｮ蝠城｡・/button>
             </div>
         </div>
 
         <!-- Result Screen -->
         <div id="resultScreen" class="result-screen hidden">
-            <h2>クイズ結果</h2>
+            <h2>繧ｯ繧､繧ｺ邨先棡</h2>
             
             <div class="score-summary">
                 <div class="score-card">
-                    <div class="label">正解数</div>
+                    <div class="label">豁｣隗｣謨ｰ</div>
                     <div class="number" id="correctCount"></div>
                 </div>
                 <div class="score-card">
-                    <div class="label">不正解数</div>
+                    <div class="label">荳肴ｭ｣隗｣謨ｰ</div>
                     <div class="number" id="incorrectCount"></div>
                 </div>
                 <div class="score-card">
-                    <div class="label">正解率</div>
+                    <div class="label">豁｣隗｣邇・/div>
                     <div class="number" id="accuracy"></div>
                 </div>
             </div>
@@ -518,12 +540,12 @@
             <div id="mistakesList" class="mistakes-list"></div>
 
             <div style="text-align: center; margin-top: 30px;">
-                <button onclick="resetQuiz()">もう一度挑戦</button>
+                <button onclick="resetQuiz()">繧ゅ≧荳蠎ｦ謖第姶</button>
             </div>
         </div>
 
         <div id="loadingScreen" class="loading">
-            <p>データを読み込み中...</p>
+            <p>繝・・繧ｿ繧定ｪｭ縺ｿ霎ｼ縺ｿ荳ｭ...</p>
         </div>
     </div>
 
@@ -542,7 +564,7 @@
         let userAnswers = [];
         let currentAnswer = null;
 
-        const categories = ['国際政治', '国際経済', '国内政治', '日銀金融政策', '農業', '消費者生活・公害対策', '労働問題', '社会保障'];
+        const categories = ['蝗ｽ髫帶帆豐ｻ', '蝗ｽ髫帷ｵ梧ｸ・, '蝗ｽ蜀・帆豐ｻ', '譌･驫驥題檮謾ｿ遲・, '霎ｲ讌ｭ', '豸郁ｲｻ閠・函豢ｻ繝ｻ蜈ｬ螳ｳ蟇ｾ遲・, '蜉ｴ蜒榊撫鬘・, '遉ｾ莨壻ｿ晞囿'];
 
         // Theme handling
         (function initTheme() {
@@ -590,15 +612,16 @@
                 allEvents = data || [];
             } catch (error) {
                 console.error('Error loading events:', error);
-                alert('データの読み込みに失敗しました。ページをリロードしてください。');
+                alert('繝・・繧ｿ縺ｮ隱ｭ縺ｿ霎ｼ縺ｿ縺ｫ螟ｱ謨励＠縺ｾ縺励◆縲ゅ・繝ｼ繧ｸ繧偵Μ繝ｭ繝ｼ繝峨＠縺ｦ縺上□縺輔＞縲・);
             }
         }
 
         function renderCategorySelection() {
             const container = document.getElementById('categorySelection');
-            container.innerHTML = categories.map(cat => 
-                `<div class="category-chip ${cat}" onclick="toggleCategory('${cat}')">${cat}</div>`
-            ).join('');
+            container.innerHTML = categories.map(cat => {
+                const escaped = cat.replace(/'/g, "\\'");
+                return `<button type="button" class="category-chip" data-category="${cat}" onclick="toggleCategory('${escaped}')">${cat}</button>`;
+            }).join('');
         }
 
         function toggleCategory(category) {
@@ -621,9 +644,9 @@
         }
 
         function updateCategoryUI() {
-            categories.forEach(cat => {
-                const elem = document.querySelector(`.category-chip.${cat}`);
-                if (selectedCategories.has(cat)) {
+            document.querySelectorAll('#categorySelection .category-chip').forEach(elem => {
+                const category = elem.dataset.category;
+                if (selectedCategories.has(category)) {
                     elem.classList.add('selected');
                 } else {
                     elem.classList.remove('selected');
@@ -633,13 +656,13 @@
 
         function startQuiz() {
             if (selectedCategories.size === 0) {
-                alert('少なくとも1つのカテゴリを選択してください');
+                alert('蟆代↑縺上→繧・縺､縺ｮ繧ｫ繝・ざ繝ｪ繧帝∈謚槭＠縺ｦ縺上□縺輔＞');
                 return;
             }
 
             const count = parseInt(document.getElementById('questionCount').value);
             if (count < 5 || count > 50) {
-                alert('出題数は5〜50の範囲で指定してください');
+                alert('蜃ｺ鬘梧焚縺ｯ5縲・0縺ｮ遽・峇縺ｧ謖・ｮ壹＠縺ｦ縺上□縺輔＞');
                 return;
             }
 
@@ -647,7 +670,7 @@
             const filteredEvents = allEvents.filter(e => selectedCategories.has(e.category));
             
             if (filteredEvents.length < count) {
-                alert(`選択したカテゴリには${filteredEvents.length}個のイベントしかありません`);
+                alert(`驕ｸ謚槭＠縺溘き繝・ざ繝ｪ縺ｫ縺ｯ${filteredEvents.length}蛟九・繧､繝吶Φ繝医＠縺九≠繧翫∪縺帙ｓ`);
                 return;
             }
 
@@ -664,10 +687,10 @@
             const question = quizQuestions[currentQuestionIndex];
             
             document.getElementById('questionNumber').textContent = 
-                `問題 ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+                `蝠城｡・${currentQuestionIndex + 1} / ${quizQuestions.length}`;
             
             document.getElementById('categoryChip').innerHTML = 
-                `<span class="category-chip ${question.category}">${question.category}</span>`;
+                `<span class="category-chip is-badge">${question.category}</span>`;
             
             document.getElementById('eventTitle').textContent = question.title;
             document.getElementById('eventDescription').textContent = question.description || '';
@@ -685,7 +708,7 @@
             const input = document.getElementById('yearInput').value.trim();
             
             if (!input || !/^\d{4}$/.test(input)) {
-                alert('4桁の年を半角数字で入力してください（例：1945）');
+                alert('4譯√・蟷ｴ繧貞濠隗呈焚蟄励〒蜈･蜉帙＠縺ｦ縺上□縺輔＞・井ｾ具ｼ・945・・);
                 return;
             }
 
@@ -709,10 +732,10 @@
             
             if (isCorrect) {
                 feedback.classList.add('correct');
-                feedback.innerHTML = `✓ 正解！<br>${correctYear}年`;
+                feedback.innerHTML = `笨・豁｣隗｣・・br>${correctYear}蟷ｴ`;
             } else {
                 feedback.classList.add('incorrect');
-                feedback.innerHTML = `× 不正解<br>あなたの回答: ${userYear}年<br>正解: ${correctYear}年`;
+                feedback.innerHTML = `ﾃ・荳肴ｭ｣隗｣<br>縺ゅ↑縺溘・蝗樒ｭ・ ${userYear}蟷ｴ<br>豁｣隗｣: ${correctYear}蟷ｴ`;
             }
 
             document.getElementById('submitAnswerBtn').classList.add('hidden');
@@ -744,19 +767,19 @@
             
             if (mistakes.length > 0) {
                 mistakesList.innerHTML = `
-                    <h3 style="color: var(--text-light); margin-bottom: 20px;">間違えた問題（復習用）</h3>
+                    <h3 style="color: var(--text-light); margin-bottom: 20px;">髢馴＆縺医◆蝠城｡鯉ｼ亥ｾｩ鄙堤畑・・/h3>
                     ${mistakes.map(m => `
                         <div class="mistake-item">
                             <div class="mistake-header">
                                 <span class="mistake-title">${m.question.title}</span>
-                                <span class="category-chip ${m.question.category}">${m.question.category}</span>
+                                <span class="category-chip is-badge">${m.question.category}</span>
                             </div>
                             <div style="color: var(--text-light-secondary); font-size: 0.9rem; margin-top: 5px;">
                                 ${m.question.description || ''}
                             </div>
                             <div class="mistake-answers">
-                                <span class="your-answer">あなたの回答: ${m.userAnswer}年</span>
-                                <span class="correct-answer">正解: ${m.correctAnswer}年</span>
+                                <span class="your-answer">縺ゅ↑縺溘・蝗樒ｭ・ ${m.userAnswer}蟷ｴ</span>
+                                <span class="correct-answer">豁｣隗｣: ${m.correctAnswer}蟷ｴ</span>
                             </div>
                         </div>
                     `).join('')}
@@ -764,7 +787,7 @@
             } else {
                 mistakesList.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: var(--text-light-secondary);">
-                        🎉 完璧です！全問正解おめでとうございます！
+                        脂 螳檎挑縺ｧ縺呻ｼ∝・蝠乗ｭ｣隗｣縺翫ａ縺ｧ縺ｨ縺・＃縺悶＞縺ｾ縺呻ｼ・
                     </div>
                 `;
             }
@@ -821,3 +844,4 @@
     </script>
 </body>
 </html>
+

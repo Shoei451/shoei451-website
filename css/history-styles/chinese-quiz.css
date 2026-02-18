@@ -1,4 +1,4 @@
-:root {
+﻿:root {
     /* Solarized Light Base */
     --solarized-base3: #fdf6e3;
     --solarized-base2: #eee8d5;
@@ -165,126 +165,80 @@ body.dark #moon {
 }
 
 .category-chips {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
     gap: 10px;
 }
 
-.category-chip {
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 0.9rem;
+button.category-chip {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
-    border: 2px solid transparent;
+    border: 2px solid var(--border-light);
+    background: var(--bg-light);
+    color: var(--text-light);
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.category-chip:hover {
-    transform: translateY(-2px);
+button.category-chip::before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    background: transparent;
+    flex-shrink: 0;
+}
+
+button.category-chip:hover {
+    border-color: var(--accent-primary);
     box-shadow: 0 4px 8px var(--shadow-light);
 }
 
-.category-chip.selected {
+button.category-chip.selected {
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(215, 60, 55, 0.2);
+    background: rgba(215, 60, 55, 0.1);
+    box-shadow: 0 0 0 3px rgba(215, 60, 55, 0.15);
 }
 
-body.dark .category-chip.selected {
+button.category-chip.selected::before {
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+}
+
+.category-chip.is-badge {
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: default;
+    text-align: center;
+    background: rgba(223, 188, 94, 0.22);
+    border-color: rgba(223, 188, 94, 0.45);
+    color: var(--text-light);
+}
+
+.category-chip.is-badge::before {
+    display: none;
+}
+
+body.dark button.category-chip.selected {
     border-color: var(--accent-secondary);
+    background: rgba(223, 188, 94, 0.16);
     box-shadow: 0 0 0 3px rgba(223, 188, 94, 0.2);
 }
 
-.category-chip.王朝成立 {
-    background: var(--chinese-gold);
-    color: var(--solarized-base03);
-}
-
-body.dark .category-chip.王朝成立 {
-    background: var(--chinese-gold);
-    color: var(--solarized-base03);
-}
-
-.category-chip.王朝滅亡 {
-    background: var(--chinese-crimson);
-    color: var(--solarized-base3);
-}
-
-body.dark .category-chip.王朝滅亡 {
-    background: var(--chinese-red);
-    color: var(--solarized-base3);
-}
-
-.category-chip.反乱 {
-    background: var(--chinese-coral);
-    color: var(--solarized-base3);
-}
-
-body.dark .category-chip.反乱 {
-    background: var(--chinese-coral);
-    color: var(--solarized-base03);
-}
-
-.category-chip.戦争 {
-    background: var(--chinese-red);
-    color: var(--solarized-base3);
-}
-
-body.dark .category-chip.戦争 {
-    background: var(--chinese-crimson);
-    color: var(--solarized-base3);
-}
-
-.category-chip.外交 {
-    background: var(--chinese-cream);
-    color: var(--solarized-base02);
-}
-
-body.dark .category-chip.外交 {
-    background: var(--solarized-base01);
-    color: var(--chinese-cream);
-}
-
-.category-chip.内政 {
-    background: var(--solarized-base2);
-    color: var(--solarized-base02);
-}
-
-body.dark .category-chip.内政 {
-    background: var(--solarized-base01);
-    color: var(--solarized-base2);
-}
-
-.category-chip.経済 {
-    background: var(--chinese-gold);
-    color: var(--solarized-base03);
-    opacity: 0.8;
-}
-
-body.dark .category-chip.経済 {
-    background: var(--chinese-gold);
-    color: var(--solarized-base03);
-}
-
-.category-chip.文化 {
-    background: var(--chinese-cream);
-    color: var(--chinese-red);
-}
-
-body.dark .category-chip.文化 {
-    background: var(--chinese-gold);
-    color: var(--solarized-base02);
-    opacity: 0.7;
-}
-
-.category-chip.その他 {
-    background: var(--solarized-base1);
-    color: var(--solarized-base3);
-}
-
-body.dark .category-chip.その他 {
-    background: var(--solarized-base01);
-    color: var(--solarized-base1);
+body.dark button.category-chip.selected::before {
+    background: var(--accent-secondary);
+    border-color: var(--accent-secondary);
 }
 
 button {
@@ -510,3 +464,4 @@ body.dark .correct-answer {
         grid-template-columns: 1fr;
     }
 }
+

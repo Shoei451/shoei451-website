@@ -183,9 +183,10 @@
 
         function renderCategorySelection() {
             const container = document.getElementById('categorySelection');
-            container.innerHTML = categories.map(cat => 
-                `<div class="category-chip ${cat}" onclick="toggleCategory('${cat}')">${cat}</div>`
-            ).join('');
+            container.innerHTML = categories.map(cat => {
+                const escaped = cat.replace(/'/g, "\\'");
+                return `<button type="button" class="category-chip" data-category="${cat}" onclick="toggleCategory('${escaped}')">${cat}</button>`;
+            }).join('');
         }
 
         function toggleCategory(category) {
@@ -208,9 +209,9 @@
         }
 
         function updateCategoryUI() {
-            categories.forEach(cat => {
-                const elem = document.querySelector(`.category-chip.${cat}`);
-                if (selectedCategories.has(cat)) {
+            document.querySelectorAll('#categorySelection .category-chip').forEach(elem => {
+                const category = elem.dataset.category;
+                if (selectedCategories.has(category)) {
                     elem.classList.add('selected');
                 } else {
                     elem.classList.remove('selected');
@@ -252,7 +253,7 @@
                 `問題 ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
             
             document.getElementById('categoryChip').innerHTML = 
-                `<span class="category-chip ${question.category}">${question.category}</span>`;
+                `<span class="category-chip is-badge">${question.category}</span>`;
             
             document.getElementById('eventTitle').textContent = question.title;
             document.getElementById('eventDescription').textContent = question.description || '';
@@ -339,7 +340,7 @@
                         <div class="mistake-item">
                             <div class="mistake-header">
                                 <span class="mistake-title">${m.question.title}</span>
-                                <span class="category-chip ${m.question.category}">${m.question.category}</span>
+                                <span class="category-chip is-badge">${m.question.category}</span>
                             </div>
                             <div style="color: var(--text-light-secondary); font-size: 0.9rem; margin-top: 5px;">
                                 ${m.question.description || ''}
