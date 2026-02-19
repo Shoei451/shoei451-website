@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>暗記カード｜古典常識</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="cards.css">
+</head>
+<body>
+
+<div class="app-header">
+  <span class="mon">☽</span>
+  <h1>暗記カード</h1>
+  <a href="index.html" class="header-link">← クイズへ</a>
+</div>
+
+<!-- ── FILTER BAR ── -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-section">
+    <span class="filter-label">カテゴリー</span>
+    <div class="filter-chips" id="catChips">
+      <button class="chip active" data-cat="all">すべて</button>
+      <button class="chip" data-cat="rhetoric">和歌の修辞</button>
+      <button class="chip" data-cat="rank">貴族の位</button>
+      <button class="chip" data-cat="lit">文学史</button>
+    </div>
+  </div>
+  <div class="filter-section">
+    <span class="filter-label">難易度</span>
+    <div class="filter-chips">
+      <button class="chip active" data-diff="all">すべて</button>
+      <button class="chip" data-diff="easy">基礎</button>
+      <button class="chip" data-diff="medium">標準</button>
+      <button class="chip" data-diff="hard">発展</button>
+    </div>
+  </div>
+  <div class="filter-meta">
+    <span id="deckCount">0枚</span>
+    <button class="btn-shuffle" id="shuffleBtn" onclick="shuffleDeck()">🔀 シャッフル</button>
+  </div>
+</div>
+
+<!-- ── CARD STAGE ── -->
+<div class="card-stage" id="cardStage">
+
+  <!-- Progress -->
+  <div class="deck-progress">
+    <div class="deck-nav">
+      <button class="nav-btn" id="prevBtn" onclick="prevCard()">‹</button>
+      <span class="deck-indicator" id="deckIndicator">1 / 25</span>
+      <button class="nav-btn" id="nextBtn" onclick="nextCard()">›</button>
+    </div>
+    <div class="card-progress-wrap">
+      <div class="card-progress-fill" id="cardProgressFill"></div>
+    </div>
+    <div class="mastery-row" id="masteryRow"></div>
+  </div>
+
+  <!-- The flip card -->
+  <div class="card-scene" id="cardScene" onclick="flipCard()">
+    <div class="card-body" id="cardBody">
+
+      <!-- FRONT -->
+      <div class="card-face card-front">
+        <div class="card-face-inner">
+          <div class="face-meta">
+            <span class="face-badge" id="frontBadge"></span>
+            <span class="face-diff" id="frontDiff"></span>
+            <span class="face-hint">タップして答えを確認</span>
+          </div>
+          <img class="card-image" id="cardImage" src="" alt="" style="display:none">
+          <div class="card-question" id="cardQuestion"></div>
+          <div class="card-label">問　題</div>
+        </div>
+      </div>
+
+      <!-- BACK -->
+      <div class="card-face card-back">
+        <div class="card-face-inner">
+          <div class="face-meta">
+            <span class="face-badge back-badge" id="backBadge"></span>
+          </div>
+          <div class="card-answer" id="cardAnswer"></div>
+          <div class="card-options-list" id="cardOptionsList"></div>
+          <div class="card-explanation" id="cardExplanation"></div>
+          <div class="card-label back-label">解　答</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mastery buttons -->
+  <div class="mastery-btns" id="masteryBtns">
+    <button class="mastery-btn btn-forgot" onclick="markCard('forgot')">
+      <span class="mb-icon">✗</span>
+      <span class="mb-label">わからない</span>
+    </button>
+    <button class="mastery-btn btn-unsure" onclick="markCard('unsure')">
+      <span class="mb-icon">△</span>
+      <span class="mb-label">あやふや</span>
+    </button>
+    <button class="mastery-btn btn-knew" onclick="markCard('knew')">
+      <span class="mb-icon">✓</span>
+      <span class="mb-label">わかった</span>
+    </button>
+  </div>
+
+  <!-- Keyboard hint -->
+  <div class="keyboard-hint">
+    <span>← → 移動</span>
+    <span>スペース 裏返す</span>
+    <span>1 ✗　2 △　3 ✓</span>
+  </div>
+
+</div>
+
+<!-- ── COMPLETE OVERLAY ── -->
+<div class="complete-overlay" id="completeOverlay" style="display:none">
+  <div class="complete-card">
+    <div class="complete-mon">☽</div>
+    <h2 class="complete-title">一周完了</h2>
+    <div class="complete-stats" id="completeStats"></div>
+    <div class="complete-actions">
+      <button class="btn-secondary" onclick="reviewWeak()">✗ △ のみ復習</button>
+      <button class="btn-primary" onclick="restartDeck()">最初から</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── SIDE LIST ── -->
+<div class="card-list-toggle" id="listToggle" onclick="toggleList()">
+  <span>一覧</span>
+  <span id="listArrow">›</span>
+</div>
+<div class="card-list-panel" id="listPanel">
+  <div class="list-header">カード一覧</div>
+  <div class="list-items" id="listItems"></div>
+</div>
+
+<script src="question_bank.js"></script>
+<script src="cards-logic.js"></script>
+</body>
+</html>
