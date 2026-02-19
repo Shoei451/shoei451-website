@@ -1,145 +1,169 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>古典常識クイズ</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet">
+<title>古典常識カード</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- Header -->
-<div class="app-header">
-  <span class="mon">☽</span>
-  <h1>古典常識クイズ</h1>
-</div>
-
-<!-- Tab Nav -->
-<nav class="tab-nav">
-  <button class="tab-btn active" onclick="showTab('top')" id="tab-top">
-    <span class="tab-icon">📜</span>クイズ
-  </button>
-  <button class="tab-btn" onclick="showTab('editor')" id="tab-editor">
-    <span class="tab-icon">✏️</span>問題編集
-  </button>
-</nav>
-
-<!-- ── TOP PAGE ── -->
-<div class="page active" id="page-top">
-  <div class="title-block">
-    <div class="title-kana">こてんじょうしき</div>
-    <div class="title-main">古典常識</div>
-    <div class="title-divider"></div>
-    <div class="title-sub">KOTEN QUIZ</div>
-  </div>
-
-  <div class="category-grid" id="catGrid">
-    <div class="cat-card selected" data-cat="rhetoric" style="--cat-color:#7b5ea7" onclick="toggleCat(this)">
-      <div class="cat-icon">🪷</div>
-      <div class="cat-name">和歌の修辞</div>
-      <div class="cat-count" id="cnt-rhetoric">0問</div>
-    </div>
-    <div class="cat-card selected" data-cat="rank" style="--cat-color:#b8941f" onclick="toggleCat(this)">
-      <div class="cat-icon">👑</div>
-      <div class="cat-name">貴族の位</div>
-      <div class="cat-count" id="cnt-rank">0問</div>
-    </div>
-    <div class="cat-card selected" data-cat="lit" style="--cat-color:#2a6641" onclick="toggleCat(this)">
-      <div class="cat-icon">📗</div>
-      <div class="cat-name">文学史</div>
-      <div class="cat-count" id="cnt-lit">0問</div>
+<!-- ── HEADER ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <span class="header-mon">&#x25D0;</span>
+    <span class="header-title">古典常識カード</span>
+    <div class="header-tabs">
+      <button class="h-tab active" id="htab-study"  onclick="switchMode('study')">学習</button>
+      <button class="h-tab"        id="htab-editor" onclick="switchMode('editor')">編集</button>
     </div>
   </div>
-
-  <div class="difficulty-block">
-    <label>難易度フィルター</label>
-    <div class="diff-buttons">
-      <button class="diff-btn active" data-diff="all" onclick="selectDiff(this)">すべて</button>
-      <button class="diff-btn" data-diff="easy" onclick="selectDiff(this)">基礎</button>
-      <button class="diff-btn" data-diff="medium" onclick="selectDiff(this)">標準</button>
-      <button class="diff-btn" data-diff="hard" onclick="selectDiff(this)">発展</button>
+  <div class="filter-bar" id="filterBar">
+    <div class="filter-group">
+      <span class="filter-label">カテゴリー</span>
+      <button class="chip active" data-cat="all">すべて</button>
+      <button class="chip" data-cat="rhetoric">和歌の修辞</button>
+      <button class="chip" data-cat="rank">貴族の位</button>
+      <button class="chip" data-cat="lit">文学史</button>
+    </div>
+    <div class="filter-right">
+      <span id="deckCount" class="deck-count-text">--枚</span>
+      <button class="btn-icon" onclick="shuffleDeck()" title="シャッフル">&#x21C4;</button>
+      <button class="btn-icon" onclick="restartDeck()" title="最初から">&#x21BA;</button>
     </div>
   </div>
+</header>
 
-  <div class="count-block">
-    <label>出題数</label>
-    <input type="range" min="5" max="30" value="10" id="countSlider" oninput="updateCount()">
-    <span class="count-val" id="countVal">10問</span>
+<!-- ══════════════ STUDY MODE ══════════════ -->
+<div class="mode-panel active" id="mode-study">
+
+  <div class="sb-banner" id="sbBanner" style="display:none">
+    <span id="sbBannerText"></span>
+    <button onclick="closeBanner()" class="banner-close">&#x2715;</button>
   </div>
 
-  <button class="btn-primary" id="startBtn" onclick="startQuiz()">開始する</button>
-</div>
+  <div class="progress-strip">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
 
-<!-- ── QUIZ PAGE ── -->
-<div class="page" id="page-quiz">
-  <div class="quiz-container">
-    <div class="progress-area">
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  <div class="deck-nav-row">
+    <button class="nav-btn" id="prevBtn" onclick="prevCard()">&#x2039;</button>
+    <div class="deck-indicator-group">
+      <span id="deckIndicator" class="deck-indicator">1 / --</span>
+      <div class="mastery-dots" id="masteryDots"></div>
+    </div>
+    <button class="nav-btn" id="nextBtn" onclick="nextCard()">&#x203A;</button>
+  </div>
+
+  <div class="card-scene" onclick="flipCard()">
+    <div class="card-body" id="cardBody">
+
+      <div class="card-face card-front">
+        <div class="card-face-inner">
+          <div class="face-top">
+            <span class="face-badge" id="frontBadge"></span>
+            <span class="face-hint">タップして答えを確認</span>
+          </div>
+          <img id="cardImage" class="card-image" src="" alt="" style="display:none">
+          <p class="card-question" id="cardQuestion"></p>
+          <span class="card-watermark">問</span>
+        </div>
       </div>
-      <span class="progress-text" id="progressText">1 / 10</span>
-      <span class="progress-score" id="progressScore">正解：0</span>
-    </div>
 
-    <div class="question-card" id="questionCard">
-      <div class="question-meta">
-        <span class="q-category-badge" id="qCatBadge"></span>
-        <span class="q-difficulty-badge" id="qDiffBadge"></span>
-        <span class="q-number" id="qNum"></span>
+      <div class="card-face card-back">
+        <div class="card-face-inner">
+          <div class="face-top">
+            <span class="face-badge back-badge" id="backBadge"></span>
+          </div>
+          <p class="card-answer"      id="cardAnswer"></p>
+          <p class="card-explanation" id="cardExplanation"></p>
+          <span class="card-watermark back-watermark">答</span>
+        </div>
       </div>
-      <img class="question-image" id="qImage" style="display:none" src="" alt="問題の画像">
-      <div class="question-text" id="qText"></div>
-      <div class="options-grid" id="optionsGrid"></div>
-      <div class="result-indicator" id="resultIndicator"></div>
-      <div class="explanation-box" id="explanationBox">
-        <div class="exp-label">解　説</div>
-        <div class="exp-text" id="explanationText"></div>
-      </div>
-    </div>
 
-    <div class="quiz-actions">
-      <button class="btn-secondary" onclick="quitQuiz()">中断</button>
-      <button class="btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none">次の問題 →</button>
     </div>
   </div>
-</div>
 
-<!-- ── RESULT PAGE ── -->
-<div class="page" id="page-result">
-  <div class="result-card">
-    <div class="score-ring">
-      <svg viewBox="0 0 120 120">
-        <circle class="ring-bg" cx="60" cy="60" r="52"/>
-        <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
-      </svg>
-      <div class="score-label">
-        <span class="score-num" id="scoreNum">0</span>
-        <span class="score-denom" id="scoreDenom">/ 10</span>
+  <div class="mastery-row" id="masteryRow">
+    <button class="mastery-btn m-forgot" onclick="markCard('forgot')">
+      <span class="mi">&#x2715;</span><span class="ml">わからない</span>
+    </button>
+    <button class="mastery-btn m-unsure" onclick="markCard('unsure')">
+      <span class="mi">&#x25B3;</span><span class="ml">あやふや</span>
+    </button>
+    <button class="mastery-btn m-knew" onclick="markCard('knew')">
+      <span class="mi">&#x2713;</span><span class="ml">わかった</span>
+    </button>
+  </div>
+
+  <p class="kb-hint">
+    &#x2190;&#x2192; 移動 &nbsp;|&nbsp; Space 裏返す &nbsp;|&nbsp; 1&#x2715; 2&#x25B3; 3&#x2713;
+  </p>
+
+  <div class="complete-overlay" id="completeOverlay" style="display:none">
+    <div class="complete-card">
+      <div class="complete-icon">&#x25D0;</div>
+      <h2 class="complete-title">一周完了</h2>
+      <div class="complete-stats" id="completeStats"></div>
+      <div class="complete-actions">
+        <button class="btn-secondary" onclick="reviewWeak()">&#x2715;&#x25B3; のみ復習</button>
+        <button class="btn-primary"   onclick="restartDeck()">最初から</button>
       </div>
     </div>
-    <div class="result-rank" id="resultRank"></div>
-    <div class="result-msg" id="resultMsg"></div>
-    <div class="breakdown" id="breakdown"></div>
-    <div class="result-actions">
-      <button class="btn-secondary" onclick="retryQuiz()">もう一度</button>
-      <button class="btn-primary" onclick="goHome()">ホームへ</button>
-    </div>
   </div>
-</div>
 
-<!-- ── EDITOR PAGE ── -->
-<div class="page" id="page-editor">
-  <div class="editor-container">
-    <div class="editor-header">
-      <h2>問題を追加・編集する</h2>
-      <button class="btn-secondary" onclick="exportQuestions()" style="font-size:0.8rem;padding:7px 16px">エクスポート JSON</button>
-    </div>
+  <div class="list-toggle" id="listToggle" onclick="toggleList()">
+    <span>一覧</span><span id="listArrow">&#x203A;</span>
+  </div>
+  <div class="list-panel" id="listPanel">
+    <div class="list-head">カード一覧</div>
+    <div class="list-body" id="listBody"></div>
+  </div>
 
-    <!-- Form -->
-    <div class="q-form" id="qEditForm">
-      <div class="form-row-grid">
+</div><!-- /mode-study -->
+
+<!-- ══════════════ EDITOR MODE ══════════════ -->
+<div class="mode-panel" id="mode-editor">
+  <div class="editor-wrap">
+
+    <section class="editor-section">
+      <h3 class="section-title">Supabase 接続設定</h3>
+      <p class="section-desc">
+        接続すると問題データを Supabase から取得します。<br>
+        未設定の場合はローカルデータを使用します。
+      </p>
+      <div class="sb-config-grid">
+        <div class="form-row">
+          <label>Project URL</label>
+          <input type="text" id="sb_url" placeholder="https://xxxxxxxxxxxxxx.supabase.co">
+        </div>
+        <div class="form-row">
+          <label>Anon Key</label>
+          <input type="text" id="sb_key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+        </div>
+      </div>
+      <div class="sb-actions">
+        <button class="btn-primary"   onclick="connectSupabase()" style="padding:10px 24px">接続して読み込む</button>
+        <button class="btn-secondary" onclick="clearSupabase()">設定をクリア</button>
+        <span class="sb-status" id="sbStatus"></span>
+      </div>
+      <div class="sb-schema-hint">
+        <p class="schema-label">Supabase テーブル定義（<code>questions</code>）</p>
+        <pre class="schema-sql">CREATE TABLE questions (
+  id          SERIAL PRIMARY KEY,
+  category    TEXT NOT NULL,  -- 'rhetoric' | 'rank' | 'lit'
+  question    TEXT NOT NULL,
+  answer      TEXT NOT NULL,
+  explanation TEXT,
+  image_url   TEXT
+);</pre>
+      </div>
+    </section>
+
+    <section class="editor-section">
+      <h3 class="section-title" id="formTitle">問題を追加</h3>
+      <div class="q-form">
         <div class="form-row">
           <label>カテゴリー</label>
           <select id="f_category">
@@ -149,52 +173,53 @@
           </select>
         </div>
         <div class="form-row">
-          <label>難易度</label>
-          <select id="f_difficulty">
-            <option value="easy">基礎</option>
-            <option value="medium">標準</option>
-            <option value="hard">発展</option>
-          </select>
+          <label>問題文</label>
+          <textarea id="f_question" placeholder="〜は何か？　〜の作者は？　など直接答えを問う形で"></textarea>
+        </div>
+        <div class="form-row">
+          <label>答え</label>
+          <input type="text" id="f_answer" placeholder="簡潔な正解">
+        </div>
+        <div class="form-row">
+          <label>解説（任意）</label>
+          <textarea id="f_explanation" placeholder="補足・背景説明"></textarea>
+        </div>
+        <div class="form-row">
+          <label>画像 URL（任意）</label>
+          <input type="text" id="f_imageUrl" placeholder="https://..." oninput="previewImage()">
+          <input type="file"  id="f_imageFile" accept="image/*" onchange="handleImageFile()" style="margin-top:5px;font-size:0.8rem">
+          <div id="imagePreview" class="image-preview"></div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-secondary" onclick="resetForm()">クリア</button>
+          <button class="btn-primary"   onclick="saveQuestion()">保存する</button>
         </div>
       </div>
-      <div class="form-row">
-        <label>問題文</label>
-        <textarea id="f_question" placeholder="問題文を入力してください"></textarea>
-      </div>
-      <div class="form-row">
-        <label>画像（任意）— URL またはファイルを選択</label>
-        <input type="text" id="f_imageUrl" placeholder="https://example.com/image.jpg" oninput="previewImage()">
-        <input type="file" id="f_imageFile" accept="image/*" style="margin-top:6px; font-size:0.8rem" onchange="handleImageFile()">
-        <div class="image-preview" id="imagePreview"></div>
-      </div>
-      <div class="form-row">
-        <label>選択肢（正解をラジオボタンで選ぶ）</label>
-        <div class="options-edit" id="optionsEdit">
-          <div class="opt-edit"><input type="radio" name="correct" value="0" checked><input type="text" id="opt0" placeholder="選択肢 ①"></div>
-          <div class="opt-edit"><input type="radio" name="correct" value="1"><input type="text" id="opt1" placeholder="選択肢 ②"></div>
-          <div class="opt-edit"><input type="radio" name="correct" value="2"><input type="text" id="opt2" placeholder="選択肢 ③"></div>
-          <div class="opt-edit"><input type="radio" name="correct" value="3"><input type="text" id="opt3" placeholder="選択肢 ④"></div>
-        </div>
-      </div>
-      <div class="form-row">
-        <label>解説（任意）</label>
-        <textarea id="f_explanation" placeholder="正解の解説を入力"></textarea>
-      </div>
-      <div style="display:flex;gap:8px;justify-content:flex-end">
-        <button class="btn-secondary" onclick="resetForm()">クリア</button>
-        <button class="btn-primary" onclick="saveQuestion()" style="padding:12px 28px;font-size:0.9rem">保存する</button>
-      </div>
-    </div>
+    </section>
 
-    <!-- List -->
-    <div class="q-list" id="qList"></div>
+    <section class="editor-section">
+      <h3 class="section-title">エクスポート</h3>
+      <div class="export-row">
+        <button class="btn-secondary" onclick="exportCSV()">&#x21E9; CSV（Supabase インポート用）</button>
+        <button class="btn-secondary" onclick="exportJSON()">&#x21E9; JSON</button>
+      </div>
+      <p class="section-desc" style="margin-top:8px">
+        Supabase の Table Editor &rarr; Import data from CSV でインポートできます。
+      </p>
+    </section>
+
+    <section class="editor-section">
+      <h3 class="section-title">
+        問題一覧
+        <span class="section-count" id="qListCount"></span>
+      </h3>
+      <div class="q-list" id="qList"></div>
+    </section>
+
   </div>
-</div>
+</div><!-- /mode-editor -->
 
-<!-- Toast -->
 <div class="toast" id="toast"></div>
-
-<script src="question_bank.js"></script>
-<script src="logic.js"></script>
+<script src="app.js"></script>
 </body>
 </html>

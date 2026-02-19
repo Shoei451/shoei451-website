@@ -607,7 +607,7 @@ function nextQuestion() {
 // ── Results ──
 function showResults() {
   document.getElementById('quiz-screen').style.display = 'none';
-  document.getElementById('results-screen').style.display = '';
+  document.getElementById('results-screen').style.display = 'block';
 
   const total = quizList.length;
   const pct = Math.round(score / total * 100);
