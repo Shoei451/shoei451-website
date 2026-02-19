@@ -1,11 +1,11 @@
 const sectionItems2 = [
     {
-        icon: "🦴",  
+        icon: "🪭",  
         iconType: "",
-        title: "地質年代クイズ",
-        titleEN: "Geological Eras & Life",
-        description: "生物の進化と地質年代の変遷を、インタラクティブな年表とクイズで学ぶ",
-        link: "geology_quiz",
+        title: "古典常識クイズ",
+        titleEN: "Basic Knowledge of Japanese Classics",
+        description: "和歌の修辞法、貴族の階級、日常生活などを理解しよう",
+        link: "koten",
         target: "_blank"
     },
     

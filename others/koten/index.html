@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古典常識クイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&family=IM+Fell+English:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<div class="app-header">
+  <span class="mon">☽</span>
+  <h1>古典常識クイズ</h1>
+</div>
+
+<!-- Tab Nav -->
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('top')" id="tab-top">
+    <span class="tab-icon">📜</span>クイズ
+  </button>
+  <button class="tab-btn" onclick="showTab('editor')" id="tab-editor">
+    <span class="tab-icon">✏️</span>問題編集
+  </button>
+</nav>
+
+<!-- ── TOP PAGE ── -->
+<div class="page active" id="page-top">
+  <div class="title-block">
+    <div class="title-kana">こてんじょうしき</div>
+    <div class="title-main">古典常識</div>
+    <div class="title-divider"></div>
+    <div class="title-sub">KOTEN QUIZ</div>
+  </div>
+
+  <div class="category-grid" id="catGrid">
+    <div class="cat-card selected" data-cat="rhetoric" style="--cat-color:#7b5ea7" onclick="toggleCat(this)">
+      <div class="cat-icon">🪷</div>
+      <div class="cat-name">和歌の修辞</div>
+      <div class="cat-count" id="cnt-rhetoric">0問</div>
+    </div>
+    <div class="cat-card selected" data-cat="rank" style="--cat-color:#b8941f" onclick="toggleCat(this)">
+      <div class="cat-icon">👑</div>
+      <div class="cat-name">貴族の位</div>
+      <div class="cat-count" id="cnt-rank">0問</div>
+    </div>
+    <div class="cat-card selected" data-cat="lit" style="--cat-color:#2a6641" onclick="toggleCat(this)">
+      <div class="cat-icon">📗</div>
+      <div class="cat-name">文学史</div>
+      <div class="cat-count" id="cnt-lit">0問</div>
+    </div>
+  </div>
+
+  <div class="difficulty-block">
+    <label>難易度フィルター</label>
+    <div class="diff-buttons">
+      <button class="diff-btn active" data-diff="all" onclick="selectDiff(this)">すべて</button>
+      <button class="diff-btn" data-diff="easy" onclick="selectDiff(this)">基礎</button>
+      <button class="diff-btn" data-diff="medium" onclick="selectDiff(this)">標準</button>
+      <button class="diff-btn" data-diff="hard" onclick="selectDiff(this)">発展</button>
+    </div>
+  </div>
+
+  <div class="count-block">
+    <label>出題数</label>
+    <input type="range" min="5" max="30" value="10" id="countSlider" oninput="updateCount()">
+    <span class="count-val" id="countVal">10問</span>
+  </div>
+
+  <button class="btn-primary" id="startBtn" onclick="startQuiz()">開始する</button>
+</div>
+
+<!-- ── QUIZ PAGE ── -->
+<div class="page" id="page-quiz">
+  <div class="quiz-container">
+    <div class="progress-area">
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+      </div>
+      <span class="progress-text" id="progressText">1 / 10</span>
+      <span class="progress-score" id="progressScore">正解：0</span>
+    </div>
+
+    <div class="question-card" id="questionCard">
+      <div class="question-meta">
+        <span class="q-category-badge" id="qCatBadge"></span>
+        <span class="q-difficulty-badge" id="qDiffBadge"></span>
+        <span class="q-number" id="qNum"></span>
+      </div>
+      <img class="question-image" id="qImage" style="display:none" src="" alt="問題の画像">
+      <div class="question-text" id="qText"></div>
+      <div class="options-grid" id="optionsGrid"></div>
+      <div class="result-indicator" id="resultIndicator"></div>
+      <div class="explanation-box" id="explanationBox">
+        <div class="exp-label">解　説</div>
+        <div class="exp-text" id="explanationText"></div>
+      </div>
+    </div>
+
+    <div class="quiz-actions">
+      <button class="btn-secondary" onclick="quitQuiz()">中断</button>
+      <button class="btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none">次の問題 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── RESULT PAGE ── -->
+<div class="page" id="page-result">
+  <div class="result-card">
+    <div class="score-ring">
+      <svg viewBox="0 0 120 120">
+        <circle class="ring-bg" cx="60" cy="60" r="52"/>
+        <circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="326.7"/>
+      </svg>
+      <div class="score-label">
+        <span class="score-num" id="scoreNum">0</span>
+        <span class="score-denom" id="scoreDenom">/ 10</span>
+      </div>
+    </div>
+    <div class="result-rank" id="resultRank"></div>
+    <div class="result-msg" id="resultMsg"></div>
+    <div class="breakdown" id="breakdown"></div>
+    <div class="result-actions">
+      <button class="btn-secondary" onclick="retryQuiz()">もう一度</button>
+      <button class="btn-primary" onclick="goHome()">ホームへ</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── EDITOR PAGE ── -->
+<div class="page" id="page-editor">
+  <div class="editor-container">
+    <div class="editor-header">
+      <h2>問題を追加・編集する</h2>
+      <button class="btn-secondary" onclick="exportQuestions()" style="font-size:0.8rem;padding:7px 16px">エクスポート JSON</button>
+    </div>
+
+    <!-- Form -->
+    <div class="q-form" id="qEditForm">
+      <div class="form-row-grid">
+        <div class="form-row">
+          <label>カテゴリー</label>
+          <select id="f_category">
+            <option value="rhetoric">和歌の修辞</option>
+            <option value="rank">貴族の位</option>
+            <option value="lit">文学史</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>難易度</label>
+          <select id="f_difficulty">
+            <option value="easy">基礎</option>
+            <option value="medium">標準</option>
+            <option value="hard">発展</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>問題文</label>
+        <textarea id="f_question" placeholder="問題文を入力してください"></textarea>
+      </div>
+      <div class="form-row">
+        <label>画像（任意）— URL またはファイルを選択</label>
+        <input type="text" id="f_imageUrl" placeholder="https://example.com/image.jpg" oninput="previewImage()">
+        <input type="file" id="f_imageFile" accept="image/*" style="margin-top:6px; font-size:0.8rem" onchange="handleImageFile()">
+        <div class="image-preview" id="imagePreview"></div>
+      </div>
+      <div class="form-row">
+        <label>選択肢（正解をラジオボタンで選ぶ）</label>
+        <div class="options-edit" id="optionsEdit">
+          <div class="opt-edit"><input type="radio" name="correct" value="0" checked><input type="text" id="opt0" placeholder="選択肢 ①"></div>
+          <div class="opt-edit"><input type="radio" name="correct" value="1"><input type="text" id="opt1" placeholder="選択肢 ②"></div>
+          <div class="opt-edit"><input type="radio" name="correct" value="2"><input type="text" id="opt2" placeholder="選択肢 ③"></div>
+          <div class="opt-edit"><input type="radio" name="correct" value="3"><input type="text" id="opt3" placeholder="選択肢 ④"></div>
+        </div>
+      </div>
+      <div class="form-row">
+        <label>解説（任意）</label>
+        <textarea id="f_explanation" placeholder="正解の解説を入力"></textarea>
+      </div>
+      <div style="display:flex;gap:8px;justify-content:flex-end">
+        <button class="btn-secondary" onclick="resetForm()">クリア</button>
+        <button class="btn-primary" onclick="saveQuestion()" style="padding:12px 28px;font-size:0.9rem">保存する</button>
+      </div>
+    </div>
+
+    <!-- List -->
+    <div class="q-list" id="qList"></div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="question_bank.js"></script>
+<script src="logic.js"></script>
+</body>
+</html>
