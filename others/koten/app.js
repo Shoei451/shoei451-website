@@ -41,10 +41,13 @@ let deck    = [];
 let deckIdx = 0;
 let isFlipped = false;
 let mastery = {};   // { id: 'knew' | 'unsure' | 'forgot' }
-let filterCat = 'all';
+let selectedCategory = 'mix';
+let selectedQuestionCount = '20';
 
-let sbUrl = '';
-let sbKey = '';
+const INLINE_SUPABASE_URL = '';
+const INLINE_SUPABASE_ANON_KEY = '';
+let sbUrl = (INLINE_SUPABASE_URL || '').trim().replace(/\/$/, '');
+let sbKey = (INLINE_SUPABASE_ANON_KEY || '').trim();
 
 const CAT_LABELS = { rhetoric: '和歌の修辞', rank: '貴族の位', lit: '文学史' };
 
@@ -57,11 +60,7 @@ function switchMode(mode) {
   document.getElementById('mode-' + mode).classList.add('active');
   document.getElementById('htab-' + mode).classList.add('active');
 
-  // Filter bar: show only in study mode
-  document.getElementById('filterBar').style.display = (mode === 'study') ? '' : 'none';
-
   if (mode === 'editor') {
-    loadSupabaseConfig();
     renderQList();
   }
 }
@@ -69,21 +68,8 @@ function switchMode(mode) {
 // ══════════════════════════════════════════════
 // SUPABASE
 // ══════════════════════════════════════════════
-function loadSupabaseConfig() {
-  sbUrl = localStorage.getItem('sb_url') || '';
-  sbKey = localStorage.getItem('sb_key') || '';
-  document.getElementById('sb_url').value = sbUrl;
-  document.getElementById('sb_key').value = sbKey;
-}
-
-function clearSupabase() {
-  localStorage.removeItem('sb_url');
-  localStorage.removeItem('sb_key');
-  sbUrl = ''; sbKey = '';
-  document.getElementById('sb_url').value = '';
-  document.getElementById('sb_key').value = '';
-  setSbStatus('', '');
-  showToast('設定をクリアしました');
+function hasInlineSupabaseConfig() {
+  return !!(sbUrl && sbKey);
 }
 
 function setSbStatus(type, msg) {
@@ -92,26 +78,34 @@ function setSbStatus(type, msg) {
   el.className = 'sb-status' + (type ? ' ' + type : '');
 }
 
-async function connectSupabase() {
-  sbUrl = document.getElementById('sb_url').value.trim().replace(/\/$/, '');
-  sbKey = document.getElementById('sb_key').value.trim();
-  if (!sbUrl || !sbKey) { showToast('URL と Key を入力してください'); return; }
+async function syncSupabaseInline() {
+  await connectSupabaseInline(true);
+}
+
+async function connectSupabaseInline(showFeedback = false) {
+  if (!hasInlineSupabaseConfig()) {
+    setSbStatus('err', 'app.js に Supabase 設定がありません');
+    if (showFeedback) showToast('Supabase 設定が未入力です');
+    return false;
+  }
 
   setSbStatus('', '接続中…');
   try {
     const data = await sbFetch('GET', '/rest/v1/questions?select=*&order=id');
-    localStorage.setItem('sb_url', sbUrl);
-    localStorage.setItem('sb_key', sbKey);
     allQuestions = data.map(normalizeRow);
     setSbStatus('ok', `接続済み（${allQuestions.length}件）`);
     showBanner(`Supabase から ${allQuestions.length} 件の問題を読み込みました`);
-    buildDeck();
-    renderCard();
+
+    if (isStartVisible()) updateStartMeta();
+    else buildDeck();
+
     renderQList();
-    showToast('Supabase から読み込みました');
+    if (showFeedback) showToast('Supabase を再読み込みしました');
+    return true;
   } catch (e) {
     setSbStatus('err', 'エラー: ' + e.message);
-    showToast('接続エラー: ' + e.message);
+    if (showFeedback) showToast('接続エラー: ' + e.message);
+    return false;
   }
 }
 
@@ -144,21 +138,8 @@ function normalizeRow(r) {
   };
 }
 
-// Attempt auto-connect on load
-async function tryAutoConnect() {
-  const url = localStorage.getItem('sb_url');
-  const key = localStorage.getItem('sb_key');
-  if (!url || !key) return;
-  sbUrl = url; sbKey = key;
-  try {
-    const data = await sbFetch('GET', '/rest/v1/questions?select=*&order=id');
-    allQuestions = data.map(normalizeRow);
-    showBanner(`Supabase から ${allQuestions.length} 件の問題を読み込みました`);
-    buildDeck();
-    renderCard();
-  } catch (_) {
-    // silently fall back to local
-  }
+async function tryInlineConnect() {
+  await connectSupabaseInline(false);
 }
 
 // ══════════════════════════════════════════════
@@ -177,13 +158,19 @@ function closeBanner() {
 // DECK
 // ══════════════════════════════════════════════
 function buildDeck(keepOrder = false) {
-  const pool = allQuestions.filter(q =>
-    filterCat === 'all' || q.category === filterCat
+  const byCategory = allQuestions.filter(q =>
+    selectedCategory === 'mix' || q.category === selectedCategory
   );
+  let pool = [...byCategory];
+
+  if (selectedQuestionCount !== 'all') {
+    const count = Math.min(Number(selectedQuestionCount), pool.length);
+    pool = shuffle(pool).slice(0, count);
+  }
+
   deck    = keepOrder ? [...pool] : shuffle([...pool]);
   deckIdx = 0;
   isFlipped = false;
-  document.getElementById('deckCount').textContent = deck.length + '枚';
   renderCard();
   renderDots();
   renderList();
@@ -192,8 +179,7 @@ function buildDeck(keepOrder = false) {
 function shuffleDeck() { buildDeck(false); }
 function restartDeck() {
   document.getElementById('completeOverlay').style.display = 'none';
-  mastery = {};
-  buildDeck(false);
+  openStartScreen();
 }
 
 function shuffle(arr) {
@@ -204,15 +190,57 @@ function shuffle(arr) {
   return arr;
 }
 
-// ── Filters ──
-document.querySelectorAll('[data-cat]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('[data-cat]').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    filterCat = btn.dataset.cat;
-    buildDeck();
+function isStartVisible() {
+  return document.getElementById('startOverlay').style.display !== 'none';
+}
+
+function setStartCategory(category) {
+  selectedCategory = category;
+  document.querySelectorAll('[data-start-cat]').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.startCat === category);
   });
-});
+  updateStartMeta();
+}
+
+function openStartScreen() {
+  mastery = {};
+  document.getElementById('startOverlay').style.display = 'flex';
+  updateStartMeta();
+}
+
+function startStudy() {
+  document.getElementById('startOverlay').style.display = 'none';
+  document.getElementById('completeOverlay').style.display = 'none';
+  mastery = {};
+  buildDeck();
+}
+
+function updateStartMeta() {
+  const byCategory = allQuestions.filter(q =>
+    selectedCategory === 'mix' || q.category === selectedCategory
+  );
+  const count = selectedQuestionCount === 'all'
+    ? byCategory.length
+    : Math.min(Number(selectedQuestionCount), byCategory.length);
+
+  document.getElementById('startMeta').textContent =
+    `出題: ${count}問 / 対象データ: ${byCategory.length}問`;
+}
+
+function initStartScreen() {
+  document.querySelectorAll('[data-start-cat]').forEach(btn => {
+    btn.addEventListener('click', () => setStartCategory(btn.dataset.startCat));
+  });
+
+  document.getElementById('startCount').addEventListener('change', e => {
+    selectedQuestionCount = e.target.value;
+    updateStartMeta();
+  });
+
+  selectedQuestionCount = document.getElementById('startCount').value;
+  setStartCategory('mix');
+  openStartScreen();
+}
 
 // ══════════════════════════════════════════════
 // RENDER CARD
@@ -572,5 +600,5 @@ function showToast(msg) {
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
-buildDeck();
-tryAutoConnect();
+initStartScreen();
+tryInlineConnect();

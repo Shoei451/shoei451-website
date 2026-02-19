@@ -13,7 +13,7 @@
   --moss:         #4a6741;
   --silver:       #8a8880;
   --shadow:       rgba(26,22,18,0.14);
-  --header-h:     88px; /* inner(48) + filter(40) */
+  --header-h:     48px;
 }
 
 *  { box-sizing: border-box; margin: 0; padding: 0; }
@@ -86,50 +86,6 @@ body::after {
   box-shadow: 0 1px 4px var(--shadow);
 }
 
-/* Filter bar */
-.filter-bar {
-  height: 40px;
-  padding: 0 20px 0 72px;
-  display: flex; align-items: center; gap: 14px;
-  border-top: 1px solid var(--washi-dark);
-  background: white;
-  overflow-x: auto; scrollbar-width: none;
-}
-.filter-bar::-webkit-scrollbar { display: none; }
-.filter-group {
-  display: flex; align-items: center; gap: 5px; flex-shrink: 0;
-}
-.filter-label {
-  font-size: 0.68rem; letter-spacing: 0.12em;
-  color: var(--silver); white-space: nowrap;
-  font-family: 'Noto Sans JP', sans-serif;
-}
-.chip {
-  padding: 3px 10px;
-  border: 1px solid var(--washi-dark); border-radius: 14px;
-  background: var(--washi);
-  font-family: 'Noto Serif JP', serif; font-size: 0.72rem;
-  color: var(--silver); cursor: pointer; transition: all 0.15s;
-  white-space: nowrap;
-}
-.chip:hover  { border-color: var(--indigo); color: var(--indigo); background: white; }
-.chip.active { background: var(--indigo); border-color: var(--indigo); color: white; }
-.filter-right {
-  margin-left: auto; display: flex; align-items: center; gap: 6px; flex-shrink: 0;
-}
-.deck-count-text {
-  font-size: 0.74rem; color: var(--silver);
-  font-family: 'Noto Sans JP', sans-serif; white-space: nowrap;
-}
-.btn-icon {
-  width: 28px; height: 28px; border-radius: 4px;
-  border: 1px solid var(--washi-dark); background: white;
-  font-size: 1rem; color: var(--indigo); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.15s;
-}
-.btn-icon:hover { background: var(--indigo); color: white; border-color: var(--indigo); }
-
 /* ── MODE PANELS ── */
 .mode-panel { display: none; }
 .mode-panel.active { display: block; }
@@ -145,6 +101,89 @@ body::after {
 }
 #mode-study.active {
   display: flex;
+}
+
+/* Start overlay */
+.start-overlay {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 120;
+  background: rgba(245,240,232,0.9);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.start-card {
+  width: min(640px, 100%);
+  background: white;
+  border: 1px solid var(--washi-dark);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(26,22,18,0.14);
+  padding: 24px;
+}
+.start-title {
+  font-size: 1.2rem;
+  color: var(--indigo);
+  margin-bottom: 6px;
+  letter-spacing: 0.08em;
+}
+.start-desc {
+  color: var(--silver);
+  font-size: 0.82rem;
+  font-family: 'Noto Sans JP', sans-serif;
+  margin-bottom: 14px;
+}
+.start-block + .start-block { margin-top: 12px; }
+.start-label {
+  display: block;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--silver);
+  font-family: 'Noto Sans JP', sans-serif;
+  margin-bottom: 6px;
+}
+.start-cats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.start-cat {
+  border: 1px solid var(--washi-dark);
+  border-radius: 6px;
+  background: var(--washi);
+  color: var(--silver);
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.82rem;
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.start-cat:hover { border-color: var(--indigo); color: var(--indigo); background: white; }
+.start-cat.active { background: var(--indigo); color: white; border-color: var(--indigo); }
+.start-count {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--washi-dark);
+  border-radius: 6px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.9rem;
+  background: var(--washi);
+  color: var(--sumi);
+}
+.start-meta {
+  margin-top: 14px;
+  font-size: 0.8rem;
+  color: var(--indigo);
+  font-family: 'Noto Sans JP', sans-serif;
+}
+.start-btn {
+  width: 100%;
+  margin-top: 12px;
 }
 
 /* Supabase banner */
@@ -481,7 +520,6 @@ body::after {
 }
 
 /* Supabase config */
-.sb-config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 .sb-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .sb-status { font-size: 0.76rem; font-family: 'Noto Sans JP', sans-serif; color: var(--silver); }
 .sb-status.ok  { color: var(--moss); }
@@ -593,10 +631,8 @@ body::after {
 @media (max-width: 580px) {
   body::after { display: none; }
   .header-inner { padding-left: 16px; }
-  .filter-bar   { padding-left: 12px; }
   .card-scene   { aspect-ratio: 3/2; }
   .mastery-btn  { padding: 10px 4px; }
   .ml           { font-size: 0.62rem; }
   .kb-hint      { display: none; }
-  .sb-config-grid { grid-template-columns: 1fr; }
 }

@@ -19,24 +19,40 @@
       <button class="h-tab"        id="htab-editor" onclick="switchMode('editor')">編集</button>
     </div>
   </div>
-  <div class="filter-bar" id="filterBar">
-    <div class="filter-group">
-      <span class="filter-label">カテゴリー</span>
-      <button class="chip active" data-cat="all">すべて</button>
-      <button class="chip" data-cat="rhetoric">和歌の修辞</button>
-      <button class="chip" data-cat="rank">貴族の位</button>
-      <button class="chip" data-cat="lit">文学史</button>
-    </div>
-    <div class="filter-right">
-      <span id="deckCount" class="deck-count-text">--枚</span>
-      <button class="btn-icon" onclick="shuffleDeck()" title="シャッフル">&#x21C4;</button>
-      <button class="btn-icon" onclick="restartDeck()" title="最初から">&#x21BA;</button>
-    </div>
-  </div>
 </header>
 
 <!-- ══════════════ STUDY MODE ══════════════ -->
-<div class="mode-panel active" id="mode-study">
+
+  <div class="mode-panel active" id="mode-study">
+  <div class="start-overlay" id="startOverlay">
+    <div class="start-card">
+      <h2 class="start-title">学習スタート</h2>
+      <p class="start-desc">カテゴリと問題数を選択してください</p>
+
+      <div class="start-block">
+        <span class="start-label">カテゴリ</span>
+        <div class="start-cats">
+          <button class="start-cat active" data-start-cat="mix">Mix mode</button>
+          <button class="start-cat" data-start-cat="rhetoric">和歌の修辞</button>
+          <button class="start-cat" data-start-cat="rank">貴族の位</button>
+          <button class="start-cat" data-start-cat="lit">文学史</button>
+        </div>
+      </div>
+
+      <div class="start-block">
+        <span class="start-label">問題数</span>
+        <select id="startCount" class="start-count">
+          <option value="10">10問</option>
+          <option value="20" selected>20問</option>
+          <option value="30">30問</option>
+          <option value="all">全問</option>
+        </select>
+      </div>
+
+      <div class="start-meta" id="startMeta"></div>
+      <button class="btn-primary start-btn" onclick="startStudy()">スタート</button>
+    </div>
+  </div>
 
   <div class="sb-banner" id="sbBanner" style="display:none">
     <span id="sbBannerText"></span>
@@ -130,22 +146,12 @@
     <section class="editor-section">
       <h3 class="section-title">Supabase 接続設定</h3>
       <p class="section-desc">
-        接続すると問題データを Supabase から取得します。<br>
-        未設定の場合はローカルデータを使用します。
+        Supabase 接続はインライン設定に変更しました。<br>
+        <code>app.js</code> の <code>INLINE_SUPABASE_URL</code> と
+        <code>INLINE_SUPABASE_ANON_KEY</code> を設定してください。
       </p>
-      <div class="sb-config-grid">
-        <div class="form-row">
-          <label>Project URL</label>
-          <input type="text" id="sb_url" placeholder="https://xxxxxxxxxxxxxx.supabase.co">
-        </div>
-        <div class="form-row">
-          <label>Anon Key</label>
-          <input type="text" id="sb_key" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
-        </div>
-      </div>
-      <div class="sb-actions">
-        <button class="btn-primary"   onclick="connectSupabase()" style="padding:10px 24px">接続して読み込む</button>
-        <button class="btn-secondary" onclick="clearSupabase()">設定をクリア</button>
+        <div class="sb-actions">
+        <button class="btn-primary" onclick="syncSupabaseInline()" style="padding:10px 24px">再読み込み</button>
         <span class="sb-status" id="sbStatus"></span>
       </div>
       <div class="sb-schema-hint">
