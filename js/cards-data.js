@@ -27,6 +27,20 @@ const cardsList = [
         text: "政治・経済の学習に役立つツール集です", 
         link: "seikei/" 
     },
+    {
+        icon: "🍙",
+        title: "Japanese Classics",
+        titleJP: "古典学習ツール",
+        text: "古文・漢文の知識",
+        link: "koten/"
+    },
+    {
+        icon: "💻",
+        title: "Informatics_1", 
+        titleJP: "情報I学習ツール",
+        text: "情報Iの学習に役立つツールです", 
+        link: "informatics1/" 
+    },
     /*
     { 
         icon: "⏳",
@@ -43,15 +57,6 @@ const cardsList = [
         text: "Blogs to share what I learned, or what I thought.", 
         link: "https://shoei451.super.site/blog-postsbeta-shoei451" 
     },
-    */
-    { 
-        icon: "🗂️",
-        title: "Other tools", 
-        titleJP: "その他のツール",
-        text: "上記の文類に収まりきらないツールはここにまとめて入れます", 
-        link: "others/" 
-    },
-    /*
     {
         icon: "🌸",
         title: "Japanese Classics learning tool", 
@@ -60,19 +65,12 @@ const cardsList = [
         link: "koten/" 
     },
     */
-    {
-        icon: "🍙",
-        title: "Japanese Classics",
-        titleJP: "古典学習ツール",
-        text: "古文・漢文の知識",
-        link: "koten/"
-    },
-    {
-        icon: "💻",
-        title: "Informatics_1", 
-        titleJP: "情報I学習ツール",
-        text: "情報Iの学習に役立つツールです", 
-        link: "informatics1/" 
+    { 
+        icon: "🗂️",
+        title: "Other tools", 
+        titleJP: "その他のツール",
+        text: "上記の文類に収まりきらないツールはここにまとめて入れます", 
+        link: "others/" 
     },
     { 
         icon: "🔗",
