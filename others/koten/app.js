@@ -44,8 +44,8 @@ let mastery = {};   // { id: 'knew' | 'unsure' | 'forgot' }
 let selectedCategory = 'mix';
 let selectedQuestionCount = '20';
 
-const INLINE_SUPABASE_URL = '';
-const INLINE_SUPABASE_ANON_KEY = '';
+const INLINE_SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
+const INLINE_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
 let sbUrl = (INLINE_SUPABASE_URL || '').trim().replace(/\/$/, '');
 let sbKey = (INLINE_SUPABASE_ANON_KEY || '').trim();
 
@@ -91,7 +91,7 @@ async function connectSupabaseInline(showFeedback = false) {
 
   setSbStatus('', '接続中…');
   try {
-    const data = await sbFetch('GET', '/rest/v1/questions?select=*&order=id');
+    const data = await sbFetch('GET', '/rest/v1/koten_questions?select=*&order=id');
     allQuestions = data.map(normalizeRow);
     setSbStatus('ok', `接続済み（${allQuestions.length}件）`);
     showBanner(`Supabase から ${allQuestions.length} 件の問題を読み込みました`);
@@ -473,12 +473,12 @@ async function saveQuestion() {
   if (sbUrl && sbKey) {
     try {
       if (editingId !== null) {
-        await sbFetch('PATCH', `/rest/v1/questions?id=eq.${editingId}`, obj);
+        await sbFetch('PATCH', `/rest/v1/koten_questions?id=eq.${editingId}`, obj);
         const idx = allQuestions.findIndex(q => q.id === editingId);
         allQuestions[idx] = { id: editingId, ...obj };
         showToast('Supabase に更新しました');
       } else {
-        const [row] = await sbFetch('POST', '/rest/v1/questions', obj);
+        const [row] = await sbFetch('POST', '/rest/v1/koten_questions', obj);
         allQuestions.push(normalizeRow(row));
         showToast('Supabase に保存しました');
       }
@@ -521,7 +521,7 @@ async function deleteQuestion(id) {
   if (!confirm('この問題を削除しますか？')) return;
   if (sbUrl && sbKey) {
     try {
-      await sbFetch('DELETE', `/rest/v1/questions?id=eq.${id}`);
+      await sbFetch('DELETE', `/rest/v1/koten_questions?id=eq.${id}`);
     } catch (e) {
       showToast('削除エラー: ' + e.message); return;
     }
