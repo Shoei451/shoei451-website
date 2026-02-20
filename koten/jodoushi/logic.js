@@ -7,6 +7,7 @@ let current = null;
 let answered = false;
 
 const STORAGE_ACTIVE_COLS = 'jodoushi:activeCols';
+const STORAGE_QUESTION_COUNT = 'jodoushi:questionCount';
 const TBL_COLS = ['setsuzoku', 'katsuyo', 'imi', 'mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
 const TBL_BLANKABLE_COLS = ['mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
 const TBL_ROWS = [
@@ -30,6 +31,12 @@ const TYPING_GROUPS = [
 
 let tableBlankMap = {};
 let tableInputs = [];
+let tableOrder = [];
+let tableQuestionIndex = 0;
+let tableQuestionCorrect = 0;
+let tableCurrentRevealed = false;
+let tableCurrentDone = false;
+let questionLimit = 20;
 
 function saveActiveColsToStorage() {
   localStorage.setItem(STORAGE_ACTIVE_COLS, JSON.stringify([...activeCols]));
@@ -213,6 +220,10 @@ function recordQ(ok) {
   }
   updateQScore();
   showFeedbackQ(ok);
+  if (qTotal >= questionLimit) {
+    endQuiz();
+    return;
+  }
   const nextBtn = document.getElementById('nextBtn');
   if (nextBtn) nextBtn.style.display = '';
 }
@@ -288,73 +299,22 @@ function restartSameMode() {
 function buildTableQuiz() {
   tableBlankMap = {};
   tableInputs = [];
+  tableOrder = [];
+  tableQuestionIndex = 0;
+  tableQuestionCorrect = 0;
+  tableCurrentRevealed = false;
+  tableCurrentDone = false;
   const tblResult = document.getElementById('tblResult');
   if (tblResult) tblResult.classList.remove('show');
 
-  const tbody = document.getElementById('tblBody');
-  if (!tbody) return;
-  tbody.innerHTML = '';
-
-  DATA.forEach((row, ri) => {
-    const blankCols = shuffle([...TBL_BLANKABLE_COLS]).slice(0, Math.floor(4 + Math.random() * 3));
-    blankCols.forEach((c) => {
-      tableBlankMap[`${ri}_${c}`] = true;
-    });
-  });
-
-  TBL_ROWS.forEach((rowDef) => {
-    const tr = document.createElement('tr');
-    const rowHead = document.createElement('th');
-    rowHead.className = 'row-head';
-    rowHead.scope = 'row';
-    rowHead.textContent = rowDef.label;
-    tr.appendChild(rowHead);
-
-    DATA.forEach((row, ri) => {
-      const col = rowDef.key;
-      const td = document.createElement('td');
-      if (col !== 'name' && tableBlankMap[`${ri}_${col}`]) {
-        td.className = 'tbl-cell-blank';
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.className = 'tbl-input';
-        inp.placeholder = '...';
-        inp.dataset.ri = String(ri);
-        inp.dataset.col = col;
-        inp.setAttribute('autocomplete', 'off');
-        inp.addEventListener('input', () => autoCheck(inp));
-        inp.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === 'Tab') {
-            e.preventDefault();
-            const idx = tableInputs.indexOf(inp);
-            if (idx < tableInputs.length - 1) tableInputs[idx + 1].focus();
-          }
-        });
-        td.appendChild(inp);
-        tableInputs.push(inp);
-      } else if (col === 'name') {
-        td.className = 'name-cell';
-        td.textContent = formatValue(row.name);
-      } else {
-        td.textContent = formatValue(row[col]);
-        td.style.color = 'var(--ink2)';
-      }
-      tr.appendChild(td);
-    });
-
-    if (rowDef.key === 'name') tr.classList.add('name-row');
-    tbody.appendChild(tr);
-  });
-
-  const tblTotal = document.getElementById('tblTotal');
-  const tblProgress = document.getElementById('tblProgress');
-  const tblCorrectCount = document.getElementById('tblCorrectCount');
-  if (tblTotal) tblTotal.textContent = String(tableInputs.length);
-  if (tblProgress) tblProgress.textContent = '0';
-  if (tblCorrectCount) tblCorrectCount.textContent = '0';
+  const order = DATA.map((_, i) => i);
+  shuffle(order);
+  tableOrder = order.slice(0, Math.max(1, Math.min(questionLimit, order.length)));
+  renderCurrentTableQuestion();
 }
 
 function autoCheck(inp) {
+  if (inp.disabled) return;
   const row = DATA[Number(inp.dataset.ri)];
   const ans = row[inp.dataset.col];
   const val = inp.value;
@@ -369,15 +329,17 @@ function autoCheck(inp) {
     inp.className = 'tbl-input';
   }
   updateTblScore();
+  if (tableInputs.length > 0 && tableInputs.every((i) => i.disabled)) {
+    finalizeTableQuestion();
+  }
 }
 
 function updateTblScore() {
-  const filled = tableInputs.filter((i) => i.value.trim() !== '').length;
-  const correct = tableInputs.filter((i) => i.classList.contains('ok')).length;
+  const completed = tableQuestionIndex + (tableCurrentDone ? 1 : 0);
   const tblProgress = document.getElementById('tblProgress');
   const tblCorrectCount = document.getElementById('tblCorrectCount');
-  if (tblProgress) tblProgress.textContent = String(filled);
-  if (tblCorrectCount) tblCorrectCount.textContent = String(correct);
+  if (tblProgress) tblProgress.textContent = String(completed);
+  if (tblCorrectCount) tblCorrectCount.textContent = String(tableQuestionCorrect);
 }
 
 function checkAllTable() {
@@ -392,11 +354,12 @@ function checkAllTable() {
   });
   updateTblScore();
   if (tableInputs.length > 0 && tableInputs.every((i) => i.disabled)) {
-    showTblResult(tableInputs.filter((i) => i.classList.contains('ok')).length);
+    finalizeTableQuestion();
   }
 }
 
 function revealAllTable() {
+  tableCurrentRevealed = true;
   tableInputs.forEach((inp) => {
     if (inp.disabled) return;
     inp.value = formatValue(DATA[Number(inp.dataset.ri)][inp.dataset.col]);
@@ -404,18 +367,28 @@ function revealAllTable() {
     inp.disabled = true;
   });
   updateTblScore();
-  showTblResult(tableInputs.length);
+  finalizeTableQuestion();
 }
 
 function resetTable() {
   buildTableQuiz();
   const tblResult = document.getElementById('tblResult');
   if (tblResult) tblResult.classList.remove('show');
-  if (tableInputs.length > 0) tableInputs[0].focus();
 }
 
-function showTblResult(correct) {
-  const total = tableInputs.length;
+function nextTableQuestion() {
+  if (!tableCurrentDone) return;
+  tableQuestionIndex += 1;
+  if (tableQuestionIndex >= tableOrder.length) {
+    showTblResult();
+    return;
+  }
+  renderCurrentTableQuestion();
+}
+
+function showTblResult() {
+  const total = tableOrder.length;
+  const correct = tableQuestionCorrect;
   const rate = total > 0 ? Math.round((correct / total) * 100) : 0;
   const score = document.getElementById('tblResultScore');
   const commentEl = document.getElementById('tblResultComment');
@@ -431,6 +404,86 @@ function showTblResult(correct) {
   if (result) {
     result.classList.add('show');
     result.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+function finalizeTableQuestion() {
+  if (tableCurrentDone) return;
+  tableCurrentDone = true;
+  if (!tableCurrentRevealed && tableInputs.every((i) => i.classList.contains('ok'))) {
+    tableQuestionCorrect += 1;
+  }
+  updateTblScore();
+  const nextBtn = document.getElementById('tblNextBtn');
+  if (!nextBtn) return;
+  nextBtn.style.display = '';
+  nextBtn.textContent = tableQuestionIndex >= tableOrder.length - 1 ? '結果を見る' : '次の助動詞へ';
+}
+
+function renderCurrentTableQuestion() {
+  tableInputs = [];
+  tableCurrentRevealed = false;
+  tableCurrentDone = false;
+  const tbody = document.getElementById('tblBody');
+  if (!tbody) return;
+  tbody.innerHTML = '';
+
+  const nextBtn = document.getElementById('tblNextBtn');
+  if (nextBtn) nextBtn.style.display = 'none';
+
+  const ri = tableOrder[tableQuestionIndex];
+  const row = DATA[ri];
+  const blankCols = TBL_BLANKABLE_COLS.filter((col) => !isEmptyAnswerValue(row[col]));
+
+  TBL_ROWS.forEach((rowDef) => {
+    const tr = document.createElement('tr');
+    const rowHead = document.createElement('th');
+    rowHead.className = 'row-head';
+    rowHead.scope = 'row';
+    rowHead.textContent = rowDef.label;
+    tr.appendChild(rowHead);
+
+    const col = rowDef.key;
+    const td = document.createElement('td');
+    if (col !== 'name' && blankCols.includes(col)) {
+      td.className = 'tbl-cell-blank';
+      const inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'tbl-input';
+      inp.placeholder = '...';
+      inp.dataset.ri = String(ri);
+      inp.dataset.col = col;
+      inp.setAttribute('autocomplete', 'off');
+      inp.addEventListener('input', () => autoCheck(inp));
+      inp.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === 'Tab') {
+          e.preventDefault();
+          const idx = tableInputs.indexOf(inp);
+          if (idx < tableInputs.length - 1) tableInputs[idx + 1].focus();
+          else checkAllTable();
+        }
+      });
+      td.appendChild(inp);
+      tableInputs.push(inp);
+    } else if (col === 'name') {
+      td.className = 'name-cell';
+      td.textContent = formatValue(row.name);
+    } else {
+      td.textContent = formatValue(row[col]);
+      td.style.color = 'var(--ink2)';
+    }
+    tr.appendChild(td);
+    if (rowDef.key === 'name') tr.classList.add('name-row');
+    tbody.appendChild(tr);
+  });
+
+  const tblTotal = document.getElementById('tblTotal');
+  if (tblTotal) tblTotal.textContent = String(tableOrder.length);
+  updateTblScore();
+  if (tableInputs.length > 0) {
+    tableInputs[0].focus();
+  } else {
+    finalizeTableQuestion();
   }
 }
 
@@ -479,17 +532,26 @@ function loadActiveColsFromStorage() {
   }
 }
 
+function loadQuestionLimitFromStorage() {
+  const v = Number(localStorage.getItem(STORAGE_QUESTION_COUNT) || 20);
+  if (!Number.isFinite(v)) return 20;
+  const stepped = Math.floor(v / 5) * 5;
+  return Math.max(5, Math.min(50, stepped));
+}
+
 function initPage() {
   const page = document.body?.dataset.page;
   if (page === 'typing') {
     selectedMode = 'typing';
     activeCols = normalizeTypingActiveCols(loadActiveColsFromStorage());
+    questionLimit = loadQuestionLimitFromStorage();
     renderTypingSetupButtons();
     showScreen('typingSetupScreen');
     return;
   }
   if (page === 'table') {
     selectedMode = 'table';
+    questionLimit = loadQuestionLimitFromStorage();
     buildTableQuiz();
     showScreen('tableScreen');
   }

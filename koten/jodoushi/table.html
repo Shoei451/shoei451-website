@@ -15,24 +15,25 @@
   <div class="quiz-header">
     <button class="back-btn" onclick="goHome()">← ホーム</button>
     <div class="quiz-header-title">表埋めモード</div>
-    <div class="score-pill">入力済み <strong id="tblProgress">0</strong> / <strong id="tblTotal">0</strong></div>
+    <div class="score-pill">進行 <strong id="tblProgress">0</strong> / <strong id="tblTotal">0</strong></div>
   </div>
 
   <div class="page-wrap">
     <div class="table-intro">
       <div class="table-intro-text">
-        Enter または Tab で次のセルへ移動できます。<br>
-        自動で正誤判定されます。
+        1助動詞ずつ出題されます。<br>
+        Enter または Tab で次の欄へ移動できます。
       </div>
       <div class="tbl-score">
         <strong id="tblCorrectCount">0</strong>
-        <span>正解</span>
+        <span>正解問題数</span>
       </div>
     </div>
 
     <div class="tbl-actions">
-      <button class="btn btn-primary" onclick="checkAllTable()">まとめて判定</button>
-      <button class="reveal-btn" onclick="revealAllTable()">答えをすべて表示</button>
+      <button class="btn btn-primary" onclick="checkAllTable()">判定</button>
+      <button class="reveal-btn" onclick="revealAllTable()">この問題の答えを表示</button>
+      <button class="btn btn-primary" id="tblNextBtn" onclick="nextTableQuestion()" style="display:none">次の助動詞へ</button>
       <button class="reveal-btn" onclick="resetTable()">リセット</button>
     </div>
 
@@ -44,7 +45,7 @@
 
     <div class="tbl-result" id="tblResult">
       <div class="tbl-result-score" id="tblResultScore"></div>
-      <div class="tbl-result-label">正解数</div>
+      <div class="tbl-result-label">正解問題数</div>
       <div class="tbl-result-comment" id="tblResultComment"></div>
       <button class="btn btn-primary" onclick="resetTable()" style="margin:0 auto;display:block">もう一度</button>
     </div>

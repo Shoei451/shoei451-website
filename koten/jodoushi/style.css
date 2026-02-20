@@ -199,6 +199,35 @@ body {
   line-height: 1.7;
 }
 
+.question-count-section {
+  margin-bottom: 26px;
+}
+
+.question-count-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 18px;
+}
+
+.question-count-range {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.question-count-value {
+  text-align: center;
+  margin-top: 10px;
+  color: var(--ink2);
+  font-size: 14px;
+}
+
+.question-count-value strong {
+  color: var(--accent);
+  font-size: 24px;
+  margin-right: 4px;
+}
+
 /* Column selector */
 .col-selector {
   display: flex;
@@ -629,6 +658,10 @@ table {
   min-width: 1120px;
 }
 
+#tableScreen table {
+  min-width: 0;
+}
+
 #mainTable tbody th.row-head {
   background: var(--bg2);
   border-bottom: 1px solid var(--border);
@@ -640,6 +673,7 @@ table {
   text-align: center;
   font-size: 12px;
   white-space: nowrap;
+  width: 110px;
 }
 
 #mainTable tbody tr.name-row th.row-head {

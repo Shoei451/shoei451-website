@@ -38,6 +38,23 @@
       </div>
     </div>
 
+    <div id="questionCountSection" class="question-count-section">
+      <div class="start-section-title">出題数</div>
+      <div class="question-count-wrap">
+        <input
+          id="questionCountRange"
+          class="question-count-range"
+          type="range"
+          min="5"
+          max="50"
+          step="5"
+          value="20"
+          oninput="updateQuestionCount(this.value)"
+        >
+        <div class="question-count-value"><strong id="questionCountValue">20</strong>問</div>
+      </div>
+    </div>
+
     <button class="start-btn" onclick="startQuiz()">スタート</button>
   </div>
 </div>
