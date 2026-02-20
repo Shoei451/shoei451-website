@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入力モード | 古典 助動詞クイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="typing">
+<div class="top-band"></div>
+
+<div id="quizScreen" class="screen active">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">← ホーム</button>
+    <div class="quiz-header-title" id="quizHeaderTitle">入力モード</div>
+    <div class="score-pill">正解 <strong id="hScoreC">0</strong> / <strong id="hScoreT">0</strong></div>
+    <div class="streak-pill" id="streakPill">🔥 <span id="streakNum">0</span>連続</div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="q-card" id="qCard">
+      <div class="q-num" id="qNum">Q.001</div>
+      <div class="q-col-tag" id="qColTag">接続</div>
+      <div class="q-text" id="qText"></div>
+
+      <div id="typingArea">
+        <div class="inp-row">
+          <input type="text" id="ansInput" class="ans-input" placeholder="答えを入力"
+                 onkeydown="if(event.key==='Enter') checkTyping()">
+          <button class="btn btn-primary" onclick="checkTyping()">判定</button>
+          <button class="btn btn-ghost" onclick="showHint()">ヒント</button>
+        </div>
+        <div class="hint-box" id="hintBox"></div>
+      </div>
+
+      <div class="feedback" id="feedback"></div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none">次の問題へ</button>
+        <button class="btn btn-ghost" onclick="endQuiz()">終了</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="resultsScreen" class="screen">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">← ホーム</button>
+    <div class="quiz-header-title">結果</div>
+  </div>
+  <div class="page-wrap">
+    <div class="result-big" id="resultBig"></div>
+    <div class="result-label">正解 / 出題数</div>
+    <div class="result-comment" id="resultComment"></div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="restartSameMode()">もう一度</button>
+      <button class="btn btn-ghost" onclick="goHome()">ホームへ</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="logic.js"></script>
+</body>
+</html>

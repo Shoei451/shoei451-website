@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.ico" />
+<title>古典 — Shoei451</title>
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/sub-index.css">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Header -->
+<header>
+    <h1>古典</h1>
+    <p>古典文学の学習リソース</p>
+</header>
+
+<!-- Introduction -->
+<section class="intro">
+    <a href="../" class="back-link">Back to Home</a>
+    <h2></h2>
+    <p></p>
+</section>
+
+<!-- SECTION 1-->
+<div class="section-divider">
+    <h2 class="section-title">古文</h2>
+    <p class="section-description">古文の学習リソース</p>
+</div>
+
+<section class="cards-container" id="container1">
+    <!-- Section 1 Cards-->
+</section>
+
+<!-- SECTION 2-->
+<div class="section-divider">
+    <h2 class="section-title">漢文</h2>
+    <p class="section-description">漢文の学習リソース</p>
+</div>
+
+<section class="cards-container" id="container2">
+    <!-- Section 2 Cards-->
+</section>
+
+
+<!-- SECTION 3
+<div class="section-divider">
+    <h2 class="section-title">タイトル3</h2>
+    <p class="section-description">説明3</p>
+</div>
+-->
+<!--
+<section class="cards-container" id="container3">
+</section>
+-->
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script src="list1.js"></script>
+<script src="list2.js"></script>
+<!--<script src="list3.js"></script>-->
+<script src="../js/theme-toggle.js"></script>
+<script src="../js/card-generator.js"></script>
+<script>
+// Generate both sections
+document.addEventListener('DOMContentLoaded', () => {
+    // Generate Section 1
+    generateCards(sectionItems1, 'container1');
+    
+    // Generate Section 2 (Optional)
+    generateCards(sectionItems2, 'container2');
+
+    // Generate Section 3 (Optional)
+    //generateCards(sectionItems3, 'container3');
+    
+    // Animate all cards
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting){
+                entry.target.classList.add('animate');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => observer.observe(card));
+});
+</script>
+
+</body>
+</html>

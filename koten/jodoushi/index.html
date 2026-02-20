@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古典 助動詞クイズ</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="start">
+<div class="top-band"></div>
+
+<div id="startScreen" class="screen active">
+  <div class="start-hero">
+    <div class="kamon">古</div>
+    <h1 class="start-title">古典文法<br><span>助動詞</span>クイズ</h1>
+    <p class="start-sub">出題モードと範囲を選んでスタートできます</p>
+    <div class="start-divider"></div>
+  </div>
+
+  <div class="start-body">
+    <div class="start-section-title">出題モードを選ぶ</div>
+    <div class="mode-cards">
+      <div class="mode-card selected" id="modeCard-typing" onclick="selectMode('typing')">
+        <div class="mode-icon">✍️</div>
+        <div class="mode-name">入力モード</div>
+        <div class="mode-desc">助動詞名を見て答えを直接入力</div>
+      </div>
+      <div class="mode-card" id="modeCard-table" onclick="selectMode('table')">
+        <div class="mode-icon">📊</div>
+        <div class="mode-name">表埋めモード</div>
+        <div class="mode-desc">活用表を穴埋めして総確認</div>
+      </div>
+    </div>
+
+    <div id="colFilterSection">
+      <div class="start-section-title">出題する項目</div>
+      <div class="col-selector" id="colSelector">
+        <button class="col-chip on" data-col="setsuzo" onclick="toggleCol(this,'setsuzo')">接続</button>
+        <button class="col-chip on" data-col="katsuyo" onclick="toggleCol(this,'katsuyo')">活用の種類</button>
+        <button class="col-chip on" data-col="imi" onclick="toggleCol(this,'imi')">意味</button>
+        <button class="col-chip on" data-col="mizen" onclick="toggleCol(this,'mizen')">未然形</button>
+        <button class="col-chip on" data-col="renyo" onclick="toggleCol(this,'renyo')">連用形</button>
+        <button class="col-chip on" data-col="shushi" onclick="toggleCol(this,'shushi')">終止形</button>
+        <button class="col-chip on" data-col="rentai" onclick="toggleCol(this,'rentai')">連体形</button>
+        <button class="col-chip on" data-col="kizen" onclick="toggleCol(this,'kizen')">已然形</button>
+        <button class="col-chip on" data-col="meirei" onclick="toggleCol(this,'meirei')">命令形</button>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">スタート</button>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script src="start.js"></script>
+</body>
+</html>
