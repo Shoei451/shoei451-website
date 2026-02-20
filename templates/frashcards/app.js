@@ -1,58 +1,73 @@
 // ═══════════════════════════════════════════════
-// app.js — 古典常識カード メインロジック
+// app.js — フラッシュカード エンジン（汎用）
+// config.js の APP_CONFIG を読み込んで動作します
 // ═══════════════════════════════════════════════
 
-// ── ローカル fallback データ（Supabase 未設定時） ──
-const LOCAL_QUESTIONS = [
-  {id:1,  category:'rhetoric', question:'枕詞「あしひきの」がかかる語は？',                         answer:'山',                             explanation:'「あしひきの山鳥の尾のしだり尾の」など多くの和歌に使われる。', image_url:''},
-  {id:2,  category:'rhetoric', question:'枕詞「たらちねの」がかかる語は？',                         answer:'母',                             explanation:'「たらちねの母の命は」のように用いる。', image_url:''},
-  {id:3,  category:'rhetoric', question:'枕詞「ちはやぶる」がかかる語は？',                         answer:'神',                             explanation:'「荒々しい・威勢がよい」という意を持つ。在原業平の歌で有名。', image_url:''},
-  {id:4,  category:'rhetoric', question:'枕詞「ぬばたまの」がかかる語の種類は？',                   answer:'夜・黒・髪など暗さに関係する語', explanation:'ヒオウギの黒い実に由来する。「夜」「黒」「髪」「闇」などにかかる。', image_url:''},
-  {id:5,  category:'rhetoric', question:'枕詞「あをによし」がかかる語は？',                         answer:'奈良',                           explanation:'「あをによし奈良の都は…」（小野老）。奈良産の青丹（顔料）に由来。', image_url:''},
-  {id:6,  category:'rhetoric', question:'小野小町「…ながめせしまに」の「ながめ」の掛詞は？',       answer:'眺め（物思い）と長雨',           explanation:'春の長雨の間に物思いにふけっているうちに花が散った、という意。', image_url:''},
-  {id:7,  category:'rhetoric', question:'掛詞（かけことば）とはどのような技法か？',                 answer:'同音異義を利用し一語に二つ以上の意味を持たせる技法', explanation:'「松（待つ）」「秋（飽き）」のように。和歌の重層的な意味を生む。', image_url:''},
-  {id:8,  category:'rhetoric', question:'序詞（じょことば）とはどのような技法か？',                 answer:'5音以上の長い前置きで、あとの語句を導く比喩・象徴的表現', explanation:'枕詞より長く文脈によって内容が変わる。比喩・象徴として機能する。', image_url:''},
-  {id:9,  category:'rhetoric', question:'縁語（えんご）とはどのような技法か？',                     answer:'一首の中に意味的に関連する語群を複数配置する技法', explanation:'「弓・矢・射る・的」など。掛詞と組み合わせて用いられることも多い。', image_url:''},
-  {id:10, category:'rhetoric', question:'本歌取り（ほんかどり）とはどのような技法か？',             answer:'先人の有名な和歌の語句・表現を取り入れ新たな意味を創り出す技法', explanation:'新古今時代に盛んで藤原定家が多用。読者が本歌を知ることで重層的意味が生まれる。', image_url:''},
-  {id:11, category:'rank',     question:'正一位の次に高い位階は？',                                 answer:'従一位',                         explanation:'官位は「正・従」の2つに分かれ、それぞれ一位〜八位まであった。', image_url:''},
-  {id:12, category:'rank',     question:'清涼殿の殿上の間への昇殿を許された四位・五位の貴族の総称は？', answer:'殿上人（てんじょうびと）',   explanation:'三位以上は公卿。六位以下は地下（じげ）と呼ばれ殿上を許されない。', image_url:''},
-  {id:13, category:'rank',     question:'公卿（くぎょう）と呼ばれるための条件は？',                 answer:'三位以上、または参議に任じられた四位', explanation:'現代でも「上達部（かんだちめ）」と呼ぶ。源氏物語でも重要な概念。', image_url:''},
-  {id:14, category:'rank',     question:'受領（ずりょう）とは何か？',                               answer:'実際に任国に赴任した国司の最上席者', explanation:'「受領は倒るる所に土をも掴め」という俗語があるほど財を蓄えた。', image_url:''},
-  {id:15, category:'rank',     question:'蔵人頭（くろうどのとう）とはどのような役職か？',           answer:'蔵人所の最高職。天皇の秘書的役割を担い公卿への登竜門とされた', explanation:'四位・五位の優秀な中流貴族が任じられた。源氏物語の頭中将もこの地位。', image_url:''},
-  {id:16, category:'rank',     question:'摂政と関白の違いは？',                                     answer:'摂政は幼帝・女帝のとき代わりに政務を行い、関白は成人天皇を補佐する', explanation:'どちらも藤原氏が独占した。両者が置かれた政治体制を「摂関政治」という。', image_url:''},
-  {id:17, category:'rank',     question:'源氏物語で光源氏が最終的に到達した地位は？',               answer:'准太上天皇（じゅんだいじょうてんのう）', explanation:'実際の官職ではなく名誉的地位。紫式部が源氏の卓越性を示すための設定。', image_url:''},
-  {id:18, category:'rank',     question:'六位以下で殿上の間への昇殿を許されない貴族の総称は？',     answer:'地下（じげ）',                   explanation:'殿上人（四位・五位）や公卿（三位以上）と区別される平安の身分区分。', image_url:''},
-  {id:19, category:'lit',      question:'枕草子の作者は？',                                         answer:'清少納言',                       explanation:'一条天皇の中宮・定子に仕えた。「春はあけぼの」の書き出しで有名な随筆。', image_url:''},
-  {id:20, category:'lit',      question:'源氏物語の成立はいつ頃か？',                               answer:'平安時代中期（1000年前後）',     explanation:'紫式部の作。一条天皇の中宮・彰子に仕えた。現存最古の長編小説の一つ。', image_url:''},
-  {id:21, category:'lit',      question:'日本最古の和歌集は？',                                     answer:'万葉集',                         explanation:'奈良時代末期に成立。約4500首を収録。大伴家持が編纂に関わったとされる。', image_url:''},
-  {id:22, category:'lit',      question:'古今和歌集の成立年と主な撰者は？',                         answer:'905年頃・紀貫之ら4人',           explanation:'醍醐天皇の勅命で成立した最初の勅撰和歌集。仮名序は紀貫之が記した。', image_url:''},
-  {id:23, category:'lit',      question:'更級日記の作者は？',                                       answer:'菅原孝標女（すがわらのたかすえのむすめ）', explanation:'源氏物語に憧れた少女時代から老境までを回想した日記文学。', image_url:''},
-  {id:24, category:'lit',      question:'新古今和歌集の成立年と美的理念は？',                       answer:'1205年・幽玄と余情',             explanation:'後鳥羽上皇の命で成立した第八勅撰集。藤原定家らが撰者。本歌取りを多用。', image_url:''},
-  {id:25, category:'lit',      question:'土佐日記の作者と特徴は？',                                 answer:'紀貫之。男性が女性の仮名体裁で書いた最初の日記文学', explanation:'934〜935年成立。土佐守の任期を終えた帰京の道中を記す。', image_url:''},
-  {id:26, category:'lit',      question:'伊勢物語の特徴は？',                                       answer:'作者未詳。在原業平をモデルとする「昔男」の恋愛と旅を描いた歌物語', explanation:'9〜10世紀頃成立。125段構成。和歌を中心に散文が付く形式。', image_url:''},
-  {id:27, category:'lit',      question:'方丈記の作者と成立年は？',                                 answer:'鴨長明・1212年（鎌倉前期）',     explanation:'無常観と隠遁生活を記した随筆。「ゆく河の流れは絶えずして…」で始まる。', image_url:''},
-  {id:28, category:'lit',      question:'徒然草の作者と成立時代は？',                               answer:'吉田兼好（兼好法師）・鎌倉後期〜南北朝', explanation:'244段から成る随筆。「つれづれなるままに…」で始まる。', image_url:''},
-  {id:29, category:'lit',      question:'平家物語の中心テーマは？',                                 answer:'平氏の盛衰と諸行無常の仏教的世界観', explanation:'「盛者必衰」を描く軍記物語。琵琶法師により語り継がれた。', image_url:''},
-];
+// ── Config から取得 ──────────────────────────────
+const CAT_LABELS = Object.fromEntries(
+  Object.entries(APP_CONFIG.categories).map(([k, v]) => [k, v.label])
+);
 
-// ── State ──
-let allQuestions = [...LOCAL_QUESTIONS]; // 全問 (Supabase or local)
+// ── カテゴリバッジのCSSを動的生成 ─────────────────
+function injectCategoryStyles() {
+  const style = document.createElement('style');
+  style.textContent = Object.entries(APP_CONFIG.categories).map(([key, cat]) => {
+    const hex = cat.color;
+    return `
+      .badge-${key} {
+        background: ${hexToRgba(hex, 0.1)};
+        color: ${hex};
+        border: 1px solid ${hexToRgba(hex, 0.35)};
+      }
+    `;
+  }).join('');
+  document.head.appendChild(style);
+}
+
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1,3),16);
+  const g = parseInt(hex.slice(3,5),16);
+  const b = parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
+// ── タイトル挿入 ─────────────────────────────────
+function applyConfigToDOM() {
+  const titleMain = document.querySelector('.title-main');
+  const titleKana = document.querySelector('.title-kana');
+  const titleSub  = document.querySelector('.title-sub');
+  if (titleMain) titleMain.textContent = APP_CONFIG.title;
+  if (titleKana) titleKana.textContent = APP_CONFIG.titleKana;
+  if (titleSub)  titleSub.textContent  = APP_CONFIG.titleSub;
+  document.title = APP_CONFIG.title + 'カード';
+
+  // カテゴリ選択ボタンを動的生成
+  const catsDiv = document.querySelector('.start-cats');
+  if (catsDiv) {
+    const mixBtn = `<button class="start-cat active" data-start-cat="mix">Mix mode</button>`;
+    const catBtns = Object.entries(APP_CONFIG.categories).map(([key, cat]) =>
+      `<button class="start-cat" data-start-cat="${key}">${cat.label}</button>`
+    ).join('');
+    catsDiv.innerHTML = mixBtn + catBtns;
+  }
+}
+
+// ── Supabase 設定 ────────────────────────────────
+let sbUrl = (APP_CONFIG.supabaseUrl     || '').trim().replace(/\/$/, '');
+let sbKey = (APP_CONFIG.supabaseAnonKey || '').trim();
+const SB_TABLE = APP_CONFIG.tableName || 'flashcard_questions';
+
+// ── State ────────────────────────────────────────
+let allQuestions = [...APP_CONFIG.defaultQuestions];
 let deck    = [];
 let deckIdx = 0;
 let isFlipped = false;
 let isCardTransitioning = false;
-let mastery = {};   // { id: 'knew' | 'unsure' | 'forgot' }
+let mastery = {};
 let selectedCategory = 'mix';
 let selectedQuestionCount = '20';
-const CARD_SWAP_OUT_MS = 140;
-const CARD_SWAP_IN_MS = 180;
-
-const INLINE_SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
-const INLINE_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
-let sbUrl = (INLINE_SUPABASE_URL || '').trim().replace(/\/$/, '');
-let sbKey = (INLINE_SUPABASE_ANON_KEY || '').trim();
-
-const CAT_LABELS = { rhetoric: '和歌の修辞', rank: '貴族の位', lit: '文学史' };
+const CARD_SWAP_OUT_MS = 160;
+const CARD_SWAP_IN_MS = 220;
 
 // ══════════════════════════════════════════════
 // MODE SWITCH
@@ -62,16 +77,13 @@ function switchMode(mode) {
   document.querySelectorAll('.h-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('mode-' + mode).classList.add('active');
   document.getElementById('htab-' + mode).classList.add('active');
-
-  if (mode === 'editor') {
-    renderQList();
-  }
+  if (mode === 'editor') renderQList();
 }
 
 // ══════════════════════════════════════════════
 // SUPABASE
 // ══════════════════════════════════════════════
-function hasInlineSupabaseConfig() {
+function hasSupabaseConfig() {
   return !!(sbUrl && sbKey);
 }
 
@@ -81,27 +93,24 @@ function setSbStatus(type, msg) {
   el.className = 'sb-status' + (type ? ' ' + type : '');
 }
 
-async function syncSupabaseInline() {
-  await connectSupabaseInline(true);
+async function syncSupabase() {
+  await connectSupabase(true);
 }
 
-async function connectSupabaseInline(showFeedback = false) {
-  if (!hasInlineSupabaseConfig()) {
-    setSbStatus('err', 'app.js に Supabase 設定がありません');
+async function connectSupabase(showFeedback = false) {
+  if (!hasSupabaseConfig()) {
+    setSbStatus('err', 'config.js に Supabase 設定がありません');
     if (showFeedback) showToast('Supabase 設定が未入力です');
     return false;
   }
-
   setSbStatus('', '接続中…');
   try {
-    const data = await sbFetch('GET', '/rest/v1/koten_questions?select=*&order=id');
+    const data = await sbFetch('GET', `/rest/v1/${SB_TABLE}?select=*&order=id`);
     allQuestions = data.map(normalizeRow);
     setSbStatus('ok', `接続済み（${allQuestions.length}件）`);
     showBanner(`Supabase から ${allQuestions.length} 件の問題を読み込みました`);
-
     if (isStartVisible()) updateStartMeta();
     else buildDeck();
-
     renderQList();
     if (showFeedback) showToast('Supabase を再読み込みしました');
     return true;
@@ -141,17 +150,12 @@ function normalizeRow(r) {
   };
 }
 
-async function tryInlineConnect() {
-  await connectSupabaseInline(false);
-}
-
 // ══════════════════════════════════════════════
 // BANNER
 // ══════════════════════════════════════════════
 function showBanner(msg) {
-  const el = document.getElementById('sbBanner');
   document.getElementById('sbBannerText').textContent = msg;
-  el.style.display = '';
+  document.getElementById('sbBanner').style.display = '';
 }
 function closeBanner() {
   document.getElementById('sbBanner').style.display = 'none';
@@ -161,16 +165,14 @@ function closeBanner() {
 // DECK
 // ══════════════════════════════════════════════
 function buildDeck(keepOrder = false) {
-  const byCategory = allQuestions.filter(q =>
+  const pool0 = allQuestions.filter(q =>
     selectedCategory === 'mix' || q.category === selectedCategory
   );
-  let pool = [...byCategory];
-
+  let pool = [...pool0];
   if (selectedQuestionCount !== 'all') {
     const count = Math.min(Number(selectedQuestionCount), pool.length);
     pool = shuffle(pool).slice(0, count);
   }
-
   deck    = keepOrder ? [...pool] : shuffle([...pool]);
   deckIdx = 0;
   isFlipped = false;
@@ -219,20 +221,21 @@ function startStudy() {
 }
 
 function updateStartMeta() {
-  const byCategory = allQuestions.filter(q =>
+  const filtered = allQuestions.filter(q =>
     selectedCategory === 'mix' || q.category === selectedCategory
   );
   const count = selectedQuestionCount === 'all'
-    ? byCategory.length
-    : Math.min(Number(selectedQuestionCount), byCategory.length);
-
+    ? filtered.length
+    : Math.min(Number(selectedQuestionCount), filtered.length);
   document.getElementById('startMeta').textContent =
-    `出題: ${count}問 / 対象データ: ${byCategory.length}問`;
+    `出題: ${count}問 / 対象データ: ${filtered.length}問`;
 }
 
 function initStartScreen() {
-  document.querySelectorAll('[data-start-cat]').forEach(btn => {
-    btn.addEventListener('click', () => setStartCategory(btn.dataset.startCat));
+  // カテゴリボタンはDOM生成後にイベントを委譲
+  document.querySelector('.start-cats').addEventListener('click', e => {
+    const btn = e.target.closest('[data-start-cat]');
+    if (btn) setStartCategory(btn.dataset.startCat);
   });
 
   document.getElementById('startCount').addEventListener('change', e => {
@@ -268,17 +271,18 @@ function renderCard() {
   const q = deck[deckIdx];
   const total = deck.length;
 
-  // Progress
   document.getElementById('progressFill').style.width = ((deckIdx + 1) / total * 100) + '%';
   document.getElementById('deckIndicator').textContent = (deckIdx + 1) + ' / ' + total;
   document.getElementById('prevBtn').disabled = deckIdx === 0;
   document.getElementById('nextBtn').disabled = deckIdx === total - 1;
 
-  // Front
+  const catLabel = APP_CONFIG.categories[q.category]?.label ?? q.category;
   const fb = document.getElementById('frontBadge');
-  fb.textContent = CAT_LABELS[q.category];
+  fb.textContent = catLabel;
   fb.className   = 'face-badge badge-' + q.category;
-  document.getElementById('backBadge').textContent = CAT_LABELS[q.category];
+  const bb = document.getElementById('backBadge');
+  bb.textContent = catLabel;
+  bb.className   = 'face-badge back-badge badge-' + q.category;
 
   const img = document.getElementById('cardImage');
   if (q.image_url) { img.src = q.image_url; img.style.display = 'block'; }
@@ -323,7 +327,8 @@ function transitionToCard(targetIdx, direction = 1) {
   if (isCardTransitioning) return;
 
   const scene = document.querySelector('.card-scene');
-  if (!scene) {
+  const body = document.getElementById('cardBody');
+  if (!scene || !body) {
     deckIdx = targetIdx;
     renderCard();
     return;
@@ -331,21 +336,21 @@ function transitionToCard(targetIdx, direction = 1) {
 
   isCardTransitioning = true;
   scene.classList.add('is-swapping');
-  scene.classList.remove('swap-out-left', 'swap-out-right', 'swap-in-left', 'swap-in-right');
+  body.classList.remove('swap-out-left', 'swap-out-right', 'swap-in-left', 'swap-in-right');
 
   const outClass = direction >= 0 ? 'swap-out-left' : 'swap-out-right';
   const inClass  = direction >= 0 ? 'swap-in-right' : 'swap-in-left';
 
-  scene.classList.add(outClass);
+  body.classList.add(outClass);
   setTimeout(() => {
-    scene.classList.remove(outClass);
+    body.classList.remove(outClass);
     deckIdx = targetIdx;
     renderCard();
-    void scene.offsetWidth;
-    scene.classList.add(inClass);
+    void body.offsetWidth;
+    body.classList.add(inClass);
 
     setTimeout(() => {
-      scene.classList.remove(inClass);
+      body.classList.remove(inClass);
       scene.classList.remove('is-swapping');
       isCardTransitioning = false;
     }, CARD_SWAP_IN_MS);
@@ -453,7 +458,6 @@ function jumpTo(idx) {
 // KEYBOARD
 // ══════════════════════════════════════════════
 document.addEventListener('keydown', e => {
-  // Don't hijack when typing in editor inputs
   if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
   switch (e.code) {
     case 'Space':      e.preventDefault(); flipCard();           break;
@@ -470,16 +474,28 @@ document.addEventListener('keydown', e => {
 // ══════════════════════════════════════════════
 let editingId = null;
 
+function buildCategoryOptions(selectedValue = '') {
+  return Object.entries(APP_CONFIG.categories).map(([key, cat]) =>
+    `<option value="${key}" ${key === selectedValue ? 'selected' : ''}>${cat.label}</option>`
+  ).join('');
+}
+
+function initEditorCategorySelect() {
+  const sel = document.getElementById('f_category');
+  if (sel) sel.innerHTML = buildCategoryOptions();
+}
+
 function resetForm() {
   editingId = null;
   document.getElementById('formTitle').textContent = '問題を追加';
-  document.getElementById('f_category').value  = 'rhetoric';
-  document.getElementById('f_question').value  = '';
-  document.getElementById('f_answer').value    = '';
+  const firstCat = Object.keys(APP_CONFIG.categories)[0] || '';
+  document.getElementById('f_category').innerHTML = buildCategoryOptions(firstCat);
+  document.getElementById('f_question').value    = '';
+  document.getElementById('f_answer').value      = '';
   document.getElementById('f_explanation').value = '';
-  document.getElementById('f_imageUrl').value  = '';
+  document.getElementById('f_imageUrl').value    = '';
   document.getElementById('imagePreview').innerHTML = '';
-  document.getElementById('f_imageFile').value = '';
+  document.getElementById('f_imageFile').value   = '';
 }
 
 function previewImage() {
@@ -513,16 +529,15 @@ async function saveQuestion() {
 
   const obj = { category, question, answer, explanation, image_url };
 
-  // Try Supabase first
-  if (sbUrl && sbKey) {
+  if (hasSupabaseConfig()) {
     try {
       if (editingId !== null) {
-        await sbFetch('PATCH', `/rest/v1/koten_questions?id=eq.${editingId}`, obj);
+        await sbFetch('PATCH', `/rest/v1/${SB_TABLE}?id=eq.${editingId}`, obj);
         const idx = allQuestions.findIndex(q => q.id === editingId);
         allQuestions[idx] = { id: editingId, ...obj };
         showToast('Supabase に更新しました');
       } else {
-        const [row] = await sbFetch('POST', '/rest/v1/koten_questions', obj);
+        const [row] = await sbFetch('POST', `/rest/v1/${SB_TABLE}`, obj);
         allQuestions.push(normalizeRow(row));
         showToast('Supabase に保存しました');
       }
@@ -530,7 +545,6 @@ async function saveQuestion() {
       showToast('Supabase エラー: ' + e.message); return;
     }
   } else {
-    // Local only
     if (editingId !== null) {
       const idx = allQuestions.findIndex(q => q.id === editingId);
       allQuestions[idx] = { id: editingId, ...obj };
@@ -552,7 +566,7 @@ function editQuestion(id) {
   if (!q) return;
   editingId = id;
   document.getElementById('formTitle').textContent = '問題を編集';
-  document.getElementById('f_category').value    = q.category;
+  document.getElementById('f_category').innerHTML  = buildCategoryOptions(q.category);
   document.getElementById('f_question').value    = q.question;
   document.getElementById('f_answer').value      = q.answer;
   document.getElementById('f_explanation').value = q.explanation || '';
@@ -563,9 +577,9 @@ function editQuestion(id) {
 
 async function deleteQuestion(id) {
   if (!confirm('この問題を削除しますか？')) return;
-  if (sbUrl && sbKey) {
+  if (hasSupabaseConfig()) {
     try {
-      await sbFetch('DELETE', `/rest/v1/koten_questions?id=eq.${id}`);
+      await sbFetch('DELETE', `/rest/v1/${SB_TABLE}?id=eq.${id}`);
     } catch (e) {
       showToast('削除エラー: ' + e.message); return;
     }
@@ -577,7 +591,7 @@ async function deleteQuestion(id) {
 }
 
 function renderQList() {
-  const list = document.getElementById('qList');
+  const list  = document.getElementById('qList');
   const count = document.getElementById('qListCount');
   count.textContent = allQuestions.length + '件';
   if (!allQuestions.length) {
@@ -588,7 +602,7 @@ function renderQList() {
     <div class="q-list-item">
       <span class="qli-n">${i + 1}</span>
       <span class="qli-t">${q.question.length > 50 ? q.question.slice(0,50)+'…' : q.question}</span>
-      <span class="qli-badge badge-${q.category}">${CAT_LABELS[q.category]}</span>
+      <span class="qli-badge badge-${q.category}">${APP_CONFIG.categories[q.category]?.label ?? q.category}</span>
       <div class="qli-actions">
         <button class="qli-edit" onclick="editQuestion(${q.id})">編集</button>
         <button class="qli-del"  onclick="deleteQuestion(${q.id})">削除</button>
@@ -603,18 +617,15 @@ function renderQList() {
 function exportCSV() {
   const header = 'id,category,question,answer,explanation,image_url';
   const rows = allQuestions.map(q => [
-    q.id,
-    q.category,
-    csvEscape(q.question),
-    csvEscape(q.answer),
-    csvEscape(q.explanation || ''),
-    csvEscape(q.image_url   || ''),
+    q.id, q.category,
+    csvEscape(q.question), csvEscape(q.answer),
+    csvEscape(q.explanation || ''), csvEscape(q.image_url || ''),
   ].join(','));
-  download('koten_questions.csv', [header, ...rows].join('\n'), 'text/csv;charset=utf-8');
+  download(SB_TABLE + '.csv', [header, ...rows].join('\n'), 'text/csv;charset=utf-8');
 }
 
 function exportJSON() {
-  download('koten_questions.json', JSON.stringify(allQuestions, null, 2), 'application/json');
+  download(SB_TABLE + '.json', JSON.stringify(allQuestions, null, 2), 'application/json');
 }
 
 function csvEscape(s) {
@@ -644,5 +655,8 @@ function showToast(msg) {
 // ══════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════
-initStartScreen();
-tryInlineConnect();
+injectCategoryStyles();  // カテゴリバッジのCSSをconfigから生成
+applyConfigToDOM();      // タイトル・カテゴリボタンをDOMに反映
+initStartScreen();       // スタート画面を初期化
+initEditorCategorySelect();
+if (hasSupabaseConfig()) connectSupabase(false);
