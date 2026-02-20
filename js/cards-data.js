@@ -35,7 +35,7 @@ const cardsList = [
         text: "入試カウントダウンなど", 
         link: "clock_and_calendar/" 
     },
-    */
+    
     { 
         icon: "📰",
         title: "Blogs", 
@@ -43,7 +43,7 @@ const cardsList = [
         text: "Blogs to share what I learned, or what I thought.", 
         link: "https://shoei451.super.site/blog-postsbeta-shoei451" 
     },
-    
+    */
     { 
         icon: "🗂️",
         title: "Other tools", 
