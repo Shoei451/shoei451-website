@@ -26,15 +26,3 @@ const DATA = [
 
 const COL_KEYS   = ['setsuzoku','imi','mizen','renyo','shushi','rentai','izen','meirei'];
 const COL_LABELS = { setsuzoku:"接続", katsuyo:"活用の種類", imi:"意味", mizen:"未然形", renyo:"連用形", shushi:"終止形", rentai:"連体形", izen:"已然形", meirei:"命令形" };
-
-const HINTS = {
-  setsuzoku: r => `ヒント：活用の種類は「${r.katsuyo}」。`,
-  katsuyo: r => `ヒント：終止形は「${r.shushi}」。`,
-  imi:     r => `ヒント：接続は「${r.setsuzoku}」に付く。`,
-  mizen:   r => `ヒント：活用の種類は「${r.katsuyo}」型に準じる。`,
-  renyo:   r => `ヒント：活用の種類は「${r.katsuyo}」型に準じる。`,
-  shushi:  r => `ヒント：この助動詞の基本形（辞書形）。`,
-  rentai:  r => `ヒント：活用の種類は「${r.katsuyo}」型。`,
-  izen:   r => `ヒント：已然形は「〜ば」などに接続する形。`,
-  meirei:  r => `ヒント：命令形は「〜よ」などに接続する形。`,
-};

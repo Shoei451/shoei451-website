@@ -144,16 +144,11 @@ function nextQuestion() {
     current = null;
     const qText = document.getElementById('qText');
     const feedback = document.getElementById('feedback');
-    const hintBox = document.getElementById('hintBox');
     const inp = document.getElementById('ansInput');
     if (qText) qText.textContent = '出題できるデータがありません。項目選択を見直してください。';
     if (feedback) {
       feedback.className = 'feedback';
       feedback.textContent = '';
-    }
-    if (hintBox) {
-      hintBox.className = 'hint-box';
-      hintBox.textContent = '';
     }
     if (inp) inp.disabled = true;
     return;
@@ -178,7 +173,6 @@ function nextQuestion() {
   const qText = document.getElementById('qText');
   const feedback = document.getElementById('feedback');
   const nextBtn = document.getElementById('nextBtn');
-  const hintBox = document.getElementById('hintBox');
   const inp = document.getElementById('ansInput');
 
   if (qNum) qNum.textContent = `Q.${String(qTotal).padStart(3, '0')}`;
@@ -192,10 +186,6 @@ function nextQuestion() {
     feedback.textContent = '';
   }
   if (nextBtn) nextBtn.style.display = 'none';
-  if (hintBox) {
-    hintBox.className = 'hint-box';
-    hintBox.textContent = '';
-  }
   if (inp) {
     inp.value = '';
     inp.className = 'ans-input';
@@ -256,16 +246,6 @@ function showFeedbackQ(ok) {
     fb.className = 'feedback ng';
     fb.innerHTML = `Incorrect. Correct: <span class="correct-ans">${formatValue(r[c])}</span><div class="memo">setsuzoku:${formatValue(r.setsuzoku)} / katsuyo:${formatValue(r.katsuyo)} / imi:${formatValue(r.imi)}</div>`;
   }
-}
-
-function showHint() {
-  if (!current) return;
-  const h = document.getElementById('hintBox');
-  if (!h) return;
-  h.className = 'hint-box show';
-  const fn = HINTS[current.col];
-  const hintRow = Object.fromEntries(Object.entries(current.row).map(([k, v]) => [k, formatValue(v)]));
-  h.textContent = typeof fn === 'function' ? fn(hintRow) : '';
 }
 
 function updateQScore() {
