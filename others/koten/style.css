@@ -510,7 +510,20 @@ body::after {
   font-size: 0.8rem; font-weight: 600; color: var(--indigo);
   letter-spacing: 0.14em; border-bottom: 1px solid var(--washi-dark);
   background: var(--washi); position: sticky; top: 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
 }
+.list-close {
+  border: 1px solid var(--washi-dark);
+  background: white;
+  color: var(--sumi);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.list-close:hover { background: var(--washi); }
 .list-body { padding: 6px; display: flex; flex-direction: column; gap: 3px; }
 .list-item {
   padding: 8px 10px; border-radius: 4px; cursor: pointer;

@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>古典常識カード</title>
+<link rel="icon" href="../../images/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
@@ -139,7 +140,10 @@
     <span>一覧</span><span id="listArrow">&#x203A;</span>
   </div>
   <div class="list-panel" id="listPanel">
-    <div class="list-head">カード一覧</div>
+    <div class="list-head">
+      <span>カード一覧</span>
+      <button type="button" class="list-close" onclick="toggleList()">閉じる</button>
+    </div>
     <div class="list-body" id="listBody"></div>
   </div>
 
