@@ -189,8 +189,7 @@ body::after {
 
 
 .title-block {
-    margin-bottom: 48px;
-    margin-right: 30px
+    margin: 30px 0 30px 0 ;
   }
   .title-kana {
     font-size: 0.8rem;
