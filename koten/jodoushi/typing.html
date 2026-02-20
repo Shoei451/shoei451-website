@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>入力モード | 古典 助動詞クイズ — Shoei451</title>
+<title>一問一答モード | 古典 助動詞クイズ — Shoei451</title>
 <link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
@@ -14,7 +14,7 @@
 <div id="typingSetupScreen" class="screen active">
   <div class="quiz-header">
     <button class="back-btn" onclick="goHome()">← ホーム</button>
-    <div class="quiz-header-title">入力モード設定</div>
+    <div class="quiz-header-title">一問一答モード設定</div>
   </div>
   <div class="page-wrap">
     <div class="typing-setup-card">
@@ -30,34 +30,45 @@
 <div id="quizScreen" class="screen">
   <div class="quiz-header">
     <button class="back-btn" onclick="goHome()">← ホーム</button>
-    <div class="quiz-header-title" id="quizHeaderTitle">入力モード</div>
+    <div class="quiz-header-title" id="quizHeaderTitle">一問一答モード</div>
+    <button class="btn btn-ghost top-end-btn" onclick="endQuiz()">終了</button>
     <div class="score-pill">正解 <strong id="hScoreC">0</strong> / <strong id="hScoreT">0</strong></div>
     <div class="streak-pill" id="streakPill">🔥 <span id="streakNum">0</span>連続</div>
   </div>
 
   <div class="page-wrap">
-    <div class="q-card" id="qCard">
+    <div class="typing-progress">
+      <div class="typing-progress-meta">
+        <span>進捗</span>
+        <strong id="typingProgressText">0 / 0</strong>
+      </div>
+      <div class="typing-progress-track">
+        <div class="typing-progress-fill" id="typingProgressFill"></div>
+      </div>
+    </div>
+
+    <div class="q-card flash-question-card" id="qCard">
       <div class="q-num" id="qNum">Q.001</div>
       <div class="q-col-tag" id="qColTag">接続</div>
       <div class="q-text" id="qText"></div>
-
-      <div id="typingArea">
-        <div class="inp-row">
-          <input type="text" id="ansInput" class="ans-input" placeholder="答えを入力"
-                 onkeydown="if(event.key==='Enter') checkTyping()">
-          <button class="btn btn-primary" onclick="checkTyping()">判定</button>
-          <button class="btn btn-ghost" onclick="showHint()">ヒント</button>
-        </div>
-        <div class="hint-box" id="hintBox"></div>
-      </div>
-
-      <div class="feedback" id="feedback"></div>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none">次の問題へ</button>
-        <button class="btn btn-ghost" onclick="endQuiz()">終了</button>
-      </div>
     </div>
+
+    <div class="flash-answer-card" id="typingArea">
+      <div class="flash-answer-label">解答欄</div>
+      <div class="inp-row">
+        <input type="text" id="ansInput" class="ans-input" placeholder="答えを入力"
+               onkeydown="if(event.key==='Enter') checkTyping()">
+      </div>
+      <div class="flash-action-row">
+        <button class="btn btn-primary" onclick="checkTyping()">採点</button>
+        <button class="btn btn-ghost" onclick="showHint()">ヒント</button>
+        <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" style="display:none">次の問題へ</button>
+      </div>
+        <div class="hint-box" id="hintBox"></div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
   </div>
 </div>
 

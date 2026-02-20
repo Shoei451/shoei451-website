@@ -2,7 +2,7 @@
 //  DATA
 // ═══════════════════════════════════════════
 const DATA = [
-  { name:"む",             setsuzoku:"未然形",                    katsuyo:"四段型",     imi:["推量","意志","適当","勧誘","仮定","婉曲"],    mizen:"○",        renyo:"",             shushi:"む",       rentai:["む","ん"],      izen:"め",            meirei:"" },
+  { name:"む",             setsuzoku:"未然形",                    katsuyo:"四段型",     imi:["推量","意志","適当","勧誘","仮定","婉曲"],    mizen:"",        renyo:"",             shushi:"む",       rentai:["む","ん"],      izen:"め",            meirei:"" },
   { name:"べし",           setsuzoku:"終止形（ラ変は連体形）",    katsuyo:"形容詞型",   imi:["推量","意志","可能","当然","命令","適当"],    mizen:"べかろ",   renyo:["べく","べかり"],   shushi:"べし",     rentai:["べき","べかる"],izen:"べけれ",        meirei:"" },
   { name:"まし",           setsuzoku:"未然形",                    katsuyo:"特殊型",     imi:["反実仮想","ためらいの意志"],              mizen:"ましか",   renyo:"",             shushi:"まし",     rentai:"まし",        izen:"ましか",        meirei:"" },
   { name:"じ",             setsuzoku:"未然形",                    katsuyo:"無変化型",   imi:["打消推量","打消意志"],                    mizen:"",       renyo:"",             shushi:"じ",       rentai:"じ",          izen:"",            meirei:"" },

@@ -26,7 +26,7 @@
         <div class="mode-icon">
           <img src="icons/typing-mode.svg" alt="" width="44" height="44" aria-hidden="true">
         </div>
-        <div class="mode-name">入力モード</div>
+        <div class="mode-name">一問一答モード</div>
         <div class="mode-desc">助動詞名を見て答えを直接入力</div>
       </div>
       <div class="mode-card" id="modeCard-table" onclick="selectMode('table')">
@@ -45,13 +45,13 @@
           id="questionCountRange"
           class="question-count-range"
           type="range"
-          min="5"
+          min="1"
           max="50"
-          step="5"
+          step="1"
           value="20"
           oninput="updateQuestionCount(this.value)"
         >
-        <div class="question-count-value"><strong id="questionCountValue">20</strong>問</div>
+        <div class="question-count-value"><strong id="questionCountValue">20</strong><span id="questionCountUnit">問</span></div>
       </div>
     </div>
 

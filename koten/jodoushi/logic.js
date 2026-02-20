@@ -2,12 +2,15 @@
 let activeCols = new Set(COL_KEYS);
 let qCorrect = 0;
 let qTotal = 0;
+let qAnswered = 0;
 let qStreak = 0;
 let current = null;
 let answered = false;
 
 const STORAGE_ACTIVE_COLS = 'jodoushi:activeCols';
 const STORAGE_QUESTION_COUNT = 'jodoushi:questionCount';
+const MAX_TYPING_COUNT = 50;
+const MAX_TABLE_COUNT = 29;
 const TBL_COLS = ['setsuzoku', 'katsuyo', 'imi', 'mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
 const TBL_BLANKABLE_COLS = ['mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
 const TBL_ROWS = [
@@ -112,13 +115,15 @@ function startQuiz() {
   }
   qCorrect = 0;
   qTotal = 0;
+  qAnswered = 0;
   qStreak = 0;
   const hScoreC = document.getElementById('hScoreC');
   const hScoreT = document.getElementById('hScoreT');
   const title = document.getElementById('quizHeaderTitle');
   if (hScoreC) hScoreC.textContent = '0';
   if (hScoreT) hScoreT.textContent = '0';
-  if (title) title.textContent = 'Typing Mode';
+  if (title) title.textContent = '一問一答モード';
+  updateTypingProgressBar();
   nextQuestion();
   showScreen('quizScreen');
 }
@@ -158,6 +163,7 @@ function nextQuestion() {
   const { row, col } = current;
   qTotal += 1;
   updateQScore();
+  updateTypingProgressBar();
 
   const card = document.getElementById('qCard');
   if (card) {
@@ -212,6 +218,7 @@ function checkTyping() {
 }
 
 function recordQ(ok) {
+  qAnswered += 1;
   if (ok) {
     qCorrect += 1;
     qStreak += 1;
@@ -220,6 +227,7 @@ function recordQ(ok) {
   }
   updateQScore();
   showFeedbackQ(ok);
+  updateTypingProgressBar();
   if (qTotal >= questionLimit) {
     endQuiz();
     return;
@@ -277,6 +285,15 @@ function updateQScore() {
   }
 }
 
+function updateTypingProgressBar() {
+  const txt = document.getElementById('typingProgressText');
+  const fill = document.getElementById('typingProgressFill');
+  const total = Math.max(1, questionLimit);
+  const currentNum = Math.min(qAnswered, total);
+  if (txt) txt.textContent = `${currentNum} / ${total}`;
+  if (fill) fill.style.width = `${Math.round((currentNum / total) * 100)}%`;
+}
+
 function endQuiz() {
   const resultBig = document.getElementById('resultBig');
   const resultComment = document.getElementById('resultComment');
@@ -325,6 +342,11 @@ function autoCheck(inp) {
   if (isCorrectValue(ans, val)) {
     inp.className = 'tbl-input ok';
     inp.disabled = true;
+    const idx = tableInputs.indexOf(inp);
+    if (idx >= 0) {
+      const next = tableInputs.slice(idx + 1).find((i) => !i.disabled);
+      if (next) next.focus();
+    }
   } else {
     inp.className = 'tbl-input';
   }
@@ -340,6 +362,7 @@ function updateTblScore() {
   const tblCorrectCount = document.getElementById('tblCorrectCount');
   if (tblProgress) tblProgress.textContent = String(completed);
   if (tblCorrectCount) tblCorrectCount.textContent = String(tableQuestionCorrect);
+  updateTableProgressBar(completed, tableOrder.length);
 }
 
 function checkAllTable() {
@@ -405,6 +428,15 @@ function showTblResult() {
     result.classList.add('show');
     result.scrollIntoView({ behavior: 'smooth' });
   }
+}
+
+function updateTableProgressBar(completed, totalRaw) {
+  const total = Math.max(1, totalRaw || 0);
+  const done = Math.min(completed, total);
+  const txt = document.getElementById('tableProgressText');
+  const fill = document.getElementById('tableProgressFill');
+  if (txt) txt.textContent = `${done} / ${total}`;
+  if (fill) fill.style.width = `${Math.round((done / total) * 100)}%`;
 }
 
 function finalizeTableQuestion() {
@@ -533,10 +565,10 @@ function loadActiveColsFromStorage() {
 }
 
 function loadQuestionLimitFromStorage() {
+  const max = selectedMode === 'table' ? MAX_TABLE_COUNT : MAX_TYPING_COUNT;
   const v = Number(localStorage.getItem(STORAGE_QUESTION_COUNT) || 20);
   if (!Number.isFinite(v)) return 20;
-  const stepped = Math.floor(v / 5) * 5;
-  return Math.max(5, Math.min(50, stepped));
+  return Math.max(1, Math.min(max, Math.floor(v)));
 }
 
 function initPage() {
