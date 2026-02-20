@@ -61,6 +61,13 @@ const cardsList = [
     },
     */
     {
+        icon: "🍙",
+        title: "Japanese Classics",
+        titleJP: "古典学習ツール",
+        text: "古文・漢文の知識",
+        link: "koten/"
+    },
+    {
         icon: "💻",
         title: "Informatics_1", 
         titleJP: "情報I学習ツール",
