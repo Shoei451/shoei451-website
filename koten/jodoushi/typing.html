@@ -3,14 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>入力モード | 古典 助動詞クイズ</title>
+<title>入力モード | 古典 助動詞クイズ — Shoei451</title>
+<link rel="icon" type="image/x-icon" href="../../images/favicon.ico">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Shippori+Mincho:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 </head>
 <body data-page="typing">
 <div class="top-band"></div>
 
-<div id="quizScreen" class="screen active">
+<div id="typingSetupScreen" class="screen active">
+  <div class="quiz-header">
+    <button class="back-btn" onclick="goHome()">← ホーム</button>
+    <div class="quiz-header-title">入力モード設定</div>
+  </div>
+  <div class="page-wrap">
+    <div class="typing-setup-card">
+      <div class="start-section-title">出題する項目</div>
+      <div class="typing-col-buttons" id="typingColButtons"></div>
+      <div class="typing-setup-actions">
+        <button class="btn btn-primary" onclick="startTypingQuiz()">この設定でスタート</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="quizScreen" class="screen">
   <div class="quiz-header">
     <button class="back-btn" onclick="goHome()">← ホーム</button>
     <div class="quiz-header-title" id="quizHeaderTitle">入力モード</div>

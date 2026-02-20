@@ -1,4 +1,4 @@
-let selectedMode = 'typing';
+﻿let selectedMode = 'typing';
 let activeCols = new Set(COL_KEYS);
 let qCorrect = 0;
 let qTotal = 0;
@@ -9,9 +9,31 @@ let answered = false;
 const STORAGE_ACTIVE_COLS = 'jodoushi:activeCols';
 const TBL_COLS = ['setsuzoku', 'katsuyo', 'imi', 'mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
 const TBL_BLANKABLE_COLS = ['mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
+const TBL_ROWS = [
+  { key: 'name', label: '助動詞' },
+  { key: 'setsuzoku', label: '接続' },
+  { key: 'katsuyo', label: '活用の種類' },
+  { key: 'imi', label: '意味' },
+  { key: 'mizen', label: '未然形' },
+  { key: 'renyo', label: '連用形' },
+  { key: 'shushi', label: '終止形' },
+  { key: 'rentai', label: '連体形' },
+  { key: 'izen', label: '已然形' },
+  { key: 'meirei', label: '命令形' },
+];
+const KATSUYO_FORM_COLS = ['mizen', 'renyo', 'shushi', 'rentai', 'izen', 'meirei'];
+const TYPING_GROUPS = [
+  { key: 'katsuyoForms', label: '活用形', cols: KATSUYO_FORM_COLS },
+  { key: 'setsuzoku', label: '接続', cols: ['setsuzoku'] },
+  { key: 'imi', label: '意味', cols: ['imi'] },
+];
 
 let tableBlankMap = {};
 let tableInputs = [];
+
+function saveActiveColsToStorage() {
+  localStorage.setItem(STORAGE_ACTIVE_COLS, JSON.stringify([...activeCols]));
+}
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach((s) => s.classList.remove('active'));
@@ -22,6 +44,57 @@ function showScreen(id) {
 
 function goHome() {
   window.location.href = 'index.html';
+}
+
+function renderTypingSetupButtons() {
+  const wrap = document.getElementById('typingColButtons');
+  if (!wrap) return;
+  wrap.innerHTML = '';
+
+  TYPING_GROUPS.forEach((group) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = `typing-col-btn ${isTypingGroupActive(group) ? 'on' : ''}`;
+    btn.textContent = group.label;
+    btn.addEventListener('click', () => {
+      const next = new Set(activeCols);
+      if (isTypingGroupActive(group)) {
+        group.cols.forEach((col) => next.delete(col));
+        if (!hasTypingGroupSelection(next)) return;
+      } else {
+        group.cols.forEach((col) => next.add(col));
+      }
+      activeCols = next;
+      btn.classList.toggle('on', isTypingGroupActive(group));
+    });
+    wrap.appendChild(btn);
+  });
+}
+
+function startTypingQuiz() {
+  saveActiveColsToStorage();
+  startQuiz();
+}
+
+function isTypingGroupActive(group) {
+  return group.cols.every((col) => activeCols.has(col));
+}
+
+function hasTypingGroupSelection(colsSet) {
+  return TYPING_GROUPS.some((group) => group.cols.some((col) => colsSet.has(col)));
+}
+
+function normalizeTypingActiveCols(colsSet) {
+  const normalized = new Set();
+  if (colsSet.has('setsuzoku')) normalized.add('setsuzoku');
+  if (colsSet.has('imi')) normalized.add('imi');
+  if (KATSUYO_FORM_COLS.some((col) => colsSet.has(col))) {
+    KATSUYO_FORM_COLS.forEach((col) => normalized.add(col));
+  }
+  if (!hasTypingGroupSelection(normalized)) {
+    COL_KEYS.forEach((col) => normalized.add(col));
+  }
+  return normalized;
 }
 
 function startQuiz() {
@@ -45,10 +118,37 @@ function startQuiz() {
 
 function nextQuestion() {
   answered = false;
-  const row = DATA[Math.floor(Math.random() * DATA.length)];
   const cols = [...activeCols];
-  const col = cols[Math.floor(Math.random() * cols.length)];
-  current = { row, col };
+  const candidates = [];
+  DATA.forEach((row) => {
+    cols.forEach((col) => {
+      if (!isEmptyAnswerValue(row[col])) {
+        candidates.push({ row, col });
+      }
+    });
+  });
+
+  if (candidates.length === 0) {
+    current = null;
+    const qText = document.getElementById('qText');
+    const feedback = document.getElementById('feedback');
+    const hintBox = document.getElementById('hintBox');
+    const inp = document.getElementById('ansInput');
+    if (qText) qText.textContent = '出題できるデータがありません。項目選択を見直してください。';
+    if (feedback) {
+      feedback.className = 'feedback';
+      feedback.textContent = '';
+    }
+    if (hintBox) {
+      hintBox.className = 'hint-box';
+      hintBox.textContent = '';
+    }
+    if (inp) inp.disabled = true;
+    return;
+  }
+
+  current = candidates[Math.floor(Math.random() * candidates.length)];
+  const { row, col } = current;
   qTotal += 1;
   updateQScore();
 
@@ -70,7 +170,10 @@ function nextQuestion() {
 
   if (qNum) qNum.textContent = `Q.${String(qTotal).padStart(3, '0')}`;
   if (qColTag) qColTag.textContent = COL_LABELS[col] || col;
-  if (qText) qText.innerHTML = `<span class="hw">${row.name}</span> - ${COL_LABELS[col]} ?`;
+  if (qText) {
+    const suffix = asAnswerList(row[col]).length >= 2 ? '（1種類答えよ）' : '';
+    qText.innerHTML = `助動詞 <span class="hw">${formatValue(row.name)}</span> の<span class="q-col-em">${COL_LABELS[col]}</span>は?${suffix}`;
+  }
   if (feedback) {
     feedback.className = 'feedback';
     feedback.textContent = '';
@@ -92,11 +195,11 @@ function checkTyping() {
   if (answered || !current) return;
   const inp = document.getElementById('ansInput');
   if (!inp) return;
-  const val = norm(inp.value);
-  const ans = norm(current.row[current.col]);
+  const val = inp.value;
+  const ans = current.row[current.col];
   answered = true;
   inp.disabled = true;
-  const ok = val === ans;
+  const ok = isCorrectValue(ans, val);
   inp.className = `ans-input ${ok ? 'ok' : 'ng'}`;
   recordQ(ok);
 }
@@ -123,16 +226,16 @@ function showFeedbackQ(ok) {
 
   if (ok) {
     let memo = '';
-    if (c === 'setsuzoku') memo = `katsuyo: ${r.katsuyo}`;
-    else if (c === 'katsuyo') memo = `setsuzoku: ${r.setsuzoku}`;
-    else if (c === 'imi') memo = `setsuzoku: ${r.setsuzoku} / katsuyo: ${r.katsuyo}`;
-    else memo = `mizen:${r.mizen} renyo:${r.renyo} shushi:${r.shushi} rentai:${r.rentai} izen:${r.izen} meirei:${r.meirei}`;
+    if (c === 'setsuzoku') memo = `katsuyo: ${formatValue(r.katsuyo)}`;
+    else if (c === 'katsuyo') memo = `setsuzoku: ${formatValue(r.setsuzoku)}`;
+    else if (c === 'imi') memo = `setsuzoku: ${formatValue(r.setsuzoku)} / katsuyo: ${formatValue(r.katsuyo)}`;
+    else memo = `mizen:${formatValue(r.mizen)} renyo:${formatValue(r.renyo)} shushi:${formatValue(r.shushi)} rentai:${formatValue(r.rentai)} izen:${formatValue(r.izen)} meirei:${formatValue(r.meirei)}`;
 
     fb.className = 'feedback ok';
     fb.innerHTML = `Correct<div class="memo">${memo}</div>`;
   } else {
     fb.className = 'feedback ng';
-    fb.innerHTML = `Incorrect. Correct: <span class="correct-ans">${r[c]}</span><div class="memo">setsuzoku:${r.setsuzoku} / katsuyo:${r.katsuyo} / imi:${r.imi}</div>`;
+    fb.innerHTML = `Incorrect. Correct: <span class="correct-ans">${formatValue(r[c])}</span><div class="memo">setsuzoku:${formatValue(r.setsuzoku)} / katsuyo:${formatValue(r.katsuyo)} / imi:${formatValue(r.imi)}</div>`;
   }
 }
 
@@ -142,7 +245,8 @@ function showHint() {
   if (!h) return;
   h.className = 'hint-box show';
   const fn = HINTS[current.col];
-  h.textContent = typeof fn === 'function' ? fn(current.row) : '';
+  const hintRow = Object.fromEntries(Object.entries(current.row).map(([k, v]) => [k, formatValue(v)]));
+  h.textContent = typeof fn === 'function' ? fn(hintRow) : '';
 }
 
 function updateQScore() {
@@ -196,16 +300,20 @@ function buildTableQuiz() {
     blankCols.forEach((c) => {
       tableBlankMap[`${ri}_${c}`] = true;
     });
+  });
 
+  TBL_ROWS.forEach((rowDef) => {
     const tr = document.createElement('tr');
-    const tdName = document.createElement('td');
-    tdName.className = 'name-cell';
-    tdName.textContent = row.name;
-    tr.appendChild(tdName);
+    const rowHead = document.createElement('th');
+    rowHead.className = 'row-head';
+    rowHead.scope = 'row';
+    rowHead.textContent = rowDef.label;
+    tr.appendChild(rowHead);
 
-    TBL_COLS.forEach((col) => {
+    DATA.forEach((row, ri) => {
+      const col = rowDef.key;
       const td = document.createElement('td');
-      if (tableBlankMap[`${ri}_${col}`]) {
+      if (col !== 'name' && tableBlankMap[`${ri}_${col}`]) {
         td.className = 'tbl-cell-blank';
         const inp = document.createElement('input');
         inp.type = 'text';
@@ -224,13 +332,17 @@ function buildTableQuiz() {
         });
         td.appendChild(inp);
         tableInputs.push(inp);
+      } else if (col === 'name') {
+        td.className = 'name-cell';
+        td.textContent = formatValue(row.name);
       } else {
-        td.textContent = row[col];
+        td.textContent = formatValue(row[col]);
         td.style.color = 'var(--ink2)';
       }
       tr.appendChild(td);
     });
 
+    if (rowDef.key === 'name') tr.classList.add('name-row');
     tbody.appendChild(tr);
   });
 
@@ -244,13 +356,13 @@ function buildTableQuiz() {
 
 function autoCheck(inp) {
   const row = DATA[Number(inp.dataset.ri)];
-  const ans = norm(row[inp.dataset.col]);
-  const val = norm(inp.value);
+  const ans = row[inp.dataset.col];
+  const val = inp.value;
   if (val === '') {
     inp.className = 'tbl-input';
     return;
   }
-  if (val === ans) {
+  if (isCorrectValue(ans, val)) {
     inp.className = 'tbl-input ok';
     inp.disabled = true;
   } else {
@@ -271,11 +383,12 @@ function updateTblScore() {
 function checkAllTable() {
   tableInputs.forEach((inp) => {
     if (inp.disabled) return;
-    const ans = norm(DATA[Number(inp.dataset.ri)][inp.dataset.col]);
-    const val = norm(inp.value);
+    const ans = DATA[Number(inp.dataset.ri)][inp.dataset.col];
+    const val = inp.value;
     if (val === '') return;
-    inp.className = `tbl-input ${val === ans ? 'ok' : 'ng'}`;
-    if (val === ans) inp.disabled = true;
+    const ok = isCorrectValue(ans, val);
+    inp.className = `tbl-input ${ok ? 'ok' : 'ng'}`;
+    if (ok) inp.disabled = true;
   });
   updateTblScore();
   if (tableInputs.length > 0 && tableInputs.every((i) => i.disabled)) {
@@ -286,7 +399,7 @@ function checkAllTable() {
 function revealAllTable() {
   tableInputs.forEach((inp) => {
     if (inp.disabled) return;
-    inp.value = DATA[Number(inp.dataset.ri)][inp.dataset.col];
+    inp.value = formatValue(DATA[Number(inp.dataset.ri)][inp.dataset.col]);
     inp.className = 'tbl-input ok';
     inp.disabled = true;
   });
@@ -325,6 +438,27 @@ function norm(s) {
   return (s || '').trim().replace(/\s+/g, '');
 }
 
+function asAnswerList(v) {
+  if (Array.isArray(v)) return v;
+  return [v];
+}
+
+function formatValue(v) {
+  return asAnswerList(v).join('・');
+}
+
+function isCorrectValue(answerValue, inputValue) {
+  const input = norm(inputValue);
+  return asAnswerList(answerValue).some((ans) => norm(ans) === input);
+}
+
+function isEmptyAnswerValue(v) {
+  return asAnswerList(v).every((ans) => {
+    const n = norm(ans);
+    return n === '' || n === '-' || n === '－' || n === '—';
+  });
+}
+
 function shuffle(arr) {
   for (let i = arr.length - 1; i > 0; i -= 1) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -349,8 +483,9 @@ function initPage() {
   const page = document.body?.dataset.page;
   if (page === 'typing') {
     selectedMode = 'typing';
-    activeCols = loadActiveColsFromStorage();
-    startQuiz();
+    activeCols = normalizeTypingActiveCols(loadActiveColsFromStorage());
+    renderTypingSetupButtons();
+    showScreen('typingSetupScreen');
     return;
   }
   if (page === 'table') {
@@ -361,3 +496,4 @@ function initPage() {
 }
 
 document.addEventListener('DOMContentLoaded', initPage);
+

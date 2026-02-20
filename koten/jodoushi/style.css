@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #fdf8f0;
   --bg2: #f5ede0;
   --surface: #ffffff;
@@ -124,7 +124,7 @@ body {
 /* Mode cards */
 .mode-cards {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 40px;
 }
@@ -137,11 +137,15 @@ body {
   background: var(--surface);
   border: 2px solid var(--border);
   border-radius: 12px;
-  padding: 24px 20px;
+  padding: 34px 28px;
+  min-height: 230px;
   cursor: pointer;
   text-align: center;
   transition: all 0.18s;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .mode-card:hover {
@@ -165,19 +169,32 @@ body {
   font-weight: 700;
 }
 
-.mode-icon { font-size: 28px; margin-bottom: 12px; }
+.mode-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode-icon img {
+  width: 60px;
+  height: 60px;
+  display: block;
+}
 
 .mode-name {
   font-family: 'Shippori Mincho', serif;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--ink);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   letter-spacing: 0.05em;
 }
 
 .mode-desc {
-  font-size: 12px;
+  font-size: 14px;
   color: var(--ink3);
   line-height: 1.7;
 }
@@ -212,6 +229,53 @@ body {
 .col-chip:hover:not(.on) {
   border-color: var(--accent2);
   color: var(--accent);
+}
+
+/* Typing setup screen */
+.typing-setup-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px var(--shadow);
+  padding: 28px 24px;
+  margin-top: 32px;
+}
+
+.typing-col-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.typing-col-btn {
+  background: var(--surface);
+  border: 1.5px solid var(--border2);
+  border-radius: 8px;
+  padding: 10px 16px;
+  min-width: 110px;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 14px;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.typing-col-btn:hover {
+  border-color: var(--accent2);
+  color: var(--accent);
+}
+
+.typing-col-btn.on {
+  background: #fff3ec;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.typing-setup-actions {
+  margin-top: 22px;
+  display: flex;
+  justify-content: center;
 }
 
 /* Start button */
@@ -361,6 +425,7 @@ body {
 }
 
 .q-text .hw { color: var(--accent); font-weight: 700; }
+.q-text .q-col-em { color: var(--red); font-weight: 700; }
 
 /* Input */
 .inp-row {
@@ -561,12 +626,13 @@ table {
   border-collapse: collapse;
   width: 100%;
   font-size: 12.5px;
-  min-width: 820px;
+  min-width: 1120px;
 }
 
-thead th {
+#mainTable tbody th.row-head {
   background: var(--bg2);
-  border-bottom: 2px solid var(--border2);
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border2);
   padding: 11px 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -576,7 +642,7 @@ thead th {
   white-space: nowrap;
 }
 
-thead th:first-child {
+#mainTable tbody tr.name-row th.row-head {
   background: #f0e8dc;
   color: var(--accent);
 }
@@ -595,6 +661,8 @@ tbody td {
   color: var(--ink2);
   vertical-align: middle;
   line-height: 1.5;
+  white-space: nowrap;
+  min-width: 76px;
 }
 
 .name-cell {
@@ -603,8 +671,10 @@ tbody td {
   font-size: 14px;
   color: var(--ink);
   background: #fdf5ee;
-  white-space: nowrap;
-  border-right: 1px solid var(--border);
+}
+
+.name-row .name-cell {
+  border-bottom: 2px solid var(--border2);
 }
 
 /* Table blank cell with inline input */
@@ -758,3 +828,4 @@ tbody td {
   margin: 28px auto;
   max-width: 380px;
 }
+
