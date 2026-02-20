@@ -186,6 +186,39 @@ body::after {
   margin-top: 12px;
 }
 
+
+.title-block {
+    margin-bottom: 48px;
+  }
+  .title-kana {
+    font-size: 0.8rem;
+    letter-spacing: 0.4em;
+    color: var(--silver);
+    margin-bottom: 8px;
+  }
+  .title-main {
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 700;
+    color: var(--indigo);
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-shadow: 2px 2px 0 rgba(42,58,92,0.08);
+  }
+  .title-sub {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--silver);
+    letter-spacing: 0.2em;
+    font-weight: 300;
+  }
+  .title-divider {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    margin: 20px auto;
+  }
+  
+
 /* Supabase banner */
 .sb-banner {
   width: 100%; max-width: 580px;
