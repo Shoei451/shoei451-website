@@ -146,8 +146,8 @@ body::after {
 .start-block + .start-block { margin-top: 12px; }
 .start-label {
   display: block;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
+  font-size: 1.00rem;
+  letter-spacing: 0.18em;
   color: var(--silver);
   font-family: 'Noto Sans JP', sans-serif;
   margin-bottom: 6px;
