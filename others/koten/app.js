@@ -247,7 +247,10 @@ function initStartScreen() {
 // ══════════════════════════════════════════════
 function renderCard() {
   const body = document.getElementById('cardBody');
+  body.classList.add('no-flip-transition');
   body.classList.remove('flipped');
+  void body.offsetWidth;
+  body.classList.remove('no-flip-transition');
   isFlipped = false;
   setMasteryActive(false);
 

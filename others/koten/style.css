@@ -301,6 +301,7 @@ body::after {
   transition: transform 0.55s cubic-bezier(0.4, 0.2, 0.2, 1);
   border-radius: 8px;
 }
+.card-body.no-flip-transition { transition: none !important; }
 .card-body.flipped { transform: rotateY(180deg); }
 
 .card-face {
