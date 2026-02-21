@@ -1,18 +1,28 @@
 // ============================================================
 // 世界史年表 管理画面 - script.js
+// ⚠️ SUPABASE_ANON_KEY は公開しても安全（RLSで制御）
+//    Service Role Key は絶対にフロントに書かないこと！
 // ============================================================
 
 const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
+
+
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // ============================================================
 // State
 // ============================================================
-let allEvents = [];
+const PAGE_SIZE = 50;
+
+let currentPageData = [];   // 今表示中のページのデータのみ（全件は持たない）
 let currentCategory = 'all';
 let currentViewMode = 'chapter';
-let searchQuery = '';
+let searchQuery     = '';
+let currentPage     = 0;
+let totalCount      = 0;
+let isFetching      = false;
+let searchDebounce  = null;
 
 const chapters = [
     { value: "第1章",  label: "古代文明圏" },
@@ -55,23 +65,19 @@ const periods = [
 // ============================================================
 document.addEventListener('DOMContentLoaded', async () => {
 
-    // テーマトグル
     document.getElementById('theme-toggle').addEventListener('click', (e) => {
         e.preventDefault();
         document.body.classList.toggle('dark');
         localStorage.setItem('pref-theme', document.body.classList.contains('dark') ? 'dark' : 'light');
     });
 
-    // ログインボタン
     document.getElementById('loginBtn').addEventListener('click', handleLogin);
     document.getElementById('loginPassword').addEventListener('keydown', (e) => {
         if (e.key === 'Enter') handleLogin();
     });
 
-    // ログアウトボタン
     document.getElementById('logoutBtn').addEventListener('click', handleLogout);
 
-    // セッション確認（リロード時に維持）
     const { data: { session } } = await db.auth.getSession();
     if (session) {
         showAdminScreen(session.user);
@@ -79,7 +85,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         showLoginScreen();
     }
 
-    // セッション変化を監視
     db.auth.onAuthStateChange((_event, session) => {
         if (session) {
             showAdminScreen(session.user);
@@ -90,12 +95,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ============================================================
-// Auth: Login / Logout
+// Auth
 // ============================================================
 async function handleLogin() {
     const email    = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
-    const errorEl  = document.getElementById('loginError');
     const btn      = document.getElementById('loginBtn');
 
     if (!email || !password) {
@@ -105,7 +109,7 @@ async function handleLogin() {
 
     btn.textContent = 'ログイン中...';
     btn.disabled = true;
-    errorEl.style.display = 'none';
+    document.getElementById('loginError').style.display = 'none';
 
     const { error } = await db.auth.signInWithPassword({ email, password });
 
@@ -114,14 +118,11 @@ async function handleLogin() {
 
     if (error) {
         showLoginError('ログインに失敗しました。メールアドレスまたはパスワードが違います。');
-        console.error('Login error:', error.message);
     }
-    // 成功時は onAuthStateChange が自動で showAdminScreen を呼ぶ
 }
 
 async function handleLogout() {
     await db.auth.signOut();
-    // onAuthStateChange が showLoginScreen を呼ぶ
 }
 
 function showLoginError(msg) {
@@ -144,49 +145,105 @@ function showLoginScreen() {
 async function showAdminScreen(user) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminScreen').style.display = 'block';
-
     document.getElementById('loggedInUser').textContent = user.email;
 
-    await loadEvents();
     setupEventListeners();
     renderTabs();
-    renderTimeline();
+    await fetchTotalCount();   // まず全件数だけ高速取得
+    await fetchPage(0);        // 最初の50件だけ取得
 }
 
 // ============================================================
-// Data loading
+// Data fetching（ここが核心 - サーバーサイドで絞り込む）
 // ============================================================
-async function loadEvents() {
-    try {
-        let collected = [];
-        let start = 0;
-        const batchSize = 1000;
 
-        while (true) {
-            const { data, error } = await db
-                .from('world_history_quiz')
-                .select('*')
-                .order('is_bc', { ascending: false })
-                .order('year', { ascending: true })
-                .range(start, start + batchSize - 1);
+/**
+ * 現在のフィルタ条件で全件数を取得（件数だけ、データは転送しない）
+ * Supabase の count:'exact' + head:true はボディを返さない → 超高速
+ */
+async function fetchTotalCount() {
+    let query = db
+        .from('world_history_quiz')
+        .select('*', { count: 'exact', head: true });
 
-            if (error) throw error;
-            if (!data || data.length === 0) break;
+    query = applyFilters(query);
 
-            collected.push(...data);
-            if (data.length < batchSize) break;
-            start += batchSize;
-        }
+    const { count, error } = await query;
+    if (error) { console.error('Count error:', error); return; }
 
-        allEvents = collected;
-        document.getElementById('totalEvents').textContent = allEvents.length;
-    } catch (error) {
-        console.error('Error loading events:', error);
+    totalCount = count ?? 0;
+    document.getElementById('totalEvents').textContent = totalCount;
+}
+
+/**
+ * 指定ページのデータを取得（PAGE_SIZE件のみ）
+ */
+async function fetchPage(page) {
+    if (isFetching) return;
+    isFetching = true;
+    setLoadingState(true);
+
+    const from = page * PAGE_SIZE;
+    const to   = from + PAGE_SIZE - 1;
+
+    let query = db
+        .from('world_history_quiz')
+        .select('*')
+        .order('is_bc', { ascending: false })
+        .order('year',  { ascending: true })
+        .range(from, to);
+
+    query = applyFilters(query);
+
+    const { data, error } = await query;
+
+    isFetching = false;
+    setLoadingState(false);
+
+    if (error) {
+        console.error('Fetch error:', error);
         document.getElementById('timelineContainer').innerHTML = `
             <div class="empty-state">
                 <p>⚠️ データの読み込みに失敗しました</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">${escapeHtml(error.message)}</p>
+                <p style="font-size:0.9rem;margin-top:8px;">${escapeHtml(error.message)}</p>
             </div>`;
+        return;
+    }
+
+    currentPageData = data ?? [];
+    currentPage = page;
+
+    renderTimeline();
+    renderPagination();
+}
+
+/**
+ * クエリにフィルタを適用（チャプター/時代 + 全文検索）
+ */
+function applyFilters(query) {
+    if (currentCategory !== 'all') {
+        const col = currentViewMode === 'period' ? 'period' : 'chapter';
+        query = query.eq(col, currentCategory);
+    }
+    if (searchQuery.trim()) {
+        query = query.ilike('event', `%${searchQuery.trim()}%`);
+    }
+    return query;
+}
+
+/**
+ * フィルタが変わったとき: ページをリセットして件数＋データを再取得
+ */
+async function resetAndFetch() {
+    currentPage = 0;
+    await fetchTotalCount();
+    await fetchPage(0);
+}
+
+function setLoadingState(loading) {
+    if (loading) {
+        document.getElementById('timelineContainer').innerHTML =
+            '<div class="loading">読み込み中...</div>';
     }
 }
 
@@ -194,22 +251,23 @@ async function loadEvents() {
 // UI setup
 // ============================================================
 function setupEventListeners() {
-    // 重複登録を防ぐ
     const searchBox = document.getElementById('searchBox');
     const viewMode  = document.getElementById('viewMode');
     searchBox.replaceWith(searchBox.cloneNode(true));
     viewMode.replaceWith(viewMode.cloneNode(true));
 
+    // 検索：400ms デバウンス（毎キー入力でDBに問い合わせない）
     document.getElementById('searchBox').addEventListener('input', (e) => {
         searchQuery = e.target.value;
-        renderTimeline();
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(() => resetAndFetch(), 400);
     });
 
     document.getElementById('viewMode').addEventListener('change', (e) => {
         currentViewMode = e.target.value;
         currentCategory = 'all';
         renderTabs();
-        renderTimeline();
+        resetAndFetch();
     });
 
     document.getElementById('closeModal').addEventListener('click', closeModal);
@@ -224,8 +282,8 @@ function setupEventListeners() {
 }
 
 function renderTabs() {
-    const container   = document.getElementById('categoryTabs');
-    const categories  = currentViewMode === 'period' ? periods : chapters;
+    const container  = document.getElementById('categoryTabs');
+    const categories = currentViewMode === 'period' ? periods : chapters;
 
     container.innerHTML = `
         <button class="tab active" data-category="all">すべて</button>
@@ -239,29 +297,19 @@ function renderTabs() {
             container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             e.target.classList.add('active');
             currentCategory = e.target.dataset.category;
-            renderTimeline();
+            resetAndFetch();
         });
     });
 }
 
+// ============================================================
+// Render
+// ============================================================
 function renderTimeline() {
     const container = document.getElementById('timelineContainer');
+    document.getElementById('displayedEvents').textContent = totalCount;
 
-    const filtered = allEvents.filter(event => {
-        const matchesCategory =
-            currentCategory === 'all' ||
-            (currentViewMode === 'period'
-                ? event.period   === currentCategory
-                : event.chapter  === currentCategory);
-        const matchesSearch =
-            !searchQuery ||
-            event.event.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
-
-    document.getElementById('displayedEvents').textContent = filtered.length;
-
-    if (filtered.length === 0) {
+    if (currentPageData.length === 0) {
         container.innerHTML = `<div class="empty-state"><p>イベントがありません</p></div>`;
         return;
     }
@@ -278,7 +326,7 @@ function renderTimeline() {
                 </tr>
             </thead>
             <tbody>
-                ${filtered.map(event => `
+                ${currentPageData.map(event => `
                     <tr>
                         <td class="event-year">${formatYear(event)}</td>
                         <td class="event-title">${escapeHtml(event.event)}</td>
@@ -303,6 +351,42 @@ function renderTimeline() {
     `;
 }
 
+function renderPagination() {
+    let paginationEl = document.getElementById('pagination');
+    if (!paginationEl) {
+        paginationEl = document.createElement('div');
+        paginationEl.id = 'pagination';
+        paginationEl.className = 'pagination';
+        document.getElementById('timelineContainer').after(paginationEl);
+    }
+
+    const totalPages = Math.ceil(totalCount / PAGE_SIZE);
+
+    if (totalPages <= 1) {
+        paginationEl.innerHTML = '';
+        return;
+    }
+
+    const start = currentPage * PAGE_SIZE + 1;
+    const end   = Math.min((currentPage + 1) * PAGE_SIZE, totalCount);
+
+    paginationEl.innerHTML = `
+        <button class="btn-page" id="prevPage" ${currentPage === 0 ? 'disabled' : ''}>← 前へ</button>
+        <span class="page-info">
+            ${start}〜${end} 件 / 全${totalCount}件
+            &nbsp;（${currentPage + 1} / ${totalPages} ページ）
+        </span>
+        <button class="btn-page" id="nextPage" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>次へ →</button>
+    `;
+
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if (currentPage > 0) fetchPage(currentPage - 1);
+    });
+    document.getElementById('nextPage').addEventListener('click', () => {
+        if (currentPage < totalPages - 1) fetchPage(currentPage + 1);
+    });
+}
+
 // ============================================================
 // Helpers
 // ============================================================
@@ -323,7 +407,7 @@ function parseYearInput(yearStr) {
 }
 
 function determinePeriod(year, is_bc) {
-    if (is_bc)       return "~0";
+    if (is_bc)        return "~0";
     if (year <= 1000) return "1~1000";
     if (year <= 1500) return "1001~1500";
     if (year <= 1700) return "1501~1700";
@@ -354,7 +438,7 @@ function updatePeriodDisplay() {
 }
 
 // ============================================================
-// Modal: open / close
+// Modal
 // ============================================================
 function openAddModal() {
     document.getElementById('modalTitle').textContent = '新規イベントを追加';
@@ -364,7 +448,8 @@ function openAddModal() {
 }
 
 function editEvent(id) {
-    const event = allEvents.find(e => e.id === id);
+    // currentPageData から検索（表示中ページのみメモリに持つ）
+    const event = currentPageData.find(e => e.id === id);
     if (!event) return;
 
     document.getElementById('modalTitle').textContent   = 'イベントを編集';
@@ -385,7 +470,7 @@ function closeModal() {
 // CRUD
 // ============================================================
 async function deleteEvent(id) {
-    const event = allEvents.find(e => e.id === id);
+    const event = currentPageData.find(e => e.id === id);
     if (!event) return;
     if (!confirm(`「${event.event}」を削除してもよろしいですか？\n\nこの操作は取り消せません。`)) return;
 
@@ -395,12 +480,11 @@ async function deleteEvent(id) {
         .eq('id', id);
 
     if (error) {
-        console.error('Delete error:', error);
         alert('削除に失敗しました: ' + error.message);
         return;
     }
-    await loadEvents();
-    renderTimeline();
+
+    await resetAndFetch();
 }
 
 async function handleFormSubmit(e) {
@@ -434,8 +518,6 @@ async function handleFormSubmit(e) {
     }
 
     if (error) {
-        console.error('Save error:', error);
-        // RLS違反の場合は分かりやすいメッセージに
         const msg = error.code === '42501'
             ? '権限エラー：このアカウントには編集権限がありません'
             : '保存に失敗しました: ' + error.message;
@@ -444,6 +526,5 @@ async function handleFormSubmit(e) {
     }
 
     closeModal();
-    await loadEvents();
-    renderTimeline();
+    await resetAndFetch();
 }

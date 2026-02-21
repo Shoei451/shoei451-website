@@ -597,6 +597,49 @@
         body.dark .chapter-chip.第11章 { background: #3F51B5; color: #E8EAF6; }
 
         /* ============================================================
+           ページネーション
+        ============================================================ */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .btn-page {
+            background: var(--bg-light-secondary);
+            color: var(--text-light);
+            border: 2px solid var(--border-light);
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-page:hover:not(:disabled) {
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            transform: translateY(-1px);
+            box-shadow: none;
+        }
+
+        .btn-page:disabled {
+            opacity: 0.35;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .page-info {
+            font-size: 0.9rem;
+            color: var(--text-light-secondary);
+            white-space: nowrap;
+        }
+
+        /* ============================================================
            レスポンシブ
         ============================================================ */
         @media (max-width: 768px) {
