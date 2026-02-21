@@ -1,0 +1,630 @@
+        :root {
+            --accent-gold: #E5AA70;
+            --accent-navy: #1A2B3C;
+            --bg-light: #FFFFFF;
+            --bg-light-secondary: #F5F5F5;
+            --text-light: #1A2B3C;
+            --text-light-secondary: #4F4D46;
+            --border-light: #E0E0E0;
+            --shadow-light: rgba(26, 43, 60, 0.1);
+        }
+
+        body.dark {
+            --bg-light: #1A2B3C;
+            --bg-light-secondary: #243447;
+            --text-light: #F5F5F5;
+            --text-light-secondary: #B0B0B0;
+            --border-light: #3A4A5C;
+            --shadow-light: rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+            background: var(--bg-light);
+            color: var(--text-light);
+            line-height: 1.6;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* ============================================================
+           ログイン画面
+        ============================================================ */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1A2B3C 0%, #2C4A66 100%);
+            padding: 20px;
+        }
+
+        .login-card {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .login-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--accent-gold), #d4924a);
+            border-radius: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .login-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 6px;
+        }
+
+        .login-subtitle {
+            color: var(--text-light-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .login-error {
+            background: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF9A9A;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        body.dark .login-error {
+            background: rgba(198, 40, 40, 0.2);
+            color: #EF9A9A;
+            border-color: rgba(198, 40, 40, 0.4);
+        }
+
+        .login-card .form-group {
+            text-align: left;
+            margin-bottom: 18px;
+        }
+
+        .login-card .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-light-secondary);
+            margin-bottom: 6px;
+        }
+
+        .login-card .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border-light);
+            border-radius: 8px;
+            background: var(--bg-light-secondary);
+            color: var(--text-light);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .login-card .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(229, 170, 112, 0.2);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent-gold), #d4924a);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 8px;
+            letter-spacing: 0.03em;
+        }
+
+        .btn-login:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(229, 170, 112, 0.4);
+        }
+
+        .btn-login:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ============================================================
+           ヘッダー
+        ============================================================ */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background: #787569;
+            color: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .admin-badge {
+            background: rgba(255,255,255,0.3);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .logo-switches {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.85);
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255,255,255,0.25);
+            transform: translateY(-1px);
+            box-shadow: none;
+        }
+
+        #theme-toggle {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: white;
+        }
+
+        #theme-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: none;
+        }
+
+        #theme-toggle svg {
+            width: 24px;
+            height: 24px;
+            stroke: currentColor;
+            transition: all 0.3s;
+        }
+
+        body:not(.dark) #sun { display: none; }
+        body.dark #moon      { display: none; }
+
+        /* ============================================================
+           コントロール
+        ============================================================ */
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background: var(--accent-gold);
+            color: var(--accent-navy);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-light);
+        }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 2px solid var(--border-light);
+            border-radius: 5px;
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            width: 250px;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+            box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.1);
+        }
+
+        /* ============================================================
+           タブ
+        ============================================================ */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-light);
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-light-secondary);
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text-light);
+            background: rgba(250, 186, 64, 0.1);
+            transform: translateY(0);
+        }
+
+        .tab.active {
+            color: var(--accent-gold);
+            border-bottom-color: var(--accent-gold);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           テーブル
+        ============================================================ */
+        .timeline-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-light-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px var(--shadow-light);
+        }
+
+        .timeline-table thead {
+            background: var(--accent-navy);
+            color: white;
+        }
+
+        body.dark .timeline-table thead {
+            background: var(--accent-gold);
+            color: var(--accent-navy);
+        }
+
+        .timeline-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .timeline-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .timeline-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .timeline-table tbody tr:hover {
+            background: rgba(250, 186, 64, 0.1);
+        }
+
+        .event-year {
+            font-weight: 600;
+            color: var(--accent-navy);
+            white-space: nowrap;
+            font-size: 1rem;
+        }
+
+        body.dark .event-year { color: var(--accent-gold); }
+
+        .event-title { font-weight: 500; }
+
+        .event-link {
+            color: var(--accent-gold);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .event-link:hover { text-decoration: underline; }
+
+        .category-chip {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .event-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+        .btn-edit  { background: var(--accent-navy); color: white; }
+        body.dark .btn-edit { background: var(--accent-gold); color: var(--accent-navy); }
+
+        .btn-delete { background: #E74C3C; color: white; }
+        .btn-add    { background: #C9C5B1; color: white; }
+
+        /* ============================================================
+           モーダル
+        ============================================================ */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active { display: flex; }
+
+        .modal-content {
+            background: var(--bg-light);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px var(--shadow-light);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            color: var(--accent-navy);
+            font-size: 1.5rem;
+        }
+
+        body.dark .modal-header h2 { color: var(--accent-gold); }
+
+        .close-modal {
+            background: transparent;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+        }
+
+        .form-group { margin-bottom: 20px; }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-light);
+            border-radius: 5px;
+            background: var(--bg-light-secondary);
+            color: var(--text-light);
+            font-size: 0.95rem;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-group small {
+            display: block;
+            margin-top: 5px;
+            color: var(--text-light-secondary);
+            font-size: 0.85rem;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            margin-top: 25px;
+        }
+
+        .btn-cancel {
+            background: var(--bg-light-secondary);
+            color: var(--text-light);
+            border: 2px solid var(--border-light);
+        }
+
+        /* ============================================================
+           統計
+        ============================================================ */
+        .stats {
+            background: var(--bg-light-secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            box-shadow: 0 2px 8px var(--shadow-light);
+        }
+
+        .stat-item { text-align: center; }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #777;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light-secondary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-light-secondary);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-light-secondary);
+        }
+
+        /* ============================================================
+           章カラー
+        ============================================================ */
+        .chapter-chip.第1章  { background: #E3F2FD; color: #1565C0; }
+        .chapter-chip.第2章  { background: #F3E5F5; color: #6A1B9A; }
+        .chapter-chip.第3章  { background: #BBDEFB; color: #0D47A1; }
+        .chapter-chip.第4章  { background: #E8F5E9; color: #2E7D32; }
+        .chapter-chip.第5章  { background: #F1F8E9; color: #558B2F; }
+        .chapter-chip.第6章  { background: #E0F2F1; color: #00695C; }
+        .chapter-chip.第7章  { background: #FFF9C4; color: #F57F17; }
+        .chapter-chip.第8章  { background: #FFF3E0; color: #E65100; }
+        .chapter-chip.第9章  { background: #FCE4EC; color: #C2185B; }
+        .chapter-chip.第10章 { background: #FFEBEE; color: #C62828; }
+        .chapter-chip.第11章 { background: #E8EAF6; color: #3F51B5; }
+
+        body.dark .chapter-chip.第1章  { background: #1565C0; color: #E3F2FD; }
+        body.dark .chapter-chip.第2章  { background: #6A1B9A; color: #F3E5F5; }
+        body.dark .chapter-chip.第3章  { background: #0D47A1; color: #BBDEFB; }
+        body.dark .chapter-chip.第4章  { background: #2E7D32; color: #E8F5E9; }
+        body.dark .chapter-chip.第5章  { background: #558B2F; color: #F1F8E9; }
+        body.dark .chapter-chip.第6章  { background: #00695C; color: #E0F2F1; }
+        body.dark .chapter-chip.第7章  { background: #F57F17; color: #FFF9C4; }
+        body.dark .chapter-chip.第8章  { background: #E65100; color: #FFF3E0; }
+        body.dark .chapter-chip.第9章  { background: #C2185B; color: #FCE4EC; }
+        body.dark .chapter-chip.第10章 { background: #C62828; color: #FFEBEE; }
+        body.dark .chapter-chip.第11章 { background: #3F51B5; color: #E8EAF6; }
+
+        /* ============================================================
+           レスポンシブ
+        ============================================================ */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h1 { font-size: 1.5rem; }
+
+            .user-info { display: none; } /* スマホでは省略 */
+
+            .controls { width: 100%; }
+
+            .search-box { width: 100%; }
+
+            .timeline-table { font-size: 0.9rem; }
+
+            .timeline-table th,
+            .timeline-table td { padding: 10px; }
+
+            .event-actions { flex-direction: column; }
+
+            /* スマホでは章列を非表示にしてスペース確保 */
+            .timeline-table th:nth-child(3),
+            .timeline-table td:nth-child(3) { display: none; }
+
+            .login-card {
+                padding: 32px 24px;
+            }
+        }

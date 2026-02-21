@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界史年表 管理画面</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ========== ログイン画面 ========== -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            <h2 class="login-title">管理者ログイン</h2>
+            <p class="login-subtitle">世界史年表 管理画面</p>
+
+            <div id="loginError" class="login-error" style="display:none;"></div>
+
+            <div class="form-group">
+                <label for="loginEmail">メールアドレス</label>
+                <input type="email" id="loginEmail" placeholder="admin@example.com" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">パスワード</label>
+                <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+            </div>
+
+            <button id="loginBtn" class="btn-login" type="button">ログイン</button>
+        </div>
+    </div>
+
+    <!-- ========== 管理画面（ログイン後） ========== -->
+    <div id="adminScreen" style="display:none;">
+        <header>
+            <div class="header-content">
+                <div>
+                    <h1>世界史年表 管理画面</h1>
+                    <span class="admin-badge">ADMIN ONLY</span>
+                </div>
+                <span class="logo-switches">
+                    <span id="loggedInUser" class="user-info"></span>
+                    <button id="logoutBtn" class="btn-logout" type="button" title="ログアウト">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        ログアウト
+                    </button>
+                    <button id="theme-toggle" type="button" title="Toggle Theme">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </span>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="stats" id="statsSection">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalEvents">-</div>
+                    <div class="stat-label">総イベント数</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="displayedEvents">-</div>
+                    <div class="stat-label">表示中</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <input type="text" id="searchBox" class="search-box" placeholder="イベントを検索...">
+                <button class="btn-add" onclick="openAddModal()">+ 新規追加</button>
+                <select id="viewMode" style="padding: 10px 12px; border: 2px solid var(--border-light); border-radius: 5px; background: var(--bg-light); color: var(--text-light); font-size: 0.95rem;">
+                    <option value="chapter">章別</option>
+                    <option value="period">時代別</option>
+                </select>
+            </div>
+
+            <div class="tabs" id="categoryTabs"></div>
+
+            <div id="timelineContainer">
+                <div class="loading">読み込み中...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit/Add Modal -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">イベントを編集</h2>
+                <button class="close-modal" id="closeModal" type="button">×</button>
+            </div>
+            <form id="editForm">
+                <input type="hidden" id="editEventId">
+                
+                <div class="form-group">
+                    <label for="editYear">年号 *</label>
+                    <input type="text" id="editYear" required placeholder="例：1640 / 前3000">
+                    <small>紀元前には「前」をつけてください（例：前3000）</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEvent">出来事 *</label>
+                    <textarea id="editEvent" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editChapter">章（分野） *</label>
+                    <select id="editChapter" required>
+                        <option value="第1章">古代文明圏【オリエント・ギリシア・ローマ・中国古代】</option>
+                        <option value="第2章">中世ヨーロッパ</option>
+                        <option value="第3章">近現代ヨーロッパ</option>
+                        <option value="第4章">東アジア（中国・モンゴル）</option>
+                        <option value="第5章">東アジア（日本・朝鮮）</option>
+                        <option value="第6章">イスラーム世界</option>
+                        <option value="第7章">南アジア・東南アジア</option>
+                        <option value="第8章">アメリカ大陸</option>
+                        <option value="第9章">第一次世界大戦</option>
+                        <option value="第10章">第二次世界大戦</option>
+                        <option value="第11章">戦後国際史</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editPeriod">時代区分（自動判定）</label>
+                    <input id="editPeriod" type="text" disabled>
+                </div>
+
+                <div class="form-group">
+                    <label for="editLink">参考リンク（任意）</label>
+                    <input id="editLink" type="url" placeholder="https://...">
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">キャンセル</button>
+                    <button type="submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
