@@ -14,5 +14,12 @@ const sectionItems1 = [
         link: "capitalsquiz.html",
         target: "_blank"
     },
+    {
+        icon: "🌍",
+        title: "3学期期末試験対策用 Frashcards",
+        titleEN: "Frashcards for Final Exam",
+        description: "期末テスト対策用のフラッシュカードです。",
+        link: "3-final-exam_frashcards.html",
+    },
     
 ];
