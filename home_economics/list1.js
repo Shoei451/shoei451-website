@@ -13,4 +13,11 @@ const sectionItems1 = [
         description: "社会保障制度と民法のフラッシュカードを配布します。",
         link: "frashcards.html"
     },
+    {
+        icon: "📝",
+        title: "家庭基礎 3学期期末試験対策ノート",
+        titleEN: "Home Economics 3rd Semester Final Exam Study Notes",
+        description: "家庭基礎 3学期期末試験の対策ノートを配布します。",
+        link: "3-matome.html"
+    }
 ];

@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>家庭基礎 3学期期末試験対策ノート - Shoei451</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-bg: #fafaf8;
+      --color-surface: #ffffff;
+      --color-border: #e8e8e5;
+      --color-text-primary: #1a1a1a;
+      --color-text-secondary: #6b6b6b;
+      --color-accent: #2d6a4f;
+      --color-accent-light: #e8f5e9;
+      --color-accent2: #1a4a7a;
+      --color-accent2-light: #e8f0fa;
+      --color-warn: #c0392b;
+      --color-warn-light: #fdecea;
+      --color-gold: #b7800a;
+      --color-gold-light: #fdf3dc;
+
+      --font-sans: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+      --font-display: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 1.5rem;
+      --space-lg: 2.5rem;
+      --space-xl: 4rem;
+
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-feature-settings: "pkna";
+      -webkit-font-smoothing: antialiased;
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      line-height: 1.8;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky; top: 0;
+      background: rgba(250,250,248,0.9);
+      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--color-border);
+      z-index: 100;
+    }
+    .navbar__inner {
+      max-width: 1100px; margin: 0 auto;
+      padding: var(--space-sm) var(--space-md);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .navbar__logo {
+      font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+      color: var(--color-accent);
+    }
+    .navbar__meta {
+      font-size: 0.78rem; color: var(--color-text-secondary);
+      font-family: var(--font-mono);
+    }
+
+    /* LAYOUT */
+    .page-layout {
+      display: grid;
+      grid-template-columns: 230px 1fr;
+      gap: var(--space-lg);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
+    }
+    @media (max-width: 760px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      position: sticky;
+      top: calc(56px + var(--space-md));
+      align-self: start;
+    }
+    .sidebar__title {
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      font-family: var(--font-mono);
+      margin-bottom: var(--space-sm);
+    }
+    .unit-nav { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .unit-nav__item a {
+      display: block;
+      padding: 0.35rem 0.75rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .unit-nav__item a:hover,
+    .unit-nav__item a.active {
+      color: var(--color-accent);
+      border-left-color: var(--color-accent);
+      background: var(--color-accent-light);
+    }
+
+    /* UNIT SECTION */
+    .unit {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .unit__header {
+      padding: var(--space-md) var(--space-md) var(--space-sm);
+      border-bottom: 1px solid var(--color-border);
+      cursor: pointer;
+      display: flex; align-items: center; gap: var(--space-sm);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .unit__header:hover { background: var(--color-bg); }
+    .unit__num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--color-text-secondary);
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 0.1rem 0.5rem;
+      flex-shrink: 0;
+    }
+    .unit__title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      flex: 1;
+    }
+    .unit__chevron {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+      transition: transform 0.2s;
+    }
+    .unit.open .unit__chevron { transform: rotate(180deg); }
+    .unit__body { display: none; padding: var(--space-md); }
+    .unit.open .unit__body { display: block; }
+
+    /* TABS */
+    .tabs { display: flex; gap: var(--space-xs); margin-bottom: var(--space-md); }
+    .tab-btn {
+      padding: 0.4rem 1rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--color-text-secondary);
+      transition: all 0.15s;
+    }
+    .tab-btn.active {
+      background: var(--color-accent);
+      color: white;
+      border-color: var(--color-accent);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* CONTENT BLOCKS */
+    .def-block {
+      background: var(--color-accent-light);
+      border-left: 4px solid var(--color-accent);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: var(--space-sm) var(--space-md);
+      margin-bottom: var(--space-sm);
+    }
+    .def-block__term {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+    .def-block__body {
+      font-size: 0.88rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+
+    .callout {
+      display: flex; gap: var(--space-sm);
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-sm);
+      font-size: 0.88rem;
+    }
+    .callout--tip { background: var(--color-gold-light); border: 1px solid #f6d860; }
+    .callout--warn { background: var(--color-warn-light); border: 1px solid #feb2b2; }
+    .callout--info { background: var(--color-accent2-light); border: 1px solid #b3c8e8; }
+    .callout__icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1.7; }
+    .callout__text { line-height: 1.7; }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-bottom: var(--space-sm);
+    }
+    .data-table th {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      padding: 0.5rem 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      color: var(--color-text-secondary);
+    }
+    .data-table td {
+      border: 1px solid var(--color-border);
+      padding: 0.5rem 0.75rem;
+    }
+    .data-table tr:hover td { background: var(--color-bg); }
+
+    .section-h {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-family: var(--font-mono);
+      margin-bottom: var(--space-xs);
+      margin-top: var(--space-md);
+    }
+    .section-h:first-child { margin-top: 0; }
+
+    .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: var(--space-sm); }
+    .tag {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 100px;
+      font-size: 0.78rem;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+    }
+    .tag--accent { border-color: var(--color-accent); color: var(--color-accent); background: var(--color-accent-light); }
+    .tag--warn { border-color: var(--color-warn); color: var(--color-warn); background: var(--color-warn-light); }
+    .tag--gold { border-color: var(--color-gold); color: var(--color-gold); background: var(--color-gold-light); }
+
+    /* QUIZ */
+    .quiz-wrap { }
+    .q-item {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: var(--space-sm);
+    }
+    .q-item__text {
+      font-size: 0.95rem;
+      margin-bottom: var(--space-sm);
+      line-height: 1.7;
+    }
+    .q-item__blank {
+      display: inline-block;
+      min-width: 100px;
+      border-bottom: 2px solid var(--color-accent);
+      padding: 0 4px;
+      margin: 0 4px;
+    }
+    .q-answer-input {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      background: var(--color-surface);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .q-answer-input:focus {
+      outline: none;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px var(--color-accent-light);
+    }
+    .q-answer-input.correct { border-color: #2d6a4f; background: #f0faf4; }
+    .q-answer-input.wrong { border-color: var(--color-warn); background: var(--color-warn-light); }
+
+    .q-feedback {
+      margin-top: var(--space-xs);
+      font-size: 0.82rem;
+      min-height: 1.2em;
+    }
+    .q-feedback.correct { color: var(--color-accent); }
+    .q-feedback.wrong { color: var(--color-warn); }
+
+    .quiz-controls {
+      display: flex; gap: var(--space-sm); align-items: center;
+      margin-top: var(--space-md);
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 0.88rem; font-weight: 500;
+      cursor: pointer; border: none;
+      transition: all 0.15s;
+    }
+    .btn--primary { background: var(--color-accent); color: white; }
+    .btn--primary:hover { opacity: 0.85; }
+    .btn--ghost {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+    }
+    .btn--ghost:hover { background: var(--color-bg); }
+
+    .score-badge {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+      margin-left: auto;
+    }
+
+    /* Progress */
+    .progress-bar {
+      height: 4px;
+      background: var(--color-border);
+      border-radius: 100px;
+      margin-bottom: var(--space-md);
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--color-accent);
+      border-radius: 100px;
+      transition: width 0.4s ease;
+    }
+
+    /* HERO */
+    .hero {
+      max-width: 1100px; margin: 0 auto;
+      padding: var(--space-xl) var(--space-md) var(--space-md);
+    }
+    .hero__label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-xs);
+    }
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: var(--space-xs);
+    }
+    .hero__sub {
+      font-size: 0.9rem;
+      color: var(--color-text-secondary);
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid var(--color-border);
+      margin: var(--space-sm) 0;
+    }
+
+    p { margin-bottom: 0.6em; }
+    ul.bullet { padding-left: 1.2em; margin-bottom: 0.6em; }
+    ul.bullet li { font-size: 0.88rem; margin-bottom: 0.2em; color: var(--color-text-secondary); }
+
+    /* Overall score panel */
+    .score-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+      display: flex; align-items: center; gap: var(--space-md);
+      box-shadow: var(--shadow-sm);
+    }
+    .score-panel__num {
+      font-family: var(--font-mono);
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1;
+    }
+    .score-panel__label {
+      font-size: 0.82rem;
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="navbar__inner">
+    <span class="navbar__logo">家庭基礎 — 期末テスト対策</span>
+    <span class="navbar__meta">III学期 / 2026.02–03</span>
+  </div>
+</nav>
+
+<div class="hero">
+  <p class="hero__label">Home Economics · 家庭基礎</p>
+  <h1 class="hero__title">単元別まとめ＆穴埋め演習</h1>
+  <p class="hero__sub">各単元を開いて「まとめ」で確認 → 「穴埋め」で定着チェック</p>
+</div>
+
+<div class="page-layout">
+  <aside class="sidebar">
+    <p class="sidebar__title">Unit Index</p>
+    <ul class="unit-nav" id="unitNav">
+      <li class="unit-nav__item"><a href="#u1">01 子どもの育つ力</a></li>
+      <li class="unit-nav__item"><a href="#u2">02 命の誕生</a></li>
+      <li class="unit-nav__item"><a href="#u3">03 身体の発達</a></li>
+      <li class="unit-nav__item"><a href="#u4">04 心の発達</a></li>
+      <li class="unit-nav__item"><a href="#u5">05 子どもの食・衣生活</a></li>
+      <li class="unit-nav__item"><a href="#u6">06 保育環境・社会制度</a></li>
+      <li class="unit-nav__item"><a href="#u7">07 家族・家庭とは</a></li>
+      <li class="unit-nav__item"><a href="#u8">08 家族と法律</a></li>
+      <li class="unit-nav__item"><a href="#u9">09 結婚・離婚・親子の法律</a></li>
+      <li class="unit-nav__item"><a href="#u10">10 相続の法律</a></li>
+      <li class="unit-nav__item"><a href="#u11">11 老化と成熟</a></li>
+      <li class="unit-nav__item"><a href="#u12">12 社会保障制度</a></li>
+    </ul>
+  </aside>
+
+  <main id="mainContent">
+
+    <!-- UNIT 01 -->
+    <section class="unit" id="u1">
+      <div class="unit__header" onclick="toggleUnit('u1')">
+        <span class="unit__num">01</span>
+        <span class="unit__title">子どもの育つ力・新生児期</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u1','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u1','quiz')">穴埋め</button>
+        </div>
+
+        <div class="tab-panel active" id="u1-summary">
+          <p class="section-h">発達段階の区分</p>
+          <table class="data-table">
+            <tr><th>時期</th><th>目安</th></tr>
+            <tr><td>新生児期</td><td>誕生〜4週間</td></tr>
+            <tr><td>乳児期</td><td>〜1歳頃</td></tr>
+            <tr><td>幼児期</td><td>〜6歳頃（就学前）</td></tr>
+            <tr><td>児童期</td><td>6〜12歳（小学校）</td></tr>
+          </table>
+
+          <p class="section-h">生理的早産</p>
+          <div class="def-block">
+            <div class="def-block__term">生理的早産（ポルトマン）</div>
+            <div class="def-block__body">人間は「およそ1年の生理的早産」と表現されるほど未熟な状態で生まれる。この未熟さが大人との<strong>コミュニケーションの必要性</strong>を高め、子どもが育つ力を発揮させる重要なメカニズムとなる。</div>
+          </div>
+
+          <p class="section-h">新生児の特徴的な現象</p>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>生理的体重減少</strong>：生後1週間、体重が約1割減少（摂取＜排泄・発汗）。その後増加に転じる。</span>
+          </div>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>生理的黄疸</strong>：生後3・4日頃、皮膚が黄色になる。肝臓の未発達によりビリルビンの排泄が追いつかないため。1〜2週間で消失。</span>
+          </div>
+
+          <p class="section-h">原始反射（生まれつき持つ反射）</p>
+          <div class="tag-row">
+            <span class="tag--accent tag">吸啜（きゅうてつ）反射：口に触れたものに吸いつく</span>
+            <span class="tag--accent tag">把握反射：手のひらに触れたものをつかむ</span>
+            <span class="tag--accent tag">モロー反射：大きな音で両腕を広げる</span>
+          </div>
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">原始反射は<strong>脳の発達</strong>とともに徐々に消失する。</span>
+          </div>
+
+          <p class="section-h">頭蓋骨の特徴</p>
+          <div class="def-block">
+            <div class="def-block__term">大泉門・小泉門</div>
+            <div class="def-block__body">産道を通りやすくするための頭蓋骨の隙間。小泉門は<strong>1か月</strong>、大泉門は<strong>1年〜1年6か月</strong>で閉じる。</div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="u1-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u1-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u1-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u1')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u1')">リセット</button>
+            <span class="score-badge" id="u1-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 02 -->
+    <section class="unit" id="u2">
+      <div class="unit__header" onclick="toggleUnit('u2')">
+        <span class="unit__num">02</span>
+        <span class="unit__title">命の誕生・妊娠・母体の健康管理</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u2','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u2','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u2-summary">
+          <p class="section-h">受精〜妊娠の流れ</p>
+          <div class="def-block">
+            <div class="def-block__term">受精・着床</div>
+            <div class="def-block__body">受精卵が卵管で細胞分裂しながら移動し、受精後<strong>6〜7日目</strong>に子宮内膜に着床。着床に至る割合は約<strong>3割強</strong>。</div>
+          </div>
+          <div class="def-block">
+            <div class="def-block__term">妊娠周期の数え方</div>
+            <div class="def-block__body">最終月経の第1日目から数え、4週間で1か月。妊娠<strong>40週（10か月）</strong>前後で出生。</div>
+          </div>
+
+          <p class="section-h">妊娠の時期区分</p>
+          <table class="data-table">
+            <tr><th>区分</th><th>週数の目安</th><th>特徴</th></tr>
+            <tr><td>妊娠初期（前期）</td><td>〜第11週末</td><td>器官形成が盛ん・要注意期</td></tr>
+            <tr><td>妊娠中期</td><td>第12〜27週末</td><td>胎盤完成、最初の胎動</td></tr>
+            <tr><td>妊娠後期</td><td>第28週〜</td><td>胎動活発、体重増加</td></tr>
+          </table>
+
+          <p class="section-h">母体の健康管理リスク</p>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>早産</strong>：妊娠22週以後37週未満の出産。21週以前は流産。</span>
+          </div>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>低出生体重児</strong>：出生体重2,500g未満の新生児。飲酒・喫煙・過労・受動喫煙がリスクを高める。</span>
+          </div>
+          <div class="callout callout--info">
+            <span class="callout__icon">ℹ️</span>
+            <span class="callout__text"><strong>マタニティブルーズ</strong>：出産後のホルモンバランス乱れによる涙もろさ・不安感。重度化すると「産後うつ」に。通常1〜2か月で回復。</span>
+          </div>
+
+          <p class="section-h">母子免疫</p>
+          <div class="def-block">
+            <div class="def-block__term">母子免疫</div>
+            <div class="def-block__body">母親の免疫抗体が胎盤を通じて新生児に移行し感染症から守る。生後<strong>3〜6か月</strong>頃になくなり、以後乳児が自分の免疫を発達させていく。</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="u2-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u2-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u2-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u2')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u2')">リセット</button>
+            <span class="score-badge" id="u2-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 03 -->
+    <section class="unit" id="u3">
+      <div class="unit__header" onclick="toggleUnit('u3')">
+        <span class="unit__num">03</span>
+        <span class="unit__title">身体の発達</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u3','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u3','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u3-summary">
+          <p class="section-h">運動機能の発達の方向</p>
+          <ul class="bullet">
+            <li>頭部→末端（頭から肩→腕→手首）の方向</li>
+            <li>中心部→末端部の方向</li>
+            <li>全体的な動き→細かい運動（粗大→微細）</li>
+          </ul>
+
+          <p class="section-h">粗大運動・微細運動</p>
+          <table class="data-table">
+            <tr><th>種類</th><th>内容</th></tr>
+            <tr><td>粗大運動</td><td>歩く・走るなど身体全体を使う大きい運動</td></tr>
+            <tr><td>微細運動</td><td>つかむ・つまむ・水を注ぐなど手先の細かい運動</td></tr>
+          </table>
+
+          <p class="section-h">成長の目安数値</p>
+          <table class="data-table">
+            <tr><th>時期</th><th>身長</th><th>体重</th><th>頭身</th><th>脳重量</th></tr>
+            <tr><td>新生児</td><td>約50cm</td><td>約3kg</td><td>4頭身</td><td>約470g</td></tr>
+            <tr><td>1歳頃</td><td>約75cm</td><td>約8〜10kg</td><td>4〜5頭身</td><td>約1,110g</td></tr>
+            <tr><td>4歳頃</td><td>約100cm</td><td>約15〜16kg</td><td>5〜6頭身</td><td>約1,340g</td></tr>
+            <tr><td>高校生</td><td>—</td><td>—</td><td>7〜8頭身</td><td>約1,440g</td></tr>
+          </table>
+
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">1歳頃には体重は出生時の<strong>約3倍</strong>、身長は<strong>約1.5倍</strong>。5歳頃には基本的な運動機能が一通り発達する。</span>
+          </div>
+
+          <p class="section-h">呼吸数・脈拍数の変化</p>
+          <table class="data-table">
+            <tr><th>時期</th><th>呼吸数(回/分)</th><th>脈拍数(回/分)</th></tr>
+            <tr><td>新生児</td><td>40〜50</td><td>130〜140</td></tr>
+            <tr><td>1歳頃</td><td>30〜40</td><td>120〜130</td></tr>
+            <tr><td>4歳頃</td><td>25〜30</td><td>90〜120</td></tr>
+            <tr><td>高校生</td><td>16〜18</td><td>60〜80</td></tr>
+          </table>
+        </div>
+        <div class="tab-panel" id="u3-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u3-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u3-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u3')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u3')">リセット</button>
+            <span class="score-badge" id="u3-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 04 -->
+    <section class="unit" id="u4">
+      <div class="unit__header" onclick="toggleUnit('u4')">
+        <span class="unit__num">04</span>
+        <span class="unit__title">心の発達（愛着・言語・認知・情緒）</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u4','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u4','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u4-summary">
+          <p class="section-h">愛着（アタッチメント）</p>
+          <div class="def-block">
+            <div class="def-block__term">愛着（ボウルビィ提唱）</div>
+            <div class="def-block__body">特定の保護者への強い心の結び付き。1歳頃に形成。外の世界を探索する際の<strong>安全基地</strong>の役割を果たす。愛着形成の相手は1人とは限らない。</div>
+          </div>
+
+          <p class="section-h">言語発達の段階</p>
+          <table class="data-table">
+            <tr><th>時期</th><th>言語の段階</th></tr>
+            <tr><td>生後1か月まで</td><td>泣き声のみ（空腹・痛みを表現）</td></tr>
+            <tr><td>その後</td><td>喃語（「あー」「ぶー」）→指さし・ジェスチャー</td></tr>
+            <tr><td>1歳頃</td><td>一語文（「まんま」）</td></tr>
+            <tr><td>1歳半過ぎ</td><td>二語文（「まんまちょうだい」）</td></tr>
+            <tr><td>2歳以降</td><td>三語文以上</td></tr>
+            <tr><td>3〜4歳頃</td><td>日常会話がほぼ可能</td></tr>
+          </table>
+
+          <p class="section-h">認知の発達</p>
+          <ul class="bullet">
+            <li><strong>乳児期</strong>：知覚や運動を通して周りを認知</li>
+            <li><strong>幼児期</strong>：頭の中でイメージを思い浮かべる・ごっこ遊び／アニミズム・視点の自己中心性・視覚的イメージに左右される</li>
+            <li><strong>児童期</strong>：概念や記号を用いた論理的思考が発達</li>
+          </ul>
+
+          <p class="section-h">情緒の発達・第1反抗期</p>
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">2〜3歳頃「いや」「だめ」を繰り返す時期を<strong>第1反抗期</strong>という。自己意識を発達させる上で重要な時期。</span>
+          </div>
+        </div>
+        <div class="tab-panel" id="u4-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u4-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u4-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u4')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u4')">リセット</button>
+            <span class="score-badge" id="u4-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 05 -->
+    <section class="unit" id="u5">
+      <div class="unit__header" onclick="toggleUnit('u5')">
+        <span class="unit__num">05</span>
+        <span class="unit__title">子どもの食・衣生活と保育</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u5','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u5','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u5-summary">
+          <p class="section-h">乳汁栄養の種類</p>
+          <div class="tag-row">
+            <span class="tag--accent tag">母乳栄養</span>
+            <span class="tag">人工栄養（粉ミルク・液体ミルク）</span>
+            <span class="tag">混合栄養</span>
+          </div>
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">母乳の利点：消化吸収がよい・免疫物質を含む。授乳時はスキンシップ（目を合わせ、話しかける）を大切に。</span>
+          </div>
+
+          <p class="section-h">離乳食の進め方</p>
+          <table class="data-table">
+            <tr><th>月齢</th><th>食形態</th><th>ポイント</th></tr>
+            <tr><td>5〜6か月</td><td>すりつぶし（ヨーグルト状）</td><td>1さじずつ・1日1回</td></tr>
+            <tr><td>7〜8か月</td><td>舌でつぶせるかたさ（豆腐くらい）</td><td>1日2回食</td></tr>
+            <tr><td>9〜11か月</td><td>歯茎でつぶせるかたさ（バナナくらい）</td><td>1日3回食</td></tr>
+            <tr><td>12〜18か月</td><td>歯茎でかめるかたさ（肉団子くらい）</td><td>手づかみ食べ開始</td></tr>
+          </table>
+
+          <p class="section-h">子どもの被服の条件</p>
+          <ul class="bullet">
+            <li>動きやすく安全（JIS：首回りにひもを付けない）</li>
+            <li>適度なゆとり・伸縮性・吸湿性</li>
+            <li>洗濯に耐え丈夫、手入れしやすい</li>
+            <li>自分で着脱しやすい（自立促進）</li>
+          </ul>
+        </div>
+        <div class="tab-panel" id="u5-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u5-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u5-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u5')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u5')">リセット</button>
+            <span class="score-badge" id="u5-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 06 -->
+    <section class="unit" id="u6">
+      <div class="unit__header" onclick="toggleUnit('u6')">
+        <span class="unit__num">06</span>
+        <span class="unit__title">これからの保育環境・社会制度</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u6','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u6','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u6-summary">
+          <p class="section-h">保育の種類</p>
+          <table class="data-table">
+            <tr><th>施設</th><th>対象</th><th>時間</th><th>管轄</th></tr>
+            <tr><td>保育所</td><td>保育を必要とする乳幼児 0歳〜就学前</td><td>原則8時間</td><td>こども家庭庁（児童福祉法）</td></tr>
+            <tr><td>認定こども園</td><td>保育必要な乳幼児または希望者 0歳〜就学前</td><td>教育4h+保育8h</td><td>こども家庭庁・文科省</td></tr>
+            <tr><td>幼稚園</td><td>満3歳〜就学前</td><td>標準4時間</td><td>文部科学省（学校教育法）</td></tr>
+          </table>
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">3〜5歳児と住民税非課税世帯の0〜2歳児は<strong>保育料無償</strong>（一部上限あり）。</span>
+          </div>
+
+          <p class="section-h">問題のある社会通念（批判的に覚える）</p>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>母性神話</strong>：女性は母性愛を本能として持ち、母親が育児することが絶対という考え方。科学的根拠なし。</span>
+          </div>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>3歳児神話</strong>：3歳まで母親が育てないと取り返しのつかないダメージを与えるという考え方。科学的根拠なし。</span>
+          </div>
+
+          <p class="section-h">育児・労働に関する法律</p>
+          <table class="data-table">
+            <tr><th>法律</th><th>内容（主要）</th></tr>
+            <tr><td>労働基準法</td><td>産前6週・産後8週の休業</td></tr>
+            <tr><td>育児・介護休業法</td><td>子が1歳まで育児休業（給与の67%→50%保障）。出生時育児休業（産後パパ育休）：生後8週まで4週間</td></tr>
+            <tr><td>母子保健法</td><td>妊娠届→母子健康手帳の交付</td></tr>
+          </table>
+        </div>
+        <div class="tab-panel" id="u6-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u6-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u6-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u6')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u6')">リセット</button>
+            <span class="score-badge" id="u6-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 07 -->
+    <section class="unit" id="u7">
+      <div class="unit__header" onclick="toggleUnit('u7')">
+        <span class="unit__num">07</span>
+        <span class="unit__title">家族・家庭とは／社会の中の家族</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u7','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u7','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u7-summary">
+          <p class="section-h">家族・家庭・世帯の違い</p>
+          <table class="data-table">
+            <tr><th>概念</th><th>定義</th></tr>
+            <tr><td>家族</td><td>結婚・血縁などでつながり、生活に深く関わる人々（2人以上）</td></tr>
+            <tr><td>家庭</td><td>人間が生きていくための日常生活の場と、そこで営まれる生活全体。一人暮らしでも「家庭」</td></tr>
+            <tr><td>世帯</td><td>住居と生計を共にする集まり、または単身者。1人でも1世帯（単独世帯）</td></tr>
+          </table>
+
+          <p class="section-h">家庭の機能の変化</p>
+          <div class="def-block">
+            <div class="def-block__term">家庭の機能の社会化（外部化）</div>
+            <div class="def-block__body">産業発展により、物資の生産・教育・医療・福祉・娯楽などの機能が専門機関に移行した。現代の家庭の機能の中心は<strong>子どもの養育・愛情の充足・心理的安定</strong>などの精神的機能。</div>
+          </div>
+
+          <p class="section-h">世帯構成の変化</p>
+          <ul class="bullet">
+            <li>単独世帯の増加が著しい</li>
+            <li>夫婦のみ世帯も増加</li>
+            <li>夫婦と子どもの世帯・3世代世帯は減少傾向</li>
+            <li>平均世帯人員：2020年に<strong>2.21人</strong></li>
+          </ul>
+          <div class="callout callout--info">
+            <span class="callout__icon">ℹ️</span>
+            <span class="callout__text">国勢調査は5年に1度実施。第1回は1920年（大正9年）。</span>
+          </div>
+        </div>
+        <div class="tab-panel" id="u7-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u7-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u7-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u7')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u7')">リセット</button>
+            <span class="score-badge" id="u7-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 08 -->
+    <section class="unit" id="u8">
+      <div class="unit__header" onclick="toggleUnit('u8')">
+        <span class="unit__num">08</span>
+        <span class="unit__title">家族と法律（旧民法→現行民法・婚姻法）</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u8','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u8','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u8-summary">
+          <p class="section-h">旧民法→現行民法の変化</p>
+          <table class="data-table">
+            <tr><th>項目</th><th>旧民法（1898年）</th><th>現行民法（1947年改正）</th></tr>
+            <tr><td>家族の単位</td><td>「家」制度（家父長に大きな権限）</td><td>「家」制度廃止、個人の尊厳・男女平等</td></tr>
+            <tr><td>結婚</td><td>戸主の同意が必要、妻は夫の家に入る</td><td>両性の合意のみで成立</td></tr>
+            <tr><td>姓</td><td>妻は夫の姓を名乗る</td><td>夫・妻どちらの姓でもよい</td></tr>
+            <tr><td>親権</td><td>父の親権に服する</td><td>父母の親権（共同）</td></tr>
+            <tr><td>相続</td><td>長男単独の家督相続</td><td>分割相続（配偶者1/2・子1/2を均分）</td></tr>
+          </table>
+
+          <p class="section-h">婚姻に関する主要条文</p>
+          <div class="def-block">
+            <div class="def-block__term">民法第731条・婚姻開始年齢</div>
+            <div class="def-block__body">婚姻は<strong>18歳</strong>にならなければできない（2018年改正、2022年施行。改正前：男18歳・女16歳）。</div>
+          </div>
+          <div class="def-block">
+            <div class="def-block__term">女性の再婚禁止期間</div>
+            <div class="def-block__body">2016年改正で6か月→100日に短縮、<strong>2022年改正（2024年施行）で廃止</strong>。</div>
+          </div>
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">選択的夫婦別姓：現在も国会審議に至っていない未解決課題。国連女子差別撤廃委員会が数度の改善勧告。</span>
+          </div>
+        </div>
+        <div class="tab-panel" id="u8-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u8-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u8-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u8')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u8')">リセット</button>
+            <span class="score-badge" id="u8-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 09 -->
+    <section class="unit" id="u9">
+      <div class="unit__header" onclick="toggleUnit('u9')">
+        <span class="unit__num">09</span>
+        <span class="unit__title">親子・扶養・離婚の法律</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u9','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u9','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u9-summary">
+          <p class="section-h">親権</p>
+          <div class="def-block">
+            <div class="def-block__term">民法第820条</div>
+            <div class="def-block__body">親権者は子の利益のために<strong>監護・教育する権利と義務</strong>を負う。婚姻中は父母が共同して行使。</div>
+          </div>
+
+          <p class="section-h">離婚の種類（割合順）</p>
+          <ul class="bullet">
+            <li>協議離婚（約9割）：家裁不要、離婚届提出</li>
+            <li>調停離婚・審判離婚</li>
+            <li>裁判離婚（和解・認諾・判決）</li>
+          </ul>
+          <div class="callout callout--info">
+            <span class="callout__icon">ℹ️</span>
+            <span class="callout__text">2024年民法改正で<strong>離婚後の共同親権</strong>が導入（2026年5月までに施行予定）。</span>
+          </div>
+
+          <p class="section-h">扶養義務</p>
+          <div class="def-block">
+            <div class="def-block__term">民法第877条</div>
+            <div class="def-block__body"><strong>直系血族および兄弟姉妹</strong>は互いに扶養義務あり。特別の事情がある場合、家裁は<strong>3親等内の親族</strong>（おじ・おば・めい・おいなど）にも扶養義務を課せる。</div>
+          </div>
+
+          <p class="section-h">養育費の問題</p>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text">現実には養育費が支払われないケースが多く、ひとり親世帯の経済的困窮が社会問題となっている。</span>
+          </div>
+        </div>
+        <div class="tab-panel" id="u9-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u9-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u9-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u9')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u9')">リセット</button>
+            <span class="score-badge" id="u9-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 10 -->
+    <section class="unit" id="u10">
+      <div class="unit__header" onclick="toggleUnit('u10')">
+        <span class="unit__num">10</span>
+        <span class="unit__title">相続の法律</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u10','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u10','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u10-summary">
+          <p class="section-h">相続の優先順位と法定相続分</p>
+          <table class="data-table">
+            <tr><th>相続人の組み合わせ</th><th>配偶者</th><th>その他</th></tr>
+            <tr><td>配偶者＋子</td><td>1/2</td><td>子全員で1/2を均分</td></tr>
+            <tr><td>配偶者＋親（父母）</td><td>2/3</td><td>親全員で1/3</td></tr>
+            <tr><td>配偶者＋兄弟姉妹</td><td>3/4</td><td>兄弟姉妹全員で1/4</td></tr>
+          </table>
+
+          <p class="section-h">関連する法改正</p>
+          <div class="callout callout--info">
+            <span class="callout__icon">ℹ️</span>
+            <span class="callout__text">非嫡出子の法定相続分：2013年改正で<strong>嫡出子と同等</strong>に（改正前は嫡出子の1/2）。</span>
+          </div>
+          <div class="def-block">
+            <div class="def-block__term">遺留分</div>
+            <div class="def-block__body">遺言があっても自由にできない最低限の相続分。</div>
+          </div>
+        </div>
+        <div class="tab-panel" id="u10-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u10-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u10-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u10')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u10')">リセット</button>
+            <span class="score-badge" id="u10-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 11 -->
+    <section class="unit" id="u11">
+      <div class="unit__header" onclick="toggleUnit('u11')">
+        <span class="unit__num">11</span>
+        <span class="unit__title">老化と成熟・認知症</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u11','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u11','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u11-summary">
+          <p class="section-h">老化とは</p>
+          <div class="def-block">
+            <div class="def-block__term">老化</div>
+            <div class="def-block__body">身体機能が日常生活の自立状態から低下していく過程。視力・聴力低下、白髪・しわ、筋肉量減少（外見的）、感染症への抵抗力低下・温度変化への適応力低下（内在的）。</div>
+          </div>
+          <div class="def-block">
+            <div class="def-block__term">成熟</div>
+            <div class="def-block__body">年を取ることで知識・経験が増し、豊かな人間関係・総合的な判断力が高まる過程。人間の発達は生涯を通じて新たな変化が積み重ねられる。</div>
+          </div>
+
+          <p class="section-h">認知症</p>
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <span class="callout__text"><strong>認知症</strong>：後天的な脳の病気により知的機能が全般的・持続的に低下し日常生活に支障をきたす状態。単なる物忘れとは異なる。主な症状：記憶障がい・見当識障がい・判断力低下。高齢期ではアルツハイマー型・脳血管性が多い。</span>
+          </div>
+        </div>
+        <div class="tab-panel" id="u11-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u11-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u11-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u11')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u11')">リセット</button>
+            <span class="score-badge" id="u11-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- UNIT 12 -->
+    <section class="unit" id="u12">
+      <div class="unit__header" onclick="toggleUnit('u12')">
+        <span class="unit__num">12</span>
+        <span class="unit__title">社会保障制度</span>
+        <span class="unit__chevron">▾</span>
+      </div>
+      <div class="unit__body">
+        <div class="tabs">
+          <button class="tab-btn active" onclick="switchTab(this,'u12','summary')">まとめ</button>
+          <button class="tab-btn" onclick="switchTab(this,'u12','quiz')">穴埋め</button>
+        </div>
+        <div class="tab-panel active" id="u12-summary">
+          <p class="section-h">社会保障の根拠</p>
+          <div class="def-block">
+            <div class="def-block__term">憲法第25条（生存権）</div>
+            <div class="def-block__body">「すべて国民は、健康で文化的な最低限度の生活を営む権利を有する。」</div>
+          </div>
+
+          <p class="section-h">社会保険の5制度</p>
+          <table class="data-table">
+            <tr><th>制度</th><th>対象リスク</th><th>概要</th></tr>
+            <tr><td>医療保険</td><td>疾病・出産</td><td>医療費の自己負担を軽減</td></tr>
+            <tr><td>介護保険</td><td>要介護状態</td><td>40歳以上が保険料負担、65歳以上（一部40歳〜）が利用</td></tr>
+            <tr><td>公的年金</td><td>高齢・障がい・死亡</td><td>国民年金（基礎）＋厚生年金（上乗せ）</td></tr>
+            <tr><td>雇用保険</td><td>失業</td><td>失業時に給付</td></tr>
+            <tr><td>労災保険</td><td>業務上・通勤災害</td><td>労働者災害補償</td></tr>
+          </table>
+
+          <p class="section-h">年金制度のポイント</p>
+          <div class="def-block">
+            <div class="def-block__term">国民年金（基礎年金）</div>
+            <div class="def-block__body">20歳以上60歳未満の全国民が加入。月額17,510円（令和7年度）。学生は学生納付特例制度で猶予可。40年納付で月額68,000円（令和6年4月以降）。</div>
+          </div>
+          <div class="def-block">
+            <div class="def-block__term">世代間扶養の仕組み</div>
+            <div class="def-block__body">現役世代が高齢者世代を支える構造。1950年：高齢者1人を12.1人の現役が支える → 2020年：2.1人 → 2065年：1.3人（少子高齢化で負担増）。</div>
+          </div>
+          <div class="callout callout--tip">
+            <span class="callout__icon">💡</span>
+            <span class="callout__text">年金未納は老後の老齢年金だけでなく、現在の<strong>障害年金・遺族年金</strong>も失うことになる。</span>
+          </div>
+        </div>
+        <div class="tab-panel" id="u12-quiz">
+          <div class="progress-bar"><div class="progress-fill" id="u12-prog" style="width:0%"></div></div>
+          <div class="quiz-wrap" id="u12-questions"></div>
+          <div class="quiz-controls">
+            <button class="btn btn--primary" onclick="checkQuiz('u12')">答え合わせ</button>
+            <button class="btn btn--ghost" onclick="resetQuiz('u12')">リセット</button>
+            <span class="score-badge" id="u12-score"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// =========================================================
+// QUIZ DATA
+// =========================================================
+const QUIZZES = {
+  u1: [
+    { q: "人間がおよそ1年の___と表現されるほど未熟な状態で生まれることを提唱したのはスイスの動物学者___である。", blanks: ["生理的早産", "ポルトマン"] },
+    { q: "誕生から___までを特に新生児期という。", blanks: ["4週間"] },
+    { q: "生後1週間、体重が約1割減少する現象を___という。", blanks: ["生理的体重減少"] },
+    { q: "生後3〜4日頃から皮膚が黄色になる現象を___という。肝臓が未発達でビリルビンの排泄が追いつかないために生じ、___で消失する。", blanks: ["生理的黄疸", "1〜2週間"] },
+    { q: "生まれつき持つ刺激への反射的反応を___という。口に触れたものに吸い付く反射を___反射という。", blanks: ["原始反射", "吸啜（きゅうてつ）"] },
+    { q: "頭蓋骨の大泉門は___で閉じる。", blanks: ["1年〜1年6か月"] },
+  ],
+  u2: [
+    { q: "受精後___日目に受精卵が子宮内膜に着床する。", blanks: ["6〜7"] },
+    { q: "妊娠___週（10か月）前後で出生となる。", blanks: ["40"] },
+    { q: "妊娠22週以後37週未満の出産を___という。21週以前は___となる。", blanks: ["早産", "流産"] },
+    { q: "出生体重___g未満の新生児を低出生体重児という。", blanks: ["2,500"] },
+    { q: "出産後にホルモンバランスの乱れで生じる涙もろさ・不安感などの現象を___という。重度化すると___に陥る場合もある。", blanks: ["マタニティブルーズ", "産後うつ"] },
+    { q: "母親の免疫抗体は胎盤を通じて新生児に移行するが、生後___頃になくなる。", blanks: ["3〜6か月"] },
+  ],
+  u3: [
+    { q: "歩く・走るなど身体全体のバランスを使う大きい運動を___という。", blanks: ["粗大運動"] },
+    { q: "つかむ・つまむなど手先の細かい運動を___という。", blanks: ["微細運動"] },
+    { q: "1歳頃の体重は出生時の約___倍、身長は約___倍になる。", blanks: ["3", "1.5"] },
+    { q: "新生児の脳の重量は約___g、1歳頃は約___gである。", blanks: ["470", "1,110"] },
+    { q: "新生児の呼吸数は1分間に___回、脈拍は___回である。", blanks: ["40〜50", "130〜140"] },
+    { q: "___歳頃には基本的な運動機能が一通り発達し、粗大運動と微細運動の両方が完成していく。", blanks: ["5"] },
+  ],
+  u4: [
+    { q: "特定の保護者への強い心の結び付きを___（アタッチメント）という。___が提唱した。", blanks: ["愛着", "ボウルビィ"] },
+    { q: "愛着は子どもが外の世界を探索する際に___の役割を果たす。", blanks: ["安全基地"] },
+    { q: "「あー」「ぶー」などの言葉の基となる音を___という。", blanks: ["喃語"] },
+    { q: "1歳頃に発する「まんま」のような単語1語で様々な意味を表す言葉を___という。", blanks: ["一語文"] },
+    { q: "___〜4歳頃には日常会話がほぼできるようになる。", blanks: ["3"] },
+    { q: "2〜3歳頃に「いや」「だめ」を繰り返す時期を___という。", blanks: ["第1反抗期"] },
+  ],
+  u5: [
+    { q: "母乳栄養と人工栄養を併用することを___という。", blanks: ["混合栄養"] },
+    { q: "離乳食を開始する月齢の目安は___か月頃である。", blanks: ["5〜6"] },
+    { q: "離乳食が完了する月齢の目安は___か月頃で、この時期の形状は___でかめるかたさ（肉団子くらい）である。", blanks: ["12〜18", "歯茎"] },
+    { q: "JIS規格では子どもの衣服の首回りに___を付けないよう定めている（窒息事故防止）。", blanks: ["ひも"] },
+  ],
+  u6: [
+    { q: "幼稚園の管轄省庁は___で、根拠法律は___である。", blanks: ["文部科学省", "学校教育法"] },
+    { q: "保育所の管轄は___で、根拠法律は___である。", blanks: ["こども家庭庁", "児童福祉法"] },
+    { q: "女性は母性愛を本能として持ち、母親が育児することが絶対という科学的根拠のない考え方を___という。", blanks: ["母性神話"] },
+    { q: "3歳まで母親が育てないと取り返しのつかないダメージを与えるという考え方を___という。", blanks: ["3歳児神話"] },
+    { q: "産前___週・産後___週の休業が労働基準法で認められている。", blanks: ["6", "8"] },
+    { q: "育児休業取得中の給与は雇用保険から___日目までは給与の___%が保障される。", blanks: ["180", "67"] },
+  ],
+  u7: [
+    { q: "住居と生計を共にする集まり、または単身者を___という。", blanks: ["世帯"] },
+    { q: "産業発展に伴い家庭の機能が専門機関に移っていくことを家庭の機能の___という。", blanks: ["社会化（外部化）"] },
+    { q: "2020年の平均世帯人員は___人である。", blanks: ["2.21"] },
+    { q: "国勢調査は___年に1度実施される。第1回は___年（大正9年）。", blanks: ["5", "1920"] },
+  ],
+  u8: [
+    { q: "現行民法における婚姻開始年齢は男女とも___歳である（2022年施行）。", blanks: ["18"] },
+    { q: "日本国憲法第___条は婚姻が両性の合意のみに基づくことを定めている。", blanks: ["24"] },
+    { q: "女性の再婚禁止期間は2022年改正（2024年施行）で___された。", blanks: ["廃止"] },
+    { q: "非嫡出子の法定相続分は___年の改正で嫡出子と同等になった。", blanks: ["2013"] },
+    { q: "夫婦別姓を義務付けていない国は法律上、世界で___以外に見当たらない。", blanks: ["日本"] },
+  ],
+  u9: [
+    { q: "日本の離婚の約___割は協議離婚である。", blanks: ["9"] },
+    { q: "直系血族および___は互いに扶養する義務がある（民法第877条）。", blanks: ["兄弟姉妹"] },
+    { q: "2024年の民法改正で、離婚後の___が導入された。", blanks: ["共同親権"] },
+    { q: "特別な事情がある場合、家庭裁判所は___親等内の親族間にも扶養義務を負わせることができる。", blanks: ["3"] },
+  ],
+  u10: [
+    { q: "配偶者と子が相続人であるとき、配偶者の相続分は___、子全員で___を均分する。", blanks: ["1/2", "1/2"] },
+    { q: "配偶者と親が相続人の場合、配偶者は___を相続する。", blanks: ["2/3"] },
+    { q: "遺言があっても自由にできない最低限の相続分を___という。", blanks: ["遺留分"] },
+    { q: "非嫡出子の相続分は___年改正まで嫡出子の___であった。", blanks: ["2013", "1/2"] },
+  ],
+  u11: [
+    { q: "身体機能が日常生活の自立状態から低下していく過程を___という。", blanks: ["老化"] },
+    { q: "後天的な脳の病気により知的機能が全般的・持続的に低下し日常生活に支障をきたす状態を___という。", blanks: ["認知症"] },
+    { q: "認知症の症状のうち、時間・場所・人物が分からなくなる症状を___という。", blanks: ["見当識障がい"] },
+    { q: "高齢期の認知症として多い種類は___型と___性の2つである。", blanks: ["アルツハイマー", "脳血管"] },
+  ],
+  u12: [
+    { q: "社会保障の根拠となる憲法第___条を___という。", blanks: ["25", "生存権"] },
+    { q: "社会保険の5制度のうち、40歳以上が保険料を負担し介護サービスを提供するのは___である。", blanks: ["介護保険"] },
+    { q: "国民年金の保険料は月額___円（令和7年度）で、___歳以上___歳未満の全国民が加入する。", blanks: ["17,510", "20", "60"] },
+    { q: "40年間保険料を納めた場合の国民年金（老齢基礎年金）は月額___円（令和6年4月以降）。", blanks: ["68,000"] },
+    { q: "1950年には高齢者1人を___人の現役世代が支えていたが、2065年には___人になると推計される。", blanks: ["12.1", "1.3"] },
+    { q: "年金未納は老後の老齢年金だけでなく、現在受け取れる___年金や遺族年金も失うことになる。", blanks: ["障害"] },
+  ],
+};
+
+// =========================================================
+// UI LOGIC
+// =========================================================
+
+function toggleUnit(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  updateNavActive();
+}
+
+function switchTab(btn, unitId, tab) {
+  const body = document.querySelector(`#${unitId} .unit__body`);
+  body.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  body.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  body.querySelector(`#${unitId}-${tab}`).classList.add('active');
+  if (tab === 'quiz') renderQuiz(unitId);
+}
+
+function updateNavActive() {
+  document.querySelectorAll('.unit-nav__item a').forEach(a => {
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    a.classList.toggle('active', el && el.classList.contains('open'));
+  });
+}
+
+// =========================================================
+// QUIZ ENGINE
+// =========================================================
+
+function renderQuiz(unitId) {
+  const container = document.getElementById(`${unitId}-questions`);
+  if (container.dataset.rendered) return;
+  container.dataset.rendered = '1';
+
+  const questions = QUIZZES[unitId];
+  if (!questions) return;
+
+  container.innerHTML = questions.map((q, qi) => {
+    let qHtml = q.q;
+    let inputCount = 0;
+    qHtml = qHtml.replace(/___/g, () => {
+      const inp = `<input class="q-answer-input" data-qi="${qi}" data-bi="${inputCount}" type="text" placeholder="答え" autocomplete="off">`;
+      inputCount++;
+      return inp;
+    });
+    return `
+      <div class="q-item" id="${unitId}-q${qi}">
+        <div class="q-item__text">Q${qi+1}. ${qHtml}</div>
+        <div class="q-feedback" id="${unitId}-fb${qi}"></div>
+      </div>`;
+  }).join('');
+
+  updateProgress(unitId);
+  container.querySelectorAll('.q-answer-input').forEach(inp => {
+    inp.addEventListener('input', () => updateProgress(unitId));
+  });
+}
+
+function normalize(s) {
+  return s.replace(/[　\s]/g, '').replace(/[，、,]/g, '').toLowerCase()
+    .replace(/ー/g, 'ー').replace(/[（）()]/g, '').replace(/\//g, '');
+}
+
+function checkQuiz(unitId) {
+  const questions = QUIZZES[unitId];
+  let correct = 0, total = 0;
+
+  questions.forEach((q, qi) => {
+    q.blanks.forEach((ans, bi) => {
+      const inp = document.querySelector(`[data-qi="${qi}"][data-bi="${bi}"]`);
+      if (!inp) return;
+      total++;
+      const userAns = normalize(inp.value);
+      const correctAns = normalize(ans);
+
+      // Accept partial match for slash-separated alternatives
+      const isCorrect = userAns === correctAns
+        || correctAns.includes(userAns) && userAns.length >= 2
+        || userAns.includes(correctAns) && correctAns.length >= 2;
+
+      if (isCorrect) {
+        inp.classList.remove('wrong'); inp.classList.add('correct');
+        correct++;
+      } else {
+        inp.classList.remove('correct'); inp.classList.add('wrong');
+      }
+    });
+
+    const fb = document.getElementById(`${unitId}-fb${qi}`);
+    const allInputs = document.querySelectorAll(`[data-qi="${qi}"]`);
+    const allCorrect = [...allInputs].every(inp => inp.classList.contains('correct'));
+    if (allCorrect) {
+      fb.textContent = '✓ 正解';
+      fb.className = 'q-feedback correct';
+    } else {
+      fb.textContent = '✗ 正解：' + q.blanks.join(' / ');
+      fb.className = 'q-feedback wrong';
+    }
+  });
+
+  const pct = total > 0 ? Math.round(correct / total * 100) : 0;
+  document.getElementById(`${unitId}-score`).textContent = `${correct} / ${total} (${pct}%)`;
+  updateProgress(unitId);
+}
+
+function resetQuiz(unitId) {
+  const container = document.getElementById(`${unitId}-questions`);
+  container.querySelectorAll('.q-answer-input').forEach(inp => {
+    inp.value = '';
+    inp.classList.remove('correct', 'wrong');
+  });
+  container.querySelectorAll('.q-feedback').forEach(fb => {
+    fb.textContent = '';
+    fb.className = 'q-feedback';
+  });
+  document.getElementById(`${unitId}-score`).textContent = '';
+  updateProgress(unitId);
+}
+
+function updateProgress(unitId) {
+  const container = document.getElementById(`${unitId}-questions`);
+  const inputs = container ? container.querySelectorAll('.q-answer-input') : [];
+  const filled = [...inputs].filter(i => i.value.trim().length > 0).length;
+  const bar = document.getElementById(`${unitId}-prog`);
+  if (bar && inputs.length > 0) {
+    bar.style.width = `${Math.round(filled / inputs.length * 100)}%`;
+  }
+}
+
+// Init: open first unit
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('u1').classList.add('open');
+  updateNavActive();
+});
+</script>
+</body>
+</html>
