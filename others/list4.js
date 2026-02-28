@@ -1,6 +1,6 @@
 const sectionItems4  = [
     {
-        icon: "", 
+        icon: "🩺", 
         title: "保健 3学期期末試験対策ノート",
         titleEN: "Healthcare 3rd Semester Final Exam Study Notes",
         description: "保健 3学期期末試験の対策ノートを配布します。",
