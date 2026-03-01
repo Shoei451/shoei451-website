@@ -4,7 +4,7 @@ const sectionItems2 = [
         title: "政治・経済 学習用年表",
         titleEN: "Political and Economic Timeline for Learning",
         description: "戦後経済史の年表です",
-        link: "seikei-timeline.html",
+        link: "timeline/",
         target: "_blank"  // Force new tab even for internal links
     },
     {

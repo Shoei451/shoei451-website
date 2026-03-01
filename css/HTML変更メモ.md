@@ -32,7 +32,7 @@
 <link rel="stylesheet" href="../../css/history-styles/chinese-timeline.css">
 ```
 
-### history/china/culture_quiz/index.html
+### history/china/index.html
 ```html
 <!-- 変更後 -->
 <link rel="stylesheet" href="../../../css/theme-chinese.css">
