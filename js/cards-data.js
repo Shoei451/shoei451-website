@@ -41,30 +41,6 @@ const cardsList = [
         text: "情報Iの学習に役立つツールです", 
         link: "informatics1/" 
     },
-    /*
-    { 
-        icon: "⏳",
-        title: "Clock and Calendar", 
-        titleJP: "時計とカレンダー",
-        text: "入試カウントダウンなど", 
-        link: "clock_and_calendar/" 
-    },
-    
-    { 
-        icon: "📰",
-        title: "Blogs", 
-        titleJP: "学習記録",
-        text: "Blogs to share what I learned, or what I thought.", 
-        link: "https://shoei451.super.site/blog-postsbeta-shoei451" 
-    },
-    {
-        icon: "🌸",
-        title: "Japanese Classics learning tool", 
-        titleJP: "(beta)デジタル古文品詞分解",
-        text: "古文の品詞分解のためのオンラインツールです (開発中)", 
-        link: "koten/" 
-    },
-    */
     { 
         icon: "🗂️",
         title: "Other tools", 
@@ -79,11 +55,4 @@ const cardsList = [
         text: "おすすめの学習サイトのリンク集です", 
         link: "learning-links.html" 
     },
-    { 
-        icon: "📑",
-        title: "Docs", 
-        titleJP: "Markdownドキュメント集",
-        text: "Markdownで作ったオンラインプリントなど（別domainへ移動します）", 
-        link: "https://451-markdown.netlify.app" 
-    }
 ];
