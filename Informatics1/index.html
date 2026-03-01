@@ -88,31 +88,13 @@
 
 <script src="../js/theme-toggle.js"></script>
 <script src="../js/card-generator.js"></script>
+<script src="../js/cards-page-init.js"></script>
 <script>
-// Generate both sections
-document.addEventListener('DOMContentLoaded', () => {
-    // Generate Section 1
-    generateCards(sectionItems1, 'container1');
-    
-    // Generate Section 2 (Optional)
-    generateCards(sectionItems2, 'container2');
-
-    // Generate Section 3 (Optional)
-    generateCards(sectionItems3, 'container3');
-    
-    // Animate all cards
-    const cards = document.querySelectorAll('.card');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting){
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    cards.forEach(card => observer.observe(card));
-});
+initCardsPage([
+    { itemsVar: "sectionItems1", containerId: "container1" },
+    { itemsVar: "sectionItems2", containerId: "container2" },
+    { itemsVar: "sectionItems3", containerId: "container3" }
+]);
 </script>
 
 </body>

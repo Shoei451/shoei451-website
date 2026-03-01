@@ -54,22 +54,11 @@
 <script src="../js/theme-toggle.js"></script>
 <script src="list1.js"></script>
 <script src="../js/card-generator.js"></script>
+<script src="../js/cards-page-init.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    generateCards(sectionItems1, 'container1');
-
-    const cards = document.querySelectorAll('.card');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    cards.forEach((card) => observer.observe(card));
-});
+initCardsPage([
+    { itemsVar: "sectionItems1", containerId: "container1" }
+]);
 </script>
 
 </body>

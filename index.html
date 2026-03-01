@@ -120,40 +120,21 @@
 <!-- Scripts -->
 <script src="js/cards-data.js"></script>
 <script src="js/theme-toggle.js"></script>
+<script src="js/card-generator.js"></script>
+<script src="js/cards-page-init.js"></script>
 <script src="js/countdown-widget.js"></script>
 <script>
-
-
-
-// ===== Generate Cards =====
 document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('cards-container');
-    
-    cardsList.forEach(card => {
-        const cardElement = document.createElement('a');
-        cardElement.href = card.link;
-        cardElement.className = 'card';
-        cardElement.innerHTML = `
-            <div class="card-icon">${card.icon}</div>
-            <h3>${card.titleJP}</h3>
-            <p class="subtitle">${card.title}</p>
-            <p>${card.text}</p>
-        `;
-        container.appendChild(cardElement);
-    });
-    
-    // Animate Cards on Scroll
-    const cards = document.querySelectorAll('.card');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if(entry.isIntersecting){
-                entry.target.classList.add('animate');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
+    const normalizedCards = cardsList.map((card) => ({
+        icon: card.icon,
+        title: card.titleJP || card.title,
+        titleEN: card.title || "",
+        description: card.text || "",
+        link: card.link
+    }));
 
-    cards.forEach(card => observer.observe(card));
+    generateCards(normalizedCards, 'cards-container');
+    animateCardsOnScroll();
 });
 </script>
 
