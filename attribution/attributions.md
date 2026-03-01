@@ -35,18 +35,6 @@
   Source: Visit Idea
   [https://visit-idea.com/en/quiz/quiz-capital-medium/](https://visit-idea.com/en/quiz/quiz-capital-medium/)
 
-* **歴史総合 Google Forms カバー画像**
-  使用素材: ヨルシカ「幻燈」ジャケット画像
-  [https://sp.universal-music.co.jp/yorushika/gentou/](https://sp.universal-music.co.jp/yorushika/gentou/)
-
-* **番外編 授業プリントダイジェスト カバー画像**
-  使用素材: john「ROSE」ジャケット画像
-  [https://music.youtube.com/playlist?list=OLAK5uy_kwHpu0qcCOCMh4k4wcRseVXypjZYaM2RI](https://music.youtube.com/playlist?list=OLAK5uy_kwHpu0qcCOCMh4k4wcRseVXypjZYaM2RI)
-
-* **番外編 公共 カバー画像（2点）**
-  使用素材: Penthouse 2nd Album「Laundry」ジャケット画像
-  [https://penthouse-tokyo.com/discography/1004/](https://penthouse-tokyo.com/discography/1004/)
-
 ---
 
 ## Other Materials
