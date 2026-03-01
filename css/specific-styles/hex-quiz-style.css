@@ -1,43 +1,39 @@
-/* ===== 16進法クイズ専用スタイル ===== */
+/* ===================================================
+   hex-quiz-style.css  (16進法クイズ)
+   依存: ../../../css/common.css  ← リセット・body基本はそちら
+   注意: このページ独自のティール配色を定義
+   =================================================== */
 
-/* ===== Variables ===== */
+/* ===== Variables (common.cssのゴールド系を上書き) ===== */
 :root {
-    --theme: #ffffff;
-    --entry: #148b9d;
-    --primary: #313A49;
-    --secondary: #5a6c7d;
-    --content: #313A49;
-    --card-bg: #f0f4f8;
-    --accent: #148b9d;
+    --theme:        #ffffff;
+    --primary:      #313A49;
+    --secondary:    #5a6c7d;
+    --content:      #313A49;
+    --card-bg:      #f0f4f8;
+    --accent:       #148b9d;
     --accent-light: rgba(20, 139, 157, 0.1);
-    --shadow: rgba(0, 0, 0, 0.1);
-    --border: #d0dae3;
-    --success: #10b981;
-    --error: #ef4444;
+    --shadow:       rgba(0, 0, 0, 0.1);
+    --border:       #d0dae3;
+    --success:      #10b981;
+    --error:        #ef4444;
 }
 
 body.dark {
-    --theme: #1a1f2e;
-    --entry: #148b9d;
-    --primary: #e8eaed;
-    --secondary: #9ca3af;
-    --content: #e8eaed;
-    --card-bg: #242936;
-    --accent: #148b9d;
+    --theme:        #1a1f2e;
+    --primary:      #e8eaed;
+    --secondary:    #9ca3af;
+    --content:      #e8eaed;
+    --card-bg:      #242936;
+    --accent:       #148b9d;
     --accent-light: rgba(20, 139, 157, 0.2);
-    --shadow: rgba(0, 0, 0, 0.3);
-    --border: #3a4556;
+    --shadow:       rgba(0, 0, 0, 0.3);
+    --border:       #3a4556;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* 日本語フォントを優先 */
 body {
     font-family: 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
-    line-height: 1.6;
     background-color: var(--theme);
     color: var(--content);
     transition: background-color 0.3s, color 0.3s;
@@ -69,39 +65,25 @@ header::before {
 
 @keyframes pulse {
     0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-10%, -10%) scale(1.1); }
+    50%       { transform: translate(-10%, -10%) scale(1.1); }
 }
 
-header h1 { 
-    margin: 0 0 20px; 
-    font-size: 3.5rem; 
+header h1 {
+    margin: 0 0 20px;
+    font-size: 3.5rem;
     font-weight: 700;
-    color: #ffffff; 
+    color: #ffffff;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.3);
     position: relative;
     z-index: 1;
 }
 
-header p { 
-    margin: 0; 
-    font-size: 1.3rem; 
+header p {
+    margin: 0;
+    font-size: 1.3rem;
     color: rgba(255, 255, 255, 0.95);
     position: relative;
     z-index: 1;
-}
-
-@media (max-width: 768px) {
-    header {
-        padding: 80px 20px 60px;
-    }
-    
-    header h1 {
-        font-size: 2.5rem;
-    }
-    
-    header p {
-        font-size: 1.1rem;
-    }
 }
 
 /* ===== Quiz Container ===== */
@@ -120,39 +102,18 @@ header p {
     text-shadow: 2px 2px 4px var(--shadow);
 }
 
-h2, h3 {
-    color: var(--primary);
-}
+h2, h3 { color: var(--primary); }
+h2 { font-size: 2rem; margin-bottom: 30px; text-align: center; }
+h3 { font-size: 1.3rem; margin-bottom: 15px; }
 
-h2 {
-    font-size: 2rem;
-    margin-bottom: 30px;
-    text-align: center;
-}
-
-h3 {
-    font-size: 1.3rem;
-    margin-bottom: 15px;
-}
-
-.hidden {
-    display: none !important;
-}
+.hidden { display: none !important; }
 
 /* ===== Screen Sections ===== */
-.screen {
-    animation: fadeInUp 0.6s ease-out;
-}
+.screen { animation: fadeInUp 0.6s ease-out; }
 
 @keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
 }
 
 /* ===== Category Selection ===== */
@@ -191,23 +152,9 @@ h3 {
     border: 2px solid transparent;
 }
 
-.checkbox-label:hover {
-    background: var(--accent-light);
-    border-color: var(--accent);
-}
-
-.checkbox-label input[type="checkbox"] {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    cursor: pointer;
-    accent-color: var(--accent);
-}
-
-.checkbox-label span {
-    font-size: 1rem;
-    color: var(--content);
-}
+.checkbox-label:hover          { background: var(--accent-light); border-color: var(--accent); }
+.checkbox-label input[type="checkbox"] { width: 20px; height: 20px; margin-right: 12px; cursor: pointer; accent-color: var(--accent); }
+.checkbox-label span           { font-size: 1rem; color: var(--content); }
 
 .selection-controls {
     display: flex;
@@ -217,9 +164,7 @@ h3 {
 }
 
 /* ===== Form Elements ===== */
-.field {
-    margin-bottom: 30px;
-}
+.field { margin-bottom: 30px; }
 
 .field label {
     display: block;
@@ -263,21 +208,10 @@ button {
     box-shadow: 0 4px 15px var(--shadow);
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--shadow);
-    opacity: 0.9;
-}
+button:hover      { transform: translateY(-2px); box-shadow: 0 6px 20px var(--shadow); opacity: 0.9; }
+button:disabled   { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-button.primary {
-    background: linear-gradient(135deg, var(--accent), #0d6b7a);
-}
+button.primary    { background: linear-gradient(135deg, var(--accent), #0d6b7a); }
 
 button.ghost {
     background: var(--card-bg);
@@ -285,10 +219,7 @@ button.ghost {
     border: 2px solid var(--accent);
 }
 
-button.ghost:hover {
-    background: var(--accent);
-    color: #ffffff;
-}
+button.ghost:hover { background: var(--accent); color: #ffffff; }
 
 /* ===== Quiz Layout ===== */
 .quiz-layout {
@@ -296,17 +227,6 @@ button.ghost:hover {
     grid-template-columns: 1fr 300px;
     gap: 30px;
     align-items: start;
-}
-
-@media (max-width: 1024px) {
-    .quiz-layout {
-        grid-template-columns: 1fr;
-    }
-    
-    .mark-sheet {
-        order: 2;
-        position: static !important;
-    }
 }
 
 /* ===== Question Area ===== */
@@ -387,11 +307,7 @@ button.ghost:hover {
 }
 
 /* ===== Choices ===== */
-.choices {
-    display: grid;
-    gap: 15px;
-    margin-bottom: 25px;
-}
+.choices { display: grid; gap: 15px; margin-bottom: 25px; }
 
 .choices button {
     display: block;
@@ -412,26 +328,10 @@ button.ghost:hover {
     transform: translateX(5px);
 }
 
-.choices button:disabled {
-    cursor: default;
-}
-
-.choices button.correct {
-    background: var(--success) !important;
-    color: #ffffff !important;
-    border-color: var(--success) !important;
-}
-
-.choices button.incorrect {
-    background: var(--error) !important;
-    color: #ffffff !important;
-    border-color: var(--error) !important;
-}
-
-.choices button.selected {
-    border-color: var(--accent);
-    background: var(--accent-light);
-}
+.choices button:disabled { cursor: default; }
+.choices button.correct   { background: var(--success) !important; color: #ffffff !important; border-color: var(--success) !important; }
+.choices button.incorrect { background: var(--error)   !important; color: #ffffff !important; border-color: var(--error)   !important; }
+.choices button.selected  { border-color: var(--accent); background: var(--accent-light); }
 
 /* ===== Explanation ===== */
 .explanation {
@@ -442,16 +342,8 @@ button.ghost:hover {
     margin-bottom: 20px;
 }
 
-.explanation h4 {
-    color: var(--accent);
-    margin-bottom: 10px;
-    font-size: 1.1rem;
-}
-
-.explanation p {
-    color: var(--content);
-    line-height: 1.8;
-}
+.explanation h4   { color: var(--accent); margin-bottom: 10px; font-size: 1.1rem; }
+.explanation p    { color: var(--content); line-height: 1.8; }
 
 /* ===== Navigation Buttons ===== */
 .navigation-buttons {
@@ -504,44 +396,14 @@ button.ghost:hover {
     transition: all 0.3s;
 }
 
-.mark-item:hover {
-    border-color: var(--accent);
-    transform: scale(1.05);
-}
+.mark-item:hover       { border-color: var(--accent); transform: scale(1.05); }
+.mark-item.current     { border-color: var(--accent); background: var(--accent); color: #ffffff; box-shadow: 0 4px 12px var(--shadow); }
+.mark-item.answered    { background: var(--accent-light); border-color: var(--accent); }
+.mark-item.correct     { background: var(--success); color: #ffffff; border-color: var(--success); }
+.mark-item.incorrect   { background: var(--error);   color: #ffffff; border-color: var(--error); }
 
-.mark-item.current {
-    border-color: var(--accent);
-    background: var(--accent);
-    color: #ffffff;
-    box-shadow: 0 4px 12px var(--shadow);
-}
-
-.mark-item.answered {
-    background: var(--accent-light);
-    border-color: var(--accent);
-}
-
-.mark-item.correct {
-    background: var(--success);
-    color: #ffffff;
-    border-color: var(--success);
-}
-
-.mark-item.incorrect {
-    background: var(--error);
-    color: #ffffff;
-    border-color: var(--error);
-}
-
-.mark-sheet-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.mark-sheet-controls button {
-    width: 100%;
-}
+.mark-sheet-controls { display: flex; flex-direction: column; gap: 10px; }
+.mark-sheet-controls button { width: 100%; }
 
 /* ===== Result Screen ===== */
 .result-summary {
@@ -554,18 +416,8 @@ button.ghost:hover {
     border: 2px solid var(--accent);
 }
 
-.result-summary .score-display {
-    font-size: 3.5rem;
-    font-weight: 800;
-    color: var(--accent);
-    margin-bottom: 15px;
-}
-
-.result-summary .percentage {
-    font-size: 2rem;
-    color: var(--secondary);
-    margin-bottom: 10px;
-}
+.result-summary .score-display { font-size: 3.5rem; font-weight: 800; color: var(--accent); margin-bottom: 15px; }
+.result-summary .percentage    { font-size: 2rem; color: var(--secondary); margin-bottom: 10px; }
 
 .category-breakdown {
     background: var(--card-bg);
@@ -575,11 +427,7 @@ button.ghost:hover {
     box-shadow: 0 8px 24px var(--shadow);
 }
 
-.category-breakdown h3 {
-    text-align: center;
-    margin-bottom: 25px;
-    color: var(--accent);
-}
+.category-breakdown h3 { text-align: center; margin-bottom: 25px; color: var(--accent); }
 
 .category-stat {
     display: flex;
@@ -592,24 +440,13 @@ button.ghost:hover {
     border-left: 4px solid var(--accent);
 }
 
-.category-stat .stat-name {
-    font-weight: 600;
-    color: var(--primary);
-}
-
-.category-stat .stat-score {
-    font-weight: 700;
-    color: var(--accent);
-    font-size: 1.1rem;
-}
+.category-stat .stat-name  { font-weight: 600; color: var(--primary); }
+.category-stat .stat-score { font-weight: 700; color: var(--accent); font-size: 1.1rem; }
 
 /* ===== ASCII Table Modal ===== */
 .modal {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.7);
     display: flex;
     align-items: center;
@@ -637,11 +474,7 @@ button.ghost:hover {
     color: #ffffff;
 }
 
-.modal-header h3 {
-    margin: 0;
-    color: #ffffff;
-    font-size: 1.5rem;
-}
+.modal-header h3 { margin: 0; color: #ffffff; font-size: 1.5rem; }
 
 .close-btn {
     background: rgba(255, 255, 255, 0.2);
@@ -650,7 +483,6 @@ button.ghost:hover {
     width: 40px;
     height: 40px;
     min-width: 40px;
-    min-height: 40px;
     border-radius: 50%;
     font-size: 1.5rem;
     cursor: pointer;
@@ -662,10 +494,7 @@ button.ghost:hover {
     flex-shrink: 0;
 }
 
-.close-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(90deg);
-}
+.close-btn:hover { background: rgba(255, 255, 255, 0.3); transform: rotate(90deg); }
 
 .modal-body {
     padding: 30px;
@@ -674,9 +503,7 @@ button.ghost:hover {
 }
 
 /* ===== ASCII Table ===== */
-#asciiTableContainer {
-    overflow-x: auto;
-}
+#asciiTableContainer { overflow-x: auto; }
 
 .ascii-table {
     width: 100%;
@@ -697,11 +524,7 @@ button.ghost:hover {
     line-height: 1.4;
 }
 
-.ascii-table th.ascii-corner-cell {
-    background: var(--accent);
-    font-size: 0.75rem;
-    line-height: 1.3;
-}
+.ascii-table th.ascii-corner-cell { font-size: 0.75rem; line-height: 1.3; }
 
 .ascii-table td {
     padding: 10px 8px;
@@ -709,17 +532,11 @@ button.ghost:hover {
     border: 1px solid var(--border);
     font-size: 0.85rem;
     color: var(--content);
-    transition: all 0.2s;
+    transition: background 0.2s;
 }
 
-.ascii-table tr:hover td {
-    background: var(--accent-light);
-}
-
-.ascii-table .control-char {
-    color: var(--secondary);
-    font-size: 0.75rem;
-}
+.ascii-table tr:hover td { background: var(--accent-light); }
+.ascii-table .control-char { color: var(--secondary); font-size: 0.75rem; }
 
 /* ===== Theme Toggle ===== */
 .logo-switches {
@@ -742,10 +559,7 @@ button.ghost:hover {
     box-shadow: 0 4px 12px var(--shadow);
 }
 
-#theme-toggle:hover {
-    background: var(--accent);
-    transform: rotate(180deg) scale(1.1);
-}
+#theme-toggle:hover { background: var(--accent); transform: rotate(180deg) scale(1.1); }
 
 #moon, #sun {
     display: none;
@@ -755,26 +569,12 @@ button.ghost:hover {
 }
 
 #theme-toggle:hover #moon,
-#theme-toggle:hover #sun {
-    stroke: #ffffff;
-}
+#theme-toggle:hover #sun { stroke: #ffffff; }
 
-body.dark #sun {
-    display: block;
-    stroke: var(--accent);
-}
-
-body.dark #moon {
-    display: none;
-}
-
-body:not(.dark) #moon {
-    display: block;
-}
-
-body:not(.dark) #sun {
-    display: none;
-}
+body.dark  #sun  { display: block; stroke: var(--accent); }
+body.dark  #moon { display: none; }
+body:not(.dark) #moon { display: block; }
+body:not(.dark) #sun  { display: none; }
 
 /* ===== Error Message ===== */
 .error-message {
@@ -795,53 +595,11 @@ body:not(.dark) #sun {
 
 @keyframes shake {
     0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    75% { transform: translateX(10px); }
+    25%       { transform: translateX(-10px); }
+    75%       { transform: translateX(10px); }
 }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    .quiz-wrapper {
-        padding: 0 15px;
-    }
-    
-    .category-selection {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .question-text {
-        font-size: 1.3rem;
-    }
-    
-    .choices button {
-        font-size: 1rem;
-        padding: 15px 20px;
-    }
-    
-    .mark-sheet {
-        position: static;
-        max-height: none;
-    }
-    
-    .mark-sheet-grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
-    
-    .navigation-buttons {
-        flex-direction: column;
-    }
-    
-    .navigation-buttons button {
-        width: 100%;
-    }
-}
-
-/* ===== Back to Home Link ===== */
+/* ===== Back Link ===== */
 .back-link {
     display: inline-block;
     text-align: center;
@@ -859,4 +617,24 @@ body:not(.dark) #sun {
     transform: translateY(-2px);
     background: #0d6b7a;
     box-shadow: 0 6px 20px rgba(20, 139, 157, 0.4);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .quiz-layout { grid-template-columns: 1fr; }
+    .mark-sheet  { order: 2; position: static !important; }
+}
+
+@media (max-width: 768px) {
+    header       { padding: 80px 20px 60px; }
+    header h1    { font-size: 2.5rem; }
+    header p     { font-size: 1.1rem; }
+    h1           { font-size: 2rem; }
+    .quiz-wrapper { padding: 0 15px; }
+    .category-selection { grid-template-columns: 1fr; gap: 20px; }
+    .question-text { font-size: 1.3rem; }
+    .choices button { font-size: 1rem; padding: 15px 20px; }
+    .mark-sheet  { position: static; max-height: none; }
+    .navigation-buttons { flex-direction: column; }
+    .navigation-buttons button { width: 100%; }
 }
