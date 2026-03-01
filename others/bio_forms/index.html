@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>生物基礎 語句確認フォーム集 | Shoei451</title>
+  <link rel="icon" type="image/x-icon" href="../../images/bio-favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
@@ -88,7 +89,7 @@ function render(query = '') {
         <div class="section-num">${section.id}</div>
         <div class="section-title">${section.title}</div>
       </div>
-      ${section.restricted ? '<p class="section-note">🔒 このセクションは学校アカウントでのみ開けます</p>' : ''}
+      ${section.restricted ? '<p class="section-note">🔒 このセクションのフォームは学校アカウントでのみ開けます</p>' : ''}
       <div class="cards" id="cards-${section.id}"></div>
     `;
 
