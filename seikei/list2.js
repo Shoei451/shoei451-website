@@ -12,7 +12,7 @@ const sectionItems2 = [
         title: "政治・経済 学習用年表 クイズ版",
         titleEN: "Political and Economic Timeline for Learning - Quiz Version",
         description: "戦後経済史についてのクイズです",
-        link: "seikei-timeline-quiz.html",
+        link: "timeline/quiz.html",
         target: "_blank"  // Force new tab even for internal links
     }
 ];
