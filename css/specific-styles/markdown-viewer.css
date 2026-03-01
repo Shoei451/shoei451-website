@@ -36,7 +36,17 @@ body.dark {
     padding: 50px;
     color: var(--content);
     line-height: 1.8;
+    overflow-wrap: break-word;
     animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.markdown-content p,
+.markdown-content li,
+.markdown-content td,
+.markdown-content th,
+.markdown-content blockquote,
+.markdown-content a {
+    overflow-wrap: anywhere;
 }
 
 body.dark .markdown-content {
