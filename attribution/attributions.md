@@ -1,14 +1,62 @@
-﻿# Attributions
 
-このページは `attribution/attributions.md` をそのまま表示しています。
+# Credits / Attribution
 
-## 使い方
+本サイトでは、一部コンテンツ制作にあたり以下の素材を使用しています。
 
-- 画像・アイコン・文章の出典情報をこのファイルに追記してください。
-- 保存後に `attribution/index.html` を開くと内容が反映されます。
+---
 
-## Example
+## Icons
 
-- Resource name: example.com
-- License: CC BY 4.0
-- URL: https://example.com/resource
+* **Google Forms アイコン**
+  Source: Flaticon
+  [https://www.flaticon.com/free-icon/google-forms_5968528](https://www.flaticon.com/free-icon/google-forms_5968528)
+  使用箇所: [https://shoei451.netlify.app/history/](https://shoei451.netlify.app/history/)
+
+* **Emoji Icons**
+  Source: EmojiDB
+  [https://emojidb.org/](https://emojidb.org/)
+  使用箇所: 各ページ
+
+* **地球儀アイコン（世界史年代クイズ）**
+  Source: Flaticon
+  [https://www.flaticon.com/free-icons/globe](https://www.flaticon.com/free-icons/globe)
+  使用箇所: [https://shoei451.netlify.app/history/wh-era-quiz.html](https://shoei451.netlify.app/history/wh-era-quiz.html)
+
+* **古文系サイトのアイコン**
+  Source: Wikimedia Commons
+  [https://commons.wikimedia.org/w/index.php?curid=147527510](https://commons.wikimedia.org/w/index.php?curid=147527510)
+  使用箇所: [https://shoei451.netlify.app/koten](https://shoei451.netlify.app/koten)
+
+---
+
+## Cover Images
+
+* **CAPITAL QUIZ 写真（首都クイズ）**
+  Source: Visit Idea
+  [https://visit-idea.com/en/quiz/quiz-capital-medium/](https://visit-idea.com/en/quiz/quiz-capital-medium/)
+
+* **歴史総合 Google Forms カバー画像**
+  使用素材: ヨルシカ「幻燈」ジャケット画像
+  [https://sp.universal-music.co.jp/yorushika/gentou/](https://sp.universal-music.co.jp/yorushika/gentou/)
+
+* **番外編 授業プリントダイジェスト カバー画像**
+  使用素材: john「ROSE」ジャケット画像
+  [https://music.youtube.com/playlist?list=OLAK5uy_kwHpu0qcCOCMh4k4wcRseVXypjZYaM2RI](https://music.youtube.com/playlist?list=OLAK5uy_kwHpu0qcCOCMh4k4wcRseVXypjZYaM2RI)
+
+* **番外編 公共 カバー画像（2点）**
+  使用素材: Penthouse 2nd Album「Laundry」ジャケット画像
+  [https://penthouse-tokyo.com/discography/1004/](https://penthouse-tokyo.com/discography/1004/)
+
+---
+
+## Other Materials
+
+* **衣類 取り扱い表示クイズ 画像**
+  Source: ICOMPO
+  [https://www.icompo-free-icons.com/?icon_category=laundry-symbol](https://www.icompo-free-icons.com/?icon_category=laundry-symbol)
+
+* **日本国憲法クイズ 国会議事堂画像**
+  Source: Free Materials
+  [https://www.free-materials.com/%E5%9B%BD%E4%BC%9A%E8%AD%B0%E4%BA%8B%E5%A0%82%EF%BC%88%E6%AD%A3%E9%9D%A2%EF%BC%8904/](https://www.free-materials.com/%E5%9B%BD%E4%BC%9A%E8%AD%B0%E4%BA%8B%E5%A0%82%EF%BC%88%E6%AD%A3%E9%9D%A2%EF%BC%8904/)
+  使用箇所: [https://shoei451.netlify.app/seikei/japan-constitution-quiz.html](https://shoei451.netlify.app/seikei/japan-constitution-quiz.html)
+
