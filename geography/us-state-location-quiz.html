@@ -43,7 +43,7 @@
       display: block;
     }
 
-    svg path {
+    #map path {
       fill: #f4e2b8;
       stroke: var(--theme);
       stroke-width: 0.8;
@@ -51,16 +51,16 @@
       transition: fill 0.25s;
     }
 
-    svg path.correct {
+    #map path.correct {
       fill: #4CAF50 !important;
     }
 
-    svg path.incorrect {
+    #map path.incorrect {
       fill: #F44336 !important;
     }
 
     @media (pointer: coarse) {
-      svg path {
+      #map path {
         stroke-width: 1.2;
       }
     }
@@ -139,7 +139,7 @@
     let topoData = null;
 
     function pickState() {
-      document.querySelectorAll("path").forEach(p =>
+      document.querySelectorAll("#map path").forEach(p =>
         p.classList.remove("correct", "incorrect")
       );
       currentState = states[Math.floor(Math.random() * states.length)];
@@ -151,7 +151,7 @@
       if (!currentState) return;
       if (document.querySelector(".correct, .incorrect")) return;
 
-      const correctEl = [...document.querySelectorAll("path")]
+      const correctEl = [...document.querySelectorAll("#map path")]
         .find(p => p.dataset.abbr === currentState.abbr);
 
       if (abbr === currentState.abbr) {
@@ -253,6 +253,6 @@ themeToggle.addEventListener('click', () => {
         localStorage.setItem('pref-theme', 'light');
     }
 });
-  </script>>
+  </script>
 </body>
 </html>

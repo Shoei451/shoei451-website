@@ -11,15 +11,15 @@ const sectionItems1 = [
         title: "首都クイズ",
         titleEN: "World Capitals' Quiz",
         description: "世界各国・地域の首都名を答えるクイズです",
-        link: "capitalsquiz.html",
+        link: "capitals_quiz/",
         target: "_blank"
     },
     {
-        icon: "🌍",
+        icon: "🗺️",
         title: "3学期期末試験対策用 Frashcards",
         titleEN: "Frashcards for Final Exam",
         description: "期末テスト対策用のフラッシュカードです。",
-        link: "3-final-exam_frashcards.html",
+        link: "3-final-exam_frashcards/",
     },
     
 ];

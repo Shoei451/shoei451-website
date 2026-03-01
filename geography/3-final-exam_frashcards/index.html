@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>地理 Flashcards｜3学期期末テスト対策 — Shoei451</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     HEADER
+══════════════════════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="header-title">[地理総合] 3学期期末試験対策</span>
+      <span class="header-sub" id="headerSub"></span>
+    </div>
+    <div class="header-right">
+      <!-- モード切り替えタブ -->
+      <div class="header-tabs">
+        <button class="h-tab active" id="tab-study"  onclick="switchMode('study',this)">学習</button>
+        <button class="h-tab"        id="tab-editor" onclick="switchMode('editor',this)">編集</button>
+      </div>
+      <!-- シャッフル -->
+      <button class="btn-icon" id="shuffleBtn" title="シャッフル on/off">
+        ⇄ <span id="shuffleLabel">shuffle</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════════════════════════
+     START OVERLAY
+══════════════════════════════════════ -->
+<div class="start-overlay" id="startOverlay">
+  <div class="start-hero">
+    <p class="start-hero__label">[Geography] · Flashcards</p>
+    <h1 class="start-hero__title">[地理総合] 3学期期末テスト対策</h1>
+    <div class="start-hero__divider"></div>
+  </div>
+
+  <div class="start-card">
+    <h2 class="start-card__title">学習スタート</h2>
+    <p class="start-card__desc">カテゴリと問題数を選んでください</p>
+
+    <div class="start-block">
+      <span class="start-label">カテゴリ</span>
+      <div class="start-cats" id="startCats"></div>
+    </div>
+
+    <div class="start-block">
+      <span class="start-label">問題数</span>
+      <select id="startCount" class="start-count">
+        <option value="10">10問</option>
+        <option value="20" selected>20問</option>
+        <option value="30">30問</option>
+        <option value="all">全問</option>
+      </select>
+    </div>
+
+    <p class="start-meta" id="startMeta"></p>
+    <button class="btn-primary start-btn" onclick="startStudy()">スタート →</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     STUDY MODE
+══════════════════════════════════════ -->
+<div class="mode-panel" id="mode-study">
+  <div class="study-area">
+
+    <div class="progress-strip">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="deck-nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="prevCard()" disabled>&#x2039;</button>
+      <div class="deck-center">
+        <span class="deck-indicator" id="deckIndicator">1 / --</span>
+        <div class="mastery-dots" id="masteryDots"></div>
+      </div>
+      <button class="nav-btn" id="nextBtn" onclick="nextCard()">&#x203A;</button>
+    </div>
+
+    <!-- Card -->
+    <div class="card-scene" id="cardScene" onclick="flipCard()">
+      <div class="card-body" id="cardBody">
+
+        <div class="card-face card-front">
+          <div class="card-face-inner">
+            <div class="face-top">
+              <span class="face-badge" id="frontBadge"></span>
+              <span class="face-hint">タップ / <kbd>Space</kbd> で答えを確認</span>
+            </div>
+            <p class="card-question" id="cardQuestion"></p>
+            <span class="card-watermark">問</span>
+          </div>
+        </div>
+
+        <div class="card-face card-back" id="cardBack">
+          <div class="card-face-inner">
+            <div class="face-top">
+              <span class="face-badge back-badge" id="backBadge"></span>
+            </div>
+            <p class="card-answer" id="cardAnswer"></p>
+            <p class="card-sub"   id="cardSub"></p>
+            <img id="cardImg" class="card-img" src="" alt="" style="display:none">
+            <span class="card-watermark back-wm">答</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Mastery -->
+    <div class="mastery-row">
+      <button class="mastery-btn m-forgot" onclick="markCard('forgot')">
+        <span class="m-icon">✗</span><span class="m-label">わからない</span>
+      </button>
+      <button class="mastery-btn m-unsure" onclick="markCard('unsure')">
+        <span class="m-icon">△</span><span class="m-label">あやふや</span>
+      </button>
+      <button class="mastery-btn m-knew" onclick="markCard('knew')">
+        <span class="m-icon">✓</span><span class="m-label">わかった</span>
+      </button>
+    </div>
+
+    <p class="kb-hint">
+      <kbd>←</kbd><kbd>→</kbd> 移動 &nbsp;|&nbsp;
+      <kbd>Space</kbd> 裏返す &nbsp;|&nbsp;
+      <kbd>1</kbd>✗ <kbd>2</kbd>△ <kbd>3</kbd>✓
+    </p>
+
+  </div><!-- /study-area -->
+</div><!-- /mode-study -->
+
+<!-- ══════════════════════════════════════
+     EDITOR MODE（USE_SUPABASE = true 時）
+══════════════════════════════════════ -->
+<div class="mode-panel" id="mode-editor" style="display:none">
+  <div class="editor-wrap">
+
+    <!-- Supabase 接続情報 -->
+    <section class="editor-section">
+      <h3 class="section-title">Supabase 接続</h3>
+      <p class="section-desc">
+        <code>data.js</code> の <code>SUPABASE_URL</code> と <code>SUPABASE_ANON_KEY</code> を設定してください。
+      </p>
+      <div class="sb-row">
+        <button class="btn-primary" onclick="loadFromSupabase(true)" style="padding:8px 18px">再読み込み</button>
+        <span class="sb-status" id="sbStatus"></span>
+      </div>
+      <div class="schema-box">
+        <div class="schema-label">必要なテーブル定義</div>
+        <pre class="schema-sql">CREATE TABLE flashcards (
+  id          SERIAL PRIMARY KEY,
+  category    TEXT NOT NULL,
+  question    TEXT NOT NULL,
+  answer      TEXT NOT NULL,
+  explanation TEXT,
+  image_url   TEXT
+);</pre>
+      </div>
+    </section>
+
+    <!-- フォーム -->
+    <section class="editor-section">
+      <h3 class="section-title" id="formTitle">問題を追加</h3>
+      <div class="q-form">
+        <div class="form-row">
+          <label>カテゴリ</label>
+          <input type="text" id="f_category" placeholder="例: 文学史、数学、英語…">
+        </div>
+        <div class="form-row">
+          <label>問題文</label>
+          <textarea id="f_question" placeholder="〜は何か？　など答えを直接問う形で"></textarea>
+        </div>
+        <div class="form-row">
+          <label>答え</label>
+          <input type="text" id="f_answer" placeholder="簡潔な正解">
+        </div>
+        <div class="form-row">
+          <label>解説（任意）</label>
+          <textarea id="f_explanation" placeholder="補足・背景説明など"></textarea>
+        </div>
+        <div class="form-row">
+          <label>画像 URL（任意）</label>
+          <input type="text" id="f_imageUrl" placeholder="https://…" oninput="previewImg()">
+          <div id="imagePreview" class="image-preview"></div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-secondary" onclick="resetForm()">クリア</button>
+          <button class="btn-primary"   onclick="saveQuestion()">保存</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- CSV -->
+    <section class="editor-section">
+      <h3 class="section-title">CSV インポート / エクスポート</h3>
+      <p class="section-desc">
+        フォーマット: <code>category, question, answer, explanation, image_url</code>（1行目ヘッダー）
+      </p>
+      <div class="import-area">
+        <input type="file" id="csvFile" accept=".csv" onchange="importCSV()" style="display:none">
+        <button class="btn-secondary" onclick="document.getElementById('csvFile').click()">ファイルを選択</button>
+      </div>
+      <div class="export-row">
+        <button class="btn-secondary" onclick="exportCSV()">↓ CSV</button>
+        <button class="btn-secondary" onclick="exportJSON()">↓ JSON</button>
+      </div>
+    </section>
+
+    <!-- 問題一覧 -->
+    <section class="editor-section">
+      <h3 class="section-title">問題一覧 <span class="section-count" id="qListCount"></span></h3>
+      <div class="q-list" id="qList"></div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     COMPLETE OVERLAY
+══════════════════════════════════════ -->
+<div class="complete-overlay" id="completeOverlay" style="display:none">
+  <div class="complete-card">
+    <div class="complete-icon">◐</div>
+    <h2 class="complete-title">一周完了</h2>
+    <div class="complete-stats"     id="completeStats"></div>
+    <div class="complete-breakdown" id="completeBreakdown"></div>
+    <div class="complete-actions">
+      <button class="btn-secondary" onclick="reviewWeak()">✗ △ のみ復習</button>
+      <button class="btn-secondary" onclick="openStartScreen()">設定に戻る</button>
+      <button class="btn-primary"   onclick="restartDeck()">もう一度</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     SIDE LIST
+══════════════════════════════════════ -->
+<div class="list-toggle" id="listToggle" onclick="toggleList()">
+  <span>一覧</span>
+  <span id="listArrow">›</span>
+</div>
+<div class="list-panel" id="listPanel">
+  <div class="list-head">
+    <span>カード一覧</span>
+    <button class="list-close" onclick="toggleList()">閉じる</button>
+  </div>
+  <div class="list-body" id="listBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

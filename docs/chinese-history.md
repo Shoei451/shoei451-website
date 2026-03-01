@@ -136,6 +136,7 @@ INSERT INTO chinese_history (title, description, year, date_type, category) VALU
 ## 📁 ファイル構成
 
 ### 公開ファイル
+
 - **chinese-history-timeline.html** - 中国王朝史年表（CRUD機能付き）
 - **chinese-history-quiz.html** - 年代当てクイズ
 
@@ -156,6 +157,7 @@ INSERT INTO chinese_history (title, description, year, date_type, category) VALU
 ## 💡 使い方
 
 ### 年表アプリ
+
 1. HTMLファイルを開く
 2. イベントの閲覧、検索
 3. カテゴリごとのフィルタリング
@@ -163,6 +165,7 @@ INSERT INTO chinese_history (title, description, year, date_type, category) VALU
 5. 各イベントの編集・削除
 
 ### クイズアプリ
+
 1. HTMLファイルを開く
 2. 出題カテゴリを選択（複数可）
 3. 出題数を設定（5〜50問）
@@ -173,16 +176,19 @@ INSERT INTO chinese_history (title, description, year, date_type, category) VALU
 ## 📝 データ追加のヒント
 
 ### 紀元前の年号
+
 - データベースでは負の整数で保存
 - 例：紀元前221年 → `-221`
 - 入力時は負の数で（例：-221）
 - 表示時は自動で「前221年」に変換
 
 ### 年のみ vs 完全な日付
+
 - `date_type: 'year'` → 年のみ表示
 - `date_type: 'full'` → 完全な日付表示
 
 ### カテゴリ選択の基準
+
 - **王朝成立/滅亡**: 明確な建国・滅亡イベント
 - **反乱**: 民衆蜂起、クーデター
 - **戦争**: 対外戦争、大規模な軍事衝突
@@ -195,12 +201,15 @@ INSERT INTO chinese_history (title, description, year, date_type, category) VALU
 ## 🔧 カスタマイズ
 
 ### カテゴリの追加
+
 1. SQLの`CHECK`制約を更新
 2. HTMLのカテゴリリストを更新
 3. CSSのカラー定義を追加
 
 ### RLSポリシーの変更
+
 管理者のみ編集可能にする場合：
+
 ```sql
 DROP POLICY "Enable update access for all users" ON chinese_history;
 DROP POLICY "Enable delete access for all users" ON chinese_history;

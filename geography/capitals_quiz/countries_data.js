@@ -1,4 +1,4 @@
-/* ✅ 国データ（地域付き） */
+/* 国データ（地域付き） */
 const countries = [
 /* ===== ASIA（49）===== */
 {country:"Japan",capital:"Tokyo",capitalJP:"東京",code:"jp",region:"asia"},
