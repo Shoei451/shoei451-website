@@ -22,5 +22,13 @@
         titleEN: "Chinese History Notes",
         description: "A personal collection of notes and resources for Chinese history study. ",
         link: "https://chinese-history-note.netlify.app/"
+    },
+    {
+        icon: "https://451-learning-box.netlify.app/images/451-lbox.svg",
+        iconType: "image",
+        title: "451-Learning Box",
+        titleEN: "Learning Resources",
+        description: "A collection of learning resources and materials.",
+        link: "https://451-learning-box.netlify.app/"
     }
 ];
