@@ -21,5 +21,13 @@ const sectionItems1 = [
         description: "期末テスト対策用のフラッシュカードです。",
         link: "https://451-learning-box.netlify.app/flashcard.html?slug=geo-3-exam",
     },
+    {
+        icon: "🌍",
+        title: "戦後アフリカ史地図",
+        titleEN: "Africa Independence Atlas",
+        description: "戦後のアフリカの独立と国境の変遷を示すインタラクティブな地図",
+        link: "africa_independence_atlas/",
+        target: "_blank"
+    }
     
 ];

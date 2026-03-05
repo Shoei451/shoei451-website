@@ -43,5 +43,5 @@ const sectionItems2 = [
         description: "中国の文化史に関するクイズアプリ",
         link: "china/culture_quiz/",
         target: "_blank" 
-    }
+    },
 ];
