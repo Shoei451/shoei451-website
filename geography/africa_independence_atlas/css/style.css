@@ -103,7 +103,6 @@ nav {
 #map:active { cursor: grabbing; }
 
 #map .country {
-  /* ズーム時もストローク幅が視覚的に一定になるよう non-scaling-stroke を使う */
   vector-effect: non-scaling-stroke;
   stroke: rgba(255,255,255,.7);
   stroke-width: .8;
@@ -399,6 +398,9 @@ nav {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
+/* ── UTILITY ─────────────────────────── */
+.hidden { display: none !important; }
+
 /* ── RESPONSIVE ──────────────────────── */
 
 /* タブレット（〜900px） */
@@ -428,3 +430,32 @@ nav {
   .mode-toggle { gap: 1px; }
   .mode-btn    { padding: 4px 8px; }
 }
+
+/* q-btn */
+.q-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  border: none;
+  font-family: var(--font);
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.q-btn--primary {
+  background: var(--accent);
+  color: #fff;
+}
+.q-btn--primary:hover { filter: brightness(1.08); }
+.q-btn--ghost {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  color: var(--text);
+}
+.q-btn--ghost:hover { background: var(--bg); }
+.q-btn--ghost:disabled { opacity: .45; cursor: not-allowed; }
+.q-btn--sm { padding: 7px 16px; font-size: .8rem; }

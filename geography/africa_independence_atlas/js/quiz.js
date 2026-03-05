@@ -4,12 +4,13 @@
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 const state = {
-  mode:        'name',    // 'name' | 'era' | 'colonial'
-  queue:       [],        // ISO codes for this session
-  current:     0,         // index into queue
+  mode:        'name',
+  count:       30,        // 出題数（デフォルト30）
+  queue:       [],
+  current:     0,
   correct:     0,
-  missed:      [],        // ISO codes answered wrong (this session)
-  allMissed:   [],        // persistent across sessions (for review mode)
+  missed:      [],
+  allMissed:   [],
   isReview:    false,
   answered:    false,
   topoData:    null,
@@ -17,7 +18,6 @@ const state = {
 };
 
 // ── CONSTANTS ─────────────────────────────────────────────────────────────────
-// Africa ISOs as array (order doesn't matter — we'll shuffle)
 const ALL_ISOS = Object.keys(africaFull);
 
 const MODE_DESC = {
@@ -39,6 +39,14 @@ function setMode(mode) {
     b.classList.toggle('active', b.dataset.mode === mode);
   });
   document.getElementById('startDesc').textContent = MODE_DESC[mode];
+}
+
+// ── COUNT ─────────────────────────────────────────────────────────────────────
+function setCount(n) {
+  state.count = n;
+  document.querySelectorAll('.count-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.n) === n);
+  });
   updateStartScreen();
 }
 
@@ -49,12 +57,18 @@ function startQuiz(reviewMode) {
   state.missed   = [];
   state.answered = false;
 
-  const pool = reviewMode ? [...state.allMissed] : [...ALL_ISOS];
-  state.queue   = shuffle(pool);
+  const pool  = reviewMode ? [...state.allMissed] : [...ALL_ISOS];
+  const limit = reviewMode ? pool.length : state.count;
+  state.queue   = shuffle(pool).slice(0, limit);
   state.current = 0;
 
   showScreen('screenQuiz');
-  renderQuestion();
+
+  // display:none が解除されレイアウト確定後に描画
+  requestAnimationFrame(() => {
+    if (state.topoData) renderQuizMap(state.topoData);
+    renderQuestion();
+  });
 }
 
 // ── QUESTION ──────────────────────────────────────────────────────────────────
@@ -63,13 +77,9 @@ function renderQuestion() {
   const iso = state.queue[state.current];
   const d   = africaFull[iso];
 
-  // progress
   updateProgress();
-
-  // 地図ハイライト
   highlightMap(iso);
 
-  // プロンプト（era / colonial のみ表示）
   const prompt = document.getElementById('qPrompt');
   if (state.mode === 'name') {
     prompt.classList.add('hidden');
@@ -83,10 +93,8 @@ function renderQuestion() {
       `<span class="country-name">${d.name}</span> の${state.mode === 'era' ? '独立年代' : '旧宗主国'}は？`;
   }
 
-  // 選択肢
   renderChoices(iso);
 
-  // フィードバック非表示
   const fb = document.getElementById('qFeedback');
   fb.classList.add('hidden');
   fb.className = 'q-feedback hidden';
@@ -99,14 +107,13 @@ function renderChoices(iso) {
 
   if (state.mode === 'name') {
     box.className = 'q-choices grid-2x2';
-    const options = buildNameOptions(iso);
-    options.forEach(optIso => {
+    buildNameOptions(iso).forEach(optIso => {
       const d   = africaFull[optIso];
       const url = flagUrl(optIso);
       const btn = document.createElement('button');
-      btn.className    = 'q-choice';
-      btn.dataset.iso  = optIso;
-      btn.innerHTML    = `
+      btn.className   = 'q-choice';
+      btn.dataset.iso = optIso;
+      btn.innerHTML   = `
         <span class="q-choice-flag">
           ${url
             ? `<img src="${url}" alt="${d.name}" onerror="this.outerHTML='<span class=\\'flag-emoji\\'>${d.flag}</span>'">`
@@ -119,8 +126,7 @@ function renderChoices(iso) {
 
   } else if (state.mode === 'era') {
     box.className = 'q-choices grid-col1';
-    const eraKeys = Object.keys(ERA_LABELS);
-    eraKeys.forEach(era => {
+    Object.keys(ERA_LABELS).forEach(era => {
       const btn = document.createElement('button');
       btn.className   = 'q-choice';
       btn.dataset.era = era;
@@ -131,10 +137,9 @@ function renderChoices(iso) {
       box.appendChild(btn);
     });
 
-  } else { // colonial
+  } else {
     box.className = 'q-choices grid-2x4';
-    const colKeys = Object.keys(COL_LABELS);
-    colKeys.forEach(col => {
+    Object.keys(COL_LABELS).forEach(col => {
       const btn = document.createElement('button');
       btn.className   = 'q-choice';
       btn.dataset.col = col;
@@ -147,7 +152,6 @@ function renderChoices(iso) {
   }
 }
 
-// 4択生成（場所→国名）: 正解1 + ランダム3
 function buildNameOptions(correctIso) {
   const others = shuffle(ALL_ISOS.filter(i => i !== correctIso)).slice(0, 3);
   return shuffle([correctIso, ...others]);
@@ -167,7 +171,6 @@ function answerName(correctIso, chosenIso, btn) {
   } else {
     state.missed.push(correctIso);
     btn.classList.add('wrong');
-    // 正解ボタンも緑に
     document.querySelectorAll('#qChoices .q-choice').forEach(b => {
       if (b.dataset.iso === correctIso) b.classList.add('correct');
     });
@@ -248,9 +251,11 @@ function showFeedback(isCorrect, iso) {
 
   document.getElementById('feedbackText').innerHTML = msg;
 
-  // キーボード: Enterで次へ
   const handler = (e) => {
-    if (e.key === 'Enter' || e.key === ' ') { nextQuestion(); document.removeEventListener('keydown', handler); }
+    if (e.key === 'Enter' || e.key === ' ') {
+      nextQuestion();
+      document.removeEventListener('keydown', handler);
+    }
   };
   document.addEventListener('keydown', handler);
 }
@@ -267,20 +272,13 @@ function nextQuestion() {
 
 // ── FINISH ────────────────────────────────────────────────────────────────────
 function finishQuiz() {
-  // allMissed を更新（重複除去）
-  const newMissed = state.isReview
-    ? state.missed  // 復習モードでまた間違えたものだけ残す
-    : state.missed;
-  state.allMissed = [...new Set(newMissed)];
+  state.allMissed = [...new Set(state.missed)];
   saveMissed();
 
   const total = state.queue.length;
   const pct   = total > 0 ? Math.round((state.correct / total) * 100) : 0;
-
   const emoji = pct >= 80 ? '🎉' : pct >= 60 ? '😊' : '📚';
-  const msg   = pct >= 80 ? 'すばらしい！'
-              : pct >= 60 ? 'もう少し！'
-              : '復習しよう';
+  const msg   = pct >= 80 ? 'すばらしい！' : pct >= 60 ? 'もう少し！' : '復習しよう';
 
   document.getElementById('resultEmoji').textContent   = emoji;
   document.getElementById('resultMsg').textContent     = msg;
@@ -288,18 +286,13 @@ function finishQuiz() {
   document.getElementById('resultTotal').textContent   = total;
   document.getElementById('resultPct').textContent     = `正答率 ${pct}%`;
 
-  // 復習リスト
   buildMissedList();
 
-  // 復習ボタン
   const cnt = state.allMissed.length;
-  const rb  = document.getElementById('retryMissedBtn');
   document.getElementById('resultReviewCount').textContent = cnt;
-  rb.disabled = cnt === 0;
+  document.getElementById('retryMissedBtn').disabled = cnt === 0;
 
-  // 地図リセット
   resetMapColors();
-
   showScreen('screenResult');
   updateStartScreen();
 }
@@ -309,10 +302,7 @@ function buildMissedList() {
   const list = document.getElementById('missedList');
   list.innerHTML = '';
 
-  if (state.missed.length === 0) {
-    sec.style.display = 'none';
-    return;
-  }
+  if (state.missed.length === 0) { sec.style.display = 'none'; return; }
   sec.style.display = '';
 
   state.missed.forEach(iso => {
@@ -332,9 +322,8 @@ function buildMissedList() {
 
 // ── PROGRESS ──────────────────────────────────────────────────────────────────
 function updateProgress() {
-  const total   = state.queue.length;
-  const current = state.current + 1;
-  const pct     = total > 0 ? ((state.current) / total) * 100 : 0;
+  const total = state.queue.length;
+  const pct   = total > 0 ? (state.current / total) * 100 : 0;
   document.getElementById('progressFill').style.width  = pct + '%';
   document.getElementById('progressLabel').textContent = `${state.current} / ${total}`;
 }
@@ -342,18 +331,20 @@ function updateProgress() {
 // ── MAP ───────────────────────────────────────────────────────────────────────
 function renderQuizMap(topoData) {
   const svg = document.getElementById('qMap');
-  const W = svg.clientWidth  || svg.parentElement.clientWidth;
-  const H = svg.clientHeight || svg.parentElement.clientHeight;
+  const W   = svg.clientWidth  || svg.parentElement.clientWidth;
+  const H   = svg.clientHeight || svg.parentElement.clientHeight;
+  if (!W || !H) return;
 
   svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   svg.setAttribute('width',  W);
   svg.setAttribute('height', H);
   while (svg.firstChild) svg.removeChild(svg.firstChild);
 
+  // scaleを小さめにしてアフリカ全体（北端〜南端）が収まるよう調整
   const projection = d3.geoMercator()
-    .center([20, 2])
-    .scale(Math.min(W, H) * 1.18)
-    .translate([W * .46, H * .5]);
+    .center([22, 0])
+    .scale(Math.min(W, H) * 0.78)
+    .translate([W * 0.46, H * 0.52]);
 
   const pathGen  = d3.geoPath().projection(projection);
   const features = topojson.feature(topoData, topoData.objects.countries).features;
@@ -368,11 +359,7 @@ function renderQuizMap(topoData) {
     path.setAttribute('d', dStr);
     path.setAttribute('class', isAfrica ? 'country' : 'country non-africa');
     path.dataset.iso = iso;
-
-    if (isAfrica) {
-      // クイズ中は全体をニュートラルカラーに
-      path.style.fill = '#b8c4ce';
-    }
+    if (isAfrica) path.style.fill = '#b8c4ce';
 
     svg.appendChild(path);
   });
@@ -396,13 +383,11 @@ function highlightCorrect(iso) {
 }
 
 function highlightWrong(correctIso) {
-  // ハイライト国（選択した国）を赤に — すでに highlight クラスがある
   const highlighted = document.querySelector('#qMap .q-highlight');
   if (highlighted) {
     highlighted.classList.remove('q-highlight');
     highlighted.classList.add('q-wrong');
   }
-  // 正解国を緑に
   const correct = document.querySelector(`#qMap [data-iso="${correctIso}"]`);
   if (correct) {
     correct.classList.remove('q-highlight');
@@ -413,9 +398,7 @@ function highlightWrong(correctIso) {
 function resetMapColors() {
   document.querySelectorAll('#qMap .country').forEach(el => {
     el.classList.remove('q-highlight', 'q-correct', 'q-wrong', 'q-reveal');
-    if (!el.classList.contains('non-africa')) {
-      el.style.fill = '#b8c4ce';
-    }
+    if (!el.classList.contains('non-africa')) el.style.fill = '#b8c4ce';
   });
 }
 
@@ -425,17 +408,16 @@ function showScreen(id) {
   document.getElementById(id).classList.remove('hidden');
 }
 
-// ── START SCREEN UPDATE ───────────────────────────────────────────────────────
+// ── START SCREEN ──────────────────────────────────────────────────────────────
 function updateStartScreen() {
   const cnt = state.allMissed.length;
-  document.getElementById('statTotal').textContent  = ALL_ISOS.length;
-  document.getElementById('statMissed').textContent = cnt;
+  document.getElementById('statTotal').textContent   = state.count;
+  document.getElementById('statMissed').textContent  = cnt;
   document.getElementById('reviewCount').textContent = cnt;
-  const rb = document.getElementById('reviewBtn');
-  rb.disabled = cnt === 0;
+  document.getElementById('reviewBtn').disabled = cnt === 0;
 }
 
-// ── PERSISTENCE (missed list) ─────────────────────────────────────────────────
+// ── PERSISTENCE ───────────────────────────────────────────────────────────────
 const STORAGE_KEY = 'africa-quiz-missed';
 
 function saveMissed() {
@@ -460,7 +442,6 @@ function shuffle(arr) {
 
 // ── LIBRARY LOADER ────────────────────────────────────────────────────────────
 function loadLibsAndMap() {
-  document.getElementById('qLoading').classList.remove('hidden');
   loadMissed();
   updateStartScreen();
 
@@ -474,19 +455,30 @@ function loadLibsAndMap() {
         .then(r => r.json())
         .then(data => {
           state.topoData = data;
-          document.getElementById('qLoading').classList.add('hidden');
-          // クイズ開始前に地図を初期描画
-          renderQuizMap(data);
           window.addEventListener('resize', () => {
             if (state.topoData) renderQuizMap(state.topoData);
           });
         })
         .catch(() => {
-          document.getElementById('qLoading').innerHTML =
-            '<span style="color:#e53">地図データの読み込みに失敗しました</span>';
+          const el = document.getElementById('qLoading');
+          el.innerHTML = '<span style="color:#e53">地図データの読み込みに失敗しました</span>';
+          el.classList.remove('hidden');
         });
     };
     document.head.appendChild(s2);
   };
   document.head.appendChild(s1);
+}
+
+//リセット
+function resetMissed() {
+  if (!confirm('復習リストをリセットしますか？')) return;
+  state.allMissed = [];
+  saveMissed();
+  updateStartScreen();
+}
+function goToStart() {
+  if (!confirm('スタート画面に戻りますか？（進捗はリセットされます）')) return;
+  resetMapColors();
+  showScreen('screenStart');
 }

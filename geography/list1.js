@@ -28,6 +28,14 @@ const sectionItems1 = [
         description: "戦後のアフリカの独立と国境の変遷を示すインタラクティブな地図",
         link: "africa_independence_atlas/",
         target: "_blank"
-    }
+    },
+    {
+        icon: "❓",
+        title: "アフリカ独立クイズ",
+        titleEN: "Africa Independence Quiz",
+        description: "戦後のアフリカの独立と旧宗主国に関するクイズ",
+        link: "africa_independence_atlas/quiz.html",
+        target: "_blank"
+    },
     
 ];

@@ -7,7 +7,7 @@
   <link rel="icon" href="../../images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
@@ -16,10 +16,21 @@
     <span class="nav-title">アフリカ独立地図</span>
     <span class="nav-sub">Africa Independence Atlas</span>
   </div>
+
   <div class="mode-toggle">
     <button class="mode-btn active" data-mode="year"     onclick="switchMode('year')">独立年</button>
     <button class="mode-btn"        data-mode="colonial" onclick="switchMode('colonial')">旧宗主国</button>
   </div>
+    <!-- ここを追加 -->
+  <a href="quiz.html" class="q-btn q-btn--ghost q-btn--sm" style="text-decoration:none;">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+    Quiz
+  </a>
 </nav>
 
 <div class="main">
@@ -71,7 +82,7 @@
   </div>
 </div>
 
-<script src="data.js"></script>
-<script src="logic.js"></script>
+<script src="js/data.js"></script>
+<script src="js/logic.js"></script>
 </body>
 </html>

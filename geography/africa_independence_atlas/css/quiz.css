@@ -98,34 +98,50 @@ body.quiz-page {
 
 .start-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
-/* ── BUTTONS ─────────────────────────── */
-.q-btn {
-  display: inline-flex;
+/* ── COUNT PICKER ────────────────────── */
+.count-picker {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 7px;
-  padding: 10px 22px;
+  gap: 8px;
+}
+.count-picker-label {
+  font-family: var(--mono);
+  font-size: .65rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--sub);
+}
+.count-options {
+  display: flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 3px;
+  gap: 2px;
+}
+.count-btn {
+  padding: 6px 18px;
   border-radius: 100px;
   border: none;
-  font-family: var(--font);
-  font-size: .88rem;
+  background: transparent;
+  font-family: var(--mono);
+  font-size: .82rem;
   font-weight: 600;
+  color: var(--sub);
   cursor: pointer;
   transition: all .18s;
   white-space: nowrap;
 }
-.q-btn--primary {
-  background: var(--accent);
-  color: #fff;
-}
-.q-btn--primary:hover { filter: brightness(1.08); }
-.q-btn--ghost {
+.count-btn:hover  { color: var(--text); }
+.count-btn.active {
   background: var(--surface);
-  border: 1.5px solid var(--border);
-  color: var(--text);
+  color: var(--accent);
+  box-shadow: 0 1px 4px rgba(0,0,0,.10);
 }
-.q-btn--ghost:hover { background: var(--bg); }
-.q-btn--ghost:disabled { opacity: .45; cursor: not-allowed; }
-.q-btn--sm { padding: 7px 16px; font-size: .8rem; }
+
+/* ── BUTTONS ─────────────────────────── */
+/* q-btnはstyle.cssで定義 */
 
 .review-badge {
   background: var(--accent);
@@ -214,7 +230,6 @@ body.quiz-page {
   display: block;
 }
 
-/* 地図上の country スタイルはstyle.cssを継承 */
 #qMap .country {
   vector-effect: non-scaling-stroke;
   stroke: rgba(255,255,255,.6);
@@ -228,7 +243,6 @@ body.quiz-page {
   stroke-width: .4;
   pointer-events: none;
 }
-/* ハイライト対象国 */
 #qMap .country.q-highlight {
   stroke: #fff;
   stroke-width: 2;
@@ -239,20 +253,17 @@ body.quiz-page {
   0%, 100% { filter: drop-shadow(0 0 6px rgba(255,255,255,.5)); }
   50%       { filter: drop-shadow(0 0 14px rgba(255,255,255,.9)); }
 }
-/* 正解後 */
 #qMap .country.q-correct {
   fill: #4CAF50 !important;
   stroke: #fff;
   stroke-width: 2;
   animation: none;
 }
-/* 不正解後（正解国） */
 #qMap .country.q-reveal {
   fill: #4CAF50 !important;
   stroke: #fff;
   stroke-width: 2;
 }
-/* 不正解後（選択した国） */
 #qMap .country.q-wrong {
   fill: #F44336 !important;
   stroke: #fff;
@@ -266,12 +277,9 @@ body.quiz-page {
   display: grid;
   gap: 10px;
 }
-/* 場所→国名：2×2グリッド */
-.q-choices.grid-2x2 { grid-template-columns: 1fr 1fr; }
-/* 独立年代：1列4択 */
+.q-choices.grid-2x2  { grid-template-columns: 1fr 1fr; }
 .q-choices.grid-col1 { grid-template-columns: 1fr; }
-/* 旧宗主国：2×4 */
-.q-choices.grid-2x4 { grid-template-columns: 1fr 1fr; }
+.q-choices.grid-2x4  { grid-template-columns: 1fr 1fr; }
 
 .q-choice {
   display: flex;
@@ -307,7 +315,6 @@ body.quiz-page {
   color: #991b1b;
 }
 
-/* 国旗サムネ（場所→国名） */
 .q-choice-flag img {
   width: 36px;
   height: 24px;
@@ -318,7 +325,6 @@ body.quiz-page {
 }
 .q-choice-flag .flag-emoji { font-size: 1.4rem; line-height: 1; }
 
-/* カラースウォッチ（era / colonial） */
 .q-choice-swatch {
   width: 12px;
   height: 12px;
@@ -439,4 +445,5 @@ body.quiz-page {
   .q-choices.grid-2x4 { grid-template-columns: 1fr; }
   .q-map-wrap { max-height: 36dvh; }
   .start-title { font-size: 1.8rem; }
+  .count-btn { padding: 5px 12px; font-size: .75rem; }
 }

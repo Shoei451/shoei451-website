@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>アフリカ独立クイズ</title>
+  <title>Africa Independence Quiz - Shoei451</title>
+  <link rel="icon" href="../../images/favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="quiz.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/quiz.css">
 </head>
 <body class="quiz-page">
 
@@ -22,13 +23,17 @@
     <span class="nav-title">アフリカ独立クイズ</span>
     <span class="nav-sub">Africa Independence Quiz</span>
   </div>
-  <!-- モード選択 -->
-  <div class="mode-toggle" id="modeToggle">
-    <button class="mode-btn active" data-mode="name"       onclick="setMode('name')">場所→国名</button>
-    <button class="mode-btn"        data-mode="era"        onclick="setMode('era')">独立年代</button>
-    <button class="mode-btn"        data-mode="colonial"   onclick="setMode('colonial')">旧宗主国</button>
-  </div>
+  <!-- ここを追加 -->
+  <button class="q-btn q-btn--ghost q-btn--sm" onclick="resetMissed()" title="復習リストをリセット">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="1 4 1 10 7 10"/>
+      <path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+    </svg>
+    Reset
+  </button>
 </nav>
+
 
 <!-- ── MAIN ── -->
 <div class="quiz-main">
@@ -38,11 +43,35 @@
     <div class="start-card">
       <p class="start-label">AFRICA QUIZ</p>
       <h1 class="start-title">アフリカ独立<br>クイズ</h1>
-      <p class="start-desc" id="startDesc">地図上でハイライトされた国の名前を4択から選ぼう。</p>
-      <div class="start-stats">
-        <div class="start-stat"><span class="start-stat-n" id="statTotal">54</span><span class="start-stat-l">問</span></div>
-        <div class="start-stat"><span class="start-stat-n" id="statMissed">0</span><span class="start-stat-l">復習待ち</span></div>
+      <div class="mode-toggle" id="modeToggle">
+        <button class="mode-btn active" data-mode="name"     onclick="setMode('name')">場所→国名</button>
+        <button class="mode-btn"        data-mode="era"      onclick="setMode('era')">独立年代</button>
+        <button class="mode-btn"        data-mode="colonial" onclick="setMode('colonial')">旧宗主国</button>
       </div>
+      <p class="start-desc" id="startDesc">地図上でハイライトされた国の名前を4択から選ぼう。</p>
+
+      <!-- 出題数セレクター -->
+      <div class="count-picker">
+        <span class="count-picker-label">出題数</span>
+        <div class="count-options">
+          <button class="count-btn"        data-n="10"  onclick="setCount(10)">10問</button>
+          <button class="count-btn"        data-n="20"  onclick="setCount(20)">20問</button>
+          <button class="count-btn active" data-n="30"  onclick="setCount(30)">30問</button>
+          <button class="count-btn"        data-n="54"  onclick="setCount(54)">全問</button>
+        </div>
+      </div>
+
+      <div class="start-stats">
+        <div class="start-stat">
+          <span class="start-stat-n" id="statTotal">30</span>
+          <span class="start-stat-l">問</span>
+        </div>
+        <div class="start-stat">
+          <span class="start-stat-n" id="statMissed">0</span>
+          <span class="start-stat-l">復習待ち</span>
+        </div>
+      </div>
+
       <div class="start-actions">
         <button class="q-btn q-btn--primary" onclick="startQuiz(false)">スタート</button>
         <button class="q-btn q-btn--ghost" id="reviewBtn" onclick="startQuiz(true)" disabled>
@@ -56,21 +85,26 @@
   <!-- ── QUIZ SCREEN ── -->
   <div class="quiz-screen hidden" id="screenQuiz">
 
-    <!-- 進捗バー -->
     <div class="q-progress-wrap">
       <div class="q-progress-bar">
         <div class="q-progress-fill" id="progressFill"></div>
       </div>
       <span class="q-progress-label" id="progressLabel">0 / 0</span>
+      <!-- ここを追加 -->
+      <button class="q-btn q-btn--ghost q-btn--sm" onclick="goToStart()" title="スタート画面に戻る">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+      </button>
     </div>
 
-    <!-- 問題文（era/colonial モード用） -->
     <div class="q-prompt hidden" id="qPrompt">
       <div class="q-prompt-flag" id="qPromptFlag"></div>
       <div class="q-prompt-text" id="qPromptText"></div>
     </div>
 
-    <!-- 地図 -->
     <div class="q-map-wrap">
       <div class="map-loading hidden" id="qLoading">
         <div class="spinner"></div><span>読み込み中…</span>
@@ -78,10 +112,8 @@
       <svg id="qMap"></svg>
     </div>
 
-    <!-- 選択肢 -->
     <div class="q-choices" id="qChoices"></div>
 
-    <!-- フィードバック -->
     <div class="q-feedback hidden" id="qFeedback">
       <span class="q-feedback-icon" id="feedbackIcon"></span>
       <span class="q-feedback-text" id="feedbackText"></span>
@@ -102,7 +134,6 @@
       </div>
       <p class="result-pct" id="resultPct">正答率 0%</p>
 
-      <!-- 復習リスト -->
       <div class="missed-section" id="missedSection">
         <p class="missed-title">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
@@ -113,7 +144,7 @@
 
       <div class="result-actions">
         <button class="q-btn q-btn--primary" onclick="startQuiz(false)">もう一度</button>
-        <button class="q-btn q-btn--ghost"   id="retryMissedBtn" onclick="startQuiz(true)">
+        <button class="q-btn q-btn--ghost" id="retryMissedBtn" onclick="startQuiz(true)">
           復習モード
           <span class="review-badge" id="resultReviewCount">0</span>
         </button>
@@ -123,7 +154,7 @@
 
 </div><!-- /quiz-main -->
 
-<script src="data.js"></script>
-<script src="quiz.js"></script>
+<script src="js/data.js"></script>
+<script src="js/quiz.js"></script>
 </body>
 </html>
