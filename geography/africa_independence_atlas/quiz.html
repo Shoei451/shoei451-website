@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>アフリカ独立クイズ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="quiz.css">
+</head>
+<body class="quiz-page">
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-left">
+    <a href="index.html" class="nav-back" title="地図に戻る">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"/>
+      </svg>
+    </a>
+    <span class="nav-title">アフリカ独立クイズ</span>
+    <span class="nav-sub">Africa Independence Quiz</span>
+  </div>
+  <!-- モード選択 -->
+  <div class="mode-toggle" id="modeToggle">
+    <button class="mode-btn active" data-mode="name"       onclick="setMode('name')">場所→国名</button>
+    <button class="mode-btn"        data-mode="era"        onclick="setMode('era')">独立年代</button>
+    <button class="mode-btn"        data-mode="colonial"   onclick="setMode('colonial')">旧宗主国</button>
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<div class="quiz-main">
+
+  <!-- ── START SCREEN ── -->
+  <div class="quiz-screen" id="screenStart">
+    <div class="start-card">
+      <p class="start-label">AFRICA QUIZ</p>
+      <h1 class="start-title">アフリカ独立<br>クイズ</h1>
+      <p class="start-desc" id="startDesc">地図上でハイライトされた国の名前を4択から選ぼう。</p>
+      <div class="start-stats">
+        <div class="start-stat"><span class="start-stat-n" id="statTotal">54</span><span class="start-stat-l">問</span></div>
+        <div class="start-stat"><span class="start-stat-n" id="statMissed">0</span><span class="start-stat-l">復習待ち</span></div>
+      </div>
+      <div class="start-actions">
+        <button class="q-btn q-btn--primary" onclick="startQuiz(false)">スタート</button>
+        <button class="q-btn q-btn--ghost" id="reviewBtn" onclick="startQuiz(true)" disabled>
+          復習モード
+          <span class="review-badge" id="reviewCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QUIZ SCREEN ── -->
+  <div class="quiz-screen hidden" id="screenQuiz">
+
+    <!-- 進捗バー -->
+    <div class="q-progress-wrap">
+      <div class="q-progress-bar">
+        <div class="q-progress-fill" id="progressFill"></div>
+      </div>
+      <span class="q-progress-label" id="progressLabel">0 / 0</span>
+    </div>
+
+    <!-- 問題文（era/colonial モード用） -->
+    <div class="q-prompt hidden" id="qPrompt">
+      <div class="q-prompt-flag" id="qPromptFlag"></div>
+      <div class="q-prompt-text" id="qPromptText"></div>
+    </div>
+
+    <!-- 地図 -->
+    <div class="q-map-wrap">
+      <div class="map-loading hidden" id="qLoading">
+        <div class="spinner"></div><span>読み込み中…</span>
+      </div>
+      <svg id="qMap"></svg>
+    </div>
+
+    <!-- 選択肢 -->
+    <div class="q-choices" id="qChoices"></div>
+
+    <!-- フィードバック -->
+    <div class="q-feedback hidden" id="qFeedback">
+      <span class="q-feedback-icon" id="feedbackIcon"></span>
+      <span class="q-feedback-text" id="feedbackText"></span>
+      <button class="q-btn q-btn--ghost q-btn--sm" id="nextBtn" onclick="nextQuestion()">次へ →</button>
+    </div>
+
+  </div>
+
+  <!-- ── RESULT SCREEN ── -->
+  <div class="quiz-screen hidden" id="screenResult">
+    <div class="result-card">
+      <p class="result-emoji" id="resultEmoji">🎉</p>
+      <p class="result-msg"  id="resultMsg">よくできました！</p>
+      <div class="result-score">
+        <span id="resultCorrect">0</span>
+        <span class="result-sep">/</span>
+        <span id="resultTotal">0</span>
+      </div>
+      <p class="result-pct" id="resultPct">正答率 0%</p>
+
+      <!-- 復習リスト -->
+      <div class="missed-section" id="missedSection">
+        <p class="missed-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          復習リスト
+        </p>
+        <div class="missed-list" id="missedList"></div>
+      </div>
+
+      <div class="result-actions">
+        <button class="q-btn q-btn--primary" onclick="startQuiz(false)">もう一度</button>
+        <button class="q-btn q-btn--ghost"   id="retryMissedBtn" onclick="startQuiz(true)">
+          復習モード
+          <span class="review-badge" id="resultReviewCount">0</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /quiz-main -->
+
+<script src="data.js"></script>
+<script src="quiz.js"></script>
+</body>
+</html>
