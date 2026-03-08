@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>生物基礎 語句確認フォーム集 | Shoei451</title>
+  <link rel="icon" type="image/x-icon" href="../../images/bio-favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-title">
+      生物基礎 語句確認フォーム集
+      <span>Biology Vocabulary Review — 2024</span>
+    </div>
+    <div class="header-badge">Biology</div>
+  </div>
+</header>
+
+<!-- ── Main ── -->
+<main class="main-wrap">
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input id="search" type="text"
+      placeholder="キーワード検索（例：DNA / 免疫 / タンパク質）"
+      aria-label="フォームを検索" autocomplete="off" />
+    <div class="search-count" id="search-count"></div>
+  </div>
+
+  <!-- Dynamic Content -->
+  <div id="content"></div>
+  <div class="no-results" id="no-results">
+    <svg width="48" height="48" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+    </svg>
+    <p>「<span id="no-results-q"></span>」に一致するフォームが見つかりませんでした。</p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-note">
+    <h2>Note</h2>
+    <p>生物教師 Y.T 先生による語句確認用フォームをサイト制作者が集めたものです。</p>
+    <p>学習目的以外での利用はお控えください。</p>
+    <p>なお、一部フォームは学校のアカウントでしか回答できないようになっています。</p>
+    <p>フォーム制作は学校の先生によるもので、サイト制作者はフォームの制作に関わっていません。</p>
+  </div>
+
+</main>
+<script src="list.js"></script>
+<script>
+/* ============================================================
+   RENDER
+   ============================================================ */
+const content   = document.getElementById('content');
+const noResults = document.getElementById('no-results');
+const noQ       = document.getElementById('no-results-q');
+const countEl   = document.getElementById('search-count');
+
+function render(query = '') {
+  const q = query.toLowerCase().trim();
+  content.innerHTML = '';
+
+  let total = 0;
+  let matched = 0;
+
+  DATA.forEach(section => {
+    const filteredItems = section.items.filter(item => {
+      total++;
+      if (!q) { matched++; return true; }
+      const hit = item.keywords.toLowerCase().includes(q) || item.label.toLowerCase().includes(q);
+      if (hit) matched++;
+      return hit;
+    });
+
+    if (filteredItems.length === 0) return;
+
+    const sec = document.createElement('div');
+    sec.className = 'section';
+
+    sec.innerHTML = `
+      <div class="section-header">
+        <div class="section-num">${section.id}</div>
+        <div class="section-title">${section.title}</div>
+      </div>
+      ${section.restricted ? '<p class="section-note">🔒 このセクションのフォームは学校アカウントでのみ開けます</p>' : ''}
+      <div class="cards" id="cards-${section.id}"></div>
+    `;
+
+    content.appendChild(sec);
+
+    const cardsEl = sec.querySelector(`#cards-${section.id}`);
+    filteredItems.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <a href="${item.url}" target="_blank" rel="noopener noreferrer">
+          <span class="card-label">${item.label}</span>
+          <span class="card-arrow">↗</span>
+        </a>
+      `;
+      cardsEl.appendChild(card);
+    });
+  });
+
+  // no results
+  noResults.style.display = (q && matched === 0) ? 'block' : 'none';
+  noQ.textContent = query;
+
+  // count
+  if (q) {
+    countEl.textContent = `${matched} / ${total} 件一致`;
+  } else {
+    countEl.textContent = '';
+  }
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+const searchBox = document.getElementById('search');
+let timer;
+searchBox.addEventListener('input', () => {
+  clearTimeout(timer);
+  timer = setTimeout(() => render(searchBox.value), 120);
+});
+
+// Initial render
+render();
+</script>
+
+</body>
+</html>

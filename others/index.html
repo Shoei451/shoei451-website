@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.ico" />
+<title>Others — Shoei451</title>
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/sub-index.css">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+
+<!-- Header -->
+<header>
+    <h1>🗂️ Miscellaneous</h1>
+    <p>単発の学習ツール集です。</p>
+</header>
+
+<!-- Introduction -->
+<section class="intro">
+    <a href="../" class="back-link">Back to Home</a>
+</section>
+
+<!-- SECTION 1-->
+<div class="section-divider">
+    <h2 class="section-title">理科基礎</h2>
+    <p class="section-description">生物基礎・地学基礎の知識を確認</p>
+    
+
+</div>
+
+<section class="cards-container" id="container1">
+    <!-- Section 1 Cards-->
+</section>
+
+<!-- SECTION 2
+<div class="section-divider">
+    <h2 class="section-title"></h2>
+    <p class="section-description"></p>
+</div>
+
+<section class="cards-container" id="container2">
+</section>
+-->
+
+
+<!-- SECTION 3-->
+<div class="section-divider">
+    <h2 class="section-title">論理・表現</h2>
+    <p class="section-description">論理・表現（英語）の学習ツールです。</p>
+</div>
+
+<section class="cards-container" id="container3">
+    <!-- Section 3 Cards-->
+</section>
+
+<!-- SECTION 4 -->
+<div class="section-divider">
+    <h2 class="section-title">保健</h2>
+    <p class="section-description">保健の学習ツールです。</p>
+</div>
+
+<section class="cards-container" id="container4">
+    
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script src="list1.js"></script>
+<!--<script src="list2.js"></script>-->
+<script src="list3.js"></script>
+<script src="list4.js"></script>
+<script src="../js/theme-toggle.js"></script>
+<script src="../js/card-generator.js"></script>
+<script src="../js/cards-page-init.js"></script>
+<script>
+initCardsPage([
+    { itemsVar: "sectionItems1", containerId: "container1" },
+    { itemsVar: "sectionItems3", containerId: "container3" },
+    { itemsVar: "sectionItems4", containerId: "container4" }
+]);
+</script>
+
+</body>
+</html>

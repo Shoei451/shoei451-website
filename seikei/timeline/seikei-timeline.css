@@ -1,0 +1,144 @@
+/* ===================================================
+   seikei-timeline.css  (政経タイムライン固有スタイル)
+   依存: ../../css/theme-wh.css
+   =================================================== */
+
+/* 絵文字フォントを追加 (theme-wh.css のfont-familyを上書き) */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue",
+                 Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* ===== Event Date Cell ===== */
+.event-date {
+    font-weight: 600;
+    color: var(--accent-navy);
+    white-space: nowrap;
+}
+
+body.dark .event-date {
+    color: var(--accent-gold);
+}
+
+.event-description {
+    color: var(--text-light-secondary);
+    font-size: 0.9rem;
+}
+
+/* ===== Edit / Delete Buttons ===== */
+.event-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-edit, .btn-delete {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+}
+
+.btn-edit {
+    background: var(--accent-navy);
+    color: white;
+}
+
+body.dark .btn-edit {
+    background: var(--accent-gold);
+    color: var(--accent-navy);
+}
+
+.btn-delete {
+    background: #E74C3C;
+    color: white;
+}
+
+/* ===== Category Chips (政経カテゴリ) ===== */
+.category-chip.国際政治           { background: #E3F2FD; color: #1565C0; }
+body.dark .category-chip.国際政治 { background: #1565C0; color: #E3F2FD; }
+
+.category-chip.国際経済           { background: #FFF9C4; color: #F57F17; }
+body.dark .category-chip.国際経済 { background: #F57F17; color: #FFF9C4; }
+
+.category-chip.国内政治           { background: #BBDEFB; color: #0D47A1; }
+body.dark .category-chip.国内政治 { background: #0D47A1; color: #BBDEFB; }
+
+.category-chip.日銀金融政策           { background: #E8F5E9; color: #2E7D32; }
+body.dark .category-chip.日銀金融政策 { background: #2E7D32; color: #E8F5E9; }
+
+.category-chip.農業           { background: #F1F8E9; color: #558B2F; }
+body.dark .category-chip.農業 { background: #558B2F; color: #F1F8E9; }
+
+.category-chip.消費者生活・公害対策           { background: #E0F2F1; color: #00695C; }
+body.dark .category-chip.消費者生活・公害対策 { background: #00695C; color: #E0F2F1; }
+
+.category-chip.労働問題           { background: #FCE4EC; color: #C2185B; }
+body.dark .category-chip.労働問題 { background: #C2185B; color: #FCE4EC; }
+
+.category-chip.社会保障           { background: #FFF3E0; color: #E65100; }
+body.dark .category-chip.社会保障 { background: #E65100; color: #FFF3E0; }
+
+/* ===== Responsive (モバイル最適化テーブル) ===== */
+@media (max-width: 768px) {
+    header { padding: 15px 10px; }
+
+    .header-content {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    h1 { font-size: 1.3rem; text-align: center; }
+
+    .controls { width: 100%; flex-direction: column; }
+    .search-box { width: 100%; }
+
+    .tabs {
+        overflow-x: auto;
+        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tab { flex-shrink: 0; }
+
+    /* カード型レイアウトに変換 */
+    .timeline-table {
+        display: block;
+        font-size: 0.85rem;
+    }
+
+    .timeline-table thead { display: none; }
+
+    .timeline-table,
+    .timeline-table tbody,
+    .timeline-table tr { display: block; }
+
+    .timeline-table tr {
+        margin-bottom: 20px;
+        border: 2px solid var(--border-light);
+        border-radius: 8px;
+        padding: 15px;
+        background: var(--bg-light);
+    }
+
+    .timeline-table td {
+        display: block;
+        padding: 8px 0;
+        border: none;
+    }
+
+    .timeline-table td::before {
+        content: attr(data-label);
+        font-weight: 600;
+        display: block;
+        margin-bottom: 5px;
+        color: var(--text-light-secondary);
+        font-size: 0.8rem;
+    }
+
+    .event-date  { font-size: 1.1rem; margin-bottom: 10px; }
+    .event-title { font-size: 1rem; margin-bottom: 10px; }
+
+    .event-actions { flex-direction: row; gap: 10px; margin-top: 10px; }
+    .btn-edit, .btn-delete { flex: 1; }
+}

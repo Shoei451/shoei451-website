@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>世界史クイズ → 中国史 データ移行ツール</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #fdf6e3;
+            color: #073642;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #eee8d5;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(215, 60, 55, 0.15);
+        }
+
+        h1 {
+            color: #d73c37;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            color: #586e75;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+
+        .warning {
+            background: rgba(238, 97, 70, 0.15);
+            border: 2px solid #ee6146;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+
+        .warning h3 {
+            color: #d73c37;
+            margin-bottom: 10px;
+        }
+
+        .info-box {
+            background: #fdf6e3;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #dfbc5e;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: #fdf6e3;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #dfbc5e;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #586e75;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background: #dfbc5e;
+            color: #002b36;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            margin-right: 10px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(215, 60, 55, 0.2);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        button.danger {
+            background: #d73c37;
+            color: #fdf6e3;
+        }
+
+        .log {
+            background: #002b36;
+            color: #93a1a1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+        }
+
+        .log-success {
+            color: #dfbc5e;
+        }
+
+        .log-error {
+            color: #ee6146;
+        }
+
+        .log-info {
+            color: #93a1a1;
+        }
+
+        .preview-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fdf6e3;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .preview-table th {
+            background: #d73c37;
+            color: #fdf6e3;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .preview-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e6e0ae;
+        }
+
+        .preview-table tr:hover {
+            background: rgba(230, 224, 174, 0.3);
+        }
+
+        .category-preview {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            background: #dfbc5e;
+            color: #002b36;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 データ移行ツール</h1>
+        <p class="subtitle">世界史クイズ（第4章）→ 中国王朝史年表</p>
+
+        <div class="warning">
+            <h3>⚠️ 重要な注意事項</h3>
+            <ul style="margin-left: 20px; margin-top: 10px;">
+                <li>このツールは<strong>world_history_quiz</strong>テーブルの第4章データを<strong>chinese_history</strong>テーブルに移行します</li>
+                <li>移行前にプレビューで内容を確認してください</li>
+                <li>カテゴリは自動判定されます（後で手動修正可能）</li>
+                <li>重複チェックは行われません</li>
+            </ul>
+        </div>
+
+        <div class="info-box">
+            <h3>📊 移行データ統計</h3>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="sourceCount">-</div>
+                    <div class="stat-label">移行元データ数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="targetCount">-</div>
+                    <div class="stat-label">現在の中国史データ数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="migratedCount">0</div>
+                    <div class="stat-label">移行済み</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="loadData()">📥 データを読み込む</button>
+            <button id="previewBtn" onclick="showPreview()" disabled>👁️ プレビュー</button>
+            <button id="migrateBtn" onclick="startMigration()" class="danger" disabled>🚀 移行を実行</button>
+        </div>
+
+        <div id="previewSection" class="hidden">
+            <h3 style="margin: 20px 0 10px 0; color: #d73c37;">移行データプレビュー（最初の20件）</h3>
+            <div style="overflow-x: auto;">
+                <table class="preview-table" id="previewTable"></table>
+            </div>
+        </div>
+
+        <div class="log" id="logContainer">
+            <div class="log-entry log-info">ログ表示エリア</div>
+        </div>
+    </div>
+
+    <script>
+        const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdqdXFzeWF1Z3Jzc2htamVyaG1lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY0NzA3NTYsImV4cCI6MjA4MjA0Njc1Nn0.V8q5ddz5tPy7wBaQ73aGtmCZyqzA6pPciPRwRIZjJcs';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let sourceData = [];
+        let transformedData = [];
+
+        function log(message, type = 'info') {
+            const logContainer = document.getElementById('logContainer');
+            const timestamp = new Date().toLocaleTimeString('ja-JP');
+            const entry = document.createElement('div');
+            entry.className = `log-entry log-${type}`;
+            entry.textContent = `[${timestamp}] ${message}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function categorizeEvent(event) {
+            const text = event.toLowerCase();
+            
+            // 王朝成立
+            if (text.includes('建国') || text.includes('成立') || text.includes('建立') || 
+                text.includes('即位') && (text.includes('帝') || text.includes('王'))) {
+                return '王朝成立';
+            }
+            
+            // 王朝滅亡
+            if (text.includes('滅亡') || text.includes('滅ぼ') || text.includes('没')) {
+                return '王朝滅亡';
+            }
+            
+            // 反乱
+            if (text.includes('の乱') || text.includes('反乱') || text.includes('蜂起') || text.includes('起こす')) {
+                return '反乱';
+            }
+            
+            // 戦争
+            if (text.includes('戦争') || text.includes('の戦い') || text.includes('侵攻') || 
+                text.includes('征服') || text.includes('包囲') || text.includes('鎮定')) {
+                return '戦争';
+            }
+            
+            // 外交
+            if (text.includes('条約') || text.includes('朝貢') || text.includes('外交') || 
+                text.includes('派遣') || text.includes('通商') || text.includes('貿易')) {
+                return '外交';
+            }
+            
+            // 経済
+            if (text.includes('経済') || text.includes('貿易') || text.includes('税') || 
+                text.includes('一条鞭法') || text.includes('海関') || text.includes('海禁')) {
+                return '経済';
+            }
+            
+            // 文化
+            if (text.includes('文化') || text.includes('仏教') || text.includes('儒教') || 
+                text.includes('刊行') || text.includes('完成') || text.includes('書写') ||
+                text.includes('学') || text.includes('『')) {
+                return '文化';
+            }
+            
+            // 内政
+            if (text.includes('改革') || text.includes('政策') || text.includes('制度') || 
+                text.includes('設置') || text.includes('実施') || text.includes('親政') ||
+                text.includes('禁止') || text.includes('譲位')) {
+                return '内政';
+            }
+            
+            return 'その他';
+        }
+
+        async function loadData() {
+            log('データ読み込み開始...', 'info');
+            
+            try {
+                // Load source data (world_history_quiz chapter 4)
+                const { data: sourceRows, error: sourceError } = await supabase
+                    .from('world_history_quiz')
+                    .select('*')
+                    .eq('chapter', '第4章')
+                    .order('year', { ascending: true });
+
+                if (sourceError) throw sourceError;
+
+                sourceData = sourceRows;
+                document.getElementById('sourceCount').textContent = sourceData.length;
+                log(`移行元データ: ${sourceData.length}件`, 'success');
+
+                // Transform data
+                transformedData = sourceData.map(item => ({
+                    title: item.event,
+                    description: null,
+                    year: item.is_bc ? -Math.abs(item.year) : item.year,
+                    date_type: 'year',
+                    full_date: null,
+                    category: categorizeEvent(item.event)
+                }));
+
+                log(`データ変換完了: ${transformedData.length}件`, 'success');
+
+                // Count existing chinese_history data
+                const { count, error: countError } = await supabase
+                    .from('chinese_history')
+                    .select('*', { count: 'exact', head: true });
+
+                if (countError) throw countError;
+
+                document.getElementById('targetCount').textContent = count || 0;
+                log(`現在の中国史データ: ${count || 0}件`, 'info');
+
+                // Enable buttons
+                document.getElementById('previewBtn').disabled = false;
+                document.getElementById('migrateBtn').disabled = false;
+
+                log('✅ 準備完了！プレビューを確認してください', 'success');
+
+            } catch (error) {
+                log(`❌ エラー: ${error.message}`, 'error');
+                console.error(error);
+            }
+        }
+
+        function showPreview() {
+            const previewSection = document.getElementById('previewSection');
+            const previewTable = document.getElementById('previewTable');
+
+            previewSection.classList.remove('hidden');
+
+            const preview = transformedData.slice(0, 20);
+
+            previewTable.innerHTML = `
+                <thead>
+                    <tr>
+                        <th>年</th>
+                        <th>イベント名</th>
+                        <th>カテゴリ（自動判定）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${preview.map(item => `
+                        <tr>
+                            <td>${item.year < 0 ? `前${Math.abs(item.year)}年` : `${item.year}年`}</td>
+                            <td>${item.title}</td>
+                            <td><span class="category-preview">${item.category}</span></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            `;
+
+            log('プレビュー表示完了（最初の20件）', 'info');
+        }
+
+        async function startMigration() {
+            if (!confirm(`${transformedData.length}件のデータを中国史年表に移行します。\n\nよろしいですか？`)) {
+                return;
+            }
+
+            document.getElementById('migrateBtn').disabled = true;
+            log('🚀 移行を開始します...', 'info');
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            // Batch insert (100 items at a time to avoid timeout)
+            const batchSize = 100;
+            for (let i = 0; i < transformedData.length; i += batchSize) {
+                const batch = transformedData.slice(i, i + batchSize);
+                
+                try {
+                    const { error } = await supabase
+                        .from('chinese_history')
+                        .insert(batch);
+
+                    if (error) throw error;
+
+                    successCount += batch.length;
+                    document.getElementById('migratedCount').textContent = successCount;
+                    log(`✅ ${i + 1}〜${i + batch.length}件目を移行`, 'success');
+
+                } catch (error) {
+                    errorCount += batch.length;
+                    log(`❌ エラー (${i + 1}〜${i + batch.length}件目): ${error.message}`, 'error');
+                }
+            }
+
+            log(`\n========== 移行完了 ==========`, 'info');
+            log(`成功: ${successCount}件`, 'success');
+            if (errorCount > 0) {
+                log(`失敗: ${errorCount}件`, 'error');
+            }
+            log(`==============================\n`, 'info');
+
+            // Reload target count
+            const { count } = await supabase
+                .from('chinese_history')
+                .select('*', { count: 'exact', head: true });
+            document.getElementById('targetCount').textContent = count || 0;
+        }
+    </script>
+</body>
+</html>

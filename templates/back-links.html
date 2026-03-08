@@ -1,0 +1,107 @@
+<!-- ==========================================
+     「ホームに戻る」ボタン - 汎用テンプレート
+     ========================================== -->
+
+<!-- 
+使い方:
+1. HTMLの適切な位置に以下のコードを貼り付け
+2. href属性をあなたのホームページのパスに変更
+3. CSSをコピーしてスタイルシートに追加
+-->
+
+<!-- HTML: ボタン本体 -->
+<div style="text-align: center; margin-bottom: 30px;">
+    <a href="../index.html" class="back-link">← ホームに戻る</a>
+</div>
+
+<!-- または、インライン配置の場合 -->
+<a href="../index.html" class="back-link">← ホームに戻る</a>
+
+<!-- CSS: スタイル定義（共通CSSファイルに追加） -->
+<style>
+/* ===== Back to Home Link ===== */
+.back-link {
+    display: inline-block;
+    text-align: center;
+    padding: 12px 24px;
+    background: var(--accent);  /* またはお好みの色（例: #148b9d） */
+    color: #ffffff;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(20, 139, 157, 0.3);
+    text-decoration: none;
+}
+
+.back-link:hover {
+    transform: translateY(-2px);
+    background: #0d6b7a;  /* ホバー時の色 */
+    box-shadow: 0 6px 20px rgba(20, 139, 157, 0.4);
+}
+</style>
+
+<!-- ==========================================
+     カスタマイズ例
+     ========================================== -->
+
+<!-- 例1: テキストを変更 -->
+<a href="../index.html" class="back-link">← トップページへ</a>
+<a href="../index.html" class="back-link">🏠 ホーム</a>
+
+<!-- 例2: 別のページへのリンク -->
+<a href="../tools.html" class="back-link">← ツール一覧に戻る</a>
+<a href="./index.html" class="back-link">← 前のページへ</a>
+
+<!-- 例3: 複数ボタンを横並び -->
+<div style="text-align: center; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+    <a href="../index.html" class="back-link">← ホーム</a>
+    <a href="./other-tool.html" class="back-link">次のツール →</a>
+</div>
+
+<!-- ==========================================
+     カラーバリエーション（CSS変数を使う場合）
+     ========================================== -->
+
+<!--
+あなたのサイトの共通CSSで以下の変数が定義されている場合:
+:root {
+    --accent: #148b9d;
+    --accent-hover: #0d6b7a;
+}
+
+そのまま使えます！
+-->
+
+<!-- ==========================================
+     配置パターン
+     ========================================== -->
+
+<!-- パターン1: ヘッダー直下（ページ上部） -->
+<header>
+    <h1>ページタイトル</h1>
+    <p>説明文</p>
+</header>
+<div style="text-align: center; margin: 20px 0;">
+    <a href="../index.html" class="back-link">← ホームに戻る</a>
+</div>
+
+<!-- パターン2: コンテンツ直前 -->
+<section class="intro">
+    <a href="../index.html" class="back-link">← ホームに戻る</a>
+    <h2>コンテンツタイトル</h2>
+    <p>説明文</p>
+</section>
+
+<!-- パターン3: フッター直前（ページ下部） -->
+<div style="text-align: center; margin: 40px 0;">
+    <a href="../index.html" class="back-link">← ホームに戻る</a>
+</div>
+<footer>
+    <p>フッター内容</p>
+</footer>
+
+<!-- パターン4: 両端配置 -->
+<div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px; margin: 20px;">
+    <a href="../index.html" class="back-link">← ホーム</a>
+    <a href="./next-page.html" class="back-link">次へ →</a>
+</div>

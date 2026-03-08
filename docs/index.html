@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents — Shoei451</title>
+  <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/markdown-viewer.css" />
+</head>
+
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+  <button id="theme-toggle" title="Toggle Theme">
+    <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+    <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+</span>
+
+<header>
+  <h1>Documents</h1>
+  <p>学習用ドキュメント一覧</p>
+</header>
+
+<main class="intro">
+  <a href="../index.html" class="back-link">Back to Home</a>
+  <h2>Select a Document</h2>
+  <p>下のドロップダウンメニューからドキュメントを選択してください。</p>
+</main>
+
+<!-- File Selector (optional) -->
+<section class="file-selector">
+  <select id="file-selector">
+    <option value="example.md">サンプルドキュメント</option>
+    <option value="blog-guide.md">Markdownブログシステム 使い方ガイド</option>
+    <option value="chinese-history.md">中国王朝史年表・クイズ セットアップガイド</option>
+    <option value="seikei-timeline.md">政治・経済 学習用オンライン年表 説明</option>
+    <option value="operations.md">操作ガイド</option>
+  </select>
+</section>
+
+<!-- Markdown Content -->
+<section class="markdown-wrapper">
+  <div class="markdown-content" id="markdown-content">
+    <div class="loading">読み込み中</div>
+  </div>
+</section>
+
+<footer>
+  <p>Curated by Shoei451</p>
+</footer>
+
+<!-- Marked.js for Markdown parsing -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="../js/theme-toggle.js"></script>
+
+<script>
+// Configure marked options
+marked.setOptions({
+  breaks: true,
+  gfm: true
+});
+
+// Load markdown file
+async function loadMarkdown(filepath) {
+  const content = document.getElementById('markdown-content');
+  
+  try {
+    content.innerHTML = '<div class="loading">読み込み中</div>';
+    
+    const response = await fetch(filepath);
+    if (!response.ok) throw new Error('File not found');
+    
+    const markdown = await response.text();
+    content.innerHTML = marked.parse(markdown);
+    
+    // Smooth scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+  } catch (error) {
+    content.innerHTML = `
+      <div style="text-align: center; padding: 40px; color: var(--secondary);">
+        <h2>⚠️ ファイルが見つかりません</h2>
+        <p>指定されたドキュメントを読み込めませんでした。</p>
+        <p style="font-size: 0.9rem; opacity: 0.7;">Error: ${error.message}</p>
+      </div>
+    `;
+  }
+}
+
+// File selector event
+const selector = document.getElementById('file-selector');
+selector.addEventListener('change', (e) => {
+  loadMarkdown(e.target.value);
+});
+
+// Load first file on page load
+loadMarkdown(selector.value);
+</script>
+
+</body>
+</html>

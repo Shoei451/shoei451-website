@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" id="icon" viewBox="0 0 1000 1000">
+  <defs>
+    <style>.cls-1{fill:none;}</style>
+  </defs>
+  <path d="M789.81,158.85H247.06v57h496.25l62.21,221.67h-454.01c-68.01,0-119.66,28.86-156.23,83.97L19.91,791.15h946.91l-177.01-632.3ZM245.33,554.59c26.55-39.46,58.84-60.08,106.18-60.08h469.8l67.41,239.63H127.54l117.79-179.56Z"></path>
+  <circle cx="375" cy="620" r="40"></circle>
+  <circle cx="535" cy="620" r="40"></circle>
+  <circle cx="695" cy="620" r="40"></circle>
+  <rect class="cls-1" width="1000" height="1000"></rect>
+</svg>

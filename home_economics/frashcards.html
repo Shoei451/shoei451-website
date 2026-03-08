@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>社会保障制度 + 民法 フラッシュカード — 家庭基礎</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════
+   Design tokens
+══════════════════════════════════════ */
+:root {
+  --color-bg:             #fafaf8;
+  --color-surface:        #ffffff;
+  --color-border:         #e8e8e5;
+  --color-text-primary:   #1a1a1a;
+  --color-text-secondary: #6b6b6b;
+  --color-accent:         #2d6a4f;
+  --color-accent-light:   #e8f5e9;
+
+  --color-knew:      #2d6a4f;
+  --color-knew-bg:   rgba(45,106,79,0.07);
+  --color-unsure:    #b7800a;
+  --color-unsure-bg: rgba(183,128,10,0.07);
+  --color-forgot:    #c0392b;
+  --color-forgot-bg: rgba(192,57,43,0.07);
+
+  --font-sans:    'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
+  --font-display: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.09), 0 1px 4px rgba(0,0,0,0.05);
+  --shadow-overlay: 0 16px 48px rgba(0,0,0,0.16);
+
+  --header-h: 52px;
+  --swap-out: 130ms;
+  --swap-in:  170ms;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  font-feature-settings: "pkna";
+  -webkit-font-smoothing: antialiased;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+kbd {
+  display: inline-block;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0 0.35rem;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: var(--header-h);
+  background: rgba(255,255,255,0.92);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--color-border);
+}
+.header-inner {
+  max-width: 800px; margin: 0 auto;
+  height: 100%; padding: 0 1.25rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+.header-left  { display: flex; align-items: baseline; gap: 0.5rem; min-width: 0; }
+.header-title {
+  font-family: var(--font-display); font-size: 0.95rem; font-weight: 700;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.header-sub {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  color: var(--color-text-secondary); white-space: nowrap;
+}
+.header-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+.btn-icon {
+  padding: 0.28rem 0.75rem; border-radius: 100px;
+  border: 1px solid var(--color-border); background: var(--color-surface);
+  font-family: var(--font-mono); font-size: 0.74rem;
+  color: var(--color-text-secondary); cursor: pointer;
+  transition: all 0.15s; white-space: nowrap;
+}
+.btn-icon:hover { border-color: var(--color-accent); color: var(--color-accent); }
+.btn-icon.active {
+  background: var(--color-accent-light);
+  border-color: var(--color-accent); color: var(--color-accent);
+}
+
+/* ══════════════════════════════════════
+   START OVERLAY
+══════════════════════════════════════ */
+.start-overlay {
+  position: fixed;
+  top: var(--header-h); left: 0; right: 0; bottom: 0;
+  z-index: 90;
+  background: rgba(250,250,248,0.97);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  overflow-y: auto;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 2rem 1.25rem 3rem; gap: 1.5rem;
+}
+.start-overlay.hidden { display: none; }
+
+.start-hero { text-align: center; padding-top: 1rem; }
+.start-hero__label {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--color-accent); margin-bottom: 0.5rem;
+}
+.start-hero__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.6rem); font-weight: 700;
+  color: var(--color-text-primary); letter-spacing: -0.01em; line-height: 1.2;
+}
+.start-hero__divider {
+  width: 48px; height: 2px; margin: 1rem auto 0;
+  background: linear-gradient(to right, transparent, var(--color-accent), transparent);
+}
+
+.start-card {
+  width: min(560px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-overlay);
+  padding: 1.75rem;
+}
+.start-card__title { font-family: var(--font-display); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.35rem; }
+.start-card__desc  { font-size: 0.82rem; color: var(--color-text-secondary); margin-bottom: 1.25rem; }
+
+.start-block { margin-bottom: 1rem; }
+.start-label {
+  display: block; font-family: var(--font-mono);
+  font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--color-text-secondary); margin-bottom: 0.5rem;
+}
+.start-cats { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.start-cat {
+  padding: 0.4rem 0.9rem; border-radius: 100px;
+  border: 1px solid var(--color-border); background: var(--color-bg);
+  font-size: 0.82rem; color: var(--color-text-secondary); cursor: pointer;
+  transition: all 0.15s;
+}
+.start-cat:hover  { border-color: var(--color-accent); color: var(--color-accent); }
+.start-cat.active { background: var(--color-accent); border-color: var(--color-accent); color: white; }
+
+.start-count {
+  width: 100%; padding: 0.55rem 0.75rem;
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  font-family: var(--font-sans); font-size: 0.9rem;
+  background: var(--color-bg); color: var(--color-text-primary);
+  appearance: none; cursor: pointer; outline: none; transition: border-color 0.15s;
+}
+.start-count:focus { border-color: var(--color-accent); }
+
+.start-meta {
+  font-family: var(--font-mono); font-size: 0.76rem; color: var(--color-accent);
+  margin-bottom: 1.1rem; min-height: 1.2em;
+}
+
+/* ══════════════════════════════════════
+   STUDY MODE
+══════════════════════════════════════ */
+.mode-panel { padding-top: var(--header-h); min-height: 100vh; }
+
+.study-area {
+  padding: 1rem 1.25rem 3rem;
+  max-width: 640px; margin: 0 auto;
+  display: flex; flex-direction: column; align-items: center; gap: 1rem;
+}
+
+.progress-strip {
+  width: 100%; height: 3px;
+  background: var(--color-border); border-radius: 100px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(to right, var(--color-accent), #52b788);
+  border-radius: 100px; transition: width 0.35s ease;
+}
+
+.deck-nav-row {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between; gap: 0.75rem;
+}
+.deck-center { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 0.4rem; }
+.deck-indicator { font-family: var(--font-mono); font-size: 0.82rem; color: var(--color-text-secondary); }
+.mastery-dots { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; min-height: 8px; }
+.m-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--color-border); transition: background 0.2s; flex-shrink: 0;
+}
+.m-dot.knew   { background: var(--color-knew); }
+.m-dot.unsure { background: var(--color-unsure); }
+.m-dot.forgot { background: var(--color-forgot); }
+.m-dot.current { background: var(--color-text-primary); box-shadow: 0 0 0 2px rgba(26,26,26,0.18); }
+
+.nav-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid var(--color-border); background: var(--color-surface);
+  font-size: 1.3rem; color: var(--color-text-secondary);
+  cursor: pointer; transition: all 0.15s; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-card);
+}
+.nav-btn:hover    { background: var(--color-accent); color: white; border-color: var(--color-accent); }
+.nav-btn:disabled { opacity: 0.25; cursor: default; pointer-events: none; }
+
+/* ── Flip card ── */
+.card-scene {
+  width: 100%; aspect-ratio: 16 / 9;
+  perspective: 1200px; cursor: pointer; user-select: none;
+}
+.card-scene.swap-out-left  { animation: swapOutLeft  var(--swap-out) ease forwards; }
+.card-scene.swap-out-right { animation: swapOutRight var(--swap-out) ease forwards; }
+.card-scene.swap-in-right  { animation: swapInRight  var(--swap-in)  ease forwards; }
+.card-scene.swap-in-left   { animation: swapInLeft   var(--swap-in)  ease forwards; }
+.card-scene.is-swapping    { pointer-events: none; }
+
+@keyframes swapOutLeft  { from{opacity:1;transform:translateX(0) scale(1)}        to{opacity:0;transform:translateX(-20px) scale(0.97)} }
+@keyframes swapOutRight { from{opacity:1;transform:translateX(0) scale(1)}        to{opacity:0;transform:translateX(20px) scale(0.97)}  }
+@keyframes swapInRight  { from{opacity:0;transform:translateX(20px) scale(0.97)}  to{opacity:1;transform:translateX(0) scale(1)}        }
+@keyframes swapInLeft   { from{opacity:0;transform:translateX(-20px) scale(0.97)} to{opacity:1;transform:translateX(0) scale(1)}        }
+
+.card-body {
+  width: 100%; height: 100%; position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.52s cubic-bezier(0.4,0.2,0.2,1);
+  border-radius: var(--radius-md);
+}
+.card-body.no-transition { transition: none !important; }
+.card-body.flipped { transform: rotateY(180deg); }
+
+.card-face {
+  position: absolute; inset: 0;
+  -webkit-backface-visibility: hidden; backface-visibility: hidden;
+  border-radius: var(--radius-md); box-shadow: var(--shadow-card); overflow: hidden;
+}
+.card-face-inner {
+  width: 100%; height: 100%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 1.25rem 1.75rem; position: relative; text-align: center;
+}
+
+.card-front {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+}
+.card-front::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(to right, var(--color-accent), #52b788);
+}
+.card-back {
+  transform: rotateY(180deg);
+  background: var(--card-back-color, var(--color-accent)); color: white;
+}
+.card-back::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: rgba(255,255,255,0.3);
+}
+.card-back::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(circle at 20% 80%, rgba(255,255,255,0.08), transparent 55%),
+    radial-gradient(circle at 80% 15%, rgba(255,255,255,0.05), transparent 50%);
+}
+
+.face-top {
+  position: absolute; top: 0.65rem; left: 1rem; right: 1rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.face-badge {
+  font-family: var(--font-mono); font-size: 0.65rem;
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 0.15rem 0.6rem; border-radius: 100px; font-weight: 500;
+}
+/* type tag inline */
+.type-pip {
+  font-family: var(--font-mono); font-size: 0.6rem;
+  padding: 0.1rem 0.45rem; border-radius: 100px;
+  margin-left: 0.3rem; vertical-align: middle;
+  font-weight: 600;
+}
+.type-pip.name   { background: #e8f5e9; color: #2d6a4f; }
+.type-pip.detail { background: #fef3c7; color: #b45309; }
+.type-pip.ox     { background: #f3e8ff; color: #7c3aed; }
+.back-badge { background: rgba(255,255,255,0.18) !important; color: rgba(255,255,255,0.85) !important; }
+.face-hint { margin-left: auto; font-size: 0.65rem; color: var(--color-text-secondary); white-space: nowrap; }
+
+.card-question {
+  font-size: clamp(0.9rem, 2.4vw, 1.15rem);
+  font-family: var(--font-display); font-weight: 700;
+  line-height: 1.7; color: var(--color-text-primary);
+  white-space: pre-line; max-height: 55%; overflow-y: auto;
+}
+.card-answer {
+  font-size: clamp(1rem, 2.8vw, 1.35rem);
+  font-family: var(--font-display); font-weight: 700;
+  line-height: 1.55; color: white; white-space: pre-line; margin-bottom: 0.5rem;
+}
+.card-sub {
+  font-size: clamp(0.7rem, 1.6vw, 0.82rem);
+  color: rgba(255,255,255,0.78); line-height: 1.65;
+  white-space: pre-line; max-height: 30%; overflow-y: auto;
+}
+.card-watermark {
+  position: absolute; bottom: 0.6rem; right: 0.9rem;
+  font-size: 0.58rem; letter-spacing: 0.3em;
+  color: rgba(26,26,26,0.07); pointer-events: none;
+}
+.back-wm { color: rgba(255,255,255,0.1); }
+
+/* ── Mastery ── */
+.mastery-row { display: flex; gap: 0.6rem; width: 100%; }
+.mastery-btn {
+  flex: 1; padding: 0.65rem 0.5rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border); background: var(--color-surface);
+  cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  opacity: 0.3; pointer-events: none; transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s, background 0.15s;
+}
+.mastery-btn.active { opacity: 1; pointer-events: all; transform: translateY(0); }
+.m-icon  { font-size: 1.1rem; line-height: 1; }
+.m-label { font-size: 0.68rem; color: var(--color-text-secondary); }
+
+.m-forgot { border-color: rgba(192,57,43,0.2); }
+.m-forgot .m-icon { color: var(--color-forgot); }
+.m-forgot.active:hover { background: var(--color-forgot); border-color: var(--color-forgot); }
+.m-forgot.active:hover .m-icon, .m-forgot.active:hover .m-label { color: white; }
+
+.m-unsure { border-color: rgba(183,128,10,0.2); }
+.m-unsure .m-icon { color: var(--color-unsure); }
+.m-unsure.active:hover { background: var(--color-unsure); border-color: var(--color-unsure); }
+.m-unsure.active:hover .m-icon, .m-unsure.active:hover .m-label { color: white; }
+
+.m-knew { border-color: rgba(45,106,79,0.2); }
+.m-knew .m-icon { color: var(--color-knew); }
+.m-knew.active:hover { background: var(--color-knew); border-color: var(--color-knew); }
+.m-knew.active:hover .m-icon, .m-knew.active:hover .m-label { color: white; }
+
+.kb-hint { font-size: 0.68rem; color: var(--color-text-secondary); text-align: center; line-height: 1.8; }
+
+/* ══════════════════════════════════════
+   COMPLETE OVERLAY
+══════════════════════════════════════ */
+.complete-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(250,250,248,0.9);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center; padding: 1.25rem;
+}
+.complete-card {
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-overlay);
+  padding: 2.5rem 2rem; max-width: 420px; width: 100%;
+  text-align: center; position: relative; overflow: hidden;
+}
+.complete-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(to right, var(--color-knew), var(--color-accent), var(--color-unsure));
+}
+.complete-icon  { font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--color-accent); }
+.complete-title { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; margin-bottom: 1.25rem; }
+
+.complete-stats { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.stat-pill {
+  padding: 0.65rem 1rem; border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+  display: flex; flex-direction: column; align-items: center; gap: 0.15rem; min-width: 72px;
+}
+.stat-pill .sp-n { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; line-height: 1; }
+.stat-pill .sp-l { font-size: 0.65rem; color: var(--color-text-secondary); }
+.stat-pill.sp-knew   { background: var(--color-knew-bg);   border-color: rgba(45,106,79,0.25); }
+.stat-pill.sp-knew   .sp-n { color: var(--color-knew); }
+.stat-pill.sp-unsure { background: var(--color-unsure-bg); border-color: rgba(183,128,10,0.25); }
+.stat-pill.sp-unsure .sp-n { color: var(--color-unsure); }
+.stat-pill.sp-forgot { background: var(--color-forgot-bg); border-color: rgba(192,57,43,0.25); }
+.stat-pill.sp-forgot .sp-n { color: var(--color-forgot); }
+
+.complete-breakdown {
+  background: var(--color-bg); border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 1.5rem; text-align: left;
+}
+.breakdown-row {
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0.5rem 0.85rem; border-bottom: 1px solid var(--color-border); font-size: 0.8rem;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-label { flex: 1; color: var(--color-text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.breakdown-bar-wrap { width: 72px; height: 5px; background: var(--color-border); border-radius: 100px; overflow: hidden; flex-shrink: 0; }
+.breakdown-bar { height: 100%; background: var(--color-accent); border-radius: 100px; transition: width 0.5s ease; }
+.breakdown-num { font-family: var(--font-mono); font-size: 0.72rem; color: var(--color-accent); font-weight: 600; min-width: 32px; text-align: right; }
+
+.complete-actions { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; }
+
+/* ══════════════════════════════════════
+   SIDE LIST
+══════════════════════════════════════ */
+.list-toggle {
+  position: fixed; right: 0; top: 50%; transform: translateY(-50%);
+  background: var(--color-accent); color: white;
+  padding: 0.85rem 0.4rem; border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  cursor: pointer; z-index: 80;
+  writing-mode: vertical-lr; font-size: 0.7rem; letter-spacing: 0.15em;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  transition: background 0.15s;
+}
+.list-toggle:hover { background: #235e44; }
+#listArrow { writing-mode: horizontal-tb; font-size: 1rem; line-height: 1; }
+
+.list-panel {
+  position: fixed; right: -260px; top: 0; bottom: 0; width: 240px;
+  background: var(--color-surface); border-left: 1px solid var(--color-border);
+  z-index: 85; transition: right 0.24s ease; overflow-y: auto;
+  box-shadow: -4px 0 20px rgba(0,0,0,0.07);
+}
+.list-panel.open { right: 0; }
+.list-head {
+  position: sticky; top: 0;
+  padding: calc(var(--header-h) + 0.5rem) 1rem 0.75rem;
+  background: var(--color-bg); border-bottom: 1px solid var(--color-border);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.8rem; font-weight: 600; color: var(--color-text-secondary);
+}
+.list-close {
+  background: none; border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  padding: 0.2rem 0.6rem; font-size: 0.68rem; color: var(--color-text-secondary); cursor: pointer;
+  transition: background 0.13s;
+}
+.list-close:hover { background: var(--color-border); }
+.list-body { padding: 0.4rem; display: flex; flex-direction: column; gap: 2px; }
+.list-item {
+  padding: 0.5rem 0.65rem; border-radius: var(--radius-sm); cursor: pointer;
+  font-size: 0.78rem; line-height: 1.45;
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  border: 1px solid transparent; transition: background 0.12s;
+  color: var(--color-text-primary);
+}
+.list-item:hover { background: var(--color-bg); }
+.list-item.current { background: var(--color-accent-light); border-color: rgba(45,106,79,0.3); }
+.li-n { font-family: var(--font-mono); font-size: 0.65rem; color: var(--color-text-secondary); min-width: 18px; margin-top: 2px; }
+.li-d { width: 7px; height: 7px; border-radius: 50%; background: var(--color-border); flex-shrink: 0; margin-top: 4px; }
+.li-d.knew   { background: var(--color-knew); }
+.li-d.unsure { background: var(--color-unsure); }
+.li-d.forgot { background: var(--color-forgot); }
+.li-t { flex: 1; }
+
+/* ══════════════════════════════════════
+   BUTTONS
+══════════════════════════════════════ */
+.btn-primary {
+  background: var(--color-accent); color: white; border: none;
+  border-radius: var(--radius-sm); padding: 0.7rem 1.75rem;
+  font-family: var(--font-sans); font-size: 0.9rem; font-weight: 500;
+  cursor: pointer; transition: all 0.15s; box-shadow: 0 2px 8px rgba(45,106,79,0.28);
+}
+.btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.btn-secondary {
+  background: transparent; color: var(--color-text-secondary);
+  border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+  padding: 0.65rem 1.25rem;
+  font-family: var(--font-sans); font-size: 0.88rem; font-weight: 500;
+  cursor: pointer; transition: all 0.15s;
+}
+.btn-secondary:hover { background: var(--color-bg); color: var(--color-text-primary); }
+
+.start-btn { width: 100%; padding: 0.85rem; font-size: 0.95rem; letter-spacing: 0.05em; }
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+.toast {
+  position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+  background: var(--color-text-primary); color: white;
+  padding: 0.5rem 1.25rem; border-radius: 100px;
+  font-size: 0.8rem; z-index: 300;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.25s; white-space: nowrap;
+}
+.toast.visible { opacity: 1; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 520px) {
+  .card-scene  { aspect-ratio: 3/2; }
+  .mastery-btn { padding: 0.55rem 0.35rem; }
+  .m-label     { font-size: 0.62rem; }
+  .kb-hint     { display: none; }
+  .header-sub  { display: none; }
+  .complete-card { padding: 1.75rem 1.25rem; }
+  .btn-icon { padding: 0.28rem 0.5rem; font-size: 0.7rem; }
+  #shuffleLabel { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="header-title">社会保障制度 + 民法</span>
+      <span class="header-sub">家庭基礎 期末対策</span>
+    </div>
+    <div class="header-right">
+      <button class="btn-icon" id="shuffleBtn" title="シャッフル on/off">
+        ⇄ <span id="shuffleLabel">shuffle</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- START OVERLAY -->
+<div class="start-overlay" id="startOverlay">
+  <div class="start-hero">
+    <p class="start-hero__label">家庭基礎 · Flashcards</p>
+    <h1 class="start-hero__title">社会保障制度 + 民法</h1>
+    <div class="start-hero__divider"></div>
+  </div>
+
+  <div class="start-card">
+    <h2 class="start-card__title">学習スタート</h2>
+    <p class="start-card__desc">カテゴリと問題数を選んでください</p>
+
+    <div class="start-block">
+      <span class="start-label">カテゴリ</span>
+      <div class="start-cats" id="startCats"></div>
+    </div>
+
+    <div class="start-block">
+      <span class="start-label">問題数</span>
+      <select id="startCount" class="start-count">
+        <option value="10">10問</option>
+        <option value="20" selected>20問</option>
+        <option value="30">30問</option>
+        <option value="all">全問</option>
+      </select>
+    </div>
+
+    <p class="start-meta" id="startMeta"></p>
+    <button class="btn-primary start-btn" onclick="startStudy()">スタート →</button>
+  </div>
+</div>
+
+<!-- STUDY MODE -->
+<div class="mode-panel" id="mode-study">
+  <div class="study-area">
+    <div class="progress-strip">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <div class="deck-nav-row">
+      <button class="nav-btn" id="prevBtn" onclick="prevCard()" disabled>&#x2039;</button>
+      <div class="deck-center">
+        <span class="deck-indicator" id="deckIndicator">1 / --</span>
+        <div class="mastery-dots" id="masteryDots"></div>
+      </div>
+      <button class="nav-btn" id="nextBtn" onclick="nextCard()">&#x203A;</button>
+    </div>
+
+    <div class="card-scene" id="cardScene" onclick="flipCard()">
+      <div class="card-body" id="cardBody">
+        <div class="card-face card-front">
+          <div class="card-face-inner">
+            <div class="face-top">
+              <span class="face-badge" id="frontBadge"></span>
+              <span class="face-hint">タップ / <kbd>Space</kbd> で答えを確認</span>
+            </div>
+            <p class="card-question" id="cardQuestion"></p>
+            <span class="card-watermark">問</span>
+          </div>
+        </div>
+        <div class="card-face card-back" id="cardBack">
+          <div class="card-face-inner">
+            <div class="face-top">
+              <span class="face-badge back-badge" id="backBadge"></span>
+            </div>
+            <p class="card-answer" id="cardAnswer"></p>
+            <p class="card-sub"   id="cardSub"></p>
+            <span class="card-watermark back-wm">答</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mastery-row">
+      <button class="mastery-btn m-forgot" onclick="markCard('forgot')">
+        <span class="m-icon">✗</span><span class="m-label">わからない</span>
+      </button>
+      <button class="mastery-btn m-unsure" onclick="markCard('unsure')">
+        <span class="m-icon">△</span><span class="m-label">あやふや</span>
+      </button>
+      <button class="mastery-btn m-knew" onclick="markCard('knew')">
+        <span class="m-icon">✓</span><span class="m-label">わかった</span>
+      </button>
+    </div>
+
+    <p class="kb-hint">
+      <kbd>←</kbd><kbd>→</kbd> 移動 &nbsp;|&nbsp;
+      <kbd>Space</kbd> 裏返す &nbsp;|&nbsp;
+      <kbd>1</kbd>✗ <kbd>2</kbd>△ <kbd>3</kbd>✓
+    </p>
+  </div>
+</div>
+
+<!-- COMPLETE OVERLAY -->
+<div class="complete-overlay" id="completeOverlay" style="display:none">
+  <div class="complete-card">
+    <div class="complete-icon">◐</div>
+    <h2 class="complete-title">一周完了</h2>
+    <div class="complete-stats"     id="completeStats"></div>
+    <div class="complete-breakdown" id="completeBreakdown"></div>
+    <div class="complete-actions">
+      <button class="btn-secondary" onclick="reviewWeak()">✗ △ のみ復習</button>
+      <button class="btn-secondary" onclick="openStartScreen()">設定に戻る</button>
+      <button class="btn-primary"   onclick="restartDeck()">もう一度</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIDE LIST -->
+<div class="list-toggle" id="listToggle" onclick="toggleList()">
+  <span>一覧</span>
+  <span id="listArrow">›</span>
+</div>
+<div class="list-panel" id="listPanel">
+  <div class="list-head">
+    <span>カード一覧</span>
+    <button class="list-close" onclick="toggleList()">閉じる</button>
+  </div>
+  <div class="list-body" id="listBody"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════
+// カードデータ
+// cat: pension / medical / labor / livelihood / minpo
+// type: name / detail / ox
+// ══════════════════════════════════════════════
+const ALL_CARDS = [
+    // ── 制度名 ──
+  { cat:'pension', type:'name', label:'年金',
+    q:'20歳になった国民が高齢期のために加入する年金制度の名称は？',
+    a:'国民年金',
+    sub:'20歳以上の全国民が性別・年齢を問わず加入。\n保険料は月額17,510円（令和7年度）' },
+
+  { cat:'pension', type:'name', label:'年金',
+    q:'会社員が給与から天引きされる形で加入する年金制度の名称は？',
+    a:'厚生年金',
+    sub:'事業主と本人が保険料を折半。\n夫婦2人分（40年就業）で月額約225,000円' },
+
+  { cat:'medical', type:'name', label:'医療・保健',
+    q:'病気・けがの際の医療費自己負担を軽減する、\n勤務先や状況で種類が異なる保険制度は？',
+    a:'医療保険\n（健康保険 / 国民健康保険）',
+    sub:'会社員→健康保険\n自営業・無職→国民健康保険' },
+
+  { cat:'labor', type:'name', label:'労働・育児',
+    q:'子の養育や家族の介護のために\n仕事を休む権利を定めた法律の名称は？',
+    a:'育児・介護休業法',
+    sub:'育児休業・介護休業・介護休暇などを規定する法律' },
+
+  { cat:'medical', type:'name', label:'医療・保健',
+    q:'妊婦が妊娠届を提出すると母子健康手帳が交付される。\nその根拠となる法律の名称は？',
+    a:'母子保健法',
+    sub:'母体と乳幼児の健康の保持・増進を目的とする法律\n横浜市では区福祉保健センターで交付' },
+
+  { cat:'labor', type:'name', label:'労働・育児',
+    q:'産前6週間・産後8週間の休業を定めた法律の名称は？',
+    a:'労働基準法',
+    sub:'産前は本人が請求（任意）\n産後は強制休暇（事業主は就業させてはならない）' },
+
+  { cat:'livelihood', type:'name', label:'生活保護・介護',
+    q:'事業に失敗した家族の生活・教育・医療費などを\n支給する制度の名称は？',
+    a:'生活保護',
+    sub:'生活・教育・住宅・医療・出産・介護・葬祭・生業の費用を支給\n4親等以内の扶養義務者に先に通知が届く' },
+
+  { cat:'livelihood', type:'name', label:'生活保護・介護',
+    q:'65歳以上の要介護者や40〜64歳の特定疾患患者が利用できる、\n市町村が運営する保険制度は？',
+    a:'介護保険',
+    sub:'40歳以上が納める保険料と税金で運営\n申請から認定まで約半年かかる' },
+
+  // ── 数値・内容 ──
+  { cat:'pension', type:'detail', label:'年金',
+    q:'国民年金の保険料（令和7年度）は月額いくらか？',
+    a:'月額 17,510円',
+    sub:'学生は学生納付特例制度で納付を猶予できる' },
+
+  { cat:'pension', type:'detail', label:'年金',
+    q:'国民年金を40年以上納付した場合の\n受給額（令和6年4月以降）は月額いくらか？',
+    a:'月額 68,000円',
+    sub:'受給開始は原則65歳から' },
+
+  { cat:'pension', type:'detail', label:'年金',
+    q:'厚生年金において、夫婦2人分（40年間就業）の\n年金額は月額約いくらか？',
+    a:'月額 約225,000円',
+    sub:'老齢基礎年金＋老齢厚生年金の合計額' },
+
+  { cat:'pension', type:'detail', label:'年金',
+    q:'厚生年金の保険料は誰と誰が負担するか？',
+    a:'事業主と本人が折半（50%ずつ）',
+    sub:'国民年金は全額自己負担。これが最大の違い' },
+
+  { cat:'labor', type:'detail', label:'労働・育児',
+    q:'育児休業は、1歳未満の子に対して何回まで分割取得できるか？\n休業中の給与支給割合は？',
+    a:'2回まで分割可\n給与の50%支給',
+    sub:'出産から1年間が上限\n（2022年改正で2回分割が可能に）' },
+
+  { cat:'labor', type:'detail', label:'労働・育児',
+    q:'介護休業は1人の対象家族について\n何回・通算何日まで取得できるか？',
+    a:'3回を上限に通算93日まで',
+    sub:'対象：同居かつ扶養している家族（配偶者・父母・子・配偶者の両親）\n介護休業は無給（有給とは異なる）' },
+
+  { cat:'labor', type:'detail', label:'労働・育児',
+    q:'産前休業・産後休業はそれぞれ何週間か？\n産後が強制的な理由は？',
+    a:'産前：6週間（本人申請が必要）\n産後：8週間（強制休暇）',
+    sub:'産後は事業主が就業させることを禁止する\n→母体保護のための規定' },
+
+  { cat:'medical', type:'detail', label:'医療・保健',
+    q:'横浜市における子ども医療費助成（2023年8月以降）の\n対象年齢と所得制限は？',
+    a:'0歳〜中学3年まで\n所得制限なし（一律助成）',
+    sub:'通院・入院のどちらにも適用' },
+
+  { cat:'medical', type:'detail', label:'医療・保健',
+    q:'横浜市で母子健康手帳を交付する窓口はどこか？\n申請に必要なものは？',
+    a:'区福祉保健センター',
+    sub:'妊娠届（妊娠届出）の提出が必要\n※保健所ではない点に注意' },
+
+  { cat:'livelihood', type:'detail', label:'生活保護・介護',
+    q:'生活保護の申請後、まず誰に通知が届くか？\n住所がない人は受給できるか？',
+    a:'4親等以内の扶養義務者に通知\n→全員が扶養不可の場合に支給開始',
+    sub:'住所がない人は受給不可\n→まず賃貸契約が必要（保証人は公務員が多い）' },
+
+  { cat:'livelihood', type:'detail', label:'生活保護・介護',
+    q:'介護保険の運営主体・加入義務・\nサービス対象年齢をそれぞれ答えよ',
+    a:'運営：市町村\n加入義務：40歳以上\nサービス対象：65歳以上（特定疾患なら40歳〜）',
+    sub:'支給額は月額68,000円（同居前提）\n申請から認定まで約半年かかる' },
+
+  { cat:'pension', type:'detail', label:'年金',
+    q:'国民年金・厚生年金ともに\n受給開始は原則何歳からか？',
+    a:'65歳から',
+    sub:'繰上受給（60歳〜）・繰下受給（66〜75歳）も選択可\n繰上は減額、繰下は増額' },
+
+  { cat:'labor', type:'detail', label:'労働・育児',
+    q:'介護休業中の賃金（給与）はどうなるか？\n育児休業と何が違うか？',
+    a:'介護休業：無給\n育児休業：給与の50%が支給される',
+    sub:'介護休業給付金はハローワークから支給（賃金の67%相当）\n直接無給でも給付金で補填される仕組み' },
+
+  { cat:'livelihood', type:'detail', label:'生活保護・介護',
+    q:'生活保護で支給される費用の種類を\nすべて挙げよ（8種）',
+    a:'生活・教育・住宅・医療\n出産・介護・葬祭・生業',
+    sub:'「生教住医 出介葬生」と覚える\n扶養義務者がいずれも扶養不可の場合に支給開始' },
+
+  { cat:'medical', type:'detail', label:'医療・保健',
+    q:'母子保健法において、妊婦が守る義務は？\n速やかにどこに何を提出するか？',
+    a:'速やかに保健所（横浜市は区福祉保健センター）に\n妊娠届を提出する',
+    sub:'届出後に母子健康手帳が交付される\n母体と乳幼児の健康保持が目的' },
+
+  { cat:'livelihood', type:'detail', label:'生活保護・介護',
+    q:'介護保険の申請から認定までの期間は？\n申請は誰が行うか？',
+    a:'約半年かかる\n被介護者本人または代理人が役場へ',
+    sub:'認定区分：要支援1〜2、要介護1〜5\n月額68,000円が支給される（同居前提）' },
+
+  { cat:'labor', type:'detail', label:'労働・育児',
+    q:'育児・介護休業法における\n介護休業の対象となる「家族」の定義は？',
+    a:'同居かつ扶養している家族\n（配偶者・父・母・子・配偶者の両親）',
+    sub:'常時介護が必要な状態であること\n1人につき3回・通算93日まで' },
+
+  { cat:'pension', type:'detail', label:'年金',
+    q:'国民年金・学生納付特例制度とは何か？\nその後どうなるか？',
+    a:'学生の保険料納付を在学中猶予できる制度',
+    sub:'猶予された期間は「追納」により年金額に反映可\n追納しないと受給額が減少する' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'れい子と誠は共に18歳の学生。\n二人は結婚できる？',
+    a:'○ できる',
+    sub:'民法改正（2022年〜）により\n婚姻年齢は男女ともに18歳に統一' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'れい子と誠の結婚の証人に\n同い年（18歳）の友達がなれる？',
+    a:'○ なれる',
+    sub:'証人に年齢制限はない（成人不要）\n※証人に法的責任はない（保証人とは異なる）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'合意があれば、今の日本でも\n複数の妻をもつことができる？',
+    a:'× できない',
+    sub:'日本の民法は一夫一婦制（重婚禁止）\n江戸時代の大名の例は現代法には無関係' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'雅史と明かりはいとこ同士。\n親族だから結婚できない？',
+    a:'× 結婚できる',
+    sub:'いとこは4親等の血族。\n民法では3親等以内の血族間の婚姻が禁止\n（4親等以上は可）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'社会人の純一と大学生の陽子は結婚したい。\n陽子の両親が猛反対しても結婚できる？',
+    a:'○ できる',
+    sub:'2022年の民法改正で成人年齢が18歳に。\n18歳以上は親の同意なく婚姻できる' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'とも子は結婚後も今の名字を使いたい。\nお互い納得していれば夫婦別姓は法律上許される？',
+    a:'× 許されない（現行法）',
+    sub:'現行民法では夫婦は同一の氏を名乗る義務あり\n→子の姓の問題もあり、法改正が議論されている' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'えり子は話し合いで離婚することに。\n結婚時と同様、離婚にも証人が2人必要？',
+    a:'○ 2人必要',
+    sub:'協議離婚の届出には証人2名の署名が必要\n（結婚と同じく2人）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'えり子は1年前から別居、離婚して2か月。\n新しい彼とすぐに再婚できる？',
+    a:'○ できる（2024年4月〜）',
+    sub:'女性の再婚禁止期間（100日）が2024年4月に撤廃\n→離婚後すぐに再婚可能になった' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'えり子は離婚時に夫の姓に変えていた。\n離婚後もそのまま前夫の姓を使い続けられる？',
+    a:'○ 使い続けられる',
+    sub:'離婚の際に届出をすれば婚姻中の氏を継続使用できる\n（民法767条・戸籍法77条の2）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'明が「結婚前に俺が買った車だから俺のもの」という。\n結婚前に買った車は明の所有物である？',
+    a:'○ 正しい',
+    sub:'婚姻前から一方が所有する財産は「特有財産」\n→離婚時の財産分与の対象外\n婚姻後に共同で購入したものは「共有財産」' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'法律上、家族の中で父親が\n最も大きな権限をもつ？',
+    a:'× 誤り',
+    sub:'戦後の民法改正で家父長制（戸主権）は廃止\n→夫婦は対等。どちらかが優位という規定はない' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'子どもは学校に行くから、\n親に子どもを教育する義務はない？',
+    a:'× 誤り',
+    sub:'親は子どもに普通教育を受けさせる義務がある\n（日本国憲法26条・教育基本法）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'母親だけが子の教育に関われば\nそれでよい？父親の義務はない？',
+    a:'× 誤り',
+    sub:'父母は平等に子を教育する義務を負う\n（民法820条：親権者は子を監護・教育する権利義務）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'高校生になれば、\n親の同意なしにアルバイトができる？',
+    a:'× できない',
+    sub:'未成年者の労働には親権者（親）の同意（承諾書）が必要\n（労働基準法・民法5条）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'高校生の博の通帳を親が見た。\n親には子どもの財産を管理する権利がある？',
+    a:'× 管理権はない（財産自体は子のもの）',
+    sub:'親は財産「管理」の権限はあるが\n子の財産を親が自由に使う権利はない\n※スマホ代を払う親がLINE閲覧するケースとは異なる' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'3人兄弟で長男の健太。\n将来、親を扶養する義務は長男だけにある？',
+    a:'× 誤り',
+    sub:'扶養義務は兄弟全員が平等に負う\n（民法877条：直系血族・兄弟姉妹は互いに扶養義務あり）' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'兄弟同士もお互いに扶養の義務がある？',
+    a:'○ ある',
+    sub:'兄弟姉妹間には扶養義務あり（民法877条）\n生活保護は扶養できる人が周囲にいない場合にのみ成立' },
+
+  { cat:'minpo', type:'ox', label:'民法',
+    q:'夫のいとこは親族の範囲外である？',
+    a:'× 範囲内',
+    sub:'親族の範囲：6親等以内の血族＋3親等以内の姻族\n夫のいとこ＝配偶者の4親等血族→姻族4親等\n→範囲外。ただし「夫の兄弟の子」なら姻族3親等で範囲内' },
+
+    { cat:'minpo', type:'ox', label:'民法',
+    q:'祖父が遺言なしで死亡。\n財産は妻（祖母）と一人っ子の父が半分ずつ相続する？',
+    a:'○ 正しい',
+    sub:'法定相続分：配偶者1/2・子1/2\n一人っ子の場合、子の取り分1/2はそのまま父が受け取る\n→祖母1/2・父1/2で合っている\n※非嫡出子の相続分1/2規定は2013年に撤廃（現在は嫡出子と同等）' },
+];
+
+// ══════════════════════════════════════════════
+// カテゴリ設定
+// ══════════════════════════════════════════════
+const CATEGORY_STYLES = {
+  pension:    { text: '#2563eb', bg: '#eff6ff', card: '#1d4ed8' },
+  medical:    { text: '#0891b2', bg: '#ecfeff', card: '#0e7490' },
+  labor:      { text: '#7c3aed', bg: '#f5f3ff', card: '#6d28d9' },
+  livelihood: { text: '#dc2626', bg: '#fef2f2', card: '#b91c1c' },
+  minpo:      { text: '#0f766e', bg: '#f0fdfa', card: '#0f766e' },
+};
+
+// フィルター定義（Start overlay のボタンに使う）
+// id: フィルターの識別子、label: 表示名、match: カード判定関数
+const FILTER_DEFS = [
+  { id: 'all',        label: 'すべて',     match: ()  => true },
+  { id: 'pension',    label: '年金',       match: c => c.cat === 'pension' },
+  { id: 'medical',    label: '医療・保健', match: c => c.cat === 'medical' },
+  { id: 'labor',      label: '労働・育児', match: c => c.cat === 'labor' },
+  { id: 'livelihood', label: '生活保護・介護', match: c => c.cat === 'livelihood' },
+  { id: 'minpo',      label: '民法',       match: c => c.cat === 'minpo' },
+  { id: 'name',       label: '制度名のみ', match: c => c.type === 'name' },
+  { id: 'detail',     label: '数値・内容', match: c => c.type === 'detail' },
+  { id: 'ox',         label: '○×問題',    match: c => c.type === 'ox' },
+];
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+const SWAP_OUT_MS = 130;
+const SWAP_IN_MS  = 170;
+
+let allCards        = ALL_CARDS;
+let deck            = [];
+let deckIdx         = 0;
+let isFlipped       = false;
+let isTransitioning = false;
+let mastery         = {};
+let listOpen        = false;
+let shuffleOn       = false;
+
+let selectedFilterId = 'all';
+let selectedCount    = '20';
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+(function init() {
+  buildFilters();
+  updateStartMeta();
+  openStartScreen();
+
+  const sel = document.getElementById('startCount');
+  if (sel) {
+    sel.addEventListener('change', e => { selectedCount = e.target.value; updateStartMeta(); });
+    selectedCount = sel.value;
+  }
+
+  document.getElementById('shuffleBtn').addEventListener('click', () => {
+    shuffleOn = !shuffleOn;
+    document.getElementById('shuffleBtn').classList.toggle('active', shuffleOn);
+    document.getElementById('shuffleLabel').textContent = shuffleOn ? 'on' : 'shuffle';
+    showToast(shuffleOn ? 'シャッフル: ON' : 'シャッフル: OFF');
+  });
+})();
+
+// ══════════════════════════════════════════════
+// FILTERS
+// ══════════════════════════════════════════════
+function buildFilters() {
+  const wrap = document.getElementById('startCats');
+  if (!wrap) return;
+
+  wrap.innerHTML = FILTER_DEFS.map(f => {
+    const n = allCards.filter(f.match).length;
+    return `<button class="start-cat ${f.id === selectedFilterId ? 'active' : ''}"
+              data-filter="${f.id}" onclick="selectFilter('${f.id}')">
+              ${f.label}
+              <span style="font-size:0.65rem;opacity:0.65;margin-left:4px">${n}</span>
+            </button>`;
+  }).join('');
+}
+
+function selectFilter(id) {
+  selectedFilterId = id;
+  document.querySelectorAll('.start-cat').forEach(b =>
+    b.classList.toggle('active', b.dataset.filter === id)
+  );
+  updateStartMeta();
+}
+
+// ══════════════════════════════════════════════
+// START SCREEN
+// ══════════════════════════════════════════════
+function updateStartMeta() {
+  const filter = FILTER_DEFS.find(f => f.id === selectedFilterId);
+  const pool   = filter ? allCards.filter(filter.match) : allCards;
+  const actual = selectedCount === 'all'
+    ? pool.length
+    : Math.min(Number(selectedCount), pool.length);
+  const el = document.getElementById('startMeta');
+  if (el) el.textContent = `出題: ${actual}問 ／ 対象: ${pool.length}問`;
+}
+
+function openStartScreen() {
+  mastery = {};
+  document.getElementById('startOverlay').classList.remove('hidden');
+  document.getElementById('completeOverlay').style.display = 'none';
+  updateStartMeta();
+}
+
+function startStudy() {
+  document.getElementById('startOverlay').classList.add('hidden');
+  mastery = {};
+  buildDeck();
+}
+
+// ══════════════════════════════════════════════
+// DECK
+// ══════════════════════════════════════════════
+function buildDeck() {
+  const filter = FILTER_DEFS.find(f => f.id === selectedFilterId) || FILTER_DEFS[0];
+  let pool = allCards.filter(filter.match);
+
+  if (shuffleOn) {
+    pool = shuffle([...pool]);
+  }
+  if (selectedCount !== 'all') {
+    pool = pool.slice(0, Math.min(Number(selectedCount), pool.length));
+  }
+
+  deck    = pool;
+  deckIdx = 0;
+  isFlipped = false;
+  renderCard();
+  renderDots();
+  renderList();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ══════════════════════════════════════════════
+// RENDER CARD
+// ══════════════════════════════════════════════
+function renderCard() {
+  const body = document.getElementById('cardBody');
+  body.classList.add('no-transition');
+  body.classList.remove('flipped');
+  void body.offsetWidth;
+  body.classList.remove('no-transition');
+
+  isFlipped = false;
+  setMasteryActive(false);
+
+  if (!deck.length) {
+    document.getElementById('cardQuestion').textContent  = '該当する問題がありません';
+    document.getElementById('cardAnswer').textContent    = '';
+    document.getElementById('cardSub').textContent       = '';
+    document.getElementById('deckIndicator').textContent = '0 / 0';
+    updateProgress(0);
+    return;
+  }
+
+  const card = deck[deckIdx];
+  const col  = CATEGORY_STYLES[card.cat] || CATEGORY_STYLES.pension;
+
+  // フロントバッジ（label ＋ type pip）
+  const fb = document.getElementById('frontBadge');
+  const typePip = `<span class="type-pip ${card.type}">${
+    card.type === 'name' ? '制度名' : card.type === 'ox' ? '○×' : '数値・内容'
+  }</span>`;
+  fb.innerHTML        = escHtml(card.label) + typePip;
+  fb.style.color      = col.text;
+  fb.style.background = col.bg;
+  fb.style.border     = `1px solid ${col.text}33`;
+
+  // バックバッジ
+  document.getElementById('backBadge').textContent = card.label;
+
+  // 裏面カラー
+  const back = document.getElementById('cardBack');
+  back.style.setProperty('--card-back-color', col.card);
+  back.style.background = col.card;
+
+  document.getElementById('cardQuestion').textContent = card.q;
+  document.getElementById('cardAnswer').textContent   = card.a;
+  document.getElementById('cardSub').textContent      = card.sub || '';
+
+  const total = deck.length;
+  document.getElementById('deckIndicator').textContent = `${deckIdx + 1} / ${total}`;
+  document.getElementById('prevBtn').disabled = deckIdx === 0;
+  document.getElementById('nextBtn').disabled = deckIdx === total - 1;
+  updateProgress((deckIdx + 1) / total);
+
+  renderDots();
+  renderList();
+}
+
+function updateProgress(ratio) {
+  document.getElementById('progressFill').style.width = (ratio * 100) + '%';
+}
+
+// ══════════════════════════════════════════════
+// FLIP
+// ══════════════════════════════════════════════
+function flipCard() {
+  if (!deck.length || isTransitioning) return;
+  isFlipped = !isFlipped;
+  document.getElementById('cardBody').classList.toggle('flipped', isFlipped);
+  setMasteryActive(isFlipped);
+}
+
+function setMasteryActive(on) {
+  document.querySelectorAll('.mastery-btn').forEach(b => b.classList.toggle('active', on));
+}
+
+// ══════════════════════════════════════════════
+// TRANSITION
+// ══════════════════════════════════════════════
+function transitionToCard(targetIdx, direction) {
+  if (!deck.length || isTransitioning) return;
+  if (targetIdx < 0 || targetIdx >= deck.length) return;
+  if (targetIdx === deckIdx) return;
+
+  isTransitioning = true;
+  const scene = document.getElementById('cardScene');
+  scene.classList.add('is-swapping');
+  scene.classList.remove('swap-out-left','swap-out-right','swap-in-left','swap-in-right');
+
+  const outClass = direction >= 0 ? 'swap-out-left'  : 'swap-out-right';
+  const inClass  = direction >= 0 ? 'swap-in-right'  : 'swap-in-left';
+
+  scene.classList.add(outClass);
+  setTimeout(() => {
+    scene.classList.remove(outClass);
+    deckIdx = targetIdx;
+    renderCard();
+    void scene.offsetWidth;
+    scene.classList.add(inClass);
+    setTimeout(() => {
+      scene.classList.remove(inClass, 'is-swapping');
+      isTransitioning = false;
+    }, SWAP_IN_MS);
+  }, SWAP_OUT_MS);
+}
+
+// ══════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════
+function nextCard() {
+  if (isTransitioning) return;
+  if (deckIdx < deck.length - 1) transitionToCard(deckIdx + 1, 1);
+  else showComplete();
+}
+
+function prevCard() {
+  if (isTransitioning) return;
+  if (deckIdx > 0) transitionToCard(deckIdx - 1, -1);
+}
+
+function jumpTo(idx) {
+  if (isTransitioning || idx === deckIdx) return;
+  transitionToCard(idx, idx > deckIdx ? 1 : -1);
+  if (window.innerWidth < 640) toggleList();
+}
+
+// ══════════════════════════════════════════════
+// MASTERY
+// ══════════════════════════════════════════════
+function markCard(level) {
+  if (!isFlipped || !deck.length || isTransitioning) return;
+  mastery[deckIdx] = level;
+  renderDots();
+  renderList();
+
+  const idxMap = { forgot: 0, unsure: 1, knew: 2 };
+  const btn = document.querySelectorAll('.mastery-btn')[idxMap[level]];
+  if (btn) {
+    btn.style.transform = 'scale(0.91)';
+    setTimeout(() => { btn.style.transform = ''; }, 130);
+  }
+
+  setTimeout(() => {
+    if (deckIdx < deck.length - 1) transitionToCard(deckIdx + 1, 1);
+    else showComplete();
+  }, 240);
+}
+
+// ══════════════════════════════════════════════
+// MASTERY DOTS
+// ══════════════════════════════════════════════
+function renderDots() {
+  const row = document.getElementById('masteryDots');
+  if (!deck.length || deck.length > 60) { row.innerHTML = ''; return; }
+  row.innerHTML = deck.map((_, i) => {
+    const m = mastery[i] || '';
+    return `<div class="m-dot ${m} ${i === deckIdx ? 'current' : ''}"></div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════════════════
+// COMPLETE
+// ══════════════════════════════════════════════
+function showComplete() {
+  const total  = deck.length;
+  const knew   = Object.values(mastery).filter(v => v === 'knew').length;
+  const unsure = Object.values(mastery).filter(v => v === 'unsure').length;
+  const forgot = Object.values(mastery).filter(v => v === 'forgot').length;
+  const skip   = total - knew - unsure - forgot;
+
+  document.getElementById('completeStats').innerHTML = `
+    <div class="stat-pill sp-knew"><span class="sp-n">${knew}</span><span class="sp-l">わかった</span></div>
+    <div class="stat-pill sp-unsure"><span class="sp-n">${unsure}</span><span class="sp-l">あやふや</span></div>
+    <div class="stat-pill sp-forgot"><span class="sp-n">${forgot}</span><span class="sp-l">わからない</span></div>
+    ${skip > 0 ? `<div class="stat-pill"><span class="sp-n">${skip}</span><span class="sp-l">未確認</span></div>` : ''}
+  `;
+
+  // カテゴリ別内訳
+  const catMap = {};
+  deck.forEach((card, i) => {
+    const key = card.cat;
+    if (!catMap[key]) catMap[key] = { label: card.label, knew: 0, total: 0 };
+    catMap[key].total++;
+    if (mastery[i] === 'knew') catMap[key].knew++;
+  });
+  document.getElementById('completeBreakdown').innerHTML = Object.values(catMap).map(c => {
+    const pct = c.total ? Math.round(c.knew / c.total * 100) : 0;
+    return `<div class="breakdown-row">
+      <span class="breakdown-label">${c.label}</span>
+      <div class="breakdown-bar-wrap"><div class="breakdown-bar" style="width:${pct}%"></div></div>
+      <span class="breakdown-num">${c.knew}/${c.total}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('completeOverlay').style.display = 'flex';
+}
+
+function reviewWeak() {
+  document.getElementById('completeOverlay').style.display = 'none';
+  const weak = deck.filter((_, i) => mastery[i] !== 'knew');
+  if (!weak.length) { showToast('すべて「わかった」です！'); restartDeck(); return; }
+  deck    = shuffle(weak);
+  deckIdx = 0;
+  mastery = {};
+  renderCard(); renderDots(); renderList();
+}
+
+function restartDeck() {
+  document.getElementById('completeOverlay').style.display = 'none';
+  openStartScreen();
+}
+
+// ══════════════════════════════════════════════
+// SIDE LIST
+// ══════════════════════════════════════════════
+function toggleList() {
+  listOpen = !listOpen;
+  document.getElementById('listPanel').classList.toggle('open', listOpen);
+  document.getElementById('listArrow').textContent = listOpen ? '‹' : '›';
+}
+
+function renderList() {
+  const body = document.getElementById('listBody');
+  if (!body || !deck.length) { if (body) body.innerHTML = ''; return; }
+
+  body.innerHTML = deck.map((card, i) => {
+    const m   = mastery[i] || '';
+    const txt = card.q.length > 36
+      ? card.q.slice(0, 36).replace(/\n/g, ' ') + '…'
+      : card.q.replace(/\n/g, ' ');
+    return `<div class="list-item ${i === deckIdx ? 'current' : ''}" onclick="jumpTo(${i})">
+      <span class="li-n">${i + 1}</span>
+      <span class="li-d ${m}"></span>
+      <span class="li-t">${txt}</span>
+    </div>`;
+  }).join('');
+
+  const cur = body.querySelector('.current');
+  if (cur) cur.scrollIntoView({ block: 'nearest' });
+}
+
+// ══════════════════════════════════════════════
+// KEYBOARD
+// ══════════════════════════════════════════════
+document.addEventListener('keydown', e => {
+  if (['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) return;
+  switch (e.code) {
+    case 'Space':      e.preventDefault(); flipCard(); break;
+    case 'ArrowRight': nextCard(); break;
+    case 'ArrowLeft':  prevCard(); break;
+    case 'Digit1':     if (isFlipped) markCard('forgot'); break;
+    case 'Digit2':     if (isFlipped) markCard('unsure'); break;
+    case 'Digit3':     if (isFlipped) markCard('knew');   break;
+  }
+});
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function escHtml(s) {
+  return String(s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+let _toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('visible');
+  clearTimeout(_toastTimer);
+  _toastTimer = setTimeout(() => t.classList.remove('visible'), 2400);
+}
+</script>
+</body>
+</html>

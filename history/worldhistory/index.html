@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>世界史年代クイズ — Shoei451</title>
+  <link rel="icon" href="../../images/worldhistoryquiz.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="../styles/wh-era-quiz.css">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<div class="logo-switches">
+  <button id="theme-toggle" aria-label="テーマ切り替え">
+    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+</div>
+
+<div class="quiz-wrapper">
+  <h1>世界史年代クイズ</h1>
+  <div style="text-align: center">
+  <img src="../../images/worldhistoryquiz.png" width="200" length="200">
+</div>
+
+  <!-- スタート画面 -->
+  <div id="startScreen" class="screen">
+    <h2>モード選択</h2>
+    <div class="field">
+      <label for="modeSelect">出題モード</label>
+      <select id="modeSelect">
+        <option value="yearToEvent">【年号出題モード】</option>
+        <option value="eventToYear">【出来事出題モード】</option>
+      </select>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+      <button onclick="showSectionScreen()">セクションを選ぶ</button>
+      <button onclick="showAddQuestionScreen()">問題を追加する</button>
+    </div>
+
+    <p class="note">
+      データは Supabase の DB から読み込まれます。<br>
+      問題データは、「世界史の窓」年表を参考に作りました。<br>
+      参考リンク : <a href="https://www.y-history.net/appendix/appendix-yogo-nenpyo.html" target="_blank">年表世界史＆用語索引</a>
+    </p>
+  </div>
+
+  <!-- セクション選択画面 -->
+  <div id="sectionScreen" class="screen hidden">
+    <div class="top-bar">
+      <h2>出題範囲を選択</h2>
+      <button onclick="backToStart()">戻る</button>
+    </div>
+    <div id="sectionButtons"></div>
+  </div>
+
+  <!-- 設定画面 -->
+  <div id="settingsScreen" class="screen hidden">
+    <div class="top-bar">
+      <h2>出題設定</h2>
+      <button onclick="backToSectionScreen()">戻る</button>
+    </div>
+    <p id="selectedSectionDisplay" style="text-align: center; font-size: 1.1rem; margin-bottom: 20px; color: var(--primary); font-weight: 600;"></p>
+
+    <div class="field">
+      <label for="countSelect">出題数</label>
+      <select id="countSelect">
+        <option value="10">10問</option>
+        <option value="20">20問</option>
+        <option value="30">30問</option>
+        <option value="all">全問</option>
+      </select>
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="startQuiz()">クイズ開始</button>
+    </div>
+  </div>
+
+  <!-- 問題追加画面 -->
+  <div id="addQuestionScreen" class="screen hidden">
+    <div class="top-bar">
+      <h2>問題を追加する</h2>
+      <button onclick="backToStart()">戻る</button>
+    </div>
+
+    <div class="field">
+      <label for="newYear">年号（例：1640 / 前3000頃）</label>
+      <input id="newYear" type="text" placeholder="例：1640 / 前3000頃（紀元前のものには必ず 「前」 をつけて入力してください。）">
+    </div>
+
+    <div class="field">
+      <label for="newEvent">出来事</label>
+      <input id="newEvent" type="text" placeholder="例：イギリスで、長期議会開催。">
+    </div>
+
+    <div class="field">
+      <label for="newChapter">章（分野）</label>
+      <select id="newChapter">
+        <option value="第1章">古代文明圏【オリエント・ギリシア・ローマ・中国古代】</option>
+        <option value="第2章">中世ヨーロッパ</option>
+        <option value="第3章">近現代ヨーロッパ</option>
+        <option value="第4章">東アジア（中国・モンゴル）</option>
+        <option value="第5章">東アジア（日本・朝鮮）</option>
+        <option value="第6章">イスラーム世界</option>
+        <option value="第7章">南アジア・東南アジア</option>
+        <option value="第8章">アメリカ大陸</option>
+        <option value="第9章">第一次世界大戦</option>
+        <option value="第10章">第二次世界大戦</option>
+        <option value="第11章">戦後国際史</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>自動判定された時代区分</label>
+      <input id="newPeriod" type="text" disabled placeholder="年号入力で自動表示">
+    </div>
+
+    <div class="field">
+      <label for="newLink">参考リンク（任意）</label>
+      <input id="newLink" type="text" placeholder="https://...">
+    </div>
+
+    <div style="text-align: center;">
+      <button onclick="addQuestion()">この内容で問題を追加</button>
+    </div>
+    <p id="addMessage"></p>
+
+    <p class="note">
+      「前」で始まる年号は BC として扱われます（例：前3000頃 → 紀元前3000年）。
+    </p>
+  </div>
+
+  <!-- クイズ画面 -->
+  <div id="quizScreen" class="screen hidden">
+    <div class="top-bar">
+      <button onclick="location.reload()">最初に戻る</button>
+      <div id="score">正解数: 0 / 0</div>
+    </div>
+
+    <div id="progressOuter">
+      <div id="progressBar"></div>
+    </div>
+
+    <div id="question">問題がここに表示されます</div>
+    <div id="choices"></div>
+
+    <button id="nextBtn" style="display:none; margin: 20px auto; display: block;">次へ</button>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../js/wh-era-quiz_logic.js"></script>
+</body>
+</html>
