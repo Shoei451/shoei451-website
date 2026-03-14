@@ -348,17 +348,6 @@ footer a:hover {
     color: var(--accent-text);
 }
 
-/* ===== Secret Link ===== */
-.secret-yaju {
-    position: fixed;
-    left: 8px;
-    bottom: 8px;
-    width: 16px;
-    height: 16px;
-    opacity: 0;
-    z-index: 1001;
-}
-
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
     header h1 { 
