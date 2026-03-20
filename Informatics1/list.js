@@ -8,5 +8,12 @@ const sectionItems1 = [
         link: "hex-quiz/" ,
         target : "_blank"
     },
-    
+    {
+        icon: "🧩",
+        title: "Sudoku JS note",
+        titleEN: "Sudoku JS note",
+        description: "数独ソルバーのロジックから、Javascriptを学ぶ",
+        link: "sudoku-programming-guide/" ,
+        target : "_blank"
+    },
 ];
