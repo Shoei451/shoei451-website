@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents — Shoei451</title>
+  <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
+  <link rel="stylesheet" href="../css/common.css" />
+  <link rel="stylesheet" href="../css/markdown-viewer.css" />
+  <link rel="stylesheet" id="hljs-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+  <link rel="stylesheet" id="hljs-dark"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" disabled>
+  <style>
+    .docs-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      max-width: 1200px;
+      margin: 40px auto 100px;
+      padding: 0 20px;
+      align-items: start;
+    }
+
+    .docs-sidebar {
+      position: sticky;
+      top: 24px;
+      padding-right: 20px;
+      border-right: 1px solid var(--border);
+      max-height: calc(100vh - 80px);
+      overflow-y: auto;
+    }
+
+    .sidebar-search {
+      width: 100%;
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      background: var(--entry);
+      color: var(--primary);
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      margin-bottom: 16px;
+    }
+    .sidebar-search::placeholder { color: var(--secondary); opacity: 0.7; }
+    .sidebar-search:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.15);
+    }
+
+    .sidebar-category { margin-bottom: 4px; }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      padding: 8px 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      color: var(--secondary);
+      transition: background 0.15s;
+      user-select: none;
+    }
+    .category-header:hover { background: var(--entry); }
+
+    .category-chevron {
+      margin-left: auto;
+      font-size: 0.65rem;
+      transition: transform 0.2s;
+      opacity: 0.6;
+    }
+    .sidebar-category.open .category-chevron { transform: rotate(90deg); }
+
+    .category-files { display: none; padding-left: 6px; margin-top: 2px; }
+    .sidebar-category.open .category-files { display: block; }
+
+    .file-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      padding: 6px 12px;
+      border: none;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--secondary);
+      font-size: 0.84rem;
+      cursor: pointer;
+      font-family: inherit;
+      line-height: 1.4;
+      transition: background 0.15s, color 0.15s;
+      margin: 1px 0;
+    }
+    .file-btn:hover { background: var(--entry); color: var(--primary); }
+    .file-btn.active {
+      background: rgba(250, 186, 64, 0.12);
+      color: var(--primary);
+      font-weight: 600;
+      border-left: 3px solid var(--accent);
+      padding-left: 9px;
+    }
+    .file-btn.hidden { display: none; }
+
+    .docs-content { min-width: 0; padding-left: 28px; }
+    .docs-content .markdown-wrapper { margin: 0; }
+
+    .file-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      color: var(--secondary);
+      margin-bottom: 14px;
+      min-height: 22px;
+    }
+    .file-breadcrumb code {
+      background: var(--entry);
+      border: 1px solid var(--border);
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 0.78rem;
+      font-family: 'Monaco', 'Consolas', monospace;
+    }
+
+    .welcome-state { text-align: center; padding: 80px 20px; }
+    .welcome-state .welcome-icon { font-size: 3rem; margin-bottom: 16px; }
+    .welcome-state p { color: var(--secondary); }
+
+    .docs-topbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px 20px 0;
+    }
+
+    @media (max-width: 768px) {
+      .docs-layout { grid-template-columns: 1fr; }
+      .docs-sidebar {
+        position: static;
+        max-height: 280px;
+        padding-right: 0;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 20px;
+        margin-bottom: 24px;
+      }
+      .docs-content { padding-left: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+<span class="logo-switches">
+  <button id="theme-toggle" title="Toggle Theme">
+    <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+    </svg>
+    <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </button>
+</span>
+
+<header>
+  <h1>Documents</h1>
+  <p>サイト内の全ドキュメント</p>
+</header>
+
+<main>
+  <div class="docs-topbar">
+    <a href="../index.html" class="back-link">Back to Home</a>
+  </div>
+
+  <div class="docs-layout">
+    <aside class="docs-sidebar">
+      <input
+        type="text"
+        class="sidebar-search"
+        id="search-input"
+        placeholder="🔍 ファイルを検索..."
+        autocomplete="off"
+      >
+      <div id="file-tree"></div>
+    </aside>
+
+    <div class="docs-content">
+      <div class="file-breadcrumb">
+        <span>📄</span>
+        <code id="current-path">ファイルを選択してください</code>
+      </div>
+      <section class="markdown-wrapper">
+        <div class="markdown-content" id="markdown-content">
+          <div class="welcome-state">
+            <div class="welcome-icon">📂</div>
+            <p>左のサイドバーからドキュメントを選択してください</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>Curated by Shoei451</p>
+</footer>
+
+<!-- file-tree.js は node docs/build.js で自動生成される -->
+<script src="./file-tree.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="../js/theme-toggle.js"></script>
+<script>
+  // ===== highlight.js をダークモードに同期 =====
+  function syncHljsTheme() {
+    const dark = document.body.classList.contains('dark');
+    document.getElementById('hljs-light').disabled = dark;
+    document.getElementById('hljs-dark').disabled  = !dark;
+  }
+  syncHljsTheme();
+  new MutationObserver(syncHljsTheme).observe(document.body, { attributeFilter: ['class'] });
+
+  // ===== marked に highlight.js を接続 =====
+  marked.use({
+    breaks: true,
+    gfm: true,
+    renderer: {
+      // marked v5+ は code({ text, lang }) のオブジェクト形式
+      code({ text, lang }) {
+        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+        const highlighted = hljs.highlight(text, { language }).value;
+        return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
+      },
+    },
+  });
+
+  // ===== Sidebar =====
+  const treeEl = document.getElementById('file-tree');
+
+  FILE_TREE.forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'sidebar-category open';
+
+    const header = document.createElement('div');
+    header.className = 'category-header';
+    header.innerHTML = `<span>${cat.label}</span><span class="category-chevron">▶</span>`;
+    header.addEventListener('click', () => div.classList.toggle('open'));
+
+    const filesDiv = document.createElement('div');
+    filesDiv.className = 'category-files';
+
+    cat.files.forEach(f => {
+      const btn = document.createElement('button');
+      btn.className = 'file-btn';
+      btn.textContent = f.name;
+      btn.dataset.path = f.path;
+      btn.addEventListener('click', () => loadMarkdown(f.path, btn));
+      filesDiv.appendChild(btn);
+    });
+
+    div.appendChild(header);
+    div.appendChild(filesDiv);
+    treeEl.appendChild(div);
+  });
+
+  // ===== Loader =====
+  let activeBtn = null;
+  marked.setOptions({ breaks: true, gfm: true });
+
+  async function loadMarkdown(path, btn) {
+    if (activeBtn) activeBtn.classList.remove('active');
+    activeBtn = btn;
+    btn.classList.add('active');
+    document.getElementById('current-path').textContent = path;
+
+    const el = document.getElementById('markdown-content');
+    el.innerHTML = '<div class="loading">読み込み中</div>';
+
+    try {
+      const res = await fetch(path);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      el.innerHTML = marked.parse(await res.text());
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      el.innerHTML = `
+        <div style="text-align:center;padding:60px 20px;color:var(--secondary);">
+          <h2 style="margin-bottom:10px;">⚠️ 読み込みエラー</h2>
+          <p style="font-size:0.85rem;opacity:0.6;">Error: ${e.message}</p>
+        </div>`;
+    }
+  }
+
+  // ===== Search =====
+  document.getElementById('search-input').addEventListener('input', e => {
+    const q = e.target.value.trim().toLowerCase();
+
+    document.querySelectorAll('.file-btn').forEach(btn => {
+      const hit = !q || btn.textContent.toLowerCase().includes(q) || btn.dataset.path.toLowerCase().includes(q);
+      btn.classList.toggle('hidden', !hit);
+    });
+
+    document.querySelectorAll('.sidebar-category').forEach(cat => {
+      if (q) {
+        const hasVisible = [...cat.querySelectorAll('.file-btn')].some(b => !b.classList.contains('hidden'));
+        cat.classList.toggle('open', hasVisible);
+      }
+    });
+  });
+</script>
+
+  <script>
+    navigator.sendBeacon(
+      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>

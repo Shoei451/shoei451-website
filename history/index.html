@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="../images/favicon.ico" />
+<title>History tools — Shoei451</title>
+<link rel="stylesheet" href="../css/common.css">
+<link rel="stylesheet" href="../css/sub-index.css">
+</head>
+<body>
+
+<!-- Theme Toggle -->
+<span class="logo-switches">
+    <button id="theme-toggle" title="Toggle Theme">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+</span>
+
+<!-- Header -->
+<header>
+    <h1>📚 History</h1>
+    <p>世界史/歴史総合の学習ツール（Google Forms 確認問題など）</p>
+</header>
+
+<!-- Introduction -->
+<section class="intro">
+    <a href="../" class="back-link">Back to Home</a>
+    <h2>世界史/歴史総合 学習ツール</h2>
+    <p></p>
+</section>
+
+<!-- SECTION 1-->
+<div class="section-divider">
+    <h2 class="section-title">歴史総合</h2>
+    <p class="section-description">歴史総合の学習ツールです。</p>
+</div>
+
+<section class="cards-container" id="container1">
+    <!-- Section 1 Cards-->
+</section>
+
+<!-- SECTION 2-->
+<div class="section-divider">
+    <h2 class="section-title">世界史</h2>
+    <p class="section-description">世界史探究・世界史応用・世界史発展の学習ツールです。</p>
+</div>
+
+<section class="cards-container" id="container2">
+    <!-- Section 2 Cards-->
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
+</footer>
+
+<!-- Scripts -->
+<script src="list.js"></script>
+<script src="../js/theme-toggle.js"></script>
+<script src="../js/card-generator.js"></script>
+<script src="../js/cards-page-init.js"></script>
+<script>
+initCardsPage([
+    { itemsVar: "sectionItems1", containerId: "container1" },
+    { itemsVar: "sectionItems2", containerId: "container2" }
+]);
+</script>
+
+  <script>
+    navigator.sendBeacon(
+      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>

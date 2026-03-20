@@ -1,0 +1,183 @@
+/* Countdown Card Specific Styles */
+.countdown-card {
+    background: linear-gradient(135deg, #313A49 0%, #FABA40 100%);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    grid-column: 1 / -1; /* Span full width */
+    transition: all 0.3s ease;
+}
+
+.countdown-card.hidden-countdown {
+    display: none;
+}
+
+.countdown-toggle-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #313A49, #FABA40);
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s;
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.countdown-toggle-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.countdown-toggle-btn:active {
+    transform: scale(0.95);
+}
+
+@media (max-width: 768px) {
+    .countdown-toggle-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+.countdown-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: pulse 15s ease-in-out infinite;
+}
+
+.countdown-content {
+    position: relative;
+    z-index: 1;
+}
+
+.countdown-card h3 {
+    margin: 0 0 20px;
+    font-size: 1.8rem;
+    color: #ffffff;
+    text-align: center;
+}
+
+.countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.exam-countdown {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s;
+}
+
+.exam-countdown:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.exam-countdown h4 {
+    margin: 0 0 10px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.countdown-time {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.progress-section {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #ffffff;
+    border-radius: 6px;
+    transition: width 1s ease;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.quote-section {
+    text-align: center;
+    margin-top: 20px;
+    font-style: italic;
+    color: #ffffff;
+    opacity: 0.9;
+    font-size: 1rem;
+}
+
+.today-info {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 0.9rem;
+    color: #ffffff;
+    opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+    .countdown-card {
+        padding: 20px;
+    }
+    
+    .countdown-card h3 {
+        font-size: 1.5rem;
+    }
+    
+    .countdown-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .countdown-time {
+        font-size: 1.2rem;
+    }
+}

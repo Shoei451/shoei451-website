@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>古典常識カード - Shoei451</title>
+<link rel="icon" href="../../images/favicon.ico">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../js/supabase_config.js"></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <span class="header-mon">&#x25D0;</span>
+    <span class="header-title">古典常識カード</span>
+    <div class="header-tabs">
+      <button class="h-tab active" id="htab-study"  onclick="switchMode('study')">学習</button>
+      <button class="h-tab"        id="htab-editor" onclick="switchMode('editor')">追加</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════ STUDY ══════════════ -->
+<div class="mode-panel active" id="mode-study">
+
+  <div class="start-overlay" id="startOverlay">
+    <div class="title-block">
+      <div class="title-kana">こてんじょうしき</div>
+      <div class="title-main">古典常識</div>
+      <div class="title-divider"></div>
+      <div class="title-sub">KOTEN QUIZ</div>
+    </div>
+    <div class="start-card">
+      <h2 class="start-title">学習スタート</h2>
+      <p class="start-desc">カテゴリと問題数を選択してください</p>
+      <div class="start-block">
+        <span class="start-label">カテゴリ</span>
+        <!-- JS で動的生成 -->
+        <div class="start-cats" id="startCats"></div>
+      </div>
+      <div class="start-block">
+        <span class="start-label">問題数</span>
+        <select id="startCount" class="start-count">
+          <option value="10">10問</option>
+          <option value="20" selected>20問</option>
+          <option value="30">30問</option>
+          <option value="all">全問</option>
+        </select>
+      </div>
+      <div class="start-meta" id="startMeta"></div>
+      <button class="btn-primary start-btn" onclick="startStudy()">スタート</button>
+    </div>
+  </div>
+
+  <div class="progress-strip"><div class="progress-fill" id="progressFill"></div></div>
+
+  <div class="deck-nav-row">
+    <button class="nav-btn" id="prevBtn" onclick="prevCard()">&#x2039;</button>
+    <div class="deck-indicator-group">
+      <span id="deckIndicator" class="deck-indicator">1 / --</span>
+      <div class="mastery-dots" id="masteryDots"></div>
+    </div>
+    <button class="nav-btn" id="nextBtn" onclick="nextCard()">&#x203A;</button>
+  </div>
+
+  <div class="card-scene" onclick="flipCard()">
+    <div class="card-body" id="cardBody">
+      <div class="card-face card-front">
+        <div class="card-face-inner">
+          <div class="face-top">
+            <span class="face-badge" id="frontBadge"></span>
+            <span class="face-hint">タップして答えを確認</span>
+          </div>
+          <img id="cardImage" class="card-image" src="" alt="" style="display:none">
+          <p class="card-question" id="cardQuestion"></p>
+          <span class="card-watermark">問</span>
+        </div>
+      </div>
+      <div class="card-face card-back">
+        <div class="card-face-inner">
+          <div class="face-top">
+            <span class="face-badge back-badge" id="backBadge"></span>
+          </div>
+          <p class="card-answer"      id="cardAnswer"></p>
+          <p class="card-explanation" id="cardExplanation"></p>
+          <span class="card-watermark back-watermark">答</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mastery-row">
+    <button class="mastery-btn m-forgot" onclick="markCard('forgot')">
+      <span class="mi">&#x2715;</span><span class="ml">わからない</span>
+    </button>
+    <button class="mastery-btn m-unsure" onclick="markCard('unsure')">
+      <span class="mi">&#x25B3;</span><span class="ml">あやふや</span>
+    </button>
+    <button class="mastery-btn m-knew" onclick="markCard('knew')">
+      <span class="mi">&#x2713;</span><span class="ml">わかった</span>
+    </button>
+  </div>
+
+  <p class="kb-hint">&#x2190;&#x2192; 移動 &nbsp;|&nbsp; Space 裏返す &nbsp;|&nbsp; 1&#x2715; 2&#x25B3; 3&#x2713;</p>
+
+  <div class="complete-overlay" id="completeOverlay" style="display:none">
+    <div class="complete-card">
+      <div class="complete-icon">&#x25D0;</div>
+      <h2 class="complete-title">一周完了</h2>
+      <div class="complete-stats" id="completeStats"></div>
+      <div class="complete-actions">
+        <button class="btn-secondary" onclick="reviewWeak()">&#x2715;&#x25B3; のみ復習</button>
+        <button class="btn-primary"   onclick="restartDeck()">最初から</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="list-toggle" id="listToggle" onclick="toggleList()">
+    <span>一覧</span><span id="listArrow">&#x203A;</span>
+  </div>
+  <div class="list-panel" id="listPanel">
+    <div class="list-head">
+      <span>カード一覧</span>
+      <button class="list-close" onclick="toggleList()">閉じる</button>
+    </div>
+    <div class="list-body" id="listBody"></div>
+  </div>
+
+</div><!-- /mode-study -->
+
+<!-- ══════════════ EDITOR ══════════════ -->
+<div class="mode-panel" id="mode-editor">
+  <div class="editor-wrap">
+
+    <section class="editor-section">
+      <h3 class="section-title">
+        問題を追加
+        <span class="sb-status" id="sbStatus"></span>
+      </h3>
+      <div class="q-form">
+        <div class="form-row">
+          <label>カテゴリー</label>
+          <!-- JS で動的生成 -->
+          <select id="f_category"></select>
+        </div>
+        <div class="form-row">
+          <label>問題文</label>
+          <textarea id="f_question" placeholder="〜は何か？　〜の作者は？"></textarea>
+        </div>
+        <div class="form-row">
+          <label>答え</label>
+          <input type="text" id="f_answer" placeholder="簡潔な正解">
+        </div>
+        <div class="form-row">
+          <label>解説（任意）</label>
+          <textarea id="f_explanation" placeholder="補足・背景説明"></textarea>
+        </div>
+        <div class="form-row">
+          <label>画像 URL（任意）</label>
+          <input type="text" id="f_imageUrl" placeholder="https://..." oninput="previewImage()">
+          <input type="file" id="f_imageFile" accept="image/*" onchange="handleImageFile()">
+          <div id="imagePreview" class="image-preview"></div>
+        </div>
+        <div class="form-btns">
+          <button class="btn-secondary" onclick="resetForm()">クリア</button>
+          <button class="btn-primary"   onclick="saveQuestion()">保存する</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="editor-section">
+      <h3 class="section-title">エクスポート</h3>
+      <div class="export-row">
+        <button class="btn-secondary" onclick="exportCSV()">&#x21E9; CSV</button>
+        <button class="btn-secondary" onclick="exportJSON()">&#x21E9; JSON</button>
+      </div>
+    </section>
+
+    <section class="editor-section">
+      <h3 class="section-title">
+        問題一覧
+        <span class="section-count" id="qListCount"></span>
+      </h3>
+      <div class="q-list" id="qList"></div>
+    </section>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+  <script>
+    navigator.sendBeacon(
+      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>

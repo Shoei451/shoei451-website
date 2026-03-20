@@ -1,0 +1,124 @@
+// data.js — アフリカ54カ国データ・カラーマップ・国旗コード
+
+const africaFull = {
+  '012':{name:'アルジェリア',en:'Algeria',capital:'アルジェ',indYear:1962,era:'post-1960',colonial:'fr',flag:'🇩🇿',history:'フランスに1830年から占領され、民族解放戦線（FLN）が1954年に武装蜂起。8年に及ぶアルジェリア戦争（1954-1962）の末に独立を勝ち取った。犠牲者は100万人以上とも言われ、ド＝ゴールがフランスの脱植民地化政策に転換する一因となった。'},
+  '024':{name:'アンゴラ',en:'Angola',capital:'ルアンダ',indYear:1975,era:'post-1960',colonial:'pt',flag:'🇦🇴',history:'1974年のポルトガルのカーネーション革命後に独立。独立後もMPLA・UNITA・FNLAの三派による内戦が27年間続き、2002年にようやく終結した。'},
+  '072':{name:'ボツワナ',en:'Botswana',capital:'ハボローネ',indYear:1966,era:'post-1960',colonial:'uk',flag:'🇧🇼',history:'イギリス保護領ベチュアナランドから1966年に平和的に独立。ダイヤモンド採掘による経済成長を遂げ、アフリカ有数の安定民主国家となった。'},
+  '108':{name:'ブルンジ',en:'Burundi',capital:'ギテガ',indYear:1962,era:'post-1960',colonial:'be',flag:'🇧🇮',history:'ドイツ領東アフリカからベルギー信託統治を経て1962年に独立。フツ族とツチ族の民族対立が独立後も続き、政治的不安定が慢性化している。'},
+  '120':{name:'カメルーン',en:'Cameroon',capital:'ヤウンデ',indYear:1960,era:'1960',colonial:'fr',flag:'🇨🇲',history:'もとドイツ植民地で第一次世界大戦後に英仏で分割統治。1960年にフランス領が独立し、1961年に旧英領南部カメルーンが合併した。'},
+  '132':{name:'カーボベルデ',en:'Cape Verde',capital:'プライア',indYear:1975,era:'post-1960',colonial:'pt',flag:'🇨🇻',history:'大西洋上の島嶼国。1975年のポルトガル民主化を受けて独立。ギニアビサウとともにアフリカ独立党（PAIGC）が独立運動を主導した。'},
+  '140':{name:'中央アフリカ',en:'Central African Republic',capital:'バンギ',indYear:1960,era:'1960',colonial:'fr',flag:'🇨🇫',history:'1960年にフランス領赤道アフリカの一部として独立。ボカサによる帝政宣言（1977年）など政情不安が続き、現在も武装勢力による内戦が続いている。'},
+  '148':{name:'チャド',en:'Chad',capital:'ンジャメナ',indYear:1960,era:'1960',colonial:'fr',flag:'🇹🇩',history:'1960年にフランスから独立した内陸国。サハラ砂漠と熱帯の両方に跨がる地理的多様性を持つ。独立後、リビアとの国境紛争など武力衝突が長年続いた。'},
+  '174':{name:'コモロ',en:'Comoros',capital:'モロニ',indYear:1975,era:'post-1960',colonial:'fr',flag:'🇰🇲',history:'インド洋の島嶼国。1975年にフランスから独立したが、独立直後からクーデターが多発し政情不安定が続いた。'},
+  '178':{name:'コンゴ共和国',en:'Republic of the Congo',capital:'ブラザビル',indYear:1960,era:'1960',colonial:'fr',flag:'🇨🇬',history:'1960年にフランス領赤道アフリカの一部として独立。コンゴ川を挟んでコンゴ民主共和国（旧ベルギー領）と向かい合う。'},
+  '180':{name:'コンゴ民主共和国',en:'DR Congo',capital:'キンシャサ',indYear:1960,era:'1960',colonial:'be',flag:'🇨🇩',history:'ベルギー国王レオポルド2世の私有地として搾取的支配を受けた後、ベルギー国家植民地に。1960年独立後すぐコンゴ動乱が勃発。ルムンバ首相が暗殺され、モブツ独裁（1965-1997）が長期にわたり続いた。'},
+  '204':{name:'ベナン',en:'Benin',capital:'ポルトノボ',indYear:1960,era:'1960',colonial:'fr',flag:'🇧🇯',history:'独立時は「ダホメ共和国」として1960年にフランスから独立。1975年に現在の「ベナン共和国」に改称。'},
+  '226':{name:'赤道ギニア',en:'Equatorial Guinea',capital:'マラボ',indYear:1968,era:'post-1960',colonial:'es',flag:'🇬🇶',history:'アフリカ大陸唯一のスペイン語圏国家。1968年にスペインから独立。石油資源発見後も富が偏在し独裁体制が続く。'},
+  '231':{name:'エチオピア',en:'Ethiopia',capital:'アディスアベバ',indYear:null,era:'pre-ww2',colonial:'none',flag:'🇪🇹',history:'アフリカで植民地化されなかった数少ない国の一つ。1896年のアドワの戦いでイタリア軍を撃退し、アフリカ独立の象徴となった。1936-41年はイタリアに占領されたが完全植民地化は免れた。'},
+  '232':{name:'エリトリア',en:'Eritrea',capital:'アスマラ',indYear:1993,era:'post-1960',colonial:'it',flag:'🇪🇷',history:'イタリア植民地・イギリス行政を経て1952年にエチオピアに連邦化。完全併合後、独立戦争（1961-1991）の末に1993年国民投票で独立を達成した。'},
+  '262':{name:'ジブチ',en:'Djibouti',capital:'ジブチ市',indYear:1977,era:'post-1960',colonial:'fr',flag:'🇩🇯',history:'紅海の要衝・フランス領ソマリランドから1977年に独立。フランス・アメリカ・日本など各国が軍事基地を置く地政学的要地。'},
+  '266':{name:'ガボン',en:'Gabon',capital:'リーブルビル',indYear:1960,era:'1960',colonial:'fr',flag:'🇬🇦',history:'1960年にフランス領赤道アフリカの一部として独立。石油資源に恵まれた比較的豊かな国だが2023年にクーデターが発生。'},
+  '270':{name:'ガンビア',en:'Gambia',capital:'バンジュール',indYear:1965,era:'post-1960',colonial:'uk',flag:'🇬🇲',history:'セネガルに囲まれたアフリカ最小の国の一つ。ガンビア川沿いの細長い領土を持ち、1965年にイギリスから独立。'},
+  '288':{name:'ガーナ',en:'Ghana',capital:'アクラ',indYear:1957,era:'1946-1959',colonial:'uk',flag:'🇬🇭',history:'サハラ以南アフリカ初の独立国（1957年）。クワメ・エンクルマ首相のもと汎アフリカ主義の旗手となった。1960年の国連演説でアパルトヘイト廃止を訴え、「植民地独立付与宣言」への道を開いた。'},
+  '324':{name:'ギニア',en:'Guinea',capital:'コナクリ',indYear:1958,era:'1946-1959',colonial:'fr',flag:'🇬🇳',history:'1958年、フランス共同体への加盟の賛否を問う住民投票で唯一「否」を選択し単独独立。怒ったフランスは全援助・インフラを撤収。指導者セク・トゥーレのもとで困難な独立を歩んだ。'},
+  '384':{name:'コートジボワール',en:"Côte d'Ivoire",capital:'ヤムスクロ',indYear:1960,era:'1960',colonial:'fr',flag:'🇨🇮',history:'1960年にフランスから独立。初代大統領ウフエ＝ボワニの親仏路線のもと「アフリカの奇跡」と呼ばれた経済成長を遂げたが、2000年代に内戦が勃発した。'},
+  '404':{name:'ケニア',en:'Kenya',capital:'ナイロビ',indYear:1963,era:'post-1960',colonial:'uk',flag:'🇰🇪',history:'マウマウ団の反乱（1952-1956年）などの独立運動を経て1963年に独立。ジョモ・ケニヤッタ初代大統領のもと東アフリカの経済的中心地として発展した。'},
+  '426':{name:'レソト',en:'Lesotho',capital:'マセル',indYear:1966,era:'post-1960',colonial:'uk',flag:'🇱🇸',history:'南アフリカに完全に囲まれた内陸国。イギリス保護領バストランドから1966年に独立。'},
+  '430':{name:'リベリア',en:'Liberia',capital:'モンロビア',indYear:1847,era:'pre-ww2',colonial:'none',flag:'🇱🇷',history:'アメリカで解放された黒人奴隷が1847年に建国した共和国。アフリカ大陸最古の共和国でエチオピアとともに植民地化されなかった国。1980年代以降の内戦で深刻な被害を受けた。'},
+  '434':{name:'リビア',en:'Libya',capital:'トリポリ',indYear:1951,era:'1946-1959',colonial:'it',flag:'🇱🇾',history:'イタリア植民地（1911-1943）を経て英仏信託統治下に置かれ、1951年に王国として独立。1969年にカダフィ大佐がクーデターで政権を掌握し、2011年の内戦まで独裁体制が続いた。'},
+  '450':{name:'マダガスカル',en:'Madagascar',capital:'アンタナナリボ',indYear:1960,era:'1960',colonial:'fr',flag:'🇲🇬',history:'インド洋最大の島。1947年の独立蜂起をフランスが大規模虐殺で鎮圧した後、1960年に独立。固有の生態系で知られる生物多様性のホットスポット。'},
+  '454':{name:'マラウイ',en:'Malawi',capital:'リロングウェ',indYear:1964,era:'post-1960',colonial:'uk',flag:'🇲🇼',history:'旧英領ニャサランドから1964年に独立。ヘイスティングス・バンダ初代大統領による30年近い独裁が続いた。'},
+  '466':{name:'マリ',en:'Mali',capital:'バマコ',indYear:1960,era:'1960',colonial:'fr',flag:'🇲🇱',history:'1960年にセネガルとともにマリ連邦として独立したが同年中に分離。旧フランス領スーダンがマリ共和国として独立した。2012年以降、北部でイスラム過激派の台頭と軍事クーデターが相次いでいる。'},
+  '478':{name:'モーリタニア',en:'Mauritania',capital:'ヌアクショット',indYear:1960,era:'1960',colonial:'fr',flag:'🇲🇷',history:'1960年にフランスから独立した内陸国。国土の大部分をサハラ砂漠が占める。アラブ・ベルベル系住民とサブサハラ系住民の民族対立が続いた。'},
+  '480':{name:'モーリシャス',en:'Mauritius',capital:'ポートルイス',indYear:1968,era:'post-1960',colonial:'uk',flag:'🇲🇺',history:'インド洋の島嶼国。フランスの後にイギリスに支配され1968年に独立。インド系・アフリカ系・中国系などが混在する多民族国家で、アフリカ有数の安定国家。'},
+  '504':{name:'モロッコ',en:'Morocco',capital:'ラバト',indYear:1956,era:'1946-1959',colonial:'fr',flag:'🇲🇦',history:'フランス・スペインの共同保護領から1956年にモハメド5世のもとで独立。西サハラ問題は現在も未解決。'},
+  '508':{name:'モザンビーク',en:'Mozambique',capital:'マプト',indYear:1975,era:'post-1960',colonial:'pt',flag:'🇲🇿',history:'1975年のポルトガル民主化後に独立。独立後のFRELIMO対RENAMO内戦が1992年まで続いた。'},
+  '516':{name:'ナミビア',en:'Namibia',capital:'ウィントフック',indYear:1990,era:'post-1960',colonial:'de',flag:'🇳🇦',history:'もとドイツ領南西アフリカ。第一次世界大戦後、南アフリカがアパルトヘイトを施行しながら支配。SWAPOの独立闘争の末、1990年にアフリカ最後の独立国の一つとなった。'},
+  '562':{name:'ニジェール',en:'Niger',capital:'ニアメ',indYear:1960,era:'1960',colonial:'fr',flag:'🇳🇪',history:'1960年にフランスから独立した内陸国。ウラン資源を持ちながら世界最貧国の一つ。2023年にクーデターが発生しフランス軍を撤退させた。'},
+  '566':{name:'ナイジェリア',en:'Nigeria',capital:'アブジャ',indYear:1960,era:'1960',colonial:'uk',flag:'🇳🇬',history:'アフリカ最大の人口（2億人超）を持つ大国。1960年独立後、1967-70年のビアフラ戦争（内戦）で100万人以上が犠牲に。石油資源に恵まれながら経済格差と腐敗が深刻。'},
+  '624':{name:'ギニアビサウ',en:'Guinea-Bissau',capital:'ビサウ',indYear:1974,era:'post-1960',colonial:'pt',flag:'🇬🇼',history:'アフリカ独立党（PAIGC）のアミルカル・カブラルが独立運動を指導。1974年のポルトガル民主化後に独立を達成した。'},
+  '646':{name:'ルワンダ',en:'Rwanda',capital:'キガリ',indYear:1962,era:'post-1960',colonial:'be',flag:'🇷🇼',history:'ベルギー信託統治から1962年に独立。1994年にフツ族によるツチ族大量虐殺（ジェノサイド）が発生し約80万人が犠牲となった。現在は驚異的な経済復興を遂げアフリカのシリコンバレーを目指している。'},
+  '678':{name:'サントメ・プリンシペ',en:'São Tomé and Príncipe',capital:'サントメ',indYear:1975,era:'post-1960',colonial:'pt',flag:'🇸🇹',history:'ギニア湾の小島嶼国。1975年のポルトガル民主化後に独立。カカオ生産が主要産業でアフリカ有数の安定民主国家。'},
+  '686':{name:'セネガル',en:'Senegal',capital:'ダカール',indYear:1960,era:'1960',colonial:'fr',flag:'🇸🇳',history:'1960年にマリ連邦としてフランスから独立後、同年中にマリと分離独立。初代大統領レオポール・セダール・サンゴールは詩人・哲学者としても著名で、ネグリチュード運動を主導した。'},
+  '694':{name:'シエラレオネ',en:'Sierra Leone',capital:'フリータウン',indYear:1961,era:'post-1960',colonial:'uk',flag:'🇸🇱',history:'1961年にイギリスから独立。首都フリータウンは解放奴隷の定住地として設立された。1991-2002年の残虐な内戦で甚大な被害を受けた。'},
+  '706':{name:'ソマリア',en:'Somalia',capital:'モガディシュ',indYear:1960,era:'1960',colonial:'uk',flag:'🇸🇴',history:'1960年に旧英領ソマリランドと旧伊領ソマリアが合併し独立。1969年にバレ将軍がクーデター。1991年以降は中央政府が崩壊し内戦と海賊問題が続く。'},
+  '710':{name:'南アフリカ',en:'South Africa',capital:'プレトリア/ケープタウン',indYear:1910,era:'pre-ww2',colonial:'uk',flag:'🇿🇦',history:'イギリス植民地から1910年に自治領として独立。1948年からアパルトヘイト（人種隔離政策）が制度化。ネルソン・マンデラの27年に及ぶ投獄と釈放を経て、1994年に全人種参加の選挙が実施され民主化が実現した。'},
+  '716':{name:'ジンバブエ',en:'Zimbabwe',capital:'ハラレ',indYear:1980,era:'post-1960',colonial:'uk',flag:'🇿🇼',history:'白人少数政権が1965年に一方的独立宣言（UDI）。長期ゲリラ戦の末1980年に黒人多数派支配の独立を達成。ムガベの独裁とハイパーインフレで経済崩壊に陥ったが、2017年のクーデターで政権交代した。'},
+  '728':{name:'南スーダン',en:'South Sudan',capital:'ジュバ',indYear:2011,era:'post-1960',colonial:'uk',flag:'🇸🇸',history:'2011年にスーダンから分離独立したアフリカ最新の国家。南北長期内戦終結後の独立だったが、独立後も部族対立による内戦が勃発し大量の難民を生み出している。'},
+  '729':{name:'スーダン',en:'Sudan',capital:'ハルツーム',indYear:1956,era:'1946-1959',colonial:'uk',flag:'🇸🇩',history:'英仏共同統治（アングロ＝エジプト・スーダン）から1956年に独立。2011年に南スーダンが分離独立。ダルフール紛争（2003年〜）など民族・宗教対立が続く。'},
+  '732':{name:'西サハラ',en:'Western Sahara',capital:'エル・アイウン（係争地）',indYear:null,era:'post-1960',colonial:'es',flag:'🇪🇭',history:'旧スペイン領。1976年のスペイン撤退後、モロッコが占領。サハラウィ人民解放戦線（ポリサリオ戦線）が独立を主張し、国連未解決の係争地域として現在も続く。'},
+  '748':{name:'エスワティニ',en:'Eswatini (Swaziland)',capital:'ムババネ',indYear:1968,era:'post-1960',colonial:'uk',flag:'🇸🇿',history:'南アフリカに三方を囲まれた内陸国。1968年にイギリスから独立。現在もムスワティ3世による絶対君主制が続くアフリカ唯一の絶対王政国家。'},
+  '768':{name:'トーゴ',en:'Togo',capital:'ロメ',indYear:1960,era:'1960',colonial:'fr',flag:'🇹🇬',history:'もとドイツ植民地。第一次世界大戦後に英仏で分割統治され、フランス信託統治領が1960年に独立。イギリス側は1957年にガーナに合併された。'},
+  '788':{name:'チュニジア',en:'Tunisia',capital:'チュニス',indYear:1956,era:'1946-1959',colonial:'fr',flag:'🇹🇳',history:'フランス保護領から1956年に独立。ブルギバ大統領のもと比較的穏健な近代化路線をとった。2010-11年のアラブの春の発火点となり、ベン＝アリー独裁政権が民衆運動で打倒された。'},
+  '800':{name:'ウガンダ',en:'Uganda',capital:'カンパラ',indYear:1962,era:'post-1960',colonial:'uk',flag:'🇺🇬',history:'1962年にイギリスから独立。1971年にイディ・アミンがクーデター。大量虐殺・知識人追放など残虐な独裁（1971-79）が国際的非難を浴びた。現在はムセベニ長期政権が続く。'},
+  '818':{name:'エジプト',en:'Egypt',capital:'カイロ',indYear:1922,era:'pre-ww2',colonial:'uk',flag:'🇪🇬',history:'1922年に名目上独立したが実質的英国支配は1952年の革命まで続いた。ナセルのスエズ運河国有化（1956年）はアラブ民族主義の高揚の象徴。'},
+  '834':{name:'タンザニア',en:'Tanzania',capital:'ドドマ',indYear:1961,era:'post-1960',colonial:'uk',flag:'🇹🇿',history:'旧ドイツ領東アフリカがイギリス信託統治を経て、タンガニーカとして1961年に独立。1964年にザンジバルと合併しタンザニアに。ニエレレ大統領は汎アフリカ主義と社会主義「ウジャマー」を推進した。'},
+  '854':{name:'ブルキナファソ',en:'Burkina Faso',capital:'ワガドゥグー',indYear:1960,era:'1960',colonial:'fr',flag:'🇧🇫',history:'「オート＝ヴォルタ共和国」として1960年に独立。1984年にサンカラ大統領が「誠実な人々の国」を意味するブルキナファソに改名。サンカラは翌1987年に暗殺された。'},
+  '894':{name:'ザンビア',en:'Zambia',capital:'ルサカ',indYear:1964,era:'post-1960',colonial:'uk',flag:'🇿🇲',history:'旧英領北ローデシアから1964年に独立。銅の一大産地（カッパーベルト）として知られ、独立後は銅の国際価格変動に経済を大きく左右された。'},
+};
+
+const AFRICA_ISOS = new Set(Object.keys(africaFull));
+
+const ERA_COLORS = {
+  'pre-ww2':   '#d4c5a9',
+  '1946-1959': '#93c98e',
+  '1960':      '#4eca14',
+  'post-1960': '#1a6e2e',
+  'none':      '#b8bec6',
+};
+
+const ERA_LABELS = {
+  'pre-ww2':   'WW2以前（または独立維持）',
+  '1946-1959': '1946–1959年',
+  '1960':      '1960年（アフリカの年）',
+  'post-1960': '1961年以降',
+  'none':      '未承認・係争地域',
+};
+
+const COL_COLORS = {
+  'fr':  '#c0392b',
+  'uk':  '#2563a8',
+  'pt':  '#e07820',
+  'be':  '#7e3aad',
+  'it':  '#1a9e52',
+  'es':  '#d4a010',
+  'de':  '#7a8898',
+  'none':'#b8bec6',
+};
+
+const COL_LABELS = {
+  'fr':  'フランス',
+  'uk':  'イギリス',
+  'pt':  'ポルトガル',
+  'be':  'ベルギー',
+  'it':  'イタリア',
+  'es':  'スペイン',
+  'de':  'ドイツ（旧）',
+  'none':'独立を維持',
+};
+
+// ISO 3166-1 numeric → alpha-2（flagcdn.com 用）
+const FLAG_CODE = {
+  '012':'dz','024':'ao','072':'bw','108':'bi','120':'cm','132':'cv',
+  '140':'cf','148':'td','174':'km','178':'cg','180':'cd','204':'bj',
+  '226':'gq','231':'et','232':'er','262':'dj','266':'ga','270':'gm',
+  '288':'gh','324':'gn','384':'ci','404':'ke','426':'ls','430':'lr',
+  '434':'ly','450':'mg','454':'mw','466':'ml','478':'mr','480':'mu',
+  '504':'ma','508':'mz','516':'na','562':'ne','566':'ng','624':'gw',
+  '646':'rw','678':'st','686':'sn','694':'sl','706':'so','710':'za',
+  '716':'zw','728':'ss','729':'sd','732':'eh','748':'sz','768':'tg',
+  '788':'tn','800':'ug','818':'eg','834':'tz','854':'bf','894':'zm',
+};
+
+function flagUrl(iso) {
+  const cc = FLAG_CODE[iso];
+  return cc ? `https://flagcdn.com/w80/${cc}.png` : null;
+}
+
+function getColor(iso, mode) {
+  const d = africaFull[iso];
+  if (!d) return '#c0cccc';
+  return mode === 'year'
+    ? (ERA_COLORS[d.era]    || '#ccc')
+    : (COL_COLORS[d.colonial] || '#ccc');
+}

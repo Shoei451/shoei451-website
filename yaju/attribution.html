@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attribution - YAJU</title>
+  <link rel="icon" type="image/svg+xml" href="images/yaju-favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+1+Code:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #000;
+      color: #00ff00;
+      font-family: 'M PLUS 1 Code', monospace;
+      min-height: 100vh;
+      padding: 60px 20px 80px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* CRT */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.18) 3px, rgba(0,0,0,0.18) 4px
+      );
+      pointer-events: none;
+      z-index: 9997;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.55) 100%);
+      pointer-events: none;
+      z-index: 9996;
+    }
+
+    /* ===== CONTAINER ===== */
+    .md-container {
+      max-width: 780px;
+      margin: 0 auto;
+      border: 2px solid #00ff00;
+      padding: 40px 48px;
+      background: rgba(0,0,0,0.9);
+      box-shadow: 0 0 24px rgba(0,255,0,0.2), inset 0 0 16px rgba(0,255,0,0.04);
+      position: relative;
+    }
+
+    /* ローディング中 */
+    #loading {
+      text-align: center;
+      font-size: 0.75em;
+      color: #00aa00;
+      padding: 60px 0;
+      animation: blink 1s step-start infinite;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* ===== MARKDOWN スタイル ===== */
+    #md-body { line-height: 1.9; }
+
+    /* h1 */
+    #md-body h1 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-shadow: 0 0 14px #00ff00, 0 0 4px #00ff00;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #00ff00;
+      letter-spacing: 0.1em;
+    }
+
+    /* h2 = セクションヘッダ */
+    #md-body h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #00ff00;
+      text-shadow: 0 0 8px #00ff00;
+      margin: 40px 0 20px;
+      padding: 8px 14px;
+      border-left: 4px solid #00ff00;
+      background: rgba(0,255,0,0.04);
+      letter-spacing: 0.12em;
+    }
+
+    /* h3 = ファイル名 */
+    #md-body h3 {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #00cc00;
+      margin: 20px 0 8px;
+      padding-left: 12px;
+    }
+    #md-body h3::before {
+      content: '> ';
+      color: #005500;
+    }
+
+    /* p */
+    #md-body p {
+      font-size: 0.88rem;
+      color: #00cc00;
+      margin-bottom: 6px;
+      line-height: 1.8;
+    }
+
+    /* strong = ラベル ("Source:", "By:" など) */
+    #md-body strong {
+      color: #00ff00;
+      font-weight: 700;
+      text-shadow: 0 0 4px rgba(0,255,0,0.4);
+    }
+
+    /* hr = セパレータ */
+    #md-body hr {
+      border: none;
+      border-top: 1px solid #003300;
+      margin: 32px 0;
+    }
+
+    /* a */
+    #md-body a {
+      color: #00ff00;
+      text-decoration: none;
+      border-bottom: 1px solid #005500;
+      word-break: break-all;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    #md-body a:hover {
+      color: #88ffaa;
+      border-bottom-color: #88ffaa;
+      text-shadow: 0 0 6px rgba(136,255,170,0.5);
+    }
+
+    /* code */
+    #md-body code {
+      font-family: 'M PLUS 1 Code', monospace;
+      font-size: 0.85rem;
+      background: #001a00;
+      border: 1px solid #004400;
+      padding: 1px 6px;
+      border-radius: 2px;
+      color: #00ff88;
+    }
+
+    /* ===== BACK BUTTON ===== */
+    .back-btn {
+      display: inline-block;
+      margin-top: 48px;
+      padding: 12px 24px;
+      background: #000;
+      color: #00ff00;
+      border: 2px solid #00ff00;
+      text-decoration: none;
+      font-family: 'M PLUS 1 Code', monospace;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      transition: all 0.15s;
+      box-shadow: 0 0 8px rgba(0,255,0,0.2);
+    }
+    .back-btn:hover {
+      background: #00ff00;
+      color: #000;
+      box-shadow: 0 0 20px rgba(0,255,0,0.5);
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #000; }
+    ::-webkit-scrollbar-thumb { background: #00ff00; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .md-container { padding: 24px 20px; }
+      #md-body h1 { font-size: 1.3rem; }
+      #md-body h2 { font-size: 0.9rem; margin: 28px 0 14px; }
+      #md-body h3 { font-size: 0.85rem; }
+      #md-body p  { font-size: 0.8rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="md-container">
+    <div id="loading">LOADING...</div>
+    <div id="md-body" style="display:none;"></div>
+    <a href="index.html" class="back-btn" id="back-btn" style="display:none;">← BACK TO TERMINAL</a>
+  </div>
+
+  <!-- marked.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/marked@9/marked.min.js"></script>
+  <script>
+    async function loadAttribution() {
+      const loading = document.getElementById("loading");
+      const body    = document.getElementById("md-body");
+      const backBtn = document.getElementById("back-btn");
+
+      try {
+        const res = await fetch("attribution.md");
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const md = await res.text();
+
+        // marked のオプション: 改行を <br> に変換
+        marked.setOptions({ breaks: true });
+
+        body.innerHTML = marked.parse(md);
+        loading.style.display = "none";
+        body.style.display    = "block";
+        backBtn.style.display = "inline-block";
+      } catch (err) {
+        loading.textContent = `ERROR: ${err.message}`;
+        loading.style.animation = "none";
+        loading.style.color = "#ff2200";
+      }
+    }
+
+    loadAttribution();
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "Escape") window.location.href = "index.html";
+    });
+  </script>
+  <script>
+    navigator.sendBeacon(
+      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>

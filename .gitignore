@@ -1,0 +1,38 @@
+learning-links-v2.html
+history/worldhistory/admin/wh-admin-v2.html
+build.js
+replace.js
+docs/build.js
+
+# Secrets and local env files
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.jks
+*.keystore
+
+# Dependencies and generated artifacts
+node_modules/
+dist/
+build/
+coverage/
+.cache/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.tmp
+tmp/
+temp/
+
+# Local editor / OS files
+.vscode/
+.DS_Store
+Thumbs.db

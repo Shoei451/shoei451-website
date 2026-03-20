@@ -1,0 +1,11 @@
+{
+  "name": "shoei451-website",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Operational checks for the shoei451 static website",
+  "scripts": {
+    "check:js": "node scripts/check-js.mjs",
+    "check:links": "node scripts/check-links.mjs",
+    "check": "npm run check:js && npm run check:links"
+  }
+}

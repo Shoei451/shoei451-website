@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../images/favicon.ico" />
+    <title>政治・経済 学習用オンライン年表 — Shoei451</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase_config.js"></script>
+    <!-- 変更後 -->
+    <link rel="stylesheet" href="../../css/timeline.css">
+    <link rel="stylesheet" href="seikei-timeline.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>政治・経済 学習用オンライン年表</h1>
+            <div class="controls">
+                <input type="text" id="searchBox" class="search-box" placeholder="イベントを検索...">
+                <button id="addEventBtn">+ イベント追加</button>
+                <button onclick="window.location.href='print.html'">印刷用ページ</button>
+                <button onclick="window.location.href='../index.html'">政治・経済ホームへ戻る</button>
+                <button onclick="window.location.href='quiz.html'">クイズはこちら</button>
+                <span class="logo-switches">
+                    <button id="theme-toggle" type="button" title="Toggle Theme">
+                        <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                        <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                    </button>
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs" id="categoryTabs">
+            <button class="tab active" data-category="all">すべて</button>
+            <button class="tab" data-category="国際政治">国際政治</button>
+            <button class="tab" data-category="国際経済">国際経済</button>
+            <button class="tab" data-category="国内政治">国内政治</button>
+            <button class="tab" data-category="日銀金融政策">日銀金融政策</button>
+            <button class="tab" data-category="農業">農業</button>
+            <button class="tab" data-category="消費者生活・公害対策">消費者生活・公害対策</button>
+            <button class="tab" data-category="労働問題">労働問題</button>
+            <button class="tab" data-category="社会保障">社会保障</button>
+        </div>
+
+        <div id="timelineContainer">
+            <div class="loading">読み込み中...</div>
+        </div>
+    </div>
+
+    <!-- Modal for Add/Edit Event -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">イベントを追加</h2>
+                <button class="close-modal" id="closeModal" type="button">×</button>
+            </div>
+            <form id="eventForm">
+                <input type="hidden" id="eventId">
+                
+                <div class="form-group">
+                    <label for="eventTitle">イベント名 *</label>
+                    <input type="text" id="eventTitle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDateType">日付の形式</label>
+                    <select id="eventDateType">
+                        <option value="year">年のみ</option>
+                        <option value="full">完全な日付</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="yearOnlyGroup">
+                    <label for="eventYear">年</label>
+                    <input type="number" id="eventYear" min="1900" max="2100" placeholder="例: 2024">
+                </div>
+
+                <div class="form-group" id="fullDateGroup" style="display: none;">
+                    <label for="eventDate">日付</label>
+                    <input type="date" id="eventDate">
+                </div>
+
+                <div class="form-group">
+                    <label for="eventCategory">カテゴリ *</label>
+                    <select id="eventCategory" required>
+                        <option value="">選択してください</option>
+                        <option value="国際政治">国際政治/International Politics</option>
+                        <option value="国際経済">国際経済/International Economy</option>
+                        <option value="国内政治">国内政治/National Politics</option>
+                        <option value="日銀金融政策">日銀金融政策/Bank of Japan Monetary Policy</option>
+                        <option value="農業">農業/Agriculture</option>
+                        <option value="消費者生活・公害対策">消費者生活・公害対策/Consumer Life & Pollution Control</option>
+                        <option value="労働問題">労働問題/Labor Issues</option>
+                        <option value="社会保障">社会保障/Social Security</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="eventDescription">説明</label>
+                    <textarea id="eventDescription"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">キャンセル</button>
+                    <button type="submit">保存</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Configuration - REPLACE WITH YOUR CREDENTIALS
+        const apiClient = db;
+
+        // State
+        let events = [];
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        // Theme handling - must run before any DOM content
+        (function initTheme() {
+            if (localStorage.getItem("pref-theme") === "dark") {
+                document.body.classList.add('dark');
+            } else if (localStorage.getItem("pref-theme") === "light") {
+                document.body.classList.remove('dark');
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.body.classList.add('dark');
+            }
+        })();
+
+        // Wait for DOM to be ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.body.classList.toggle('dark');
+                    if (document.body.classList.contains('dark')) {
+                        localStorage.setItem('pref-theme', 'dark');
+                    } else {
+                        localStorage.setItem('pref-theme', 'light');
+                    }
+                });
+            }
+
+            // Date type switching
+            const dateTypeSelect = document.getElementById('eventDateType');
+            const yearOnlyGroup = document.getElementById('yearOnlyGroup');
+            const fullDateGroup = document.getElementById('fullDateGroup');
+            
+            dateTypeSelect.addEventListener('change', function() {
+                if (this.value === 'year') {
+                    yearOnlyGroup.style.display = 'block';
+                    fullDateGroup.style.display = 'none';
+                } else {
+                    yearOnlyGroup.style.display = 'none';
+                    fullDateGroup.style.display = 'block';
+                }
+            });
+
+            // Initialize app
+            init();
+        });
+
+        // Initialize
+        async function init() {
+            await loadEvents();
+            setupEventListeners();
+        }
+
+        // Load events from Supabase
+        async function loadEvents() {
+            try {
+                const { data, error } = await apiClient
+                    .from('seikei_events')
+                    .select('*')
+                    .order('date', { ascending: true });
+
+                if (error) throw error;
+                events = data || [];
+                renderTimeline();
+            } catch (error) {
+                console.error('Error loading seikei_events:', error);
+                document.getElementById('timelineContainer').innerHTML = `
+                    <div class="empty-state">
+                        <p>⚠️ データの読み込みに失敗しました</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">Supabaseの設定を確認してください</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Render timeline
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            
+            const filteredEvents = events.filter(event => {
+                const matchesCategory = currentCategory === 'all' || event.category === currentCategory;
+                const matchesSearch = !searchQuery || 
+                    event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (event.description && event.description.toLowerCase().includes(searchQuery.toLowerCase()));
+                return matchesCategory && matchesSearch;
+            });
+
+            if (filteredEvents.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <p>イベントがありません</p>
+                        <p style="font-size: 0.9rem; margin-top: 10px;">「+ イベント追加」ボタンから新しいイベントを追加してください</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const tableHTML = `
+                <table class="timeline-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 120px;">日付</th>
+                            <th style="width: 30%;">イベント名</th>
+                            <th style="width: 15%;">カテゴリ</th>
+                            <th>説明</th>
+                            <th style="width: 150px;">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filteredEvents.map(event => `
+                            <tr>
+                                <td class="event-date">${formatDate(event.date, event.date_type)}</td>
+                                <td class="event-title">${escapeHtml(event.title)}</td>
+                                <td><span class="category-chip ${escapeHtml(event.category)}">${escapeHtml(event.category)}</span></td>
+                                <td class="event-description">${escapeHtml(event.description || '')}</td>
+                                <td class="event-actions">
+                                    <button class="btn-edit" onclick="editEvent(${event.id})">編集</button>
+                                    <!--<button class="btn-delete" onclick="deleteEvent(${event.id})">削除</button>-->
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        // Format date
+        function formatDate(dateString, dateType) {
+            if (!dateString) return '';
+            
+            // If it's year-only (dateType is 'year' or date is in format 'YYYY-01-01')
+            if (dateType === 'year' || dateString.endsWith('-01-01')) {
+                return dateString.substring(0, 4) + '年';
+            }
+            
+            const date = new Date(dateString);
+            return `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+        }
+
+        // Escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Category tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    e.target.classList.add('active');
+                    currentCategory = e.target.dataset.category;
+                    renderTimeline();
+                });
+            });
+
+            // Search
+            document.getElementById('searchBox').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderTimeline();
+            });
+
+            // Add event button
+            document.getElementById('addEventBtn').addEventListener('click', openAddModal);
+
+            // Modal controls
+            document.getElementById('closeModal').addEventListener('click', closeModal);
+            document.getElementById('cancelBtn').addEventListener('click', closeModal);
+            document.getElementById('eventForm').addEventListener('submit', handleFormSubmit);
+            
+            // Close modal on background click
+            document.getElementById('eventModal').addEventListener('click', (e) => {
+                if (e.target.id === 'eventModal') closeModal();
+            });
+        }
+
+        // Open add modal
+        function openAddModal() {
+            document.getElementById('modalTitle').textContent = 'イベントを追加';
+            document.getElementById('eventForm').reset();
+            document.getElementById('eventId').value = '';
+            document.getElementById('eventDateType').value = 'year';
+            document.getElementById('yearOnlyGroup').style.display = 'block';
+            document.getElementById('fullDateGroup').style.display = 'none';
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        // Edit event
+        function editEvent(id) {
+            const event = events.find(e => e.id === id);
+            if (!event) return;
+
+            document.getElementById('modalTitle').textContent = 'イベントを編集';
+            document.getElementById('eventId').value = event.id;
+            document.getElementById('eventTitle').value = event.title;
+            document.getElementById('eventCategory').value = event.category;
+            document.getElementById('eventDescription').value = event.description || '';
+            
+            // Handle date type
+            if (event.date_type === 'year' || event.date.endsWith('-01-01')) {
+                document.getElementById('eventDateType').value = 'year';
+                document.getElementById('eventYear').value = event.date.substring(0, 4);
+                document.getElementById('yearOnlyGroup').style.display = 'block';
+                document.getElementById('fullDateGroup').style.display = 'none';
+            } else {
+                document.getElementById('eventDateType').value = 'full';
+                document.getElementById('eventDate').value = event.date;
+                document.getElementById('yearOnlyGroup').style.display = 'none';
+                document.getElementById('fullDateGroup').style.display = 'block';
+            }
+            
+            document.getElementById('eventModal').classList.add('active');
+        }
+
+        // Delete event
+        async function deleteEvent(id) {
+            if (!confirm('このイベントを削除してもよろしいですか?')) return;
+
+            try {
+                const { error } = await apiClient
+                    .from('seikei_events')
+                    .delete()
+                    .eq('id', id);
+
+                if (error) throw error;
+                await loadEvents();
+            } catch (error) {
+                console.error('Error deleting event:', error);
+                alert('削除に失敗しました');
+            }
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('eventModal').classList.remove('active');
+        }
+
+        // Handle form submit
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const dateType = document.getElementById('eventDateType').value;
+            let dateValue;
+            
+            if (dateType === 'year') {
+                const year = document.getElementById('eventYear').value;
+                if (!year) {
+                    alert('年を入力してください');
+                    return;
+                }
+                dateValue = `${year}-01-01`;
+            } else {
+                dateValue = document.getElementById('eventDate').value;
+                if (!dateValue) {
+                    alert('日付を入力してください');
+                    return;
+                }
+            }
+
+            const eventData = {
+                title: document.getElementById('eventTitle').value,
+                date: dateValue,
+                date_type: dateType,
+                category: document.getElementById('eventCategory').value,
+                description: document.getElementById('eventDescription').value
+            };
+
+            const eventId = document.getElementById('eventId').value;
+
+            try {
+                if (eventId) {
+                    // Update existing event
+                    const { error } = await apiClient
+                        .from('seikei_events')
+                        .update(eventData)
+                        .eq('id', eventId);
+
+                    if (error) throw error;
+                } else {
+                    // Insert new event
+                    const { error } = await apiClient
+                        .from('seikei_events')
+                        .insert([eventData]);
+
+                    if (error) throw error;
+                }
+
+                closeModal();
+                await loadEvents();
+            } catch (error) {
+                console.error('Error saving event:', error);
+                alert('保存に失敗しました');
+            }
+        }
+    </script>
+  <script>
+    navigator.sendBeacon(
+      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>

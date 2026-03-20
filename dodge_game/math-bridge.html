@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Math Bridge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #0c0c1a;
+      --surface:  rgba(12,12,28,0.88);
+      --surface2: rgba(20,20,42,0.97);
+      --border:   rgba(80,80,180,0.38);
+      --text:     #dde0ff;
+      --sub:      #6868aa;
+      --accent:   #7c3aed;
+      --accent-l: #a78bfa;
+      --ok:       #10b981;
+      --err:      #f87171;
+      --boost:    #22d3ee;
+      --gold:     #fbbf24;
+      --seg-colors: #a78bfa, #34d399, #fb923c, #f472b6;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Noto Sans JP', sans-serif;
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+    }
+
+    /* ─── CANVAS ─── */
+    #cv {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      display: block; touch-action: none;
+    }
+
+    /* ─── GLASS PANEL ─── */
+    .glass {
+      background: var(--surface);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+
+    /* ─── TOP BAR ─── */
+    #topbar {
+      position: fixed; top: env(safe-area-inset-top,0); left:0; right:0;
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.45rem 0.9rem;
+      background: var(--surface);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      z-index: 30;
+    }
+    .logo { font-family: var(--mono); font-size: 0.82rem; font-weight:600; color: var(--accent-l); letter-spacing:.06em; }
+    .stage-pill { font-family: var(--mono); font-size: 0.68rem; color: var(--sub); }
+    .stage-pill strong { color: var(--text); }
+    .flex1 { flex:1; }
+    #formulaReadout { font-family: var(--mono); font-size: 0.65rem; color: var(--accent-l); max-width: 35vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+
+    /* ─── BOTTOM PANEL ─── */
+    #bottom {
+      position: fixed; bottom: env(safe-area-inset-bottom,0); left:0; right:0;
+      background: var(--surface);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border-top: 1px solid var(--border);
+      z-index: 30;
+      display: flex; flex-direction: column; gap: 0;
+    }
+
+    /* ─── SEGMENT LIST ─── */
+    #segList {
+      display: flex; flex-direction: column; gap: 0;
+      max-height: 38vh; overflow-y: auto;
+      padding: 0.4rem 0.8rem 0;
+      /* shown/hidden via JS */
+    }
+    .seg-row {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(80,80,180,0.15);
+    }
+    .seg-row:last-child { border-bottom: none; }
+    .seg-dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink:0;
+    }
+    .seg-range {
+      font-family: var(--mono); font-size: 0.62rem; color: var(--sub);
+      white-space: nowrap; flex-shrink:0; min-width: 64px;
+    }
+    .seg-expr {
+      flex:1; min-width:0;
+      font-family: var(--mono); font-size: max(14px, 0.72rem);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0.25rem 0.5rem;
+      color: var(--text); outline: none;
+      transition: border-color 0.15s;
+    }
+    .seg-expr:focus { border-color: var(--accent); }
+    .seg-expr.err   { border-color: var(--err); }
+    .seg-btn {
+      font-size: 0.7rem; background: none; border: 1px solid var(--border);
+      color: var(--sub); border-radius: 5px; padding: 0.22rem 0.45rem;
+      cursor: pointer; flex-shrink:0; transition: all 0.15s;
+    }
+    .seg-btn:hover { border-color: var(--err); color: var(--err); }
+
+    #addSegBtn {
+      margin: 0.35rem 0.8rem 0.4rem;
+      display: flex; align-items: center; gap: 0.35rem;
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--accent-l); cursor: pointer;
+      background: none; border: 1px dashed rgba(124,58,237,0.4);
+      border-radius: 6px; padding: 0.28rem 0.7rem;
+      transition: all 0.15s; align-self: flex-start;
+    }
+    #addSegBtn:hover { border-color: var(--accent-l); }
+
+    /* ─── CONTROL ROW ─── */
+    .ctrl-row {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.5rem 0.8rem 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    /* drawer toggle */
+    .drawer-toggle {
+      display: flex; align-items: center; gap: 0.4rem; cursor: pointer;
+      padding: 0.3rem 0.8rem 0;
+    }
+    .dt-line { flex:1; height:1px; background: var(--border); }
+    .dt-lbl { font-family: var(--mono); font-size: 0.62rem; color: var(--sub); transition: color .15s; }
+    .drawer-toggle:hover .dt-lbl { color: var(--accent-l); }
+    .dt-arr { font-size:0.55rem; color: var(--sub); transition: transform .2s; }
+    .drawer-toggle.open .dt-arr { transform: rotate(180deg); }
+
+    .drawer { display:grid; grid-template-rows:0fr; transition: grid-template-rows .22s ease; }
+    .drawer.open { grid-template-rows:1fr; }
+    .drawer-inner { overflow:hidden; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      font-family: var(--sans); font-size: 0.8rem; font-weight:700;
+      padding: 0.45rem 0.85rem; border-radius: 7px; border:none;
+      cursor: pointer; transition: all .15s; white-space:nowrap;
+      min-height: 36px; display:flex; align-items:center; justify-content:center;
+    }
+    .btn:active { transform: scale(.95); }
+    .btn-build  { background: rgba(124,58,237,0.25); border:1px solid var(--accent); color: var(--accent-l); }
+    .btn-build:hover { background: rgba(124,58,237,0.4); }
+    .btn-cannon { background: var(--gold); color: #1a0a00; }
+    .btn-cannon:hover { opacity:.88; }
+    .btn-cannon.ready { background: #ef4444; color:#fff; animation: pulse .5s ease infinite alternate; }
+    .btn-reset  { background:none; border:1px solid var(--border); color:var(--sub); padding:.45rem .7rem; }
+    .btn-reset:hover { border-color:var(--accent-l); color:var(--accent-l); }
+    .btn-hint   { background:none; border:1px solid var(--border); color:var(--sub); font-size:.75rem; padding:.4rem .65rem; font-family:var(--mono); }
+    .btn-hint:hover { border-color:var(--accent-l); color:var(--accent-l); }
+
+    @keyframes pulse { from { box-shadow:0 0 0 0 rgba(239,68,68,.6); } to { box-shadow:0 0 0 8px rgba(239,68,68,0); } }
+
+    /* ─── HINT BOX ─── */
+    #hintBox {
+      display:none; position:fixed;
+      top:52px; left:50%; transform:translateX(-50%);
+      max-width:min(420px,90vw);
+      font-family:var(--mono); font-size:.7rem; color:var(--accent-l); line-height:1.7;
+      z-index:40;
+      padding:.65rem .9rem;
+    }
+    #hintBox.show { display:block; }
+
+    /* ─── TOAST ─── */
+    #toast {
+      position:fixed; left:50%; transform:translateX(-50%);
+      font-family:var(--mono); font-size:.74rem;
+      padding:.3rem .9rem; border-radius:100px;
+      background:var(--surface2); border:1px solid var(--border); color:var(--sub);
+      pointer-events:none; opacity:0; transition:opacity .2s;
+      white-space:nowrap; z-index:50;
+      max-width:calc(100vw - 2rem); overflow:hidden; text-overflow:ellipsis;
+    }
+    #toast.show { opacity:1; }
+    #toast.ok   { color:var(--ok);    border-color:var(--ok); }
+    #toast.err  { color:var(--err);   border-color:var(--err); }
+    #toast.info { color:var(--boost); border-color:var(--boost); }
+
+    /* ─── OVERLAY ─── */
+    #overlay {
+      display:none; position:fixed; inset:0;
+      background:rgba(0,0,0,.72); backdrop-filter:blur(8px);
+      z-index:100; align-items:center; justify-content:center;
+    }
+    #overlay.show { display:flex; }
+    .ov-card {
+      background:var(--surface2); border:1px solid var(--border);
+      border-radius:16px; padding:2.4rem 2rem; text-align:center;
+      max-width:300px; width:88%;
+    }
+    .ov-emoji { font-size:3rem; margin-bottom:.4rem; }
+    .ov-card h2 { font-size:1.25rem; margin-bottom:.3rem; }
+    .ov-card p { color:var(--sub); font-size:.8rem; line-height:1.6; margin-bottom:1.2rem; }
+    .btn-next {
+      width:100%; background:var(--accent); color:#fff;
+      font-size:.9rem; padding:.65rem; border-radius:8px;
+      border:none; cursor:pointer; font-weight:700;
+    }
+    .btn-next:hover { background:#6d28d9; }
+  </style>
+</head>
+<body>
+
+<canvas id="cv"></canvas>
+
+<!-- TOP BAR -->
+<div id="topbar">
+  <span class="logo">Math Bridge</span>
+  <span class="stage-pill" id="stagePill"><strong>S1</strong> チュートリアル</span>
+  <div class="flex1"></div>
+  <span id="formulaReadout"></span>
+</div>
+
+<!-- HINT -->
+<div id="hintBox" class="glass"></div>
+
+<!-- BOTTOM PANEL -->
+<div id="bottom">
+
+  <!-- drawer toggle -->
+  <div class="drawer-toggle" id="drawerToggle" onclick="toggleDrawer()">
+    <div class="dt-line"></div>
+    <span class="dt-lbl">橋の数式</span>
+    <span class="dt-arr">▲</span>
+    <div class="dt-line"></div>
+  </div>
+
+  <!-- segment list (drawer) -->
+  <div class="drawer open" id="drawer">
+    <div class="drawer-inner">
+      <div id="segList"></div>
+      <button id="addSegBtn" onclick="addSegment()">＋ セグメントを追加</button>
+    </div>
+  </div>
+
+  <!-- control row -->
+  <div class="ctrl-row">
+    <button class="btn btn-build"  onclick="buildBridge()">🔨 架橋</button>
+    <button class="btn btn-cannon" id="cannonBtn" onclick="onCannonClick()">🎯 発射準備</button>
+    <button class="btn btn-reset"  onclick="resetStage()">↺</button>
+    <div class="flex1"></div>
+    <button class="btn btn-hint"   onclick="toggleHint()">💡</button>
+  </div>
+
+</div>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- CLEAR OVERLAY -->
+<div id="overlay">
+  <div class="ov-card">
+    <div class="ov-emoji" id="ovEmoji">🎉</div>
+    <h2 id="ovTitle">クリア！</h2>
+    <p id="ovMsg"></p>
+    <button class="btn-next" onclick="nextStage()">次のステージ ▶</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  CONSTANTS
+// ═══════════════════════════════════════════════════
+const SEG_COLORS = ['#a78bfa','#34d399','#fb923c','#f472b6','#60a5fa','#fde68a'];
+const GRAV  = 0.32;
+const FRIC  = 0.990;
+const BALL_R = 9;
+const CANNON_POWER_MAX = 14;   // px/frame at max
+const CANNON_ANGLE_DEG = 28;   // launch angle above horizontal
+
+// ═══════════════════════════════════════════════════
+//  STAGES
+// ═══════════════════════════════════════════════════
+const STAGES = [
+  {
+    id:1, title:'チュートリアル',
+    hint:'一本の直線でまず渡ってみよう。大砲のゲージが最大のときに発射すると速く飛べる。',
+    leftFrac:0.18, rightFrac:0.88, groundFrac:0.62,
+    leftH:0.62, rightH:0.62,
+    cannonFrac:{x:0.04, y:0.52},
+    goalFrac:0.94,
+    initSegs:[{x0:0,x1:10,expr:'2'}],
+  },
+  {
+    id:2, title:'高低差',
+    hint:'右側の地面が高い。橋の右端を高くする数式を考えよう。大砲の角度は固定だが、パワーで届く距離が変わる。',
+    leftFrac:0.17, rightFrac:0.86, groundFrac:0.70,
+    leftH:0.68, rightH:0.42,
+    cannonFrac:{x:0.04, y:0.57},
+    goalFrac:0.93,
+    initSegs:[{x0:0,x1:10,expr:'0.3*x+1'}],
+  },
+  {
+    id:3, title:'アーチ＋直線',
+    hint:'谷を放物線で越えてから、右の高台に向けて直線を繋げよう。2つのセグメントを使って橋を分割するのがポイント。',
+    leftFrac:0.15, rightFrac:0.85, groundFrac:0.68,
+    leftH:0.65, rightH:0.45,
+    cannonFrac:{x:0.03, y:0.53},
+    goalFrac:0.92,
+    initSegs:[
+      {x0:0,x1:6,expr:'-0.1*(x-3)^2+3'},
+      {x0:6,x1:10,expr:'0.4*x-0.5'},
+    ],
+  },
+  {
+    id:4, title:'深い谷',
+    hint:'谷が深い。橋の高さが足りないと玉が落ちる。放物線の頂点を高くするか、セグメントを組み合わせよう。',
+    leftFrac:0.20, rightFrac:0.82, groundFrac:0.88,
+    leftH:0.52, rightH:0.52,
+    cannonFrac:{x:0.05, y:0.41},
+    goalFrac:0.90,
+    initSegs:[{x0:0,x1:10,expr:'-0.12*(x-5)^2+6'}],
+  },
+  {
+    id:5, title:'マルチブリッジ',
+    hint:'3つ以上のセグメントを使ってみよう。各セグメントの境界で高さが連続していないと玉が跳んでしまう。',
+    leftFrac:0.14, rightFrac:0.87, groundFrac:0.72,
+    leftH:0.70, rightH:0.38,
+    cannonFrac:{x:0.03, y:0.58},
+    goalFrac:0.93,
+    initSegs:[
+      {x0:0,x1:4,  expr:'0.5*x+1'},
+      {x0:4,x1:7,  expr:'-0.2*(x-5.5)^2+5'},
+      {x0:7,x1:10, expr:'0.8*x-3'},
+    ],
+  },
+];
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let SI=0, stage=STAGES[0];
+let segments=[];          // [{x0,x1,expr,pts,color}]
+let ball=null, animId=null;
+let rolling=false, cleared=false;
+
+// cannon state
+let cannonPhase = 'idle';  // idle | charging | fired
+let chargeT = 0;           // 0..2π oscillating
+let chargeDirSign = 1;
+let chargeRAF = null;
+
+let W=0, H=0;
+
+const cv  = document.getElementById('cv');
+const ctx = cv.getContext('2d');
+
+// ═══════════════════════════════════════════════════
+//  RESIZE
+// ═══════════════════════════════════════════════════
+function resize() {
+  W = window.innerWidth;
+  H = window.innerHeight;
+  cv.width  = W * devicePixelRatio;
+  cv.height = H * devicePixelRatio;
+  cv.style.width  = W+'px';
+  cv.style.height = H+'px';
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  if (!rolling) draw();
+}
+window.addEventListener('resize', resize);
+
+// ═══════════════════════════════════════════════════
+//  COORD HELPERS
+// ═══════════════════════════════════════════════════
+function L2C(lx, ly) {
+  const s=stage;
+  const cx = s.leftFrac*W + lx/10*(s.rightFrac-s.leftFrac)*W;
+  const scaleY = (s.groundFrac - 0.07)*H / 7;
+  return { cx, cy: s.groundFrac*H - ly*scaleY };
+}
+const gapL  = ()=> stage.leftFrac*W;
+const gapR  = ()=> stage.rightFrac*W;
+const leftCY  = ()=> stage.leftH*H;
+const rightCY = ()=> stage.rightH*H;
+const groundY = ()=> stage.groundFrac*H;
+const goalCX  = ()=> stage.goalFrac*W;
+const cannonCX = ()=> stage.cannonFrac.x*W;
+const cannonCY = ()=> stage.cannonFrac.y*H;
+
+// ═══════════════════════════════════════════════════
+//  FORMULA EVAL
+// ═══════════════════════════════════════════════════
+function evalF(expr, x) {
+  let e = expr
+    .replace(/\^(\d+(\.\d+)?)/g,(_,p)=>`**${p}`)
+    .replace(/\^/g,'**')
+    .replace(/sqrt\(/g,'Math.sqrt(')
+    .replace(/abs\(/g,'Math.abs(')
+    .replace(/sin\(/g,'Math.sin(')
+    .replace(/cos\(/g,'Math.cos(')
+    .replace(/pi/gi,'Math.PI');
+  try {
+    const v=new Function('x',`"use strict";return(${e});`)(x);
+    return isFinite(v)&&!isNaN(v)?v:null;
+  } catch { return null; }
+}
+
+function computeSegPts(seg) {
+  const N=120, pts=[];
+  for(let i=0;i<=N;i++){
+    const lx = seg.x0+(seg.x1-seg.x0)*i/N;
+    const ly = evalF(seg.expr, lx);
+    if(ly===null) return null;
+    pts.push(L2C(lx,ly));
+  }
+  return pts;
+}
+
+// ═══════════════════════════════════════════════════
+//  SEGMENT UI
+// ═══════════════════════════════════════════════════
+function renderSegList() {
+  const list = document.getElementById('segList');
+  list.innerHTML='';
+  segments.forEach((seg,i)=>{
+    const row = document.createElement('div');
+    row.className='seg-row';
+    row.innerHTML=`
+      <div class="seg-dot" style="background:${seg.color}"></div>
+      <span class="seg-range">x: [${seg.x0}, ${seg.x1}]</span>
+      <input class="seg-expr ${seg.err?'err':''}" value="${seg.expr}"
+             data-i="${i}" oninput="onSegInput(${i},this.value)"
+             onkeydown="if(event.key==='Enter')buildBridge()">
+      ${segments.length>1?`<button class="seg-btn" onclick="removeSegment(${i})">✕</button>`:''}`;
+    list.appendChild(row);
+  });
+  updateFormulaReadout();
+}
+
+function onSegInput(i, val) {
+  segments[i].expr = val;
+  // live preview
+  const pts = computeSegPts(segments[i]);
+  segments[i].err = !pts;
+  if(pts) segments[i].pts=pts;
+  renderSegList();
+  if(!rolling) draw();
+}
+
+function addSegment() {
+  const last = segments[segments.length-1];
+  // split the last segment's domain in half
+  const mid = parseFloat(((last.x0+last.x1)/2).toFixed(1));
+  if(mid<=last.x0||mid>=last.x1){toast('これ以上分割できません','err');return;}
+  // resize last
+  const oldX1 = last.x1;
+  last.x1 = mid;
+  last.pts = computeSegPts(last)||last.pts;
+  segments.push({
+    x0:mid, x1:oldX1,
+    expr: last.expr,
+    color: SEG_COLORS[segments.length % SEG_COLORS.length],
+    pts:[], err:false,
+  });
+  const newSeg = segments[segments.length-1];
+  newSeg.pts = computeSegPts(newSeg)||[];
+  renderSegList();
+  draw();
+}
+
+function removeSegment(i) {
+  if(segments.length<=1){toast('最低1つ必要です','err');return;}
+  // extend the previous (or next) segment to fill the gap
+  if(i>0) segments[i-1].x1 = segments[i].x1;
+  else    segments[1].x0   = segments[0].x0;
+  segments.splice(i,1);
+  segments.forEach((s,j)=>{ s.color=SEG_COLORS[j%SEG_COLORS.length]; s.pts=computeSegPts(s)||[]; });
+  renderSegList(); draw();
+}
+
+function updateFormulaReadout() {
+  const parts = segments.map(s=>`[${s.x0}-${s.x1}]:${s.expr}`);
+  document.getElementById('formulaReadout').textContent = parts.join('  |  ');
+}
+
+// ═══════════════════════════════════════════════════
+//  BUILD BRIDGE
+// ═══════════════════════════════════════════════════
+function buildBridge() {
+  stopCannon();
+  ball=null; rolling=false; cleared=false;
+  let allOk=true;
+  segments.forEach((seg,i)=>{
+    const pts=computeSegPts(seg);
+    seg.err=!pts;
+    seg.pts=pts||[];
+    if(!pts) allOk=false;
+  });
+  renderSegList();
+  if(!allOk){toast('数式エラーがあります','err');draw();return;}
+
+  // validate endpoints match ground heights
+  const allPts = segments.flatMap(s=>s.pts);
+  if(allPts.length>0){
+    const first=allPts[0], last=allPts[allPts.length-1];
+    if(Math.abs(first.cy-leftCY())>H*0.15){toast(`左端ずれ — y(${segments[0].x0}) を調整しよう`,'err');draw();return;}
+    if(Math.abs(last.cy-rightCY())>H*0.15){toast(`右端ずれ — y(${segments[segments.length-1].x1}) を調整しよう`,'err');draw();return;}
+  }
+  draw();
+  toast('橋が架かった！大砲で発射しよう 🎯','ok');
+}
+
+// ═══════════════════════════════════════════════════
+//  CANNON
+// ═══════════════════════════════════════════════════
+function onCannonClick() {
+  if(cannonPhase==='idle'){
+    startCharging();
+  } else if(cannonPhase==='charging'){
+    fireCannon();
+  }
+}
+
+function startCharging() {
+  // check bridge first
+  const anyPts = segments.some(s=>s.pts&&s.pts.length>0);
+  if(!anyPts){toast('先に橋を架けよう','err');return;}
+  const allPts=segments.flatMap(s=>s.pts);
+  if(allPts.length>0){
+    const first=allPts[0],last=allPts[allPts.length-1];
+    if(Math.abs(first.cy-leftCY())>H*0.15||Math.abs(last.cy-rightCY())>H*0.15){
+      toast('橋の端が地面と合っていません','err');return;
+    }
+  }
+
+  cannonPhase='charging'; chargeT=0; chargeDirSign=1;
+  const btn=document.getElementById('cannonBtn');
+  btn.textContent='💥 発射！';
+  btn.classList.add('ready');
+  toast('ゲージが最大のときに発射！','info');
+  animateCannon();
+}
+
+function animateCannon() {
+  chargeT += 0.035 * chargeDirSign;
+  if(chargeT>=Math.PI) chargeDirSign=-1;
+  if(chargeT<=0)       chargeDirSign=1;
+  chargeT=Math.max(0,Math.min(Math.PI,chargeT));
+  if(!rolling) draw();
+  if(cannonPhase==='charging') chargeRAF=requestAnimationFrame(animateCannon);
+}
+
+function fireCannon() {
+  if(cannonPhase!=='charging') return;
+  const power = Math.sin(chargeT);   // 0..1
+  cannonPhase='fired';
+  if(chargeRAF){cancelAnimationFrame(chargeRAF);chargeRAF=null;}
+  const btn=document.getElementById('cannonBtn');
+  btn.textContent='🎯 発射準備';
+  btn.classList.remove('ready');
+
+  const speed = 2.5 + power * CANNON_POWER_MAX;
+  const rad = CANNON_ANGLE_DEG * Math.PI/180;
+  ball = {
+    cx: cannonCX() + 18,
+    cy: cannonCY() - 12,
+    vx: speed * Math.cos(rad),
+    vy: -speed * Math.sin(rad),
+    stall: 0,
+    dead: false,
+    trail: [],
+  };
+
+  // muzzle flash
+  muzzleFlash = {t:8};
+
+  rolling=true; cleared=false;
+  animate();
+}
+
+function stopCannon() {
+  if(chargeRAF){cancelAnimationFrame(chargeRAF);chargeRAF=null;}
+  cannonPhase='idle';
+  const btn=document.getElementById('cannonBtn');
+  btn.textContent='🎯 発射準備';
+  btn.classList.remove('ready');
+}
+
+let muzzleFlash = null;
+
+// ═══════════════════════════════════════════════════
+//  PHYSICS
+//  順序: ① 重力加速 → ② 位置移動 → ③ 衝突解決
+//  橋上: 法線方向速度をゼロに → 接線方向だけ残す → 摩擦
+// ═══════════════════════════════════════════════════
+function animate() {
+  if(!ball||ball.dead||cleared) return;
+
+  // ① 重力加速（canvas座標系: y下向き正）
+  ball.vy += GRAV;
+
+  // ② 位置移動
+  ball.cx += ball.vx;
+  ball.cy += ball.vy;
+
+  // ③-A 橋との衝突解決
+  const bY = getBridgeY(ball.cx);
+  if(bY !== null && ball.cy + BALL_R >= bY) {
+    // 位置を橋の上に押し戻す
+    ball.cy = bY - BALL_R;
+
+    // 橋の接線ベクトルを有限差分で求める
+    const EPS = 0.5;
+    const bYf = getBridgeY(ball.cx + EPS);
+    const bYb = getBridgeY(ball.cx - EPS);
+    let nx, ny;  // 法線ベクトル（上向き）
+    if(bYf !== null && bYb !== null){
+      // 接線 t = (2*EPS, bYf-bYb), 法線 n = (-(bYf-bYb), 2*EPS) 正規化
+      const slope = (bYf - bYb) / (2 * EPS);
+      const len = Math.sqrt(1 + slope * slope);
+      // 法線 = (-slope, 1)/len  (上向きにするため y成分を正→負へ反転: canvas y↓)
+      nx = -slope / len;
+      ny = -1 / len;  // canvas上向きは負
+    } else {
+      nx = 0; ny = -1;  // 水平面
+    }
+
+    // 速度を法線・接線に分解
+    const vDotN = ball.vx * nx + ball.vy * ny;
+
+    // 法線方向にめり込んでいる（vDotN < 0 = 橋に向かっている）場合のみ解決
+    if(vDotN < 0){
+      // 法線成分を取り除く（弾性なし）
+      ball.vx -= vDotN * nx;
+      ball.vy -= vDotN * ny;
+    }
+
+    // 接線方向に摩擦
+    ball.vx *= FRIC;
+    ball.vy *= FRIC;
+  }
+
+  // ③-B 左地面との衝突
+  if(ball.cx <= gapL() && ball.cy + BALL_R >= leftCY()){
+    ball.cy = leftCY() - BALL_R;
+    if(ball.vy > 0) ball.vy = 0;
+    ball.vx *= FRIC;
+  }
+
+  // ③-C 右地面との衝突
+  if(ball.cx >= gapR() && ball.cy + BALL_R >= rightCY()){
+    ball.cy = rightCY() - BALL_R;
+    if(ball.vy > 0) ball.vy = 0;
+    ball.vx *= FRIC;
+  }
+
+  // 後退防止（崖から押し戻されるのは不自然なので緩めに）
+  if(ball.vx < -1) ball.vx = -1;
+
+  // trail
+  ball.trail.push({cx:ball.cx,cy:ball.cy});
+  if(ball.trail.length>28) ball.trail.shift();
+
+  // muzzle flash countdown
+  if(muzzleFlash){muzzleFlash.t--;if(muzzleFlash.t<=0)muzzleFlash=null;}
+
+  // goal
+  if(ball.cx>=goalCX()){
+    cleared=true; rolling=false; ball.dead=true;
+    draw(); showClear(); return;
+  }
+  // fall
+  if(ball.cy>H+80){
+    ball.dead=true; rolling=false;
+    cannonPhase='idle';
+    document.getElementById('cannonBtn').textContent='🎯 発射準備';
+    document.getElementById('cannonBtn').classList.remove('ready');
+    draw(); toast('谷に落ちた！橋か発射角度を調整しよう','err'); return;
+  }
+  // stall
+  if(Math.abs(ball.vx)<0.05&&Math.abs(ball.vy)<0.2&&ball.cx<goalCX()-40){
+    ball.stall++;
+    if(ball.stall>110){
+      ball.dead=true; rolling=false; cannonPhase='idle';
+      document.getElementById('cannonBtn').textContent='🎯 発射準備';
+      document.getElementById('cannonBtn').classList.remove('ready');
+      draw(); toast('止まった。橋の傾きかパワーを調整しよう','err'); return;
+    }
+  } else ball.stall=0;
+
+  draw();
+  animId=requestAnimationFrame(animate);
+}
+
+function getBridgeY(cx) {
+  for(const seg of segments){
+    if(!seg.pts||seg.pts.length<2) continue;
+    const p=seg.pts;
+    if(cx<p[0].cx||cx>p[p.length-1].cx) continue;
+    for(let i=0;i<p.length-1;i++){
+      if(cx>=p[i].cx&&cx<=p[i+1].cx){
+        const t=(cx-p[i].cx)/(p[i+1].cx-p[i].cx);
+        return p[i].cy+t*(p[i+1].cy-p[i].cy);
+      }
+    }
+  }
+  return null;
+}
+
+// ═══════════════════════════════════════════════════
+//  DRAW
+// ═══════════════════════════════════════════════════
+function draw() {
+  if(!W||!H) return;
+  ctx.clearRect(0,0,W,H);
+
+  // grid
+  ctx.strokeStyle='rgba(80,80,160,0.04)'; ctx.lineWidth=1;
+  const gx=Math.round(W/20), gy2=Math.round(H/12);
+  for(let x=0;x<=W;x+=gx){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(let y=0;y<=H;y+=gy2){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+
+  // abyss
+  const ag=ctx.createLinearGradient(0,Math.min(leftCY(),rightCY()),0,H);
+  ag.addColorStop(0,'rgba(4,4,14,0)'); ag.addColorStop(1,'rgba(1,1,6,1)');
+  ctx.fillStyle=ag; ctx.fillRect(gapL(),0,gapR()-gapL(),H);
+
+  // left ground
+  ctx.fillStyle='#11253a'; ctx.fillRect(0,leftCY(),gapL(),H-leftCY());
+  ctx.fillStyle='#1d5c40'; ctx.fillRect(0,leftCY()-4,gapL(),5);
+  // right ground
+  ctx.fillStyle='#11253a'; ctx.fillRect(gapR(),rightCY(),W-gapR(),H-rightCY());
+  ctx.fillStyle='#1d5c40'; ctx.fillRect(gapR(),rightCY()-4,W-gapR(),5);
+
+  // goal flag
+  const gfx=goalCX(), gfy=rightCY()-4, fh=Math.round(H*0.09);
+  ctx.strokeStyle='#fbbf24'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.moveTo(gfx,gfy); ctx.lineTo(gfx,gfy-fh); ctx.stroke();
+  ctx.fillStyle='#fbbf24';
+  ctx.beginPath(); ctx.moveTo(gfx,gfy-fh); ctx.lineTo(gfx+fh*.55,gfy-fh*.72); ctx.lineTo(gfx,gfy-fh*.44); ctx.fill();
+
+  // ── CANNON ──
+  drawCannon();
+
+  // ── BRIDGES (each segment its own color) ──
+  segments.forEach(seg=>{
+    if(!seg.pts||seg.pts.length<2) return;
+    const pts=seg.pts;
+    ctx.shadowColor=seg.color+'88'; ctx.shadowBlur=8;
+    ctx.strokeStyle=seg.color; ctx.lineWidth=3;
+    ctx.lineJoin='round'; ctx.lineCap='round';
+    ctx.beginPath(); ctx.moveTo(pts[0].cx,pts[0].cy);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].cx,pts[i].cy);
+    ctx.stroke(); ctx.shadowBlur=0;
+    // pillars
+    ctx.strokeStyle=seg.color+'40'; ctx.lineWidth=1; ctx.setLineDash([2,5]);
+    for(let i=0;i<pts.length;i+=10){
+      const p=pts[i];
+      if(p.cx>gapL()&&p.cx<gapR()&&p.cy<groundY()){
+        ctx.beginPath(); ctx.moveTo(p.cx,p.cy); ctx.lineTo(p.cx,groundY()); ctx.stroke();
+      }
+    }
+    ctx.setLineDash([]);
+    // segment boundary dot
+    const last=pts[pts.length-1];
+    ctx.fillStyle=seg.color;
+    ctx.beginPath(); ctx.arc(pts[0].cx,pts[0].cy,4,0,Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(last.cx,last.cy,4,0,Math.PI*2); ctx.fill();
+  });
+
+  // x labels
+  ctx.fillStyle='rgba(100,100,170,0.28)';
+  ctx.font=`${Math.round(W*.011)}px JetBrains Mono,monospace`;
+  for(let lx=0;lx<=10;lx+=2){
+    const {cx}=L2C(lx,0);
+    if(cx>gapL()-4&&cx<gapR()+4) ctx.fillText(lx,cx-3,groundY()+13);
+  }
+
+  // ── BALL TRAIL ──
+  if(ball&&ball.trail.length>1){
+    for(let i=1;i<ball.trail.length;i++){
+      const t=i/ball.trail.length;
+      ctx.strokeStyle=`rgba(251,191,36,${t*0.35})`;
+      ctx.lineWidth=BALL_R*2*t;
+      ctx.lineCap='round';
+      ctx.beginPath();
+      ctx.moveTo(ball.trail[i-1].cx,ball.trail[i-1].cy);
+      ctx.lineTo(ball.trail[i].cx,ball.trail[i].cy);
+      ctx.stroke();
+    }
+  }
+
+  // ── BALL ──
+  if(ball&&!ball.dead){
+    const g=ctx.createRadialGradient(ball.cx-3,ball.cy-3,1,ball.cx,ball.cy,BALL_R);
+    g.addColorStop(0,'#fde68a'); g.addColorStop(1,'#d97706');
+    ctx.shadowColor='rgba(251,191,36,0.6)'; ctx.shadowBlur=18;
+    ctx.fillStyle=g;
+    ctx.beginPath(); ctx.arc(ball.cx,ball.cy,BALL_R,0,Math.PI*2); ctx.fill();
+    ctx.shadowBlur=0;
+  }
+
+  // ── POWER GAUGE (when charging) ──
+  if(cannonPhase==='charging'){
+    drawPowerGauge();
+  }
+}
+
+function drawCannon() {
+  const cx=cannonCX(), cy=cannonCY();
+  const rad=CANNON_ANGLE_DEG*Math.PI/180;
+
+  // wheels
+  ctx.fillStyle='#334155';
+  ctx.beginPath(); ctx.arc(cx-4,cy+10,8,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx+8,cy+10,8,0,Math.PI*2); ctx.fill();
+  ctx.strokeStyle='#475569'; ctx.lineWidth=2;
+  ctx.beginPath(); ctx.arc(cx-4,cy+10,8,0,Math.PI*2); ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx+8,cy+10,8,0,Math.PI*2); ctx.stroke();
+
+  // body
+  ctx.fillStyle='#334155';
+  ctx.beginPath();
+  ctx.roundRect(cx-12,cy-4,28,16,4);
+  ctx.fill();
+
+  // barrel
+  ctx.save();
+  ctx.translate(cx+4, cy+2);
+  ctx.rotate(-rad);
+  ctx.fillStyle='#475569';
+  ctx.beginPath(); ctx.roundRect(0,-5,30,10,3); ctx.fill();
+  ctx.strokeStyle='#64748b'; ctx.lineWidth=1;
+  ctx.strokeRect(0,-5,30,10);
+  ctx.restore();
+
+  // muzzle flash
+  if(muzzleFlash){
+    const alpha=muzzleFlash.t/8;
+    const mx=cx+4+(28+4)*Math.cos(-rad+0.08);
+    const my=cy+2+(28+4)*Math.sin(-rad+0.08);
+    ctx.save();
+    ctx.globalAlpha=alpha;
+    ctx.shadowColor='#fbbf24'; ctx.shadowBlur=20;
+    ctx.fillStyle='#fde68a';
+    for(let a=0;a<6;a++){
+      const aa=a/6*Math.PI*2;
+      const r=12+Math.random()*8;
+      ctx.beginPath(); ctx.arc(mx+Math.cos(aa)*r*.3,my+Math.sin(aa)*r*.3,3,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+}
+
+function drawPowerGauge() {
+  const power=Math.sin(chargeT);  // 0..1
+  const gw=Math.min(180,W*0.25);
+  const gh=14;
+  const gx=cannonCX()+32;
+  const gy=cannonCY()-28;
+
+  // track
+  ctx.fillStyle='rgba(30,30,60,0.85)';
+  ctx.beginPath(); ctx.roundRect(gx,gy,gw,gh,gh/2); ctx.fill();
+  ctx.strokeStyle='rgba(80,80,180,0.5)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.roundRect(gx,gy,gw,gh,gh/2); ctx.stroke();
+
+  // fill — color shifts red at high power
+  const r=Math.round(34+power*220), g2=Math.round(211*(1-power*0.8)), b=Math.round(238*(1-power));
+  const fillGrad=ctx.createLinearGradient(gx,0,gx+gw,0);
+  fillGrad.addColorStop(0,`rgb(${r},${g2},${b})`);
+  fillGrad.addColorStop(1,`rgb(255,${Math.round(80*(1-power))},0)`);
+  ctx.fillStyle=fillGrad;
+  ctx.beginPath(); ctx.roundRect(gx+1,gy+1,Math.max(0,(gw-2)*power),gh-2,gh/2-1); ctx.fill();
+
+  // glow at high power
+  if(power>0.7){
+    ctx.shadowColor=`rgba(255,80,0,${(power-0.7)*3})`;
+    ctx.shadowBlur=12;
+    ctx.beginPath(); ctx.roundRect(gx+1,gy+1,(gw-2)*power,gh-2,gh/2-1); ctx.fill();
+    ctx.shadowBlur=0;
+  }
+
+  // label
+  ctx.fillStyle='rgba(220,220,255,0.9)';
+  ctx.font=`600 ${Math.round(W*.013)}px JetBrains Mono,monospace`;
+  ctx.fillText(`POWER ${Math.round(power*100)}%`, gx, gy-5);
+}
+
+// ═══════════════════════════════════════════════════
+//  STAGE MANAGEMENT
+// ═══════════════════════════════════════════════════
+function loadStage(i) {
+  SI=i; stage=STAGES[i];
+  ball=null; rolling=false; cleared=false;
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  stopCannon();
+
+  // init segments from stage definition
+  segments = stage.initSegs.map((s,j)=>({
+    x0:s.x0, x1:s.x1, expr:s.expr,
+    color:SEG_COLORS[j%SEG_COLORS.length],
+    pts:[], err:false,
+  }));
+  segments.forEach(s=>{ s.pts=computeSegPts(s)||[]; });
+
+  document.getElementById('stagePill').innerHTML=`<strong>S${stage.id}</strong> ${stage.title}`;
+  document.getElementById('hintText').textContent=stage.hint;
+  toast('','');
+  renderSegList(); draw();
+}
+
+function resetStage() {
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  stopCannon();
+  ball=null; rolling=false; cleared=false;
+  segments.forEach(s=>{ s.err=false; s.pts=computeSegPts(s)||[]; });
+  renderSegList(); draw(); toast('','');
+}
+
+function nextStage() {
+  document.getElementById('overlay').classList.remove('show');
+  SI=SI>=STAGES.length-1?0:SI+1;
+  loadStage(SI);
+}
+
+// ═══════════════════════════════════════════════════
+//  UI HELPERS
+// ═══════════════════════════════════════════════════
+let toastTimer=null;
+function toast(t,type=''){
+  const el=document.getElementById('toast');
+  el.textContent=t;
+  el.className=t?'show '+type:'';
+  const bot=document.getElementById('bottom');
+  el.style.bottom=(bot.offsetHeight+8)+'px';
+  if(toastTimer)clearTimeout(toastTimer);
+  if(t&&type!=='info') toastTimer=setTimeout(()=>{el.className='';},3800);
+}
+
+function showClear(){
+  const last=SI>=STAGES.length-1;
+  document.getElementById('ovEmoji').textContent=last?'🏆':'🎉';
+  document.getElementById('ovTitle').textContent=last?'全ステージクリア！':'クリア！';
+  document.getElementById('ovMsg').textContent=last
+    ?'全ての谷に橋を架けた。'
+    :`パワー ${Math.round(Math.sin(chargeT)*100)||'?'}%で見事クリア！`;
+  document.getElementById('overlay').classList.add('show');
+}
+
+let drawerOpen=true;
+function toggleDrawer(){
+  drawerOpen=!drawerOpen;
+  document.getElementById('drawer').classList.toggle('open',drawerOpen);
+  document.getElementById('drawerToggle').classList.toggle('open',drawerOpen);
+}
+
+let hintOpen=false;
+function toggleHint(){
+  hintOpen=!hintOpen;
+  const box=document.getElementById('hintBox');
+  box.classList.toggle('show',hintOpen);
+  if(hintOpen) box.textContent='💡 '+stage.hint;
+}
+
+// ═══════════════════════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════════════════════
+// drawer starts open
+document.getElementById('drawerToggle').classList.add('open');
+
+resize();
+loadStage(0);
+</script>
+  <script>
+    navigator.sendBeacon(
+      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>
