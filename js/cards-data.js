@@ -39,7 +39,7 @@ const cardsList = [
         title: "Informatics_1", 
         titleJP: "情報I学習ツール",
         text: "情報Iの学習に役立つツールです", 
-        link: "informatics1/" 
+        link: "informatics/" 
     },
     { 
         icon: "🗂️",
