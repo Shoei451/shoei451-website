@@ -56,10 +56,6 @@
     return { numericYear, is_bc };
   }
 
-  function formatYear(q) {
-    return q.is_bc ? `前${q.year}年` : `${q.year}年`;
-  }
-
   function determinePeriod(year, is_bc) {
     if (is_bc) return "~0";
     if (year <= 1000) return "1~1000";
@@ -70,6 +66,10 @@
     if (year <= 1945) return "1901~1945";
     if (year <= 1989) return "1946~1989";
     return "1990~";
+  }
+
+  function toDisplayYearValue(q) {
+    return q.is_bc ? -Math.abs(q.year) : q.year;
   }
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -195,15 +195,6 @@
     }, 3000);
   }
 
-  function shuffle(array) {
-    const arr = array.slice();
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-
   function showSectionScreen() {
     currentMode = document.getElementById('modeSelect').value;
     document.getElementById('startScreen').classList.add('hidden');
@@ -266,7 +257,7 @@
     questionCount = countValue === 'all' ? filtered.length : parseInt(countValue);
     questionCount = Math.min(questionCount, filtered.length);
 
-    currentSet = shuffle(filtered).slice(0, questionCount);
+    currentSet = shuffleArray(filtered).slice(0, questionCount);
     currentIndex = 0;
     score = 0;
     total = questionCount;
@@ -292,15 +283,15 @@
   choicesDiv.innerHTML = '';
 
   if (currentMode === 'yearToEvent') {
-    questionDiv.textContent = formatYear(current);
+    questionDiv.textContent = formatYear(toDisplayYearValue(current));
     correctAnswer = current.event;
 
     const othersInSameSection = allData.filter(q => 
       q.period === current.period &&
       (q.event !== current.event || q.year !== current.year || q.is_bc !== current.is_bc)
     );
-    const shuffledOthers = shuffle(othersInSameSection).slice(0, 3);
-    const choices = shuffle([current, ...shuffledOthers]);
+    const shuffledOthers = shuffleArray(othersInSameSection).slice(0, 3);
+    const choices = shuffleArray([current, ...shuffledOthers]);
 
     choices.forEach(choice => {
       const btn = document.createElement('button');
@@ -312,7 +303,7 @@
   } else {
     // 🔴 出来事→年号モード
     questionDiv.textContent = current.event;
-    correctAnswer = formatYear(current);
+    correctAnswer = formatYear(toDisplayYearValue(current));
 
     const othersInSameChapter = allData.filter(q => 
       q.chapter === current.chapter &&
@@ -324,7 +315,7 @@
     uniqueYears.add(`${current.is_bc}-${current.year}`); // 正解を先に追加
     
     const uniqueOthers = [];
-    for (const q of shuffle(othersInSameChapter)) {
+    for (const q of shuffleArray(othersInSameChapter)) {
       const yearKey = `${q.is_bc}-${q.year}`;
       if (!uniqueYears.has(yearKey)) {
         uniqueYears.add(yearKey);
@@ -338,7 +329,7 @@
       const allOthers = allData.filter(q => 
         q.year !== current.year || q.is_bc !== current.is_bc
       );
-      for (const q of shuffle(allOthers)) {
+      for (const q of shuffleArray(allOthers)) {
         const yearKey = `${q.is_bc}-${q.year}`;
         if (!uniqueYears.has(yearKey)) {
           uniqueYears.add(yearKey);
@@ -348,12 +339,12 @@
       }
     }
 
-    const choices = shuffle([current, ...uniqueOthers]);
+    const choices = shuffleArray([current, ...uniqueOthers]);
 
     choices.forEach(choice => {
       const btn = document.createElement('button');
-      btn.textContent = formatYear(choice);
-      btn.onclick = () => checkAnswer(formatYear(choice), btn);
+      btn.textContent = formatYear(toDisplayYearValue(choice));
+      btn.onclick = () => checkAnswer(formatYear(toDisplayYearValue(choice)), btn);
       choicesDiv.appendChild(btn);
     });
   }
@@ -409,7 +400,7 @@ function showYearsForAllChoices() {
     const question = allData.find(q => q.event === eventText);
     
     if (question) {
-      const yearText = formatYear(question);
+      const yearText = formatYear(toDisplayYearValue(question));
       
       // 既存のテキストの下に年号を追加
       btn.innerHTML = `

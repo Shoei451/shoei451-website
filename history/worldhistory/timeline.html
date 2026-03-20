@@ -6,6 +6,7 @@
     <title>世界史年表 — Shoei451</title>
     <link rel="icon" href="../../images/worldhistoryquiz.png">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
     <!-- 変更後: theme-wh.css を先に読み込む -->
     <link rel="stylesheet" href="../../css/timeline.css">
@@ -244,7 +245,7 @@
                     <tbody>
                         ${filteredEvents.map(event => `
                             <tr>
-                                <td class="event-year">${formatYear(event)}</td>
+                                <td class="event-year">${formatYear(event.is_bc ? -Math.abs(event.year) : event.year)}</td>
                                 <td class="event-title">${escapeHtml(event.event)}</td>
                                 <td>
                                     ${currentViewMode === 'period' 
@@ -267,19 +268,9 @@
             container.innerHTML = tableHTML;
         }
 
-        function formatYear(event) {
-            return event.is_bc ? `前${event.year}年` : `${event.year}年`;
-        }
-
         function getPeriodLabel(periodValue) {
             const period = periods.find(p => p.value === periodValue);
             return period ? period.label : periodValue;
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
         }
     </script>
   <script>

@@ -6,6 +6,7 @@
     <title>政治・経済 学習用オンライン年表 (印刷用)</title>
     
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
     <style>
         @media print {
@@ -363,13 +364,6 @@
             
             const date = new Date(dateString);
             return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
-        }
-
-        // Escape HTML
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
         }
 
         // Category filter

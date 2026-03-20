@@ -6,6 +6,7 @@
     <link rel="icon" href="../../images/chinese-history.svg">
     <title>中国王朝史年表 — Shoei451</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
     <!-- 変更後 -->
     <link rel="stylesheet" href="../styles/theme-chinese.css">
@@ -274,12 +275,6 @@
                 return `前${Math.abs(year)}年`;
             }
             return `${year}年`;
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
         }
 
         function setupEventListeners() {

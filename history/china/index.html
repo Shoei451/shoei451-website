@@ -6,6 +6,7 @@
     <link rel="icon" href="../../images/chinese-history.svg">
     <title>中国王朝史 年代クイズ — Shoei451</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
     <!-- 変更後 -->
     <link rel="stylesheet" href="../styles/theme-chinese.css">
@@ -303,13 +304,6 @@
             document.getElementById('nextQuestionBtn').classList.remove('hidden');
         }
 
-        function formatYear(year) {
-            if (year < 0) {
-                return `前${Math.abs(year)}年`;
-            }
-            return `${year}年`;
-        }
-
         function nextQuestion() {
             currentQuestionIndex++;
             
@@ -387,15 +381,6 @@
         function hideLoading() {
             document.getElementById('loadingScreen').classList.add('hidden');
             document.getElementById('setupScreen').classList.remove('hidden');
-        }
-
-        function shuffleArray(array) {
-            const newArray = [...array];
-            for (let i = newArray.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-            }
-            return newArray;
         }
 
         // Allow Enter key to submit

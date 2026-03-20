@@ -195,19 +195,6 @@ async function resetAndFetch() {
 // ============================================================
 // Render — テーブル
 // ============================================================
-function formatYear(year) {
-    if (year === null || year === undefined) return '不明';
-    return year < 0 ? `前${Math.abs(year)}年` : `${year}年`;
-}
-
-function formatYearRange(row) {
-    const start = formatYear(row.year);
-    if (row.year_end !== null && row.year_end !== undefined) {
-        return `${start} ～ ${formatYear(row.year_end)}`;
-    }
-    return start;
-}
-
 function renderTimeline() {
     const container = document.getElementById('timelineContainer');
     document.getElementById('displayedEvents').textContent = totalCount;
@@ -537,11 +524,3 @@ async function handleFormSubmit(e) {
     await resetAndFetch();
 }
 
-// ============================================================
-// Helpers
-// ============================================================
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = String(text ?? '');
-    return div.innerHTML;
-}
