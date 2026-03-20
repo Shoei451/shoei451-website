@@ -550,8 +550,7 @@
     </div>
 
     <script>
-        // Supabase Configuration
-        const quizApiClient = db;
+        // Supabase client/table constants are provided by js/supabase_config.js
 
         // State
         let allEvents = [];
@@ -601,8 +600,8 @@
 
         async function loadEvents() {
             try {
-                const { data, error } = await quizApiClient
-                    .from('seikei_events')
+                const { data, error } = await db
+                    .from(TABLES.SEIKEI)
                     .select('*');
 
                 if (error) throw error;

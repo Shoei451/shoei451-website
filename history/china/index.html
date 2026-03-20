@@ -119,8 +119,7 @@
     </div>
 
     <script>
-        // Supabase Configuration
-        const quizApiClient = db;
+        // Supabase client/table constants are provided by js/supabase_config.js
 
         // State
         let events = [];
@@ -169,8 +168,8 @@
 
         async function loadEvents() {
             try {
-                const { data, error } = await quizApiClient
-                    .from('chinese_history')
+                const { data, error } = await db
+                    .from(TABLES.CHINESE)
                     .select('*');
 
                 if (error) throw error;

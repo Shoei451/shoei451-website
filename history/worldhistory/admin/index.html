@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>世界史年表 管理画面</title>
+    <title>世界史年表 管理画面 (wh_dates)</title>
     <link rel="icon" href="../../../images/worldhistoryquiz.png" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../../js/supabase_config.js"></script>
@@ -21,10 +21,8 @@
                 </svg>
             </div>
             <h2 class="login-title">管理者ログイン</h2>
-            <p class="login-subtitle">世界史年表 管理画面</p>
-
+            <p class="login-subtitle">世界史年表 管理画面 (wh_dates)</p>
             <div id="loginError" class="login-error" style="display:none;"></div>
-
             <div class="form-group">
                 <label for="loginEmail">メールアドレス</label>
                 <input type="email" id="loginEmail" placeholder="admin@example.com" autocomplete="email">
@@ -33,22 +31,21 @@
                 <label for="loginPassword">パスワード</label>
                 <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
             </div>
-
             <button id="loginBtn" class="btn-login" type="button">ログイン</button>
         </div>
     </div>
 
-    <!-- ========== 管理画面（ログイン後） ========== -->
+    <!-- ========== 管理画面 ========== -->
     <div id="adminScreen" style="display:none;">
         <header>
             <div class="header-content">
                 <div>
                     <h1>世界史年表 管理画面</h1>
-                    <span class="admin-badge">ADMIN ONLY</span>
+                    <span class="admin-badge">wh_dates</span>
                 </div>
                 <span class="logo-switches">
                     <span id="loggedInUser" class="user-info"></span>
-                    <button id="logoutBtn" class="btn-logout" type="button" title="ログアウト">
+                    <button id="logoutBtn" class="btn-logout" type="button">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                             <polyline points="16 17 21 12 16 7"></polyline>
@@ -77,10 +74,11 @@
         </header>
 
         <div class="container">
+            <!-- 統計 -->
             <div class="stats" id="statsSection">
                 <div class="stat-item">
                     <div class="stat-number" id="totalEvents">-</div>
-                    <div class="stat-label">総イベント数</div>
+                    <div class="stat-label">総件数</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" id="displayedEvents">-</div>
@@ -88,69 +86,137 @@
                 </div>
             </div>
 
+            <!-- コントロール -->
             <div class="controls">
-                <input type="text" id="searchBox" class="search-box" placeholder="イベントを検索...">
-                <button class="btn-add" onclick="openAddModal()">+ 新規追加</button>
-                <select id="viewMode" style="padding: 10px 12px; border: 2px solid var(--border-light); border-radius: 5px; background: var(--bg-light); color: var(--text-light); font-size: 0.95rem;">
-                    <option value="chapter">章別</option>
-                    <option value="period">時代別</option>
+                <input type="text" id="searchBox" class="search-box" placeholder="出来事を検索...">
+                <select id="regionFilter" class="filter-select">
+                    <option value="all">地域: すべて</option>
                 </select>
+                <select id="fieldFilter" class="filter-select">
+                    <option value="all">分野: すべて</option>
+                    <option value="政治">政治</option>
+                    <option value="経済">経済</option>
+                    <option value="文化・宗教">文化・宗教</option>
+                    <option value="社会">社会</option>
+                    <option value="外交・戦争">外交・戦争</option>
+                </select>
+                <button class="btn-add" onclick="openAddModal()">+ 新規追加</button>
             </div>
 
-            <div class="tabs" id="categoryTabs"></div>
+            <!-- 種別タブ -->
+            <div class="tabs" id="recordTypeTabs">
+                <button class="tab active" data-record-type="all">すべて</button>
+                <button class="tab" data-record-type="event">出来事</button>
+                <button class="tab" data-record-type="period">期間</button>
+                <button class="tab" data-record-type="person">人物</button>
+            </div>
 
+            <!-- テーブル -->
             <div id="timelineContainer">
                 <div class="loading">読み込み中...</div>
             </div>
         </div>
     </div>
 
-    <!-- Edit/Add Modal -->
+    <!-- ========== 編集・追加モーダル ========== -->
     <div class="modal" id="editModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">イベントを編集</h2>
+                <h2 id="modalTitle">新規追加</h2>
                 <button class="close-modal" id="closeModal" type="button">×</button>
             </div>
             <form id="editForm">
                 <input type="hidden" id="editEventId">
-                
-                <div class="form-group">
-                    <label for="editYear">年号 *</label>
-                    <input type="text" id="editYear" required placeholder="例：1640 / 前3000">
-                    <small>紀元前には「前」をつけてください（例：前3000）</small>
-                </div>
 
+                <!-- 種別 -->
                 <div class="form-group">
-                    <label for="editEvent">出来事 *</label>
-                    <textarea id="editEvent" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="editChapter">章（分野） *</label>
-                    <select id="editChapter" required>
-                        <option value="第1章">古代文明圏【オリエント・ギリシア・ローマ・中国古代】</option>
-                        <option value="第2章">中世ヨーロッパ</option>
-                        <option value="第3章">近現代ヨーロッパ</option>
-                        <option value="第4章">東アジア（中国・モンゴル）</option>
-                        <option value="第5章">東アジア（日本・朝鮮）</option>
-                        <option value="第6章">イスラーム世界</option>
-                        <option value="第7章">南アジア・東南アジア</option>
-                        <option value="第8章">アメリカ大陸</option>
-                        <option value="第9章">第一次世界大戦</option>
-                        <option value="第10章">第二次世界大戦</option>
-                        <option value="第11章">戦後国際史</option>
+                    <label for="editRecordType">種別 *</label>
+                    <select id="editRecordType">
+                        <option value="event">出来事（点）</option>
+                        <option value="period">期間</option>
+                        <option value="person">人物</option>
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label for="editPeriod">時代区分（自動判定）</label>
-                    <input id="editPeriod" type="text" disabled>
+                <!-- 年・年終了（2列） -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="editYear">年（開始年・生年）</label>
+                        <input type="number" id="editYear" placeholder="例: 1789 / -221">
+                        <small>紀元前は負の数。不明なら空白。</small>
+                    </div>
+                    <div class="form-group" id="yearEndGroup" style="display:none;">
+                        <label for="editYearEnd">終了年（没年）</label>
+                        <input type="number" id="editYearEnd" placeholder="例: 1918 / -206">
+                        <small>不明なら空白。</small>
+                    </div>
                 </div>
 
+                <!-- 日付形式 -->
                 <div class="form-group">
-                    <label for="editLink">参考リンク（任意）</label>
-                    <input id="editLink" type="url" placeholder="https://...">
+                    <label for="editDateType">日付の形式</label>
+                    <select id="editDateType">
+                        <option value="year">年のみ</option>
+                        <option value="full">完全な日付</option>
+                        <option value="circa">頃（circa）</option>
+                    </select>
+                </div>
+
+                <!-- 完全日付（date_type=fullのとき表示） -->
+                <div class="form-group" id="fullDateGroup" style="display:none;">
+                    <label for="editFullDate">日付</label>
+                    <input type="date" id="editFullDate">
+                </div>
+
+                <!-- 出来事 + Wiki検索 -->
+                <div class="form-group">
+                    <label for="editEvent">出来事 *</label>
+                    <div class="event-wiki-row">
+                        <input type="text" id="editEvent" required placeholder="例: フランス革命 / ナポレオン">
+                        <button type="button" id="wikiSearchBtn">🔍 Wiki検索</button>
+                    </div>
+                    <small>名詞形で短く。人物の場合は名前。</small>
+                    <!-- Wiki検索結果パネル -->
+                    <div id="wikiResultPanel" style="display:none;"></div>
+                </div>
+
+                <!-- 説明 -->
+                <div class="form-group">
+                    <label for="editDescription">説明</label>
+                    <textarea id="editDescription" placeholder="補足説明（フラッシュカード裏面）"></textarea>
+                </div>
+
+                <!-- 地域（チェックボックス） -->
+                <div class="form-group">
+                    <label>地域</label>
+                    <div id="regionCheckboxes" class="region-checkbox-grid">
+                        <!-- JS で動的生成 -->
+                    </div>
+                </div>
+
+                <!-- 分野 -->
+                <div class="form-group">
+                    <label for="editField">分野</label>
+                    <select id="editField">
+                        <option value="">未設定</option>
+                        <option value="政治">政治</option>
+                        <option value="経済">経済</option>
+                        <option value="文化・宗教">文化・宗教</option>
+                        <option value="社会">社会</option>
+                        <option value="外交・戦争">外交・戦争</option>
+                    </select>
+                </div>
+
+                <!-- Wikipedia URL -->
+                <div class="form-group">
+                    <label for="editWikiUrl">Wikipedia URL</label>
+                    <input type="url" id="editWikiUrl" placeholder="https://ja.wikipedia.org/wiki/...">
+                </div>
+
+                <!-- メモ -->
+                <div class="form-group">
+                    <label for="editMemo">メモ（Markdown）</label>
+                    <textarea id="editMemo" placeholder="補足資料・関連リンクなど"></textarea>
                 </div>
 
                 <div class="form-actions">
@@ -162,11 +228,5 @@
     </div>
 
     <script src="script.js"></script>
-  <script>
-    navigator.sendBeacon(
-      '/api/track?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

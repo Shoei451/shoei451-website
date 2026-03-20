@@ -239,8 +239,7 @@
     </div>
 
     <script>
-        // Supabase Configuration - REPLACE WITH YOUR CREDENTIALS
-        const printApiClient = db;
+        // Supabase client/table constants are provided by js/supabase_config.js
 
         let events = [];
         let selectedCategory = 'all';
@@ -252,8 +251,8 @@
         // Load events
         async function loadEvents() {
             try {
-                const { data, error } = await printApiClient
-                    .from('seikei_events')
+                const { data, error } = await db
+                    .from(TABLES.SEIKEI)
                     .select('*')
                     .order('date', { ascending: true });
 

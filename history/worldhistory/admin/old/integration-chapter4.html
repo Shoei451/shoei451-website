@@ -242,12 +242,9 @@
             <div class="log-entry log-info">ログ表示エリア</div>
         </div>
     </div>
-
+    <script src="../../../js/supabase_config.js"></script>
     <script>
-        const SUPABASE_URL = 'https://gjuqsyaugrsshmjerhme.supabase.co';
-        const SUPABASE_ANON_KEY = 'dummy_key_for_local_development';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        const supabase = db
 
         let sourceData = [];
         let transformedData = [];

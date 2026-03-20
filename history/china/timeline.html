@@ -125,8 +125,7 @@
     </div>
 
     <script>
-        // Supabase Configuration
-        const apiClient = db;
+        // Supabase client/table constants are provided by js/supabase_config.js
 
         // State
         let events = [];
@@ -184,8 +183,8 @@
 
         async function loadEvents() {
             try {
-                const { data, error } = await apiClient
-                    .from('chinese_history')
+                const { data, error } = await db
+                    .from(TABLES.CHINESE)
                     .select('*')
                     .order('year', { ascending: true });
 
@@ -348,8 +347,8 @@
             if (!confirm('このイベントを削除してもよろしいですか?')) return;
 
             try {
-                const { error } = await apiClient
-                    .from('chinese_history')
+                const { error } = await db
+                    .from(TABLES.CHINESE)
                     .delete()
                     .eq('id', id);
 
@@ -402,15 +401,15 @@
 
             try {
                 if (eventId) {
-                    const { error } = await apiClient
-                        .from('chinese_history')
+                    const { error } = await db
+                        .from(TABLES.CHINESE)
                         .update(eventData)
                         .eq('id', eventId);
 
                     if (error) throw error;
                 } else {
-                    const { error } = await apiClient
-                        .from('chinese_history')
+                    const { error } = await db
+                        .from(TABLES.CHINESE)
                         .insert([eventData]);
 
                     if (error) throw error;

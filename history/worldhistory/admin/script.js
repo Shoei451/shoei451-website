@@ -1,52 +1,30 @@
 // ============================================================
-// 世界史年表 管理画面 - script.js
-// ⚠️ anon key は公開前提（RLSで制御）
-//    Service Role Key は絶対にフロントに書かないこと！
+// 世界史年表 管理画面 (wh_dates) - script.js
+// Supabase Project 1: gjuqsyaugrsshmjerhme
+// db は js/supabase_config.js から提供される
 // ============================================================
-
 
 // ============================================================
 // State
 // ============================================================
 const PAGE_SIZE = 50;
 
-let currentPageData = [];   // 今表示中のページのデータのみ（全件は持たない）
-let currentCategory = 'all';
-let currentViewMode = 'chapter';
-let searchQuery     = '';
-let currentPage     = 0;
-let totalCount      = 0;
-let isFetching      = false;
-let searchDebounce  = null;
+let currentPageData = [];
+let currentRecordType = 'all';
+let currentRegion    = 'all';
+let currentField     = 'all';
+let searchQuery      = '';
+let currentPage      = 0;
+let totalCount       = 0;
+let isFetching       = false;
+let searchDebounce   = null;
+let regions          = [];   // wh_regions から取得
 
-const chapters = [
-    { value: "第1章",  label: "古代文明圏" },
-    { value: "第2章",  label: "中世ヨーロッパ" },
-    { value: "第3章",  label: "近現代ヨーロッパ" },
-    { value: "第4章",  label: "東アジア（中国・モンゴル）" },
-    { value: "第5章",  label: "東アジア（日本・朝鮮）" },
-    { value: "第6章",  label: "イスラーム世界" },
-    { value: "第7章",  label: "南アジア・東南アジア" },
-    { value: "第8章",  label: "アメリカ大陸" },
-    { value: "第9章",  label: "第一次世界大戦" },
-    { value: "第10章", label: "第二次世界大戦" },
-    { value: "第11章", label: "戦後国際史" }
-];
-
-const periods = [
-    { value: "~0",        label: "紀元前" },
-    { value: "1~1000",    label: "1年~1000年" },
-    { value: "1001~1500", label: "1001年~1500年" },
-    { value: "1501~1700", label: "1501年~1700年" },
-    { value: "1701~1800", label: "1701年~1800年" },
-    { value: "1801~1900", label: "1801年~1900年" },
-    { value: "1901~1945", label: "1901年~1945年" },
-    { value: "1946~1989", label: "1946年~1989年" },
-    { value: "1990~",     label: "1990年~" }
-];
+const RECORD_TYPE_LABELS = { event: '出来事', period: '期間', person: '人物' };
+const FIELDS = ['政治', '経済', '文化・宗教', '社会', '外交・戦争'];
 
 // ============================================================
-// Theme
+// Theme（インライン化 — theme-toggle.js に依存しない）
 // ============================================================
 (function initTheme() {
     const pref = localStorage.getItem('pref-theme');
@@ -70,22 +48,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('loginPassword').addEventListener('keydown', (e) => {
         if (e.key === 'Enter') handleLogin();
     });
-
     document.getElementById('logoutBtn').addEventListener('click', handleLogout);
 
     const { data: { session } } = await db.auth.getSession();
-    if (session) {
-        showAdminScreen(session.user);
-    } else {
-        showLoginScreen();
-    }
+    if (session) showAdminScreen(session.user);
+    else         showLoginScreen();
 
     db.auth.onAuthStateChange((_event, session) => {
-        if (session) {
-            showAdminScreen(session.user);
-        } else {
-            showLoginScreen();
-        }
+        if (session) showAdminScreen(session.user);
+        else         showLoginScreen();
     });
 });
 
@@ -97,10 +68,7 @@ async function handleLogin() {
     const password = document.getElementById('loginPassword').value;
     const btn      = document.getElementById('loginBtn');
 
-    if (!email || !password) {
-        showLoginError('メールアドレスとパスワードを入力してください');
-        return;
-    }
+    if (!email || !password) { showLoginError('メールアドレスとパスワードを入力してください'); return; }
 
     btn.textContent = 'ログイン中...';
     btn.disabled = true;
@@ -111,9 +79,7 @@ async function handleLogin() {
     btn.textContent = 'ログイン';
     btn.disabled = false;
 
-    if (error) {
-        showLoginError('ログインに失敗しました。メールアドレスまたはパスワードが違います。');
-    }
+    if (error) showLoginError('ログインに失敗しました。メールアドレスまたはパスワードが違います。');
 }
 
 async function handleLogout() {
@@ -126,13 +92,10 @@ function showLoginError(msg) {
     el.style.display = 'block';
 }
 
-// ============================================================
-// Screen switching
-// ============================================================
 function showLoginScreen() {
     document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminScreen').style.display = 'none';
-    document.getElementById('loginEmail').value = '';
+    document.getElementById('adminScreen').style.display  = 'none';
+    document.getElementById('loginEmail').value    = '';
     document.getElementById('loginPassword').value = '';
     document.getElementById('loginError').style.display = 'none';
 }
@@ -140,66 +103,78 @@ function showLoginScreen() {
 async function showAdminScreen(user) {
     document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminScreen').style.display = 'block';
-    document.getElementById('loggedInUser').textContent = user.email;
+    document.getElementById('loggedInUser').textContent  = user.email;
 
+    await loadRegions();
     setupEventListeners();
-    renderTabs();
-    await fetchTotalCount();   // まず全件数だけ高速取得
-    await fetchPage(0);        // 最初の50件だけ取得
+    await fetchTotalCount();
+    await fetchPage(0);
 }
 
 // ============================================================
-// Data fetching（ここが核心 - サーバーサイドで絞り込む）
+// Data — wh_regions
 // ============================================================
+async function loadRegions() {
+    const { data, error } = await db.from('wh_regions').select('*').order('sort');
+    if (error) { console.error('wh_regions 取得失敗:', error.message); return; }
 
-/**
- * 現在のフィルタ条件で全件数を取得（件数だけ、データは転送しない）
- * Supabase の count:'exact' + head:true はボディを返さない → 超高速
- */
+    regions = data ?? [];
+
+    const sel = document.getElementById('regionFilter');
+    regions.forEach(r => {
+        const opt = document.createElement('option');
+        opt.value = r.key;
+        opt.textContent = r.label;
+        sel.appendChild(opt);
+    });
+}
+
+function getRegionLabel(key) {
+    return regions.find(r => r.key === key)?.label ?? key;
+}
+
+// ============================================================
+// Data — wh_dates フェッチ
+// ============================================================
+function applyFilters(query) {
+    if (currentRecordType !== 'all') query = query.eq('record_type', currentRecordType);
+    if (currentRegion !== 'all')     query = query.contains('region', [currentRegion]);
+    if (currentField !== 'all')      query = query.eq('field', currentField);
+    if (searchQuery.trim())          query = query.ilike('event', `%${searchQuery.trim()}%`);
+    return query;
+}
+
 async function fetchTotalCount() {
-    let query = db
-        .from('world_history_quiz')
-        .select('*', { count: 'exact', head: true });
-
-    query = applyFilters(query);
-
-    const { count, error } = await query;
-    if (error) { console.error('Count error:', error); return; }
-
+    let q = db.from('wh_dates').select('*', { count: 'exact', head: true });
+    q = applyFilters(q);
+    const { count, error } = await q;
+    if (error) { console.error('count error:', error.message); return; }
     totalCount = count ?? 0;
     document.getElementById('totalEvents').textContent = totalCount;
 }
 
-/**
- * 指定ページのデータを取得（PAGE_SIZE件のみ）
- */
 async function fetchPage(page) {
     if (isFetching) return;
     isFetching = true;
-    setLoadingState(true);
+    document.getElementById('timelineContainer').innerHTML = '<div class="loading">読み込み中...</div>';
 
     const from = page * PAGE_SIZE;
     const to   = from + PAGE_SIZE - 1;
 
-    let query = db
-        .from('world_history_quiz')
+    let q = db
+        .from('wh_dates')
         .select('*')
-        .order('is_bc', { ascending: false })
-        .order('year',  { ascending: true })
+        .order('year', { ascending: true, nullsFirst: false })
         .range(from, to);
+    q = applyFilters(q);
 
-    query = applyFilters(query);
-
-    const { data, error } = await query;
-
+    const { data, error } = await q;
     isFetching = false;
-    setLoadingState(false);
 
     if (error) {
-        console.error('Fetch error:', error);
         document.getElementById('timelineContainer').innerHTML = `
             <div class="empty-state">
-                <p>⚠️ データの読み込みに失敗しました</p>
+                <p>⚠️ データの取得に失敗しました</p>
                 <p style="font-size:0.9rem;margin-top:8px;">${escapeHtml(error.message)}</p>
             </div>`;
         return;
@@ -207,105 +182,46 @@ async function fetchPage(page) {
 
     currentPageData = data ?? [];
     currentPage = page;
-
     renderTimeline();
     renderPagination();
 }
 
-/**
- * クエリにフィルタを適用（チャプター/時代 + 全文検索）
- */
-function applyFilters(query) {
-    if (currentCategory !== 'all') {
-        const col = currentViewMode === 'period' ? 'period' : 'chapter';
-        query = query.eq(col, currentCategory);
-    }
-    if (searchQuery.trim()) {
-        query = query.ilike('event', `%${searchQuery.trim()}%`);
-    }
-    return query;
-}
-
-/**
- * フィルタが変わったとき: ページをリセットして件数＋データを再取得
- */
 async function resetAndFetch() {
     currentPage = 0;
     await fetchTotalCount();
     await fetchPage(0);
 }
 
-function setLoadingState(loading) {
-    if (loading) {
-        document.getElementById('timelineContainer').innerHTML =
-            '<div class="loading">読み込み中...</div>';
+// ============================================================
+// Render — テーブル
+// ============================================================
+function formatYear(year) {
+    if (year === null || year === undefined) return '不明';
+    return year < 0 ? `前${Math.abs(year)}年` : `${year}年`;
+}
+
+function formatYearRange(row) {
+    const start = formatYear(row.year);
+    if (row.year_end !== null && row.year_end !== undefined) {
+        return `${start} ～ ${formatYear(row.year_end)}`;
     }
+    return start;
 }
 
-// ============================================================
-// UI setup
-// ============================================================
-function setupEventListeners() {
-    const searchBox = document.getElementById('searchBox');
-    const viewMode  = document.getElementById('viewMode');
-    searchBox.replaceWith(searchBox.cloneNode(true));
-    viewMode.replaceWith(viewMode.cloneNode(true));
-
-    // 検索：400ms デバウンス（毎キー入力でDBに問い合わせない）
-    document.getElementById('searchBox').addEventListener('input', (e) => {
-        searchQuery = e.target.value;
-        clearTimeout(searchDebounce);
-        searchDebounce = setTimeout(() => resetAndFetch(), 400);
-    });
-
-    document.getElementById('viewMode').addEventListener('change', (e) => {
-        currentViewMode = e.target.value;
-        currentCategory = 'all';
-        renderTabs();
-        resetAndFetch();
-    });
-
-    document.getElementById('closeModal').addEventListener('click', closeModal);
-    document.getElementById('cancelBtn').addEventListener('click', closeModal);
-    document.getElementById('editForm').addEventListener('submit', handleFormSubmit);
-
-    document.getElementById('editModal').addEventListener('click', (e) => {
-        if (e.target.id === 'editModal') closeModal();
-    });
-
-    document.getElementById('editYear').addEventListener('input', updatePeriodDisplay);
-}
-
-function renderTabs() {
-    const container  = document.getElementById('categoryTabs');
-    const categories = currentViewMode === 'period' ? periods : chapters;
-
-    container.innerHTML = `
-        <button class="tab active" data-category="all">すべて</button>
-        ${categories.map(cat =>
-            `<button class="tab" data-category="${cat.value}">${cat.label}</button>`
-        ).join('')}
-    `;
-
-    container.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', (e) => {
-            container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            e.target.classList.add('active');
-            currentCategory = e.target.dataset.category;
-            resetAndFetch();
-        });
-    });
-}
-
-// ============================================================
-// Render
-// ============================================================
 function renderTimeline() {
     const container = document.getElementById('timelineContainer');
     document.getElementById('displayedEvents').textContent = totalCount;
 
-    if (currentPageData.length === 0) {
-        container.innerHTML = `<div class="empty-state"><p>イベントがありません</p></div>`;
+    if (!currentPageData.length) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                <p>データがありません</p>
+            </div>`;
         return;
     }
 
@@ -313,66 +229,69 @@ function renderTimeline() {
         <table class="timeline-table">
             <thead>
                 <tr>
-                    <th style="width:100px;">年代</th>
-                    <th style="width:35%;">出来事</th>
-                    <th style="width:15%;">${currentViewMode === 'period' ? '章' : '時代'}</th>
-                    <th style="width:10%;">リンク</th>
-                    <th style="width:150px;">操作</th>
+                    <th style="width:150px;">年代</th>
+                    <th>出来事</th>
+                    <th style="width:80px;">種別</th>
+                    <th style="width:110px;">分野</th>
+                    <th class="col-region">地域</th>
+                    <th style="width:50px;">Wiki</th>
+                    <th style="width:140px;">操作</th>
                 </tr>
             </thead>
             <tbody>
-                ${currentPageData.map(event => `
+                ${currentPageData.map(row => `
                     <tr>
-                        <td class="event-year">${formatYear(event)}</td>
-                        <td class="event-title">${escapeHtml(event.event)}</td>
-                        <td>
-                            <span class="category-chip chapter-chip ${escapeHtml(event.chapter)}">
-                                ${escapeHtml(event.chapter)}
-                            </span>
+                        <td class="event-year">${escapeHtml(formatYearRange(row))}</td>
+                        <td class="event-title">${escapeHtml(row.event)}</td>
+                        <td><span class="category-chip record-chip record-chip--${escapeHtml(row.record_type)}">
+                            ${escapeHtml(RECORD_TYPE_LABELS[row.record_type] ?? row.record_type)}
+                        </span></td>
+                        <td>${row.field
+                            ? `<span class="category-chip field-chip field-chip--${escapeHtml(row.field)}">${escapeHtml(row.field)}</span>`
+                            : '<span style="color:var(--text-light-secondary);font-size:0.85rem;">-</span>'}</td>
+                        <td class="col-region">
+                            ${(row.region ?? []).map(r =>
+                                `<span class="region-tag">${escapeHtml(getRegionLabel(r))}</span>`
+                            ).join('')}
                         </td>
-                        <td>
-                            ${event.link
-                                ? `<a href="${escapeHtml(event.link)}" target="_blank" rel="noopener" class="event-link">🔗</a>`
-                                : '-'}
-                        </td>
+                        <td>${row.wiki_url
+                            ? `<a href="${escapeHtml(row.wiki_url)}" target="_blank" rel="noopener" class="event-link">🔗</a>`
+                            : '-'}</td>
                         <td class="event-actions">
-                            <button class="btn-edit"   onclick="editEvent(${event.id})">編集</button>
-                            <button class="btn-delete" onclick="deleteEvent(${event.id})">削除</button>
+                            <button class="btn-edit"   onclick="editEvent(${row.id})">編集</button>
+                            <button class="btn-delete" onclick="deleteEvent(${row.id})">削除</button>
                         </td>
                     </tr>
                 `).join('')}
             </tbody>
-        </table>
-    `;
+        </table>`;
 }
 
+// ============================================================
+// Render — ページネーション
+// ============================================================
 function renderPagination() {
-    let paginationEl = document.getElementById('pagination');
-    if (!paginationEl) {
-        paginationEl = document.createElement('div');
-        paginationEl.id = 'pagination';
-        paginationEl.className = 'pagination';
-        document.getElementById('timelineContainer').after(paginationEl);
+    let el = document.getElementById('pagination');
+    if (!el) {
+        el = document.createElement('div');
+        el.id = 'pagination';
+        el.className = 'pagination';
+        document.getElementById('timelineContainer').after(el);
     }
 
     const totalPages = Math.ceil(totalCount / PAGE_SIZE);
-
-    if (totalPages <= 1) {
-        paginationEl.innerHTML = '';
-        return;
-    }
+    if (totalPages <= 1) { el.innerHTML = ''; return; }
 
     const start = currentPage * PAGE_SIZE + 1;
     const end   = Math.min((currentPage + 1) * PAGE_SIZE, totalCount);
 
-    paginationEl.innerHTML = `
+    el.innerHTML = `
         <button class="btn-page" id="prevPage" ${currentPage === 0 ? 'disabled' : ''}>← 前へ</button>
         <span class="page-info">
             ${start}〜${end} 件 / 全${totalCount}件
             &nbsp;（${currentPage + 1} / ${totalPages} ページ）
         </span>
-        <button class="btn-page" id="nextPage" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>次へ →</button>
-    `;
+        <button class="btn-page" id="nextPage" ${currentPage >= totalPages - 1 ? 'disabled' : ''}>次へ →</button>`;
 
     document.getElementById('prevPage').addEventListener('click', () => {
         if (currentPage > 0) fetchPage(currentPage - 1);
@@ -383,78 +302,175 @@ function renderPagination() {
 }
 
 // ============================================================
-// Helpers
+// Event listeners
 // ============================================================
-function formatYear(event) {
-    return event.is_bc ? `前${event.year}年` : `${event.year}年`;
-}
+function setupEventListeners() {
+    // 検索（400ms デバウンス）
+    document.getElementById('searchBox').addEventListener('input', (e) => {
+        searchQuery = e.target.value;
+        clearTimeout(searchDebounce);
+        searchDebounce = setTimeout(() => resetAndFetch(), 400);
+    });
 
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = String(text ?? '');
-    return div.innerHTML;
-}
+    // 地域・分野フィルタ
+    document.getElementById('regionFilter').addEventListener('change', (e) => {
+        currentRegion = e.target.value;
+        resetAndFetch();
+    });
+    document.getElementById('fieldFilter').addEventListener('change', (e) => {
+        currentField = e.target.value;
+        resetAndFetch();
+    });
 
-function parseYearInput(yearStr) {
-    const is_bc = yearStr.startsWith('前');
-    const numericYear = parseInt(yearStr.replace(/[^\d]/g, ''), 10);
-    return { numericYear, is_bc };
-}
+    // 種別タブ
+    document.querySelectorAll('.tab[data-record-type]').forEach(tab => {
+        tab.addEventListener('click', (e) => {
+            document.querySelectorAll('.tab[data-record-type]').forEach(t => t.classList.remove('active'));
+            e.target.classList.add('active');
+            currentRecordType = e.target.dataset.recordType;
+            resetAndFetch();
+        });
+    });
 
-function determinePeriod(year, is_bc) {
-    if (is_bc)        return "~0";
-    if (year <= 1000) return "1~1000";
-    if (year <= 1500) return "1001~1500";
-    if (year <= 1700) return "1501~1700";
-    if (year <= 1800) return "1701~1800";
-    if (year <= 1900) return "1801~1900";
-    if (year <= 1945) return "1901~1945";
-    if (year <= 1989) return "1946~1989";
-    return "1990~";
-}
+    // モーダル
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('cancelBtn').addEventListener('click', closeModal);
+    document.getElementById('editForm').addEventListener('submit', handleFormSubmit);
+    document.getElementById('editModal').addEventListener('click', (e) => {
+        if (e.target.id === 'editModal') closeModal();
+    });
 
-function updatePeriodDisplay() {
-    const yearStr = document.getElementById('editYear').value.trim();
-    const periodLabels = {
-        "~0":        "紀元前",
-        "1~1000":    "1年~1000年",
-        "1001~1500": "1001年~1500年",
-        "1501~1700": "1501年~1700年",
-        "1701~1800": "1701年~1800年",
-        "1801~1900": "1801年~1900年",
-        "1901~1945": "1901年~1945年",
-        "1946~1989": "1946年~1989年",
-        "1990~":     "1990年~"
-    };
-    if (!yearStr) { document.getElementById('editPeriod').value = ''; return; }
-    const { numericYear, is_bc } = parseYearInput(yearStr);
-    if (!numericYear || isNaN(numericYear)) { document.getElementById('editPeriod').value = ''; return; }
-    document.getElementById('editPeriod').value = periodLabels[determinePeriod(numericYear, is_bc)] || '';
+    // フォーム内の動的表示切り替え
+    document.getElementById('editRecordType').addEventListener('change', updateFormVisibility);
+    document.getElementById('editDateType').addEventListener('change', updateFormVisibility);
+
+    // Wikipedia 検索
+    document.getElementById('wikiSearchBtn').addEventListener('click', doWikiSearch);
 }
 
 // ============================================================
-// Modal
+// フォーム — 表示切り替え
+// ============================================================
+function updateFormVisibility() {
+    const rt = document.getElementById('editRecordType').value;
+    const dt = document.getElementById('editDateType').value;
+
+    // year_end は period / person のとき表示
+    document.getElementById('yearEndGroup').style.display =
+        (rt === 'period' || rt === 'person') ? 'block' : 'none';
+
+    // full_date は date_type=full のとき表示
+    document.getElementById('fullDateGroup').style.display =
+        dt === 'full' ? 'block' : 'none';
+}
+
+// ============================================================
+// Wikipedia 検索
+// ============================================================
+async function doWikiSearch() {
+    const query = document.getElementById('editEvent').value.trim();
+    if (!query) { alert('先に「出来事」欄に名称を入力してください'); return; }
+
+    const btn = document.getElementById('wikiSearchBtn');
+    btn.textContent = '検索中...';
+    btn.disabled = true;
+
+    try {
+        const res = await fetch(
+            `https://ja.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`
+        );
+        if (res.ok) {
+            const data = await res.json();
+            showWikiResult(data);
+        } else {
+            showWikiResult(null, query);
+        }
+    } catch {
+        showWikiResult(null, query);
+    } finally {
+        btn.textContent = '🔍 Wiki検索';
+        btn.disabled = false;
+    }
+}
+
+function showWikiResult(data, query = '') {
+    const panel = document.getElementById('wikiResultPanel');
+
+    if (!data) {
+        panel.innerHTML = `
+            <div class="wiki-result wiki-result--miss">
+                「${escapeHtml(query)}」の記事がWikipediaで見つかりませんでした。
+                URLを手動で入力してください。
+            </div>`;
+        panel.style.display = 'block';
+        return;
+    }
+
+    const pageUrl = data.content_urls?.desktop?.page ?? '';
+    const extract = data.extract ? data.extract.slice(0, 140) + '…' : '';
+
+    panel.innerHTML = `
+        <div class="wiki-result">
+            <div class="wiki-result__title">${escapeHtml(data.title)}</div>
+            <div class="wiki-result__extract">${escapeHtml(extract)}</div>
+            <button type="button" class="wiki-result__use"
+                onclick="useWikiUrl('${escapeHtml(pageUrl)}')">
+                このURLを使用
+            </button>
+        </div>`;
+    panel.style.display = 'block';
+}
+
+function useWikiUrl(url) {
+    document.getElementById('editWikiUrl').value = url;
+    document.getElementById('wikiResultPanel').style.display = 'none';
+}
+
+// ============================================================
+// モーダル — 開く / 閉じる
 // ============================================================
 function openAddModal() {
-    document.getElementById('modalTitle').textContent = '新規イベントを追加';
+    document.getElementById('modalTitle').textContent = '新規追加';
     document.getElementById('editForm').reset();
     document.getElementById('editEventId').value = '';
+    document.getElementById('wikiResultPanel').style.display = 'none';
+    renderRegionCheckboxes([]);
+    updateFormVisibility();
     document.getElementById('editModal').classList.add('active');
 }
 
 function editEvent(id) {
-    // currentPageData から検索（表示中ページのみメモリに持つ）
-    const event = currentPageData.find(e => e.id === id);
-    if (!event) return;
+    const row = currentPageData.find(r => r.id === id);
+    if (!row) return;
 
-    document.getElementById('modalTitle').textContent   = 'イベントを編集';
-    document.getElementById('editEventId').value        = event.id;
-    document.getElementById('editYear').value           = event.is_bc ? `前${event.year}` : `${event.year}`;
-    document.getElementById('editEvent').value          = event.event;
-    document.getElementById('editChapter').value        = event.chapter;
-    document.getElementById('editLink').value           = event.link || '';
-    updatePeriodDisplay();
+    document.getElementById('modalTitle').textContent = '編集';
+    document.getElementById('editEventId').value    = row.id;
+    document.getElementById('editRecordType').value = row.record_type ?? 'event';
+    document.getElementById('editYear').value       = row.year ?? '';
+    document.getElementById('editYearEnd').value    = row.year_end ?? '';
+    document.getElementById('editDateType').value   = row.date_type ?? 'year';
+    document.getElementById('editFullDate').value   = row.full_date ?? '';
+    document.getElementById('editEvent').value      = row.event ?? '';
+    document.getElementById('editDescription').value = row.description ?? '';
+    document.getElementById('editField').value      = row.field ?? '';
+    document.getElementById('editWikiUrl').value    = row.wiki_url ?? '';
+    document.getElementById('editMemo').value       = row.memo ?? '';
+    document.getElementById('wikiResultPanel').style.display = 'none';
+
+    renderRegionCheckboxes(row.region ?? []);
+    updateFormVisibility();
     document.getElementById('editModal').classList.add('active');
+}
+
+function renderRegionCheckboxes(selected) {
+    const container = document.getElementById('regionCheckboxes');
+    container.innerHTML = regions.map(r => `
+        <label class="region-checkbox-label">
+            <input type="checkbox" name="region" value="${escapeHtml(r.key)}"
+                ${selected.includes(r.key) ? 'checked' : ''}>
+            ${escapeHtml(r.label)}
+        </label>
+    `).join('');
 }
 
 function closeModal() {
@@ -465,51 +481,48 @@ function closeModal() {
 // CRUD
 // ============================================================
 async function deleteEvent(id) {
-    const event = currentPageData.find(e => e.id === id);
-    if (!event) return;
-    if (!confirm(`「${event.event}」を削除してもよろしいですか？\n\nこの操作は取り消せません。`)) return;
+    const row = currentPageData.find(r => r.id === id);
+    if (!row) return;
+    if (!confirm(`「${row.event}」を削除してもよろしいですか？\n\nこの操作は取り消せません。`)) return;
 
-    const { error } = await db
-        .from('world_history_quiz')
-        .delete()
-        .eq('id', id);
-
-    if (error) {
-        alert('削除に失敗しました: ' + error.message);
-        return;
-    }
-
+    const { error } = await db.from('wh_dates').delete().eq('id', id);
+    if (error) { alert('削除に失敗しました: ' + error.message); return; }
     await resetAndFetch();
 }
 
 async function handleFormSubmit(e) {
     e.preventDefault();
 
-    const yearStr   = document.getElementById('editYear').value.trim();
     const eventText = document.getElementById('editEvent').value.trim();
-    const chapter   = document.getElementById('editChapter').value;
-    const link      = document.getElementById('editLink').value.trim();
-    const eventId   = document.getElementById('editEventId').value;
+    if (!eventText) { alert('出来事を入力してください'); return; }
 
-    if (!yearStr || !eventText) { alert('年号と出来事を入力してください'); return; }
+    const yearRaw    = document.getElementById('editYear').value.trim();
+    const yearEndRaw = document.getElementById('editYearEnd').value.trim();
 
-    const { numericYear, is_bc } = parseYearInput(yearStr);
-    if (!numericYear || isNaN(numericYear)) { alert('年号が解釈できません'); return; }
+    const selectedRegions = [...document.querySelectorAll('#regionCheckboxes input[type=checkbox]:checked')]
+        .map(cb => cb.value);
 
     const payload = {
-        year:    numericYear,
-        is_bc,
-        event:   eventText,
-        chapter,
-        period:  determinePeriod(numericYear, is_bc),
-        link:    link || null
+        record_type: document.getElementById('editRecordType').value,
+        year:        yearRaw    !== '' ? parseInt(yearRaw,    10) : null,
+        year_end:    yearEndRaw !== '' ? parseInt(yearEndRaw, 10) : null,
+        date_type:   document.getElementById('editDateType').value,
+        full_date:   document.getElementById('editFullDate').value || null,
+        event:       eventText,
+        description: document.getElementById('editDescription').value.trim() || null,
+        region:      selectedRegions,
+        field:       document.getElementById('editField').value || null,
+        wiki_url:    document.getElementById('editWikiUrl').value.trim() || null,
+        memo:        document.getElementById('editMemo').value.trim() || null,
     };
 
+    const eventId = document.getElementById('editEventId').value;
     let error;
+
     if (eventId) {
-        ({ error } = await db.from('world_history_quiz').update(payload).eq('id', eventId));
+        ({ error } = await db.from('wh_dates').update(payload).eq('id', eventId));
     } else {
-        ({ error } = await db.from('world_history_quiz').insert([payload]));
+        ({ error } = await db.from('wh_dates').insert([payload]));
     }
 
     if (error) {
@@ -522,4 +535,13 @@ async function handleFormSubmit(e) {
 
     closeModal();
     await resetAndFetch();
+}
+
+// ============================================================
+// Helpers
+// ============================================================
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = String(text ?? '');
+    return div.innerHTML;
 }

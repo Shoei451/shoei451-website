@@ -123,8 +123,7 @@
     </div>
 
     <script>
-        // Supabase Configuration - REPLACE WITH YOUR CREDENTIALS
-        const apiClient = db;
+        // Supabase client/table constants are provided by js/supabase_config.js
 
         // State
         let events = [];
@@ -187,8 +186,8 @@
         // Load events from Supabase
         async function loadEvents() {
             try {
-                const { data, error } = await apiClient
-                    .from('seikei_events')
+                const { data, error } = await db
+                    .from(TABLES.SEIKEI)
                     .select('*')
                     .order('date', { ascending: true });
 
@@ -357,8 +356,8 @@
             if (!confirm('このイベントを削除してもよろしいですか?')) return;
 
             try {
-                const { error } = await apiClient
-                    .from('seikei_events')
+                const { error } = await db
+                    .from(TABLES.SEIKEI)
                     .delete()
                     .eq('id', id);
 
@@ -410,16 +409,16 @@
             try {
                 if (eventId) {
                     // Update existing event
-                    const { error } = await apiClient
-                        .from('seikei_events')
+                    const { error } = await db
+                        .from(TABLES.SEIKEI)
                         .update(eventData)
                         .eq('id', eventId);
 
                     if (error) throw error;
                 } else {
                     // Insert new event
-                    const { error } = await apiClient
-                        .from('seikei_events')
+                    const { error } = await db
+                        .from(TABLES.SEIKEI)
                         .insert([eventData]);
 
                     if (error) throw error;

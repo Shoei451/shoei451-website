@@ -12,8 +12,7 @@
     localStorage.setItem('theme', theme);
   });
 
-  // Supabase 初期化
-  const supabaseClient = db;
+  // Supabase client/table constants are provided by js/supabase_config.js
 
   let allData = [];
   let currentSet = [];
@@ -110,8 +109,8 @@
   const batchSize = 1000;
   
   while (true) {
-    const { data, error } = await supabaseClient
-      .from('world_history_quiz')
+    const { data, error } = await db
+      .from(TABLES.WH_QUIZ)
       .select('*')
       .order('is_bc', { ascending: false })
       .order('year', { ascending: true })
@@ -175,8 +174,8 @@
       link: link || null
     };
 
-    const { error } = await supabaseClient
-      .from('world_history_quiz')
+    const { error } = await db
+      .from(TABLES.WH_QUIZ)
       .insert(newQuestion);
 
     if (error) {
