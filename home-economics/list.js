@@ -4,7 +4,7 @@ const sectionItems1 = [
         title: "食品・衛生分野 まとめノート",
         titleEN: "Food & Hygiene Summary Notes",
         description: "食品・衛生分野のまとめノートを配布します。",
-        link: "../under-construction.html",
+        link: "https://451-learning-box.netlify.app/note.html?slug=home-2-exam",
         target: "_blank"
     },
 ];
