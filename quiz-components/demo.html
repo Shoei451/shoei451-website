@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>start-screen.js デモ</title>
+  <link rel="stylesheet" href="../../css/theme-toggle.css">
+  <link rel="stylesheet" href="quiz-components/start/start-screen.css">
+  <style>
+    /* デモ専用: タブ切替 */
+    .demo-tabs {
+      max-width: 860px;
+      margin: var(--qz-space-md) auto 0;
+      padding: 0 var(--qz-space-sm);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .demo-tab {
+      padding: 6px 16px;
+      border: 1.5px solid var(--qz-border);
+      border-radius: 100px;
+      background: var(--qz-surface);
+      color: var(--qz-text-sub);
+      font-family: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .demo-tab.is-active {
+      border-color: var(--qz-accent);
+      background: var(--qz-accent-light);
+      color: var(--qz-text);
+      font-weight: 600;
+    }
+
+    /* テーマトグル位置調整（demo専用） */
+    .logo-switches { position: fixed; top: 16px; right: 16px; z-index: 300; }
+  </style>
+</head>
+<body>
+
+<span class="logo-switches" id="theme-toggle-container"></span>
+
+<div class="demo-tabs">
+  <button class="demo-tab is-active" data-demo="world">world/index（単一選択）</button>
+  <button class="demo-tab" data-demo="china">china/index（複数選択）</button>
+  <button class="demo-tab" data-demo="seikei">seikei/quiz（複数選択）</button>
+  <button class="demo-tab" data-demo="idiom">idiom/index（単一+select）</button>
+</div>
+
+<main class="qz-container">
+  <div id="start-screen" class="qz-screen"></div>
+</main>
+
+<script src="quiz-components/start/start-screen.js"></script>
+<script>
+// ============================================================
+// 4つのクイズに対応するconfig定義（実際のページで使う想定）
+// ============================================================
+
+const CONFIGS = {
+
+  world: {
+    title: "世界史年代クイズ",
+    subtitle: "年代と出来事を結びつけて覚えよう",
+    // image: "images/worldhistoryquiz.png",
+    rangeMode: "single",
+    rangeLabel: "出題セクション",
+    ranges: [
+      { id: "~0",        label: "紀元前" },
+      { id: "1~1000",    label: "1〜1000年" },
+      { id: "1001~1500", label: "1001〜1500年" },
+      { id: "1501~1700", label: "1501〜1700年" },
+      { id: "1701~1800", label: "1701〜1800年" },
+      { id: "1801~1900", label: "1801〜1900年" },
+      { id: "1901~1945", label: "1901〜1945年" },
+      { id: "1946~1989", label: "1946〜1989年" },
+      { id: "1990~",     label: "1990年〜" },
+    ],
+    countMode: "select",
+    countDefault: 10,
+    countOptions: [10, 20, 30, "all"],
+    onStart(selectedRanges, count) {
+      alert(`開始: セクション=${selectedRanges[0]}, 出題数=${count}`);
+    }
+  },
+
+  china: {
+    title: "中国王朝史 年代クイズ",
+    subtitle: "紀元前は負の数で入力（例：-221 = 前221年）",
+    // image: "images/chinese-history.svg",
+    rangeMode: "multi",
+    rangeLabel: "出題カテゴリ",
+    ranges: [
+      { id: "王朝成立", label: "王朝成立" },
+      { id: "王朝滅亡", label: "王朝滅亡" },
+      { id: "反乱",     label: "反乱" },
+      { id: "戦争",     label: "戦争" },
+      { id: "外交",     label: "外交" },
+      { id: "内政",     label: "内政" },
+      { id: "経済",     label: "経済" },
+      { id: "文化",     label: "文化" },
+      { id: "その他",   label: "その他" },
+    ],
+    countMode: "slider",
+    countMin: 5,
+    countMax: 50,
+    countDefault: 10,
+    onStart(selectedRanges, count) {
+      alert(`開始: カテゴリ=[${selectedRanges.join(", ")}], 出題数=${count}`);
+    }
+  },
+
+  seikei: {
+    title: "政治・経済 年代クイズ",
+    subtitle: "戦後経済史の年代を答えよう",
+    rangeMode: "multi",
+    rangeLabel: "出題カテゴリ",
+    ranges: [
+      { id: "国際政治",           label: "国際政治" },
+      { id: "国際経済",           label: "国際経済" },
+      { id: "国内政治",           label: "国内政治" },
+      { id: "日銀金融政策",       label: "日銀金融政策" },
+      { id: "農業",               label: "農業" },
+      { id: "消費者生活・公害対策", label: "消費者・公害" },
+      { id: "労働問題",           label: "労働問題" },
+      { id: "社会保障",           label: "社会保障" },
+    ],
+    countMode: "slider",
+    countMin: 5,
+    countMax: 50,
+    countDefault: 10,
+    onStart(selectedRanges, count) {
+      alert(`開始: カテゴリ=[${selectedRanges.join(", ")}], 出題数=${count}`);
+    }
+  },
+
+  idiom: {
+    title: "Vintage イディオムクイズ",
+    subtitle: "Fill-in-the-blank idiom questions",
+    rangeMode: "single",
+    rangeLabel: "Quiz Mode",
+    ranges: [
+      { id: "random",      label: "Random Practice（全問からランダム）" },
+      { id: "difficult",   label: "Focus on Weak Areas（正答率50%未満）" },
+      { id: "unattempted", label: "Not Yet Attempted（未挑戦問題）" },
+      { id: "mixed",       label: "Mixed Review（Smart Mix）" },
+    ],
+    countMode: "select",
+    countDefault: 10,
+    countOptions: [5, 10, 20, 30, 50, "all"],
+    startLabel: "Start Quiz",
+    onStart(selectedRanges, count) {
+      alert(`Start: mode=${selectedRanges[0]}, count=${count}`);
+    }
+  }
+
+};
+
+// ============================================================
+// デモ用タブ切替
+// ============================================================
+let currentDemo = "world";
+
+function loadDemo(key) {
+  currentDemo = key;
+  document.querySelectorAll(".demo-tab").forEach(tab => {
+    tab.classList.toggle("is-active", tab.dataset.demo === key);
+  });
+  // スクリーンをリセットしてから再初期化
+  const el = document.getElementById("start-screen");
+  el.innerHTML = "";
+  el.classList.add("hidden");
+  initStartScreen(CONFIGS[key]);
+}
+
+document.querySelectorAll(".demo-tab").forEach(tab => {
+  tab.addEventListener("click", () => loadDemo(tab.dataset.demo));
+});
+
+// 初期表示
+loadDemo("world");
+</script>
+<script src="../../js/theme-toggle.js"></script>
+</body>
+</html>
