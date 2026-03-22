@@ -1,82 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="../images/favicon.ico" />
-<title>Japanese & Chinese Classics — Shoei451</title>
-<link rel="stylesheet" href="../css/common.css">
-<link rel="stylesheet" href="../css/sub-index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../images/favicon.ico" />
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/sub-index.css">
+  <!-- api/sw -->
+  <script>
+    window.PAGE_CONFIG = {
+      title:      "Japanese & Chinese Classics — Shoei451",
+      h1:         "🍙 Japanese & Chinese Classics",
+      headerDesc: "古文・漢文の知識を確認しよう",
+      sections: [
+        { title: "古文", desc: "古文クイズ（古文常識、助動詞表の穴埋めなど）", itemsVar: "sectionItems1", id: "container1" },
+        { title: "漢文", desc: "漢文の学習リソース", itemsVar: "sectionItems2", id: "container2" },
+        { title: "タイトル3", desc: "説明3", itemsVar: "sectionItems3", id: "container3" }
+      ]
+    };
+  </script>
 </head>
 <body>
-
-<!-- Theme Toggle -->
-<span class="logo-switches" id="theme-toggle-container"></span>
-
-<!-- Header -->
-<header>
-    <h1>🍙 Japanese & Chinese Classics</h1>
-    <p>古文・漢文の知識を確認しよう</p>
-</header>
-
-<!-- Introduction -->
-<section class="intro">
-    <a href="../" class="back-link">Back to Home</a>
-    <h2>古文・漢文学習ツール</h2>
-    <p>古典の周辺知識・文法事項の確認にどうぞ</p>
-</section>
-
-<!-- SECTION 1-->
-<div class="section-divider">
-    <h2 class="section-title">古文</h2>
-    <p class="section-description">古文クイズ（古文常識、助動詞表の穴埋めなど）</p>
-</div>
-
-<section class="cards-container" id="container1">
-    <!-- Section 1 Cards-->
-</section>
-
-<!-- SECTION 2
-<div class="section-divider">
-    <h2 class="section-title">漢文</h2>
-    <p class="section-description">漢文の学習リソース</p>
-</div>
-
-<section class="cards-container" id="container2">
-</section>
--->
-
-<!-- SECTION 3
-<div class="section-divider">
-    <h2 class="section-title">タイトル3</h2>
-    <p class="section-description">説明3</p>
-</div>
-
-<section class="cards-container" id="container3">
-</section>
--->
-
-<!-- Footer -->
-<footer>
-    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
-</footer>
-
-<!-- Scripts -->
-<script src="list.js"></script>
-<script src="../js/theme-toggle.js"></script>
-<script src="../js/card-generator.js"></script>
-<script src="../js/cards-page-init.js"></script>
-<script>
-initCardsPage([
-    { itemsVar: "sectionItems1", containerId: "container1" }
-]);
-</script>
-
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
+  <script src="list.js"></script>
+  <script src="../js/sub-index-init.js"></script>
 </body>
 </html>

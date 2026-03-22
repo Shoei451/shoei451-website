@@ -1,64 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="../images/favicon.ico" />
-<title>Geography Tools — Shoei451</title>
-<link rel="stylesheet" href="../css/common.css">
-<link rel="stylesheet" href="../css/sub-index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../images/favicon.ico" />
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/sub-index.css">
+  <!-- api/sw -->
+  <script>
+    window.PAGE_CONFIG = {
+      title:      "Geography Tools — Shoei451",
+      h1:         "🧭 Geography",
+      headerDesc: "地理の学習ツール集です。",
+      sections: [
+        { title: "地理関連クイズ", desc: "首都名や州名など、地理に関連したもののクイズです。", itemsVar: "sectionItems1", id: "container1" }
+      ]
+    };
+  </script>
 </head>
 <body>
-
-<!-- Theme Toggle -->
-<span class="logo-switches" id="theme-toggle-container"></span>
-
-<!-- Header -->
-<header>
-    <h1>🧭 Geography</h1>
-    <p>地理の学習ツール集です。</p>
-</header>
-
-<!-- Introduction -->
-<section class="intro">
-    <a href="../" class="back-link">Back to Home</a>
-    <h2>地理学習ツール</h2>
-    <p></p>
-</section>
-
-<!-- SECTION 1-->
-<div class="section-divider">
-    <h2 class="section-title">地理関連クイズ</h2>
-    <p class="section-description">首都名や州名など、地理に関連したもののクイズです。</p>
-</div>
-
-<section class="cards-container" id="container1">
-    <!-- Section 1 Cards-->
-</section>
-
-
-
-<!-- Footer -->
-<footer>
-    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
-</footer>
-
-<!-- Scripts -->
-<script src="list.js"></script>
-<script src="../js/theme-toggle.js"></script>
-<script src="../js/card-generator.js"></script>
-<script src="../js/cards-page-init.js"></script>
-<script>
-initCardsPage([
-    { itemsVar: "sectionItems1", containerId: "container1" }
-]);
-</script>
-
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
+  <script src="list.js"></script>
+  <script src="../js/sub-index-init.js"></script>
 </body>
 </html>

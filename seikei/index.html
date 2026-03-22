@@ -1,83 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="../images/favicon.ico" />
-<title>政治・経済ツール集 — Shoei451</title>
-<link rel="stylesheet" href="../css/common.css">
-<link rel="stylesheet" href="../css/sub-index.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../images/favicon.ico" />
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/sub-index.css">
+  <!-- api/sw -->
+  <script>
+    window.PAGE_CONFIG = {
+      title:      "政治・経済ツール集 — Shoei451",
+      h1:         "🏛️ Politics & Economics Tools",
+      headerDesc: "政治・経済に関する学習ツール集",
+      sections: [
+        { title: "日本国憲法", desc: "日本国憲法に関する学習ツール", itemsVar: "sectionItems1", id: "container1" },
+        { title: "戦後経済史年表", desc: "印刷対応のオンライン年表", itemsVar: "sectionItems2", id: "container2" },
+        { title: "3学期期末試験対策用 一問一答", desc: "3学期期末試験の対策用クイズです", itemsVar: "sectionItems3", id: "container3" }
+      ]
+    };
+  </script>
 </head>
 <body>
-
-<!-- Theme Toggle -->
-<span class="logo-switches" id="theme-toggle-container"></span>
-
-<!-- Header -->
-<header>
-    <h1>🏛️ Politics & Economics Tools</h1>
-    <p>政治・経済に関する学習ツール集</p>
-</header>
-
-<!-- Introduction -->
-<section class="intro">
-    <a href="../" class="back-link">Back to Home</a>
-    <h2></h2>
-    <p></p>
-</section>
-
-<!-- SECTION 1-->
-<div class="section-divider">
-    <h2 class="section-title">日本国憲法</h2>
-    <p class="section-description">日本国憲法に関する学習ツール</p>
-</div>
-
-<section class="cards-container" id="container1">
-    <!-- Section 1 Cards-->
-</section>
-
-<!-- SECTION 2-->
-<div class="section-divider">
-    <h2 class="section-title">戦後経済史年表</h2>
-    <p class="section-description">印刷対応のオンライン年表</p>
-</div>
-
-<section class="cards-container" id="container2">
-    <!-- Section 2 Cards-->
-</section>
-
-<!-- SECTION 3 -->
-<div class="section-divider">
-    <h2 class="section-title">3学期期末試験対策用 一問一答</h2>
-    <p class="section-description">3学期期末試験の対策用クイズです</p>
-</div>
-<section class="cards-container" id="container3">
-    
-</section>
-
-<!-- Footer -->
-<footer>
-    <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
-</footer>
-
-<!-- Scripts -->
-<script src="list.js"></script>
-<script src="../js/theme-toggle.js"></script>
-<script src="../js/card-generator.js"></script>
-<script src="../js/cards-page-init.js"></script>
-<script>
-initCardsPage([
-    { itemsVar: "sectionItems1", containerId: "container1" },
-    { itemsVar: "sectionItems2", containerId: "container2" },
-    { itemsVar: "sectionItems3", containerId: "container3" }
-]);
-</script>
-
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
+  <script src="list.js"></script>
+  <script src="../js/sub-index-init.js"></script>
 </body>
 </html>

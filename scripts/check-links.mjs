@@ -5,7 +5,7 @@ const ROOT = process.cwd();
 const IGNORE_DIRS = new Set([".git", "node_modules", "templates"]);
 const ATTR_PATTERN = /(href|src)\s*=\s*["']([^"']+)["']/gi;
 const KNOWN_IGNORES = new Set([
-    "history/china/timeline.html::chinese-history-quiz.html"
+    
 ]);
 
 function collectHtmlFiles(dir) {
