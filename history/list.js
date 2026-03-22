@@ -16,7 +16,7 @@ const sectionItems2 = [
         title: "世界史年代クイズ",
         titleEN: "World History Era Quiz",
         description: "世界史の年代と出来事を結び付けて覚えるクイズアプリ",
-        link: "worldhistory/",
+        link: "world/",
         target: "_blank"
     },
     {
@@ -25,7 +25,7 @@ const sectionItems2 = [
         title: "世界史年代クイズ 年表版",
         titleEN: "World History Time table",
         description: "世界史年代クイズのデータが、インタラクティブな年表になりました",
-        link: "worldhistory/timeline.html",
+        link: "world/timeline.html",
         target: "_blank"
     },
     {

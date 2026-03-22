@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>wh_dates 管理</title>
+<link rel="icon" href="../../../images/worldhistoryquiz.png">
+<script>
+  /* フラッシュ防止: CSSOM より前にテーマ適用 */
+  (function() {
+    var t = localStorage.getItem('pref-theme');
+    if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+  })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="../../../css/common.css">
+<style>
+  /* html.dark → body.dark 同期（common.css は body.dark を見る） */
+  html.dark body { background-color: var(--theme); color: var(--content); }
+
+  /* ===== common.css の header タグ上書き ===== */
+  header {
+    padding: 0;
+    text-align: left;
+    border-radius: 0;
+    position: fixed;
+    overflow: visible;
+    animation: none;
+  }
+  header::before { display: none; }
+
+  /* ===== ヘッダー ===== */
+  .admin-header {
+    background: linear-gradient(135deg, #313A49 0%, #FABA40 100%);
+    padding: 0 20px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+
+  .admin-header h1 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    text-shadow: none;
+  }
+
+  .admin-badge {
+    background: rgba(255,255,255,0.22);
+    padding: 2px 8px;
+    border-radius: 9px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #fff;
+  }
+
+  .header-right {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #stats-badge { font-size: 0.8rem; color: rgba(255,255,255,0.82); }
+
+  /* サイドバー開閉ボタン（ヘッダー左） */
+  #sidebar-toggle {
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  #sidebar-toggle:hover { background: rgba(255,255,255,0.28); box-shadow: none; transform: none; }
+
+  /* テーマトグル */
+  #theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    transition: transform 0.2s;
+  }
+  #theme-toggle:hover { transform: scale(1.15); box-shadow: none; }
+  #theme-toggle svg { width: 20px; height: 20px; stroke: currentColor; fill: none;
+                      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  #moon, #sun                { display: none; }
+  body.dark       #sun       { display: block; }
+  body:not(.dark) #moon      { display: block; }
+
+  /* ===== メインレイアウト ===== */
+  body { padding-top: 52px; }
+
+  .main-content {
+    margin-left: 0;
+    transition: margin-left 0.28s ease;
+    min-height: calc(100vh - 52px);
+  }
+
+  .main-content.sidebar-open { margin-left: 380px; }
+
+  /* ===== サイドバー ===== */
+  .sidebar {
+    position: fixed;
+    top: 52px;
+    left: -380px;
+    width: 380px;
+    height: calc(100vh - 52px);
+    background: var(--card-bg);
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+    z-index: 150;
+    transition: left 0.28s ease;
+    padding: 20px 18px 40px;
+    box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+  }
+
+  .sidebar.open { left: 0; }
+
+  /* モバイル: サイドバーはオーバーレイ */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 52px 0 0 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 140;
+  }
+
+  .sidebar-overlay.show { display: block; }
+
+  /* ===== フォーム内スタイル ===== */
+  .panel-title {
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 16px;
+    padding-bottom: 9px;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .editing-banner {
+    display: none;
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 6px 11px;
+    border-radius: 5px;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+
+  .form-group { margin-bottom: 12px; }
+
+  .form-group label {
+    display: block;
+    font-size: 0.73rem;
+    font-weight: 600;
+    color: var(--secondary);
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .req  { color: var(--accent-text); margin-left: 2px; }
+  .hint { font-size: 0.68rem; color: var(--secondary); font-weight: 400;
+          text-transform: none; margin-left: 4px; }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea {
+    width: 100%;
+    background: var(--theme);
+    border: 2px solid var(--border);
+    color: var(--content);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.88rem;
+    padding: 8px 10px;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(250,186,64,0.15);
+  }
+
+  textarea { resize: vertical; min-height: 64px; }
+
+  .year-row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center; }
+
+  .bc-toggle {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.82rem; color: var(--secondary);
+    cursor: pointer; user-select: none; white-space: nowrap;
+  }
+
+  .bc-toggle input[type="checkbox"] {
+    width: 15px; height: 15px; accent-color: var(--accent); cursor: pointer;
+  }
+
+  #year-preview {
+    font-size: 0.73rem; color: var(--accent-text);
+    margin-top: 3px; min-height: 15px; font-weight: 600;
+  }
+
+  .date-type-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  #full-date-field { display: none; }
+
+  .region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+
+  .region-item {
+    display: flex; align-items: center; gap: 5px;
+    font-size: 0.8rem; color: var(--secondary);
+    cursor: pointer; user-select: none;
+    padding: 4px 5px; border-radius: 4px;
+    transition: background 0.15s; min-height: 30px;
+  }
+
+  .region-item:hover { background: var(--entry); color: var(--content); }
+  .region-item input[type="checkbox"] {
+    width: 13px; height: 13px; accent-color: var(--accent); cursor: pointer; flex-shrink: 0;
+  }
+
+  .btn-row { display: flex; gap: 8px; margin-top: 16px; }
+
+  .btn-primary {
+    background: var(--accent); color: var(--accent-contrast);
+    border: none; padding: 11px 16px; border-radius: 6px;
+    cursor: pointer; font-weight: 700; font-size: 0.88rem;
+    flex: 1; transition: all 0.2s; min-height: 44px;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px var(--shadow); }
+  .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+
+  .btn-secondary {
+    background: var(--theme); color: var(--secondary);
+    border: 2px solid var(--border); padding: 11px 14px;
+    border-radius: 6px; cursor: pointer; font-size: 0.88rem;
+    transition: all 0.2s; min-height: 44px;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--content); box-shadow: none; transform: none; }
+
+  .form-msg { margin-top: 8px; font-size: 0.8rem; min-height: 16px; text-align: center; font-weight: 600; }
+  .form-msg.ok  { color: #3dba7e; }
+  .form-msg.err { color: #e05555; }
+
+  /* ===== 一覧エリア ===== */
+  .list-area { padding: 20px 24px; }
+
+  .list-top {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+
+  .filter-row {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    margin-bottom: 14px; align-items: center;
+  }
+
+  .filter-row input,
+  .filter-row select { width: auto; padding: 7px 10px; font-size: 0.82rem; }
+  #search-input { flex: 1; min-width: 140px; max-width: 220px; }
+
+  .btn-refresh {
+    background: var(--theme); color: var(--secondary);
+    border: 2px solid var(--border); padding: 7px 13px;
+    border-radius: 6px; cursor: pointer; font-size: 0.82rem;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .btn-refresh:hover { border-color: var(--accent); color: var(--content); box-shadow: none; transform: none; }
+
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+
+  th {
+    background: var(--card-bg); color: var(--secondary);
+    font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 9px 10px; text-align: left;
+    border-bottom: 2px solid var(--border);
+    position: sticky; top: 0; z-index: 10;
+  }
+
+  td {
+    padding: 8px 10px; border-bottom: 1px solid var(--border);
+    vertical-align: top; max-width: 180px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    color: var(--content);
+  }
+
+  tr:hover td { background: var(--entry); }
+
+  td.year-cell   { color: var(--accent-text); font-weight: 700; width: 100px; white-space: nowrap; }
+  td.desc-cell,
+  td.region-cell,
+  td.field-cell  { color: var(--secondary); }
+  td.actions     { white-space: nowrap; width: 88px; }
+
+  .tag {
+    display: inline-block; background: var(--entry);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 1px 5px; font-size: 0.7rem; margin: 1px; color: var(--secondary);
+  }
+  .tag.region {
+    border-color: rgba(250,186,64,0.4); color: var(--accent-text);
+    background: rgba(250,186,64,0.08);
+  }
+
+  .btn-edit {
+    background: var(--theme); border: 1px solid var(--border);
+    color: var(--secondary); padding: 4px 9px; font-size: 0.72rem;
+    border-radius: 4px; cursor: pointer; margin-right: 3px; transition: all 0.15s;
+  }
+  .btn-edit:hover { border-color: var(--accent); color: var(--accent-text); box-shadow: none; transform: none; }
+
+  .btn-delete {
+    background: var(--theme); border: 1px solid #e05555;
+    color: #e05555; padding: 4px 9px; font-size: 0.72rem;
+    border-radius: 4px; cursor: pointer; transition: all 0.15s;
+  }
+  .btn-delete:hover { background: rgba(224,85,85,0.08); box-shadow: none; transform: none; }
+
+  #loading { text-align: center; color: var(--secondary); padding: 60px; font-size: 0.9rem; }
+
+  /* ===== モバイル ===== */
+  @media (max-width: 768px) {
+    .main-content.sidebar-open { margin-left: 0; }
+
+    .sidebar {
+      width: 100%;
+      left: -100%;
+    }
+    .sidebar.open { left: 0; }
+
+    .list-area { padding: 16px; }
+
+    .filter-row { flex-direction: column; align-items: stretch; }
+    #search-input { max-width: 100%; }
+    .filter-row select { width: 100%; }
+
+    .date-type-row { grid-template-columns: 1fr; }
+
+    th.hide-mobile, td.hide-mobile { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .admin-header h1 { font-size: 0.9rem; }
+    .admin-badge { display: none; }
+    #stats-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ヘッダー -->
+<header class="admin-header">
+  <button id="sidebar-toggle" title="フォームを開く">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+    追加・編集
+  </button>
+  <h1>wh_dates 管理</h1>
+  <span class="admin-badge">ADMIN</span>
+  <div class="header-right">
+    <span id="stats-badge">— 件</span>
+    <button id="theme-toggle" title="テーマ切替">
+      <svg id="moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg id="sun"  viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5"/>
+        <line x1="12" y1="1"  x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+        <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<!-- オーバーレイ（モバイル） -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
+<!-- サイドバー（フォーム） -->
+<aside class="sidebar" id="sidebar">
+  <div class="panel-title" id="form-title">新規追加</div>
+  <div class="editing-banner" id="editing-banner"></div>
+  <input type="hidden" id="edit-id">
+
+  <div class="form-group">
+    <label>年<span class="req">*</span></label>
+    <div class="year-row">
+      <input type="number" id="year-input" placeholder="例: 1789" min="1">
+      <label class="bc-toggle"><input type="checkbox" id="is-bc"> 紀元前</label>
+    </div>
+    <div id="year-preview"></div>
+  </div>
+
+  <div class="form-group">
+    <label>日付の精度<span class="req">*</span></label>
+    <div class="date-type-row">
+      <select id="date-type">
+        <option value="year">year（年のみ）</option>
+        <option value="circa">circa（〜頃）</option>
+        <option value="full">full（月日あり）</option>
+      </select>
+      <div id="full-date-field">
+        <input type="date" id="full-date">
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>出来事<span class="req">*</span><span class="hint">名詞形・短く</span></label>
+    <input type="text" id="event" placeholder="例: フランス革命">
+  </div>
+
+  <div class="form-group">
+    <label>説明</label>
+    <textarea id="description" rows="3" placeholder="例: 三部会召集を契機に勃発。絶対王政の終焉。人権宣言採択。"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label>地域<span class="hint">複数選択可</span></label>
+    <div class="region-grid" id="region-grid"></div>
+  </div>
+
+  <div class="form-group">
+    <label>分野</label>
+    <select id="field">
+      <option value="">— 未設定 —</option>
+      <option>政治</option><option>経済</option>
+      <option>文化・宗教</option><option>社会</option><option>外交・戦争</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>メモ<span class="hint">Markdown可</span></label>
+    <textarea id="memo" rows="3" placeholder="関連リンクなど: [y-history](https://...)"></textarea>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-primary" id="btn-submit">保存</button>
+    <button class="btn-secondary" id="btn-clear">クリア</button>
+  </div>
+  <div class="form-msg" id="form-msg"></div>
+</aside>
+
+<!-- メインコンテンツ -->
+<div class="main-content" id="main-content">
+  <div class="list-area">
+    <div class="list-top">
+      <div class="panel-title" style="margin:0;padding:0;border:none;">一覧</div>
+      <button class="btn-refresh" id="btn-refresh">↻ 更新</button>
+    </div>
+
+    <div class="filter-row">
+      <input type="text" id="search-input" placeholder="キーワード検索...">
+      <select id="filter-region"><option value="">地域: すべて</option></select>
+      <select id="filter-field">
+        <option value="">分野: すべて</option>
+        <option>政治</option><option>経済</option>
+        <option>文化・宗教</option><option>社会</option><option>外交・戦争</option>
+      </select>
+    </div>
+
+    <div id="loading">読み込み中...</div>
+    <div class="table-scroll">
+      <table id="data-table" style="display:none">
+        <thead>
+          <tr>
+            <th>年</th>
+            <th>出来事</th>
+            <th class="hide-mobile">説明</th>
+            <th>地域</th>
+            <th class="hide-mobile">分野</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="../../../js/supabase_config.js"></script>
+<script>
+/* ===== テーマトグル（インライン・外部依存なし） ===== */
+(function() {
+  /* html.dark → body.dark 同期（common.css は body.dark を参照） */
+  if (document.documentElement.classList.contains('dark')) {
+    document.body.classList.add('dark');
+  }
+
+  document.getElementById('theme-toggle').addEventListener('click', function() {
+    const isDark = document.body.classList.toggle('dark');
+    document.documentElement.classList.toggle('dark', isDark);
+    localStorage.setItem('pref-theme', isDark ? 'dark' : 'light');
+  });
+})();
+
+/* ===== サイドバー ===== */
+function openSidebar() {
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebar-overlay').classList.add('show');
+  if (window.innerWidth > 768) {
+    document.getElementById('main-content').classList.add('sidebar-open');
+  }
+  document.getElementById('sidebar-toggle').textContent = '';
+  document.getElementById('sidebar-toggle').insertAdjacentHTML('beforeend',
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> 閉じる');
+}
+
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-overlay').classList.remove('show');
+  document.getElementById('main-content').classList.remove('sidebar-open');
+  document.getElementById('sidebar-toggle').textContent = '';
+  document.getElementById('sidebar-toggle').insertAdjacentHTML('beforeend',
+    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg> 追加・編集');
+}
+
+document.getElementById('sidebar-toggle').addEventListener('click', function() {
+  const isOpen = document.getElementById('sidebar').classList.contains('open');
+  isOpen ? closeSidebar() : openSidebar();
+});
+
+/* ===== Supabase ===== */
+
+let allData = [], regions = [], editingId = null;
+
+async function init() {
+  await loadRegions();
+  await loadData();
+  bindEvents();
+}
+
+async function loadRegions() {
+  const { data, error } = await db.from('wh_regions').select('*').order('sort');
+  if (error) { showMsg('地域データ取得失敗: ' + error.message, 'err'); return; }
+  regions = data;
+
+  document.getElementById('region-grid').innerHTML = regions.map(r => `
+    <label class="region-item">
+      <input type="checkbox" name="region" value="${r.key}"> ${r.label}
+    </label>
+  `).join('');
+
+  const sel = document.getElementById('filter-region');
+  regions.forEach(r => {
+    const opt = document.createElement('option');
+    opt.value = r.key;
+    opt.textContent = '地域: ' + r.label;
+    sel.appendChild(opt);
+  });
+}
+
+async function loadData() {
+  document.getElementById('loading').style.display = 'block';
+  document.getElementById('data-table').style.display = 'none';
+  const { data, error } = await db.from('wh_dates').select('*').order('year');
+  if (error) { document.getElementById('loading').textContent = 'エラー: ' + error.message; return; }
+  allData = data;
+  document.getElementById('stats-badge').textContent = data.length + ' 件';
+  document.getElementById('loading').style.display = 'none';
+  document.getElementById('data-table').style.display = 'table';
+  renderTable(data);
+}
+
+function renderTable(data) {
+  const tbody = document.getElementById('table-body');
+  if (!data.length) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--secondary)">データなし</td></tr>';
+    return;
+  }
+  tbody.innerHTML = data.map(row => {
+    const yearStr = formatYear(row.year, row.date_type);
+    const regionTags = (row.region || []).map(k => {
+      const r = regions.find(x => x.key === k);
+      return `<span class="tag region">${r ? r.label : k}</span>`;
+    }).join('');
+    return `<tr>
+      <td class="year-cell">${esc(yearStr)}</td>
+      <td>${esc(row.event)}</td>
+      <td class="desc-cell hide-mobile">${esc(row.description || '')}</td>
+      <td class="region-cell">${regionTags || '—'}</td>
+      <td class="field-cell hide-mobile">${row.field ? `<span class="tag">${row.field}</span>` : '—'}</td>
+      <td class="actions">
+        <button class="btn-edit" onclick="startEdit(${row.id})">編集</button>
+        <button class="btn-delete" onclick="deleteRow(${row.id})">削除</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+const formatYear = (year, dt) =>
+  (year < 0 ? `前${Math.abs(year)}年` : `${year}年`) + (dt === 'circa' ? '頃' : '');
+
+const esc = s => String(s || '')
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function applyFilter() {
+  const q  = document.getElementById('search-input').value.trim().toLowerCase();
+  const rF = document.getElementById('filter-region').value;
+  const fF = document.getElementById('filter-field').value;
+  renderTable(allData.filter(row =>
+    (!q  || (row.event||'').toLowerCase().includes(q) || (row.description||'').toLowerCase().includes(q)) &&
+    (!rF || (row.region||[]).includes(rF)) &&
+    (!fF || row.field === fF)
+  ));
+}
+
+function updateYearPreview() {
+  const val = parseInt(document.getElementById('year-input').value);
+  const isBc = document.getElementById('is-bc').checked;
+  const el = document.getElementById('year-preview');
+  if (!val || isNaN(val)) { el.textContent = ''; return; }
+  el.textContent = `→ 保存値: ${isBc ? -val : val}（${isBc ? '前'+val+'年' : val+'年'}）`;
+}
+
+function getFormData() {
+  const val = parseInt(document.getElementById('year-input').value);
+  const isBc = document.getElementById('is-bc').checked;
+  return {
+    year: isBc ? -Math.abs(val) : val,
+    date_type: document.getElementById('date-type').value,
+    full_date: document.getElementById('full-date').value || null,
+    event: document.getElementById('event').value.trim(),
+    description: document.getElementById('description').value.trim() || null,
+    region: [...document.querySelectorAll('input[name="region"]:checked')].map(x => x.value),
+    field: document.getElementById('field').value || null,
+    memo: document.getElementById('memo').value.trim() || null,
+  };
+}
+
+function clearForm() {
+  editingId = null;
+  ['year-input','event','description','memo'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('is-bc').checked = false;
+  document.getElementById('year-preview').textContent = '';
+  document.getElementById('date-type').value = 'year';
+  document.getElementById('full-date').value = '';
+  document.getElementById('full-date-field').style.display = 'none';
+  document.querySelectorAll('input[name="region"]').forEach(x => x.checked = false);
+  document.getElementById('field').value = '';
+  document.getElementById('form-msg').textContent = '';
+  document.getElementById('form-msg').className = 'form-msg';
+  document.getElementById('editing-banner').style.display = 'none';
+  document.getElementById('form-title').textContent = '新規追加';
+  document.getElementById('btn-submit').textContent = '保存';
+}
+
+function startEdit(id) {
+  const row = allData.find(r => r.id === id);
+  if (!row) return;
+  editingId = id;
+  document.getElementById('form-title').textContent = '編集中';
+  const banner = document.getElementById('editing-banner');
+  banner.style.display = 'block';
+  banner.textContent = `編集中 — ID: ${id}「${row.event}」`;
+  document.getElementById('btn-submit').textContent = '更新';
+  document.getElementById('year-input').value = Math.abs(row.year);
+  document.getElementById('is-bc').checked = row.year < 0;
+  updateYearPreview();
+  document.getElementById('date-type').value = row.date_type || 'year';
+  document.getElementById('full-date').value = row.full_date || '';
+  document.getElementById('full-date-field').style.display = row.date_type === 'full' ? 'block' : 'none';
+  document.getElementById('event').value = row.event || '';
+  document.getElementById('description').value = row.description || '';
+  document.querySelectorAll('input[name="region"]').forEach(x => x.checked = (row.region||[]).includes(x.value));
+  document.getElementById('field').value = row.field || '';
+  document.getElementById('memo').value = row.memo || '';
+  openSidebar();
+  document.getElementById('sidebar').scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+async function submitForm() {
+  const data = getFormData();
+  if (!data.year || isNaN(data.year)) { showMsg('年を入力してください', 'err'); return; }
+  if (!data.event) { showMsg('出来事を入力してください', 'err'); return; }
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  const op = editingId
+    ? db.from('wh_dates').update(data).eq('id', editingId)
+    : db.from('wh_dates').insert(data);
+  const { error } = await op;
+  btn.disabled = false;
+  if (error) { showMsg((editingId ? '更新' : '追加') + '失敗: ' + error.message, 'err'); return; }
+  showMsg((editingId ? '更新' : '追加') + 'しました ✓', 'ok');
+  clearForm();
+  await loadData();
+}
+
+async function deleteRow(id) {
+  const row = allData.find(r => r.id === id);
+  if (!row || !confirm(`削除しますか？\n「${formatYear(row.year, row.date_type)} ${row.event}」`)) return;
+  const { error } = await db.from('wh_dates').delete().eq('id', id);
+  if (error) { alert('削除失敗: ' + error.message); return; }
+  if (editingId === id) clearForm();
+  await loadData();
+}
+
+function showMsg(msg, type) {
+  const el = document.getElementById('form-msg');
+  el.textContent = msg;
+  el.className = 'form-msg ' + type;
+  if (type === 'ok') setTimeout(() => { el.textContent = ''; el.className = 'form-msg'; }, 3000);
+}
+
+function bindEvents() {
+  document.getElementById('year-input').addEventListener('input', updateYearPreview);
+  document.getElementById('is-bc').addEventListener('change', updateYearPreview);
+  document.getElementById('date-type').addEventListener('change', e => {
+    document.getElementById('full-date-field').style.display = e.target.value === 'full' ? 'block' : 'none';
+  });
+  document.getElementById('btn-submit').addEventListener('click', submitForm);
+  document.getElementById('btn-clear').addEventListener('click', clearForm);
+  document.getElementById('btn-refresh').addEventListener('click', loadData);
+  document.getElementById('search-input').addEventListener('input', applyFilter);
+  document.getElementById('filter-region').addEventListener('change', applyFilter);
+  document.getElementById('filter-field').addEventListener('change', applyFilter);
+}
+
+init();
+</script>
+  <script>
+    navigator.sendBeacon(
+      '/api/sw?path=' + encodeURIComponent(location.pathname) +
+      '&ref=' + encodeURIComponent(document.referrer)
+    );
+  </script>
+</body>
+</html>

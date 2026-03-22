@@ -524,3 +524,427 @@ async function handleFormSubmit(e) {
     await resetAndFetch();
 }
 
+// ============================================================
+// ウィザードモーダル ロジック
+// script.js の末尾に追記（または既存の openAddModal / editEvent /
+// handleFormSubmit を削除してこれで置き換える）
+// ============================================================
+
+// ── ウィザード状態 ──────────────────────────────────────────
+const WIZ = {
+    currentStep: 1,
+    totalSteps:  4,
+    isEdit:      false,
+    selectedType: null,      // 'event' | 'period' | 'person'
+    selectedRegions: new Set(),
+    dupeCheckTimer: null,
+};
+
+// ── ユーティリティ ───────────────────────────────────────────
+function wizFormatYear(y) {
+    if (y === null || y === undefined || y === '') return '不明';
+    const n = parseInt(y, 10);
+    return n < 0 ? `前${Math.abs(n)}年` : `${n}年`;
+}
+
+// ── ステップUI更新 ────────────────────────────────────────────
+function wizUpdateStepIndicator(step) {
+    document.querySelectorAll('.wizard-step').forEach(el => {
+        const n = parseInt(el.dataset.step, 10);
+        el.classList.toggle('active', n === step);
+        el.classList.toggle('done',   n < step);
+    });
+}
+
+function wizShowStep(step) {
+    document.querySelectorAll('.wizard-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById(`step${step}`).classList.add('active');
+    wizUpdateStepIndicator(step);
+    WIZ.currentStep = step;
+
+    const backBtn = document.getElementById('wizardBack');
+    const nextBtn = document.getElementById('wizardNext');
+    const saveBtn = document.getElementById('wizardSave');
+
+    backBtn.style.display = step > 1 ? '' : 'none';
+    nextBtn.style.display = step < WIZ.totalSteps ? '' : 'none';
+    saveBtn.style.display = step === WIZ.totalSteps ? '' : 'none';
+
+    if (step === WIZ.totalSteps) wizBuildConfirm();
+}
+
+// ── Step 1: 種別選択 ──────────────────────────────────────────
+function wizInitStep1() {
+    document.querySelectorAll('.record-type-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.record-type-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            WIZ.selectedType = btn.dataset.rtype;
+            document.getElementById('editRecordType').value = WIZ.selectedType;
+            // 自動で次へ
+            setTimeout(() => wizGoNext(), 180);
+        });
+    });
+}
+
+// ── Step 2: フォーム切り替え ─────────────────────────────────
+function wizUpdateStep2ForType(type) {
+    const isEvent  = type === 'event';
+    const isPeriod = type === 'period';
+    const isPerson = type === 'person';
+
+    document.getElementById('s2-year-block').style.display  = (isEvent || isPeriod) ? '' : 'none';
+    document.getElementById('s2-person-block').style.display = isPerson ? '' : 'none';
+    document.getElementById('s2-yearend-wrap').style.display = isPeriod ? '' : 'none';
+
+    document.getElementById('s2-year-label').textContent  = isPeriod ? '開始年' : '年';
+    document.getElementById('s2-event-label').textContent = isPerson ? '人物名' : '出来事';
+    document.getElementById('s2-event-hint').textContent  = isPerson
+        ? '人物名を正式な形で入力。'
+        : '名詞形で短く。例: フランス革命';
+}
+
+// ── Step 2: 日付形式切り替え ─────────────────────────────────
+function wizInitStep2() {
+    document.getElementById('editDateType').addEventListener('change', e => {
+        document.getElementById('s2-fulldate-wrap').style.display =
+            e.target.value === 'full' ? '' : 'none';
+    });
+
+    // Wiki検索
+    document.getElementById('wikiSearchBtn').addEventListener('click', doWikiSearch);
+
+    // 重複チェック（debounce）
+    document.getElementById('editEvent').addEventListener('input', () => {
+        clearTimeout(WIZ.dupeCheckTimer);
+        WIZ.dupeCheckTimer = setTimeout(wizCheckDuplicate, 500);
+    });
+    document.getElementById('editYear').addEventListener('change', wizCheckDuplicate);
+}
+
+// ── 重複チェック ─────────────────────────────────────────────
+async function wizCheckDuplicate() {
+    const eventText = document.getElementById('editEvent').value.trim();
+    const yearText  = document.getElementById('editYear').value.trim();
+    const panel     = document.getElementById('dupePanel');
+    const banner    = document.getElementById('dupeBanner');
+    const records   = document.getElementById('dupeRecords');
+
+    if (eventText.length < 3) {
+        panel.classList.add('hidden');
+        return;
+    }
+
+    // 編集モードで自分自身のIDは除外
+    const selfId = document.getElementById('editEventId').value;
+
+    let q = db.from('wh_dates')
+        .select('id, year, year_end, event, record_type')
+        .ilike('event', `%${eventText}%`)
+        .limit(5);
+
+    if (selfId) q = q.neq('id', parseInt(selfId));
+
+    const { data, error } = await q;
+    if (error || !data || data.length === 0) {
+        panel.classList.add('hidden');
+        return;
+    }
+
+    // 年まで一致するものを「強警告」、名称だけ類似を「弱警告」
+    const yearNum     = yearText !== '' ? parseInt(yearText) : null;
+    const exactMatch  = yearNum !== null && data.some(r => r.year === yearNum);
+
+    banner.className = `dupe-banner ${exactMatch ? 'warn-hard' : 'warn-soft'}`;
+    banner.innerHTML = exactMatch
+        ? `⚠️ <strong>同年・類似名の記録が存在します</strong> — 重複登録でないか確認してください`
+        : `ℹ️ 類似する名称の記録があります（${data.length}件）`;
+
+    records.innerHTML = data.map(r => `
+        <div class="dupe-record-item">
+            <span class="dupe-year">${wizFormatYear(r.year)}</span>
+            <span class="dupe-event">${escapeHtml(r.event)}</span>
+            <span class="category-chip record-chip record-chip--${escapeHtml(r.record_type)}" style="font-size:0.75rem;">
+                ${escapeHtml({ event:'出来事', period:'期間', person:'人物' }[r.record_type] ?? r.record_type)}
+            </span>
+        </div>
+    `).join('');
+
+    panel.classList.remove('hidden');
+}
+
+// ── Step 3: 地域トグル ────────────────────────────────────────
+function wizRenderRegionToggles(selected = []) {
+    WIZ.selectedRegions = new Set(selected);
+    const container = document.getElementById('regionToggles');
+    container.innerHTML = regions.map(r => `
+        <button type="button"
+                class="region-toggle-btn ${selected.includes(r.key) ? 'selected' : ''}"
+                data-key="${escapeHtml(r.key)}">
+            ${escapeHtml(r.label)}
+        </button>
+    `).join('');
+
+    container.querySelectorAll('.region-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const key = btn.dataset.key;
+            if (WIZ.selectedRegions.has(key)) {
+                WIZ.selectedRegions.delete(key);
+                btn.classList.remove('selected');
+            } else {
+                WIZ.selectedRegions.add(key);
+                btn.classList.add('selected');
+            }
+        });
+    });
+}
+
+// ── Step 4: 確認テーブル生成 ─────────────────────────────────
+function wizBuildConfirm() {
+    const type     = document.getElementById('editRecordType').value;
+    const year     = document.getElementById('editYear').value;
+    const yearEnd  = document.getElementById('editYearEnd').value;
+    const birth    = document.getElementById('editYearBirth').value;
+    const death    = document.getElementById('editYearDeath').value;
+    const dateType = document.getElementById('editDateType').value;
+    const fullDate = document.getElementById('editFullDate').value;
+    const event    = document.getElementById('editEvent').value.trim();
+    const field    = document.getElementById('editField').value;
+    const desc     = document.getElementById('editDescription').value.trim();
+    const wikiUrl  = document.getElementById('editWikiUrl').value.trim();
+    const memo     = document.getElementById('editMemo').value.trim();
+
+    const typeLabel = { event: '出来事', period: '期間', person: '人物' }[type] ?? type;
+
+    let yearDisplay = '';
+    if (type === 'person') {
+        yearDisplay = `${wizFormatYear(birth)} — ${wizFormatYear(death)}`;
+    } else if (type === 'period') {
+        yearDisplay = `${wizFormatYear(year)} 〜 ${wizFormatYear(yearEnd)}`;
+    } else {
+        yearDisplay = wizFormatYear(year);
+    }
+    if (dateType === 'circa') yearDisplay += '（頃）';
+    if (dateType === 'full' && fullDate) yearDisplay = fullDate;
+
+    const regionLabels = [...WIZ.selectedRegions]
+        .map(k => regions.find(r => r.key === k)?.label ?? k)
+        .join('、') || '<span class="confirm-empty">未設定</span>';
+
+    const rows = [
+        ['種別', typeLabel],
+        ['年代', yearDisplay],
+        [type === 'person' ? '人物名' : '出来事', event || '<span class="confirm-empty">（未入力）</span>'],
+        ['地域', regionLabels],
+        ['分野', field || '<span class="confirm-empty">未設定</span>'],
+        ['説明', desc || '<span class="confirm-empty">なし</span>'],
+        ['Wikipedia', wikiUrl ? `<a href="${escapeHtml(wikiUrl)}" target="_blank" style="color:var(--accent-gold);">リンク</a>` : '<span class="confirm-empty">なし</span>'],
+        ['メモ', memo || '<span class="confirm-empty">なし</span>'],
+    ];
+
+    document.getElementById('confirmTable').innerHTML = rows.map(([k, v]) => `
+        <tr>
+            <th>${k}</th>
+            <td>${v}</td>
+        </tr>
+    `).join('');
+}
+
+// ── バリデーション ────────────────────────────────────────────
+function wizValidateStep(step) {
+    if (step === 1) {
+        if (!WIZ.selectedType) {
+            alert('種別を選択してください');
+            return false;
+        }
+        return true;
+    }
+    if (step === 2) {
+        const event = document.getElementById('editEvent').value.trim();
+        if (!event) {
+            alert(`${WIZ.selectedType === 'person' ? '人物名' : '出来事'}を入力してください`);
+            document.getElementById('editEvent').focus();
+            return false;
+        }
+        return true;
+    }
+    return true;
+}
+
+// ── ナビゲーション ────────────────────────────────────────────
+function wizGoNext() {
+    if (!wizValidateStep(WIZ.currentStep)) return;
+    if (WIZ.currentStep === 1) {
+        wizUpdateStep2ForType(WIZ.selectedType);
+    }
+    if (WIZ.currentStep < WIZ.totalSteps) {
+        wizShowStep(WIZ.currentStep + 1);
+    }
+}
+
+function wizGoBack() {
+    if (WIZ.currentStep > 1) {
+        wizShowStep(WIZ.currentStep - 1);
+    }
+}
+
+// ── フォームデータ収集 → 既存の handleFormSubmit 互換 ─────────
+function wizCollectPayload() {
+    const type    = document.getElementById('editRecordType').value;
+    const isPerson = type === 'person';
+    const isPeriod = type === 'period';
+
+    const yearRaw    = isPerson
+        ? document.getElementById('editYearBirth').value.trim()
+        : document.getElementById('editYear').value.trim();
+    const yearEndRaw = isPerson
+        ? document.getElementById('editYearDeath').value.trim()
+        : document.getElementById('editYearEnd').value.trim();
+
+    return {
+        record_type: type,
+        year:        yearRaw    !== '' ? parseInt(yearRaw,    10) : null,
+        year_end:    yearEndRaw !== '' ? parseInt(yearEndRaw, 10) : null,
+        date_type:   document.getElementById('editDateType').value,
+        full_date:   document.getElementById('editFullDate').value || null,
+        event:       document.getElementById('editEvent').value.trim(),
+        description: document.getElementById('editDescription').value.trim() || null,
+        region:      [...WIZ.selectedRegions],
+        field:       document.getElementById('editField').value || null,
+        wiki_url:    document.getElementById('editWikiUrl').value.trim() || null,
+        memo:        document.getElementById('editMemo').value.trim() || null,
+    };
+}
+
+async function wizSave() {
+    const payload  = wizCollectPayload();
+    if (!payload.event) { alert('出来事 / 人物名が入力されていません'); return; }
+
+    const saveBtn = document.getElementById('wizardSave');
+    saveBtn.textContent = '保存中...';
+    saveBtn.disabled = true;
+
+    const eventId = document.getElementById('editEventId').value;
+    let error;
+
+    if (eventId) {
+        ({ error } = await db.from('wh_dates').update(payload).eq('id', eventId));
+    } else {
+        ({ error } = await db.from('wh_dates').insert([payload]));
+    }
+
+    saveBtn.textContent = '💾 保存';
+    saveBtn.disabled = false;
+
+    if (error) {
+        const msg = error.code === '42501'
+            ? '権限エラー：このアカウントには編集権限がありません'
+            : '保存に失敗しました: ' + error.message;
+        alert(msg);
+        return;
+    }
+
+    closeModal();
+    await resetAndFetch();
+}
+
+// ── モーダルの初期化・開閉 ─────────────────────────────────────
+function wizResetModal() {
+    // フォームリセット
+    ['editEventId','editYear','editYearEnd','editYearBirth','editYearDeath',
+     'editEvent','editDescription','editWikiUrl','editMemo'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('editDateType').value = 'year';
+    document.getElementById('editField').value    = '';
+    document.getElementById('editRecordType').value = 'event';
+    document.getElementById('s2-fulldate-wrap').style.display = 'none';
+    document.getElementById('wikiResultPanel').style.display  = 'none';
+    document.getElementById('dupePanel').classList.add('hidden');
+
+    // 種別ボタンの選択解除
+    document.querySelectorAll('.record-type-btn').forEach(b => b.classList.remove('selected'));
+    WIZ.selectedType = null;
+
+    // 地域トグルリセット
+    wizRenderRegionToggles([]);
+
+    // ステップ1へ
+    wizShowStep(1);
+}
+
+// ── openAddModal を上書き ─────────────────────────────────────
+function openAddModal() {
+    document.getElementById('modalTitle').textContent = '新規追加';
+    WIZ.isEdit = false;
+    wizResetModal();
+    document.getElementById('editModal').classList.add('active');
+}
+
+// ── editEvent を上書き ────────────────────────────────────────
+function editEvent(id) {
+    const row = currentPageData.find(r => r.id === id);
+    if (!row) return;
+
+    WIZ.isEdit = true;
+    document.getElementById('modalTitle').textContent = '編集';
+    wizResetModal();
+
+    // 値セット
+    document.getElementById('editEventId').value     = row.id;
+    document.getElementById('editRecordType').value  = row.record_type ?? 'event';
+    document.getElementById('editDateType').value    = row.date_type ?? 'year';
+    document.getElementById('editFullDate').value    = row.full_date ?? '';
+    document.getElementById('editEvent').value       = row.event ?? '';
+    document.getElementById('editDescription').value = row.description ?? '';
+    document.getElementById('editField').value       = row.field ?? '';
+    document.getElementById('editWikiUrl').value     = row.wiki_url ?? '';
+    document.getElementById('editMemo').value        = row.memo ?? '';
+
+    if (row.record_type === 'person') {
+        document.getElementById('editYearBirth').value = row.year ?? '';
+        document.getElementById('editYearDeath').value = row.year_end ?? '';
+    } else {
+        document.getElementById('editYear').value    = row.year ?? '';
+        document.getElementById('editYearEnd').value = row.year_end ?? '';
+    }
+
+    // 種別ボタンを選択状態にする
+    WIZ.selectedType = row.record_type ?? 'event';
+    document.querySelectorAll('.record-type-btn').forEach(b => {
+        b.classList.toggle('selected', b.dataset.rtype === WIZ.selectedType);
+    });
+
+    // 地域
+    wizRenderRegionToggles(row.region ?? []);
+
+    // full_date 表示切り替え
+    document.getElementById('s2-fulldate-wrap').style.display =
+        (row.date_type === 'full') ? '' : 'none';
+
+    // 編集は Step 2 から
+    wizUpdateStep2ForType(WIZ.selectedType);
+    wizShowStep(2);
+
+    document.getElementById('editModal').classList.add('active');
+}
+
+// ── イベントバインド（DOMContentLoaded 後に呼ぶ） ────────────────
+function wizBindEvents() {
+    wizInitStep1();
+    wizInitStep2();
+
+    document.getElementById('wizardNext').addEventListener('click', wizGoNext);
+    document.getElementById('wizardBack').addEventListener('click', wizGoBack);
+    document.getElementById('wizardSave').addEventListener('click', wizSave);
+    document.getElementById('closeModal').addEventListener('click', closeModal);
+    document.getElementById('cancelBtn').addEventListener('click', closeModal);
+    document.getElementById('editModal').addEventListener('click', e => {
+        if (e.target.id === 'editModal') closeModal();
+    });
+}
+
+// ── closeModal（上書き） ─────────────────────────────────────
+function closeModal() {
+    document.getElementById('editModal').classList.remove('active');
+}
