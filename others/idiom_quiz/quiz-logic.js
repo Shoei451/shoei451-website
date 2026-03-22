@@ -1,305 +1,252 @@
-//クイズのロジック 
-        let questions = [];
-        let allQuestions = [];
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let answeredQuestions = 0;
-        let selectedQuestionCount = 10;
-        let quizMode = 'random';
+// Idiom quiz logic
+let questions = [];
+let allQuestions = [];
+let currentQuestionIndex = 0;
+let score = 0;
+let answeredQuestions = 0;
+let selectedQuestionCount = 10;
+let quizMode = 'random';
+let currentChoiceButtons = [];
 
-        // Theme toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
+const SCREEN_IDS = ['startScreen', 'quizScreen', 'resultsScreen'];
+
+function escapeHtml(value) {
+    const div = document.createElement('div');
+    div.textContent = String(value ?? '');
+    return div.innerHTML;
+}
+
+function shuffleArray(array) {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+// Fetch questions from Supabase
+async function fetchQuestions() {
+    try {
+        document.getElementById('loading').classList.remove('hidden');
+
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?select=*`, {
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json',
+            },
         });
 
-        // Fetch questions from Supabase
-        async function fetchQuestions() {
-            try {
-                document.getElementById('loading').classList.remove('hidden');
-                
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?select=*`, {
-                    headers: {
-                        'apikey': SUPABASE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_KEY}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`Failed to fetch questions: ${response.status} - ${errorText}`);
-                }
-
-                const data = await response.json();
-                document.getElementById('loading').classList.add('hidden');
-
-                if (data.length === 0) {
-                    throw new Error('No questions found in database');
-                }
-
-                return data;
-            } catch (error) {
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('error').innerHTML = `
-                    <strong>Error:</strong> ${error.message}<br>
-                    <small style="margin-top: 10px; display: block;">
-                    Please check:<br>
-                    1. Your Supabase URL is correct<br>
-                    2. Your API key (anon/public key) is correct<br>
-                    3. The table "english_idioms" exists<br>
-                    4. Row Level Security (RLS) allows public read access
-                    </small>
-                `;
-                document.getElementById('error').classList.remove('hidden');
-                return [];
-            }
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Failed to fetch questions: ${response.status} - ${errorText}`);
         }
 
-        // Generate multiple choice options from fill-in-the-blank
-        function generateChoices(correctAnswer, allIdioms) {
-            const choices = [correctAnswer];
-            
-            // Get other idioms as wrong answers
-            const otherIdioms = allIdioms.filter(q => q.idiom_extracted !== correctAnswer);
-            
-            // Shuffle and pick 3 wrong answers
-            const shuffled = otherIdioms.sort(() => 0.5 - Math.random());
-            for (let i = 0; i < 3 && i < shuffled.length; i++) {
-                choices.push(shuffled[i].idiom_extracted);
-            }
-            
-            // Shuffle all choices
-            return choices.sort(() => 0.5 - Math.random());
+        const data = await response.json();
+        document.getElementById('loading').classList.add('hidden');
+
+        if (data.length === 0) {
+            throw new Error('No questions found in database');
         }
 
-        // Filter questions based on quiz mode
-        function filterQuestionsByMode(questions, mode) {
-            const MIN_ATTEMPTS = 5; // Minimum attempts to consider data reliable
-            
-            switch(mode) {
-                case 'difficult':
-                    // Questions with low correct rate and enough attempts
-                    return questions.filter(q => 
-                        q.total_attempts >= MIN_ATTEMPTS && 
-                        (q.correct_rate === null || q.correct_rate < 50)
-                    );
-                
-                case 'unattempted':
-                    // Questions never attempted or with very few attempts
-                    return questions.filter(q => 
-                        q.total_attempts === null || q.total_attempts < MIN_ATTEMPTS
-                    );
-                
-                case 'mixed':
-                    // Weighted selection: 60% difficult, 30% medium, 10% easy
-                    const difficult = questions.filter(q => 
-                        q.total_attempts >= MIN_ATTEMPTS && 
-                        (q.correct_rate === null || q.correct_rate < 50)
-                    );
-                    const medium = questions.filter(q => 
-                        q.total_attempts >= MIN_ATTEMPTS && 
-                        q.correct_rate >= 50 && q.correct_rate < 75
-                    );
-                    const easy = questions.filter(q => 
-                        q.total_attempts >= MIN_ATTEMPTS && 
-                        q.correct_rate >= 75
-                    );
-                    
-                    const mixed = [];
-                    const targetCount = questions.length;
-                    
-                    // Add 60% difficult (or as many as available)
-                    const difficultCount = Math.min(difficult.length, Math.ceil(targetCount * 0.6));
-                    mixed.push(...difficult.slice(0, difficultCount));
-                    
-                    // Add 30% medium
-                    const mediumCount = Math.min(medium.length, Math.ceil(targetCount * 0.3));
-                    mixed.push(...medium.slice(0, mediumCount));
-                    
-                    // Add 10% easy
-                    const easyCount = Math.min(easy.length, Math.ceil(targetCount * 0.1));
-                    mixed.push(...easy.slice(0, easyCount));
-                    
-                    // If not enough, fill with unattempted
-                    if (mixed.length < targetCount) {
-                        const unattempted = questions.filter(q => 
-                            q.total_attempts === null || q.total_attempts < MIN_ATTEMPTS
-                        );
-                        mixed.push(...unattempted.slice(0, targetCount - mixed.length));
-                    }
-                    
-                    return mixed;
-                
-                case 'random':
-                default:
-                    return questions;
-            }
-        }
+        return data;
+    } catch (error) {
+        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('error').innerHTML = `
+            <strong>Error:</strong> ${error.message}<br>
+            <small style="margin-top: 10px; display: block;">
+            Please check:<br>
+            1. Your Supabase URL is correct<br>
+            2. Your API key is correct<br>
+            3. The table "english_idioms" exists<br>
+            4. Row Level Security (RLS) allows public read access
+            </small>
+        `;
+        document.getElementById('error').classList.remove('hidden');
+        return [];
+    }
+}
 
-        // Update question statistics in Supabase
-        async function updateQuestionStats(questionId, isCorrect) {
-            try {
-                // First, get current stats
-                const getResponse = await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?id=eq.${questionId}&select=total_attempts,correct_attempts`, {
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
-                    }
-                });
-                
-                if (!getResponse.ok) return;
-                
-                const data = await getResponse.json();
-                if (data.length === 0) return;
-                
-                const current = data[0];
-                const newTotalAttempts = (current.total_attempts || 0) + 1;
-                const newCorrectAttempts = (current.correct_attempts || 0) + (isCorrect ? 1 : 0);
-                const newCorrectRate = (newCorrectAttempts / newTotalAttempts) * 100;
-                
-                // Update the record
-                await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?id=eq.${questionId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify({
-                        total_attempts: newTotalAttempts,
-                        correct_attempts: newCorrectAttempts,
-                        correct_rate: newCorrectRate
-                    })
-                });
-            } catch (error) {
-                console.error('Failed to update stats:', error);
-                // Don't block the quiz if stats update fails
-            }
-        }
+function generateChoices(correctAnswer, rows) {
+    const choices = [correctAnswer];
+    const others = rows.filter((q) => q.idiom_extracted !== correctAnswer);
+    const shuffled = shuffleArray(others);
 
-        // Report data corruption
-        async function reportCorruption(questionId, reason) {
-            try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?id=eq.${questionId}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'apikey': SUPABASE_ANON_KEY,
-                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
-                        'Content-Type': 'application/json',
-                        'Prefer': 'return=minimal'
-                    },
-                    body: JSON.stringify({
-                        corruption_istrue: true,
-                        corruption_reason: reason
-                    })
-                });
-                
-                return response.ok;
-            } catch (error) {
-                console.error('Failed to report corruption:', error);
-                return false;
-            }
-        }
+    for (let i = 0; i < 3 && i < shuffled.length; i++) {
+        choices.push(shuffled[i].idiom_extracted);
+    }
 
-        // Display question
-        function displayQuestion() {
-            const question = questions[currentQuestionIndex];
-            const questionEl = document.getElementById('question');
-            const questionJpEl = document.getElementById('questionJp');
-            const choicesEl = document.getElementById('choices');
-            const feedbackEl = document.getElementById('feedback');
-            
-            feedbackEl.classList.add('hidden');
-            document.getElementById('nextBtn').classList.add('hidden');
+    return shuffleArray(choices);
+}
 
-            // Display the fill-in-the-blank question (example sentence)
-            questionEl.textContent = question.fill_in_the_blanks;
-            
-            // Display Japanese translation of example sentence
-            if (question.example_jp) {
-                questionJpEl.textContent = ` ${question.example_jp}`;
-                questionJpEl.style.display = 'block';
-            } else {
-                questionJpEl.style.display = 'none';
-            }
+function filterQuestionsByMode(rows, mode) {
+    const minAttempts = 5;
 
-            // Generate and display choices
-            const choices = generateChoices(question.idiom_extracted, questions);
-            choicesEl.innerHTML = '';
-            
-            choices.forEach(choice => {
-                const btn = document.createElement('button');
-                btn.textContent = choice;
-                btn.addEventListener('click', () => selectAnswer(choice, question));
-                choicesEl.appendChild(btn);
-            });
+    if (mode === 'difficult') {
+        return rows.filter((q) => q.total_attempts >= minAttempts && (q.correct_rate === null || q.correct_rate < 50));
+    }
 
-            // Update progress
-            updateProgress();
-        }
+    if (mode === 'unattempted') {
+        return rows.filter((q) => q.total_attempts === null || q.total_attempts < minAttempts);
+    }
 
-        // Handle answer selection
-        function selectAnswer(selectedAnswer, question) {
-            const choicesEl = document.getElementById('choices');
-            const buttons = choicesEl.querySelectorAll('button');
-            const feedbackEl = document.getElementById('feedback');
-            
-            // Disable all buttons
-            buttons.forEach(btn => btn.disabled = true);
+    if (mode === 'mixed') {
+        const difficult = rows.filter((q) => q.total_attempts >= minAttempts && (q.correct_rate === null || q.correct_rate < 50));
+        const medium = rows.filter((q) => q.total_attempts >= minAttempts && q.correct_rate >= 50 && q.correct_rate < 75);
+        const easy = rows.filter((q) => q.total_attempts >= minAttempts && q.correct_rate >= 75);
+        const unattempted = rows.filter((q) => q.total_attempts === null || q.total_attempts < minAttempts);
 
-            // Check if correct
-            const isCorrect = selectedAnswer === question.idiom_extracted;
-            
-            if (isCorrect) {
-                score++;
-            }
-            answeredQuestions++;
+        return [
+            ...shuffleArray(difficult),
+            ...shuffleArray(medium),
+            ...shuffleArray(easy),
+            ...shuffleArray(unattempted),
+        ];
+    }
 
-            // Update statistics in database
-            updateQuestionStats(question.id, isCorrect);
+    return rows;
+}
 
-            // Highlight correct and incorrect answers
-            buttons.forEach(btn => {
-                if (btn.textContent === question.idiom_extracted) {
-                    btn.classList.add('correct');
-                } else if (btn.textContent === selectedAnswer && !isCorrect) {
-                    btn.classList.add('incorrect');
-                }
-            });
+function pickQuestions(rows, countValue) {
+    const shuffled = shuffleArray(rows);
 
-            // Show feedback
-            const bannerClass = isCorrect ? 'correct-banner' : 'incorrect-banner';
-            feedbackEl.innerHTML = `
-                <h3 class="${bannerClass}">${isCorrect ? '✓ Correct!' : '✗ Incorrect'}</h3>
-                <div class="feedback-content">
-                    <div class="feedback-item">
-                        <span class="feedback-label">ID</span>
-                        <div class="feedback-value">#${question.id}</div>
-                    </div>
-                    <div class="feedback-item">
-                        <span class="feedback-label">Idiom</span>
-                        <div class="feedback-value feedback-idiom">${question.idiom}</div>
-                    </div>
-                    <div class="feedback-item">
-                        <span class="feedback-label">意味 (Meaning)</span>
-                        <div class="feedback-value">${question.definition_jp}</div>
-                    </div>
-                    <div class="feedback-item">
-                        <span class="feedback-label">Example Sentence</span>
-                        <div class="feedback-value feedback-example">${question.example}</div>
-                    </div>
-                    ${question.tips ? `
-                    <div class="feedback-item">
-                        <span class="feedback-label">💡 Tips</span>
-                        <div class="feedback-value">${question.tips}</div>
-                    </div>
-                    ` : ''}
+    if (countValue === 'all') {
+        selectedQuestionCount = shuffled.length;
+        return shuffled;
+    }
+
+    selectedQuestionCount = parseInt(countValue, 10);
+    return shuffled.slice(0, selectedQuestionCount);
+}
+
+async function updateQuestionStats(questionId, isCorrect) {
+    try {
+        const getResponse = await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?id=eq.${questionId}&select=total_attempts,correct_attempts`, {
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`,
+            },
+        });
+
+        if (!getResponse.ok) return;
+
+        const data = await getResponse.json();
+        if (data.length === 0) return;
+
+        const current = data[0];
+        const newTotalAttempts = (current.total_attempts || 0) + 1;
+        const newCorrectAttempts = (current.correct_attempts || 0) + (isCorrect ? 1 : 0);
+        const newCorrectRate = (newCorrectAttempts / newTotalAttempts) * 100;
+
+        await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?id=eq.${questionId}`, {
+            method: 'PATCH',
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json',
+                Prefer: 'return=minimal',
+            },
+            body: JSON.stringify({
+                total_attempts: newTotalAttempts,
+                correct_attempts: newCorrectAttempts,
+                correct_rate: newCorrectRate,
+            }),
+        });
+    } catch (error) {
+        console.error('Failed to update stats:', error);
+    }
+}
+
+async function reportCorruption(questionId, reason) {
+    try {
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/english_idioms?id=eq.${questionId}`, {
+            method: 'PATCH',
+            headers: {
+                apikey: SUPABASE_KEY,
+                Authorization: `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': 'application/json',
+                Prefer: 'return=minimal',
+            },
+            body: JSON.stringify({
+                corruption_istrue: true,
+                corruption_reason: reason,
+            }),
+        });
+
+        return response.ok;
+    } catch (error) {
+        console.error('Failed to report corruption:', error);
+        return false;
+    }
+}
+
+function displayQuestion() {
+    const question = questions[currentQuestionIndex];
+    const questionEl = document.getElementById('question');
+    const questionJpEl = document.getElementById('questionJp');
+    const choicesEl = document.getElementById('choices');
+    const feedbackEl = document.getElementById('feedback');
+
+    feedbackEl.classList.add('hidden');
+    document.getElementById('nextBtn').classList.add('hidden');
+
+    questionEl.textContent = question.fill_in_the_blanks;
+
+    if (question.example_jp) {
+        questionJpEl.textContent = question.example_jp;
+        questionJpEl.classList.remove('hidden');
+    } else {
+        questionJpEl.classList.add('hidden');
+    }
+
+    const choices = generateChoices(question.idiom_extracted, questions);
+    currentChoiceButtons = QuizUI.renderChoices(choicesEl, choices, (selected) => selectAnswer(selected, question));
+
+    updateProgress();
+}
+
+function selectAnswer(selectedAnswer, question) {
+    const feedbackEl = document.getElementById('feedback');
+
+    const isCorrect = selectedAnswer === question.idiom_extracted;
+    if (isCorrect) {
+        score++;
+    }
+    answeredQuestions++;
+
+    updateQuestionStats(question.id, isCorrect);
+    QuizUI.highlightAnswer(currentChoiceButtons, question.idiom_extracted, selectedAnswer);
+
+    const bannerClass = isCorrect ? 'correct-banner' : 'incorrect-banner';
+    feedbackEl.innerHTML = `
+        <div class="idiom-feedback">
+            <div class="idiom-feedback-banner ${bannerClass}">${isCorrect ? 'Correct!' : 'Incorrect'}</div>
+            <div class="idiom-feedback-body">
+                <div class="feedback-item">
+                    <span class="feedback-label">ID</span>
+                    <div class="feedback-value">#${question.id}</div>
                 </div>
+                <div class="feedback-item">
+                    <span class="feedback-label">Idiom</span>
+                    <div class="feedback-value feedback-idiom">${escapeHtml(question.idiom)}</div>
+                </div>
+                <div class="feedback-item">
+                    <span class="feedback-label">Meaning</span>
+                    <div class="feedback-value">${escapeHtml(question.definition_jp)}</div>
+                </div>
+                <div class="feedback-item">
+                    <span class="feedback-label">Example Sentence</span>
+                    <div class="feedback-value feedback-example">${escapeHtml(question.example)}</div>
+                </div>
+                ${question.tips ? `
+                <div class="feedback-item">
+                    <span class="feedback-label">Tips</span>
+                    <div class="feedback-value">${escapeHtml(question.tips)}</div>
+                </div>` : ''}
                 <div class="report-section">
-                    <h4>⚠️ データに誤りがありますか？</h4>
-                    <button class="report-btn" onclick="toggleReportForm(${question.id})">データの誤りを報告</button>
+                    <h4>データに誤りがありますか？</h4>
+                    <button type="button" class="report-btn" onclick="toggleReportForm(${question.id})">データの誤りを報告</button>
                     <div id="reportForm${question.id}" class="report-form hidden">
                         <select id="reportReason${question.id}">
                             <option value="">-- 理由を選択してください --</option>
@@ -311,122 +258,103 @@
                             <option value="スペルミス">スペルミス</option>
                             <option value="その他">その他</option>
                         </select>
-                        <button onclick="submitReport(${question.id})">送信</button>
-                        <button onclick="toggleReportForm(${question.id})" style="background: var(--secondary);color: white;">キャンセル</button>
+                        <button type="button" class="report-submit" onclick="submitReport(${question.id})">送信</button>
+                        <button type="button" onclick="toggleReportForm(${question.id})">キャンセル</button>
                         <div id="reportMessage${question.id}"></div>
                     </div>
                 </div>
-            `;
-            feedbackEl.classList.remove('hidden');
+            </div>
+        </div>
+    `;
+    feedbackEl.classList.remove('hidden');
 
-            // Update score display
-            document.getElementById('score').textContent = `Score: ${score}/${answeredQuestions}`;
+    document.getElementById('score').textContent = `Score: ${score}/${answeredQuestions}`;
+    document.getElementById('nextBtn').classList.remove('hidden');
+}
 
-            // Show next button
-            document.getElementById('nextBtn').classList.remove('hidden');
-        }
+function updateProgress() {
+    QuizUI.updateProgress(
+        currentQuestionIndex + 1,
+        questions.length,
+        document.getElementById('progressBar')
+    );
+}
 
-        // Update progress bar
-        function updateProgress() {
-            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-            document.getElementById('progressBar').style.width = `${progress}%`;
-        }
+function showScreen(screenId) {
+    QuizUI.showScreen(screenId, SCREEN_IDS);
+}
 
-        // Next question
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            currentQuestionIndex++;
-            
-            if (currentQuestionIndex < questions.length) {
-                displayQuestion();
-            } else {
-                showResults();
-            }
-        });
+function showResults() {
+    showScreen('resultsScreen');
 
-        // Show results
-        function showResults() {
-            document.getElementById('quizScreen').classList.add('hidden');
-            document.getElementById('resultsScreen').classList.remove('hidden');
-            
-            const percentage = Math.round((score / questions.length) * 100);
-            document.getElementById('finalScore').innerHTML = `
-                <p style="font-size: 2em; margin: 20px 0;">Your Score: ${score}/${questions.length}</p>
-                <p style="font-size: 1.5em; margin: 20px 0;">${percentage}%</p>
-                <p class="note">${percentage >= 80 ? 'Excellent work! 🎉' : percentage >= 60 ? 'Good job! Keep practicing! 👍' : 'Keep studying! You\'ll improve! 💪'}</p>
-            `;
-        }
+    const percentage = Math.round((score / questions.length) * 100);
+    document.getElementById('finalScore').innerHTML = `
+        <p>Your Score: ${score}/${questions.length}</p>
+        <p>${percentage}%</p>
+        <p class="quiz-note">${percentage >= 80 ? 'Excellent work!' : percentage >= 60 ? 'Good job! Keep practicing!' : 'Keep studying! You will improve!'}</p>
+    `;
+}
 
-        // Start quiz
-        document.getElementById('startBtn').addEventListener('click', async () => {
-            const countSelect = document.getElementById('questionCount');
-            const modeSelect = document.getElementById('quizMode');
-            const countValue = countSelect.value;
-            quizMode = modeSelect.value;
-            
-            document.getElementById('startScreen').classList.add('hidden');
-            
-            allQuestions = await fetchQuestions();
-            
-            if (allQuestions.length > 0) {
-                // Filter based on mode
-                let filteredQuestions = filterQuestionsByMode(allQuestions, quizMode);
-                
-                // If filtered results are too few, fall back to random
-                if (filteredQuestions.length === 0) {
-                    alert('Not enough questions match this mode yet. Switching to random practice.');
-                    filteredQuestions = allQuestions;
-                }
-                
-                // Shuffle filtered questions
-                filteredQuestions = filteredQuestions.sort(() => 0.5 - Math.random());
-                
-                // Select number of questions
-                if (countValue === 'all') {
-                    selectedQuestionCount = filteredQuestions.length;
-                    questions = filteredQuestions;
-                } else {
-                    selectedQuestionCount = parseInt(countValue);
-                    questions = filteredQuestions.slice(0, selectedQuestionCount);
-                }
-                
-                document.getElementById('quizScreen').classList.remove('hidden');
-                displayQuestion();
-            }
-        });
+function resetQuizState() {
+    currentQuestionIndex = 0;
+    score = 0;
+    answeredQuestions = 0;
+    document.getElementById('score').textContent = 'Score: 0/0';
+    document.getElementById('progressBar').style.width = '0%';
+}
 
-        // Home button
-        document.getElementById('homeBtn').addEventListener('click', () => {
-            if (confirm('Are you sure you want to quit? Your progress will be lost.')) {
-                resetQuiz();
-                document.getElementById('quizScreen').classList.add('hidden');
-                document.getElementById('resultsScreen').classList.add('hidden');
-                document.getElementById('startScreen').classList.remove('hidden');
-            }
-        });
+document.getElementById('nextBtn').addEventListener('click', () => {
+    currentQuestionIndex++;
 
-        // Restart quiz
-        document.getElementById('restartBtn').addEventListener('click', () => {
-            resetQuiz();
-            
-            // Reshuffle and select questions again
-            allQuestions = allQuestions.sort(() => 0.5 - Math.random());
-            if (selectedQuestionCount === allQuestions.length) {
-                questions = allQuestions;
-            } else {
-                questions = allQuestions.slice(0, selectedQuestionCount);
-            }
-            
-            document.getElementById('resultsScreen').classList.add('hidden');
-            document.getElementById('quizScreen').classList.remove('hidden');
-            
-            displayQuestion();
-        });
+    if (currentQuestionIndex < questions.length) {
+        displayQuestion();
+    } else {
+        showResults();
+    }
+});
 
-        // Reset quiz state
-        function resetQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            answeredQuestions = 0;
-            document.getElementById('score').textContent = 'Score: 0/0';
-            document.getElementById('progressBar').style.width = '0%';
-        }
+document.getElementById('startBtn').addEventListener('click', async () => {
+    document.getElementById('error').classList.add('hidden');
+
+    const countValue = document.getElementById('questionCount').value;
+    quizMode = document.getElementById('quizMode').value;
+
+    allQuestions = await fetchQuestions();
+    if (allQuestions.length === 0) {
+        showScreen('startScreen');
+        return;
+    }
+
+    let filteredQuestions = filterQuestionsByMode(allQuestions, quizMode);
+    if (filteredQuestions.length === 0) {
+        alert('Not enough questions match this mode yet. Switching to random practice.');
+        filteredQuestions = allQuestions;
+    }
+
+    questions = pickQuestions(filteredQuestions, countValue);
+    resetQuizState();
+    showScreen('quizScreen');
+    displayQuestion();
+});
+
+document.getElementById('homeBtn').addEventListener('click', () => {
+    if (confirm('Are you sure you want to quit? Your progress will be lost.')) {
+        resetQuizState();
+        showScreen('startScreen');
+    }
+});
+
+document.getElementById('restartBtn').addEventListener('click', () => {
+    if (allQuestions.length === 0) {
+        showScreen('startScreen');
+        return;
+    }
+
+    const countValue = document.getElementById('questionCount').value;
+    const filtered = filterQuestionsByMode(allQuestions, quizMode);
+    questions = pickQuestions(filtered.length > 0 ? filtered : allQuestions, countValue);
+
+    resetQuizState();
+    showScreen('quizScreen');
+    displayQuestion();
+});

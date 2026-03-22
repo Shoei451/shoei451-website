@@ -8,36 +8,69 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
-    <!-- 変更後 -->
     <link rel="stylesheet" href="../../css/theme-toggle.css">
     <link rel="stylesheet" href="../styles/theme-chinese.css">
-    <link rel="stylesheet" href="../styles/chinese-quiz.css">
-    
+    <link rel="stylesheet" href="../../css/quiz.css">
+    <style>
+        :root {
+            --theme: var(--bg-light);
+            --entry: var(--bg-light-secondary);
+            --primary: var(--accent-primary);
+            --secondary: var(--text-light-secondary);
+            --content: var(--text-light);
+            --card-bg: var(--bg-light-secondary);
+            --border: var(--border-light);
+            --accent: var(--accent-secondary);
+            --accent-text: var(--accent-secondary);
+            --accent-contrast: var(--bg-light);
+        }
+        body.dark {
+            --theme: var(--bg-light);
+            --entry: var(--bg-light-secondary);
+            --primary: var(--accent-primary);
+            --secondary: var(--text-light-secondary);
+            --content: var(--text-light);
+            --card-bg: var(--bg-light-secondary);
+            --border: var(--border-light);
+            --accent: var(--accent-secondary);
+            --accent-text: var(--accent-secondary);
+            --accent-contrast: var(--bg-light);
+        }
+        .quiz-wrapper {
+            max-width: 900px;
+        }
+        .top-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+    </style>
 </head>
 <body>
     <header>
         <div class="header-content">
-            <h1>📅 中国王朝史 年代クイズ</h1>
-            <button onclick="window.location.href='../../sub-index.html?slug=history'">歴史ホームへ戻る</button>
+            <h1>中国王朝史 年代クイズ</h1>
+            <button type="button" onclick="window.location.href='../../sub-index.html?slug=history'">歴史ホームへ戻る</button>
             <span class="logo-switches" id="theme-toggle-container"></span>
         </div>
     </header>
 
-    <div class="container">
-        <!-- Setup Screen -->
-        <div id="setupScreen" class="setup-screen">
+    <div class="quiz-wrapper">
+        <div id="setupScreen" class="quiz-screen">
             <h2>クイズ設定</h2>
-            
-            <div class="form-group">
+
+            <div class="quiz-field">
                 <label>出題カテゴリを選択（複数選択可）</label>
-                <div style="margin-bottom: 15px; display: flex; gap: 10px;">
-                    <button type="button" onclick="selectAllCategories()" style="padding: 8px 16px; font-size: 0.9rem;">全選択</button>
-                    <button type="button" onclick="clearAllCategories()" style="padding: 8px 16px; font-size: 0.9rem; background: var(--bg-light-secondary); color: var(--text-light); border: 2px solid var(--border-light);">選択解除</button>
+                <div class="top-actions">
+                    <button type="button" onclick="selectAllCategories()">全選択</button>
+                    <button type="button" onclick="clearAllCategories()">選択解除</button>
                 </div>
-                <div class="category-chips" id="categorySelection"></div>
+                <div class="quiz-category-chips" id="categorySelection"></div>
             </div>
 
-            <div class="form-group">
+            <div class="quiz-field">
                 <label for="questionCount">出題数</label>
                 <input type="number" id="questionCount" min="5" max="50" value="10">
             </div>
@@ -47,24 +80,21 @@
             </div>
         </div>
 
-        <!-- Quiz Screen -->
         <div id="quizScreen" class="quiz-screen hidden">
-            <div class="quiz-question">
-                <div class="question-number" id="questionNumber"></div>
-                <div id="categoryChip"></div>
-                <div class="event-title" id="eventTitle"></div>
-                <div class="event-description" id="eventDescription"></div>
-            </div>
+            <div class="question-sublabel" id="questionNumber"></div>
+            <div id="categoryChip" style="text-align:center; margin-bottom: 12px;"></div>
+            <div class="question-card" id="eventTitle"></div>
+            <div class="question-sublabel" id="eventDescription"></div>
 
-            <div class="answer-input">
+            <div class="quiz-answer-input">
                 <label for="yearInput">この出来事は何年？</label>
                 <input type="text" id="yearInput" placeholder="answer here..." maxlength="6" inputmode="numeric">
-                <div style="font-size: 0.85rem; color: var(--text-light-secondary); margin-top: 10px;">
+                <div style="font-size: 0.85rem; color: var(--secondary); margin-top: 10px;">
                     紀元前は負の数で入力（例：-221 = 前221年）
                 </div>
             </div>
 
-            <div id="feedback" class="feedback hidden"></div>
+            <div id="feedback" class="quiz-feedback hidden"></div>
 
             <div class="quiz-controls">
                 <button id="submitAnswerBtn" onclick="submitAnswer()">回答する</button>
@@ -72,48 +102,32 @@
             </div>
         </div>
 
-        <!-- Result Screen -->
-        <div id="resultScreen" class="result-screen hidden">
+        <div id="resultScreen" class="quiz-screen hidden">
             <h2>クイズ結果</h2>
-            
-            <div class="score-summary">
-                <div class="score-card">
-                    <div class="label">正解数</div>
-                    <div class="number" id="correctCount"></div>
-                </div>
-                <div class="score-card">
-                    <div class="label">不正解数</div>
-                    <div class="number" id="incorrectCount"></div>
-                </div>
-                <div class="score-card">
-                    <div class="label">正解率</div>
-                    <div class="number" id="accuracy"></div>
-                </div>
-            </div>
 
-            <div id="mistakesList" class="mistakes-list"></div>
+            <div id="scoreSummary" class="quiz-score-summary"></div>
+            <div id="mistakesList" class="quiz-mistakes-list"></div>
 
             <div style="text-align: center; margin-top: 30px;">
                 <button onclick="resetQuiz()">もう一度挑戦</button>
             </div>
         </div>
 
-        <div id="loadingScreen" class="loading">
+        <div id="loadingScreen" class="quiz-screen hidden" style="text-align: center; padding: 60px 20px; color: var(--secondary);">
             <p>データを読み込み中...</p>
         </div>
     </div>
 
     <script src="../../js/theme-toggle.js"></script>
+    <script src="../../js/quiz.js"></script>
     <script>
-        // Supabase client/table constants are provided by js/supabase_config.js
+        const ALL_SCREENS = ['setupScreen', 'quizScreen', 'resultScreen', 'loadingScreen'];
 
-        // State
         let events = [];
         let selectedCategories = new Set();
         let quizQuestions = [];
         let currentQuestionIndex = 0;
         let userAnswers = [];
-        let currentAnswer = null;
 
         const categories = ['王朝成立', '王朝滅亡', '反乱', '戦争', '外交', '内政', '経済', '文化', 'その他'];
 
@@ -122,9 +136,10 @@
         });
 
         async function init() {
+            showScreen('loadingScreen');
             await loadEvents();
             renderCategorySelection();
-            hideLoading();
+            showScreen('setupScreen');
         }
 
         async function loadEvents() {
@@ -145,7 +160,7 @@
             const container = document.getElementById('categorySelection');
             container.innerHTML = categories.map(cat => {
                 const escaped = cat.replace(/'/g, "\\'");
-                return `<button type="button" class="category-chip" data-category="${cat}" onclick="toggleCategory('${escaped}')">${cat}</button>`;
+                return `<button type="button" class="quiz-chip" data-category="${cat}" onclick="toggleCategory('${escaped}')">${cat}</button>`;
             }).join('');
         }
 
@@ -169,13 +184,9 @@
         }
 
         function updateCategoryUI() {
-            document.querySelectorAll('#categorySelection .category-chip').forEach(elem => {
+            document.querySelectorAll('#categorySelection .quiz-chip').forEach(elem => {
                 const category = elem.dataset.category;
-                if (selectedCategories.has(category)) {
-                    elem.classList.add('selected');
-                } else {
-                    elem.classList.remove('selected');
-                }
+                elem.classList.toggle('selected', selectedCategories.has(category));
             });
         }
 
@@ -185,14 +196,14 @@
                 return;
             }
 
-            const count = parseInt(document.getElementById('questionCount').value);
-            if (count < 5 || count > 50) {
+            const count = parseInt(document.getElementById('questionCount').value, 10);
+            if (Number.isNaN(count) || count < 5 || count > 50) {
                 alert('出題数は5〜50の範囲で指定してください');
                 return;
             }
 
             const filteredEvents = events.filter(e => selectedCategories.has(e.category));
-            
+
             if (filteredEvents.length < count) {
                 alert(`選択したカテゴリには${filteredEvents.length}個のイベントしかありません`);
                 return;
@@ -201,64 +212,62 @@
             quizQuestions = shuffleArray(filteredEvents).slice(0, count);
             currentQuestionIndex = 0;
             userAnswers = [];
-            
-            showScreen('quiz');
+
+            showScreen('quizScreen');
             showQuestion();
         }
 
         function showQuestion() {
             const question = quizQuestions[currentQuestionIndex];
-            
-            document.getElementById('questionNumber').textContent = 
+
+            document.getElementById('questionNumber').textContent =
                 `問題 ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
-            
-            document.getElementById('categoryChip').innerHTML = 
-                `<span class="category-chip is-badge">${question.category}</span>`;
-            
+
+            document.getElementById('categoryChip').innerHTML =
+                `<span class="quiz-chip is-badge">${escapeHtml(question.category)}</span>`;
+
             document.getElementById('eventTitle').textContent = question.title;
-            document.getElementById('eventDescription').textContent = question.description || '';
-            
-            document.getElementById('yearInput').value = '';
-            document.getElementById('yearInput').focus();
+
+            const descEl = document.getElementById('eventDescription');
+            descEl.textContent = question.description || '';
+            descEl.classList.toggle('hidden', !question.description);
+
+            const yearInput = document.getElementById('yearInput');
+            yearInput.value = '';
+            yearInput.focus();
+
             document.getElementById('feedback').classList.add('hidden');
             document.getElementById('submitAnswerBtn').classList.remove('hidden');
             document.getElementById('nextQuestionBtn').classList.add('hidden');
-            
-            currentAnswer = null;
         }
 
         function submitAnswer() {
             const input = document.getElementById('yearInput').value.trim();
-            
+
             if (!input || !/^-?\d+$/.test(input)) {
                 alert('年を数字で入力してください（紀元前は負の数で: -221）');
                 return;
             }
 
-            const userYear = parseInt(input);
+            const userYear = parseInt(input, 10);
             const question = quizQuestions[currentQuestionIndex];
             const correctYear = question.year;
             const isCorrect = userYear === correctYear;
 
-            currentAnswer = {
-                question: question,
+            userAnswers.push({
+                question,
                 userAnswer: userYear,
                 correctAnswer: correctYear,
-                isCorrect: isCorrect
-            };
+                isCorrect,
+            });
 
-            userAnswers.push(currentAnswer);
-
-            const feedback = document.getElementById('feedback');
-            feedback.classList.remove('hidden', 'correct', 'incorrect');
-            
-            if (isCorrect) {
-                feedback.classList.add('correct');
-                feedback.innerHTML = `✓ 正解！<br>${formatYear(correctYear)}`;
-            } else {
-                feedback.classList.add('incorrect');
-                feedback.innerHTML = `× 不正解<br>あなたの回答: ${formatYear(userYear)}<br>正解: ${formatYear(correctYear)}`;
-            }
+            QuizUI.showFeedback(
+                document.getElementById('feedback'),
+                isCorrect,
+                isCorrect
+                    ? `✓ 正解！<br>${formatYear(correctYear)}`
+                    : `× 不正解<br>あなたの回答: ${formatYear(userYear)}<br>正解: ${formatYear(correctYear)}`
+            );
 
             document.getElementById('submitAnswerBtn').classList.add('hidden');
             document.getElementById('nextQuestionBtn').classList.remove('hidden');
@@ -266,91 +275,59 @@
 
         function nextQuestion() {
             currentQuestionIndex++;
-            
+
             if (currentQuestionIndex >= quizQuestions.length) {
                 showResults();
-            } else {
-                showQuestion();
+                return;
             }
+
+            showQuestion();
         }
 
         function showResults() {
             const correctCount = userAnswers.filter(a => a.isCorrect).length;
-            const incorrectCount = userAnswers.length - correctCount;
-            const accuracy = Math.round((correctCount / userAnswers.length) * 100);
 
-            document.getElementById('correctCount').textContent = correctCount;
-            document.getElementById('incorrectCount').textContent = incorrectCount;
-            document.getElementById('accuracy').textContent = accuracy + '%';
+            QuizUI.renderResult(
+                document.getElementById('scoreSummary'),
+                document.getElementById('mistakesList'),
+                {
+                    score: correctCount,
+                    total: userAnswers.length,
+                    mistakes: userAnswers
+                        .filter(a => !a.isCorrect)
+                        .map(m => ({
+                            title: m.question.title,
+                            category: m.question.category,
+                            desc: m.question.description || '',
+                            yourAnswer: formatYear(m.userAnswer),
+                            correctAnswer: formatYear(m.correctAnswer),
+                        })),
+                }
+            );
 
-            const mistakes = userAnswers.filter(a => !a.isCorrect);
-            const mistakesList = document.getElementById('mistakesList');
-            
-            if (mistakes.length > 0) {
-                mistakesList.innerHTML = `
-                    <h3 style="color: var(--text-light); margin-bottom: 20px;">間違えた問題（復習用）</h3>
-                    ${mistakes.map(m => `
-                        <div class="mistake-item">
-                            <div class="mistake-header">
-                                <span class="mistake-title">${m.question.title}</span>
-                                <span class="category-chip is-badge">${m.question.category}</span>
-                            </div>
-                            <div style="color: var(--text-light-secondary); font-size: 0.9rem; margin-top: 5px;">
-                                ${m.question.description || ''}
-                            </div>
-                            <div class="mistake-answers">
-                                <span class="your-answer">あなたの回答: ${formatYear(m.userAnswer)}</span>
-                                <span class="correct-answer">正解: ${formatYear(m.correctAnswer)}</span>
-                            </div>
-                        </div>
-                    `).join('')}
-                `;
-            } else {
-                mistakesList.innerHTML = `
-                    <div style="text-align: center; padding: 40px; color: var(--text-light-secondary);">
-                        🎉 完璧です！全問正解おめでとうございます！
-                    </div>
-                `;
-            }
-
-            showScreen('result');
+            showScreen('resultScreen');
         }
 
         function resetQuiz() {
             selectedCategories.clear();
             updateCategoryUI();
             document.getElementById('questionCount').value = 10;
-            showScreen('setup');
+            showScreen('setupScreen');
         }
 
-        function showScreen(screen) {
-            document.getElementById('setupScreen').classList.add('hidden');
-            document.getElementById('quizScreen').classList.add('hidden');
-            document.getElementById('resultScreen').classList.add('hidden');
-            document.getElementById('loadingScreen').classList.add('hidden');
-
-            if (screen === 'setup') {
-                document.getElementById('setupScreen').classList.remove('hidden');
-            } else if (screen === 'quiz') {
-                document.getElementById('quizScreen').classList.remove('hidden');
-            } else if (screen === 'result') {
-                document.getElementById('resultScreen').classList.remove('hidden');
-            }
+        function showScreen(id) {
+            QuizUI.showScreen(id, ALL_SCREENS);
         }
 
-        function hideLoading() {
-            document.getElementById('loadingScreen').classList.add('hidden');
-            document.getElementById('setupScreen').classList.remove('hidden');
-        }
-
-        // Allow Enter key to submit
         document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !document.getElementById('quizScreen').classList.contains('hidden')) {
-                if (!document.getElementById('submitAnswerBtn').classList.contains('hidden')) {
-                    submitAnswer();
-                } else if (!document.getElementById('nextQuestionBtn').classList.contains('hidden')) {
-                    nextQuestion();
-                }
+            if (e.key !== 'Enter' || document.getElementById('quizScreen').classList.contains('hidden')) {
+                return;
+            }
+
+            if (!document.getElementById('submitAnswerBtn').classList.contains('hidden')) {
+                submitAnswer();
+            } else if (!document.getElementById('nextQuestionBtn').classList.contains('hidden')) {
+                nextQuestion();
             }
         });
     </script>

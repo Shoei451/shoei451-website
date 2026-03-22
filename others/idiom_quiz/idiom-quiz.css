@@ -1,0 +1,209 @@
+:root {
+    --idiom-panel: #faba40;
+    --idiom-panel-text: #1f2a3a;
+}
+
+body.dark {
+    --idiom-panel: #2a3442;
+    --idiom-panel-text: #f3f6fb;
+}
+
+.quiz-wrapper {
+    max-width: 920px;
+}
+
+.explanation {
+    font-size: 14px;
+    color: var(--primary);
+    margin-top: 16px;
+    margin-bottom: 8px;
+    padding: 20px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    line-height: 1.8;
+    text-align: left;
+}
+
+.explanation ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.explanation li {
+    margin-bottom: 8px;
+}
+
+#questionJp.hidden {
+    display: none;
+}
+
+#feedback {
+    margin-top: 20px;
+}
+
+.idiom-feedback {
+    background: var(--card-bg);
+    border-radius: 16px;
+    text-align: left;
+    overflow: hidden;
+    box-shadow: 0 8px 24px var(--shadow);
+}
+
+.idiom-feedback-banner {
+    text-align: center;
+    margin: 0;
+    padding: 18px;
+    font-size: 1.3rem;
+    color: #fff;
+    font-weight: 700;
+}
+
+.idiom-feedback-banner.correct-banner {
+    background: linear-gradient(135deg, #4caf50, #66bb6a);
+}
+
+.idiom-feedback-banner.incorrect-banner {
+    background: linear-gradient(135deg, #f44336, #ef5350);
+}
+
+.idiom-feedback-body {
+    padding: 24px;
+}
+
+.feedback-item {
+    margin-bottom: 16px;
+    padding: 14px;
+    background: var(--theme);
+    border-radius: 12px;
+    border-left: 4px solid var(--accent);
+}
+
+.feedback-item:last-child {
+    margin-bottom: 0;
+}
+
+.feedback-label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent-text);
+    margin-bottom: 6px;
+    display: block;
+}
+
+.feedback-value {
+    font-size: 1.05rem;
+    color: var(--content);
+    line-height: 1.6;
+}
+
+.feedback-idiom {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.feedback-example {
+    font-style: italic;
+    font-weight: 600;
+    padding: 10px;
+    background: rgba(250, 186, 64, 0.12);
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.report-section {
+    margin-top: 20px;
+    padding: 16px;
+    background: var(--theme);
+    border-radius: 12px;
+    border: 2px solid #ff9800;
+}
+
+.report-section h4 {
+    color: #ff9800;
+    margin-bottom: 12px;
+    font-size: 1rem;
+}
+
+.report-btn {
+    background: #ff9800;
+    color: #fff;
+}
+
+.report-btn:hover {
+    background: #f57c00;
+}
+
+.report-form {
+    margin-top: 12px;
+}
+
+.report-form select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid #ff9800;
+    background: var(--theme);
+    color: var(--content);
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.report-success {
+    color: #4caf50;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.report-error {
+    color: #f44336;
+    font-weight: 600;
+    margin-top: 10px;
+    text-align: center;
+}
+
+#finalScore {
+    text-align: center;
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 18px 0;
+}
+
+#finalScore p:first-child {
+    font-size: 2rem;
+    margin: 12px 0;
+}
+
+#finalScore p:nth-child(2) {
+    font-size: 1.5rem;
+    margin: 8px 0;
+}
+
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 1.1rem;
+    color: var(--primary);
+}
+
+.error {
+    text-align: center;
+    padding: 20px;
+    background: #f44336;
+    color: #fff;
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+    .explanation {
+        padding: 16px;
+    }
+
+    .idiom-feedback-body {
+        padding: 16px;
+    }
+}

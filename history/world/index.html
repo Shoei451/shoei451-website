@@ -6,6 +6,7 @@
   <link rel="icon" href="../../images/worldhistoryquiz.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../../css/common.css">
+  <link rel="stylesheet" href="../../css/quiz.css">
   <link rel="stylesheet" href="../styles/wh-era-quiz.css">
 </head>
 <body>
@@ -149,11 +150,11 @@
   <div id="quizScreen" class="screen hidden">
     <div class="top-bar">
       <button onclick="location.reload()">最初に戻る</button>
-      <div id="score">正解数: 0 / 0</div>
+      <div id="score" class="quiz-score">正解数: 0 / 0</div>
     </div>
 
-    <div id="progressOuter">
-      <div id="progressBar"></div>
+    <div class="quiz-progress-outer" id="progressOuter">
+      <div class="quiz-progress-bar" id="progressBar"></div>
     </div>
 
     <div id="question">問題がここに表示されます</div>
@@ -166,6 +167,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="../../js/wh-utils.js"></script>
 <script src="../../js/supabase_config.js"></script>
+<script src="../../js/quiz.js"></script>
 <script src="../../js/wh-era-quiz_logic.js"></script>
   <script>
     navigator.sendBeacon(
