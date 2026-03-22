@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../images/favicon.ico" />
-    <title>政治・経済 学習用オンライン年表 — Shoei451</title>
+    <link rel="icon" href="../../images/favicon.ico" />
+    <title>Politics & Economics Timeline — Shoei451</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
@@ -16,13 +16,13 @@
 <body>
     <header>
         <div class="header-content">
-            <h1>政治・経済 学習用オンライン年表</h1>
+            <h1>Politics & Economics Timeline</h1>
             <div class="controls">
-                <input type="text" id="searchBox" class="search-box" placeholder="イベントを検索...">
-                <button id="addEventBtn">+ イベント追加</button>
-                <button onclick="window.location.href='print.html'">印刷用ページ</button>
-                <button onclick="window.location.href='../index.html'">政治・経済ホームへ戻る</button>
-                <button onclick="window.location.href='quiz.html'">クイズはこちら</button>
+                <input type="text" id="searchBox" class="search-box" placeholder="Search events...">
+                <button id="addEventBtn">+ Add Event</button>
+                <button onclick="window.location.href='print.html'">Print Page</button>
+                <button onclick="window.location.href='../index.html'">Back to Politics & Economics Home</button>
+                <button onclick="window.location.href='quiz.html'">Take Quiz</button>
                 <span class="logo-switches" id="theme-toggle-container"></span>
             </div>
         </div>
@@ -30,7 +30,7 @@
 
     <div class="container">
         <div class="tabs" id="categoryTabs">
-            <button class="tab active" data-category="all">すべて</button>
+            <button class="tab active" data-category="all">All</button>
             <button class="tab" data-category="国際政治">国際政治</button>
             <button class="tab" data-category="国際経済">国際経済</button>
             <button class="tab" data-category="国内政治">国内政治</button>
@@ -42,7 +42,7 @@
         </div>
 
         <div id="timelineContainer">
-            <div class="loading">読み込み中...</div>
+            <div class="loading">Loading...</div>
         </div>
     </div>
 
@@ -50,39 +50,39 @@
     <div class="modal" id="eventModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">イベントを追加</h2>
+                <h2 id="modalTitle">Add Event</h2>
                 <button class="close-modal" id="closeModal" type="button">×</button>
             </div>
             <form id="eventForm">
                 <input type="hidden" id="eventId">
                 
                 <div class="form-group">
-                    <label for="eventTitle">イベント名 *</label>
+                    <label for="eventTitle">Event Name *</label>
                     <input type="text" id="eventTitle" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="eventDateType">日付の形式</label>
+                    <label for="eventDateType">Date Format</label>
                     <select id="eventDateType">
-                        <option value="year">年のみ</option>
-                        <option value="full">完全な日付</option>
+                        <option value="year">Year Only</option>
+                        <option value="full">Full Date</option>
                     </select>
                 </div>
 
                 <div class="form-group" id="yearOnlyGroup">
-                    <label for="eventYear">年</label>
-                    <input type="number" id="eventYear" min="1900" max="2100" placeholder="例: 2024">
+                    <label for="eventYear">Year</label>
+                    <input type="number" id="eventYear" min="1900" max="2100" placeholder="e.g., 2024">
                 </div>
 
                 <div class="form-group" id="fullDateGroup" style="display: none;">
-                    <label for="eventDate">日付</label>
+                    <label for="eventDate">Date</label>
                     <input type="date" id="eventDate">
                 </div>
 
                 <div class="form-group">
-                    <label for="eventCategory">カテゴリ *</label>
+                    <label for="eventCategory">Category *</label>
                     <select id="eventCategory" required>
-                        <option value="">選択してください</option>
+                        <option value="">Select a category</option>
                         <option value="国際政治">国際政治/International Politics</option>
                         <option value="国際経済">国際経済/International Economy</option>
                         <option value="国内政治">国内政治/National Politics</option>
@@ -95,13 +95,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="eventDescription">説明</label>
+                    <label for="eventDescription">Description</label>
                     <textarea id="eventDescription"></textarea>
                 </div>
 
                 <div class="form-actions">
-                    <button type="button" class="btn-cancel" id="cancelBtn">キャンセル</button>
-                    <button type="submit">保存</button>
+                    <button type="button" class="btn-cancel" id="cancelBtn">Cancel</button>
+                    <button type="submit">Save</button>
                 </div>
             </form>
         </div>
@@ -268,7 +268,7 @@
 
         // Open add modal
         function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'イベントを追加';
+            document.getElementById('modalTitle').textContent = 'Add Event';
             document.getElementById('eventForm').reset();
             document.getElementById('eventId').value = '';
             document.getElementById('eventDateType').value = 'year';
@@ -282,7 +282,7 @@
             const event = events.find(e => e.id === id);
             if (!event) return;
 
-            document.getElementById('modalTitle').textContent = 'イベントを編集';
+            document.getElementById('modalTitle').textContent = 'Edit Event';
             document.getElementById('eventId').value = event.id;
             document.getElementById('eventTitle').value = event.title;
             document.getElementById('eventCategory').value = event.category;
@@ -306,7 +306,7 @@
 
         // Delete event
         async function deleteEvent(id) {
-            if (!confirm('このイベントを削除してもよろしいですか?')) return;
+            if (!confirm('Are you sure you want to delete this event?')) return;
 
             try {
                 const { error } = await db
@@ -318,7 +318,7 @@
                 await loadEvents();
             } catch (error) {
                 console.error('Error deleting event:', error);
-                alert('削除に失敗しました');
+                alert('Failed to delete event');
             }
         }
 
@@ -337,14 +337,14 @@
             if (dateType === 'year') {
                 const year = document.getElementById('eventYear').value;
                 if (!year) {
-                    alert('年を入力してください');
+                    alert('Please enter a year');
                     return;
                 }
                 dateValue = `${year}-01-01`;
             } else {
                 dateValue = document.getElementById('eventDate').value;
                 if (!dateValue) {
-                    alert('日付を入力してください');
+                    alert('Please enter a date');
                     return;
                 }
             }
