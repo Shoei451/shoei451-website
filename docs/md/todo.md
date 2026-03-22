@@ -115,7 +115,7 @@
 
 ## 優先度：低（後回しでいい）
 
-- [ ] テーマトグルSVGスニペットを `templates/` に明文化（admin ページでの inline 化の理由も注記）
+- [x] テーマトグルSVGスニペットを `templates/` に明文化（admin ページでの inline 化の理由も注記）
 
 ---  
 
