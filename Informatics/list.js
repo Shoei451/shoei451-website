@@ -24,7 +24,5 @@ window.PAGE_CONFIG = {
       headerDesc: "\"Informatics one\" learning tools",
       sections: [
         { title: "共通テスト対策", desc: "情報Ⅰ 共通テスト対策のための学習ツール集です", itemsVar: "sectionItems1", id: "container1" },
-        { title: "タイトル2", desc: "説明2", itemsVar: "sectionItems2", id: "container2" },
-        { title: "タイトル3", desc: "説明3", itemsVar: "sectionItems3", id: "container3" }
       ]
     };
