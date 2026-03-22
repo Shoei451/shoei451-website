@@ -3,6 +3,7 @@ history/worldhistory/admin/wh-admin-v2.html
 build.js
 replace.js
 docs/build.js
+docs/sync-config.js
 
 # Secrets and local env files
 .env

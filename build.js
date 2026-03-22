@@ -3,7 +3,7 @@ const path = require("path");
 
 const SNIPPET = `  <script>
     navigator.sendBeacon(
-      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '/api/sw?path=' + encodeURIComponent(location.pathname) +
       '&ref=' + encodeURIComponent(document.referrer)
     );
   </script>`;
@@ -13,8 +13,16 @@ const TARGET = "</body>";
 function processFile(filePath) {
   let html = fs.readFileSync(filePath, "utf-8");
 
-  if (html.includes("api/track")) {
+  if (html.includes("api/sw")) {
     console.log(`skip (already has beacon): ${filePath}`);
+    return;
+  }
+
+  // 旧パス(/api/track)が残っている場合は置換
+  if (html.includes("api/track")) {
+    html = html.replace(/\/api\/track/g, "/api/sw");
+    fs.writeFileSync(filePath, html, "utf-8");
+    console.log(`updated (track→sw): ${filePath}`);
     return;
   }
 
@@ -40,4 +48,4 @@ function walk(dir) {
 }
 
 walk(".");
-console.log("✅ sendBeacon挿入完了");
+console.log("✅ sendBeacon更新完了");

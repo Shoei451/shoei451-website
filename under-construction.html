@@ -157,7 +157,7 @@ constructionIcon.addEventListener('click', () => {
 
   <script>
     navigator.sendBeacon(
-      '/api/track?path=' + encodeURIComponent(location.pathname) +
+      '/api/sw?path=' + encodeURIComponent(location.pathname) +
       '&ref=' + encodeURIComponent(document.referrer)
     );
   </script>

@@ -1,6 +1,6 @@
 # Todo — shoei451-website
 
-最終更新: 2026-03-20  
+最終更新: 2026-03-21
 
 ---
 
@@ -20,11 +20,7 @@
 
 ## 優先度：中（モジュール化）
 
-  
-  
-
 ### 3. `js/wh-utils.js` を作成する（`wh_dates` 移行と同時にやる）
-
   
 
 以下の関数が3箇所に重複している: `formatYear`、`parseYearInput`、`determinePeriod`。
@@ -33,9 +29,9 @@
 
   
 
-- [ ] `wh_dates` 移行が決まったタイミングで `js/wh-utils.js` を作成
+- [x] `wh_dates` 移行が決まったタイミングで `js/wh-utils.js` を作成
 
-- [ ] `wh-era-quiz_logic.js`、`admin/script.js`、`worldhistory/timeline.html` から重複を除去
+- [x] `wh-era-quiz_logic.js`、`admin/script.js`、`worldhistory/timeline.html` から重複を除去
 
   
 
@@ -59,19 +55,14 @@
 
 ## 優先度：中（`wh_dates` 移行 — 5フェーズロードマップ）
 
-  
 
 `history/wh_table_renewal.md` に詳細スキーマあり。
 
   
-
 ### Phase 1: admin HTML ← 完了済み
-
-  
 
 ### Phase 2: worldhistory 移行
 
-  
 
 - [ ] `world_history_quiz` のデータを `wh_dates` に入力（ゼロから、旧データは品質不足のため移行しない）
 
@@ -94,14 +85,15 @@
   
 
 ### Phase 4: `wiki_score` 月次 cron
-
   
 
 - [ ] GitHub Actions のワークフローを作成
-
 - [ ] Wikipedia Pageviews API（日本語版 → 英語版フォールバック）でスコア取得
-
 - [ ] パーセンタイルで 1〜5 に正規化して `wh_dates.wiki_score` を UPDATE
+#### 20260321（追加アイデア）
+- [ ] 写真の取得（URLがあるのでこれはフロント側で可能？）
+- [ ] 英語版の導入（スコア評価の正確化など。ただし、日本語ページ→英語ページの検索が可能かどうかは確認が必要）
+
 
   
 
@@ -113,7 +105,7 @@
 
 - [ ] Supabase が停止しても静的JSONから出題できることを確認（提出箱モデルの検証）
 
-- [ ] Simple Analytics 拡張の削除（保留中）
+- [x] Simple Analytics 拡張の削除（保留中）
 
   
 
@@ -124,7 +116,6 @@
 ## 優先度：低（後回しでいい）
 
 - [ ] テーマトグルSVGスニペットを `templates/` に明文化（admin ページでの inline 化の理由も注記）
-
 
 ---  
 
