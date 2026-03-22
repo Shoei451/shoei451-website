@@ -538,44 +538,6 @@ button.ghost:hover { background: var(--accent); color: #ffffff; }
 .ascii-table tr:hover td { background: var(--accent-light); }
 .ascii-table .control-char { color: var(--secondary); font-size: 0.75rem; }
 
-/* ===== Theme Toggle ===== */
-.logo-switches {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-#theme-toggle {
-    background: var(--theme);
-    border: 2px solid var(--accent);
-    border-radius: 50%;
-    padding: 12px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    box-shadow: 0 4px 12px var(--shadow);
-}
-
-#theme-toggle:hover { background: var(--accent); transform: rotate(180deg) scale(1.1); }
-
-#moon, #sun {
-    display: none;
-    width: 24px;
-    height: 24px;
-    stroke: var(--primary);
-}
-
-#theme-toggle:hover #moon,
-#theme-toggle:hover #sun { stroke: #ffffff; }
-
-body.dark  #sun  { display: block; stroke: var(--accent); }
-body.dark  #moon { display: none; }
-body:not(.dark) #moon { display: block; }
-body:not(.dark) #sun  { display: none; }
-
 /* ===== Error Message ===== */
 .error-message {
     color: var(--error);

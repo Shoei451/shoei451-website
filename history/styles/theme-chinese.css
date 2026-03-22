@@ -87,38 +87,6 @@ h1 {
     font-weight: 700;
 }
 
-/* ===== Theme Toggle ===== */
-.logo-switches {
-    display: flex;
-    align-items: center;
-}
-
-#theme-toggle {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.3s;
-}
-
-#theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-#theme-toggle svg {
-    width: 24px;
-    height: 24px;
-    stroke: var(--text-light);
-    transition: stroke 0.3s;
-}
-
-#moon, #sun      { display: none; }
-body.dark   #sun { display: block; }
-body:not(.dark) #moon { display: block; }
-
 /* ===== Button base ===== */
 button {
     background: var(--accent-secondary);

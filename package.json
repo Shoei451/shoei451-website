@@ -6,6 +6,7 @@
   "scripts": {
     "check:js": "node scripts/check-js.mjs",
     "check:links": "node scripts/check-links.mjs",
-    "check": "npm run check:js && npm run check:links"
+    "check": "npm run check:js && npm run check:links",
+    "inject:theme": "node scripts/inject-theme-toggle.mjs"
   }
 }

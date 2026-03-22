@@ -1,4 +1,7 @@
-﻿/* ===== Variables ===== */
+﻿/* common.css の先頭 */
+@import './theme-toggle.css';
+
+/* ===== Variables ===== */
 :root {
     --theme: #ffffff;
     --entry: #e8edf3;
@@ -95,61 +98,6 @@ header p {
     color: rgba(255, 255, 255, 0.9);
     position: relative;
     z-index: 1;
-}
-
-/* ===== Theme Toggle ===== */
-.logo-switches {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
-}
-
-#theme-toggle {
-    background: var(--theme);
-    border: 2px solid var(--accent);
-    border-radius: 50%;
-    padding: 12px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    box-shadow: 0 4px 12px var(--shadow);
-}
-
-#theme-toggle:hover { 
-    background: var(--accent);
-    transform: rotate(180deg) scale(1.1);
-}
-
-#moon, #sun { 
-    display: none; 
-    width: 24px; 
-    height: 24px; 
-    stroke: var(--primary); 
-}
-
-#theme-toggle:hover #moon,
-#theme-toggle:hover #sun {
-    stroke: var(--accent-contrast);
-}
-
-body.dark #sun { 
-    display: block; 
-    stroke: var(--accent); 
-}
-
-body.dark #moon { 
-    display: none; 
-}
-
-body:not(.dark) #moon { 
-    display: block; 
-}
-
-body:not(.dark) #sun { 
-    display: none; 
 }
 
 /* ===== Content Sections ===== */

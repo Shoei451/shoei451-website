@@ -1,18 +1,53 @@
-// Theme Toggle
-if (localStorage.getItem("pref-theme") === "dark") {
-    document.body.classList.add('dark');
-} else if (localStorage.getItem("pref-theme") === "light") {
-    document.body.classList.remove('dark');
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    document.body.classList.add('dark');
-}
+// ============================================================
+// js/theme-toggle.js
+// 役割:
+//   1. テーマをページ描画前に即時適用（フラッシュ防止）
+//   2. #theme-toggle-container が存在するページにボタンを注入
+//
+// 使い方:
+//   HTML側は <span class="logo-switches" id="theme-toggle-container"></span>
+//   だけ書けばよい。SVGは不要。
+//
+// 対象外:
+//   admin/ 系ページ — 独自スタイルを持つためインラインを維持
+// ============================================================
 
-const themeToggle = document.getElementById('theme-toggle');
-themeToggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    if (document.body.classList.contains('dark')) {
-        localStorage.setItem('pref-theme', 'dark');
-    } else {
-        localStorage.setItem('pref-theme', 'light');
+// ── 1. テーマ即時適用（フラッシュ防止） ──────────────────────
+(function () {
+    const pref = localStorage.getItem("pref-theme");
+    if (pref === "dark" || (!pref && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+        document.body.classList.add("dark");
     }
+})();
+
+// ── 2. ボタン注入 ────────────────────────────────────────────
+document.addEventListener("DOMContentLoaded", function () {
+    const container = document.getElementById("theme-toggle-container");
+    if (!container) return;
+
+    container.innerHTML = `
+        <button id="theme-toggle" title="Toggle Theme">
+            <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1"    x2="12" y2="3"/>
+                <line x1="12" y1="21"   x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22"   x2="5.64"  y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1"    y1="12" x2="3"    y2="12"/>
+                <line x1="21"   y1="12" x2="23"   y2="12"/>
+                <line x1="4.22"  y1="19.78" x2="5.64"  y2="18.36"/>
+                <line x1="18.36" y1="5.64"  x2="19.78" y2="4.22"/>
+            </svg>
+        </button>`;
+
+    document.getElementById("theme-toggle").addEventListener("click", function () {
+        document.body.classList.toggle("dark");
+        localStorage.setItem(
+            "pref-theme",
+            document.body.classList.contains("dark") ? "dark" : "light"
+        );
+    });
 });
