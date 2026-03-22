@@ -56,3 +56,14 @@ const sectionItems2 = [
         target: "_blank"
     },
 ];
+
+// ── PAGE_CONFIG（sub-index.html?slug=history から参照） ──
+window.PAGE_CONFIG = {
+      title:      "History tools — Shoei451",
+      h1:         "📚 History",
+      headerDesc: "世界史/歴史総合の学習ツール（Google Forms 確認問題など）",
+      sections: [
+        { title: "歴史総合", desc: "歴史総合の学習ツールです。", itemsVar: "sectionItems1", id: "container1" },
+        { title: "世界史", desc: "世界史探究・世界史応用・世界史発展の学習ツールです。", itemsVar: "sectionItems2", id: "container2" }
+      ]
+    };

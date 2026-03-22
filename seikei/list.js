@@ -38,3 +38,15 @@ const sectionItems3 = [
         target: "_blank"  // Force new tab even for internal links
     },
 ];
+
+// ── PAGE_CONFIG（sub-index.html?slug=seikei から参照） ──
+window.PAGE_CONFIG = {
+      title:      "政治・経済ツール集 — Shoei451",
+      h1:         "🏛️ Politics & Economics Tools",
+      headerDesc: "政治・経済に関する学習ツール集",
+      sections: [
+        { title: "日本国憲法", desc: "日本国憲法に関する学習ツール", itemsVar: "sectionItems1", id: "container1" },
+        { title: "戦後経済史年表", desc: "印刷対応のオンライン年表", itemsVar: "sectionItems2", id: "container2" },
+        { title: "3学期期末試験対策用 一問一答", desc: "3学期期末試験の対策用クイズです", itemsVar: "sectionItems3", id: "container3" }
+      ]
+    };

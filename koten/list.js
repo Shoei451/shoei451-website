@@ -1,3 +1,14 @@
+    window.PAGE_CONFIG = {
+      title:      "Japanese & Chinese Classics — Shoei451",
+      h1:         "🍙 Japanese & Chinese Classics",
+      headerDesc: "古文・漢文の知識を確認しよう",
+      sections: [
+        { title: "古文", desc: "古文クイズ（古文常識、助動詞表の穴埋めなど）", itemsVar: "sectionItems1", id: "container1" },
+        { title: "漢文", desc: "漢文の学習リソース", itemsVar: "sectionItems2", id: "container2" },
+        { title: "タイトル3", desc: "説明3", itemsVar: "sectionItems3", id: "container3" }
+      ]
+    };
+
 const sectionItems1 = [
     {
         icon: "../images/ougi.svg",  

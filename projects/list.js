@@ -40,3 +40,13 @@
         link: "https://451-schedule-tracker.netlify.app/"
     }
 ];
+
+// ── PAGE_CONFIG（sub-index.html?slug=projects から参照） ──
+window.PAGE_CONFIG = {
+      title:      "Projects | Shoei451",
+      h1:         "Other Websites",
+      headerDesc: "A list of my other websites and what each one is for.",
+      sections: [
+        { title: "Website List", desc: "Open any card to visit the site.", itemsVar: "sectionItems1", id: "container1" }
+      ]
+    };

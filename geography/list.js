@@ -39,3 +39,12 @@ const sectionItems1 = [
     },
     
 ];
+// ── PAGE_CONFIG（sub-index.html?slug=geography から参照） ──
+window.PAGE_CONFIG = {
+      title:      "Geography Tools — Shoei451",
+      h1:         "🧭 Geography",
+      headerDesc: "地理の学習ツール集です。",
+      sections: [
+        { title: "地理関連クイズ", desc: "首都名や州名など、地理に関連したもののクイズです。", itemsVar: "sectionItems1", id: "container1" }
+      ]
+    };
