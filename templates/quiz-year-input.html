@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!--
+  ====================================================================
+  quiz-year-input.html — 年代回答クイズ 雛形
+  ====================================================================
+  実際のクイズページを作るときは:
+    1. このファイルをコピーして対象フォルダに置く
+    2. <head> の CSS パスを深さに合わせて調整
+    3. <script> の JS パスを同様に調整
+    4. QUIZ_CONFIG セクションをそのページ用に書き換える
+    5. DEMO_DATA は削除して dataSource.fetch を Supabase 版に切り替える
+  ====================================================================
+  -->
+
+  <title>年代クイズ — Shoei451</title>
+  <link rel="icon" href="../images/favicon.ico" />
+
+  <!-- ── CSS 読み込み順（パスは深さに応じて調整） ─────────────────
+       ① common.css  : リセット・変数・共通コンポーネント
+       ② quiz.css    : クイズ専用スタイル（--qz-* 変数層あり）
+       ③ (optional)  : quiz-bridge-chinese.css は theme-chinese 系のみ追加
+       ─────────────────────────────────────────────────────────── -->
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/quiz.css">
+
+</head>
+<body>
+
+<!-- テーマトグル（theme-toggle.js が id="theme-toggle-container" に注入する） -->
+<span class="logo-switches" id="theme-toggle-container"></span>
+
+<!-- ================================================================
+     画面: ローディング
+     ================================================================ -->
+<div id="loadingScreen" class="quiz-screen hidden">
+  <div class="quiz-wrapper">
+    <div class="qe-loading-wrap">読み込み中…</div>
+  </div>
+</div>
+
+
+<!-- ================================================================
+     画面: セットアップ（設定・開始）
+     ================================================================ -->
+<div id="setupScreen" class="quiz-screen">
+  <div class="quiz-wrapper">
+
+    <!-- ── ヘッダー ─────────────────────────────────────── -->
+    <div class="qe-setup-header">
+      <!-- ① ヒーロー画像（_applyMeta が image 設定時に display:block にする） -->
+      <img id="heroImage" class="qe-hero-image" src="" alt="">
+
+      <!-- ② タイトル -->
+      <h1 id="quizTitle" class="qe-quiz-title"></h1>
+      <p  id="quizTitleEn" class="qe-quiz-title-en"></p>
+      <p  id="quizDescription" class="qe-quiz-description"></p>
+    </div>
+
+    <!-- ── 出題範囲 ──────────────────────────────────────── -->
+    <div class="quiz-field">
+      <label>
+        出題範囲
+        <span id="rangeTypeHint" class="quiz-note" style="display:inline; padding:0; background:none; border-radius:0; opacity:1;"></span>
+      </label>
+      <div class="qe-range-actions">
+        <button type="button" id="selectAllBtn" class="btn--sm">全選択</button>
+        <button type="button" id="clearRangeBtn" class="btn--sm">クリア</button>
+      </div>
+      <!-- エンジンが QUIZ_CONFIG.ranges から chip を動的生成する -->
+      <div id="rangeSelection" class="quiz-category-chips"></div>
+    </div>
+
+    <!-- ── 出題数 ────────────────────────────────────────── -->
+    <div class="quiz-field">
+      <label>出題数</label>
+      <div class="qe-count-control">
+        <input type="range"  id="countSlider" class="qe-count-slider" min="5" max="50" value="10">
+        <input type="number" id="countNumber" class="qe-count-number" min="5" max="50" value="10">
+        <span class="qe-count-unit">問</span>
+      </div>
+    </div>
+
+    <!-- ── 開始ボタン ─────────────────────────────────────── -->
+    <div class="qe-start-wrap">
+      <button id="startBtn" class="btn--start">クイズを開始</button>
+    </div>
+
+  </div><!-- /.quiz-wrapper -->
+</div><!-- /#setupScreen -->
+
+
+<!-- ================================================================
+     画面: クイズ
+     ================================================================ -->
+<div id="quizScreen" class="quiz-screen hidden">
+  <div class="quiz-wrapper">
+
+    <!-- ── トップバー ────────────────────────────────────── -->
+    <div class="qe-quiz-bar">
+      <button type="button" id="resetBtn" class="qe-back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1 4 1 10 7 10"></polyline>
+          <path d="M3.51 15a9 9 0 1 0 .49-3.77"></path>
+        </svg>
+        リセット
+      </button>
+      <span id="quizCounter" class="qe-quiz-counter"></span>
+    </div>
+
+    <!-- ── 進捗（ドット or バー。エンジンが描画） ───────────── -->
+    <div id="quizProgress" class="qe-dots-container"></div>
+
+    <!-- ── 問題エリア ─────────────────────────────────────── -->
+    <div class="qe-question-area">
+      <div id="categoryChip" class="qe-category-chip-wrap"></div>
+      <div id="promptText" class="question-card"></div>
+      <div id="subPromptText" class="question-sublabel" style="display:none;"></div>
+    </div>
+
+    <!-- ── 年号入力 ───────────────────────────────────────── -->
+    <div class="quiz-answer-input">
+      <label for="yearInput">この出来事は何年？</label>
+      <input type="text" id="yearInput" class="qe-year-input"
+             placeholder="例: 1789" inputmode="numeric" maxlength="6"
+             autocomplete="off">
+      <p id="yearInputHint" class="qe-input-hint">
+        紀元前は負の数で入力（例: −221 = 前221年）
+      </p>
+    </div>
+
+    <!-- ── フィードバック ─────────────────────────────────── -->
+    <div id="feedback" class="quiz-feedback hidden"></div>
+
+    <!-- ── ボタン ─────────────────────────────────────────── -->
+    <div class="quiz-controls">
+      <button id="submitBtn">回答する</button>
+      <button id="nextBtn" class="hidden">次へ →</button>
+    </div>
+
+  </div><!-- /.quiz-wrapper -->
+</div><!-- /#quizScreen -->
+
+
+<!-- ================================================================
+     画面: 結果
+     ================================================================ -->
+<div id="resultScreen" class="quiz-screen hidden">
+  <div class="quiz-wrapper">
+
+    <h2>クイズ結果</h2>
+
+    <div id="scoreSummary" class="quiz-score-summary"></div>
+    <div id="mistakesList" class="quiz-mistakes-list"></div>
+
+    <div class="qe-result-controls">
+      <button id="reviewModeBtn">間違えた問題を復習</button>
+      <button id="restartBtn" class="btn--ghost">もう一度</button>
+    </div>
+
+  </div><!-- /.quiz-wrapper -->
+</div><!-- /#resultScreen -->
+
+
+<!-- ================================================================
+     スクリプト読み込み
+     パスはファイルを置く深さに合わせて調整する
+
+     読み込み順:
+       ① supabase CDN
+       ② supabase_config.js  (db / TABLES を定義)
+       ③ wh-utils.js         (formatYear / escapeHtml / shuffleArray)
+       ④ quiz.js             (QuizUI)
+       ⑤ quiz-engine.js      (QuizEngine / renderProgressDots)
+       ⑥ theme-toggle.js
+       ⑦ このページの設定 + 初期化スクリプト（下記インライン）
+     ================================================================ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase_config.js"></script>
+<script src="../js/wh-utils.js"></script>
+<script src="../js/quiz.js"></script>
+<script src="../js/quiz-engine.js"></script>
+<script src="../js/theme-toggle.js"></script>
+
+<script>
+// ====================================================================
+//  DEMO_DATA — 雛形確認用の静的データ
+//  実際のページでは削除し、dataSource.fetch を Supabase 版に切り替える
+// ====================================================================
+const DEMO_DATA = [
+  { id:  1, event: 'マグナ・カルタ制定',             year: 1215, era: '中世',   description: 'イギリス国王ジョンが署名。王権を制限する文書。' },
+  { id:  2, event: '百年戦争終結',                   year: 1453, era: '中世',   description: 'ジャンヌ・ダルクが国民意識を高めた英仏の戦争。' },
+  { id:  3, event: 'コロンブスのアメリカ大陸到達',    year: 1492, era: '中世',   description: 'スペイン王室の支援を受けた航海。' },
+  { id:  4, event: 'ルターの95ヶ条の論題',            year: 1517, era: '近世',   description: '宗教改革の発端。贖宥状批判。' },
+  { id:  5, event: 'フランス革命',                   year: 1789, era: '近現代', description: 'バスティーユ牢獄の襲撃。絶対王政の終焉。' },
+  { id:  6, event: 'ウィーン会議',                   year: 1814, era: '近現代', description: 'ナポレオン戦争後のヨーロッパ秩序再編。' },
+  { id:  7, event: '普仏戦争終結・ドイツ帝国成立',   year: 1871, era: '近現代', description: 'ヴェルサイユ宮殿でドイツ帝国が宣言。' },
+  { id:  8, event: 'サライェボ事件',                 year: 1914, era: '近現代', description: '第一次世界大戦の発端。オーストリア皇太子暗殺。' },
+  { id:  9, event: 'ロシア革命（十月革命）',          year: 1917, era: '近現代', description: 'レーニン率いるボリシェヴィキが権力掌握。' },
+  { id: 10, event: 'ベルリンの壁崩壊',               year: 1989, era: '現代',   description: '冷戦終結の象徴的出来事。' },
+  { id: 11, event: 'ソ連崩壊',                       year: 1991, era: '現代',   description: 'バルト三国独立→15共和国が独立。' },
+  { id: 12, event: 'WTO発足',                        year: 1995, era: '現代',   description: 'GATT に代わる国際貿易機関として設立。' },
+];
+
+
+// ====================================================================
+//  QUIZ_CONFIG — このファイルをコピーするときはここを書き換える
+//  各フィールドの説明は inline コメントを参照
+// ====================================================================
+const QUIZ_CONFIG = {
+
+  // ── アイデンティティ ──────────────────────────────────────────
+  id:          'demo-era-quiz',
+  title:       '世界史 年代クイズ',
+  titleEn:     'WORLD HISTORY ERA QUIZ',
+  description: '出来事の年号を答えよう。<br>近いほど高スコア。',
+  image:       null,                // 画像 URL または null（非表示）
+  inputHint:   '紀元前は負の数で入力（例: −221 = 前221年）',
+
+  // ── データソース ───────────────────────────────────────────────
+  // ◆ デモ用（静的データ）
+  dataSource: {
+    fetch: async () => DEMO_DATA,
+  },
+
+  // ◆ Supabase 版（上のデモ用を削除してこちらを使う）
+  // dataSource: {
+  //   fetch: async (db, TABLES) => {
+  //     const { data, error } = await db.from(TABLES.CHINESE).select('*');
+  //     if (error) throw error;
+  //     return data;
+  //   },
+  // },
+
+  // ── 範囲選択 ──────────────────────────────────────────────────
+  rangeType:   'multi',             // 'multi'（複数選択可）| 'single'（1つだけ）
+  ranges: [
+    { value: '中世',   label: '中世' },
+    { value: '近世',   label: '近世' },
+    { value: '近現代', label: '近現代' },
+    { value: '現代',   label: '現代' },
+  ],
+  rangeFilter: (item, range) => item.era === range,
+
+  // ── 出題数 ────────────────────────────────────────────────────
+  questionCount: { min: 5, max: 50, default: 10 },
+
+  // ── 問題の中身 ────────────────────────────────────────────────
+  getPrompt:    (item) => item.event,
+  getSubPrompt: (item) => item.description || '',
+  getCategory:  (item) => item.era,
+  getYear:      (item) => item.year,          // 負数=BC で統一
+  formatAnswer: (year) => year < 0
+    ? `前${Math.abs(year)}年`
+    : `${year}年`,
+
+  // ── 採点 ──────────────────────────────────────────────────────
+  scoringType:    'proximity',      // 'proximity'（近似点数）| 'exact'（完全一致）
+  proximityDecay: 15,               // 年ズレの許容度（大きいほど寛大）
+
+  // ── フック（省略するとエンジンのデフォルト動作） ────────────────
+  // onSetup:    (engine) => { /* カスタム設定画面 */ },
+  // onQuestion: (engine, q) => { /* カスタム問題表示 */ },
+  // onReview:   (engine, ans) => { /* カスタム正誤表示 */ },
+  // onDone:     (engine) => { /* カスタム結果画面 */ },
+};
+
+
+// ====================================================================
+//  ページ初期化
+//  ここより下は通常変更不要
+// ====================================================================
+
+let engine;  // グローバルに持っておくと DevTools からデバッグしやすい
+
+document.addEventListener('DOMContentLoaded', async () => {
+
+  // ── セットアップ画面のメタ情報をエンジン起動前に即時描画 ──────
+  _applyMeta(QUIZ_CONFIG);
+
+  // ── エンジン起動 ──────────────────────────────────────────────
+  engine = new QuizEngine(QUIZ_CONFIG);
+  await engine.init();   // ← データ取得 → setup 画面が表示される
+
+  // ── スライダー ↔ 数値入力 の同期 ────────────────────────────
+  const slider  = document.getElementById('countSlider');
+  const numInput = document.getElementById('countNumber');
+  const cfg     = QUIZ_CONFIG.questionCount;
+
+  function clamp(v) { return Math.min(cfg.max, Math.max(cfg.min, Number(v) || cfg.default)); }
+
+  slider.min   = cfg.min;  slider.max   = cfg.max;  slider.value  = cfg.default;
+  numInput.min = cfg.min;  numInput.max = cfg.max;  numInput.value = cfg.default;
+
+  slider.addEventListener('input', () => {
+    numInput.value = slider.value;
+  });
+  numInput.addEventListener('change', () => {
+    slider.value = numInput.value = clamp(numInput.value);
+  });
+
+  // ── 全選択 / クリアボタン ─────────────────────────────────────
+  document.getElementById('selectAllBtn').addEventListener('click', () => {
+    document.querySelectorAll('#rangeSelection .quiz-chip').forEach(b =>
+      b.classList.add('selected')
+    );
+  });
+  document.getElementById('clearRangeBtn').addEventListener('click', () => {
+    document.querySelectorAll('#rangeSelection .quiz-chip').forEach(b =>
+      b.classList.remove('selected')
+    );
+  });
+
+  // ── クイズ開始 ────────────────────────────────────────────────
+  document.getElementById('startBtn').addEventListener('click', () => {
+    const selected = [...document.querySelectorAll('#rangeSelection .quiz-chip.selected')]
+      .map(b => b.dataset.value);
+
+    // multi の場合は選択なしでも全件対象にする（UX判断: 変える場合はここを修正）
+    const ranges = selected.length > 0 ? selected : (QUIZ_CONFIG.ranges || []).map(r => r.value);
+    const count  = clamp(document.getElementById('countNumber').value);
+
+    engine.start(ranges, count);
+  });
+
+  // ── 回答 ─────────────────────────────────────────────────────
+  document.getElementById('submitBtn').addEventListener('click', _submitAnswer);
+
+  document.getElementById('yearInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') _submitAnswer();
+  });
+
+  // ── 次へ ─────────────────────────────────────────────────────
+  document.getElementById('nextBtn').addEventListener('click', () => engine.next());
+
+  // ── リセット ──────────────────────────────────────────────────
+  document.getElementById('resetBtn').addEventListener('click', () => engine.reset());
+
+  // ── 結果画面ボタン ────────────────────────────────────────────
+  document.getElementById('reviewModeBtn').addEventListener('click', () => engine.reviewMode());
+  document.getElementById('restartBtn').addEventListener('click', () => engine.reset(true));
+
+});
+
+
+// ── 入力値の検証 + submit ──────────────────────────────────────────
+function _submitAnswer() {
+  const input = document.getElementById('yearInput');
+  const raw   = input.value.trim().replace(/[^\d\-]/g, '');
+  const year  = parseInt(raw, 10);
+
+  if (!raw || isNaN(year)) {
+    input.style.animation = 'none';
+    requestAnimationFrame(() => {
+      input.style.animation = 'qe-shake 0.3s ease';
+    });
+    return;
+  }
+
+  engine.submit(year);
+}
+
+
+// ── セットアップ画面のメタ情報を即時反映 ──────────────────────────
+function _applyMeta(cfg) {
+  document.title = (cfg.title || '年代クイズ') + ' — Shoei451';
+
+  const titleEl = document.getElementById('quizTitle');
+  if (titleEl) titleEl.textContent = cfg.title || '';
+
+  const enEl = document.getElementById('quizTitleEn');
+  if (enEl) enEl.textContent = cfg.titleEn || '';
+
+  const descEl = document.getElementById('quizDescription');
+  if (descEl) descEl.innerHTML = cfg.description || '';
+
+  const imgEl = document.getElementById('heroImage');
+  if (imgEl) {
+    if (cfg.image) {
+      imgEl.src = cfg.image;
+      imgEl.style.display = 'block';   // .qe-hero-image は display:none がデフォルト
+    }
+    // image が null のときは CSS の display:none のまま何もしない
+  }
+
+  const hintEl = document.getElementById('yearInputHint');
+  if (hintEl && cfg.inputHint) hintEl.textContent = cfg.inputHint;
+
+  const rangeHint = document.getElementById('rangeTypeHint');
+  if (rangeHint) {
+    rangeHint.textContent = cfg.rangeType === 'single'
+      ? '（1つ選択）' : '（複数選択可）';
+  }
+}
+</script>
+
+<!-- シェイクアニメーション（入力値エラー時） -->
+<style>
+@keyframes qe-shake {
+  0%, 100% { transform: translateX(0); }
+  20%       { transform: translateX(-6px); }
+  60%       { transform: translateX(6px); }
+}
+</style>
+
+<!-- sendBeacon（パスは深さに合わせて調整） -->
+<script>
+  navigator.sendBeacon(
+    '/api/sw?path=' + encodeURIComponent(location.pathname) +
+    '&ref='         + encodeURIComponent(document.referrer)
+  );
+</script>
+
+</body>
+</html>

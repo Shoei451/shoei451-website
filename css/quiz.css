@@ -4,297 +4,814 @@
    依存: css/common.css（変数前提）
    読み込むページ:
      history/world/index.html
-     seikei/timeline/quiz.html
      history/china/index.html
+     seikei/timeline/quiz.html
      others/idiom_quiz/index.html
+     … など
+
+   変数の仕組み:
+     common.css 系ページ → :root の --qz-* が common.css 変数から自動継承
+     theme-chinese 系ページ → css/quiz-bridge-chinese.css を追加読み込みすることで
+                              --qz-* を上書き。インライン :root は不要になる。
    ============================================================ */
 
-/* ===== Container ===== */
-.quiz-wrapper {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 0 20px;
+
+/* ================================================================
+   CSS 変数（quiz 専用レイヤー）
+   ここだけ変えれば別テーマ対応できる
+   ================================================================ */
+
+:root {
+  --qz-bg:              var(--theme,           #ffffff);
+  --qz-surface:         var(--card-bg,         #f4f7fb);
+  --qz-text:            var(--primary,         #1f2a3a);
+  --qz-text-sub:        var(--secondary,       #4b5a6d);
+  --qz-accent:          var(--accent,          #FABA40);
+  --qz-accent-text:     var(--accent-text,     #8a5a00);
+  --qz-accent-contrast: var(--accent-contrast, #1a2535);
+  --qz-border:          var(--border,          #d7e0ea);
+  --qz-shadow:          var(--shadow,          rgba(0,0,0,0.1));
+  --qz-correct:         #4caf50;
+  --qz-incorrect:       #f44336;
 }
 
-/* ===== Screen ===== */
+
+/* ================================================================
+   コンテナ
+   ================================================================ */
+
+.quiz-wrapper {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+
+/* ================================================================
+   画面管理
+   ================================================================ */
+
 .quiz-screen {
-    margin-top: 20px;
-    animation: quizFadeInUp 0.6s ease-out;
+  margin-top: 20px;
+  animation: quizFadeInUp 0.6s ease-out;
 }
 
 @keyframes quizFadeInUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .hidden { display: none !important; }
 
-/* ===== Headings ===== */
-.quiz-wrapper h1, .quiz-wrapper h2, .quiz-wrapper h3 {
-    text-align: center;
-    color: var(--primary);
+
+/* ================================================================
+   見出し
+   ================================================================ */
+
+.quiz-wrapper h1,
+.quiz-wrapper h2,
+.quiz-wrapper h3 {
+  text-align: center;
+  color: var(--qz-text);
 }
 .quiz-wrapper h1 { font-size: 2.5rem; margin-bottom: 30px; font-weight: 700; }
 .quiz-wrapper h2 { font-size: 2rem;   margin-bottom: 20px; }
 
-/* ===== Progress bar ===== */
+
+/* ================================================================
+   進捗バー
+   ================================================================ */
+
 .quiz-progress-outer {
-    width: 100%;
-    height: 12px;
-    background: var(--card-bg);
-    border-radius: 6px;
-    overflow: hidden;
-    margin: 16px 0;
-    box-shadow: inset 0 2px 4px var(--shadow);
+  width: 100%;
+  height: 12px;
+  background: var(--qz-surface);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 8px 0;
+  box-shadow: inset 0 2px 4px var(--qz-shadow);
 }
+
 .quiz-progress-bar {
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--accent));
-    transition: width 0.3s;
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--qz-text), var(--qz-accent));
+  transition: width 0.3s ease;
 }
 
-/* ===== Score / top bar ===== */
+
+/* ================================================================
+   進捗ドット（total ≤ 20 のとき quiz-engine.js が使用）
+   ================================================================ */
+
+.qe-dots-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0;
+  min-height: 20px;  /* バーモードとの高さ統一 */
+}
+
+.qe-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--qz-border);
+  background: var(--qz-surface);
+  padding: 0;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.2s, border-color 0.2s;
+}
+
+.qe-dot:hover      { transform: scale(1.25); }
+.qe-dot.current    { background: var(--qz-accent); border-color: var(--qz-accent); }
+.qe-dot.correct    { background: var(--qz-correct); border-color: var(--qz-correct); }
+.qe-dot.incorrect  { background: var(--qz-incorrect); border-color: var(--qz-incorrect); }
+
+.qe-progress-label {
+  text-align: center;
+  font-size: 0.82rem;
+  color: var(--qz-text-sub);
+  margin-top: 4px;
+}
+
+
+/* ================================================================
+   クイズヘッダーバー（quiz 画面上部に固定）
+   ================================================================ */
+
+.qe-quiz-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.qe-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border: 2px solid var(--qz-border);
+  border-radius: 20px;
+  background: var(--qz-surface);
+  color: var(--qz-text-sub);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.qe-back-btn:hover {
+  border-color: var(--qz-accent);
+  color: var(--qz-text);
+  transform: none;
+  box-shadow: none;
+}
+
+.qe-quiz-counter {
+  font-size: 0.9rem;
+  color: var(--qz-text-sub);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+
+/* ================================================================
+   スコア表示
+   ================================================================ */
+
 .quiz-score {
-    text-align: right;
-    font-size: 16px;
-    margin-bottom: 12px;
-    font-weight: 600;
-    color: var(--primary);
+  text-align: right;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+  color: var(--qz-text);
 }
+
 .quiz-top-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 
-/* ===== Question card ===== */
+
+/* ================================================================
+   問題カード
+   ================================================================ */
+
 .question-card {
-    font-size: 1.8em;
-    margin: 24px 0;
-    text-align: center;
-    font-weight: 700;
-    color: var(--primary);
-    padding: 20px;
-    background: var(--card-bg);
-    border-radius: 20px;
-    box-shadow: 0 4px 15px var(--shadow);
-}
-.question-sublabel {
-    font-size: 1em;
-    margin: 12px 0 24px;
-    text-align: center;
-    color: var(--secondary);
-    padding: 12px;
-    background: var(--card-bg);
-    border-radius: 12px;
-    opacity: 0.9;
+  font-size: 1.8em;
+  margin: 24px 0;
+  text-align: center;
+  font-weight: 700;
+  color: var(--qz-text);
+  padding: 20px;
+  background: var(--qz-surface);
+  border-radius: 20px;
+  box-shadow: 0 4px 15px var(--qz-shadow);
 }
 
-/* ===== Choice buttons ===== */
+.question-sublabel {
+  font-size: 1em;
+  margin: 12px 0 24px;
+  text-align: center;
+  color: var(--qz-text-sub);
+  padding: 12px;
+  background: var(--qz-surface);
+  border-radius: 12px;
+  opacity: 0.9;
+}
+
+
+/* ================================================================
+   4択ボタン
+   ================================================================ */
+
 .choice-btn {
-    display: block;
-    width: 100%;
-    margin: 12px 0;
-    text-align: left;
-    padding: 16px 20px;
-    font-size: 1rem;
-    background: var(--card-bg);
-    color: var(--content);
-    border: none;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    box-shadow: 0 4px 15px var(--shadow);
-    font-family: inherit;
+  display: block;
+  width: 100%;
+  margin: 12px 0;
+  text-align: left;
+  padding: 16px 20px;
+  font-size: 1rem;
+  background: var(--qz-surface);
+  color: var(--qz-text);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px var(--qz-shadow);
+  font-family: inherit;
 }
+
 .choice-btn:hover:not(:disabled) {
-    background: var(--accent);
-    color: var(--accent-contrast);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--shadow);
+  background: var(--qz-accent);
+  color: var(--qz-accent-contrast);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--qz-shadow);
 }
-.choice-btn.correct   { background: #4caf50 !important; color: #fff !important; }
-.choice-btn.incorrect { background: #f44336 !important; color: #fff !important; }
+
+.choice-btn.correct   { background: var(--qz-correct)   !important; color: #fff !important; }
+.choice-btn.incorrect { background: var(--qz-incorrect) !important; color: #fff !important; }
 .choice-btn:disabled  { cursor: not-allowed; }
 
-/* ===== Section btn (list of sections/chapters) ===== */
+
+/* ================================================================
+   セクションボタン（出題範囲の一覧）
+   ================================================================ */
+
 .section-btn {
-    display: block;
-    width: 100%;
-    text-align: left;
-    margin-bottom: 10px;
-    padding: 15px 20px;
-    font-size: 1rem;
+  display: block;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 10px;
+  padding: 15px 20px;
+  font-size: 1rem;
 }
 
-/* ===== Form fields (setup screen) ===== */
+
+/* ================================================================
+   フォームフィールド（設定画面）
+   ================================================================ */
+
 .quiz-field { margin-bottom: 16px; }
+
 .quiz-field label {
-    display: block;
-    margin-bottom: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--primary);
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--qz-text);
 }
+
 .quiz-field input,
 .quiz-field select,
 .quiz-field textarea {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    border: 2px solid var(--accent);
-    background: var(--theme);
-    color: var(--content);
-    font-size: 14px;
-    font-family: inherit;
-    transition: all 0.3s;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--qz-accent);
+  background: var(--qz-bg);
+  color: var(--qz-text);
+  font-size: 0.95rem;
+  font-family: inherit;
+  transition: all 0.3s;
 }
+
 .quiz-field input:focus,
 .quiz-field select:focus {
-    outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
+  outline: none;
+  border-color: var(--qz-text);
+  box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
 }
 
-/* ===== Note / add-msg ===== */
-.quiz-note {
-    font-size: 13px;
-    color: var(--secondary);
-    margin-top: 12px;
-    padding: 12px;
-    background: var(--card-bg);
-    border-radius: 12px;
-    opacity: 0.8;
-}
-.quiz-add-msg {
-    color: var(--accent-text);
-    font-weight: 600;
-    margin-top: 12px;
-    text-align: center;
+
+/* ================================================================
+   セットアップ画面 — ヘッダーエリア
+   ================================================================ */
+
+.qe-setup-header {
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-/* ===== Category chips (multi-select setup) ===== */
+.qe-hero-image {
+  width: 140px;
+  height: 140px;
+  object-fit: contain;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  display: none;          /* _applyMeta が img src 設定時に表示する */
+}
+
+.qe-quiz-title {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: var(--qz-text);
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.qe-quiz-title-en {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--qz-text-sub);
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.qe-quiz-description {
+  color: var(--qz-text-sub);
+  font-size: 1rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+
+/* ================================================================
+   セットアップ画面 — 範囲選択アクション行
+   ================================================================ */
+
+.qe-range-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* 全選択 / クリア などの補助ボタン */
+.btn--sm {
+  padding: 6px 14px;
+  font-size: 0.82rem;
+  border-radius: 8px;
+  background: var(--qz-surface);
+  color: var(--qz-text-sub);
+  border: 2px solid var(--qz-border);
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.btn--sm:hover {
+  border-color: var(--qz-accent);
+  color: var(--qz-text);
+  transform: none;
+  box-shadow: none;
+}
+
+
+/* ================================================================
+   セットアップ画面 — 開始ボタン
+   ================================================================ */
+
+.qe-start-wrap {
+  text-align: center;
+  margin-top: 36px;
+}
+
+.btn--start {
+  padding: 14px 48px;
+  font-size: 1.05rem;
+  border-radius: 30px;
+}
+
+
+/* ================================================================
+   出題数コントロール（スライダー + 数値入力の横並び）
+   ================================================================ */
+
+.qe-count-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.qe-count-slider {
+  /* flex: 1 だけでは .quiz-field input の width:100% に負けるため min-width:0 も必要 */
+  flex: 1;
+  min-width: 0;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--qz-border);
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--qz-accent);
+  /* quiz-field input の width:100% を上書き */
+  width: auto !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.qe-count-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--qz-accent);
+  cursor: pointer;
+  box-shadow: 0 2px 6px var(--qz-shadow);
+  transition: transform 0.15s;
+}
+
+.qe-count-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+
+/* .quiz-field input の width:100% より詳細度を上げて確実に固定幅を適用 */
+.qe-count-control .qe-count-number {
+  width: 70px;
+  flex-shrink: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 2px solid var(--qz-border);
+  background: var(--qz-bg);
+  color: var(--qz-text);
+  font-size: 1rem;
+  font-family: inherit;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+
+.qe-count-control .qe-count-number:focus {
+  outline: none;
+  border-color: var(--qz-accent);
+}
+
+.qe-count-unit {
+  color: var(--qz-text-sub);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+
+/* ================================================================
+   カテゴリチップ（複数選択 / シングル）
+   ================================================================ */
+
 .quiz-category-chips {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 10px;
-    margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 10px;
+  margin-top: 8px;
 }
+
 button.quiz-chip {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 2px solid var(--border);
-    background: var(--theme);
-    color: var(--content);
-    text-align: left;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-family: inherit;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid var(--qz-border);
+  background: var(--qz-bg);
+  color: var(--qz-text);
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
 }
+
 button.quiz-chip::before {
-    content: "";
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    background: transparent;
-    flex-shrink: 0;
-    transition: all 0.2s;
+  content: "";
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--qz-border);
+  background: transparent;
+  flex-shrink: 0;
+  transition: all 0.2s;
 }
-button.quiz-chip:hover        { border-color: var(--accent); }
-button.quiz-chip.selected     { border-color: var(--accent); background: rgba(250,186,64,0.12); box-shadow: 0 0 0 3px rgba(250,186,64,0.2); }
-button.quiz-chip.selected::before { background: var(--accent); border-color: var(--accent); }
-.quiz-chip.is-badge           { width: auto; display: inline-flex; padding: 4px 12px; border-radius: 999px; cursor: default; background: rgba(250,186,64,0.12); border-color: rgba(250,186,64,0.4); }
-.quiz-chip.is-badge::before   { display: none; }
 
-/* ===== Score summary grid ===== */
-.quiz-score-summary {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
-    margin: 24px 0;
+button.quiz-chip:hover        { border-color: var(--qz-accent); }
+button.quiz-chip.selected {
+  border-color: var(--qz-accent);
+  background: rgba(250, 186, 64, 0.12);
+  box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.2);
 }
-.quiz-score-card {
-    background: var(--theme);
-    padding: 16px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 2px 8px var(--shadow);
+button.quiz-chip.selected::before {
+  background: var(--qz-accent);
+  border-color: var(--qz-accent);
 }
-.quiz-score-card .number { font-size: 2.2rem; font-weight: 700; color: var(--accent-text); margin: 8px 0; }
-.quiz-score-card .qlabel { color: var(--secondary); font-size: 0.85rem; }
 
-/* ===== Mistakes list ===== */
-.quiz-mistakes-list { margin-top: 30px; text-align: left; }
-.mistake-item {
-    background: var(--card-bg);
-    padding: 16px 20px;
-    border-radius: 12px;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px var(--shadow);
+/* バッジとして使う場合（is-badge を追加） */
+.quiz-chip.is-badge {
+  width: auto;
+  display: inline-flex;
+  padding: 4px 12px;
+  border-radius: 999px;
+  cursor: default;
+  background: rgba(250, 186, 64, 0.12);
+  border-color: rgba(250, 186, 64, 0.4);
 }
-.mistake-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; flex-wrap: wrap; gap: 8px; }
-.mistake-title  { font-weight: 600; font-size: 1rem; }
-.mistake-answers { display: flex; gap: 20px; font-size: 0.9rem; flex-wrap: wrap; margin-top: 4px; }
-.mistake-your    { color: #f44336; }
-.mistake-correct { color: #4caf50; }
+.quiz-chip.is-badge::before { display: none; }
 
-/* ===== Text-input answer (year quiz) ===== */
-.quiz-answer-input { text-align: center; margin: 32px 0; }
-.quiz-answer-input label { display: block; margin-bottom: 14px; font-weight: 600; font-size: 1.1rem; color: var(--primary); }
+
+/* ================================================================
+   年号入力フィールド
+   ================================================================ */
+
+.quiz-answer-input {
+  text-align: center;
+  margin: 32px 0;
+}
+
+.quiz-answer-input label {
+  display: block;
+  margin-bottom: 14px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--qz-text);
+}
+
+/* エンジンが使う専用クラス */
+.qe-year-input {
+  width: 180px;
+  padding: 14px;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 3px solid var(--qz-border);
+  border-radius: 8px;
+  background: var(--qz-bg);
+  color: var(--qz-text);
+  font-weight: 600;
+  font-family: inherit;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  display: block;
+  margin: 0 auto;
+}
+
+.qe-year-input:focus {
+  outline: none;
+  border-color: var(--qz-accent);
+  box-shadow: 0 0 0 4px rgba(250, 186, 64, 0.2);
+}
+
+.qe-year-input.correct {
+  border-color: var(--qz-correct);
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+
+.qe-year-input.incorrect {
+  border-color: var(--qz-incorrect);
+  box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.15);
+}
+
+.qe-input-hint {
+  font-size: 0.8rem;
+  color: var(--qz-text-sub);
+  margin-top: 10px;
+}
+
+/* 既存ページとの後方互換用エイリアス */
 .quiz-answer-input input {
-    width: 180px;
-    padding: 14px;
-    font-size: 1.5rem;
-    text-align: center;
-    border: 3px solid var(--border);
-    border-radius: 8px;
-    background: var(--theme);
-    color: var(--content);
-    font-weight: 600;
-    font-family: inherit;
-    transition: border-color 0.3s, box-shadow 0.3s;
+  width: 180px;
+  padding: 14px;
+  font-size: 1.5rem;
+  text-align: center;
+  border: 3px solid var(--qz-border);
+  border-radius: 8px;
+  background: var(--qz-bg);
+  color: var(--qz-text);
+  font-weight: 600;
+  font-family: inherit;
+  transition: border-color 0.3s, box-shadow 0.3s;
 }
+
 .quiz-answer-input input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(250, 186, 64, 0.2);
+  outline: none;
+  border-color: var(--qz-accent);
+  box-shadow: 0 0 0 4px rgba(250, 186, 64, 0.2);
 }
 
-/* ===== Inline feedback ===== */
+
+/* ================================================================
+   フィードバック（正誤表示）
+   ================================================================ */
+
 .quiz-feedback {
-    text-align: center;
-    padding: 16px 20px;
-    border-radius: 10px;
-    margin: 16px 0;
-    font-weight: 600;
-    font-size: 1.05rem;
+  text-align: center;
+  padding: 16px 20px;
+  border-radius: 10px;
+  margin: 16px 0;
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
-.quiz-feedback.correct   { background: #e8f5e9; color: #2e7d32; border: 2px solid #2e7d32; }
-.quiz-feedback.incorrect { background: #ffebee; color: #c62828; border: 2px solid #c62828; }
-body.dark .quiz-feedback.correct   { background: rgba(46,125,50,0.25);  color: #a5d6a7; border-color: #4caf50; }
-body.dark .quiz-feedback.incorrect { background: rgba(198,40,40,0.25);  color: #ef9a9a; border-color: #f44336; }
 
-/* ===== Controls row ===== */
-.quiz-controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.quiz-feedback.correct {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 2px solid var(--qz-correct);
+}
 
-/* ===== Responsive ===== */
+.quiz-feedback.incorrect {
+  background: #ffebee;
+  color: #c62828;
+  border: 2px solid var(--qz-incorrect);
+}
+
+body.dark .quiz-feedback.correct {
+  background: rgba(76,175,80,0.18);
+  color: #a5d6a7;
+  border-color: var(--qz-correct);
+}
+
+body.dark .quiz-feedback.incorrect {
+  background: rgba(244,67,54,0.18);
+  color: #ef9a9a;
+  border-color: var(--qz-incorrect);
+}
+
+
+/* ================================================================
+   コントロール行
+   ================================================================ */
+
+.quiz-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+
+
+/* ================================================================
+   結果画面 — スコアサマリー
+   ================================================================ */
+
+.quiz-score-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.quiz-score-card {
+  background: var(--qz-bg);
+  padding: 16px;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 2px 8px var(--qz-shadow);
+}
+
+.quiz-score-card .number { font-size: 2.2rem; font-weight: 700; color: var(--qz-accent-text); margin: 8px 0; }
+.quiz-score-card .qlabel { color: var(--qz-text-sub); font-size: 0.85rem; }
+
+
+/* ================================================================
+   結果画面 — 間違いリスト
+   ================================================================ */
+
+.quiz-mistakes-list { margin-top: 30px; text-align: left; }
+
+.mistake-item {
+  background: var(--qz-surface);
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px var(--qz-shadow);
+}
+
+.mistake-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.mistake-title  { font-weight: 600; font-size: 1rem; color: var(--qz-text); }
+
+.mistake-answers {
+  display: flex;
+  gap: 20px;
+  font-size: 0.9rem;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.mistake-your    { color: var(--qz-incorrect); }
+.mistake-correct { color: var(--qz-correct); }
+
+
+/* ================================================================
+   クイズ画面 — 問題エリアラッパー
+   ================================================================ */
+
+.qe-question-area {
+  margin-top: 8px;
+}
+
+.qe-category-chip-wrap {
+  text-align: center;
+  margin-bottom: 12px;
+  min-height: 28px;
+}
+
+
+/* ================================================================
+   結果画面 — ナビゲーション
+   ================================================================ */
+
+.qe-result-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 32px;
+}
+
+/* セカンダリ（もう一度 など）ボタン */
+.btn--ghost {
+  background: var(--qz-surface);
+  color: var(--qz-text);
+  border: 2px solid var(--qz-border);
+}
+
+.btn--ghost:hover {
+  border-color: var(--qz-accent);
+  color: var(--qz-text);
+  background: var(--qz-surface);
+}
+
+
+/* ================================================================
+   ローディング画面
+   ================================================================ */
+
+.qe-loading-wrap {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--qz-text-sub);
+  font-size: 1.1rem;
+}
+
+
+/* ================================================================
+   ノート / 補足
+   ================================================================ */
+
+.quiz-note {
+  font-size: 0.85rem;
+  color: var(--qz-text-sub);
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--qz-surface);
+  border-radius: 12px;
+  opacity: 0.85;
+}
+
+
+/* ================================================================
+   レスポンシブ
+   ================================================================ */
+
 @media (max-width: 768px) {
-    .quiz-wrapper h1               { font-size: 1.9rem; }
-    .question-card                 { font-size: 1.4em; }
-    .choice-btn                    { font-size: 0.92rem; padding: 13px 16px; }
-    .quiz-category-chips           { grid-template-columns: 1fr 1fr; }
-    .quiz-score-summary            { grid-template-columns: 1fr; }
-    .quiz-answer-input input       { width: 150px; font-size: 1.25rem; }
+  .quiz-wrapper h1         { font-size: 1.9rem; }
+  .question-card           { font-size: 1.4em; }
+  .choice-btn              { font-size: 0.92rem; padding: 13px 16px; }
+  .quiz-category-chips     { grid-template-columns: 1fr 1fr; }
+  .quiz-score-summary      { grid-template-columns: 1fr; }
+  .qe-year-input,
+  .quiz-answer-input input { width: 150px; font-size: 1.25rem; }
+  /* モバイルではスライダーと数値入力を縦並びに */
+  .qe-count-control        { flex-direction: column; align-items: stretch; gap: 8px; }
+  .qe-count-slider         { width: 100% !important; }
+  .qe-count-control .qe-count-number { width: 100%; }
+  .qe-count-unit           { text-align: center; }
 }
