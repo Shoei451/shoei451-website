@@ -62,6 +62,10 @@ const FILE_TREE = [
       {
         "name": "wh_table_renewal",
         "path": "md/wh_table_renewal.md"
+      },
+      {
+        "name": "quiz-components-summary",
+        "path": "md/quiz-components-summary.md"
       }
     ]
   },
