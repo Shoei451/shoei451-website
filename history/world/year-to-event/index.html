@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>世界史年代クイズ【年号→出来事】— Shoei451</title>
+  <link rel="icon" href="../../../images/worldhistoryquiz.png">
+
+  <link rel="stylesheet" href="../../../css/theme-toggle.css">
+  <link rel="stylesheet" href="../../../quiz-components/quiz-shell.css">
+  <link rel="stylesheet" href="../../../quiz-components/start/start-screen.css">
+  <link rel="stylesheet" href="../../../quiz-components/progress/progress.css">
+  <link rel="stylesheet" href="../../../quiz-components/question/question-area.css">
+  <link rel="stylesheet" href="../../../quiz-components/answer/answer.css">
+  <link rel="stylesheet" href="../../../quiz-components/feedback/feedback.css">
+  <link rel="stylesheet" href="../../../quiz-components/result/result.css">
+  <!-- text-input.js は不要 -->
+</head>
+<body>
+
+<span class="logo-switches" id="theme-toggle-container"></span>
+
+<main class="qz-container">
+  <div id="start-screen"  class="qz-screen"></div>
+  <div id="quiz-screen"   class="qz-screen hidden">
+    <div id="qz-progress-bar"></div>
+    <div id="qz-question-area"></div>
+    <div id="qz-choices"></div>
+    <div id="qz-feedback" class="hidden"></div>
+    <div id="qz-nav-buttons"></div>
+  </div>
+  <div id="result-screen" class="qz-screen hidden"></div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../../../js/supabase_config.js"></script>
+<script src="../../../quiz-components/start/start-screen.js"></script>
+<script src="../../../quiz-components/progress/progress.js"></script>
+<script src="../../../quiz-components/question/question-area.js"></script>
+<script src="../../../quiz-components/answer/choice-buttons.js"></script>
+<!-- text-input.js は読み込まない -->
+<script src="../../../quiz-components/feedback/feedback.js"></script>
+<script src="../../../quiz-components/result/result.js"></script>
+<script src="quiz.js"></script>
+<script src="../../../js/theme-toggle.js"></script>
+<script>
+  navigator.sendBeacon(
+    '/api/sw?path=' + encodeURIComponent(location.pathname) +
+    '&ref='         + encodeURIComponent(document.referrer)
+  );
+</script>
+</body>
+</html>
