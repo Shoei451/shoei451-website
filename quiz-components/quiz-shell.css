@@ -3,17 +3,10 @@
    全クイズ共通の基盤スタイル。
    テーマ色は各ページで --qz-accent / --qz-accent-light を上書きする。
 
-   読み込み順（各クイズページの <head> に記述）:
+   読み込み方:
      <link rel="stylesheet" href="../../quiz-components/quiz-shell.css">
-     <link rel="stylesheet" href="../../quiz-components/start/start-screen.css">
-     <!-- テーマ上書きが必要な場合はここで <style> に --qz-accent を再定義 -->
+     <!-- テーマ上書きが必要な場合は <style> で --qz-accent を再定義 -->
      <link rel="stylesheet" href="../../css/theme-toggle.css">
-
-   ダークモードの切り替えは js/theme-toggle.js に委任。
-   body.dark のスタイルのみここで定義する。
-   テーマトグルボタンの注入:
-     <span class="logo-switches" id="theme-toggle-container"></span>
-     <script src="../../js/theme-toggle.js"></script>
    ============================================================ */
 
 /* ===== CSS Variables ===== */
