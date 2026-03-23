@@ -64,7 +64,7 @@ const sectionItems3 = [
         title: "世界史年代クイズ（移行版）",
         titleEN: "World History Era Quiz",
         description: "世界史の年代と出来事を結び付けて覚えるクイズアプリ",
-        link: "sub-index.html"
+        link: "world/sub-index.html"
     },
 ]
 
