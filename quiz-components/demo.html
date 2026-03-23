@@ -3,27 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>start-screen.js デモ</title>
-  <link rel="stylesheet" href="../css/theme-toggle.css">
+  <title>quiz-components デモ</title>
+  <link rel="stylesheet" href="quiz-shell.css">
   <link rel="stylesheet" href="start/start-screen.css">
+  <link rel="stylesheet" href="progress/progress-bar.css">
+  <link rel="stylesheet" href="../css/theme-toggle.css">
   <style>
-    /* デモ専用: タブ切替 */
-    .demo-tabs {
+    .demo-header {
+      background: var(--qz-accent-dark);
+      color: #fff;
+      padding: 14px 20px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.04em;
+    }
+    .demo-sections {
       max-width: 860px;
-      margin: var(--qz-space-md) auto 0;
-      padding: 0 var(--qz-space-sm);
+      margin: 0 auto;
+      padding: var(--qz-space-lg) var(--qz-space-sm);
+      display: flex;
+      flex-direction: column;
+      gap: var(--qz-space-lg);
+    }
+    .demo-section__label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--qz-text-sub);
+      margin-bottom: var(--qz-space-sm);
+    }
+    .demo-tabs {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+      margin-bottom: var(--qz-space-sm);
     }
     .demo-tab {
-      padding: 6px 16px;
+      padding: 5px 14px;
       border: 1.5px solid var(--qz-border);
       border-radius: 100px;
       background: var(--qz-surface);
       color: var(--qz-text-sub);
       font-family: inherit;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       cursor: pointer;
       transition: all 0.15s;
     }
@@ -33,40 +56,99 @@
       color: var(--qz-text);
       font-weight: 600;
     }
-
-    /* テーマトグル位置調整（demo専用） */
-    .logo-switches { position: fixed; top: 16px; right: 16px; z-index: 300; }
+    .demo-progress-controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: var(--qz-space-sm);
+      align-items: center;
+    }
+    .demo-ctrl-btn {
+      padding: 6px 14px;
+      border: 1.5px solid var(--qz-border);
+      border-radius: var(--qz-radius-sm);
+      background: var(--qz-surface);
+      color: var(--qz-text);
+      font-family: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .demo-ctrl-btn:hover          { border-color: var(--qz-accent); }
+    .demo-ctrl-btn.is-correct     { border-color: var(--qz-correct);   color: var(--qz-correct); }
+    .demo-ctrl-btn.is-incorrect   { border-color: var(--qz-incorrect); color: var(--qz-incorrect); }
+    .demo-mode-toggle {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      font-size: 0.82rem;
+      color: var(--qz-text-sub);
+    }
+    .demo-mode-toggle label { cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .logo-switches { position: fixed; top: 14px; right: 16px; z-index: 300; }
   </style>
 </head>
 <body>
 
 <span class="logo-switches" id="theme-toggle-container"></span>
+<div class="demo-header">quiz-components / デモ</div>
 
-<div class="demo-tabs">
-  <button class="demo-tab is-active" data-demo="world">world/index（単一選択）</button>
-  <button class="demo-tab" data-demo="china">china/index（複数選択）</button>
-  <button class="demo-tab" data-demo="seikei">seikei/quiz（複数選択）</button>
-  <button class="demo-tab" data-demo="idiom">idiom/index（単一+select）</button>
+<div class="demo-sections">
+
+  <!-- ① スタート画面 -->
+  <section>
+    <p class="demo-section__label">① start-screen.js — スタート画面</p>
+    <div class="demo-tabs">
+      <button class="demo-tab is-active" data-demo="world">world（単一選択）</button>
+      <button class="demo-tab" data-demo="china">china（複数選択）</button>
+      <button class="demo-tab" data-demo="seikei">seikei（複数選択）</button>
+      <button class="demo-tab" data-demo="idiom">idiom（単一+select）</button>
+    </div>
+    <div id="start-screen" class="qz-screen"></div>
+  </section>
+
+  <!-- ② 進捗バー -->
+  <section>
+    <p class="demo-section__label">② progress-bar.js — 進捗バー + ナビボタン</p>
+    <div class="demo-progress-controls">
+      <div class="demo-mode-toggle">
+        <label><input type="radio" name="prog-mode" value="bar" checked> バー形式</label>
+        <label><input type="radio" name="prog-mode" value="dots"> ドット形式</label>
+      </div>
+      <button class="demo-ctrl-btn is-correct"   id="btn-correct">✓ 正解</button>
+      <button class="demo-ctrl-btn is-incorrect" id="btn-incorrect">✗ 不正解</button>
+      <button class="demo-ctrl-btn"              id="btn-skip">— スキップ</button>
+      <button class="demo-ctrl-btn"              id="btn-reset-demo">リセット</button>
+      <span style="font-size:0.8rem; color:var(--qz-text-sub);" id="demo-status">問1 / 回答前</span>
+    </div>
+    <div class="qz-screen" style="padding: var(--qz-space-md);">
+      <div id="qz-progress"></div>
+      <div style="
+        background: var(--qz-surface-2);
+        border: 1px dashed var(--qz-border);
+        border-radius: var(--qz-radius-sm);
+        padding: var(--qz-space-md);
+        text-align: center;
+        color: var(--qz-text-sub);
+        font-size: 0.9rem;
+        margin: var(--qz-space-sm) 0;
+      ">← ここにクイズ問題が入る →</div>
+      <div id="qz-nav"></div>
+    </div>
+  </section>
+
 </div>
 
-<main class="qz-container">
-  <div id="start-screen" class="qz-screen"></div>
-</main>
-
 <script src="start/start-screen.js"></script>
+<script src="progress/progress-bar.js"></script>
+<script src="../js/theme-toggle.js"></script>
 <script>
-// ============================================================
-// 4つのクイズに対応するconfig定義（実際のページで使う想定）
-// ============================================================
-
-const CONFIGS = {
-
+// ── ① スタート画面 ────────────────────────────────────────
+const START_CONFIGS = {
   world: {
     title: "世界史年代クイズ",
     subtitle: "年代と出来事を結びつけて覚えよう",
-    // image: "images/worldhistoryquiz.png",
-    rangeMode: "single",
-    rangeLabel: "出題セクション",
+    rangeMode: "single", rangeLabel: "出題セクション",
     ranges: [
       { id: "~0",        label: "紀元前" },
       { id: "1~1000",    label: "1〜1000年" },
@@ -78,110 +160,124 @@ const CONFIGS = {
       { id: "1946~1989", label: "1946〜1989年" },
       { id: "1990~",     label: "1990年〜" },
     ],
-    countMode: "select",
-    countDefault: 10,
-    countOptions: [10, 20, 30, "all"],
-    onStart(selectedRanges, count) {
-      alert(`開始: セクション=${selectedRanges[0]}, 出題数=${count}`);
-    }
+    countMode: "select", countDefault: 10, countOptions: [10, 20, 30, "all"],
+    onStart(ranges, count) { alert(`[world] セクション: ${ranges[0]}, 出題数: ${count}`); }
   },
-
   china: {
     title: "中国王朝史 年代クイズ",
-    subtitle: "紀元前は負の数で入力（例：-221 = 前221年）",
-    // image: "images/chinese-history.svg",
-    rangeMode: "multi",
-    rangeLabel: "出題カテゴリ",
+    subtitle: "紀元前は負の数で入力（例：−221 = 前221年）",
+    rangeMode: "multi", rangeLabel: "出題カテゴリ",
     ranges: [
-      { id: "王朝成立", label: "王朝成立" },
-      { id: "王朝滅亡", label: "王朝滅亡" },
-      { id: "反乱",     label: "反乱" },
-      { id: "戦争",     label: "戦争" },
-      { id: "外交",     label: "外交" },
-      { id: "内政",     label: "内政" },
-      { id: "経済",     label: "経済" },
-      { id: "文化",     label: "文化" },
+      { id: "王朝成立", label: "王朝成立" }, { id: "王朝滅亡", label: "王朝滅亡" },
+      { id: "反乱",     label: "反乱" },     { id: "戦争",     label: "戦争" },
+      { id: "外交",     label: "外交" },     { id: "内政",     label: "内政" },
+      { id: "経済",     label: "経済" },     { id: "文化",     label: "文化" },
       { id: "その他",   label: "その他" },
     ],
-    countMode: "slider",
-    countMin: 5,
-    countMax: 50,
-    countDefault: 10,
-    onStart(selectedRanges, count) {
-      alert(`開始: カテゴリ=[${selectedRanges.join(", ")}], 出題数=${count}`);
-    }
+    countMode: "slider", countMin: 5, countMax: 50, countDefault: 10,
+    onStart(ranges, count) { alert(`[china] カテゴリ: [${ranges.join(", ")}], 出題数: ${count}`); }
   },
-
   seikei: {
     title: "政治・経済 年代クイズ",
     subtitle: "戦後経済史の年代を答えよう",
-    rangeMode: "multi",
-    rangeLabel: "出題カテゴリ",
+    rangeMode: "multi", rangeLabel: "出題カテゴリ",
     ranges: [
-      { id: "国際政治",           label: "国際政治" },
-      { id: "国際経済",           label: "国際経済" },
-      { id: "国内政治",           label: "国内政治" },
-      { id: "日銀金融政策",       label: "日銀金融政策" },
-      { id: "農業",               label: "農業" },
+      { id: "国際政治",             label: "国際政治" },
+      { id: "国際経済",             label: "国際経済" },
+      { id: "国内政治",             label: "国内政治" },
+      { id: "日銀金融政策",         label: "日銀金融政策" },
+      { id: "農業",                 label: "農業" },
       { id: "消費者生活・公害対策", label: "消費者・公害" },
-      { id: "労働問題",           label: "労働問題" },
-      { id: "社会保障",           label: "社会保障" },
+      { id: "労働問題",             label: "労働問題" },
+      { id: "社会保障",             label: "社会保障" },
     ],
-    countMode: "slider",
-    countMin: 5,
-    countMax: 50,
-    countDefault: 10,
-    onStart(selectedRanges, count) {
-      alert(`開始: カテゴリ=[${selectedRanges.join(", ")}], 出題数=${count}`);
-    }
+    countMode: "slider", countMin: 5, countMax: 50, countDefault: 10,
+    onStart(ranges, count) { alert(`[seikei] カテゴリ: [${ranges.join(", ")}], 出題数: ${count}`); }
   },
-
   idiom: {
     title: "Vintage イディオムクイズ",
     subtitle: "Fill-in-the-blank idiom questions",
-    rangeMode: "single",
-    rangeLabel: "Quiz Mode",
+    rangeMode: "single", rangeLabel: "Quiz Mode",
     ranges: [
       { id: "random",      label: "Random Practice（全問からランダム）" },
       { id: "difficult",   label: "Focus on Weak Areas（正答率50%未満）" },
       { id: "unattempted", label: "Not Yet Attempted（未挑戦問題）" },
       { id: "mixed",       label: "Mixed Review（Smart Mix）" },
     ],
-    countMode: "select",
-    countDefault: 10,
-    countOptions: [5, 10, 20, 30, 50, "all"],
+    countMode: "select", countDefault: 10, countOptions: [5, 10, 20, 30, 50, "all"],
     startLabel: "Start Quiz",
-    onStart(selectedRanges, count) {
-      alert(`Start: mode=${selectedRanges[0]}, count=${count}`);
-    }
+    onStart(ranges, count) { alert(`[idiom] mode: ${ranges[0]}, count: ${count}`); }
   }
-
 };
 
-// ============================================================
-// デモ用タブ切替
-// ============================================================
-let currentDemo = "world";
-
-function loadDemo(key) {
-  currentDemo = key;
-  document.querySelectorAll(".demo-tab").forEach(tab => {
-    tab.classList.toggle("is-active", tab.dataset.demo === key);
-  });
-  // スクリーンをリセットしてから再初期化
+function loadStartDemo(key) {
+  document.querySelectorAll(".demo-tab").forEach(t =>
+    t.classList.toggle("is-active", t.dataset.demo === key));
   const el = document.getElementById("start-screen");
   el.innerHTML = "";
   el.classList.add("hidden");
-  initStartScreen(CONFIGS[key]);
+  initStartScreen(START_CONFIGS[key]);
 }
 
-document.querySelectorAll(".demo-tab").forEach(tab => {
-  tab.addEventListener("click", () => loadDemo(tab.dataset.demo));
-});
+document.querySelectorAll(".demo-tab").forEach(tab =>
+  tab.addEventListener("click", () => loadStartDemo(tab.dataset.demo)));
 
-// 初期表示
-loadDemo("world");
+loadStartDemo("world");
+
+// ── ② 進捗バー ────────────────────────────────────────────
+const TOTAL = 10;
+let demoIndex = 0;
+
+function getMode() {
+  return document.querySelector('input[name="prog-mode"]:checked')?.value ?? "bar";
+}
+
+function buildCfg(mode) {
+  return {
+    mode, total: TOTAL, showCounter: true,
+    resetConfirmMsg: "最初に戻りますか？\n（デモ：リセットされます）",
+    onNext() {
+      if (demoIndex < TOTAL - 1) {
+        demoIndex++;
+        setCurrentIndex(demoIndex);
+        document.getElementById("demo-status").textContent = `問${demoIndex + 1} / 回答前`;
+      }
+    },
+    onReset() {
+      demoIndex = 0;
+      initProgress(buildCfg(getMode()));
+      document.getElementById("demo-status").textContent = "問1 / 回答前";
+    }
+  };
+}
+
+initProgress(buildCfg("bar"));
+
+document.querySelectorAll('input[name="prog-mode"]').forEach(r =>
+  r.addEventListener("change", () => {
+    demoIndex = 0;
+    initProgress(buildCfg(r.value));
+    document.getElementById("demo-status").textContent = "問1 / 回答前";
+  })
+);
+
+document.getElementById("btn-correct").addEventListener("click", () => {
+  markAnswer(demoIndex, "correct");
+  document.getElementById("demo-status").textContent = `問${demoIndex + 1} / ✓ 正解`;
+});
+document.getElementById("btn-incorrect").addEventListener("click", () => {
+  markAnswer(demoIndex, "incorrect");
+  document.getElementById("demo-status").textContent = `問${demoIndex + 1} / ✗ 不正解`;
+});
+document.getElementById("btn-skip").addEventListener("click", () => {
+  markAnswer(demoIndex, "skipped");
+  document.getElementById("demo-status").textContent = `問${demoIndex + 1} / — スキップ`;
+});
+document.getElementById("btn-reset-demo").addEventListener("click", () => {
+  demoIndex = 0;
+  initProgress(buildCfg(getMode()));
+  document.getElementById("demo-status").textContent = "問1 / 回答前";
+});
 </script>
-<script src="../js/theme-toggle.js"></script>
 </body>
 </html>
