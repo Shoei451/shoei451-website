@@ -134,12 +134,5 @@ searchBox.addEventListener('input', () => {
 // Initial render
 render();
 </script>
-
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

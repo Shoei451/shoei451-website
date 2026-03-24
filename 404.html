@@ -215,12 +215,5 @@ errorEmoji.addEventListener('click', () => {
     errorEmoji.textContent = emojis[emojiIndex];
 });
 </script>
-
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

@@ -119,11 +119,5 @@ ERA_GROUPS.forEach(g => {
   legend.innerHTML += `<div class="legend-item"><div class="legend-dot" style="background:${g.color}"></div><span class="legend-label">${g.name}</span></div>`;
 });
 </script>
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

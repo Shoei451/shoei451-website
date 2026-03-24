@@ -13,11 +13,6 @@
   <div id="app" class="container"></div>
   <script src="quizdata.js"></script>
   <script src="quiz-logic.js"></script>
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
+
 </body>
 </html>

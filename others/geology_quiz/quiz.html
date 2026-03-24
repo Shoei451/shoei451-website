@@ -682,11 +682,5 @@ function restartQuiz() { init(); window.scrollTo({ top: 0 }); }
 
 init();
 </script>
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

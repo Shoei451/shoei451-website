@@ -43,11 +43,5 @@
 <script src="../../../quiz-components/result/result.js"></script>
 <script src="quiz.js"></script>
 <script src="../../../js/theme-toggle.js"></script>
-<script>
-  navigator.sendBeacon(
-    '/api/sw?path=' + encodeURIComponent(location.pathname) +
-    '&ref='         + encodeURIComponent(document.referrer)
-  );
-</script>
 </body>
 </html>

@@ -97,11 +97,5 @@
   </div>
   <script src="passwords.js"></script>
   <script src="logic.js"></script>
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

@@ -192,11 +192,5 @@
 
 <div class="toast" id="toast"></div>
 <script src="app.js"></script>
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>

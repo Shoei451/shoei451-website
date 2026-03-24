@@ -984,11 +984,6 @@ document.getElementById('drawerToggle').classList.add('open');
 resize();
 loadStage(0);
 </script>
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
+
 </body>
 </html>

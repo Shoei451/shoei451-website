@@ -2,7 +2,7 @@
 
 ---
 
-## /// AUDIO ///
+## AUDIO
 
 ### warning.mp3
 **Source:** BGM・ジングル・効果音のフリー素材｜OtoLogic
@@ -25,13 +25,13 @@
 
 ---
 
-## /// IMAGES ///
+## IMAGES
 
 画像2点（cozy.jpg, hikakin.jpg）はどちらもAI生成によるものです。
 
 ---
 
-## /// FONTS ///
+## FONTS
 
 ### Press Start 2P
 **Source:** [Google Fonts](https://fonts.google.com/specimen/Press+Start+2P)  
@@ -39,7 +39,7 @@
 
 ---
 
-## /// OTHER ///
+## OTHER
 
 ### Code & Design
 **By:** Shoei451 ほか / 実験室班  

@@ -52,12 +52,5 @@ setTimeout(() => {
     window.location.href = "https://new-domain.com";
 }, 5000);
 </script>
-
-  <script>
-    navigator.sendBeacon(
-      '/api/sw?path=' + encodeURIComponent(location.pathname) +
-      '&ref=' + encodeURIComponent(document.referrer)
-    );
-  </script>
 </body>
 </html>
