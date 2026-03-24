@@ -46,6 +46,7 @@ shoei451-website
 │   │   ├── 451-docs_supabase_plan.md
 │   │   ├── Quiz-designs-renewal.md
 │   │   ├── changelogs
+│   │   ├── cleanup.md
 │   │   ├── css-js-integration.md
 │   │   ├── css-js-integration2.md
 │   │   ├── example.md
