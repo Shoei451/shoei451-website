@@ -24,6 +24,6 @@ const sectionItems1 = [
       h1:         "🍙 Japanese & Chinese Classics",
       headerDesc: "古文・漢文の知識を確認しよう",
       sections: [
-        { title: "古文", desc: "古文クイズ（古文常識、助動詞表の穴埋めなど）", itemsVar: "sectionItems1", id: "container1" },
+        { title: "古文", desc: "古文クイズ（古文常識、助動詞表の穴埋めなど）"},
       ]
     };

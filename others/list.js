@@ -47,8 +47,8 @@ window.PAGE_CONFIG = {
       h1:         "🗂️ Miscellaneous",
       headerDesc: "単発の学習ツール集です。",
       sections: [
-        { title: "理科基礎", desc: "生物基礎・地学基礎の知識を確認", itemsVar: "sectionItems1", id: "container1" },
-        { title: "論理・表現", desc: "論理・表現（英語）の学習ツールです。", itemsVar: "sectionItems2", id: "container2" },
-        { title: "保健", desc: "保健の学習ツールです。", itemsVar: "sectionItems3", id: "container3" }
+        { title: "理科基礎", desc: "生物基礎・地学基礎の知識を確認"},
+        { title: "論理・表現", desc: "論理・表現（英語）の学習ツールです。"},
+        { title: "保健", desc: "保健の学習ツールです。"}
       ]
     };

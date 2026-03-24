@@ -45,7 +45,7 @@ const cardsList = [
         icon: "🗂️",
         title: "Other tools", 
         titleJP: "その他のツール",
-        text: "上記の文類に収まりきらないツールはここにまとめて入れます", 
+        text: "上記の分類に収まりきらないツールはここにまとめて入れます", 
         link: "sub-index.html?slug=others" 
     },
     { 

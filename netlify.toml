@@ -1,6 +1,3 @@
 [[edge_functions]]
   path = "/api/sw"
   function = "sw"
-
-[build]
-  command = "node build.js"

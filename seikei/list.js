@@ -16,7 +16,7 @@ const sectionItems2 = [
         titleEN: "Political and Economic Timeline for Learning",
         description: "戦後経済史の年表です",
         link: "timeline/",
-        target: "_blank"  // Force new tab even for internal links
+        target: "_blank"  
     },
     {
         icon: "💰",
@@ -24,7 +24,7 @@ const sectionItems2 = [
         titleEN: "Political and Economic Timeline for Learning - Quiz Version",
         description: "戦後経済史についてのクイズです",
         link: "timeline/quiz.html",
-        target: "_blank"  // Force new tab even for internal links
+        target: "_blank"  
     }
 ];
 
@@ -35,7 +35,7 @@ const sectionItems3 = [
         titleEN: "Politics and Economics Flashcards for 3rd Final Exam",
         description: "3学期期末試験対策用 政治経済の一問一答",
         link: "https://451-learning-box.netlify.app/flashcard.html?slug=seikei-3-exam",
-        target: "_blank"  // Force new tab even for internal links
+        target: "_blank"  
     },
 ];
 

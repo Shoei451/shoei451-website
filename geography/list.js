@@ -45,6 +45,6 @@ window.PAGE_CONFIG = {
       h1:         "🧭 Geography",
       headerDesc: "地理の学習ツール集です。",
       sections: [
-        { title: "地理関連クイズ", desc: "首都名や州名など、地理に関連したもののクイズです。", itemsVar: "sectionItems1", id: "container1" }
+        { title: "地理関連クイズ", desc: "首都名や州名など、地理に関連したもののクイズです。"}
       ]
     };
