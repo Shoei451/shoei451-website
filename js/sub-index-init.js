@@ -47,12 +47,6 @@
     return slug + '/' + link;
   }
 
-  sections.forEach((s, i) => {
-  const itemsVar = s.itemsVar ?? `sectionItems${i + 1}`;
-  const id       = s.id       ?? `container${i + 1}`;
-  // 以降は現行と同じ
-});
-
   // カードの icon: "../images/x.svg" → "images/x.svg"
   function fixIcon(icon) {
     if (isAbsolute(icon)) return icon;
@@ -71,13 +65,13 @@
   function buildPage(cfg, slug) {
     const plainH1 = cfg.h1.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
     document.title = cfg.title || (plainH1 + ' — Shoei451');
-
-    const sectionsHTML = (cfg.sections || []).map(s => `
-      <div class="section-divider">
-        <h2 class="section-title">${s.title}</h2>
-        <p class="section-description">${s.desc || ''}</p>
-      </div>
-      <section class="cards-container" id="${s.id}"></section>
+    // list.jsの内容を読み取り、ページに注入
+    const sectionsHTML = (cfg.sections || []).map((s, i) => `
+    <div class="section-divider">
+    <h2 class="section-title">${s.title}</h2>
+    <p class="section-description">${s.desc || ''}</p>
+    </div>
+    <section class="cards-container" id="${s.id ?? `container${i + 1}`}"></section>
     `).join('');
 
     document.body.innerHTML = `
@@ -107,13 +101,16 @@
     let i = 0;
     function loadNext() {
       if (i >= scripts.length) {
-        (cfg.sections || []).forEach(s => {
+        // 変更後
+        (cfg.sections || []).forEach((s, i) => {
+          const itemsVar = s.itemsVar ?? `sectionItems${i + 1}`;
+          const id       = s.id       ?? `container${i + 1}`;
           let items;
           try {
-            items = Function(`return (typeof ${s.itemsVar} !== "undefined") ? ${s.itemsVar} : undefined`)();
+            items = Function(`return (typeof ${itemsVar} !== "undefined") ? ${itemsVar} : undefined`)();
           } catch (_) { items = undefined; }
           if (Array.isArray(items)) {
-            generateCards(fixItems(items, slug), s.id);
+            generateCards(fixItems(items, slug), id);
           }
         });
         animateCardsOnScroll();
