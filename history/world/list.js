@@ -24,6 +24,6 @@ window.PAGE_CONFIG = {
   headerDesc: "出題形式を選んでください",
   backLink:   "../sub-index.html?slug=history",
   sections: [
-    { title: "出題形式", desc: "", itemsVar: "sectionItems1", id: "container1" },
+    { title: "出題形式", desc: ""},
   ],
 };
