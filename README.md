@@ -11,7 +11,7 @@ A collection of interactive study tools targeting university entrance exams, bui
 ---
 
 ## Site Structure
-
+<!-- TREE_START -->
 ```
 shoei451-website/
 ├── index.html                   # トップページ（カード一覧 + カウントダウン）
@@ -68,6 +68,7 @@ shoei451-website/
 │
 └── docs/md/                     # 設計ドキュメント（Markdown）
 ```
+<!-- TREE_END -->
 
 ---
 

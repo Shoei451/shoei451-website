@@ -1,0 +1,53 @@
+name: Update File Tree
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  update-tree:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tree
+        run: sudo apt-get install tree
+
+      - name: Generate tree
+        run: |
+          tree -L 3 \
+          -I "node_modules|.git|dist|.next" \
+          --dirsfirst \
+          > TREE.txt
+
+      - name: Update README
+        run: |
+          awk '
+          /<!-- TREE_START -->/ {
+            print;
+            print "```";
+            system("cat TREE.txt");
+            print "```";
+            skip=1;
+            next
+          }
+          /<!-- TREE_END -->/ {
+            skip=0
+          }
+          !skip { print }
+          ' README.md > README.new
+
+          mv README.new README.md
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add README.md
+          git diff --cached --quiet || git commit -m "Update file tree"
+          git push

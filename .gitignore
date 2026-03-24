@@ -1,10 +1,5 @@
-learning-links-v2.html
-history/worldhistory/admin/wh-admin-v2.html
-build.js
-replace.js
-docs/build.js
 docs/sync-config.js
-
+remove-beacon.js
 # Secrets and local env files
 .env
 .env.*
