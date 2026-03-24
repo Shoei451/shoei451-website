@@ -16,8 +16,8 @@ jobs:
 
     steps:
       - name: Build docs file tree
-        run: node docs/build.js
-        
+        run: node ./docs/build.js
+
       - name: Checkout repository
         uses: actions/checkout@v5
 
