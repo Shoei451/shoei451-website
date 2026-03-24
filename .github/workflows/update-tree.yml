@@ -15,9 +15,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Build docs file tree
-        run: node ./docs/build.js
-
       - name: Checkout repository
         uses: actions/checkout@v5
 
@@ -28,6 +25,9 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Build docs file tree
+        run: node ./docs/build.js
 
       - name: Generate FILETREE.md
         run: |
