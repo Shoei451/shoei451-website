@@ -1,3 +1,5 @@
+// cardsList is intentionally top-page specific data.
+// Other category pages use sectionItems* + PAGE_CONFIG in their own list.js.
 const cardsList = [
     { 
         icon: "📚",
