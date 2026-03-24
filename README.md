@@ -139,7 +139,6 @@ shoei451-website
 │   ├── sub-index-init.js
 │   ├── supabase_config.js
 │   ├── theme-toggle.js
-│   ├── wh-era-quiz_logic.js
 │   └── wh-utils.js
 ├── koten
 │   ├── jodoushi
