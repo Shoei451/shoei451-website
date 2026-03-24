@@ -42,7 +42,7 @@ window.PAGE_CONFIG = {
       h1:         "🍳 Home Economics",
       headerDesc: "家庭基礎のテスト対策ツール集です。",
       sections: [
-        { title: "2学期（食物・食品衛生）", desc: "テスト対策のためにつくったノートとミニツールを共有します。", itemsVar: "sectionItems1", id: "container1" },
-        { title: "3学期（衣類・育児・家庭生活・社会保障）", desc: "テスト対策のためにつくったノートとミニツールを共有します。", itemsVar: "sectionItems2", id: "container2" }
+        { title: "2学期（食物・食品衛生）", desc: "テスト対策のためにつくったノートとミニツールを共有します。"},
+        { title: "3学期（衣類・育児・家庭生活・社会保障）", desc: "テスト対策のためにつくったノートとミニツールを共有します。"}
       ]
     };

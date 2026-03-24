@@ -47,6 +47,6 @@ window.PAGE_CONFIG = {
       h1:         "Other Websites",
       headerDesc: "A list of my other websites and what each one is for.",
       sections: [
-        { title: "Website List", desc: "Open any card to visit the site.", itemsVar: "sectionItems1", id: "container1" }
+        { title: "Website List", desc: "Open any card to visit the site."}
       ]
     };
