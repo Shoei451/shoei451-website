@@ -47,6 +47,12 @@
     return slug + '/' + link;
   }
 
+  sections.forEach((s, i) => {
+  const itemsVar = s.itemsVar ?? `sectionItems${i + 1}`;
+  const id       = s.id       ?? `container${i + 1}`;
+  // 以降は現行と同じ
+});
+
   // カードの icon: "../images/x.svg" → "images/x.svg"
   function fixIcon(icon) {
     if (isAbsolute(icon)) return icon;
