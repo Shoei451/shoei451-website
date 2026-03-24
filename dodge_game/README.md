@@ -6,7 +6,7 @@ A browser-based action survival game built with vanilla HTML/CSS/JS and the Web 
 
 ## Play
 
-Open `dodge-game-v10.html` directly in a browser. No server required.
+Open `dodge-game.html` directly in a browser. No server required.
 
 ---
 
