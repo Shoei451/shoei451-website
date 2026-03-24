@@ -13,60 +13,246 @@ A collection of interactive study tools targeting university entrance exams, bui
 ## Site Structure
 <!-- TREE_START -->
 ```
-shoei451-website/
-├── index.html                   # トップページ（カード一覧 + カウントダウン）
-├── sub-index.html               # サブカテゴリ共通テンプレート（slug で動的生成）
-├── learning-links.html          # Raindrop.io 埋め込みリンク集
-│
-├── history/                     # 世界史・歴史総合
-│   ├── list.js                  # カードデータ + PAGE_CONFIG
-│   ├── world/                   # 世界史年代クイズ・年表
-│   │   └── admin/               # wh_dates 管理画面（Auth 必須）
-│   ├── china/                   # 中国王朝史年表・クイズ
-│   └── rekisou-forms/           # 歴史総合 Google Forms 一覧
-│
-├── koten/                       # 古文・漢文
-│   ├── joushiki/                # 古文常識フラッシュカード（Supabase 連携）
-│   └── jodoushi/                # 助動詞活用表クイズ
-│
-├── seikei/                      # 政治・経済
-│   └── timeline/                # 年表・年代クイズ・印刷用
-│
-├── geography/                   # 地理
-├── others/                      # 英語イディオム・生物・地質など
-├── home-economics/              # 家庭科（洗濯表示クイズ）
-├── Informatics/                 # 情報I（進数変換・数独）
-├── docs/                        # サイト内 Markdown ドキュメントビューア
-├── projects/                    # 外部サイトリンク集
-│
-├── css/
-│   ├── common.css               # サイト全体ベース（変数・カード・ヘッダー）
-│   ├── theme-toggle.css         # テーマトグルボタン共通スタイル
-│   ├── timeline.css             # 世界史・政経タイムライン系テーマ
-│   ├── sub-index.css            # サブインデックスページ固有スタイル
-│   └── markdown-viewer.css      # Markdown ビューア固有スタイル
-│
-├── js/
-│   ├── supabase_config.js       # Supabase 接続設定（全ページ共通）
-│   ├── theme-toggle.js          # テーマ即時適用 + ボタン注入
-│   ├── card-generator.js        # カード DOM 生成関数
-│   ├── cards-page-init.js       # IntersectionObserver によるアニメーション
-│   ├── sub-index-init.js        # slug ベースのサブページ動的生成
-│   ├── wh-utils.js              # formatYear / escapeHtml / shuffleArray など
-│   ├── wh-era-quiz_logic.js     # 世界史年代クイズロジック（旧テーブル用）
-│   └── countdown-widget.js      # 入試カウントダウンウィジェット
-│
-├── netlify/
-│   └── edge-functions/sw.js     # アクセスログ収集 Edge Function
-│
-├── scripts/                     # Node.js メンテナンスツール
-│   ├── check-js.mjs             # JS 構文チェック
-│   ├── check-links.mjs          # ローカルリンク切れチェック
-│   ├── inject-theme-toggle.mjs  # テーマトグルマークアップ一括置換
-│   ├── migrate-sub-index.mjs    # 旧 index.html → list.js + PAGE_CONFIG 変換
-│   └── move-page-config.mjs     # inline PAGE_CONFIG を list.js へ移動
-│
-└── docs/md/                     # 設計ドキュメント（Markdown）
+.
+├── Informatics
+│   ├── hex-quiz
+│   │   ├── index.html
+│   │   ├── logic.js
+│   │   └── style.css
+│   ├── sudoku-programming-guide
+│   │   ├── index.html
+│   │   └── style.css
+│   └── list.js
+├── attribution
+│   ├── attributions.md
+│   └── index.html
+├── css
+│   ├── common.css
+│   ├── markdown-viewer.css
+│   ├── quiz.css
+│   ├── sub-index.css
+│   ├── theme-toggle.css
+│   ├── timeline.css
+│   └── top.css
+├── docs
+│   ├── md
+│   │   ├── changelogs
+│   │   ├── 451-docs_supabase_plan.md
+│   │   ├── Quiz-designs-renewal.md
+│   │   ├── css-js-integration.md
+│   │   ├── css-js-integration2.md
+│   │   ├── example.md
+│   │   ├── git_squash_history.md
+│   │   ├── quiz-components-summary.md
+│   │   ├── supabase_solution.md
+│   │   ├── sync-guide.md
+│   │   ├── todo.md
+│   │   ├── wh-utils.md
+│   │   ├── wh_table_renewal.md
+│   │   └── 中国王朝史 統合ノート.md
+│   ├── build.js
+│   ├── file-tree.js
+│   ├── index.html
+│   ├── sync-config-example.js
+│   └── sync.js
+├── dodge_game
+│   ├── js
+│   │   ├── modules
+│   │   └── logic.js
+│   ├── README.md
+│   ├── index.html
+│   ├── math-bridge.html
+│   ├── progress.md
+│   └── style.css
+├── geography
+│   ├── africa_independence_atlas
+│   │   ├── css
+│   │   ├── js
+│   │   ├── africa-map-diff.md
+│   │   ├── components.html
+│   │   ├── index.html
+│   │   └── quiz.html
+│   ├── capitals_quiz
+│   │   ├── countries_data.js
+│   │   ├── index.html
+│   │   ├── logic.js
+│   │   └── style.css
+│   ├── list.js
+│   └── us-state-location-quiz.html
+├── history
+│   ├── china
+│   │   ├── culture_quiz
+│   │   ├── README.md
+│   │   ├── index.html
+│   │   └── timeline.html
+│   ├── rekisou-forms
+│   │   ├── forms-data.js
+│   │   ├── index.html
+│   │   └── rekisou-forms.css
+│   ├── styles
+│   │   ├── chinese-quiz.css
+│   │   ├── chinese-timeline.css
+│   │   ├── theme-chinese.css
+│   │   ├── wh-era-quiz.css
+│   │   └── wh-timeline.css
+│   ├── world
+│   │   ├── admin
+│   │   ├── event-to-year
+│   │   ├── year-to-event
+│   │   ├── index.html
+│   │   ├── list.js
+│   │   └── timeline.html
+│   └── list.js
+├── home-economics
+│   ├── care-symbols
+│   │   ├── icons
+│   │   ├── care-symbols-data.js
+│   │   ├── care-symbols-logic.js
+│   │   ├── index.html
+│   │   └── style.css
+│   └── list.js
+├── images
+│   ├── bio-favicon.png
+│   ├── capital-quiz.webp
+│   ├── chinese-history.svg
+│   ├── countdown.png
+│   ├── favicon.ico
+│   ├── favicon.png
+│   ├── google-forms.png
+│   ├── hex-quiz.svg
+│   ├── national_diet_image.jpg
+│   ├── ougi.svg
+│   ├── skeltonglobe.png
+│   └── worldhistoryquiz.png
+├── js
+│   ├── card-generator.js
+│   ├── cards-data.js
+│   ├── cards-page-init.js
+│   ├── countdown-widget.js
+│   ├── quiz.js
+│   ├── sub-index-init.js
+│   ├── supabase_config.js
+│   ├── theme-toggle.js
+│   ├── wh-era-quiz_logic.js
+│   └── wh-utils.js
+├── koten
+│   ├── jodoushi
+│   │   ├── icons
+│   │   ├── data.js
+│   │   ├── index.html
+│   │   ├── logic.js
+│   │   ├── start.js
+│   │   ├── style.css
+│   │   ├── table.html
+│   │   └── typing.html
+│   ├── joushiki
+│   │   ├── app.js
+│   │   ├── index.html
+│   │   └── style.css
+│   └── list.js
+├── learning-links
+│   └── index.html
+├── netlify
+│   └── edge-functions
+│       └── sw.js
+├── others
+│   ├── bio_forms
+│   │   ├── index.html
+│   │   ├── list.js
+│   │   └── style.css
+│   ├── geology_quiz
+│   │   ├── images
+│   │   ├── data.js
+│   │   ├── index.html
+│   │   ├── quiz.html
+│   │   └── timeline.html
+│   ├── idiom_quiz
+│   │   ├── index.html
+│   │   ├── quiz.js
+│   │   └── tutorial.md
+│   └── list.js
+├── projects
+│   └── list.js
+├── quiz-components
+│   ├── answer
+│   │   ├── answer.css
+│   │   ├── choice-buttons.js
+│   │   └── text-input.js
+│   ├── feedback
+│   │   ├── feedback.css
+│   │   └── feedback.js
+│   ├── progress
+│   │   ├── progress.css
+│   │   └── progress.js
+│   ├── question
+│   │   ├── question-area.css
+│   │   └── question-area.js
+│   ├── result
+│   │   ├── result.css
+│   │   └── result.js
+│   ├── start
+│   │   ├── start-screen.css
+│   │   └── start-screen.js
+│   ├── demo.html
+│   ├── plan.md
+│   └── quiz-shell.css
+├── scripts
+│   ├── check-js.mjs
+│   ├── check-links.mjs
+│   ├── inject-theme-toggle.mjs
+│   ├── migrate-sub-index.mjs
+│   └── move-page-config.mjs
+├── seikei
+│   ├── timeline
+│   │   ├── README.md
+│   │   ├── index.html
+│   │   ├── print.html
+│   │   ├── quiz.html
+│   │   └── seikei-timeline.css
+│   ├── japan-constitution-quiz.html
+│   └── list.js
+├── templates
+│   ├── back-links.html
+│   ├── blog_template.html
+│   ├── flashcard-en.html
+│   ├── gitub-icons.html
+│   ├── migration.html
+│   ├── sekaishi_mini_data.js
+│   └── under-construction.html
+├── yaju
+│   ├── audio
+│   │   ├── YAJU&U_8bit_cut.mp3
+│   │   ├── click.mp3
+│   │   ├── hikakin.mp3
+│   │   ├── success.mp3
+│   │   └── warning.mp3
+│   ├── css
+│   │   ├── fail.css
+│   │   ├── index.css
+│   │   └── success.css
+│   ├── images
+│   │   ├── cozy.jpg
+│   │   ├── hikakin.png
+│   │   └── yaju-favicon.svg
+│   ├── attribution.html
+│   ├── attribution.md
+│   ├── fail.html
+│   ├── index.html
+│   ├── logic.js
+│   ├── passwords.js
+│   └── success.html
+├── 404.html
+├── README.md
+├── TREE.txt
+├── build.js
+├── index.html
+├── learning-links.html
+├── netlify.toml
+├── package-lock.json
+├── package.json
+└── sub-index.html
+
+59 directories, 179 files
 ```
 <!-- TREE_END -->
 
