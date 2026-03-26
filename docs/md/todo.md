@@ -9,14 +9,13 @@
 ### 2. アクセスログ実装の完了（`handoff.md` より継続・Netlify 安定後）
 
 `build.js` は既にあるが未実行。
-- [ ] `build.js` を実行して全HTMLに `sendBeacon` スニペットを挿入
-- [ ] `access_logs` テーブルへの書き込みを実際のアクセスで確認
+- [x] `build.js` を実行して全HTMLに `sendBeacon` スニペットを挿入
+- [x] `access_logs` テーブルへの書き込みを実際のアクセスで確認
 
   
 
 ---
 
-  
 
 ## 優先度：中（モジュール化）
 

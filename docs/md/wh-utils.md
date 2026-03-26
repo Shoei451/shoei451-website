@@ -15,16 +15,16 @@
 
 **削除・置き換えの対応表**
 
-| ファイル | 削除する実装 | 置き換え後 |
-|---|---|---|
-| `wh-era-quiz_logic.js` | `shuffle()` 関数（Fisher-Yates版） | `shuffleArray()` に統一 |
-| `wh-era-quiz_logic.js` | `formatYear(q)` ← オブジェクト受け取り版 | 削除（旧テーブル専用、`wh_dates`移行後不要） |
-| `admin/script.js` | `formatYear(year)` / `formatYearRange(row)` / `escapeHtml()` | すべて削除 |
-| `worldhistory/timeline.html` | `formatYear(event)` / `escapeHtml()` / `shuffleArray()` | すべて削除 |
-| `china/timeline.html` | `escapeHtml()` | 削除 |
-| `china/index.html` | `escapeHtml()` / `shuffleArray()` | 削除 |
-| `seikei/timeline/index.html` | `escapeHtml()` | 削除 |
-| `seikei/timeline/print.html` | `escapeHtml()` | 削除 |
+| ファイル                         | 削除する実装                                                       | 置き換え後                       |
+| ---------------------------- | ------------------------------------------------------------ | --------------------------- |
+| `wh-era-quiz_logic.js`       | `shuffle()` 関数（Fisher-Yates版）                                | `shuffleArray()` に統一        |
+| `wh-era-quiz_logic.js`       | `formatYear(q)` ← オブジェクト受け取り版                                | 削除（旧テーブル専用、`wh_dates`移行後不要） |
+| `admin/script.js`            | `formatYear(year)` / `formatYearRange(row)` / `escapeHtml()` | すべて削除                       |
+| `worldhistory/timeline.html` | `formatYear(event)` / `escapeHtml()` / `shuffleArray()`      | すべて削除                       |
+| `china/timeline.html`        | `escapeHtml()`                                               | 削除                          |
+| `china/index.html`           | `escapeHtml()` / `shuffleArray()`                            | 削除                          |
+| `seikei/timeline/index.html` | `escapeHtml()`                                               | 削除                          |
+| `seikei/timeline/print.html` | `escapeHtml()`                                               | 削除                          |
 
 **読み込み順の注意点**: `wh-utils.js` は `supabase_config.js` より前に読み込む必要はないですが、`logic.js` より前に置くこと。
 
