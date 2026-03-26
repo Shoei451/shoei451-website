@@ -8,8 +8,7 @@
     "check:links": "node scripts/check-links.mjs",
     "check": "npm run check:js && npm run check:links",
     "inject:theme": "node scripts/inject-theme-toggle.mjs",
-    "tree": "npx tree-node-cli -L 3 -I \"node_modules,.git,dist,.next\"",
-    "sync": "node docs/sync.js"
+    "tree": "npx tree-node-cli -L 3 -I \"node_modules,.git,dist,.next\""
   },
   "devDependencies": {
     "tree-node-cli": "^1.6.0"
