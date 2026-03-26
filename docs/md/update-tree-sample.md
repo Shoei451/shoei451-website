@@ -1,3 +1,4 @@
+```yml
 name: Update File Trees
 
 on:
@@ -59,3 +60,4 @@ jobs:
           git commit -m "Auto-update file trees [skip ci]"
 
           git push
+```
