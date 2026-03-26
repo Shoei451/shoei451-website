@@ -3,301 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Documents — Shoei451</title>
-  <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
-  <link rel="stylesheet" href="../css/common.css" />
-  <link rel="stylesheet" href="../css/markdown-viewer.css" />
-  <link rel="stylesheet" id="hljs-light" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
-  <link rel="stylesheet" id="hljs-dark"  href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" disabled>
+  <title>Docs — Shoei451</title>
+  <link rel="icon" href="images/s-docs.svg">
+  <link rel="icon" href="images/451-docs-favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/home.css">
   <style>
-    .docs-layout {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      max-width: 1200px;
-      margin: 40px auto 100px;
-      padding: 0 20px;
-      align-items: start;
-    }
-
-    .docs-sidebar {
-      position: sticky;
-      top: 24px;
-      padding-right: 20px;
-      border-right: 1px solid var(--border);
-      max-height: calc(100vh - 80px);
-      overflow-y: auto;
-    }
-
-    .sidebar-search {
-      width: 100%;
-      padding: 9px 14px;
-      font-size: 0.88rem;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      background: var(--entry);
-      color: var(--primary);
-      font-family: inherit;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      margin-bottom: 16px;
-    }
-    .sidebar-search::placeholder { color: var(--secondary); opacity: 0.7; }
-    .sidebar-search:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.15);
-    }
-
-    .sidebar-category { margin-bottom: 4px; }
-
-    .category-header {
+    /* 保護記事カード用追加スタイル */
+    .card--protected { border-color: var(--accent, #268bd2); }
+    .card-protected-thumb {
       display: flex;
       align-items: center;
-      padding: 8px 10px;
-      cursor: pointer;
-      border-radius: 8px;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 16/9;
+      font-size: 2.5rem;
+      background: var(--entry, #073642);
+    }
+    .card-protected-badge {
+      display: inline-block;
+      font-size: 0.7rem;
       font-weight: 700;
-      font-size: 0.8rem;
-      letter-spacing: 0.03em;
-      color: var(--secondary);
-      transition: background 0.15s;
-      user-select: none;
-    }
-    .category-header:hover { background: var(--entry); }
-
-    .category-chevron {
-      margin-left: auto;
-      font-size: 0.65rem;
-      transition: transform 0.2s;
-      opacity: 0.6;
-    }
-    .sidebar-category.open .category-chevron { transform: rotate(90deg); }
-
-    .category-files { display: none; padding-left: 6px; margin-top: 2px; }
-    .sidebar-category.open .category-files { display: block; }
-
-    .file-btn {
-      display: block;
-      width: 100%;
-      text-align: left;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--secondary);
-      font-size: 0.84rem;
-      cursor: pointer;
-      font-family: inherit;
-      line-height: 1.4;
-      transition: background 0.15s, color 0.15s;
-      margin: 1px 0;
-    }
-    .file-btn:hover { background: var(--entry); color: var(--primary); }
-    .file-btn.active {
-      background: rgba(250, 186, 64, 0.12);
-      color: var(--primary);
-      font-weight: 600;
-      border-left: 3px solid var(--accent);
-      padding-left: 9px;
-    }
-    .file-btn.hidden { display: none; }
-
-    .docs-content { min-width: 0; padding-left: 28px; }
-    .docs-content .markdown-wrapper { margin: 0; }
-
-    .file-breadcrumb {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.78rem;
-      color: var(--secondary);
-      margin-bottom: 14px;
-      min-height: 22px;
-    }
-    .file-breadcrumb code {
-      background: var(--entry);
-      border: 1px solid var(--border);
-      padding: 2px 8px;
-      border-radius: 5px;
-      font-size: 0.78rem;
-      font-family: 'Monaco', 'Consolas', monospace;
-    }
-
-    .welcome-state { text-align: center; padding: 80px 20px; }
-    .welcome-state .welcome-icon { font-size: 3rem; margin-bottom: 16px; }
-    .welcome-state p { color: var(--secondary); }
-
-    .docs-topbar {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 20px 20px 0;
-    }
-
-    @media (max-width: 768px) {
-      .docs-layout { grid-template-columns: 1fr; }
-      .docs-sidebar {
-        position: static;
-        max-height: 280px;
-        padding-right: 0;
-        border-right: none;
-        border-bottom: 1px solid var(--border);
-        padding-bottom: 20px;
-        margin-bottom: 24px;
-      }
-      .docs-content { padding-left: 0; }
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: var(--accent, #268bd2);
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 20px;
+      margin-bottom: 6px;
     }
   </style>
 </head>
-
 <body>
 
 <span class="logo-switches" id="theme-toggle-container"></span>
 
-<header>
-  <h1>Documents</h1>
-  <p>サイト内の全ドキュメント</p>
-</header>
+<div class="overlay" id="overlay"></div>
 
-<main>
-  <div class="docs-topbar">
-    <a href="../index.html" class="back-link">Back to Home</a>
-  </div>
+<button class="toc-toggle" id="tocToggle" aria-label="投稿一覧を開く">
+  <span class="icon">☰</span>
+  <span class="label">Posts</span>
+</button>
 
-  <div class="docs-layout">
-    <aside class="docs-sidebar">
-      <input
-        type="text"
-        class="sidebar-search"
-        id="search-input"
-        placeholder="🔍 ファイルを検索..."
-        autocomplete="off"
-      >
-      <div id="file-tree"></div>
-    </aside>
+<aside class="toc" id="toc">
+  <h3>Posts</h3>
+  <nav id="tocList"></nav>
+</aside>
 
-    <div class="docs-content">
-      <div class="file-breadcrumb">
-        <span>📄</span>
-        <code id="current-path">ファイルを選択してください</code>
+<header class="profile-hero">
+  <div class="profile-hero-inner">
+    <div class="profile-left">
+      <div class="profile-avatar">
+        <!-- src を自分の写真に差し替えてください -->
+        <img src="https://picsum.photos/seed/profile42/200/200" alt="Profile" />
       </div>
-      <section class="markdown-wrapper">
-        <div class="markdown-content" id="markdown-content">
-          <div class="welcome-state">
-            <div class="welcome-icon">📂</div>
-            <p>左のサイドバーからドキュメントを選択してください</p>
-          </div>
-        </div>
-      </section>
+    </div>
+    <div class="profile-right">
+      <p class="profile-label">Docs</p>
+      <h1 class="profile-name">Shoei451<br><em>Docs</em></h1>
+      <p id="451-name">Shoei451</p>
+      <p class="profile-bio">
+        I am a passionate note-taker who loves to capture thoughts, ideas, and knowledge in a structured way. This is my personal space to share insights, reflections, and learnings on various topics. Here you'll find a mix of technical notes, book summaries, and random musings. My goal is to create a resource that is both useful to myself and interesting to others who stumble upon it. Happy reading!
+      </p>
+      
+      <div class="profile-links">
+        <a href="https://github.com/Shoei451" target="_blank" rel="noopener" class="profile-link">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          GitHub
+        </a>
+        <!--<a href="https://x.com" target="_blank" rel="noopener" class="profile-link">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          X
+        </a>-->
+      </div>
     </div>
   </div>
+</header>
+
+<main class="posts-section">
+  <div class="posts-header">
+    <h2 class="posts-heading">Notes</h2>
+    <span class="posts-count" id="posts-count">3 posts</span>
+  </div>
+  <!-- カードはJSで動的生成 -->
+  <div class="home-container" id="home-container"></div>
 </main>
 
-<footer>
-  <p>Curated by Shoei451</p>
+<footer class="site-footer-bottom">
+  <p>© 2026 Shoei451<br>Created with assistance from Claude AI and ChatGPT.</p>
 </footer>
 
-<!-- file-tree.js は node docs/build.js で自動生成される -->
-<script src="./file-tree.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="../js/theme-toggle.js"></script>
-<script>
-  // ===== highlight.js をダークモードに同期 =====
-  function syncHljsTheme() {
-    const dark = document.body.classList.contains('dark');
-    document.getElementById('hljs-light').disabled = dark;
-    document.getElementById('hljs-dark').disabled  = !dark;
-  }
-  syncHljsTheme();
-  new MutationObserver(syncHljsTheme).observe(document.body, { attributeFilter: ['class'] });
-
-  // ===== marked に highlight.js を接続 =====
-  marked.use({
-    breaks: true,
-    gfm: true,
-    renderer: {
-      // marked v5+ は code({ text, lang }) のオブジェクト形式
-      code({ text, lang }) {
-        const language = hljs.getLanguage(lang) ? lang : 'plaintext';
-        const highlighted = hljs.highlight(text, { language }).value;
-        return `<pre><code class="hljs language-${language}">${highlighted}</code></pre>`;
-      },
-    },
-  });
-
-  // ===== Sidebar =====
-  const treeEl = document.getElementById('file-tree');
-
-  FILE_TREE.forEach(cat => {
-    const div = document.createElement('div');
-    div.className = 'sidebar-category open';
-
-    const header = document.createElement('div');
-    header.className = 'category-header';
-    header.innerHTML = `<span>${cat.label}</span><span class="category-chevron">▶</span>`;
-    header.addEventListener('click', () => div.classList.toggle('open'));
-
-    const filesDiv = document.createElement('div');
-    filesDiv.className = 'category-files';
-
-    cat.files.forEach(f => {
-      const btn = document.createElement('button');
-      btn.className = 'file-btn';
-      btn.textContent = f.name;
-      btn.dataset.path = f.path;
-      btn.addEventListener('click', () => loadMarkdown(f.path, btn));
-      filesDiv.appendChild(btn);
-    });
-
-    div.appendChild(header);
-    div.appendChild(filesDiv);
-    treeEl.appendChild(div);
-  });
-
-  // ===== Loader =====
-  let activeBtn = null;
-  marked.setOptions({ breaks: true, gfm: true });
-
-  async function loadMarkdown(path, btn) {
-    if (activeBtn) activeBtn.classList.remove('active');
-    activeBtn = btn;
-    btn.classList.add('active');
-    document.getElementById('current-path').textContent = path;
-
-    const el = document.getElementById('markdown-content');
-    el.innerHTML = '<div class="loading">読み込み中</div>';
-
-    try {
-      const res = await fetch(path);
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      el.innerHTML = marked.parse(await res.text());
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } catch (e) {
-      el.innerHTML = `
-        <div style="text-align:center;padding:60px 20px;color:var(--secondary);">
-          <h2 style="margin-bottom:10px;">⚠️ 読み込みエラー</h2>
-          <p style="font-size:0.85rem;opacity:0.6;">Error: ${e.message}</p>
-        </div>`;
-    }
-  }
-
-  // ===== Search =====
-  document.getElementById('search-input').addEventListener('input', e => {
-    const q = e.target.value.trim().toLowerCase();
-
-    document.querySelectorAll('.file-btn').forEach(btn => {
-      const hit = !q || btn.textContent.toLowerCase().includes(q) || btn.dataset.path.toLowerCase().includes(q);
-      btn.classList.toggle('hidden', !hit);
-    });
-
-    document.querySelectorAll('.sidebar-category').forEach(cat => {
-      if (q) {
-        const hasVisible = [...cat.querySelectorAll('.file-btn')].some(b => !b.classList.contains('hidden'));
-        cat.classList.toggle('open', hasVisible);
-      }
-    });
-  });
-</script>
-
-
+<script src="js/theme-toggle.js"></script>
+<script src="js/index-logic.js"></script>
 </body>
 </html>
