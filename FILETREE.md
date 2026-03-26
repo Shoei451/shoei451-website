@@ -1,7 +1,7 @@
 # File Tree
 
-- Generated: 2026-03-26 03:27:14 UTC
-- Commit: ff3fc68b3b43dab1f49d2b31892436992cc7c048
+- Generated: 2026-03-26 03:41:23 UTC
+- Commit: bc5aefc2b2cbd9deff4e977ec131f701e933280b
 
 ```
 shoei451-website
@@ -43,6 +43,7 @@ shoei451-website
 │   │   ├── example.md
 │   │   ├── git_squash_history.md
 │   │   ├── md-migration.md
+│   │   ├── quiz-components-plan.md
 │   │   ├── quiz-components-summary.md
 │   │   ├── supabase_solution.md
 │   │   ├── sync-guide.md
@@ -433,7 +434,6 @@ shoei451-website
 │   ├── feedback
 │   │   ├── feedback.css
 │   │   └── feedback.js
-│   ├── plan.md
 │   ├── progress
 │   │   ├── progress.css
 │   │   └── progress.js
