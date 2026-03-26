@@ -1,103 +1,66 @@
-# md-space / Obsidian + Webサイト運用 設計図
+# Markdown 運用方針（Obsidian 連携）
 
-## 1. ディレクトリ構成
+最終更新: 2026-03-26
 
-### md-space（中央リポジトリ）
+---
+
+## 1. 現在の正本
+
+このリポジトリでは、`docs/md/` を Markdown の正本として扱う。
+
+- 公開ドキュメント: `docs/md/`
+- ビューア: `docs/index.html`
+- ツリー生成: `docs/build.js` -> `docs/file-tree.js`
+
+旧メモで扱っていた「md-space を中央リポジトリにする案」は、現時点では採用していない。
+
+---
+
+## 2. 運用フロー
+
+1. `docs/md/*.md` を編集
+2. 必要なら Obsidian と同期（`docs/sync.js`）
+3. `node docs/build.js` で `docs/file-tree.js` を再生成
+4. `docs/index.html` で表示確認
+5. コミット
+
+---
+
+## 3. Obsidian との同期
+
+同期は任意。使う場合のみ `docs/sync-config.js` を作成する。
+
+```bash
+node docs/sync.js --dry-run
+node docs/sync.js --yes
 ```
 
-md-space/
-├── shoei451-website/       # Webサイト別フォルダ
-│   ├── file1.md
-│   ├── file2.md
-│   └── file3.md
-└── 451-docs/                # Obsidian編集用フォルダ
-├── public_posts/        # 公開対象記事
-│   ├── aaa.md
-│   ├── aab.md
-│   └── aac.md
-└── protected_posts/     # パスワード付き記事 / 非公開
-├── past-exam1.md
-└── past-exam2.md
-
-```
-
-### Obsidian Vault
-```
-
-Obsidian Vault/
-├── shoei451-website/       # md-spaceと同構成
-│   ├── file1.md
-│   ├── file2.md
-│   └── file3.md
-└── 451-docs/
-├── public_posts/
-│   ├── aaa.md
-│   ├── aab.md
-│   └── aac.md
-└── protected_posts/
-├── past-exam1.md
-└── past-exam2.md
-
-```
+`docs/sync-config.js` はローカル絶対パスを含むため `.gitignore` 対象。
 
 ---
 
-## 2. ワークフロー
+## 4. ドキュメント分類ルール
 
-1. **Obsidianで編集**
-   - PC/スマホ問わず、Obsidian Vault内で執筆
-   - draftや非公開記事は `protected_posts/` に保存
-   - 公開対象記事は `public_posts/` に保存
+### 運用ドキュメント（更新継続）
 
-2. **公開用.mdを md-space に同期**
-   - `sync.js` または自動Pushで Obsidian → md-space
-   - 公開対象のみ同期（非公開は除外）
+- `docs/md/todo.md`
+- `docs/md/cleanup.md`
+- `docs/md/sync-guide.md`
+- `docs/md/wh-utils.md`
+- `docs/md/wh_table_renewal.md`
 
-3. **Edge Function / Webサイトへの配信**
-   - md-space から記事を取得
-   - 公開記事: Markdown → HTMLに変換してサイト表示
-   - パスワード付き記事: slug 指定 + 認証付きで配信
-   - 必要に応じてキャッシュやレート制御
+### 設計メモ・履歴（必要時のみ更新）
 
-4. **Webサイト側のビルド**
-   - md-space から取得した記事のみを対象にビルド
-   - draft → posts の移動不要
-   - filetree.md や目次生成などの共通ロジックを適用
+- `docs/md/quiz-components-summary.md`
+- `docs/md/wh_cron_plan.md`
+- `docs/md/changelogs/*.md`
+- `docs/md/451-docs-*.md`（別リポジトリ向け参照メモ）
 
 ---
 
-## 3. 公開・非公開管理
+## 5. 更新時のチェックポイント
 
-| フォルダ | 用途 | 同期先 | 備考 |
-|-----------|------|--------|------|
-| public_posts/ | 公開対象 | md-space / Webサイト | Edge FunctionでHTML変換 |
-| protected_posts/ | パスワード付き記事・非公開 | md-space内の保管可 | Edge Functionで認証付き配信、外部公開なし |
-
----
-
-## 4. 複数サイト対応
-
-- md-space 内でサイト別フォルダに整理
-- Edge FunctionやCIでサイトごとに必要な記事のみ取り込む
-- 同じ記事を複数サイトで共有可能
-
----
-
-## 5. メリット
-
-1. 編集は完全に Obsidian に集中
-2. 公開用のみ md-space で集約 → Webサイト反映
-3. 複数デバイスでの執筆でも同期簡単
-4. Edge Functionで安全にパスワード付き記事配信
-5. ビルド・コミットコストを最小化
-
----
-
-## 6. 今後の拡張案
-
-- RSSフィード整備
-- filetree.md自動生成
-- JSやUIコンポーネントの共通化
-- slug指定方式によるHTML一枚生成
-- パスワード付き記事のEdge Functionによる強化
-- 公開用.md以外の不要ファイルの整理・アーカイブ
+- 実在しないファイル名・ディレクトリ名を書かない
+- 旧パス（例: `history/worldhistory`）を残さない
+- 「完了 / 未完了」は実装を見て更新する
+- 変更後に `npm run check` を実行する

@@ -1,31 +1,29 @@
-# todo list on 451-docs
-## md→htmlのビルドの最適化
+# 451-docs todo（参照用）
 
-### build_latest.jsの改修
-mdの移動を伴う機能は必要ない(更新をかけたい際にmdファイルをdraft/ からposts/ に移す必要があり面倒)
-- [ ] draft/ のファイルに変更があった際のビルドで記事生成
-- [ ] slug指定での記事表示に移行し、htmlファイルを一枚で済ませる
-- [ ] slug指定方式の導入で、公開記事生成の一部ロジック(目次生成など)を共通化することができる
-- [ ] 保守コストも抑えることができる(デザインの変化など)
-### Github Actionsへの応用
-- [ ] package.json+ Github workflow
+最終更新: 2026-03-26
 
-## blogとしての本格的運用
-- [ ] RSSの整備
-## セキュリティ
-現在のパスワード付き記事は、supabase anonkeyとRLSによる制御ロジックを持っている。つまりpasswordは見せかけでしかない。Edge Functionを用いた改善が必要。
-- [ ] 過去にedge functionについて話したチャットがあるはずなので探す
-検討の結果、mdコンテンツは別のprivateレポジトリに保存し、451-docs/ レポジトリには置かず、netlifyでのビルド時に追加することに決定。これによりEdge functionを利用してパスワード付きの記事をsupabaseに依存することなく保護できる。
-## その他：今後のサイト運営のために
-- [ ] 不要ファイルの削除とアーカイブ
-- [ ] ファイル命名方式の改善(js/config.jsでは何のconfigか不明瞭)
-- [ ] jsファイルの共通化(部品として)
-- [ ] filetree.md自動ビルド(Github Actionsでの実装、451-websiteからのコピペで済む)
-- [ ] デザインとロジックの輸出：視認性・操作性の高いUIを使い回せるようにする。(既にClaudeのスキルファイルにあるcomponents.htmlを拡張予定)
----
-以上の作業を、最もコストの少ない順番で実行する。
+このファイルは **別リポジトリ `451-docs` 向けのメモ**。  
+`shoei451-website` 本体の作業管理は `docs/md/todo.md` を正本とする。
 
 ---
 
-## 事後処理
-- [ ] READMEの更新
+## このメモを残す目的
+
+- 過去に検討した `451-docs` 側の課題を忘れないため
+- `shoei451-website` 側の README / docs 更新タスクと混同しないため
+
+---
+
+## 451-docs 側で残っている主な論点（抜粋）
+
+- md -> html ビルドの最適化（slug 指定方式）
+- GitHub Actions 連携
+- RSS 整備
+- protected content の配信方式見直し（Edge Function 前提）
+
+---
+
+## 注意
+
+このファイル内の TODO を直接このリポジトリの実装タスクとして扱わないこと。  
+実装に着手する場合は、対象リポジトリの issue / task に転記して管理する。

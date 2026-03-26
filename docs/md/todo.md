@@ -1,124 +1,81 @@
 # Todo — shoei451-website
 
-最終更新: 2026-03-21
+最終更新: 2026-03-26
 
 ---
 
-## 優先度：高（直近でやること）
+## 優先度: 高
 
-### 2. アクセスログ実装の完了（`handoff.md` より継続・Netlify 安定後）
+### 1. `wh_dates` 移行の完了（出題側）
 
-`build.js` は既にあるが未実行。
-- [x] `build.js` を実行して全HTMLに `sendBeacon` スニペットを挿入
-- [x] `access_logs` テーブルへの書き込みを実際のアクセスで確認
+現状、管理画面は `wh_dates` ベースだが、出題・年表のフロントは旧テーブル参照が残っている。
 
-  
+- [ ] `history/world/index.html` の `TABLES.WH_QUIZ` 依存を `TABLES.WH_DATES` に移行
+- [ ] `history/world/year-to-event/quiz.js` を `wh_dates` 参照に移行
+- [ ] `history/world/event-to-year/quiz.js` を `wh_dates` 参照に移行
+- [ ] `history/world/timeline.html` を `wh_dates` 参照に移行
+- [ ] `history/china/index.html` / `history/china/timeline.html` を `TABLES.CHINESE` から `TABLES.WH_DATES` へ移行
 
----
+### 2. `history/world/admin/script.js` の重複ロジック整理
 
+同ファイルに「旧モーダル実装」と「ウィザード実装」が共存しており、同名関数上書きで成立している状態。
 
-## 優先度：中（モジュール化）
+- [ ] 旧実装ブロック（上部）を削除し、ウィザード実装のみへ一本化
+- [ ] 一次・二次関数の衝突がない形で再構成
+- [ ] `npm run check` + 手動操作（追加・編集・削除）で回帰確認
 
-### 3. `js/wh-utils.js` を作成する（`wh_dates` 移行と同時にやる）
-  
+### 3. Project 2 の publishable key 更新
 
-以下の関数が3箇所に重複している: `formatYear`、`parseYearInput`、`determinePeriod`。
+`js/supabase_config.js` の `SUPABASE_KEY_2` はプレースホルダーのまま。
 
-`wh_dates` では `year` が負数統一になるため、このタイミングで関数の仕様も変わる。移行作業と抱き合わせで切り出す。
-
-  
-
-- [x] `wh_dates` 移行が決まったタイミングで `js/wh-utils.js` を作成
-
-- [x] `wh-era-quiz_logic.js`、`admin/script.js`、`worldhistory/timeline.html` から重複を除去
-
-  
-
-### 4. `escapeHtml` を共通化する
-
-  
-
-`admin/script.js`、`worldhistory/timeline.html`、`seikei/timeline/index.html` などに同一実装。
-
-  
-
-- [ ] `js/wh-utils.js` か `js/supabase-config.js` に追加するか検討
-
-- [ ] ページ側から重複を除去
-
-  
+- [ ] `SUPABASE_KEY_2 = 'YOUR_PROJECT2_PUBLISHABLE_KEY'` を実値に差し替え
 
 ---
 
-  
+## 優先度: 中
 
-## 優先度：中（`wh_dates` 移行 — 5フェーズロードマップ）
+### 4. 提出箱モデルの実装（build + 配信）
 
+- [ ] `wh_dates` から静的JSONを生成する build スクリプトを作成
+- [ ] GitHub Actions で定期/手動ビルドを実行
+- [ ] フロントは JSON 読み込みを第一経路にし、DB 直読を縮小
 
-`history/wh_table_renewal.md` に詳細スキーマあり。
+### 5. クリーンアップ（未参照ファイル）
 
-  
-### Phase 1: admin HTML ← 完了済み
+- [ ] `templates/back-links.html`
+- [ ] `templates/blog_template.html`
+- [ ] `templates/gitub-icons.html`
+- [ ] `templates/migration.html`
+- [ ] `templates/sekaishi_mini_data.js`
+- [ ] `templates/under-construction.html`
 
-### Phase 2: worldhistory 移行
+### 6. 共通ユーティリティの最終統一
 
-
-- [ ] `world_history_quiz` のデータを `wh_dates` に入力（ゼロから、旧データは品質不足のため移行しない）
-
-- [ ] `wh-era-quiz_logic.js` を `wh_dates` ベースに書き換え（`year` 負数統一、`region` フィルタ）
-
-- [ ] `worldhistory/timeline.html` を `wh_dates` ベースに書き換え
-
-- [x] admin 管理画面を `wh_dates` に対応させる
-
-  
-
-### Phase 3: 中国史サイトを `wh_dates` に統合
-
-  
-
-- [ ] `chinese_history` テーブルのデータを `wh_dates`（`region: ['china']`）に移行
-
-- [ ] `history/china/timeline.html`、`history/china/index.html` を `wh_dates` ベースに書き換え
-
-  
-
-### Phase 4: `wiki_score` 月次 cron
-  
-
-- [ ] GitHub Actions のワークフローを作成
-- [ ] Wikipedia Pageviews API（日本語版 → 英語版フォールバック）でスコア取得
-- [ ] パーセンタイルで 1〜5 に正規化して `wh_dates.wiki_score` を UPDATE
-#### 20260321（追加アイデア）
-- [ ] 写真の取得（URLがあるのでこれはフロント側で可能？）
-- [ ] 英語版の導入（スコア評価の正確化など。ただし、日本語ページ→英語ページの検索が可能かどうかは確認が必要）
-
-
-  
-
-### Phase 5: 全体確認
-
-  
-
-- [ ] 全ページで `npm run check`（JS syntax + リンクチェック）
-
-- [ ] Supabase が停止しても静的JSONから出題できることを確認（提出箱モデルの検証）
-
-- [x] Simple Analytics 拡張の削除（保留中）
-
-  
+- [ ] `seikei/timeline/quiz.html` 内の `escapeHtml` / `shuffleArray` を `js/wh-utils.js` に寄せる
+- [ ] `history/world/year-to-event/quiz.js` / `event-to-year/quiz.js` のローカル `shuffleArray` を共通化するか方針決定
 
 ---
 
-  
+## 優先度: 低
 
-## 優先度：低（後回しでいい）
+### 7. docs 生成スクリプトのカテゴリラベル更新
 
-- [x] テーマトグルSVGスニペットを `templates/` に明文化（admin ページでの inline 化の理由も注記）
+`docs/build.js` の `DIR_LABELS` に旧パス名（例: `informatics1`, `home_economics`）が残っている。
 
----  
+- [ ] 実ディレクトリ（`informatics`, `home-economics`）に合わせて修正
 
-## やらないこと（意思決定済み）
-- **タブ+テーブル UI の共通コンポーネント化**: カテゴリ名・カラム構成がページごとに違いすぎるため、設定オブジェクトが複雑になってメリットが薄い
-- **SVG の外部ファイル化**: `stroke: currentColor` によるダークモード連動が壊れるため非推奨
-- **anon key のローテート**: Supabase Auth 未使用のためセッション影響なし。将来 publishable key 移行時に旧 key を無効化する
+---
+
+## 直近で完了した項目
+
+- [x] 全HTMLへの `sendBeacon('/api/sw?...')` 挿入運用
+- [x] `js/wh-utils.js` の作成（`formatYear` / `formatYearRange` / `escapeHtml` / `shuffleArray`）
+- [x] 世界史管理画面を `wh_dates` ベースへ移行（`history/world/admin/main.html` + `script.js`）
+- [x] サブインデックスを `sub-index.html?slug=...` 共通エンジンへ統一
+
+---
+
+## やらないこと（現時点の方針）
+
+- **全ページを即時フレームワーク化しない**: 現行の静的HTML構成を維持し、段階的に共通化する
+- **admin 系ページへの `common.css` 強制適用はしない**: レイアウト衝突を避けるため独自 `style.css` を優先

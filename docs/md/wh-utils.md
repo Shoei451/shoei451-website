@@ -1,32 +1,72 @@
-各ファイルの実装を比較すると：
+# `js/wh-utils.js` 運用メモ
 
-**`formatYear`**
-- `wh-era-quiz_logic.js`: `q.is_bc ? \`前${q.year}年\` : \`${q.year}年\`` — オブジェクトを受け取る
-- `admin/script.js`: `year < 0 ? \`前${Math.abs(year)}\`年 : \`${year}年\`` — 数値を受け取る（`wh_dates` 仕様）
-- `worldhistory/timeline.html`: `event.is_bc ? ...` — オブジェクト受け取り（旧仕様）
-
-`wh_dates` 移行後は **負数統一** なので `admin/script.js` の仕様に統一すればよい。
-
-**`escapeHtml`** は全箇所で完全に同一実装。即座に共通化できる。
-
-**`parseYearInput` / `determinePeriod`** は `wh-era-quiz_logic.js` にのみ存在し、旧テーブル（`is_bc` boolean + 正数の年号）前提。`wh_dates` 移行後は不要になる（管理画面では負数で直接入力）。全実装を確認できたので、`wh-utils.js` を作成します。これを `js/wh-utils.js` に配置した後、各ページで以下の対応をすれば完了です。
+最終更新: 2026-03-26
 
 ---
 
-**削除・置き換えの対応表**
+## 1. 目的
 
-| ファイル                         | 削除する実装                                                       | 置き換え後                       |
-| ---------------------------- | ------------------------------------------------------------ | --------------------------- |
-| `wh-era-quiz_logic.js`       | `shuffle()` 関数（Fisher-Yates版）                                | `shuffleArray()` に統一        |
-| `wh-era-quiz_logic.js`       | `formatYear(q)` ← オブジェクト受け取り版                                | 削除（旧テーブル専用、`wh_dates`移行後不要） |
-| `admin/script.js`            | `formatYear(year)` / `formatYearRange(row)` / `escapeHtml()` | すべて削除                       |
-| `worldhistory/timeline.html` | `formatYear(event)` / `escapeHtml()` / `shuffleArray()`      | すべて削除                       |
-| `china/timeline.html`        | `escapeHtml()`                                               | 削除                          |
-| `china/index.html`           | `escapeHtml()` / `shuffleArray()`                            | 削除                          |
-| `seikei/timeline/index.html` | `escapeHtml()`                                               | 削除                          |
-| `seikei/timeline/print.html` | `escapeHtml()`                                               | 削除                          |
+世界史・中国史・政経ページで重複していた以下を共通化するためのユーティリティ。
 
-**読み込み順の注意点**: `wh-utils.js` は `supabase_config.js` より前に読み込む必要はないですが、`logic.js` より前に置くこと。
+- `formatYear(year)`
+- `formatYearRange(row)`
+- `escapeHtml(text)`
+- `shuffleArray(array)`
+
+実体: `js/wh-utils.js`
+
+---
+
+## 2. 現在の仕様
+
+### `formatYear(year)`
+
+- `null` / `undefined` は `"不明"`
+- 負数は `"前{abs}年"`
+- 正数は `"{year}年"`
+
+### `formatYearRange(row)`
+
+- `row.year` と `row.year_end` を連結
+- `year_end` がない場合は開始年のみ
+
+### `escapeHtml(text)`
+
+- `textContent` 経由で HTML エスケープ
+- `innerHTML` に差し込む直前の値に適用
+
+### `shuffleArray(array)`
+
+- Fisher-Yates
+- 非破壊（コピー配列を返す）
+
+---
+
+## 3. 既に利用している主なページ
+
+- `history/world/admin/main.html` + `script.js`
+- `history/world/index.html`
+- `history/world/timeline.html`
+- `history/china/index.html`
+- `history/china/timeline.html`
+- `seikei/timeline/index.html`
+- `seikei/timeline/print.html`
+
+---
+
+## 4. まだローカル実装が残る箇所
+
+- `seikei/timeline/quiz.html` に `escapeHtml` / `shuffleArray` のローカル実装
+- `history/world/year-to-event/quiz.js` に `shuffleArray` のローカル実装
+- `history/world/event-to-year/quiz.js` に `shuffleArray` のローカル実装
+
+この3箇所は今後の統一候補。
+
+---
+
+## 5. 読み込み順
+
+`logic.js` / `quiz.js` より前で読み込む。
 
 ```html
 <script src="../../js/wh-utils.js"></script>
@@ -34,4 +74,11 @@
 <script src="logic.js"></script>
 ```
 
-`parseYearInput` と `determinePeriod` は `wh_dates` 移行後は不要（管理画面で負数を直接入力する設計になっているため）なので、移行完了のタイミングで `wh-era-quiz_logic.js` ごと廃棄でOKです。
+相対パスはページ階層に合わせて調整する。
+
+---
+
+## 6. 補足
+
+`wh-utils.js` は `window` に関数を公開する設計（ESM ではない）。
+ページ側では `window.` を付けずにそのまま呼べる。
