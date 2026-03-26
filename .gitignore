@@ -1,5 +1,5 @@
-docs/sync-config.js
 remove-beacon.js
+templates/
 # Secrets and local env files
 .env
 .env.*
