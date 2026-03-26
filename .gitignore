@@ -1,4 +1,3 @@
-remove-beacon.js
 templates/
 # Secrets and local env files
 .env
