@@ -1,21 +1,12 @@
 # File Tree
 
-- Generated: 2026-03-26 03:41:23 UTC
-- Commit: bc5aefc2b2cbd9deff4e977ec131f701e933280b
+- Generated: 2026-03-27 04:43:30 UTC
+- Commit: c0af22709c7ba30bef955906fc2695b2baa3941a
 
 ```
 shoei451-website
 ├── 404.html
 ├── FILETREE.md
-├── Informatics
-│   ├── hex-quiz
-│   │   ├── index.html
-│   │   ├── logic.js
-│   │   └── style.css
-│   ├── list.js
-│   └── sudoku-programming-guide
-│       ├── index.html
-│       └── style.css
 ├── README.md
 ├── attribution
 │   ├── attributions.md
@@ -29,31 +20,6 @@ shoei451-website
 │   ├── sub-index.css
 │   ├── theme-toggle.css
 │   └── timeline.css
-├── docs
-│   ├── build.js
-│   ├── file-tree.js
-│   ├── index.html
-│   ├── md
-│   │   ├── 451-docs-todo.md
-│   │   ├── 451-docs_supabase_plan.md
-│   │   ├── Quiz-designs-renewal.md
-│   │   ├── changelogs
-│   │   ├── cleanup.md
-│   │   ├── css-js-integration.md
-│   │   ├── example.md
-│   │   ├── git_squash_history.md
-│   │   ├── md-migration.md
-│   │   ├── quiz-components-plan.md
-│   │   ├── quiz-components-summary.md
-│   │   ├── supabase_solution.md
-│   │   ├── sync-guide.md
-│   │   ├── todo.md
-│   │   ├── wh-utils.md
-│   │   ├── wh_cron_plan.md
-│   │   ├── wh_table_renewal.md
-│   │   └── 中国王朝史 統合ノート.md
-│   ├── sync-config-example.js
-│   └── sync.js
 ├── dodge_game
 │   ├── README.md
 │   ├── index.html
@@ -123,6 +89,15 @@ shoei451-website
 │   ├── skeltonglobe.png
 │   └── worldhistoryquiz.png
 ├── index.html
+├── informatics
+│   ├── hex-quiz
+│   │   ├── index.html
+│   │   ├── logic.js
+│   │   └── style.css
+│   ├── list.js
+│   └── sudoku-programming-guide
+│       ├── index.html
+│       └── style.css
 ├── js
 │   ├── card-generator.js
 │   ├── cards-data.js
@@ -234,6 +209,7 @@ shoei451-website
 │   │   └── package.json
 │   ├── fast-folder-size
 │   │   ├── README.md
+│   │   ├── bin
 │   │   ├── cli.js
 │   │   ├── get-sysinternals-du.js
 │   │   ├── index.js
@@ -466,10 +442,16 @@ shoei451-website
 ├── templates
 │   ├── back-links.html
 │   ├── blog_template.html
+│   ├── build.js
+│   ├── file-tree.js
 │   ├── flashcard-en.html
 │   ├── gitub-icons.html
 │   ├── migration.html
+│   ├── remove-beacon.js
 │   ├── sekaishi_mini_data.js
+│   ├── sync-config-example.js
+│   ├── sync-config.js
+│   ├── sync.js
 │   └── under-construction.html
 └── yaju
     ├── attribution.html
