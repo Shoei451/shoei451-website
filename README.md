@@ -13,9 +13,9 @@ Production: [shoei451.netlify.app](https://shoei451.netlify.app)
 - Hosting: Netlify
 - Data-backed pages: Supabase Project 1 (`js/supabase_config.js`)
 - Build utility: `build.js` injects access-log beacons into HTML before deploy
-- Note: 現在はbuild.jsを廃止し、Netlify
+- Note: 現在はbuild.jsを廃止し、Netlifyでの[Snippet injection](https://docs.netlify.com/build/post-processing/snippet-injection/)機能を利用
 
-The old `docs/` viewer and sync flow were removed on 2026-03-26. Project notes now live outside the repo under `../md-contents/shoei451-website`(private).
+The old `docs/` viewer and sync flow were removed on 2026-03-26. Project notes now live outside the repo under `../md-contents/shoei451-website`(private). You can view docs on [my another website](https://451-docs.netlify.app/?site=shoei451-website)
 
 ---
 
@@ -89,8 +89,6 @@ npm run inject:theme
 # Regenerate the repository tree snapshot
 npm run tree
 
-# Inject access-log beacons into html files
-node build.js
 ```
 
 ---
@@ -106,16 +104,6 @@ Defined in `js/supabase_config.js`:
 - `ACCESS_LOG`
 
 `db2` remains in the config, but Project 2 is not wired into the current checked-in pages.
-
----
-
-## Project Notes
-
-Canonical markdown notes are maintained outside this repo:
-
-- `C:\Users\user\Documents\Github\md-contents\shoei451-website\README.md`
-- `C:\Users\user\Documents\Github\md-contents\shoei451-website\public_posts\todo.md`
-- `C:\Users\user\Documents\Github\md-contents\shoei451-website\public_posts\cleanup.md`
 
 ---
 

@@ -57,11 +57,4 @@ const cardsList = [
     text: "おすすめの学習サイトのリンク集です",
     link: "learning-links.html",
   },
-  {
-    icon: "📄",
-    title: "Docs",
-    titleJP: "ドキュメント",
-    text: "このサイトのドキュメントです。ツールの作り方や、サイトの構成などを説明しています。",
-    link: "https://451-docs.netlify.app/?site=shoei451-website",
-  },
 ];
