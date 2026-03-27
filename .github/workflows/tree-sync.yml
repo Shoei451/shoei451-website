@@ -18,7 +18,7 @@ jobs:
       - name: Read Config and Generate Pattern
         id: config
         run: |
-          CONFIG_PATH=".github/config/config.json"
+          CONFIG_PATH=".github/config/tree-sync-config.json"
 
           echo "enabled=$(jq -r '.enabled' $CONFIG_PATH)" >> $GITHUB_OUTPUT
           echo "target_repo=$(jq -r '.target_repo' $CONFIG_PATH)" >> $GITHUB_OUTPUT
