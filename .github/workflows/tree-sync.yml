@@ -1,0 +1,69 @@
+name: Update Remote Tree MD
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  sync-tree:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Repo
+        uses: actions/checkout@v4
+
+      - name: Read Config and Generate Pattern
+        id: config
+        run: |
+          # 基本設定の読み込み
+          echo "enabled=$(jq -r '.enabled' config.json)" >> $GITHUB_OUTPUT
+          echo "target_repo=$(jq -r '.target_repo' config.json)" >> $GITHUB_OUTPUT
+          echo "target_branch=$(jq -r '.target_branch' config.json)" >> $GITHUB_OUTPUT
+          echo "output_path=$(jq -r '.output_path' config.json)" >> $GITHUB_OUTPUT
+
+          # exclude配列を 'pattern1|pattern2' 形式に変換
+          EXCLUDE_PATTERN=$(jq -r '.exclude | join("|")' config.json)
+          echo "exclude_pattern=$EXCLUDE_PATTERN" >> $GITHUB_OUTPUT
+
+      - name: Generate Tree Markdown
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          sudo apt-get install -y tree
+
+          echo "# Repository Tree" > tree.md
+          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> tree.md
+          echo "" >> tree.md
+          echo "\`\`\`" >> tree.md
+
+          # configから取得した除外パターンを適用
+          tree -I "${{ steps.config.outputs.exclude_pattern }}" >> tree.md
+
+          echo "\`\`\`" >> tree.md
+
+      - name: Checkout Target Repo
+        if: steps.config.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.config.outputs.target_repo }}
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          path: target-repo
+          ref: ${{ steps.config.outputs.target_branch }}
+
+      - name: Commit and Push to Repo2
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          # 出力先ディレクトリの準備
+          TARGET_FILE="target-repo/${{ steps.config.outputs.output_path }}"
+          mkdir -p "$(dirname "$TARGET_FILE")"
+          cp tree.md "$TARGET_FILE"
+
+          cd target-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update file tree from ${{ github.repository }}"
+            git push origin ${{ steps.config.outputs.target_branch }}
+          else
+            echo "No changes in tree structure."
+          fi
