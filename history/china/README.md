@@ -34,17 +34,23 @@ history/china/
 
 - `../../js/wh-utils.js`
 - `../../js/supabase_config.js`
-- `../../css/quiz.css`
 - `../../css/theme-toggle.css`
-- `../styles/theme-chinese.css`
+- `../../quiz-components/quiz-shell.css`
+- `../../quiz-components/start/start-screen.css`
+- `../../quiz-components/progress/progress.css`
+- `../../quiz-components/question/question-area.css`
+- `../../quiz-components/answer/answer.css`
+- `../../quiz-components/feedback/feedback.css`
+- `../../quiz-components/result/result.css`
+- `./quiz.js`
 
-`index.html` は共通クイズスタイルを使っているが、データ取得は中国史専用テーブルのまま。
+`index.html` は `quiz-components/` に統一したが、データ取得は中国史専用テーブルのまま。
 
 ---
 
 ## 現在の状態
 
-- UI は共通化が進んでいる
+- UI は `quiz-components/` ベースに統一済み
 - データ面は旧構成のまま
 - `culture_quiz/` は独立運用で、共通UIや `wh_dates` には乗っていない
 

@@ -29,16 +29,14 @@ The old `docs/` viewer and sync flow were removed on 2026-03-26. Project notes n
 - `quiz-components/` is in use for:
   - `history/world/year-to-event/`
   - `history/world/event-to-year/`
-  - `others/idiom_quiz/`
-- `css/quiz.css` + `js/quiz.js` are in use for:
-  - `history/china/index.html`
+  - `history/china/`
   - `seikei/timeline/quiz.html`
+  - `others/idiom_quiz/`
 
 ### Still open
 
-- `history/world/index.html`, `history/world/timeline.html`, and the split world quizzes still read `TABLES.WH_QUIZ`
+- `history/world/timeline.html` and the split world quizzes still read `TABLES.WH_QUIZ`
 - `history/china/index.html` and `history/china/timeline.html` still read `TABLES.CHINESE`
-- `history/world/admin/script.js` still contains overlapping old/new modal logic
 - `templates/` still contains archived tooling and HTML templates that are not part of the active runtime
 
 ---
