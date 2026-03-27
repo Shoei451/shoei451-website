@@ -41,19 +41,16 @@ jobs:
         if: steps.config.outputs.enabled == 'true'
         run: |
           sudo apt-get install -y tree
-          
-          # 一時的にリポジトリ外（/tmp）に作成することで、treeの結果に混入させない
+
           echo "# Repository Tree" > /tmp/working_tree.md
           echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> /tmp/working_tree.md
           echo "" >> /tmp/working_tree.md
           echo "\`\`\`" >> /tmp/working_tree.md
-          
-          # treeを実行（configの除外設定を適用）
-          tree -I "${{ steps.config.outputs.exclude_pattern }}" >> /tmp/working_tree.md
-          
+
+          # --prune を追加すると、中身が空のディレクトリを整理してくれます
+          tree -I "${{ steps.config.outputs.exclude_pattern }}" --prune >> /tmp/working_tree.md
+
           echo "\`\`\`" >> /tmp/working_tree.md
-          
-          # 最後にカレントディレクトリへ移動
           mv /tmp/working_tree.md tree.md
 
       - name: Checkout Target Repo (Repo2)
