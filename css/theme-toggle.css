@@ -8,45 +8,51 @@
    ============================================================ */
 
 .logo-switches {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1000;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
 }
 
 #theme-toggle {
-    background: var(--theme, #ffffff);
-    border: 2px solid var(--accent, #FABA40);
-    border-radius: 50%;
-    padding: 12px;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s;
-    box-shadow: 0 4px 12px var(--shadow, rgba(0,0,0,0.1));
+  background: var(--theme, #ffffff);
+  border: 2px solid var(--accent, #faba40);
+  border-radius: 50%;
+  padding: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s;
+  box-shadow: 0 4px 12px var(--shadow, rgba(0, 0, 0, 0.1));
 }
 
 #theme-toggle:hover {
-    background: var(--accent, #FABA40);
-    transform: rotate(180deg) scale(1.1);
+  background: var(--accent, #faba40);
+  transform: rotate(180deg) scale(1.1);
 }
 
-#moon, #sun {
-    display: none;
-    width: 24px;
-    height: 24px;
-    stroke: var(--primary, #1f2a3a);
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+#moon,
+#sun {
+  display: none;
+  width: 24px;
+  height: 24px;
+  stroke: var(--primary, #1f2a3a);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
-body.dark #sun          { display: block; stroke: var(--accent, #FABA40); }
-body:not(.dark) #moon   { display: block; }
+body.dark #sun {
+  display: block;
+  stroke: var(--accent, #faba40);
+}
+body:not(.dark) #moon {
+  display: block;
+}
 
 #theme-toggle:hover #moon,
 #theme-toggle:hover #sun {
-    stroke: var(--accent-contrast, #1a2535);
+  stroke: var(--accent-contrast, #1a2535);
 }

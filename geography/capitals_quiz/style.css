@@ -165,27 +165,45 @@ body.dark #progressOuter {
 }
 
 @keyframes correctAnim {
-  0% { transform: scale(1); color: #4CAF50; }
-  50% { transform: scale(1.2); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+    color: #4caf50;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 @keyframes wrongAnim {
-  0% { transform: translateX(0); color: #F44336; }
-  25% { transform: translateX(-10px); }
-  50% { transform: translateX(10px); }
-  75% { transform: translateX(-10px); }
-  100% { transform: translateX(0); }
+  0% {
+    transform: translateX(0);
+    color: #f44336;
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  50% {
+    transform: translateX(10px);
+  }
+  75% {
+    transform: translateX(-10px);
+  }
+  100% {
+    transform: translateX(0);
+  }
 }
 
 #result.correct {
   animation: correctAnim 0.6s ease;
-  color: #4CAF50;
+  color: #4caf50;
 }
 
 #result.wrong {
   animation: wrongAnim 0.6s ease;
-  color: #F44336;
+  color: #f44336;
 }
 
 .note {

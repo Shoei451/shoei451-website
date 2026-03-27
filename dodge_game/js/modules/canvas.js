@@ -4,7 +4,7 @@ export function setupCanvas(canvas) {
     canvas.height = window.innerHeight;
   }
 
-  window.addEventListener('resize', resize);
+  window.addEventListener("resize", resize);
   resize();
 
   return { resize };

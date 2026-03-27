@@ -6,16 +6,16 @@ const icons = {
     <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
     <polyline points="9 22 9 12 15 12 15 22"></polyline>
   </svg>`,
-  
+
   reset: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <polyline points="23 4 23 10 17 10"></polyline>
     <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-  </svg>`
+  </svg>`,
 };
 
 // アプリの状態
 let state = {
-  mode: 'menu',
+  mode: "menu",
   previousMode: null,
   currentQuestion: 0,
   score: 0,
@@ -27,7 +27,7 @@ let state = {
   selectedMatch: null,
   groupingData: null,
   draggedItem: null,
-  timelineData: null
+  timelineData: null,
 };
 
 // ユーティリティ関数
@@ -51,87 +51,94 @@ function resetState() {
 // クイズ生成関数
 function generatePersonToDynastyQuiz() {
   const shuffled = shuffle(quizData);
-  state.quizQuestions = shuffled.slice(0, 10).map(person => {
+  state.quizQuestions = shuffled.slice(0, 10).map((person) => {
     const wrongDynasties = dynasties
-      .filter(d => d !== person.dynasty)
+      .filter((d) => d !== person.dynasty)
       .sort(() => Math.random() - 0.5)
       .slice(0, 3);
     const options = shuffle([...wrongDynasties, person.dynasty]);
-    
+
     return {
       question: person.name,
       options,
       correct: person.dynasty,
-      type: 'single'
+      type: "single",
     };
   });
 }
 
 function generateDynastyToPeopleQuiz() {
-  const availableDynasties = dynasties.filter(
-    dynasty => quizData.some(person => person.dynasty === dynasty)
+  const availableDynasties = dynasties.filter((dynasty) =>
+    quizData.some((person) => person.dynasty === dynasty),
   );
 
-  const questions = availableDynasties.map(dynasty => {
-    const correctPeople = quizData.filter(p => p.dynasty === dynasty);
+  const questions = availableDynasties.map((dynasty) => {
+    const correctPeople = quizData.filter((p) => p.dynasty === dynasty);
     const wrongPeople = quizData
-      .filter(p => p.dynasty !== dynasty)
+      .filter((p) => p.dynasty !== dynasty)
       .sort(() => Math.random() - 0.5)
       .slice(0, 4);
-    const options = shuffle([...correctPeople, ...wrongPeople]).map(p => p.name);
-    
+    const options = shuffle([...correctPeople, ...wrongPeople]).map(
+      (p) => p.name,
+    );
+
     return {
       question: dynasty,
       options,
-      correct: correctPeople.map(p => p.name),
-      type: 'multiple'
+      correct: correctPeople.map((p) => p.name),
+      type: "multiple",
     };
   });
-  
+
   state.quizQuestions = shuffle(questions).slice(0, 5);
 }
 
 function generateMatchingQuiz() {
-  const shuffled = shuffle(quizData.filter(p => p.works.length > 0)).slice(0, 6);
-  
+  const shuffled = shuffle(quizData.filter((p) => p.works.length > 0)).slice(
+    0,
+    6,
+  );
+
   // IDを完全に分離してバグを修正
   const people = shuffled.map((p, idx) => ({
     id: `person-${idx}`,
     text: p.name,
-    type: 'person'
+    type: "person",
   }));
-  
-  const works = shuffle(shuffled.map((p, idx) => ({
-    id: `work-${idx}`,
-    text: p.works[0],
-    type: 'work'
-  })));
-  
+
+  const works = shuffle(
+    shuffled.map((p, idx) => ({
+      id: `work-${idx}`,
+      text: p.works[0],
+      type: "work",
+    })),
+  );
+
   state.matchingData = {
     people,
     works,
     matched: [],
-    correctMatches: shuffled.map(p => ({ person: p.name, work: p.works[0] }))
+    correctMatches: shuffled.map((p) => ({ person: p.name, work: p.works[0] })),
   };
 }
 
 function generateGroupingQuiz() {
   const items = shuffle(quizData).slice(0, 12);
   const groups = {};
-  categories.forEach(cat => groups[cat] = []);
-  
+  categories.forEach((cat) => (groups[cat] = []));
+
   state.groupingData = {
-    ungrouped: items.map(p => ({ name: p.name, category: p.category })),
+    ungrouped: items.map((p) => ({ name: p.name, category: p.category })),
     groups,
-    categories
+    categories,
   };
 }
 
 function generateTimelineQuiz() {
   const dynastyRepresentativeMap = new Map();
 
-  dynasties.forEach(dynasty => {
-    const candidates = quizData.filter(person => person.dynasty === dynasty);
+  dynasties.forEach((dynasty) => {
+    const candidates = quizData.filter((person) => person.dynasty === dynasty);
     if (candidates.length === 0) return;
     const selected = candidates[Math.floor(Math.random() * candidates.length)];
     dynastyRepresentativeMap.set(dynasty, selected);
@@ -139,8 +146,8 @@ function generateTimelineQuiz() {
 
   const items = shuffle([...dynastyRepresentativeMap.values()]).slice(0, 6);
   state.timelineData = {
-    items: shuffle(items.map(p => ({ name: p.name, era: p.era }))),
-    correctOrder: items.sort((a, b) => a.era - b.era).map(p => p.name)
+    items: shuffle(items.map((p) => ({ name: p.name, era: p.era }))),
+    correctOrder: items.sort((a, b) => a.era - b.era).map((p) => p.name),
   };
 }
 
@@ -148,46 +155,48 @@ function generateTrueFalseQuiz() {
   const dynastyStatements = [];
   const workStatements = [];
 
-  quizData.forEach(person => {
+  quizData.forEach((person) => {
     dynastyStatements.push({
       statement: `${person.name}は${person.dynasty}の人物である`,
-      correct: true
+      correct: true,
     });
 
-    const wrongDynasties = dynasties.filter(d => d !== person.dynasty);
-    const wrongDynasty = wrongDynasties[Math.floor(Math.random() * wrongDynasties.length)];
+    const wrongDynasties = dynasties.filter((d) => d !== person.dynasty);
+    const wrongDynasty =
+      wrongDynasties[Math.floor(Math.random() * wrongDynasties.length)];
     dynastyStatements.push({
       statement: `${person.name}は${wrongDynasty}の人物である`,
-      correct: false
+      correct: false,
     });
   });
 
-  const peopleWithWorks = quizData.filter(p => p.works.length > 0);
-  peopleWithWorks.forEach(person => {
+  const peopleWithWorks = quizData.filter((p) => p.works.length > 0);
+  peopleWithWorks.forEach((person) => {
     workStatements.push({
       statement: `${person.name}の主な功績に『${person.works[0]}』がある`,
-      correct: true
+      correct: true,
     });
 
-    const otherPeople = peopleWithWorks.filter(p => p.name !== person.name);
+    const otherPeople = peopleWithWorks.filter((p) => p.name !== person.name);
     if (otherPeople.length > 0) {
-      const randomOther = otherPeople[Math.floor(Math.random() * otherPeople.length)];
+      const randomOther =
+        otherPeople[Math.floor(Math.random() * otherPeople.length)];
       workStatements.push({
         statement: `${person.name}の主な功績に『${randomOther.works[0]}』がある`,
-        correct: false
+        correct: false,
       });
     }
   });
 
   const mixedStatements = shuffle([
     ...shuffle(dynastyStatements).slice(0, 5),
-    ...shuffle(workStatements).slice(0, 5)
+    ...shuffle(workStatements).slice(0, 5),
   ]);
 
-  state.quizQuestions = mixedStatements.map(s => ({
+  state.quizQuestions = mixedStatements.map((s) => ({
     question: s.statement,
     correct: s.correct,
-    type: 'truefalse'
+    type: "truefalse",
   }));
 }
 // イベントハンドラ
@@ -195,37 +204,37 @@ function startQuiz(quizMode) {
   resetState();
   state.mode = quizMode;
   state.previousMode = quizMode;
-  
-  if (quizMode === 'person-to-dynasty') {
+
+  if (quizMode === "person-to-dynasty") {
     generatePersonToDynastyQuiz();
-  } else if (quizMode === 'dynasty-to-people') {
+  } else if (quizMode === "dynasty-to-people") {
     generateDynastyToPeopleQuiz();
-  } else if (quizMode === 'matching') {
+  } else if (quizMode === "matching") {
     generateMatchingQuiz();
-  } else if (quizMode === 'grouping') {
+  } else if (quizMode === "grouping") {
     generateGroupingQuiz();
-  } else if (quizMode === 'timeline') {
+  } else if (quizMode === "timeline") {
     generateTimelineQuiz();
-  } else if (quizMode === 'truefalse') {
+  } else if (quizMode === "truefalse") {
     generateTrueFalseQuiz();
   }
-  
+
   render();
 }
 
 function handleAnswer(answer) {
   if (state.showResult) return;
-  
+
   state.selectedAnswer = answer;
   state.showResult = true;
-  
+
   const current = state.quizQuestions[state.currentQuestion];
-  if (current.type === 'single' && answer === current.correct) {
+  if (current.type === "single" && answer === current.correct) {
     state.score++;
-  } else if (current.type === 'truefalse' && answer === current.correct) {
+  } else if (current.type === "truefalse" && answer === current.correct) {
     state.score++;
   }
-  
+
   render();
 }
 
@@ -240,16 +249,18 @@ function handleMultiSelect(answer) {
 
 function submitMultiSelect() {
   if (state.showResult) return;
-  
+
   state.showResult = true;
   const current = state.quizQuestions[state.currentQuestion];
   const correctSet = new Set(current.correct);
-  
-  if (state.multiSelectAnswers.size === correctSet.size &&
-      [...state.multiSelectAnswers].every(a => correctSet.has(a))) {
+
+  if (
+    state.multiSelectAnswers.size === correctSet.size &&
+    [...state.multiSelectAnswers].every((a) => correctSet.has(a))
+  ) {
     state.score++;
   }
-  
+
   render();
 }
 
@@ -260,7 +271,7 @@ function nextQuestion() {
     state.showResult = false;
     state.multiSelectAnswers = new Set();
   } else {
-    state.mode = 'results';
+    state.mode = "results";
   }
   render();
 }
@@ -270,15 +281,20 @@ function handleMatching(item) {
     state.selectedMatch = item;
   } else {
     if (state.selectedMatch.type !== item.type) {
-      const person = state.selectedMatch.type === 'person' ? state.selectedMatch : item;
-      const work = state.selectedMatch.type === 'work' ? state.selectedMatch : item;
-      
+      const person =
+        state.selectedMatch.type === "person" ? state.selectedMatch : item;
+      const work =
+        state.selectedMatch.type === "work" ? state.selectedMatch : item;
+
       const isCorrect = state.matchingData.correctMatches.some(
-        m => m.person === person.text && m.work === work.text
+        (m) => m.person === person.text && m.work === work.text,
       );
-      
+
       if (isCorrect) {
-        state.matchingData.matched.push({ person: person.text, work: work.text });
+        state.matchingData.matched.push({
+          person: person.text,
+          work: work.text,
+        });
         state.score++;
       }
     }
@@ -290,50 +306,50 @@ function handleMatching(item) {
 // Grouping drag & drop
 function handleDragStart(item, event) {
   state.draggedItem = item;
-  event.target.classList.add('dragging');
+  event.target.classList.add("dragging");
 }
 
 function handleDragEnd(event) {
-  event.target.classList.remove('dragging');
+  event.target.classList.remove("dragging");
 }
 
 function handleDragOver(event) {
   event.preventDefault();
-  if (event.currentTarget.classList.contains('category-box')) {
-    event.currentTarget.classList.add('drag-over');
+  if (event.currentTarget.classList.contains("category-box")) {
+    event.currentTarget.classList.add("drag-over");
   }
 }
 
 function handleDragLeave(event) {
-  if (event.currentTarget.classList.contains('category-box')) {
-    event.currentTarget.classList.remove('drag-over');
+  if (event.currentTarget.classList.contains("category-box")) {
+    event.currentTarget.classList.remove("drag-over");
   }
 }
 
 function handleDrop(category, event) {
   event.preventDefault();
-  if (event.currentTarget.classList.contains('category-box')) {
-    event.currentTarget.classList.remove('drag-over');
+  if (event.currentTarget.classList.contains("category-box")) {
+    event.currentTarget.classList.remove("drag-over");
   }
-  
+
   if (!state.draggedItem) return;
-  
+
   state.groupingData.ungrouped = state.groupingData.ungrouped.filter(
-    i => i.name !== state.draggedItem.name
+    (i) => i.name !== state.draggedItem.name,
   );
-  
-  Object.keys(state.groupingData.groups).forEach(cat => {
+
+  Object.keys(state.groupingData.groups).forEach((cat) => {
     state.groupingData.groups[cat] = state.groupingData.groups[cat].filter(
-      i => i.name !== state.draggedItem.name
+      (i) => i.name !== state.draggedItem.name,
     );
   });
-  
+
   state.groupingData.groups[category].push(state.draggedItem);
-  
+
   if (state.draggedItem.category === category) {
     state.score++;
   }
-  
+
   state.draggedItem = null;
   render();
 }
@@ -343,11 +359,11 @@ let timelineDraggedIndex = null;
 
 function handleTimelineDragStart(index, event) {
   timelineDraggedIndex = index;
-  event.target.classList.add('dragging');
+  event.target.classList.add("dragging");
 }
 
 function handleTimelineDragEnd(event) {
-  event.target.classList.remove('dragging');
+  event.target.classList.remove("dragging");
   timelineDraggedIndex = null;
 }
 
@@ -357,20 +373,21 @@ function handleTimelineDragOver(event) {
 
 function handleTimelineDrop(dropIndex, event) {
   event.preventDefault();
-  if (timelineDraggedIndex === null || timelineDraggedIndex === dropIndex) return;
-  
+  if (timelineDraggedIndex === null || timelineDraggedIndex === dropIndex)
+    return;
+
   const items = [...state.timelineData.items];
   const [draggedItem] = items.splice(timelineDraggedIndex, 1);
   items.splice(dropIndex, 0, draggedItem);
-  
+
   state.timelineData.items = items;
   render();
 }
 
 function submitTimeline() {
-  const userOrder = state.timelineData.items.map(i => i.name);
+  const userOrder = state.timelineData.items.map((i) => i.name);
   const correctOrder = state.timelineData.correctOrder;
-  
+
   if (JSON.stringify(userOrder) === JSON.stringify(correctOrder)) {
     state.score = state.timelineData.items.length;
   } else {
@@ -381,13 +398,13 @@ function submitTimeline() {
       }
     });
   }
-  
-  state.mode = 'results';
+
+  state.mode = "results";
   render();
 }
 
 function resetToMenu() {
-  state.mode = 'menu';
+  state.mode = "menu";
   resetState();
   render();
 }
@@ -474,9 +491,9 @@ function renderMenu() {
 
 function renderQuiz() {
   const current = state.quizQuestions[state.currentQuestion];
-  const isMultiple = current.type === 'multiple';
-  
-  let optionsHtml = '';
+  const isMultiple = current.type === "multiple";
+
+  let optionsHtml = "";
   current.options.forEach((option, idx) => {
     const isSelected = isMultiple
       ? state.multiSelectAnswers.has(option)
@@ -484,40 +501,40 @@ function renderQuiz() {
     const isCorrect = isMultiple
       ? current.correct.includes(option)
       : option === current.correct;
-    
-    let className = 'option-btn';
-    let iconHtml = '';
-    
+
+    let className = "option-btn";
+    let iconHtml = "";
+
     if (state.showResult) {
       if (isMultiple) {
         if (isCorrect && state.multiSelectAnswers.has(option)) {
-          className += ' correct';
+          className += " correct";
           iconHtml = '<span class="icon check">✓</span>';
         } else if (isCorrect && !state.multiSelectAnswers.has(option)) {
-          className += ' missed';
+          className += " missed";
           iconHtml = '<span class="icon info">✓</span>';
         } else if (!isCorrect && state.multiSelectAnswers.has(option)) {
-          className += ' incorrect';
+          className += " incorrect";
           iconHtml = '<span class="icon x">✗</span>';
         }
       } else {
         if (option === current.correct) {
-          className += ' correct';
+          className += " correct";
           iconHtml = '<span class="icon check">✓</span>';
         } else if (isSelected) {
-          className += ' incorrect';
+          className += " incorrect";
           iconHtml = '<span class="icon x">✗</span>';
         }
       }
     } else if (isSelected) {
-      className += ' selected';
+      className += " selected";
     }
-    
+
     const onClick = isMultiple
       ? `handleMultiSelect('${option.replace(/'/g, "\\'")}')`
-      : `handleAnswer('${option.replace(/'/g, "\\'")}')`; 
-    const disabled = state.showResult && !isMultiple ? 'disabled' : '';
-    
+      : `handleAnswer('${option.replace(/'/g, "\\'")}')`;
+    const disabled = state.showResult && !isMultiple ? "disabled" : "";
+
     optionsHtml += `
       <button class="${className}" onclick="${onClick}" ${disabled}>
         ${option}
@@ -525,16 +542,19 @@ function renderQuiz() {
       </button>
     `;
   });
-  
-  let actionButton = '';
+
+  let actionButton = "";
   if (isMultiple && !state.showResult) {
-    const disabled = state.multiSelectAnswers.size === 0 ? 'disabled' : '';
+    const disabled = state.multiSelectAnswers.size === 0 ? "disabled" : "";
     actionButton = `<button class="submit-btn" onclick="submitMultiSelect()" ${disabled}>解答を確定</button>`;
   } else if (state.showResult) {
-    const text = state.currentQuestion < state.quizQuestions.length - 1 ? '次の問題' : '結果を見る';
+    const text =
+      state.currentQuestion < state.quizQuestions.length - 1
+        ? "次の問題"
+        : "結果を見る";
     actionButton = `<button class="next-btn" onclick="nextQuestion()">${text} →</button>`;
   }
-  
+
   return `
     ${renderControlBar()}
     <div class="quiz-container">
@@ -546,7 +566,7 @@ function renderQuiz() {
       <div class="quiz-box">
         <h2 class="question-title">${current.question}</h2>
         <p class="question-subtitle">
-          ${isMultiple ? '該当する人物を全て選択してください' : 'この人物が活躍した王朝は？'}
+          ${isMultiple ? "該当する人物を全て選択してください" : "この人物が活躍した王朝は？"}
         </p>
         
         <div class="options-grid">
@@ -563,25 +583,25 @@ function renderTrueFalse() {
   const current = state.quizQuestions[state.currentQuestion];
   const trueSelected = state.selectedAnswer === true;
   const falseSelected = state.selectedAnswer === false;
-  
-  let trueClass = 'tf-btn';
-  let falseClass = 'tf-btn';
-  
+
+  let trueClass = "tf-btn";
+  let falseClass = "tf-btn";
+
   if (state.showResult) {
     if (current.correct === true) {
-      trueClass += ' correct';
-      if (falseSelected) falseClass += ' incorrect';
+      trueClass += " correct";
+      if (falseSelected) falseClass += " incorrect";
     } else {
-      falseClass += ' correct';
-      if (trueSelected) trueClass += ' incorrect';
+      falseClass += " correct";
+      if (trueSelected) trueClass += " incorrect";
     }
   } else {
-    if (trueSelected) trueClass += ' selected';
-    if (falseSelected) falseClass += ' selected';
+    if (trueSelected) trueClass += " selected";
+    if (falseSelected) falseClass += " selected";
   }
-  
-  const disabled = state.showResult ? 'disabled' : '';
-  
+
+  const disabled = state.showResult ? "disabled" : "";
+
   return `
     ${renderControlBar()}
     <div class="quiz-container">
@@ -603,11 +623,15 @@ function renderTrueFalse() {
           </button>
         </div>
         
-        ${state.showResult ? `
+        ${
+          state.showResult
+            ? `
           <button class="next-btn" onclick="nextQuestion()">
-            ${state.currentQuestion < state.quizQuestions.length - 1 ? '次の問題' : '結果を見る'} →
+            ${state.currentQuestion < state.quizQuestions.length - 1 ? "次の問題" : "結果を見る"} →
           </button>
-        ` : ''}
+        `
+            : ""
+        }
       </div>
     </div>
   `;
@@ -615,47 +639,56 @@ function renderTrueFalse() {
 
 function renderMatching() {
   const isMatched = (text, type) => {
-    return state.matchingData.matched.some(m =>
-      type === 'person' ? m.person === text : m.work === text
+    return state.matchingData.matched.some((m) =>
+      type === "person" ? m.person === text : m.work === text,
     );
   };
-  
+
   const isSelected = (id) => state.selectedMatch?.id === id;
-  
-  let peopleHtml = '';
-  state.matchingData.people.forEach(person => {
-    const matched = isMatched(person.text, 'person');
+
+  let peopleHtml = "";
+  state.matchingData.people.forEach((person) => {
+    const matched = isMatched(person.text, "person");
     const selected = isSelected(person.id);
-    const className = matched ? 'matching-btn' : selected ? 'matching-btn selected' : 'matching-btn';
-    const disabled = matched ? 'disabled' : '';
-    
-    const itemJson = JSON.stringify(person).replace(/"/g, '&quot;');
-    
+    const className = matched
+      ? "matching-btn"
+      : selected
+        ? "matching-btn selected"
+        : "matching-btn";
+    const disabled = matched ? "disabled" : "";
+
+    const itemJson = JSON.stringify(person).replace(/"/g, "&quot;");
+
     peopleHtml += `
       <button class="${className}" onclick='handleMatching(${itemJson})' ${disabled}>
         ${person.text}
       </button>
     `;
   });
-  
-  let worksHtml = '';
-  state.matchingData.works.forEach(work => {
-    const matched = isMatched(work.text, 'work');
+
+  let worksHtml = "";
+  state.matchingData.works.forEach((work) => {
+    const matched = isMatched(work.text, "work");
     const selected = isSelected(work.id);
-    const className = matched ? 'matching-btn' : selected ? 'matching-btn selected' : 'matching-btn';
-    const disabled = matched ? 'disabled' : '';
-    
-    const itemJson = JSON.stringify(work).replace(/"/g, '&quot;');
-    
+    const className = matched
+      ? "matching-btn"
+      : selected
+        ? "matching-btn selected"
+        : "matching-btn";
+    const disabled = matched ? "disabled" : "";
+
+    const itemJson = JSON.stringify(work).replace(/"/g, "&quot;");
+
     worksHtml += `
       <button class="${className}" onclick='handleMatching(${itemJson})' ${disabled}>
         ${work.text}
       </button>
     `;
   });
-  
-  const allMatched = state.matchingData.matched.length === state.matchingData.people.length;
-  
+
+  const allMatched =
+    state.matchingData.matched.length === state.matchingData.people.length;
+
   return `
     ${renderControlBar()}
     <div class="matching-container">
@@ -683,15 +716,15 @@ function renderMatching() {
         </div>
       </div>
       
-      ${allMatched ? '<button class="menu-btn" onclick="resetToMenu()" style="margin-top: 2rem;">結果を見る →</button>' : ''}
+      ${allMatched ? '<button class="menu-btn" onclick="resetToMenu()" style="margin-top: 2rem;">結果を見る →</button>' : ""}
     </div>
   `;
 }
 
 function renderGrouping() {
-  let ungroupedHtml = '';
-  state.groupingData.ungrouped.forEach(item => {
-    const itemJson = JSON.stringify(item).replace(/"/g, '&quot;');
+  let ungroupedHtml = "";
+  state.groupingData.ungrouped.forEach((item) => {
+    const itemJson = JSON.stringify(item).replace(/"/g, "&quot;");
     ungroupedHtml += `
       <div class="draggable-item" draggable="true" 
            ondragstart="handleDragStart(${itemJson}, event)"
@@ -700,15 +733,18 @@ function renderGrouping() {
       </div>
     `;
   });
-  
-  let categoriesHtml = '';
-  state.groupingData.categories.forEach(category => {
-    let itemsHtml = '';
-    state.groupingData.groups[category].forEach(item => {
-      const className = item.category === category ? 'grouped-item correct' : 'grouped-item incorrect';
+
+  let categoriesHtml = "";
+  state.groupingData.categories.forEach((category) => {
+    let itemsHtml = "";
+    state.groupingData.groups[category].forEach((item) => {
+      const className =
+        item.category === category
+          ? "grouped-item correct"
+          : "grouped-item incorrect";
       itemsHtml += `<div class="${className}">${item.name}</div>`;
     });
-    
+
     categoriesHtml += `
       <div class="category-box" 
            ondragover="handleDragOver(event)"
@@ -721,9 +757,9 @@ function renderGrouping() {
       </div>
     `;
   });
-  
+
   const allGrouped = state.groupingData.ungrouped.length === 0;
-  
+
   return `
     ${renderControlBar()}
     <div class="grouping-container">
@@ -746,13 +782,13 @@ function renderGrouping() {
         ${categoriesHtml}
       </div>
       
-      ${allGrouped ? '<button class="menu-btn" onclick="resetToMenu()" style="margin-top: 2rem;">結果を見る →</button>' : ''}
+      ${allGrouped ? '<button class="menu-btn" onclick="resetToMenu()" style="margin-top: 2rem;">結果を見る →</button>' : ""}
     </div>
   `;
 }
 
 function renderTimeline() {
-  let itemsHtml = '';
+  let itemsHtml = "";
   state.timelineData.items.forEach((item, idx) => {
     itemsHtml += `
       <div class="sortable-item" draggable="true"
@@ -765,7 +801,7 @@ function renderTimeline() {
       </div>
     `;
   });
-  
+
   return `
     ${renderControlBar()}
     <div class="timeline-container">
@@ -785,21 +821,21 @@ function renderTimeline() {
 
 function renderResults() {
   let total, percentage;
-  
-  if (state.previousMode === 'timeline') {
+
+  if (state.previousMode === "timeline") {
     total = state.timelineData.items.length;
     percentage = Math.round((state.score / total) * 100);
-  } else if (state.previousMode === 'matching') {
+  } else if (state.previousMode === "matching") {
     total = 6;
     percentage = Math.round((state.score / total) * 100);
-  } else if (state.previousMode === 'grouping') {
+  } else if (state.previousMode === "grouping") {
     total = 12;
     percentage = Math.round((state.score / total) * 100);
   } else {
     total = state.quizQuestions.length;
     percentage = Math.round((state.score / total) * 100);
   }
-  
+
   return `
     <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center;">
       <div class="results-box">
@@ -827,25 +863,28 @@ function renderResults() {
 }
 
 function render() {
-  const app = document.getElementById('app');
-  
-  let content = '';
-  if (state.mode === 'menu') {
+  const app = document.getElementById("app");
+
+  let content = "";
+  if (state.mode === "menu") {
     content = renderMenu();
-  } else if (state.mode === 'person-to-dynasty' || state.mode === 'dynasty-to-people') {
+  } else if (
+    state.mode === "person-to-dynasty" ||
+    state.mode === "dynasty-to-people"
+  ) {
     content = renderQuiz();
-  } else if (state.mode === 'truefalse') {
+  } else if (state.mode === "truefalse") {
     content = renderTrueFalse();
-  } else if (state.mode === 'matching') {
+  } else if (state.mode === "matching") {
     content = renderMatching();
-  } else if (state.mode === 'grouping') {
+  } else if (state.mode === "grouping") {
     content = renderGrouping();
-  } else if (state.mode === 'timeline') {
+  } else if (state.mode === "timeline") {
     content = renderTimeline();
-  } else if (state.mode === 'results') {
+  } else if (state.mode === "results") {
     content = renderResults();
   }
-  
+
   app.innerHTML = content;
 }
 

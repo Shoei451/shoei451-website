@@ -14,37 +14,40 @@
 
 // ── 章（chapter フィールドと対応） ───────────────────────
 const CHAPTERS = [
-  { id: "第1章",  label: "第1章 — 古代文明圏【オリエント・ギリシア・ローマ・中国古代】" },
-  { id: "第2章",  label: "第2章 — 中世ヨーロッパ" },
-  { id: "第3章",  label: "第3章 — 近現代ヨーロッパ" },
-  { id: "第4章",  label: "第4章 — 東アジア（中国・モンゴル）" },
-  { id: "第5章",  label: "第5章 — 東アジア（日本・朝鮮）" },
-  { id: "第6章",  label: "第6章 — イスラーム世界" },
-  { id: "第7章",  label: "第7章 — 南アジア・東南アジア" },
-  { id: "第8章",  label: "第8章 — アメリカ大陸" },
-  { id: "第9章",  label: "第9章 — 第一次世界大戦" },
+  {
+    id: "第1章",
+    label: "第1章 — 古代文明圏【オリエント・ギリシア・ローマ・中国古代】",
+  },
+  { id: "第2章", label: "第2章 — 中世ヨーロッパ" },
+  { id: "第3章", label: "第3章 — 近現代ヨーロッパ" },
+  { id: "第4章", label: "第4章 — 東アジア（中国・モンゴル）" },
+  { id: "第5章", label: "第5章 — 東アジア（日本・朝鮮）" },
+  { id: "第6章", label: "第6章 — イスラーム世界" },
+  { id: "第7章", label: "第7章 — 南アジア・東南アジア" },
+  { id: "第8章", label: "第8章 — アメリカ大陸" },
+  { id: "第9章", label: "第9章 — 第一次世界大戦" },
   { id: "第10章", label: "第10章 — 第二次世界大戦" },
   { id: "第11章", label: "第11章 — 戦後国際史" },
 ];
 
 // ── 状態 ──────────────────────────────────────────────────
-let allData      = [];
-let quizSet      = [];
+let allData = [];
+let quizSet = [];
 let currentIndex = 0;
 let correctCount = 0;
-let mistakes     = [];
+let mistakes = [];
 
 // ── start-screen config ───────────────────────────────────
 const START_CONFIG = {
-  title:      "世界史年代クイズ",
-  subtitle:   "出来事 → 年号",
-  image:      "../../../images/worldhistoryquiz.png",
+  title: "世界史年代クイズ",
+  subtitle: "出来事 → 年号",
+  image: "../../../images/worldhistoryquiz.png",
 
-  rangeMode:  "single",
+  rangeMode: "single",
   rangeLabel: "章",
-  ranges:     CHAPTERS,
+  ranges: CHAPTERS,
 
-  countMode:    "select",
+  countMode: "select",
   countDefault: 10,
   countOptions: [10, 20, 30, "all"],
 
@@ -53,7 +56,8 @@ const START_CONFIG = {
 
 // ── データ読み込み ─────────────────────────────────────────
 async function loadQuestions() {
-  let all = [], start = 0;
+  let all = [],
+    start = 0;
   const BATCH = 1000;
 
   while (true) {
@@ -61,10 +65,13 @@ async function loadQuestions() {
       .from(TABLES.WH_QUIZ)
       .select("*")
       .order("is_bc", { ascending: false })
-      .order("year",  { ascending: true })
+      .order("year", { ascending: true })
       .range(start, start + BATCH - 1);
 
-    if (error) { showLoadError(error.message); return false; }
+    if (error) {
+      showLoadError(error.message);
+      return false;
+    }
     if (!data || data.length === 0) break;
     all.push(...data);
     if (data.length < BATCH) break;
@@ -90,28 +97,31 @@ function showLoadError(msg) {
 async function onStart([selectedChapter], count) {
   if (allData.length === 0) {
     const btn = document.getElementById("qz-start-btn");
-    if (btn) { btn.disabled = true; btn.textContent = "読み込み中..."; }
-    if (!await loadQuestions()) return;
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "読み込み中...";
+    }
+    if (!(await loadQuestions())) return;
   }
 
-  const filtered = allData.filter(q => q.chapter === selectedChapter);
+  const filtered = allData.filter((q) => q.chapter === selectedChapter);
   if (filtered.length === 0) {
     alert("この章に問題がありません。別の章を選択してください。");
     return;
   }
 
-  const total  = count === "all" ? filtered.length : parseInt(count);
-  quizSet      = shuffleArray(filtered).slice(0, Math.min(total, filtered.length));
+  const total = count === "all" ? filtered.length : parseInt(count);
+  quizSet = shuffleArray(filtered).slice(0, Math.min(total, filtered.length));
   currentIndex = 0;
   correctCount = 0;
-  mistakes     = [];
+  mistakes = [];
 
   initProgress({
-    total:        quizSet.length,
-    lastLabel:    "結果を見る",
+    total: quizSet.length,
+    lastLabel: "結果を見る",
     resetConfirm: "最初に戻りますか？進捗はリセットされます。",
-    onNext:       advanceQuestion,
-    onReset:      resetToStart,
+    onNext: advanceQuestion,
+    onReset: resetToStart,
   });
 
   showScreen("quiz-screen");
@@ -123,21 +133,21 @@ function renderQuestion(i) {
   hideFeedback();
   updateProgress(i);
 
-  const q           = quizSet[i];
+  const q = quizSet[i];
   const correctYear = toDisplayYear(q);
   const correctLabel = formatYear(correctYear);
 
   // 問題文: 出来事
   showQuestion({
-    text:     q.event,
+    text: q.event,
     category: q.chapter,
   });
 
   // 回答: 年号入力
   showTextInput({
-    label:       "年号を入力",
+    label: "年号を入力",
     placeholder: "例: 1789",
-    hint:        "紀元前は負の数で入力（例：-221 = 前221年）",
+    hint: "紀元前は負の数で入力（例：-221 = 前221年）",
     validate(raw) {
       const n = parseInt(raw, 10);
       if (isNaN(n)) return { ok: false, message: "数字を入力してください" };
@@ -150,9 +160,9 @@ function renderQuestion(i) {
         correctCount++;
       } else {
         mistakes.push({
-          questionText:  q.event,
-          category:      q.chapter,
-          userAnswer:    userLabel,
+          questionText: q.event,
+          category: q.chapter,
+          userAnswer: userLabel,
           correctAnswer: correctLabel,
         });
       }
@@ -160,15 +170,17 @@ function renderQuestion(i) {
       showFeedback({
         isCorrect,
         correctLabel: isCorrect ? null : correctLabel,
-        userLabel:    isCorrect ? null : userLabel,
+        userLabel: isCorrect ? null : userLabel,
         // 参考リンクがあれば extra に表示
-        extraRenderer: q.link ? (el) => {
-          el.innerHTML = `<a href="${q.link}" target="_blank" rel="noopener"
+        extraRenderer: q.link
+          ? (el) => {
+              el.innerHTML = `<a href="${q.link}" target="_blank" rel="noopener"
                             style="font-size:0.82rem; color:var(--qz-accent-dark);
                                    text-decoration:underline;">
                             参考リンク →
                           </a>`;
-        } : null,
+            }
+          : null,
       });
     },
   });
@@ -185,25 +197,28 @@ function advanceQuestion(idx) {
 
   showScreen("result-screen");
   showResult({
-    correct:  correctCount,
-    total:    quizSet.length,
+    correct: correctCount,
+    total: quizSet.length,
     mistakes,
-    onRetry:  resetToStart,
+    onRetry: resetToStart,
     onRetryMistakes(ms) {
-      quizSet = ms.map(m =>
-        allData.find(q => q.event === m.questionText)
-      ).filter(Boolean);
-      if (!quizSet.length) { resetToStart(); return; }
+      quizSet = ms
+        .map((m) => allData.find((q) => q.event === m.questionText))
+        .filter(Boolean);
+      if (!quizSet.length) {
+        resetToStart();
+        return;
+      }
 
       currentIndex = correctCount = 0;
       mistakes = [];
 
       initProgress({
-        total:        quizSet.length,
-        lastLabel:    "結果を見る",
+        total: quizSet.length,
+        lastLabel: "結果を見る",
         resetConfirm: "最初に戻りますか？",
-        onNext:       advanceQuestion,
-        onReset:      resetToStart,
+        onNext: advanceQuestion,
+        onReset: resetToStart,
       });
 
       showScreen("quiz-screen");
@@ -222,8 +237,8 @@ function resetToStart() {
 }
 
 function showScreen(id) {
-  ["start-screen", "quiz-screen", "result-screen"].forEach(s =>
-    document.getElementById(s).classList.add("hidden")
+  ["start-screen", "quiz-screen", "result-screen"].forEach((s) =>
+    document.getElementById(s).classList.add("hidden"),
   );
   document.getElementById(id).classList.remove("hidden");
 }

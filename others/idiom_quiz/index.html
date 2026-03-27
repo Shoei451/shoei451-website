@@ -1,203 +1,221 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Idiom Quiz — Shoei451</title>
-  <link rel="icon" href="../../images/favicon.ico">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Idiom Quiz — Shoei451</title>
+    <link rel="icon" href="../../images/favicon.ico" />
 
-  <link rel="stylesheet" href="../../css/theme-toggle.css">
-  <link rel="stylesheet" href="../../quiz-components/quiz-shell.css">
-  <link rel="stylesheet" href="../../quiz-components/start/start-screen.css">
-  <link rel="stylesheet" href="../../quiz-components/progress/progress.css">
-  <link rel="stylesheet" href="../../quiz-components/question/question-area.css">
-  <link rel="stylesheet" href="../../quiz-components/answer/answer.css">
-  <link rel="stylesheet" href="../../quiz-components/feedback/feedback.css">
-  <link rel="stylesheet" href="../../quiz-components/result/result.css">
+    <link rel="stylesheet" href="../../css/theme-toggle.css" />
+    <link rel="stylesheet" href="../../quiz-components/quiz-shell.css" />
+    <link
+      rel="stylesheet"
+      href="../../quiz-components/start/start-screen.css"
+    />
+    <link rel="stylesheet" href="../../quiz-components/progress/progress.css" />
+    <link
+      rel="stylesheet"
+      href="../../quiz-components/question/question-area.css"
+    />
+    <link rel="stylesheet" href="../../quiz-components/answer/answer.css" />
+    <link rel="stylesheet" href="../../quiz-components/feedback/feedback.css" />
+    <link rel="stylesheet" href="../../quiz-components/result/result.css" />
 
-  <style>
-    /* ── idiom 固有スタイル ── */
+    <style>
+      /* ── idiom 固有スタイル ── */
 
-    .idiom-feedback-card {
-      background: var(--qz-surface-2);
-      border-radius: var(--qz-radius-md);
-      overflow: hidden;
-      box-shadow: var(--qz-shadow-sm);
-      margin-top: 10px;
-    }
+      .idiom-feedback-card {
+        background: var(--qz-surface-2);
+        border-radius: var(--qz-radius-md);
+        overflow: hidden;
+        box-shadow: var(--qz-shadow-sm);
+        margin-top: 10px;
+      }
 
-    .idiom-feedback-card__header {
-      padding: 14px 18px;
-      font-size: 1rem;
-      font-weight: 700;
-      color: #fff;
-    }
+      .idiom-feedback-card__header {
+        padding: 14px 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+      }
 
-    .idiom-feedback-card__header.is-correct {
-      background: linear-gradient(135deg, var(--qz-correct), #22c55e);
-    }
+      .idiom-feedback-card__header.is-correct {
+        background: linear-gradient(135deg, var(--qz-correct), #22c55e);
+      }
 
-    .idiom-feedback-card__header.is-incorrect {
-      background: linear-gradient(135deg, var(--qz-incorrect), #ef4444);
-    }
+      .idiom-feedback-card__header.is-incorrect {
+        background: linear-gradient(135deg, var(--qz-incorrect), #ef4444);
+      }
 
-    .idiom-feedback-card__body {
-      padding: 16px 18px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+      .idiom-feedback-card__body {
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
 
-    .idiom-field {
-      background: var(--qz-surface);
-      border-left: 3px solid var(--qz-accent);
-      border-radius: 0 var(--qz-radius-sm) var(--qz-radius-sm) 0;
-      padding: 10px 14px;
-    }
+      .idiom-field {
+        background: var(--qz-surface);
+        border-left: 3px solid var(--qz-accent);
+        border-radius: 0 var(--qz-radius-sm) var(--qz-radius-sm) 0;
+        padding: 10px 14px;
+      }
 
-    .idiom-field__label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--qz-accent);
-      margin-bottom: 4px;
-    }
+      .idiom-field__label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--qz-accent);
+        margin-bottom: 4px;
+      }
 
-    body.dark .idiom-field__label { color: var(--qz-accent); }
+      body.dark .idiom-field__label {
+        color: var(--qz-accent);
+      }
 
-    .idiom-field__value {
-      font-size: 0.95rem;
-      color: var(--qz-text);
-      line-height: 1.6;
-    }
+      .idiom-field__value {
+        font-size: 0.95rem;
+        color: var(--qz-text);
+        line-height: 1.6;
+      }
 
-    .idiom-field__value.is-idiom {
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
+      .idiom-field__value.is-idiom {
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
 
-    .idiom-field__value.is-example {
-      font-style: italic;
-      font-weight: 600;
-      background: rgba(250, 186, 64, 0.08);
-      padding: 6px 10px;
-      border-radius: var(--qz-radius-sm);
-      margin-top: 4px;
-    }
+      .idiom-field__value.is-example {
+        font-style: italic;
+        font-weight: 600;
+        background: rgba(250, 186, 64, 0.08);
+        padding: 6px 10px;
+        border-radius: var(--qz-radius-sm);
+        margin-top: 4px;
+      }
 
-    .report-section {
-      margin-top: 14px;
-      padding: 12px 14px;
-      background: var(--qz-surface);
-      border: 1.5px solid #f97316;
-      border-radius: var(--qz-radius-sm);
-    }
+      .report-section {
+        margin-top: 14px;
+        padding: 12px 14px;
+        background: var(--qz-surface);
+        border: 1.5px solid #f97316;
+        border-radius: var(--qz-radius-sm);
+      }
 
-    .report-section__title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #f97316;
-      margin-bottom: 10px;
-    }
+      .report-section__title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #f97316;
+        margin-bottom: 10px;
+      }
 
-    .report-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 6px 14px;
-      background: #f97316;
-      color: #fff;
-      border: none;
-      border-radius: var(--qz-radius-sm);
-      font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s;
-    }
+      .report-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 14px;
+        background: #f97316;
+        color: #fff;
+        border: none;
+        border-radius: var(--qz-radius-sm);
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
 
-    .report-btn:hover { opacity: 0.85; }
+      .report-btn:hover {
+        opacity: 0.85;
+      }
 
-    .report-form {
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
+      .report-form {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
 
-    .report-form.hidden { display: none; }
+      .report-form.hidden {
+        display: none;
+      }
 
-    .report-form select {
-      padding: 8px 10px;
-      border: 1.5px solid var(--qz-border);
-      border-radius: var(--qz-radius-sm);
-      background: var(--qz-surface-2);
-      color: var(--qz-text);
-      font-family: inherit;
-      font-size: 0.85rem;
-    }
+      .report-form select {
+        padding: 8px 10px;
+        border: 1.5px solid var(--qz-border);
+        border-radius: var(--qz-radius-sm);
+        background: var(--qz-surface-2);
+        color: var(--qz-text);
+        font-family: inherit;
+        font-size: 0.85rem;
+      }
 
-    .report-form-actions {
-      display: flex;
-      gap: 8px;
-    }
+      .report-form-actions {
+        display: flex;
+        gap: 8px;
+      }
 
-    .report-form-actions button {
-      padding: 6px 14px;
-      font-size: 0.82rem;
-      font-weight: 600;
-      border: none;
-      border-radius: var(--qz-radius-sm);
-      cursor: pointer;
-      font-family: inherit;
-    }
+      .report-form-actions button {
+        padding: 6px 14px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: none;
+        border-radius: var(--qz-radius-sm);
+        cursor: pointer;
+        font-family: inherit;
+      }
 
-    .report-submit-btn { background: #f97316; color: #fff; }
-    .report-cancel-btn {
-      background: var(--qz-surface-2);
-      color: var(--qz-text-sub);
-      border: 1px solid var(--qz-border);
-    }
+      .report-submit-btn {
+        background: #f97316;
+        color: #fff;
+      }
+      .report-cancel-btn {
+        background: var(--qz-surface-2);
+        color: var(--qz-text-sub);
+        border: 1px solid var(--qz-border);
+      }
 
-    .report-message {
-      font-size: 0.82rem;
-      font-weight: 600;
-      text-align: center;
-      min-height: 1.2em;
-    }
+      .report-message {
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-align: center;
+        min-height: 1.2em;
+      }
 
-    .report-message.is-success { color: var(--qz-correct); }
-    .report-message.is-error   { color: var(--qz-incorrect); }
-  </style>
-</head>
-<body>
+      .report-message.is-success {
+        color: var(--qz-correct);
+      }
+      .report-message.is-error {
+        color: var(--qz-incorrect);
+      }
+    </style>
+  </head>
+  <body>
+    <span class="logo-switches" id="theme-toggle-container"></span>
 
-<span class="logo-switches" id="theme-toggle-container"></span>
+    <main class="qz-container">
+      <div id="start-screen" class="qz-screen"></div>
 
-<main class="qz-container">
-  <div id="start-screen"  class="qz-screen"></div>
+      <div id="quiz-screen" class="qz-screen hidden">
+        <div id="qz-progress-bar"></div>
+        <div id="qz-question-area"></div>
+        <div id="qz-choices"></div>
+        <div id="qz-feedback" class="hidden"></div>
+        <div id="qz-nav-buttons"></div>
+      </div>
 
-  <div id="quiz-screen" class="qz-screen hidden">
-    <div id="qz-progress-bar"></div>
-    <div id="qz-question-area"></div>
-    <div id="qz-choices"></div>
-    <div id="qz-feedback" class="hidden"></div>
-    <div id="qz-nav-buttons"></div>
-  </div>
+      <div id="result-screen" class="qz-screen hidden"></div>
+    </main>
 
-  <div id="result-screen" class="qz-screen hidden"></div>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="../../js/supabase_config.js"></script>
-<script src="../../quiz-components/start/start-screen.js"></script>
-<script src="../../quiz-components/progress/progress.js"></script>
-<script src="../../quiz-components/question/question-area.js"></script>
-<script src="../../quiz-components/answer/choice-buttons.js"></script>
-<script src="../../quiz-components/feedback/feedback.js"></script>
-<script src="../../quiz-components/result/result.js"></script>
-<script src="quiz.js"></script>
-<script src="../../js/theme-toggle.js"></script>
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase_config.js"></script>
+    <script src="../../quiz-components/start/start-screen.js"></script>
+    <script src="../../quiz-components/progress/progress.js"></script>
+    <script src="../../quiz-components/question/question-area.js"></script>
+    <script src="../../quiz-components/answer/choice-buttons.js"></script>
+    <script src="../../quiz-components/feedback/feedback.js"></script>
+    <script src="../../quiz-components/result/result.js"></script>
+    <script src="quiz.js"></script>
+    <script src="../../js/theme-toggle.js"></script>
+  </body>
 </html>

@@ -18,23 +18,23 @@
 // ============================================================
 
 // ── Project 1（学習コンテンツDB）────────────────────────────
-const SUPABASE_URL  = 'https://gjuqsyaugrsshmjerhme.supabase.co';
-const SUPABASE_KEY  = 'sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU';
+const SUPABASE_URL = "https://gjuqsyaugrsshmjerhme.supabase.co";
+const SUPABASE_KEY = "sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU";
 
 // ── Project 2（生産性・東進トラッカー）──────────────────────
-const SUPABASE_URL_2 = 'https://qmtlsxuoewdajgnjxfkb.supabase.co';
-const SUPABASE_KEY_2 = 'YOUR_PROJECT2_PUBLISHABLE_KEY'; // ← 要更新
+const SUPABASE_URL_2 = "https://qmtlsxuoewdajgnjxfkb.supabase.co";
+const SUPABASE_KEY_2 = "YOUR_PROJECT2_PUBLISHABLE_KEY"; // ← 要更新
 
 // ── テーブル名定数 ───────────────────────────────────────────
 const TABLES = {
-    WH_QUIZ:    'world_history_quiz',
-    WH_DATES:   'wh_dates',
-    WH_REGIONS: 'wh_regions',
-    CHINESE:    'chinese_history',
-    SEIKEI:     'seikei_events',
-    ACCESS_LOG: 'access_logs',
+  WH_QUIZ: "world_history_quiz",
+  WH_DATES: "wh_dates",
+  WH_REGIONS: "wh_regions",
+  CHINESE: "chinese_history",
+  SEIKEI: "seikei_events",
+  ACCESS_LOG: "access_logs",
 };
 
 // ── クライアント生成 ─────────────────────────────────────────
-const db  = window.supabase.createClient(SUPABASE_URL,   SUPABASE_KEY);
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 const db2 = window.supabase.createClient(SUPABASE_URL_2, SUPABASE_KEY_2);

@@ -12,10 +12,10 @@ Open `dodge-game.html` directly in a browser. No server required.
 
 ## Controls
 
-| Platform | Move | Shoot |
-|---|---|---|
-| Desktop | Arrow keys / WASD | Auto-fires |
-| Mobile | Drag anywhere | Auto-fires while touching |
+| Platform | Move              | Shoot                     |
+| -------- | ----------------- | ------------------------- |
+| Desktop  | Arrow keys / WASD | Auto-fires                |
+| Mobile   | Drag anywhere     | Auto-fires while touching |
 
 **Pause:** `Esc` key or the ⏸ button (top-right)  
 **Mute:** Speaker icon below the pause button
@@ -25,20 +25,23 @@ Open `dodge-game.html` directly in a browser. No server required.
 ## Gameplay
 
 ### Objective
+
 Survive as long as possible. Score increases passively over time and by destroying enemies.
 
 ### Levels
+
 Levels increase at fixed score thresholds. Each level raises enemy speed and spawn rate.
 
-| Level Up | Score Required |
-|---|---|
-| Lv 1 → 2 | 400 |
-| Lv 2 → 3 | 1,200 |
-| Lv 3 → 4 | 2,000 |
-| Lv 4 → 5 | 2,800 |
-| Each after | +800 |
+| Level Up   | Score Required |
+| ---------- | -------------- |
+| Lv 1 → 2   | 400            |
+| Lv 2 → 3   | 1,200          |
+| Lv 3 → 4   | 2,000          |
+| Lv 4 → 5   | 2,800          |
+| Each after | +800           |
 
 ### Boss Waves
+
 A boss spawns at every multiple of 4 (Lv 4, 8, 12…). Normal enemies stop spawning during boss fights.
 
 - **Phase 1** (HP > 50%) — charges the player, fires 5-bullet radial bursts
@@ -48,31 +51,33 @@ A boss spawns at every multiple of 4 (Lv 4, 8, 12…). Normal enemies stop spawn
 
 ### Enemies
 
-| Type | Shape | Notes |
-|---|---|---|
-| Normal | Circle | Appears from Lv 1 |
-| Fast | Diamond | Appears from Lv 3, worth more score |
-| Large | Hexagon | Appears from Lv 5, 3 HP |
+| Type   | Shape   | Notes                               |
+| ------ | ------- | ----------------------------------- |
+| Normal | Circle  | Appears from Lv 1                   |
+| Fast   | Diamond | Appears from Lv 3, worth more score |
+| Large  | Hexagon | Appears from Lv 5, 3 HP             |
 
 ### Weapons
+
 Drops from defeated enemies. Upgrades chain: **SINGLE → SPREAD → LASER → HYPER**. Each upgrade lasts 15 seconds then steps down one tier.
 
-| Weapon | Color | Fire Rate | Pattern |
-|---|---|---|---|
-| SINGLE | Cyan | 220ms | 1 bullet straight |
-| SPREAD | Purple | 180ms | 3-way fan |
-| LASER | Pink | 80ms | Fast capsule |
-| HYPER | Orange | 90ms | Laser + spread (3 bullets) |
+| Weapon | Color  | Fire Rate | Pattern                    |
+| ------ | ------ | --------- | -------------------------- |
+| SINGLE | Cyan   | 220ms     | 1 bullet straight          |
+| SPREAD | Purple | 180ms     | 3-way fan                  |
+| LASER  | Pink   | 80ms      | Fast capsule               |
+| HYPER  | Orange | 90ms      | Laser + spread (3 bullets) |
 
 ### Drops
 
-| Drop | Color | Effect | Rarity |
-|---|---|---|---|
-| Weapon | Varies | Upgrades weapon tier | Common |
-| Shield ◈ | Green | Absorbs next hit | Uncommon |
-| Life ♥ | Red | Restores 1 life (only when missing a life) | Rare |
+| Drop     | Color  | Effect                                     | Rarity   |
+| -------- | ------ | ------------------------------------------ | -------- |
+| Weapon   | Varies | Upgrades weapon tier                       | Common   |
+| Shield ◈ | Green  | Absorbs next hit                           | Uncommon |
+| Life ♥   | Red    | Restores 1 life (only when missing a life) | Rare     |
 
 ### Combo System
+
 Killing enemies within 2.5 seconds chains a combo multiplier (×2, ×3…). Kill score is multiplied by the current combo count.
 
 ---

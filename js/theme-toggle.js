@@ -14,19 +14,20 @@
 
 // ── 1. テーマ適用（可能な限り早く）──────────────────────────
 (function () {
-    const pref = localStorage.getItem("pref-theme");
-    const shouldUseDark =
-        pref === "dark" || (!pref && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const pref = localStorage.getItem("pref-theme");
+  const shouldUseDark =
+    pref === "dark" ||
+    (!pref && window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-    function applyTheme() {
-        if (!document.body) return false;
-        document.body.classList.toggle("dark", shouldUseDark);
-        return true;
-    }
+  function applyTheme() {
+    if (!document.body) return false;
+    document.body.classList.toggle("dark", shouldUseDark);
+    return true;
+  }
 
-    if (!applyTheme()) {
-        document.addEventListener("DOMContentLoaded", applyTheme, { once: true });
-    }
+  if (!applyTheme()) {
+    document.addEventListener("DOMContentLoaded", applyTheme, { once: true });
+  }
 })();
 
 // ── 2. ボタン注入 ────────────────────────────────────────────
@@ -49,28 +50,28 @@ const TOGGLE_MARKUP = `
     </button>`;
 
 function mountThemeToggle() {
-    const container = document.getElementById("theme-toggle-container");
-    if (!container) return;
+  const container = document.getElementById("theme-toggle-container");
+  if (!container) return;
 
-    if (!container.querySelector("#theme-toggle")) {
-        container.innerHTML = TOGGLE_MARKUP;
-    }
+  if (!container.querySelector("#theme-toggle")) {
+    container.innerHTML = TOGGLE_MARKUP;
+  }
 
-    const toggle = container.querySelector("#theme-toggle");
-    if (!toggle || toggle.dataset.boundThemeToggle === "1") return;
+  const toggle = container.querySelector("#theme-toggle");
+  if (!toggle || toggle.dataset.boundThemeToggle === "1") return;
 
-    toggle.dataset.boundThemeToggle = "1";
-    toggle.addEventListener("click", function () {
-        document.body.classList.toggle("dark");
-        localStorage.setItem(
-            "pref-theme",
-            document.body.classList.contains("dark") ? "dark" : "light"
-        );
-    });
+  toggle.dataset.boundThemeToggle = "1";
+  toggle.addEventListener("click", function () {
+    document.body.classList.toggle("dark");
+    localStorage.setItem(
+      "pref-theme",
+      document.body.classList.contains("dark") ? "dark" : "light",
+    );
+  });
 }
 
 if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", mountThemeToggle);
+  document.addEventListener("DOMContentLoaded", mountThemeToggle);
 } else {
-    mountThemeToggle();
+  mountThemeToggle();
 }

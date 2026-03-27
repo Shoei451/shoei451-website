@@ -5,126 +5,264 @@
 
 /* ===== Event Date Cell ===== */
 .event-year {
-    font-weight: 600;
-    color: var(--accent-navy);
-    white-space: nowrap;
-    font-size: 1rem;
+  font-weight: 600;
+  color: var(--accent-navy);
+  white-space: nowrap;
+  font-size: 1rem;
 }
 
 body.dark .event-year {
-    color: var(--accent-gold);
+  color: var(--accent-gold);
 }
 
 /* ===== Wikipedia Link ===== */
 .event-link {
-    color: var(--accent-gold);
-    text-decoration: none;
-    font-weight: 600;
+  color: var(--accent-gold);
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .event-link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 /* ===== Stats Bar ===== */
 .stats {
-    background: var(--bg-light-secondary);
-    padding: 20px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-    display: flex;
-    gap: 30px;
-    flex-wrap: wrap;
-    justify-content: center;
-    box-shadow: 0 2px 8px var(--shadow-light);
+  background: var(--bg-light-secondary);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center;
+  box-shadow: 0 2px 8px var(--shadow-light);
 }
 
 .stat-item {
-    text-align: center;
+  text-align: center;
 }
 
 .stat-number {
-    font-size: 2rem;
-    font-weight: 700;
-    color: var(--accent-gold);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-gold);
 }
 
 .stat-label {
-    font-size: 0.9rem;
-    color: var(--text-light-secondary);
+  font-size: 0.9rem;
+  color: var(--text-light-secondary);
 }
 
 /* ===== Period Chips ===== */
 /* 各チップのライト/ダーク配色をひとまとめに */
-.period-chip.\~0                  { background: #E3F2FD; color: #1565C0; }
-body.dark .period-chip.\~0        { background: #1565C0; color: #E3F2FD; }
+.period-chip.\~0 {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+body.dark .period-chip.\~0 {
+  background: #1565c0;
+  color: #e3f2fd;
+}
 
-.period-chip.\31\~1000            { background: #F3E5F5; color: #6A1B9A; }
-body.dark .period-chip.\31\~1000  { background: #6A1B9A; color: #F3E5F5; }
+.period-chip.\31\~1000 {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+body.dark .period-chip.\31\~1000 {
+  background: #6a1b9a;
+  color: #f3e5f5;
+}
 
-.period-chip.\31001\~1500         { background: #FFF3E0; color: #E65100; }
-body.dark .period-chip.\31001\~1500 { background: #E65100; color: #FFF3E0; }
+.period-chip.\31001\~1500 {
+  background: #fff3e0;
+  color: #e65100;
+}
+body.dark .period-chip.\31001\~1500 {
+  background: #e65100;
+  color: #fff3e0;
+}
 
-.period-chip.\31501\~1700         { background: #E8F5E9; color: #2E7D32; }
-body.dark .period-chip.\31501\~1700 { background: #2E7D32; color: #E8F5E9; }
+.period-chip.\31501\~1700 {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+body.dark .period-chip.\31501\~1700 {
+  background: #2e7d32;
+  color: #e8f5e9;
+}
 
-.period-chip.\31701\~1800         { background: #FFF9C4; color: #F57F17; }
-body.dark .period-chip.\31701\~1800 { background: #F57F17; color: #FFF9C4; }
+.period-chip.\31701\~1800 {
+  background: #fff9c4;
+  color: #f57f17;
+}
+body.dark .period-chip.\31701\~1800 {
+  background: #f57f17;
+  color: #fff9c4;
+}
 
-.period-chip.\31801\~1900         { background: #E0F2F1; color: #00695C; }
-body.dark .period-chip.\31801\~1900 { background: #00695C; color: #E0F2F1; }
+.period-chip.\31801\~1900 {
+  background: #e0f2f1;
+  color: #00695c;
+}
+body.dark .period-chip.\31801\~1900 {
+  background: #00695c;
+  color: #e0f2f1;
+}
 
-.period-chip.\31901\~1945         { background: #FCE4EC; color: #C2185B; }
-body.dark .period-chip.\31901\~1945 { background: #C2185B; color: #FCE4EC; }
+.period-chip.\31901\~1945 {
+  background: #fce4ec;
+  color: #c2185b;
+}
+body.dark .period-chip.\31901\~1945 {
+  background: #c2185b;
+  color: #fce4ec;
+}
 
-.period-chip.\31946\~1989         { background: #F1F8E9; color: #558B2F; }
-body.dark .period-chip.\31946\~1989 { background: #558B2F; color: #F1F8E9; }
+.period-chip.\31946\~1989 {
+  background: #f1f8e9;
+  color: #558b2f;
+}
+body.dark .period-chip.\31946\~1989 {
+  background: #558b2f;
+  color: #f1f8e9;
+}
 
-.period-chip.\31990\~              { background: #BBDEFB; color: #0D47A1; }
-body.dark .period-chip.\31990\~    { background: #0D47A1; color: #BBDEFB; }
+.period-chip.\31990\~ {
+  background: #bbdefb;
+  color: #0d47a1;
+}
+body.dark .period-chip.\31990\~ {
+  background: #0d47a1;
+  color: #bbdefb;
+}
 
 /* ===== Chapter Chips ===== */
-.chapter-chip.第1章  { background: #E3F2FD; color: #1565C0; }
-body.dark .chapter-chip.第1章  { background: #1565C0; color: #E3F2FD; }
+.chapter-chip.第1章 {
+  background: #e3f2fd;
+  color: #1565c0;
+}
+body.dark .chapter-chip.第1章 {
+  background: #1565c0;
+  color: #e3f2fd;
+}
 
-.chapter-chip.第2章  { background: #F3E5F5; color: #6A1B9A; }
-body.dark .chapter-chip.第2章  { background: #6A1B9A; color: #F3E5F5; }
+.chapter-chip.第2章 {
+  background: #f3e5f5;
+  color: #6a1b9a;
+}
+body.dark .chapter-chip.第2章 {
+  background: #6a1b9a;
+  color: #f3e5f5;
+}
 
-.chapter-chip.第3章  { background: #BBDEFB; color: #0D47A1; }
-body.dark .chapter-chip.第3章  { background: #0D47A1; color: #BBDEFB; }
+.chapter-chip.第3章 {
+  background: #bbdefb;
+  color: #0d47a1;
+}
+body.dark .chapter-chip.第3章 {
+  background: #0d47a1;
+  color: #bbdefb;
+}
 
-.chapter-chip.第4章  { background: #E8F5E9; color: #2E7D32; }
-body.dark .chapter-chip.第4章  { background: #2E7D32; color: #E8F5E9; }
+.chapter-chip.第4章 {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+body.dark .chapter-chip.第4章 {
+  background: #2e7d32;
+  color: #e8f5e9;
+}
 
-.chapter-chip.第5章  { background: #F1F8E9; color: #558B2F; }
-body.dark .chapter-chip.第5章  { background: #558B2F; color: #F1F8E9; }
+.chapter-chip.第5章 {
+  background: #f1f8e9;
+  color: #558b2f;
+}
+body.dark .chapter-chip.第5章 {
+  background: #558b2f;
+  color: #f1f8e9;
+}
 
-.chapter-chip.第6章  { background: #E0F2F1; color: #00695C; }
-body.dark .chapter-chip.第6章  { background: #00695C; color: #E0F2F1; }
+.chapter-chip.第6章 {
+  background: #e0f2f1;
+  color: #00695c;
+}
+body.dark .chapter-chip.第6章 {
+  background: #00695c;
+  color: #e0f2f1;
+}
 
-.chapter-chip.第7章  { background: #FFF9C4; color: #F57F17; }
-body.dark .chapter-chip.第7章  { background: #F57F17; color: #FFF9C4; }
+.chapter-chip.第7章 {
+  background: #fff9c4;
+  color: #f57f17;
+}
+body.dark .chapter-chip.第7章 {
+  background: #f57f17;
+  color: #fff9c4;
+}
 
-.chapter-chip.第8章  { background: #FFF3E0; color: #E65100; }
-body.dark .chapter-chip.第8章  { background: #E65100; color: #FFF3E0; }
+.chapter-chip.第8章 {
+  background: #fff3e0;
+  color: #e65100;
+}
+body.dark .chapter-chip.第8章 {
+  background: #e65100;
+  color: #fff3e0;
+}
 
-.chapter-chip.第9章  { background: #FCE4EC; color: #C2185B; }
-body.dark .chapter-chip.第9章  { background: #C2185B; color: #FCE4EC; }
+.chapter-chip.第9章 {
+  background: #fce4ec;
+  color: #c2185b;
+}
+body.dark .chapter-chip.第9章 {
+  background: #c2185b;
+  color: #fce4ec;
+}
 
-.chapter-chip.第10章 { background: #FFEBEE; color: #C62828; }
-body.dark .chapter-chip.第10章 { background: #C62828; color: #FFEBEE; }
+.chapter-chip.第10章 {
+  background: #ffebee;
+  color: #c62828;
+}
+body.dark .chapter-chip.第10章 {
+  background: #c62828;
+  color: #ffebee;
+}
 
-.chapter-chip.第11章 { background: #E8EAF6; color: #3F51B5; }
-body.dark .chapter-chip.第11章 { background: #3F51B5; color: #E8EAF6; }
+.chapter-chip.第11章 {
+  background: #e8eaf6;
+  color: #3f51b5;
+}
+body.dark .chapter-chip.第11章 {
+  background: #3f51b5;
+  color: #e8eaf6;
+}
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-    .header-content { flex-direction: column; align-items: flex-start; }
-    h1 { font-size: 1.5rem; }
-    .controls { width: 100%; }
-    .search-box { width: 100%; }
-    .timeline-table { font-size: 0.9rem; }
-    .timeline-table th, .timeline-table td { padding: 10px; }
-    .stats { gap: 15px; }
-    .stat-number { font-size: 1.5rem; }
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .controls {
+    width: 100%;
+  }
+  .search-box {
+    width: 100%;
+  }
+  .timeline-table {
+    font-size: 0.9rem;
+  }
+  .timeline-table th,
+  .timeline-table td {
+    padding: 10px;
+  }
+  .stats {
+    gap: 15px;
+  }
+  .stat-number {
+    font-size: 1.5rem;
+  }
 }

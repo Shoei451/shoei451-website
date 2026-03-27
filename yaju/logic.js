@@ -1,53 +1,53 @@
 // ===================== DOM REFS =====================
-const display      = document.getElementById("display");
-const message      = document.getElementById("message");
-const loadingBar   = document.getElementById("loading-bar");
-const terminal     = document.getElementById("terminal");
+const display = document.getElementById("display");
+const message = document.getElementById("message");
+const loadingBar = document.getElementById("loading-bar");
+const terminal = document.getElementById("terminal");
 
 const warningSound = document.getElementById("warning-sound");
 const succeedSound = document.getElementById("succeed-sound");
-const clickSound   = document.getElementById("click-sound");
+const clickSound = document.getElementById("click-sound");
 
-const swContainer  = document.getElementById("specialWarning");
-const swImg        = document.getElementById("sw-img");
-const swTitle      = document.getElementById("sw-title");
-const swSub        = document.getElementById("sw-sub");
+const swContainer = document.getElementById("specialWarning");
+const swImg = document.getElementById("sw-img");
+const swTitle = document.getElementById("sw-title");
+const swSub = document.getElementById("sw-sub");
 
-const lifeBlocks   = document.querySelectorAll(".life-block");
+const lifeBlocks = document.querySelectorAll(".life-block");
 const timerDisplay = document.getElementById("timer-display");
-const startBtn     = document.getElementById("start-timer");
-const stopBtn      = document.getElementById("stop-timer");
-const resetBtn     = document.getElementById("reset-timer");
+const startBtn = document.getElementById("start-timer");
+const stopBtn = document.getElementById("stop-timer");
+const resetBtn = document.getElementById("reset-timer");
 
 // モバイルサイドバー
-const description    = document.getElementById("description");
-const infoToggle     = document.getElementById("info-toggle");
-const sidebarClose   = document.getElementById("sidebar-close");
+const description = document.getElementById("description");
+const infoToggle = document.getElementById("info-toggle");
+const sidebarClose = document.getElementById("sidebar-close");
 const sidebarOverlay = document.getElementById("sidebar-overlay");
 
 // ===================== STATE =====================
-let inputCode    = "";
-let lives        = 5;
-let wrongCount   = 0;
-let beastMode    = false;
-let zeroCount    = 0;
+let inputCode = "";
+let lives = 5;
+let wrongCount = 0;
+let beastMode = false;
+let zeroCount = 0;
 let isSubmitting = false;
 
 // ===================== TIMER =====================
 let timerInterval = null;
-let timeLeft      = 300;
-let timerRunning  = false;
+let timeLeft = 300;
+let timerRunning = false;
 
 function updateTimerDisplay() {
-  const m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
-  const s = String(timeLeft % 60).padStart(2, '0');
+  const m = String(Math.floor(timeLeft / 60)).padStart(2, "0");
+  const s = String(timeLeft % 60).padStart(2, "0");
   timerDisplay.textContent = `${m}:${s}`;
-  timerDisplay.classList.toggle('warning', timeLeft <= 30 && timeLeft > 0);
+  timerDisplay.classList.toggle("warning", timeLeft <= 30 && timeLeft > 0);
 }
 
 function setTimerRunning(running) {
   timerRunning = running;
-  startBtn.classList.toggle('running', running);
+  startBtn.classList.toggle("running", running);
 }
 
 function startTimer() {
@@ -89,7 +89,7 @@ function updateLives() {
 // ===================== DISPLAY =====================
 function refreshDisplay() {
   display.textContent = inputCode;
-  display.classList.toggle('full', inputCode.length >= 4);
+  display.classList.toggle("full", inputCode.length >= 4);
 }
 
 function showStatus() {
@@ -107,11 +107,11 @@ function showStatus() {
 
 // ===================== RESET =====================
 function resetAll() {
-  inputCode    = "";
+  inputCode = "";
   isSubmitting = false;
   refreshDisplay();
   message.textContent = "";
-  message.className   = "";
+  message.className = "";
   document.body.classList.remove("warning-bg");
   loadingBar.style.width = "0";
 }
@@ -121,16 +121,20 @@ function shakeTerminal() {
   terminal.classList.remove("shake");
   void terminal.offsetWidth; // reflow
   terminal.classList.add("shake");
-  terminal.addEventListener("animationend", () => {
-    terminal.classList.remove("shake");
-  }, { once: true });
+  terminal.addEventListener(
+    "animationend",
+    () => {
+      terminal.classList.remove("shake");
+    },
+    { once: true },
+  );
 }
 
 // ===================== SPECIAL =====================
 function triggerSpecial(sc) {
-  swImg.src               = sc.img;
-  swTitle.textContent     = sc.title;
-  swSub.textContent       = sc.sub;
+  swImg.src = sc.img;
+  swTitle.textContent = sc.title;
+  swSub.textContent = sc.sub;
   swContainer.style.display = "flex";
   new Audio(sc.audio).play().catch(() => {});
   setTimeout(() => {
@@ -163,15 +167,17 @@ function checkPassword() {
 
   if (passwordMap[inputCode]) {
     isSubmitting = true;
-    display.classList.add('submitting');
+    display.classList.add("submitting");
     message.textContent = "ACCESS GRANTED\nLOADING...";
-    message.className   = "granted";
+    message.className = "granted";
     loadingBar.style.width = "0";
     void loadingBar.offsetWidth;
     loadingBar.style.width = "100%";
     succeedSound.currentTime = 0;
     succeedSound.play().catch(() => {});
-    setTimeout(() => { window.location.href = passwordMap[inputCode]; }, 3000);
+    setTimeout(() => {
+      window.location.href = passwordMap[inputCode];
+    }, 3000);
     return;
   }
 
@@ -183,14 +189,16 @@ function checkPassword() {
   if (lives <= 0) {
     isSubmitting = true;
     message.textContent = "GAME OVER";
-    message.className   = "denied";
+    message.className = "denied";
     document.body.classList.add("warning-bg");
     warningSound.currentTime = 0;
     warningSound.play().catch(() => {});
-    setTimeout(() => { window.location.href = "fail.html"; }, 2000);
+    setTimeout(() => {
+      window.location.href = "fail.html";
+    }, 2000);
   } else {
     message.textContent = `ACCESS DENIED  (${wrongCount}/5)`;
-    message.className   = "denied";
+    message.className = "denied";
     document.body.classList.add("warning-bg");
     warningSound.currentTime = 0;
     warningSound.play().catch(() => {});
@@ -201,7 +209,7 @@ function checkPassword() {
 // ===================== INPUT ACTIONS =====================
 function handleDigit(d) {
   if (isSubmitting) return;
-  const maxLen = (inputCode.startsWith("1145") && inputCode.length >= 4) ? 6 : 4;
+  const maxLen = inputCode.startsWith("1145") && inputCode.length >= 4 ? 6 : 4;
   if (inputCode.length < maxLen) {
     inputCode += d;
     refreshDisplay();
@@ -233,18 +241,23 @@ function handleEnter() {
 }
 
 // ===================== BUTTON CLICKS =====================
-document.querySelectorAll(".btn").forEach(btn => {
+document.querySelectorAll(".btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     const val = btn.textContent.trim();
-    if (/^\d$/.test(val))  { handleDigit(val); }
-    else if (val === "←")  { handleBackspace(); }
-    else if (val === "C")   { handleClear(); }
-    else if (val === "ENTER") { handleEnter(); }
+    if (/^\d$/.test(val)) {
+      handleDigit(val);
+    } else if (val === "←") {
+      handleBackspace();
+    } else if (val === "C") {
+      handleClear();
+    } else if (val === "ENTER") {
+      handleEnter();
+    }
   });
 });
 
 // ===================== KEYBOARD =====================
-document.addEventListener("keydown", e => {
+document.addEventListener("keydown", (e) => {
   // Numpad: e.code で明示的に処理（NumLock OFF でも e.code は変わらない）
   if (e.code.startsWith("Numpad")) {
     // Numpad数字 (NumLock ON: e.key = "0"..."9" / OFF: e.key = "ArrowDown" など)
@@ -300,12 +313,12 @@ function closeSidebar() {
   document.body.style.overflow = "";
 }
 
-if (infoToggle)     infoToggle.addEventListener("click", openSidebar);
-if (sidebarClose)   sidebarClose.addEventListener("click", closeSidebar);
+if (infoToggle) infoToggle.addEventListener("click", openSidebar);
+if (sidebarClose) sidebarClose.addEventListener("click", closeSidebar);
 if (sidebarOverlay) sidebarOverlay.addEventListener("click", closeSidebar);
 
 // Escape でサイドバーを閉じる（PC では keydown で conflict しないよう確認）
-document.addEventListener("keydown", e => {
+document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && description.classList.contains("open")) {
     closeSidebar();
   }

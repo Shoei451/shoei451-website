@@ -19,21 +19,29 @@
   --accent: #b5451b;
   --accent2: #d96030;
   --gold: #8a5a00;
-  --shadow: rgba(42,31,20,0.08);
+  --shadow: rgba(42, 31, 20, 0.08);
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   min-height: 100vh;
 }
 
 /* ─── Shared ─── */
-.screen { display: none; }
-.screen.active { display: block; }
+.screen {
+  display: none;
+}
+.screen.active {
+  display: block;
+}
 
 .page-wrap {
   max-width: 1060px;
@@ -55,7 +63,9 @@ body {
   display: none;
   flex-direction: column;
 }
-#startScreen.active { display: flex; }
+#startScreen.active {
+  display: flex;
+}
 
 .start-hero {
   background: var(--surface);
@@ -65,7 +75,8 @@ body {
 }
 
 .kamon {
-  width: 64px; height: 64px;
+  width: 64px;
+  height: 64px;
   border: 2px solid var(--accent);
   border-radius: 50%;
   display: inline-flex;
@@ -78,7 +89,7 @@ body {
 }
 
 .start-title {
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: clamp(32px, 6vw, 52px);
   font-weight: 800;
   letter-spacing: 0.18em;
@@ -130,7 +141,9 @@ body {
 }
 
 @media (max-width: 640px) {
-  .mode-cards { grid-template-columns: 1fr; }
+  .mode-cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 .mode-card {
@@ -150,20 +163,21 @@ body {
 
 .mode-card:hover {
   border-color: var(--accent2);
-  box-shadow: 0 4px 20px rgba(181,69,27,0.12);
+  box-shadow: 0 4px 20px rgba(181, 69, 27, 0.12);
   transform: translateY(-2px);
 }
 
 .mode-card.selected {
   border-color: var(--accent);
   background: #fff8f4;
-  box-shadow: 0 4px 20px rgba(181,69,27,0.15);
+  box-shadow: 0 4px 20px rgba(181, 69, 27, 0.15);
 }
 
 .mode-card.selected::after {
-  content: '✓';
+  content: "✓";
   position: absolute;
-  top: 10px; right: 12px;
+  top: 10px;
+  right: 12px;
   color: var(--accent);
   font-size: 14px;
   font-weight: 700;
@@ -185,7 +199,7 @@ body {
 }
 
 .mode-name {
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: 20px;
   font-weight: 700;
   color: var(--ink);
@@ -241,7 +255,7 @@ body {
   border: 1.5px solid var(--border);
   border-radius: 20px;
   padding: 6px 16px;
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 12px;
   color: var(--ink2);
   cursor: pointer;
@@ -282,7 +296,7 @@ body {
   border-radius: 8px;
   padding: 10px 16px;
   min-width: 110px;
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 14px;
   color: var(--ink2);
   cursor: pointer;
@@ -317,20 +331,20 @@ body {
   color: #fff;
   border: none;
   border-radius: 8px;
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.2em;
   padding: 18px 0;
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 0 4px 16px rgba(181,69,27,0.3);
+  box-shadow: 0 4px 16px rgba(181, 69, 27, 0.3);
 }
 
 .start-btn:hover {
   background: var(--accent2);
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(181,69,27,0.35);
+  box-shadow: 0 6px 24px rgba(181, 69, 27, 0.35);
 }
 
 /* ════════════════════════════════════════════
@@ -350,7 +364,7 @@ body {
 }
 
 .quiz-header-title {
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: 18px;
   font-weight: 700;
   color: var(--ink);
@@ -363,7 +377,7 @@ body {
   border: 1px solid var(--border2);
   border-radius: 6px;
   color: var(--ink2);
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 13px;
   padding: 6px 14px;
   cursor: pointer;
@@ -372,7 +386,10 @@ body {
   white-space: nowrap;
 }
 
-.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+.back-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 .score-pill {
   background: var(--bg2);
@@ -384,7 +401,10 @@ body {
   white-space: nowrap;
 }
 
-.score-pill strong { color: var(--accent); font-weight: 700; }
+.score-pill strong {
+  color: var(--accent);
+  font-weight: 700;
+}
 
 .streak-pill {
   background: #fff5e8;
@@ -400,7 +420,9 @@ body {
 /* ════════════════════════════════════════════
    ONE-BY-ONE QUIZ SCREEN
 ════════════════════════════════════════════ */
-#quizScreen .page-wrap { padding-top: 40px; }
+#quizScreen .page-wrap {
+  padding-top: 40px;
+}
 
 .typing-progress {
   background: var(--surface);
@@ -421,7 +443,7 @@ body {
 
 .typing-progress-meta strong {
   color: var(--accent);
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: 15px;
 }
 
@@ -453,14 +475,22 @@ body {
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .q-card::before {
-  content: '';
+  content: "";
   position: absolute;
-  left: 0; top: 0; bottom: 0;
+  left: 0;
+  top: 0;
+  bottom: 0;
   width: 4px;
   background: var(--accent);
   border-radius: 12px 0 0 12px;
@@ -491,8 +521,14 @@ body {
   margin-bottom: 24px;
 }
 
-.q-text .hw { color: var(--accent); font-weight: 700; }
-.q-text .q-col-em { color: var(--red); font-weight: 700; }
+.q-text .hw {
+  color: var(--accent);
+  font-weight: 700;
+}
+.q-text .q-col-em {
+  color: var(--red);
+  font-weight: 700;
+}
 
 /* Input */
 .inp-row {
@@ -510,21 +546,29 @@ body {
   border: 1.5px solid var(--border2);
   border-radius: 8px;
   color: var(--ink);
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 18px;
   padding: 11px 16px;
   outline: none;
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 }
 
 .ans-input:focus {
   border-color: var(--accent);
   background: #fff;
-  box-shadow: 0 0 0 3px rgba(181,69,27,0.08);
+  box-shadow: 0 0 0 3px rgba(181, 69, 27, 0.08);
 }
 
-.ans-input.ok  { border-color: var(--green); background: var(--green-bg); }
-.ans-input.ng  { border-color: var(--red);   background: var(--red-bg);   }
+.ans-input.ok {
+  border-color: var(--green);
+  background: var(--green-bg);
+}
+.ans-input.ng {
+  border-color: var(--red);
+  background: var(--red-bg);
+}
 
 /* Choices */
 .choices {
@@ -534,14 +578,18 @@ body {
   margin-bottom: 8px;
 }
 
-@media (max-width: 480px) { .choices { grid-template-columns: 1fr; } }
+@media (max-width: 480px) {
+  .choices {
+    grid-template-columns: 1fr;
+  }
+}
 
 .choice {
   background: var(--bg);
   border: 1.5px solid var(--border);
   border-radius: 8px;
   color: var(--ink);
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 15px;
   padding: 13px 20px;
   cursor: pointer;
@@ -556,10 +604,25 @@ body {
   color: var(--accent);
 }
 
-.choice.ok  { background: var(--green-bg); border-color: var(--green); color: var(--green); }
-.choice.ng  { background: var(--red-bg);   border-color: var(--red);   color: var(--red);  }
-.choice.show{ background: var(--green-bg); border-color: var(--green); color: var(--green); opacity: 0.8; }
-.choice:disabled { cursor: default; }
+.choice.ok {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green);
+}
+.choice.ng {
+  background: var(--red-bg);
+  border-color: var(--red);
+  color: var(--red);
+}
+.choice.show {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green);
+  opacity: 0.8;
+}
+.choice:disabled {
+  cursor: default;
+}
 
 /* Feedback */
 .feedback {
@@ -585,8 +648,15 @@ body {
   color: #8b2020;
 }
 
-.feedback .correct-ans { font-weight: 700; color: var(--green); }
-.feedback .memo { margin-top: 8px; font-size: 13px; color: var(--ink2); }
+.feedback .correct-ans {
+  font-weight: 700;
+  color: var(--green);
+}
+.feedback .memo {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--ink2);
+}
 
 .btn-row {
   display: flex;
@@ -598,7 +668,7 @@ body {
 .btn {
   border: none;
   border-radius: 7px;
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 15px;
   letter-spacing: 0.08em;
   padding: 11px 24px;
@@ -609,10 +679,13 @@ body {
 .btn-primary {
   background: var(--accent);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(181,69,27,0.2);
+  box-shadow: 0 2px 8px rgba(181, 69, 27, 0.2);
 }
 
-.btn-primary:hover { background: var(--accent2); transform: translateY(-1px); }
+.btn-primary:hover {
+  background: var(--accent2);
+  transform: translateY(-1px);
+}
 
 .btn-ghost {
   background: var(--surface);
@@ -620,12 +693,17 @@ body {
   color: var(--ink2);
 }
 
-.btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 /* ════════════════════════════════════════════
    TABLE QUIZ SCREEN
 ════════════════════════════════════════════ */
-#tableScreen .page-wrap { padding-top: 32px; }
+#tableScreen .page-wrap {
+  padding-top: 32px;
+}
 
 .table-intro {
   background: var(--surface);
@@ -646,7 +724,9 @@ body {
   line-height: 1.8;
 }
 
-.table-intro-text strong { color: var(--accent); }
+.table-intro-text strong {
+  color: var(--accent);
+}
 
 .tbl-score {
   text-align: center;
@@ -741,8 +821,12 @@ tbody tr {
   transition: background 0.12s;
 }
 
-tbody tr:last-child { border-bottom: none; }
-tbody tr:hover { background: #faf5ee; }
+tbody tr:last-child {
+  border-bottom: none;
+}
+tbody tr:hover {
+  background: #faf5ee;
+}
 
 tbody td {
   padding: 9px 10px;
@@ -755,7 +839,7 @@ tbody td {
 }
 
 .name-cell {
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-weight: 700;
   font-size: 16px;
   color: var(--ink);
@@ -779,7 +863,7 @@ tbody td {
   border: 1.5px solid var(--border2);
   border-radius: 5px;
   color: var(--ink);
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 14px;
   padding: 5px 7px;
   outline: none;
@@ -790,7 +874,7 @@ tbody td {
 .tbl-input:focus {
   border-color: var(--accent);
   background: #fff;
-  box-shadow: 0 0 0 2px rgba(181,69,27,0.1);
+  box-shadow: 0 0 0 2px rgba(181, 69, 27, 0.1);
 }
 
 .tbl-input.ok {
@@ -806,7 +890,10 @@ tbody td {
   color: var(--red);
 }
 
-.tbl-input.ng::placeholder { color: var(--red); opacity: 0.6; }
+.tbl-input.ng::placeholder {
+  color: var(--red);
+  opacity: 0.6;
+}
 
 /* Revealed correct answer overlay */
 .tbl-reveal {
@@ -836,7 +923,7 @@ tbody td {
   border: 1.5px solid var(--border2);
   border-radius: 7px;
   color: var(--ink2);
-  font-family: 'Noto Serif JP', serif;
+  font-family: "Noto Serif JP", serif;
   font-size: 14px;
   padding: 9px 20px;
   cursor: pointer;
@@ -844,7 +931,10 @@ tbody td {
   letter-spacing: 0.05em;
 }
 
-.reveal-btn:hover { border-color: var(--accent); color: var(--accent); }
+.reveal-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
 /* Score result at bottom */
 .tbl-result {
@@ -857,10 +947,12 @@ tbody td {
   box-shadow: 0 2px 12px var(--shadow);
 }
 
-.tbl-result.show { display: block; }
+.tbl-result.show {
+  display: block;
+}
 
 .tbl-result-score {
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: 52px;
   font-weight: 800;
   color: var(--accent);
@@ -889,7 +981,7 @@ tbody td {
 }
 
 .result-big {
-  font-family: 'Shippori Mincho', serif;
+  font-family: "Shippori Mincho", serif;
   font-size: 72px;
   font-weight: 800;
   color: var(--accent);
@@ -910,4 +1002,3 @@ tbody td {
   margin: 28px auto;
   max-width: 380px;
 }
-

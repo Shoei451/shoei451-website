@@ -19,7 +19,6 @@
 // ============================================================
 
 (function () {
-
   const DEFAULT_ID = "qz-choices";
 
   /**
@@ -28,20 +27,24 @@
    */
   window.showChoices = function (config) {
     const mountId = config.mountId ?? DEFAULT_ID;
-    const el      = document.getElementById(mountId);
+    const el = document.getElementById(mountId);
     if (!el) {
       console.error(`showChoices: #${mountId} が見つかりません`);
       return;
     }
 
-    el.innerHTML = config.options.map((opt, i) => `
+    el.innerHTML = config.options
+      .map(
+        (opt, i) => `
       <button class="qz-choice" data-index="${i}" type="button">
         <span class="qz-choice__letter">${_letter(i)}</span>
         <span class="qz-choice__text">${_esc(opt)}</span>
       </button>
-    `).join("");
+    `,
+      )
+      .join("");
 
-    el.querySelectorAll(".qz-choice").forEach(btn => {
+    el.querySelectorAll(".qz-choice").forEach((btn) => {
       btn.addEventListener("click", () => _handleAnswer(btn, config, el));
     });
   };
@@ -51,16 +54,16 @@
   function _handleAnswer(clicked, config, container) {
     // 全ボタンを即座に無効化
     const buttons = container.querySelectorAll(".qz-choice");
-    buttons.forEach(b => {
+    buttons.forEach((b) => {
       b.disabled = true;
       b.classList.add("is-locked");
     });
 
-    const selected  = clicked.querySelector(".qz-choice__text").textContent;
+    const selected = clicked.querySelector(".qz-choice__text").textContent;
     const isCorrect = selected === config.correct;
 
     // 正解・不正解の色付け
-    buttons.forEach(b => {
+    buttons.forEach((b) => {
       const text = b.querySelector(".qz-choice__text").textContent;
       if (text === config.correct) {
         b.classList.add("is-correct");
@@ -76,9 +79,9 @@
     if (config.onAnswer) {
       config.onAnswer({
         selected,
-        correct:   config.correct,
+        correct: config.correct,
         isCorrect,
-        buttons:   [...buttons],
+        buttons: [...buttons],
       });
     }
   }
@@ -96,5 +99,4 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
-
 })();

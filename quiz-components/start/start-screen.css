@@ -70,7 +70,10 @@
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    box-shadow 0.15s;
   text-align: left;
 }
 
@@ -123,7 +126,9 @@
   font-family: inherit;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
   text-align: left;
   width: 100%;
 }
@@ -269,7 +274,9 @@ body.dark .qz-count-slider__display {
   justify-content: center;
   cursor: pointer;
   box-shadow: var(--qz-shadow-md);
-  transition: border-color 0.15s, transform 0.15s;
+  transition:
+    border-color 0.15s,
+    transform 0.15s;
   color: var(--qz-text-sub);
   font-size: 1.2rem;
 }
@@ -283,7 +290,7 @@ body.dark .qz-count-slider__display {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   z-index: 210;
 }
 
@@ -304,7 +311,7 @@ body.dark .qz-count-slider__display {
   overflow-y: auto;
   padding: var(--qz-space-lg) var(--qz-space-md);
   transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 4px 0 24px rgba(0,0,0,0.12);
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
 }
 
 .qz-tutorial-panel.is-open {

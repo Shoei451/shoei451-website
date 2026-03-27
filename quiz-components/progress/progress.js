@@ -24,9 +24,8 @@
 // ============================================================
 
 (function () {
-
-  let _config  = null;
-  let _current = 0;   // 0-indexed、現在表示中の問題番号
+  let _config = null;
+  let _current = 0; // 0-indexed、現在表示中の問題番号
 
   // ── パブリック API ─────────────────────────────────────────
 
@@ -35,7 +34,7 @@
    * @param {ProgressConfig} config
    */
   window.initProgress = function (config) {
-    _config  = config;
+    _config = config;
     _current = 0;
     _render();
   };
@@ -77,7 +76,7 @@
 
   function _renderBar() {
     const barId = _config.barId ?? "qz-progress-bar";
-    const el    = document.getElementById(barId);
+    const el = document.getElementById(barId);
     if (!el) return;
 
     el.innerHTML = `
@@ -94,10 +93,10 @@
 
   function _renderNav() {
     const navId = _config.navId ?? "qz-nav-buttons";
-    const el    = document.getElementById(navId);
+    const el = document.getElementById(navId);
     if (!el) return;
 
-    const nextLabel  = _config.nextLabel  ?? "次の問題";
+    const nextLabel = _config.nextLabel ?? "次の問題";
     const resetLabel = _config.resetLabel ?? "最初に戻る";
 
     // innerHTML を差し替えることで古いリスナーごと破棄し、累積を防ぐ
@@ -132,7 +131,7 @@
   // ── 更新 ──────────────────────────────────────────────────
 
   function _updateBar() {
-    const fill    = document.getElementById("qz-progress-fill");
+    const fill = document.getElementById("qz-progress-fill");
     const counter = document.getElementById("qz-progress-current");
     if (!fill || !_config) return;
 
@@ -145,7 +144,7 @@
     const btn = document.getElementById("qz-next-btn");
     if (!btn || !_config) return;
 
-    const isLast    = _current >= _config.total - 1;
+    const isLast = _current >= _config.total - 1;
     const nextLabel = _config.nextLabel ?? "次の問題";
     const lastLabel = _config.lastLabel ?? "結果を見る";
 
@@ -164,9 +163,9 @@
 
   function _onReset() {
     if (!_config) return;
-    const msg = _config.resetConfirm ?? "最初に戻りますか？\n進捗はリセットされます。";
+    const msg =
+      _config.resetConfirm ?? "最初に戻りますか？\n進捗はリセットされます。";
     if (msg && !confirm(msg)) return;
     if (_config.onReset) _config.onReset();
   }
-
 })();

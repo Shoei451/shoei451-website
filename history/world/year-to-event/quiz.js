@@ -14,35 +14,35 @@
 
 // ── 時代区分（period フィールドと対応） ───────────────────
 const PERIODS = [
-  { id: "~0",        label: "紀元前" },
-  { id: "1~1000",    label: "1年〜1000年" },
+  { id: "~0", label: "紀元前" },
+  { id: "1~1000", label: "1年〜1000年" },
   { id: "1001~1500", label: "1001年〜1500年" },
   { id: "1501~1700", label: "1501年〜1700年" },
   { id: "1701~1800", label: "1701年〜1800年" },
   { id: "1801~1900", label: "1801年〜1900年" },
   { id: "1901~1945", label: "1901年〜1945年" },
   { id: "1946~1989", label: "1946年〜1989年" },
-  { id: "1990~",     label: "1990年〜" },
+  { id: "1990~", label: "1990年〜" },
 ];
 
 // ── 状態 ──────────────────────────────────────────────────
-let allData      = [];
-let quizSet      = [];
+let allData = [];
+let quizSet = [];
 let currentIndex = 0;
 let correctCount = 0;
-let mistakes     = [];
+let mistakes = [];
 
 // ── start-screen config ───────────────────────────────────
 const START_CONFIG = {
-  title:      "世界史年代クイズ",
-  subtitle:   "年号 → 出来事",
-  image:      "../../../images/worldhistoryquiz.png",
+  title: "世界史年代クイズ",
+  subtitle: "年号 → 出来事",
+  image: "../../../images/worldhistoryquiz.png",
 
-  rangeMode:  "single",
+  rangeMode: "single",
   rangeLabel: "時代区分",
-  ranges:     PERIODS,
+  ranges: PERIODS,
 
-  countMode:    "select",
+  countMode: "select",
   countDefault: 10,
   countOptions: [10, 20, 30, "all"],
 
@@ -51,7 +51,8 @@ const START_CONFIG = {
 
 // ── データ読み込み ─────────────────────────────────────────
 async function loadQuestions() {
-  let all = [], start = 0;
+  let all = [],
+    start = 0;
   const BATCH = 1000;
 
   while (true) {
@@ -59,10 +60,13 @@ async function loadQuestions() {
       .from(TABLES.WH_QUIZ)
       .select("*")
       .order("is_bc", { ascending: false })
-      .order("year",  { ascending: true })
+      .order("year", { ascending: true })
       .range(start, start + BATCH - 1);
 
-    if (error) { showLoadError(error.message); return false; }
+    if (error) {
+      showLoadError(error.message);
+      return false;
+    }
     if (!data || data.length === 0) break;
     all.push(...data);
     if (data.length < BATCH) break;
@@ -88,28 +92,33 @@ function showLoadError(msg) {
 async function onStart([selectedPeriod], count) {
   if (allData.length === 0) {
     const btn = document.getElementById("qz-start-btn");
-    if (btn) { btn.disabled = true; btn.textContent = "読み込み中..."; }
-    if (!await loadQuestions()) return;
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "読み込み中...";
+    }
+    if (!(await loadQuestions())) return;
   }
 
-  const filtered = allData.filter(q => q.period === selectedPeriod);
+  const filtered = allData.filter((q) => q.period === selectedPeriod);
   if (filtered.length === 0) {
-    alert("このセクションに問題がありません。別のセクションを選択してください。");
+    alert(
+      "このセクションに問題がありません。別のセクションを選択してください。",
+    );
     return;
   }
 
-  const total  = count === "all" ? filtered.length : parseInt(count);
-  quizSet      = shuffleArray(filtered).slice(0, Math.min(total, filtered.length));
+  const total = count === "all" ? filtered.length : parseInt(count);
+  quizSet = shuffleArray(filtered).slice(0, Math.min(total, filtered.length));
   currentIndex = 0;
   correctCount = 0;
-  mistakes     = [];
+  mistakes = [];
 
   initProgress({
-    total:        quizSet.length,
-    lastLabel:    "結果を見る",
+    total: quizSet.length,
+    lastLabel: "結果を見る",
     resetConfirm: "最初に戻りますか？進捗はリセットされます。",
-    onNext:       advanceQuestion,
-    onReset:      resetToStart,
+    onNext: advanceQuestion,
+    onReset: resetToStart,
   });
 
   showScreen("quiz-screen");
@@ -125,13 +134,13 @@ function renderQuestion(i) {
 
   // 問題文: 年号
   showQuestion({
-    text:     formatYear(toDisplayYear(q)),
+    text: formatYear(toDisplayYear(q)),
     category: q.period,
   });
 
   // 選択肢: 同じ period から3件の不正解を用意
-  const others  = buildDistractors(q, allData);
-  const options = shuffleArray([q, ...others]).map(item => item.event);
+  const others = buildDistractors(q, allData);
+  const options = shuffleArray([q, ...others]).map((item) => item.event);
 
   showChoices({
     options,
@@ -141,24 +150,26 @@ function renderQuestion(i) {
         correctCount++;
       } else {
         mistakes.push({
-          questionText:  formatYear(toDisplayYear(q)),
-          category:      q.period,
-          userAnswer:    selected,
+          questionText: formatYear(toDisplayYear(q)),
+          category: q.period,
+          userAnswer: selected,
           correctAnswer: q.event,
         });
       }
       showFeedback({
         isCorrect,
         correctLabel: isCorrect ? null : q.event,
-        userLabel:    isCorrect ? null : selected,
+        userLabel: isCorrect ? null : selected,
         // 参考リンクがあれば extra に表示
-        extraRenderer: q.link ? (el) => {
-          el.innerHTML = `<a href="${q.link}" target="_blank" rel="noopener"
+        extraRenderer: q.link
+          ? (el) => {
+              el.innerHTML = `<a href="${q.link}" target="_blank" rel="noopener"
                             style="font-size:0.82rem; color:var(--qz-accent-dark);
                                    text-decoration:underline;">
                             参考リンク →
                           </a>`;
-        } : null,
+            }
+          : null,
       });
     },
   });
@@ -167,7 +178,9 @@ function renderQuestion(i) {
 // ── 選択肢生成（同 period から3件、不正解候補） ──────────
 function buildDistractors(current, pool) {
   return shuffleArray(
-    pool.filter(q => q.period === current.period && q.event !== current.event)
+    pool.filter(
+      (q) => q.period === current.period && q.event !== current.event,
+    ),
   ).slice(0, 3);
 }
 
@@ -182,25 +195,28 @@ function advanceQuestion(idx) {
 
   showScreen("result-screen");
   showResult({
-    correct:  correctCount,
-    total:    quizSet.length,
+    correct: correctCount,
+    total: quizSet.length,
     mistakes,
-    onRetry:  resetToStart,
+    onRetry: resetToStart,
     onRetryMistakes(ms) {
-      quizSet = ms.map(m =>
-        allData.find(q => q.event === m.correctAnswer)
-      ).filter(Boolean);
-      if (!quizSet.length) { resetToStart(); return; }
+      quizSet = ms
+        .map((m) => allData.find((q) => q.event === m.correctAnswer))
+        .filter(Boolean);
+      if (!quizSet.length) {
+        resetToStart();
+        return;
+      }
 
       currentIndex = correctCount = 0;
       mistakes = [];
 
       initProgress({
-        total:        quizSet.length,
-        lastLabel:    "結果を見る",
+        total: quizSet.length,
+        lastLabel: "結果を見る",
         resetConfirm: "最初に戻りますか？",
-        onNext:       advanceQuestion,
-        onReset:      resetToStart,
+        onNext: advanceQuestion,
+        onReset: resetToStart,
       });
 
       showScreen("quiz-screen");
@@ -219,8 +235,8 @@ function resetToStart() {
 }
 
 function showScreen(id) {
-  ["start-screen", "quiz-screen", "result-screen"].forEach(s =>
-    document.getElementById(s).classList.add("hidden")
+  ["start-screen", "quiz-screen", "result-screen"].forEach((s) =>
+    document.getElementById(s).classList.add("hidden"),
   );
   document.getElementById(id).classList.remove("hidden");
 }

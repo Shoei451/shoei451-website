@@ -25,7 +25,10 @@
   font-size: 0.95rem;
   text-align: left;
   cursor: pointer;
-  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    transform 0.1s;
 }
 
 .qz-choice:hover:not(:disabled) {
@@ -64,7 +67,9 @@
   font-size: 0.75rem;
   font-weight: 700;
   flex-shrink: 0;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .qz-choice:hover:not(:disabled) .qz-choice__letter {
@@ -119,7 +124,9 @@
   background: var(--qz-surface);
   color: var(--qz-text);
   font-family: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
   /* Chrome の number スピナーを非表示 */
   -moz-appearance: textfield;
 }

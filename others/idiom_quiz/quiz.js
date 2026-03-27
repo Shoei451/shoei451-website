@@ -8,44 +8,45 @@
 // ============================================================
 
 // ── 状態 ──────────────────────────────────────────────────
-let allQuestions     = [];
-let quizSet          = [];
-let currentIndex     = 0;
-let correctCount     = 0;
-let mistakes         = [];
-let selectedCount    = 10;
-let selectedMode     = "random";
+let allQuestions = [];
+let quizSet = [];
+let currentIndex = 0;
+let correctCount = 0;
+let mistakes = [];
+let selectedCount = 10;
+let selectedMode = "random";
 
-const MIN_ATTEMPTS   = 5;
+const MIN_ATTEMPTS = 5;
 
 // ── start-screen config ───────────────────────────────────
 const START_CONFIG = {
-  title:      "Vintage 冬季課題 イディオムクイズ",
-  subtitle:   "Fill-in-the-blank idiom questions",
+  title: "Vintage 冬季課題 イディオムクイズ",
+  subtitle: "Fill-in-the-blank idiom questions",
   tutorialMd: "tutorial.md",
 
-  rangeMode:  "single",
+  rangeMode: "single",
   rangeLabel: "Quiz Mode",
   ranges: [
-    { id: "random",      label: "Random Practice  — 全267問からランダム出題" },
-    { id: "difficult",   label: "Focus on Weak Areas — 正答率50%未満" },
+    { id: "random", label: "Random Practice  — 全267問からランダム出題" },
+    { id: "difficult", label: "Focus on Weak Areas — 正答率50%未満" },
     { id: "unattempted", label: "Not Yet Attempted — 取り組み数5未満" },
-    { id: "mixed",       label: "Mixed Review — 60% difficult / 30% medium / 10% easy" },
+    {
+      id: "mixed",
+      label: "Mixed Review — 60% difficult / 30% medium / 10% easy",
+    },
   ],
 
-  countMode:    "select",
+  countMode: "select",
   countDefault: 10,
   countOptions: [5, 10, 20, 30, 50, "all"],
-  startLabel:   "Start Quiz",
+  startLabel: "Start Quiz",
 
   onStart,
 };
 
 // ── データ読み込み ─────────────────────────────────────────
 async function loadQuestions() {
-  const { data, error } = await db
-    .from("english_idioms")
-    .select("*");
+  const { data, error } = await db.from("english_idioms").select("*");
 
   if (error) {
     showLoadError(error.message);
@@ -74,37 +75,46 @@ function showLoadError(msg) {
 function filterByMode(questions, mode) {
   switch (mode) {
     case "difficult":
-      return questions.filter(q =>
-        q.total_attempts >= MIN_ATTEMPTS &&
-        (q.correct_rate === null || q.correct_rate < 50)
+      return questions.filter(
+        (q) =>
+          q.total_attempts >= MIN_ATTEMPTS &&
+          (q.correct_rate === null || q.correct_rate < 50),
       );
 
     case "unattempted":
-      return questions.filter(q =>
-        q.total_attempts === null || q.total_attempts < MIN_ATTEMPTS
+      return questions.filter(
+        (q) => q.total_attempts === null || q.total_attempts < MIN_ATTEMPTS,
       );
 
     case "mixed": {
-      const difficult = questions.filter(q =>
-        q.total_attempts >= MIN_ATTEMPTS &&
-        (q.correct_rate === null || q.correct_rate < 50)
+      const difficult = questions.filter(
+        (q) =>
+          q.total_attempts >= MIN_ATTEMPTS &&
+          (q.correct_rate === null || q.correct_rate < 50),
       );
-      const medium = questions.filter(q =>
-        q.total_attempts >= MIN_ATTEMPTS &&
-        q.correct_rate >= 50 && q.correct_rate < 75
+      const medium = questions.filter(
+        (q) =>
+          q.total_attempts >= MIN_ATTEMPTS &&
+          q.correct_rate >= 50 &&
+          q.correct_rate < 75,
       );
-      const easy = questions.filter(q =>
-        q.total_attempts >= MIN_ATTEMPTS &&
-        q.correct_rate >= 75
+      const easy = questions.filter(
+        (q) => q.total_attempts >= MIN_ATTEMPTS && q.correct_rate >= 75,
       );
-      const unattempted = questions.filter(q =>
-        q.total_attempts === null || q.total_attempts < MIN_ATTEMPTS
+      const unattempted = questions.filter(
+        (q) => q.total_attempts === null || q.total_attempts < MIN_ATTEMPTS,
       );
 
       const mixed = [];
-      mixed.push(...shuffleArray(difficult).slice(0, Math.ceil(questions.length * 0.6)));
-      mixed.push(...shuffleArray(medium).slice(0,    Math.ceil(questions.length * 0.3)));
-      mixed.push(...shuffleArray(easy).slice(0,      Math.ceil(questions.length * 0.1)));
+      mixed.push(
+        ...shuffleArray(difficult).slice(0, Math.ceil(questions.length * 0.6)),
+      );
+      mixed.push(
+        ...shuffleArray(medium).slice(0, Math.ceil(questions.length * 0.3)),
+      );
+      mixed.push(
+        ...shuffleArray(easy).slice(0, Math.ceil(questions.length * 0.1)),
+      );
 
       if (mixed.length === 0) {
         mixed.push(...shuffleArray(unattempted));
@@ -120,14 +130,17 @@ function filterByMode(questions, mode) {
 
 // ── クイズ開始 ────────────────────────────────────────────
 async function onStart([mode], count) {
-  selectedMode  = mode;
+  selectedMode = mode;
   selectedCount = count;
 
   if (allQuestions.length === 0) {
     const btn = document.getElementById("qz-start-btn");
-    if (btn) { btn.disabled = true; btn.textContent = "Loading..."; }
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = "Loading...";
+    }
 
-    if (!await loadQuestions()) return;
+    if (!(await loadQuestions())) return;
   }
 
   let filtered = filterByMode(allQuestions, mode);
@@ -140,17 +153,17 @@ async function onStart([mode], count) {
   filtered = shuffleArray(filtered);
 
   const total = count === "all" ? filtered.length : parseInt(count);
-  quizSet      = filtered.slice(0, Math.min(total, filtered.length));
+  quizSet = filtered.slice(0, Math.min(total, filtered.length));
   currentIndex = 0;
   correctCount = 0;
-  mistakes     = [];
+  mistakes = [];
 
   initProgress({
-    total:        quizSet.length,
-    lastLabel:    "See Results",
+    total: quizSet.length,
+    lastLabel: "See Results",
     resetConfirm: "Quit quiz? Your progress will be lost.",
-    onNext:       advanceQuestion,
-    onReset:      resetToStart,
+    onNext: advanceQuestion,
+    onReset: resetToStart,
   });
 
   showScreen("quiz-screen");
@@ -167,12 +180,17 @@ function renderQuestion(i) {
   // 問題文: fill-in-the-blank 例文 + 日本語訳
   showQuestion({
     text: q.fill_in_the_blanks,
-    sub:  q.example_jp ?? null,
+    sub: q.example_jp ?? null,
   });
 
   // 選択肢生成: 正解 + 他3件
-  const others  = buildDistractors(q, quizSet.length > 4 ? quizSet : allQuestions);
-  const options = shuffleArray([q, ...others]).map(item => item.idiom_extracted);
+  const others = buildDistractors(
+    q,
+    quizSet.length > 4 ? quizSet : allQuestions,
+  );
+  const options = shuffleArray([q, ...others]).map(
+    (item) => item.idiom_extracted,
+  );
 
   showChoices({
     options,
@@ -185,11 +203,11 @@ function renderQuestion(i) {
         correctCount++;
       } else {
         mistakes.push({
-          questionText:  q.fill_in_the_blanks,
-          category:      null,
-          userAnswer:    selected,
+          questionText: q.fill_in_the_blanks,
+          category: null,
+          userAnswer: selected,
           correctAnswer: q.idiom_extracted,
-          _raw:          q,  // renderMistake で使用
+          _raw: q, // renderMistake で使用
         });
       }
 
@@ -205,14 +223,16 @@ function renderQuestion(i) {
 // ── フィードバックカード ───────────────────────────────────
 function buildFeedbackCard(container, q, isCorrect, selected) {
   const headerClass = isCorrect ? "is-correct" : "is-incorrect";
-  const headerText  = isCorrect ? "✓ Correct!" : "✗ Incorrect";
+  const headerText = isCorrect ? "✓ Correct!" : "✗ Incorrect";
 
-  const tipsHTML = q.tips ? `
+  const tipsHTML = q.tips
+    ? `
     <div class="idiom-field">
       <div class="idiom-field__label">💡 Tips</div>
       <div class="idiom-field__value">${_esc(q.tips)}</div>
     </div>
-  ` : "";
+  `
+    : "";
 
   container.innerHTML = `
     <div class="idiom-feedback-card">
@@ -271,15 +291,21 @@ function toggleReportForm(id) {
 
 async function submitReport(id) {
   const reasonEl = document.getElementById(`report-reason-${id}`);
-  const msgEl    = document.getElementById(`report-msg-${id}`);
-  const reason   = reasonEl?.value;
+  const msgEl = document.getElementById(`report-msg-${id}`);
+  const reason = reasonEl?.value;
 
   if (!reason) {
-    if (msgEl) { msgEl.textContent = "理由を選択してください"; msgEl.className = "report-message is-error"; }
+    if (msgEl) {
+      msgEl.textContent = "理由を選択してください";
+      msgEl.className = "report-message is-error";
+    }
     return;
   }
 
-  if (msgEl) { msgEl.textContent = "送信中..."; msgEl.className = "report-message"; }
+  if (msgEl) {
+    msgEl.textContent = "送信中...";
+    msgEl.className = "report-message";
+  }
 
   try {
     const { error } = await db
@@ -288,13 +314,22 @@ async function submitReport(id) {
       .eq("id", id);
 
     if (error) throw error;
-    if (msgEl) { msgEl.textContent = "報告ありがとうございました！"; msgEl.className = "report-message is-success"; }
+    if (msgEl) {
+      msgEl.textContent = "報告ありがとうございました！";
+      msgEl.className = "report-message is-success";
+    }
     if (reasonEl) reasonEl.disabled = true;
     // submit/cancel ボタンを無効化
-    const actions = document.querySelector(`#report-form-${id} .report-form-actions`);
-    if (actions) actions.querySelectorAll("button").forEach(b => b.disabled = true);
+    const actions = document.querySelector(
+      `#report-form-${id} .report-form-actions`,
+    );
+    if (actions)
+      actions.querySelectorAll("button").forEach((b) => (b.disabled = true));
   } catch (_) {
-    if (msgEl) { msgEl.textContent = "送信に失敗しました。もう一度お試しください。"; msgEl.className = "report-message is-error"; }
+    if (msgEl) {
+      msgEl.textContent = "送信に失敗しました。もう一度お試しください。";
+      msgEl.className = "report-message is-error";
+    }
   }
 }
 
@@ -309,13 +344,17 @@ async function updateQuestionStats(id, isCorrect) {
 
     if (error || !data) return;
 
-    const newTotal   = (data.total_attempts   ?? 0) + 1;
+    const newTotal = (data.total_attempts ?? 0) + 1;
     const newCorrect = (data.correct_attempts ?? 0) + (isCorrect ? 1 : 0);
-    const newRate    = (newCorrect / newTotal) * 100;
+    const newRate = (newCorrect / newTotal) * 100;
 
     await db
       .from("english_idioms")
-      .update({ total_attempts: newTotal, correct_attempts: newCorrect, correct_rate: newRate })
+      .update({
+        total_attempts: newTotal,
+        correct_attempts: newCorrect,
+        correct_rate: newRate,
+      })
       .eq("id", id);
   } catch (_) {
     // 統計更新の失敗はクイズ進行に影響させない
@@ -325,7 +364,7 @@ async function updateQuestionStats(id, isCorrect) {
 // ── 選択肢生成 ────────────────────────────────────────────
 function buildDistractors(current, pool) {
   return shuffleArray(
-    pool.filter(q => q.idiom_extracted !== current.idiom_extracted)
+    pool.filter((q) => q.idiom_extracted !== current.idiom_extracted),
   ).slice(0, 3);
 }
 
@@ -340,10 +379,10 @@ function advanceQuestion(idx) {
 
   showScreen("result-screen");
   showResult({
-    correct:  correctCount,
-    total:    quizSet.length,
+    correct: correctCount,
+    total: quizSet.length,
     mistakes,
-    retryLabel:         "Restart Quiz",
+    retryLabel: "Restart Quiz",
     retryMistakesLabel: "Retry Mistakes",
 
     // 復習リストのカスタムレンダラー
@@ -366,20 +405,25 @@ function advanceQuestion(idx) {
 
     onRetryMistakes(ms) {
       quizSet = ms
-        .map(m => allQuestions.find(q => q.idiom_extracted === m.correctAnswer))
+        .map((m) =>
+          allQuestions.find((q) => q.idiom_extracted === m.correctAnswer),
+        )
         .filter(Boolean);
 
-      if (!quizSet.length) { resetToStart(); return; }
+      if (!quizSet.length) {
+        resetToStart();
+        return;
+      }
 
       currentIndex = correctCount = 0;
       mistakes = [];
 
       initProgress({
-        total:        quizSet.length,
-        lastLabel:    "See Results",
+        total: quizSet.length,
+        lastLabel: "See Results",
         resetConfirm: "Quit quiz? Your progress will be lost.",
-        onNext:       advanceQuestion,
-        onReset:      resetToStart,
+        onNext: advanceQuestion,
+        onReset: resetToStart,
       });
 
       showScreen("quiz-screen");
@@ -399,8 +443,8 @@ function resetToStart() {
 
 // ── 画面切替 ──────────────────────────────────────────────
 function showScreen(id) {
-  ["start-screen", "quiz-screen", "result-screen"].forEach(s =>
-    document.getElementById(s).classList.add("hidden")
+  ["start-screen", "quiz-screen", "result-screen"].forEach((s) =>
+    document.getElementById(s).classList.add("hidden"),
   );
   document.getElementById(id).classList.remove("hidden");
 }

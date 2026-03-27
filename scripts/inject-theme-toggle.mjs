@@ -25,8 +25,10 @@ const SKIP_PATHS = new Set([
 
 const SKIP_DIRS = new Set([".git", "node_modules", "netlify"]);
 
-const PLACEHOLDER = '<span class="logo-switches" id="theme-toggle-container"></span>';
-const PATTERN = /<span class="logo-switches">\s*<button id="theme-toggle"[\s\S]*?<\/button>\s*<\/span>/g;
+const PLACEHOLDER =
+  '<span class="logo-switches" id="theme-toggle-container"></span>';
+const PATTERN =
+  /<span class="logo-switches">\s*<button id="theme-toggle"[\s\S]*?<\/button>\s*<\/span>/g;
 
 function collectHtmlFiles(dir) {
   const files = [];
@@ -74,4 +76,6 @@ for (const abs of collectHtmlFiles(ROOT)) {
   replaced++;
 }
 
-console.log(`\nReplaced ${DRY_RUN ? "(planned)" : ""}: ${replaced} / skipped: ${skipped} / no match: ${noMatch}`);
+console.log(
+  `\nReplaced ${DRY_RUN ? "(planned)" : ""}: ${replaced} / skipped: ${skipped} / no match: ${noMatch}`,
+);

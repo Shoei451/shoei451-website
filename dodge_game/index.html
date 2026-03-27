@@ -1,141 +1,227 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>DODGE — Survive</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<!-- START SCREEN -->
-<div class="screen" id="screen-start">
-  <div class="game-title">DODGE</div>
-  <div class="subtitle">Survive as long as you can</div>
-  <div class="controls-hint">
-    <b>Desktop</b> — Arrow Keys / WASD to move &nbsp;·&nbsp; Space to shoot<br>
-    <b>Mobile</b> — Drag anywhere to move &nbsp;·&nbsp; auto-fires while touching
-  </div>
-  <button class="btn-start" id="btn-start">START GAME</button>
-  <div class="high-score-line">Best: <span id="hs-display">0</span></div>
-</div>
-
-<!-- GAME OVER SCREEN -->
-<div class="screen hidden" id="screen-over">
-  <div class="game-title" style="font-size: clamp(2rem,7vw,3.5rem)">GAME OVER</div>
-  <div class="score-label">Score</div>
-  <div class="score-display" id="final-score">0</div>
-  <div class="high-score-line" id="new-record" style="display:none; color: var(--neon)">✦ NEW RECORD ✦</div>
-  <div class="high-score-line">Best: <span id="hs-display2">0</span></div>
-  <div class="stats-grid">
-    <div class="stat-box">
-      <div class="stat-box-val" id="stat-kills">0</div>
-      <div class="stat-box-label">Enemies</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <title>DODGE — Survive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- START SCREEN -->
+    <div class="screen" id="screen-start">
+      <div class="game-title">DODGE</div>
+      <div class="subtitle">Survive as long as you can</div>
+      <div class="controls-hint">
+        <b>Desktop</b> — Arrow Keys / WASD to move &nbsp;·&nbsp; Space to
+        shoot<br />
+        <b>Mobile</b> — Drag anywhere to move &nbsp;·&nbsp; auto-fires while
+        touching
+      </div>
+      <button class="btn-start" id="btn-start">START GAME</button>
+      <div class="high-score-line">Best: <span id="hs-display">0</span></div>
     </div>
-    <div class="stat-box">
-      <div class="stat-box-val" id="stat-combo">0</div>
-      <div class="stat-box-label">Max Combo</div>
-    </div>
-    <div class="stat-box">
-      <div class="stat-box-val" id="stat-drops">0</div>
-      <div class="stat-box-label">Drops</div>
-    </div>
-  </div>
-  <button class="btn-start" id="btn-restart">PLAY AGAIN</button>
-</div>
 
-<!-- GAME AREA -->
-<div id="game-wrap" class="hidden">
-  <canvas id="canvas"></canvas>
-
-  <!-- HUD -->
-  <div id="hud">
-    <div class="hud-item">
-      <div class="hud-label">Score</div>
-      <div class="hud-value" id="hud-score">0</div>
+    <!-- GAME OVER SCREEN -->
+    <div class="screen hidden" id="screen-over">
+      <div class="game-title" style="font-size: clamp(2rem, 7vw, 3.5rem)">
+        GAME OVER
+      </div>
+      <div class="score-label">Score</div>
+      <div class="score-display" id="final-score">0</div>
+      <div
+        class="high-score-line"
+        id="new-record"
+        style="display: none; color: var(--neon)"
+      >
+        ✦ NEW RECORD ✦
+      </div>
+      <div class="high-score-line">Best: <span id="hs-display2">0</span></div>
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-box-val" id="stat-kills">0</div>
+          <div class="stat-box-label">Enemies</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-val" id="stat-combo">0</div>
+          <div class="stat-box-label">Max Combo</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-box-val" id="stat-drops">0</div>
+          <div class="stat-box-label">Drops</div>
+        </div>
+      </div>
+      <button class="btn-start" id="btn-restart">PLAY AGAIN</button>
     </div>
-    <div class="hud-item" style="align-items:center">
-      <div class="hud-label">Level</div>
-      <div class="hud-value" id="hud-level">1</div>
-    </div>
-    <div class="hud-item" style="align-items:flex-end">
-      <div class="hud-label">Lives</div>
-      <div id="lives-dots"></div>
-    </div>
-  </div>
 
-  <!-- Mute button (top-right, left of pause) -->
-  <button id="btn-mute" aria-label="Mute">
-    <svg id="icon-sound-on" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M11 5L6 9H3v6h3l5 4V5z" fill="#6b7280"/>
-      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M18.37 5.63a9 9 0 0 1 0 12.74" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-    <svg id="icon-sound-off" width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
-      <path d="M11 5L6 9H3v6h3l5 4V5z" fill="#6b7280"/>
-      <path d="M23 9l-6 6M17 9l6 6" stroke="#6b7280" stroke-width="1.8" stroke-linecap="round"/>
-    </svg>
-  </button>
+    <!-- GAME AREA -->
+    <div id="game-wrap" class="hidden">
+      <canvas id="canvas"></canvas>
 
-  <!-- Pause button (top-right, SVG) -->
-  <button id="btn-pause" aria-label="Pause">
-    <!-- pause icon shown while running -->
-    <svg id="icon-pause" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <rect x="5" y="4" width="4" height="16" rx="1.5" fill="#a78bfa"/>
-      <rect x="15" y="4" width="4" height="16" rx="1.5" fill="#a78bfa"/>
-    </svg>
-    <!-- play icon shown while paused -->
-    <svg id="icon-play" width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:none">
-      <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="#a78bfa"/>
-    </svg>
-  </button>
+      <!-- HUD -->
+      <div id="hud">
+        <div class="hud-item">
+          <div class="hud-label">Score</div>
+          <div class="hud-value" id="hud-score">0</div>
+        </div>
+        <div class="hud-item" style="align-items: center">
+          <div class="hud-label">Level</div>
+          <div class="hud-value" id="hud-level">1</div>
+        </div>
+        <div class="hud-item" style="align-items: flex-end">
+          <div class="hud-label">Lives</div>
+          <div id="lives-dots"></div>
+        </div>
+      </div>
 
-  <!-- Pause overlay -->
-  <div id="pause-overlay" class="hidden">
-    <div class="pause-title">PAUSED</div>
-    <div class="pause-score">Score: <span id="pause-score-val">0</span></div>
-    <div class="pause-btn-row">
-      <button class="btn-pause-action btn-resume" id="btn-resume">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px"><path d="M6 4.5L20 12L6 19.5V4.5Z"/></svg>
-        Resume
+      <!-- Mute button (top-right, left of pause) -->
+      <button id="btn-mute" aria-label="Mute">
+        <svg
+          id="icon-sound-on"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path d="M11 5L6 9H3v6h3l5 4V5z" fill="#6b7280" />
+          <path
+            d="M15.54 8.46a5 5 0 0 1 0 7.07"
+            stroke="#6b7280"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+          <path
+            d="M18.37 5.63a9 9 0 0 1 0 12.74"
+            stroke="#6b7280"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
+        <svg
+          id="icon-sound-off"
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style="display: none"
+        >
+          <path d="M11 5L6 9H3v6h3l5 4V5z" fill="#6b7280" />
+          <path
+            d="M23 9l-6 6M17 9l6 6"
+            stroke="#6b7280"
+            stroke-width="1.8"
+            stroke-linecap="round"
+          />
+        </svg>
       </button>
-      <button class="btn-pause-action btn-quit" id="btn-quit">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>
-        Quit
+
+      <!-- Pause button (top-right, SVG) -->
+      <button id="btn-pause" aria-label="Pause">
+        <!-- pause icon shown while running -->
+        <svg
+          id="icon-pause"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect x="5" y="4" width="4" height="16" rx="1.5" fill="#a78bfa" />
+          <rect x="15" y="4" width="4" height="16" rx="1.5" fill="#a78bfa" />
+        </svg>
+        <!-- play icon shown while paused -->
+        <svg
+          id="icon-play"
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style="display: none"
+        >
+          <path d="M6 4.5L20 12L6 19.5V4.5Z" fill="#a78bfa" />
+        </svg>
       </button>
+
+      <!-- Pause overlay -->
+      <div id="pause-overlay" class="hidden">
+        <div class="pause-title">PAUSED</div>
+        <div class="pause-score">
+          Score: <span id="pause-score-val">0</span>
+        </div>
+        <div class="pause-btn-row">
+          <button class="btn-pause-action btn-resume" id="btn-resume">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style="vertical-align: middle; margin-right: 6px"
+            >
+              <path d="M6 4.5L20 12L6 19.5V4.5Z" />
+            </svg>
+            Resume
+          </button>
+          <button class="btn-pause-action btn-quit" id="btn-quit">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              style="vertical-align: middle; margin-right: 6px"
+            >
+              <path
+                d="M18 6L6 18M6 6l12 12"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </svg>
+            Quit
+          </button>
+        </div>
+        <div class="controls-hint" style="margin-top: 0.5rem">
+          Press <b>Esc</b> to resume
+        </div>
+      </div>
+
+      <!-- Boss HP bar -->
+      <div id="boss-hud">
+        <div id="boss-name">BOSS</div>
+        <div id="boss-hp-track"><div id="boss-hp-fill"></div></div>
+      </div>
+
+      <!-- Combo display -->
+      <div id="combo-display"></div>
+
+      <!-- Level badge -->
+      <div id="level-badge"></div>
+
+      <!-- Pickup toast -->
+      <div id="pickup-toast"></div>
+
+      <!-- Weapon HUD (bottom center, above mobile controls) -->
+      <div id="weapon-hud">
+        <div id="weapon-label">Weapon</div>
+        <div id="weapon-name">SINGLE</div>
+        <div id="weapon-timer-bar" class="hidden-bar">
+          <div id="weapon-timer-fill"></div>
+        </div>
+      </div>
+
+      <!-- Touch hint (fades after first touch) -->
+      <div id="touch-hint">drag to move · auto-fires</div>
     </div>
-    <div class="controls-hint" style="margin-top:0.5rem">Press <b>Esc</b> to resume</div>
-  </div>
 
-  <!-- Boss HP bar -->
-  <div id="boss-hud">
-    <div id="boss-name">BOSS</div>
-    <div id="boss-hp-track"><div id="boss-hp-fill"></div></div>
-  </div>
-
-  <!-- Combo display -->
-  <div id="combo-display"></div>
-
-  <!-- Level badge -->
-  <div id="level-badge"></div>
-
-  <!-- Pickup toast -->
-  <div id="pickup-toast"></div>
-
-  <!-- Weapon HUD (bottom center, above mobile controls) -->
-  <div id="weapon-hud">
-    <div id="weapon-label">Weapon</div>
-    <div id="weapon-name">SINGLE</div>
-    <div id="weapon-timer-bar" class="hidden-bar"><div id="weapon-timer-fill"></div></div>
-  </div>
-
-  <!-- Touch hint (fades after first touch) -->
-  <div id="touch-hint">drag to move · auto-fires</div>
-</div>
-
-<script type="module" src="js/logic.js"></script>
-
-</body>
+    <script type="module" src="js/logic.js"></script>
+  </body>
 </html>

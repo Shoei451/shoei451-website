@@ -276,11 +276,11 @@
 
 ## 変更サマリー
 
-| # | 変更 | 関連箇所 |
-|---|------|---------|
-| 1 | **ズーム・パン** | CSS 2行、HTML 8行（ボタン）、JS `renderMap`全体 + `zoomBy` / `resetZoom` 追加 |
-| 2 | **レスポンシブ** | CSS `@media` ブロック置き換え（3ブレークポイント） |
-| 3 | **国旗画像** | JS `FLAG_CODE` + `flagUrl()` 追加、`renderPanel` 内 `flag-img` 1行 |
+| #   | 変更             | 関連箇所                                                                      |
+| --- | ---------------- | ----------------------------------------------------------------------------- |
+| 1   | **ズーム・パン** | CSS 2行、HTML 8行（ボタン）、JS `renderMap`全体 + `zoomBy` / `resetZoom` 追加 |
+| 2   | **レスポンシブ** | CSS `@media` ブロック置き換え（3ブレークポイント）                            |
+| 3   | **国旗画像**     | JS `FLAG_CODE` + `flagUrl()` 追加、`renderPanel` 内 `flag-img` 1行            |
 
 > **注意：** ズームの `stroke-width` 逆スケーリング（zoom イベント内）はパフォーマンスに影響しやすい。
 > 国数が多い場合は `#map-g` 全体に `vector-effect: non-scaling-stroke` を CSS で指定する方がGPU効率が良い。
@@ -288,5 +288,7 @@
 >
 > ```css
 > /* 代替案：CSSのみでストローク幅を固定 */
-> #map .country { vector-effect: non-scaling-stroke; }
+> #map .country {
+>   vector-effect: non-scaling-stroke;
+> }
 > ```

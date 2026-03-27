@@ -22,9 +22,8 @@
 // ============================================================
 
 (function () {
-
-  const DEFAULT_ID  = "qz-text-input";
-  let   _submitted  = false;
+  const DEFAULT_ID = "qz-text-input";
+  let _submitted = false;
 
   /**
    * テキスト入力フォームを描画する。
@@ -32,7 +31,7 @@
    */
   window.showTextInput = function (config) {
     const mountId = config.mountId ?? DEFAULT_ID;
-    const el      = document.getElementById(mountId);
+    const el = document.getElementById(mountId);
     if (!el) {
       console.error(`showTextInput: #${mountId} が見つかりません`);
       return;
@@ -40,11 +39,12 @@
 
     _submitted = false;
 
-    const inputType   = config.inputType   ?? "number";
-    const label       = config.label       ?? "年を入力";
-    const placeholder = config.placeholder ?? (inputType === "number" ? "例: 1789" : "");
-    const hint        = config.hint        ?? (inputType === "number" ? "" : "");
-    const maxLength   = config.maxLength   ?? "";
+    const inputType = config.inputType ?? "number";
+    const label = config.label ?? "年を入力";
+    const placeholder =
+      config.placeholder ?? (inputType === "number" ? "例: 1789" : "");
+    const hint = config.hint ?? (inputType === "number" ? "" : "");
+    const maxLength = config.maxLength ?? "";
 
     el.innerHTML = `
       <div class="qz-input-wrap">
@@ -70,13 +70,13 @@
       </div>
     `;
 
-    const input  = el.querySelector("#qz-answer-input");
+    const input = el.querySelector("#qz-answer-input");
     const submit = el.querySelector("#qz-submit-btn");
 
     input.focus();
 
     submit.addEventListener("click", () => _submit(config, input, submit));
-    input.addEventListener("keydown", e => {
+    input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") _submit(config, input, submit);
     });
   };
@@ -86,10 +86,15 @@
    * @param {string} [mountId]
    */
   window.lockTextInput = function (mountId = DEFAULT_ID) {
-    const input  = document.querySelector(`#${mountId} #qz-answer-input`);
+    const input = document.querySelector(`#${mountId} #qz-answer-input`);
     const submit = document.querySelector(`#${mountId} #qz-submit-btn`);
-    if (input)  { input.disabled  = true; input.classList.add("is-locked"); }
-    if (submit) { submit.disabled = true; }
+    if (input) {
+      input.disabled = true;
+      input.classList.add("is-locked");
+    }
+    if (submit) {
+      submit.disabled = true;
+    }
   };
 
   // ── 送信処理 ──────────────────────────────────────────────
@@ -97,8 +102,10 @@
   function _submit(config, input, submitBtn) {
     if (_submitted) return;
 
-    const raw    = input.value.trim();
-    const result = config.validate ? config.validate(raw) : { ok: !!raw, value: raw };
+    const raw = input.value.trim();
+    const result = config.validate
+      ? config.validate(raw)
+      : { ok: !!raw, value: raw };
 
     if (!result.ok) {
       _showError(result.message ?? "入力を確認してください");
@@ -113,8 +120,8 @@
 
     if (config.onAnswer) {
       config.onAnswer({
-        rawValue:  raw,
-        value:     result.value,
+        rawValue: raw,
+        value: result.value,
         isCorrect: result.isCorrect ?? false,
       });
     }
@@ -122,12 +129,18 @@
 
   function _showError(msg) {
     const el = document.getElementById("qz-input-error");
-    if (el) { el.textContent = msg; el.classList.add("is-visible"); }
+    if (el) {
+      el.textContent = msg;
+      el.classList.add("is-visible");
+    }
   }
 
   function _clearError() {
     const el = document.getElementById("qz-input-error");
-    if (el) { el.textContent = ""; el.classList.remove("is-visible"); }
+    if (el) {
+      el.textContent = "";
+      el.classList.remove("is-visible");
+    }
   }
 
   function _esc(str) {
@@ -137,5 +150,4 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
-
 })();

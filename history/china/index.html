@@ -1,336 +1,404 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../../images/chinese-history.svg">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../images/chinese-history.svg" />
     <title>中国王朝史 年代クイズ — Shoei451</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../js/wh-utils.js"></script>
     <script src="../../js/supabase_config.js"></script>
-    <link rel="stylesheet" href="../../css/theme-toggle.css">
-    <link rel="stylesheet" href="../styles/theme-chinese.css">
-    <link rel="stylesheet" href="../../css/quiz.css">
+    <link rel="stylesheet" href="../../css/theme-toggle.css" />
+    <link rel="stylesheet" href="../styles/theme-chinese.css" />
+    <link rel="stylesheet" href="../../css/quiz.css" />
     <style>
-        :root {
-            --theme: var(--bg-light);
-            --entry: var(--bg-light-secondary);
-            --primary: var(--accent-primary);
-            --secondary: var(--text-light-secondary);
-            --content: var(--text-light);
-            --card-bg: var(--bg-light-secondary);
-            --border: var(--border-light);
-            --accent: var(--accent-secondary);
-            --accent-text: var(--accent-secondary);
-            --accent-contrast: var(--bg-light);
-        }
-        body.dark {
-            --theme: var(--bg-light);
-            --entry: var(--bg-light-secondary);
-            --primary: var(--accent-primary);
-            --secondary: var(--text-light-secondary);
-            --content: var(--text-light);
-            --card-bg: var(--bg-light-secondary);
-            --border: var(--border-light);
-            --accent: var(--accent-secondary);
-            --accent-text: var(--accent-secondary);
-            --accent-contrast: var(--bg-light);
-        }
-        .quiz-wrapper {
-            max-width: 900px;
-        }
-        .top-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
+      :root {
+        --theme: var(--bg-light);
+        --entry: var(--bg-light-secondary);
+        --primary: var(--accent-primary);
+        --secondary: var(--text-light-secondary);
+        --content: var(--text-light);
+        --card-bg: var(--bg-light-secondary);
+        --border: var(--border-light);
+        --accent: var(--accent-secondary);
+        --accent-text: var(--accent-secondary);
+        --accent-contrast: var(--bg-light);
+      }
+      body.dark {
+        --theme: var(--bg-light);
+        --entry: var(--bg-light-secondary);
+        --primary: var(--accent-primary);
+        --secondary: var(--text-light-secondary);
+        --content: var(--text-light);
+        --card-bg: var(--bg-light-secondary);
+        --border: var(--border-light);
+        --accent: var(--accent-secondary);
+        --accent-text: var(--accent-secondary);
+        --accent-contrast: var(--bg-light);
+      }
+      .quiz-wrapper {
+        max-width: 900px;
+      }
+      .top-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 15px;
+        flex-wrap: wrap;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <div class="header-content">
-            <h1>中国王朝史 年代クイズ</h1>
-            <button type="button" onclick="window.location.href='../../sub-index.html?slug=history'">歴史ホームへ戻る</button>
-            <span class="logo-switches" id="theme-toggle-container"></span>
-        </div>
+      <div class="header-content">
+        <h1>中国王朝史 年代クイズ</h1>
+        <button
+          type="button"
+          onclick="window.location.href = '../../sub-index.html?slug=history'"
+        >
+          歴史ホームへ戻る
+        </button>
+        <span class="logo-switches" id="theme-toggle-container"></span>
+      </div>
     </header>
 
     <div class="quiz-wrapper">
-        <div id="setupScreen" class="quiz-screen">
-            <h2>クイズ設定</h2>
+      <div id="setupScreen" class="quiz-screen">
+        <h2>クイズ設定</h2>
 
-            <div class="quiz-field">
-                <label>出題カテゴリを選択（複数選択可）</label>
-                <div class="top-actions">
-                    <button type="button" onclick="selectAllCategories()">全選択</button>
-                    <button type="button" onclick="clearAllCategories()">選択解除</button>
-                </div>
-                <div class="quiz-category-chips" id="categorySelection"></div>
-            </div>
-
-            <div class="quiz-field">
-                <label for="questionCount">出題数</label>
-                <input type="number" id="questionCount" min="5" max="50" value="10">
-            </div>
-
-            <div style="text-align: center; margin-top: 30px;">
-                <button id="startQuizBtn" onclick="startQuiz()">クイズを開始</button>
-            </div>
+        <div class="quiz-field">
+          <label>出題カテゴリを選択（複数選択可）</label>
+          <div class="top-actions">
+            <button type="button" onclick="selectAllCategories()">
+              全選択
+            </button>
+            <button type="button" onclick="clearAllCategories()">
+              選択解除
+            </button>
+          </div>
+          <div class="quiz-category-chips" id="categorySelection"></div>
         </div>
 
-        <div id="quizScreen" class="quiz-screen hidden">
-            <div class="question-sublabel" id="questionNumber"></div>
-            <div id="categoryChip" style="text-align:center; margin-bottom: 12px;"></div>
-            <div class="question-card" id="eventTitle"></div>
-            <div class="question-sublabel" id="eventDescription"></div>
-
-            <div class="quiz-answer-input">
-                <label for="yearInput">この出来事は何年？</label>
-                <input type="text" id="yearInput" placeholder="answer here..." maxlength="6" inputmode="numeric">
-                <div style="font-size: 0.85rem; color: var(--secondary); margin-top: 10px;">
-                    紀元前は負の数で入力（例：-221 = 前221年）
-                </div>
-            </div>
-
-            <div id="feedback" class="quiz-feedback hidden"></div>
-
-            <div class="quiz-controls">
-                <button id="submitAnswerBtn" onclick="submitAnswer()">回答する</button>
-                <button id="nextQuestionBtn" class="hidden" onclick="nextQuestion()">次の問題</button>
-            </div>
+        <div class="quiz-field">
+          <label for="questionCount">出題数</label>
+          <input type="number" id="questionCount" min="5" max="50" value="10" />
         </div>
 
-        <div id="resultScreen" class="quiz-screen hidden">
-            <h2>クイズ結果</h2>
+        <div style="text-align: center; margin-top: 30px">
+          <button id="startQuizBtn" onclick="startQuiz()">クイズを開始</button>
+        </div>
+      </div>
 
-            <div id="scoreSummary" class="quiz-score-summary"></div>
-            <div id="mistakesList" class="quiz-mistakes-list"></div>
+      <div id="quizScreen" class="quiz-screen hidden">
+        <div class="question-sublabel" id="questionNumber"></div>
+        <div
+          id="categoryChip"
+          style="text-align: center; margin-bottom: 12px"
+        ></div>
+        <div class="question-card" id="eventTitle"></div>
+        <div class="question-sublabel" id="eventDescription"></div>
 
-            <div style="text-align: center; margin-top: 30px;">
-                <button onclick="resetQuiz()">もう一度挑戦</button>
-            </div>
+        <div class="quiz-answer-input">
+          <label for="yearInput">この出来事は何年？</label>
+          <input
+            type="text"
+            id="yearInput"
+            placeholder="answer here..."
+            maxlength="6"
+            inputmode="numeric"
+          />
+          <div
+            style="
+              font-size: 0.85rem;
+              color: var(--secondary);
+              margin-top: 10px;
+            "
+          >
+            紀元前は負の数で入力（例：-221 = 前221年）
+          </div>
         </div>
 
-        <div id="loadingScreen" class="quiz-screen hidden" style="text-align: center; padding: 60px 20px; color: var(--secondary);">
-            <p>データを読み込み中...</p>
+        <div id="feedback" class="quiz-feedback hidden"></div>
+
+        <div class="quiz-controls">
+          <button id="submitAnswerBtn" onclick="submitAnswer()">
+            回答する
+          </button>
+          <button id="nextQuestionBtn" class="hidden" onclick="nextQuestion()">
+            次の問題
+          </button>
         </div>
+      </div>
+
+      <div id="resultScreen" class="quiz-screen hidden">
+        <h2>クイズ結果</h2>
+
+        <div id="scoreSummary" class="quiz-score-summary"></div>
+        <div id="mistakesList" class="quiz-mistakes-list"></div>
+
+        <div style="text-align: center; margin-top: 30px">
+          <button onclick="resetQuiz()">もう一度挑戦</button>
+        </div>
+      </div>
+
+      <div
+        id="loadingScreen"
+        class="quiz-screen hidden"
+        style="text-align: center; padding: 60px 20px; color: var(--secondary)"
+      >
+        <p>データを読み込み中...</p>
+      </div>
     </div>
 
     <script src="../../js/theme-toggle.js"></script>
     <script src="../../js/quiz.js"></script>
     <script>
-        const ALL_SCREENS = ['setupScreen', 'quizScreen', 'resultScreen', 'loadingScreen'];
+      const ALL_SCREENS = [
+        "setupScreen",
+        "quizScreen",
+        "resultScreen",
+        "loadingScreen",
+      ];
 
-        let events = [];
-        let selectedCategories = new Set();
-        let quizQuestions = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = [];
+      let events = [];
+      let selectedCategories = new Set();
+      let quizQuestions = [];
+      let currentQuestionIndex = 0;
+      let userAnswers = [];
 
-        const categories = ['王朝成立', '王朝滅亡', '反乱', '戦争', '外交', '内政', '経済', '文化', 'その他'];
+      const categories = [
+        "王朝成立",
+        "王朝滅亡",
+        "反乱",
+        "戦争",
+        "外交",
+        "内政",
+        "経済",
+        "文化",
+        "その他",
+      ];
 
-        document.addEventListener('DOMContentLoaded', function() {
-            init();
+      document.addEventListener("DOMContentLoaded", function () {
+        init();
+      });
+
+      async function init() {
+        showScreen("loadingScreen");
+        await loadEvents();
+        renderCategorySelection();
+        showScreen("setupScreen");
+      }
+
+      async function loadEvents() {
+        try {
+          const { data, error } = await db.from(TABLES.CHINESE).select("*");
+
+          if (error) throw error;
+          events = data || [];
+        } catch (error) {
+          console.error("Error loading events:", error);
+          alert(
+            "データの読み込みに失敗しました。ページをリロードしてください。",
+          );
+        }
+      }
+
+      function renderCategorySelection() {
+        const container = document.getElementById("categorySelection");
+        container.innerHTML = categories
+          .map((cat) => {
+            const escaped = cat.replace(/'/g, "\\'");
+            return `<button type="button" class="quiz-chip" data-category="${cat}" onclick="toggleCategory('${escaped}')">${cat}</button>`;
+          })
+          .join("");
+      }
+
+      function toggleCategory(category) {
+        if (selectedCategories.has(category)) {
+          selectedCategories.delete(category);
+        } else {
+          selectedCategories.add(category);
+        }
+        updateCategoryUI();
+      }
+
+      function selectAllCategories() {
+        categories.forEach((cat) => selectedCategories.add(cat));
+        updateCategoryUI();
+      }
+
+      function clearAllCategories() {
+        selectedCategories.clear();
+        updateCategoryUI();
+      }
+
+      function updateCategoryUI() {
+        document
+          .querySelectorAll("#categorySelection .quiz-chip")
+          .forEach((elem) => {
+            const category = elem.dataset.category;
+            elem.classList.toggle("selected", selectedCategories.has(category));
+          });
+      }
+
+      function startQuiz() {
+        if (selectedCategories.size === 0) {
+          alert("少なくとも1つのカテゴリを選択してください");
+          return;
+        }
+
+        const count = parseInt(
+          document.getElementById("questionCount").value,
+          10,
+        );
+        if (Number.isNaN(count) || count < 5 || count > 50) {
+          alert("出題数は5〜50の範囲で指定してください");
+          return;
+        }
+
+        const filteredEvents = events.filter((e) =>
+          selectedCategories.has(e.category),
+        );
+
+        if (filteredEvents.length < count) {
+          alert(
+            `選択したカテゴリには${filteredEvents.length}個のイベントしかありません`,
+          );
+          return;
+        }
+
+        quizQuestions = shuffleArray(filteredEvents).slice(0, count);
+        currentQuestionIndex = 0;
+        userAnswers = [];
+
+        showScreen("quizScreen");
+        showQuestion();
+      }
+
+      function showQuestion() {
+        const question = quizQuestions[currentQuestionIndex];
+
+        document.getElementById("questionNumber").textContent =
+          `問題 ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
+
+        document.getElementById("categoryChip").innerHTML =
+          `<span class="quiz-chip is-badge">${escapeHtml(question.category)}</span>`;
+
+        document.getElementById("eventTitle").textContent = question.title;
+
+        const descEl = document.getElementById("eventDescription");
+        descEl.textContent = question.description || "";
+        descEl.classList.toggle("hidden", !question.description);
+
+        const yearInput = document.getElementById("yearInput");
+        yearInput.value = "";
+        yearInput.focus();
+
+        document.getElementById("feedback").classList.add("hidden");
+        document.getElementById("submitAnswerBtn").classList.remove("hidden");
+        document.getElementById("nextQuestionBtn").classList.add("hidden");
+      }
+
+      function submitAnswer() {
+        const input = document.getElementById("yearInput").value.trim();
+
+        if (!input || !/^-?\d+$/.test(input)) {
+          alert("年を数字で入力してください（紀元前は負の数で: -221）");
+          return;
+        }
+
+        const userYear = parseInt(input, 10);
+        const question = quizQuestions[currentQuestionIndex];
+        const correctYear = question.year;
+        const isCorrect = userYear === correctYear;
+
+        userAnswers.push({
+          question,
+          userAnswer: userYear,
+          correctAnswer: correctYear,
+          isCorrect,
         });
 
-        async function init() {
-            showScreen('loadingScreen');
-            await loadEvents();
-            renderCategorySelection();
-            showScreen('setupScreen');
+        QuizUI.showFeedback(
+          document.getElementById("feedback"),
+          isCorrect,
+          isCorrect
+            ? `✓ 正解！<br>${formatYear(correctYear)}`
+            : `× 不正解<br>あなたの回答: ${formatYear(userYear)}<br>正解: ${formatYear(correctYear)}`,
+        );
+
+        document.getElementById("submitAnswerBtn").classList.add("hidden");
+        document.getElementById("nextQuestionBtn").classList.remove("hidden");
+      }
+
+      function nextQuestion() {
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex >= quizQuestions.length) {
+          showResults();
+          return;
         }
 
-        async function loadEvents() {
-            try {
-                const { data, error } = await db
-                    .from(TABLES.CHINESE)
-                    .select('*');
+        showQuestion();
+      }
 
-                if (error) throw error;
-                events = data || [];
-            } catch (error) {
-                console.error('Error loading events:', error);
-                alert('データの読み込みに失敗しました。ページをリロードしてください。');
-            }
+      function showResults() {
+        const correctCount = userAnswers.filter((a) => a.isCorrect).length;
+
+        QuizUI.renderResult(
+          document.getElementById("scoreSummary"),
+          document.getElementById("mistakesList"),
+          {
+            score: correctCount,
+            total: userAnswers.length,
+            mistakes: userAnswers
+              .filter((a) => !a.isCorrect)
+              .map((m) => ({
+                title: m.question.title,
+                category: m.question.category,
+                desc: m.question.description || "",
+                yourAnswer: formatYear(m.userAnswer),
+                correctAnswer: formatYear(m.correctAnswer),
+              })),
+          },
+        );
+
+        showScreen("resultScreen");
+      }
+
+      function resetQuiz() {
+        selectedCategories.clear();
+        updateCategoryUI();
+        document.getElementById("questionCount").value = 10;
+        showScreen("setupScreen");
+      }
+
+      function showScreen(id) {
+        QuizUI.showScreen(id, ALL_SCREENS);
+      }
+
+      document.addEventListener("keypress", function (e) {
+        if (
+          e.key !== "Enter" ||
+          document.getElementById("quizScreen").classList.contains("hidden")
+        ) {
+          return;
         }
 
-        function renderCategorySelection() {
-            const container = document.getElementById('categorySelection');
-            container.innerHTML = categories.map(cat => {
-                const escaped = cat.replace(/'/g, "\\'");
-                return `<button type="button" class="quiz-chip" data-category="${cat}" onclick="toggleCategory('${escaped}')">${cat}</button>`;
-            }).join('');
+        if (
+          !document
+            .getElementById("submitAnswerBtn")
+            .classList.contains("hidden")
+        ) {
+          submitAnswer();
+        } else if (
+          !document
+            .getElementById("nextQuestionBtn")
+            .classList.contains("hidden")
+        ) {
+          nextQuestion();
         }
-
-        function toggleCategory(category) {
-            if (selectedCategories.has(category)) {
-                selectedCategories.delete(category);
-            } else {
-                selectedCategories.add(category);
-            }
-            updateCategoryUI();
-        }
-
-        function selectAllCategories() {
-            categories.forEach(cat => selectedCategories.add(cat));
-            updateCategoryUI();
-        }
-
-        function clearAllCategories() {
-            selectedCategories.clear();
-            updateCategoryUI();
-        }
-
-        function updateCategoryUI() {
-            document.querySelectorAll('#categorySelection .quiz-chip').forEach(elem => {
-                const category = elem.dataset.category;
-                elem.classList.toggle('selected', selectedCategories.has(category));
-            });
-        }
-
-        function startQuiz() {
-            if (selectedCategories.size === 0) {
-                alert('少なくとも1つのカテゴリを選択してください');
-                return;
-            }
-
-            const count = parseInt(document.getElementById('questionCount').value, 10);
-            if (Number.isNaN(count) || count < 5 || count > 50) {
-                alert('出題数は5〜50の範囲で指定してください');
-                return;
-            }
-
-            const filteredEvents = events.filter(e => selectedCategories.has(e.category));
-
-            if (filteredEvents.length < count) {
-                alert(`選択したカテゴリには${filteredEvents.length}個のイベントしかありません`);
-                return;
-            }
-
-            quizQuestions = shuffleArray(filteredEvents).slice(0, count);
-            currentQuestionIndex = 0;
-            userAnswers = [];
-
-            showScreen('quizScreen');
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const question = quizQuestions[currentQuestionIndex];
-
-            document.getElementById('questionNumber').textContent =
-                `問題 ${currentQuestionIndex + 1} / ${quizQuestions.length}`;
-
-            document.getElementById('categoryChip').innerHTML =
-                `<span class="quiz-chip is-badge">${escapeHtml(question.category)}</span>`;
-
-            document.getElementById('eventTitle').textContent = question.title;
-
-            const descEl = document.getElementById('eventDescription');
-            descEl.textContent = question.description || '';
-            descEl.classList.toggle('hidden', !question.description);
-
-            const yearInput = document.getElementById('yearInput');
-            yearInput.value = '';
-            yearInput.focus();
-
-            document.getElementById('feedback').classList.add('hidden');
-            document.getElementById('submitAnswerBtn').classList.remove('hidden');
-            document.getElementById('nextQuestionBtn').classList.add('hidden');
-        }
-
-        function submitAnswer() {
-            const input = document.getElementById('yearInput').value.trim();
-
-            if (!input || !/^-?\d+$/.test(input)) {
-                alert('年を数字で入力してください（紀元前は負の数で: -221）');
-                return;
-            }
-
-            const userYear = parseInt(input, 10);
-            const question = quizQuestions[currentQuestionIndex];
-            const correctYear = question.year;
-            const isCorrect = userYear === correctYear;
-
-            userAnswers.push({
-                question,
-                userAnswer: userYear,
-                correctAnswer: correctYear,
-                isCorrect,
-            });
-
-            QuizUI.showFeedback(
-                document.getElementById('feedback'),
-                isCorrect,
-                isCorrect
-                    ? `✓ 正解！<br>${formatYear(correctYear)}`
-                    : `× 不正解<br>あなたの回答: ${formatYear(userYear)}<br>正解: ${formatYear(correctYear)}`
-            );
-
-            document.getElementById('submitAnswerBtn').classList.add('hidden');
-            document.getElementById('nextQuestionBtn').classList.remove('hidden');
-        }
-
-        function nextQuestion() {
-            currentQuestionIndex++;
-
-            if (currentQuestionIndex >= quizQuestions.length) {
-                showResults();
-                return;
-            }
-
-            showQuestion();
-        }
-
-        function showResults() {
-            const correctCount = userAnswers.filter(a => a.isCorrect).length;
-
-            QuizUI.renderResult(
-                document.getElementById('scoreSummary'),
-                document.getElementById('mistakesList'),
-                {
-                    score: correctCount,
-                    total: userAnswers.length,
-                    mistakes: userAnswers
-                        .filter(a => !a.isCorrect)
-                        .map(m => ({
-                            title: m.question.title,
-                            category: m.question.category,
-                            desc: m.question.description || '',
-                            yourAnswer: formatYear(m.userAnswer),
-                            correctAnswer: formatYear(m.correctAnswer),
-                        })),
-                }
-            );
-
-            showScreen('resultScreen');
-        }
-
-        function resetQuiz() {
-            selectedCategories.clear();
-            updateCategoryUI();
-            document.getElementById('questionCount').value = 10;
-            showScreen('setupScreen');
-        }
-
-        function showScreen(id) {
-            QuizUI.showScreen(id, ALL_SCREENS);
-        }
-
-        document.addEventListener('keypress', function(e) {
-            if (e.key !== 'Enter' || document.getElementById('quizScreen').classList.contains('hidden')) {
-                return;
-            }
-
-            if (!document.getElementById('submitAnswerBtn').classList.contains('hidden')) {
-                submitAnswer();
-            } else if (!document.getElementById('nextQuestionBtn').classList.contains('hidden')) {
-                nextQuestion();
-            }
-        });
+      });
     </script>
-
-</body>
+  </body>
 </html>

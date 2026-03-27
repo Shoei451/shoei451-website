@@ -12,30 +12,30 @@
 /* ===== CSS Variables ===== */
 :root {
   /* --- テーマ色（各ページで上書き可） --- */
-  --qz-accent:       #FABA40;   /* プライマリアクセント */
-  --qz-accent-dark:  #313A49;   /* ダークアクセント / ヘッダー背景 */
-  --qz-accent-light: rgba(250, 186, 64, 0.12);  /* 淡いアクセント */
-  --qz-accent-ring:  rgba(250, 186, 64, 0.25);  /* フォーカスリング */
+  --qz-accent: #faba40; /* プライマリアクセント */
+  --qz-accent-dark: #313a49; /* ダークアクセント / ヘッダー背景 */
+  --qz-accent-light: rgba(250, 186, 64, 0.12); /* 淡いアクセント */
+  --qz-accent-ring: rgba(250, 186, 64, 0.25); /* フォーカスリング */
 
   /* --- サーフェス --- */
-  --qz-bg:        #fafaf8;
-  --qz-surface:   #ffffff;
+  --qz-bg: #fafaf8;
+  --qz-surface: #ffffff;
   --qz-surface-2: #f4f4f0;
 
   /* --- テキスト --- */
-  --qz-text:      #1a1a1a;
-  --qz-text-sub:  #5a5a5a;
+  --qz-text: #1a1a1a;
+  --qz-text-sub: #5a5a5a;
 
   /* --- ボーダー・シャドウ --- */
-  --qz-border:    #e0e0da;
-  --qz-shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
-  --qz-shadow-md: 0 4px 16px rgba(0,0,0,0.08);
+  --qz-border: #e0e0da;
+  --qz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+  --qz-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
 
   /* --- 正誤フィードバック --- */
-  --qz-correct:        #16a34a;
-  --qz-correct-bg:     #dcfce7;
-  --qz-incorrect:      #dc2626;
-  --qz-incorrect-bg:   #fee2e2;
+  --qz-correct: #16a34a;
+  --qz-correct-bg: #dcfce7;
+  --qz-incorrect: #dc2626;
+  --qz-incorrect-bg: #fee2e2;
 
   /* --- スペーシング --- */
   --qz-space-xs: 0.5rem;
@@ -50,24 +50,26 @@
 }
 
 body.dark {
-  --qz-bg:        #141414;
-  --qz-surface:   #1e1e1e;
+  --qz-bg: #141414;
+  --qz-surface: #1e1e1e;
   --qz-surface-2: #2a2a2a;
-  --qz-text:      #f0f0ec;
-  --qz-text-sub:  #9a9a90;
-  --qz-border:    #333330;
-  --qz-shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-  --qz-shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --qz-text: #f0f0ec;
+  --qz-text-sub: #9a9a90;
+  --qz-border: #333330;
+  --qz-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --qz-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
 
-  --qz-correct-bg:   rgba(22, 163, 74, 0.2);
+  --qz-correct-bg: rgba(22, 163, 74, 0.2);
   --qz-incorrect-bg: rgba(220, 38, 38, 0.2);
 
   --qz-accent-light: rgba(250, 186, 64, 0.16);
-  --qz-accent-ring:  rgba(250, 186, 64, 0.3);
+  --qz-accent-ring: rgba(250, 186, 64, 0.3);
 }
 
 /* ===== Reset ===== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -75,13 +77,15 @@ body.dark {
 
 /* ===== Base ===== */
 body {
-  font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN',
-               'Segoe UI', sans-serif;
+  font-family:
+    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
   font-size: 1rem;
   line-height: 1.7;
   background: var(--qz-bg);
   color: var(--qz-text);
-  transition: background 0.3s, color 0.3s;
+  transition:
+    background 0.3s,
+    color 0.3s;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -142,8 +146,14 @@ body.dark .qz-header__title {
 }
 
 @keyframes qzFadeUp {
-  from { opacity: 0; transform: translateY(10px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ===== Section Title（.qz-screen 内の見出し） ===== */

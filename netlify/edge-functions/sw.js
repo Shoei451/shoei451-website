@@ -12,19 +12,16 @@ export default async (request, context) => {
   const SUPABASE_URL = "https://gjuqsyaugrsshmjerhme.supabase.co";
   const SUPABASE_KEY = "sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU";
 
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/access_logs`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "apikey": SUPABASE_KEY,
-        "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Prefer": "return=minimal",
-      },
-      body: JSON.stringify({ path, referrer, user_agent: userAgent, country }),
-    }
-  );
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/access_logs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      Prefer: "return=minimal",
+    },
+    body: JSON.stringify({ path, referrer, user_agent: userAgent, country }),
+  });
 
   if (!res.ok) {
     return new Response("Log failed", { status: 500 });

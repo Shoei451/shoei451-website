@@ -1,646 +1,824 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>メモ編集 — wh_dates</title>
-  <link rel="icon" href="../../../images/worldhistoryquiz.png">
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="../../../js/supabase_config.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>メモ編集 — wh_dates</title>
+    <link rel="icon" href="../../../images/worldhistoryquiz.png" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../../js/supabase_config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
 
-  <style>
-    /* ── memo.html 固有スタイル（style.css 変数・クラスを最大限流用） ── */
+    <style>
+      /* ── memo.html 固有スタイル（style.css 変数・クラスを最大限流用） ── */
 
-    .memo-page-wrap {
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 24px 20px 120px;
-    }
-
-    /* ツールバー：sticky + .search-box / .filter-select 流用 */
-    .memo-toolbar {
-      position: sticky;
-      top: 0;
-      z-index: 90;
-      background: var(--bg-light);
-      padding: 12px 0;
-      margin-bottom: 16px;
-      border-bottom: 1px solid var(--border-light);
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .filter-toggle {
-      padding: 10px 14px;
-      border: 2px solid var(--border-light);
-      border-radius: 5px;
-      background: var(--bg-light);
-      color: var(--text-light-secondary);
-      font-size: 0.88rem;
-      cursor: pointer;
-      font-family: inherit;
-      transition: all 0.2s;
-      white-space: nowrap;
-    }
-
-    .filter-toggle:hover,
-    .filter-toggle.active {
-      border-color: var(--accent-gold);
-      color: var(--accent-navy);
-      background: rgba(229,170,112,0.1);
-    }
-
-    body.dark .filter-toggle:hover,
-    body.dark .filter-toggle.active {
-      color: var(--accent-gold);
-      background: rgba(229,170,112,0.12);
-    }
-
-    /* レコードカード */
-    .memo-card {
-      background: var(--bg-light-secondary);
-      border: 1px solid var(--border-light);
-      border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 10px;
-      cursor: pointer;
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
-      box-shadow: 0 2px 6px var(--shadow-light);
-    }
-
-    .memo-card:hover {
-      border-color: var(--accent-gold);
-      box-shadow: 0 4px 14px var(--shadow-light);
-    }
-
-    .memo-card:active { transform: scale(0.99); }
-
-    .memo-card.has-memo {
-      border-left: 3px solid var(--accent-gold);
-    }
-
-    .card-body { flex: 1; min-width: 0; }
-
-    .card-year {
-      font-weight: 600;
-      color: var(--accent-navy);
-      font-size: 0.82rem;
-      margin-bottom: 3px;
-      white-space: nowrap;
-    }
-
-    body.dark .card-year { color: var(--accent-gold); }
-
-    .card-event {
-      font-weight: 500;
-      font-size: 0.95rem;
-      color: var(--text-light);
-      line-height: 1.45;
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      margin-bottom: 6px;
-    }
-
-    .card-tag-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-bottom: 4px;
-    }
-
-    .card-memo-preview {
-      font-size: 0.78rem;
-      color: var(--text-light-secondary);
-      overflow: hidden;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      font-style: italic;
-      line-height: 1.5;
-      margin-top: 4px;
-    }
-
-    .card-actions {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .memo-indicator {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--accent-gold);
-    }
-
-    /* ボトムシート */
-    .sheet-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.48);
-      z-index: 200;
-      opacity: 0;
-      transition: opacity 0.25s;
-    }
-
-    .sheet-backdrop.visible { display: block; }
-    .sheet-backdrop.in      { opacity: 1; }
-
-    .sheet {
-      position: fixed;
-      left: 0; right: 0; bottom: 0;
-      z-index: 201;
-      background: var(--bg-light);
-      border-radius: 18px 18px 0 0;
-      box-shadow: 0 -8px 32px rgba(0,0,0,0.2);
-      max-height: 90vh;
-      display: none;
-      flex-direction: column;
-      transform: translateY(100%);
-      transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    .sheet.open {
-      display: flex;
-      transform: translateY(0);
-    }
-
-    @media (min-width: 700px) {
-      .sheet {
-        left: 50%; right: auto; bottom: 32px;
-        width: 640px;
-        transform: translateX(-50%) translateY(20px);
-        border-radius: 10px;
-        max-height: 86vh;
-        opacity: 0;
-        transition: transform 0.25s ease, opacity 0.25s ease;
+      .memo-page-wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 24px 20px 120px;
       }
-      .sheet.open {
-        transform: translateX(-50%) translateY(0);
+
+      /* ツールバー：sticky + .search-box / .filter-select 流用 */
+      .memo-toolbar {
+        position: sticky;
+        top: 0;
+        z-index: 90;
+        background: var(--bg-light);
+        padding: 12px 0;
+        margin-bottom: 16px;
+        border-bottom: 1px solid var(--border-light);
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .filter-toggle {
+        padding: 10px 14px;
+        border: 2px solid var(--border-light);
+        border-radius: 5px;
+        background: var(--bg-light);
+        color: var(--text-light-secondary);
+        font-size: 0.88rem;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+
+      .filter-toggle:hover,
+      .filter-toggle.active {
+        border-color: var(--accent-gold);
+        color: var(--accent-navy);
+        background: rgba(229, 170, 112, 0.1);
+      }
+
+      body.dark .filter-toggle:hover,
+      body.dark .filter-toggle.active {
+        color: var(--accent-gold);
+        background: rgba(229, 170, 112, 0.12);
+      }
+
+      /* レコードカード */
+      .memo-card {
+        background: var(--bg-light-secondary);
+        border: 1px solid var(--border-light);
+        border-radius: 8px;
+        padding: 14px 16px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s,
+          transform 0.1s;
+        box-shadow: 0 2px 6px var(--shadow-light);
+      }
+
+      .memo-card:hover {
+        border-color: var(--accent-gold);
+        box-shadow: 0 4px 14px var(--shadow-light);
+      }
+
+      .memo-card:active {
+        transform: scale(0.99);
+      }
+
+      .memo-card.has-memo {
+        border-left: 3px solid var(--accent-gold);
+      }
+
+      .card-body {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .card-year {
+        font-weight: 600;
+        color: var(--accent-navy);
+        font-size: 0.82rem;
+        margin-bottom: 3px;
+        white-space: nowrap;
+      }
+
+      body.dark .card-year {
+        color: var(--accent-gold);
+      }
+
+      .card-event {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: var(--text-light);
+        line-height: 1.45;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 6px;
+      }
+
+      .card-tag-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-bottom: 4px;
+      }
+
+      .card-memo-preview {
+        font-size: 0.78rem;
+        color: var(--text-light-secondary);
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        font-style: italic;
+        line-height: 1.5;
+        margin-top: 4px;
+      }
+
+      .card-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .memo-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--accent-gold);
+      }
+
+      /* ボトムシート */
+      .sheet-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.48);
+        z-index: 200;
+        opacity: 0;
+        transition: opacity 0.25s;
+      }
+
+      .sheet-backdrop.visible {
+        display: block;
+      }
+      .sheet-backdrop.in {
         opacity: 1;
       }
-    }
 
-    .sheet-drag-bar {
-      padding: 10px 0 4px;
-      display: flex;
-      justify-content: center;
-      flex-shrink: 0;
-    }
+      .sheet {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 201;
+        background: var(--bg-light);
+        border-radius: 18px 18px 0 0;
+        box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+        max-height: 90vh;
+        display: none;
+        flex-direction: column;
+        transform: translateY(100%);
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
 
-    .sheet-drag-bar span {
-      width: 36px; height: 4px;
-      border-radius: 2px;
-      background: var(--border-light);
-      display: block;
-    }
+      .sheet.open {
+        display: flex;
+        transform: translateY(0);
+      }
 
-    @media (min-width: 700px) { .sheet-drag-bar { display: none; } }
+      @media (min-width: 700px) {
+        .sheet {
+          left: 50%;
+          right: auto;
+          bottom: 32px;
+          width: 640px;
+          transform: translateX(-50%) translateY(20px);
+          border-radius: 10px;
+          max-height: 86vh;
+          opacity: 0;
+          transition:
+            transform 0.25s ease,
+            opacity 0.25s ease;
+        }
+        .sheet.open {
+          transform: translateX(-50%) translateY(0);
+          opacity: 1;
+        }
+      }
 
-    .sheet-info {
-      padding: 4px 18px 12px;
-      border-bottom: 1px solid var(--border-light);
-      flex-shrink: 0;
-    }
+      .sheet-drag-bar {
+        padding: 10px 0 4px;
+        display: flex;
+        justify-content: center;
+        flex-shrink: 0;
+      }
 
-    .sheet-info-year {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--accent-navy);
-      margin-bottom: 3px;
-    }
+      .sheet-drag-bar span {
+        width: 36px;
+        height: 4px;
+        border-radius: 2px;
+        background: var(--border-light);
+        display: block;
+      }
 
-    body.dark .sheet-info-year { color: var(--accent-gold); }
+      @media (min-width: 700px) {
+        .sheet-drag-bar {
+          display: none;
+        }
+      }
 
-    .sheet-info-event {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--text-light);
-      line-height: 1.45;
-    }
+      .sheet-info {
+        padding: 4px 18px 12px;
+        border-bottom: 1px solid var(--border-light);
+        flex-shrink: 0;
+      }
 
-    .sheet-info-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
-    }
+      .sheet-info-year {
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--accent-navy);
+        margin-bottom: 3px;
+      }
 
-    /* エディタタブ */
-    .editor-tabs {
-      display: flex;
-      border-bottom: 2px solid var(--border-light);
-      padding: 0 18px;
-      flex-shrink: 0;
-    }
+      body.dark .sheet-info-year {
+        color: var(--accent-gold);
+      }
 
-    .editor-tab {
-      padding: 10px 18px;
-      border: none;
-      background: transparent;
-      font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--text-light-secondary);
-      cursor: pointer;
-      border-bottom: 3px solid transparent;
-      margin-bottom: -2px;
-      transition: color 0.15s, border-color 0.15s;
-    }
+      .sheet-info-event {
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--text-light);
+        line-height: 1.45;
+      }
 
-    .editor-tab.active {
-      color: var(--accent-navy);
-      border-bottom-color: var(--accent-gold);
-      font-weight: 700;
-    }
+      .sheet-info-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 6px;
+      }
 
-    body.dark .editor-tab.active { color: var(--accent-gold); }
+      /* エディタタブ */
+      .editor-tabs {
+        display: flex;
+        border-bottom: 2px solid var(--border-light);
+        padding: 0 18px;
+        flex-shrink: 0;
+      }
 
-    /* エディタ本体 */
-    .editor-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 14px 18px;
-      padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
-    }
+      .editor-tab {
+        padding: 10px 18px;
+        border: none;
+        background: transparent;
+        font-family: inherit;
+        font-size: 0.88rem;
+        font-weight: 500;
+        color: var(--text-light-secondary);
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        margin-bottom: -2px;
+        transition:
+          color 0.15s,
+          border-color 0.15s;
+      }
 
-    .memo-textarea {
-      width: 100%;
-      height: 100%;
-      min-height: 220px;
-      padding: 12px;
-      border: 2px solid var(--border-light);
-      border-radius: 5px;
-      background: var(--bg-light-secondary);
-      color: var(--text-light);
-      font-size: 0.88rem;
-      font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
-      line-height: 1.8;
-      resize: none;
-      transition: border-color 0.2s;
-    }
+      .editor-tab.active {
+        color: var(--accent-navy);
+        border-bottom-color: var(--accent-gold);
+        font-weight: 700;
+      }
 
-    .memo-textarea:focus {
-      outline: none;
-      border-color: var(--accent-gold);
-      box-shadow: 0 0 0 3px rgba(229,170,112,0.18);
-    }
+      body.dark .editor-tab.active {
+        color: var(--accent-gold);
+      }
 
-    .memo-textarea::placeholder {
-      color: var(--text-light-secondary);
-      opacity: 0.6;
-    }
+      /* エディタ本体 */
+      .editor-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px 18px;
+        padding-bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+      }
 
-    /* MDプレビュー */
-    .md-preview {
-      min-height: 220px;
-      padding: 2px 0;
-      font-size: 0.9rem;
-      line-height: 1.8;
-      color: var(--text-light);
-    }
+      .memo-textarea {
+        width: 100%;
+        height: 100%;
+        min-height: 220px;
+        padding: 12px;
+        border: 2px solid var(--border-light);
+        border-radius: 5px;
+        background: var(--bg-light-secondary);
+        color: var(--text-light);
+        font-size: 0.88rem;
+        font-family: "Monaco", "Consolas", "Courier New", monospace;
+        line-height: 1.8;
+        resize: none;
+        transition: border-color 0.2s;
+      }
 
-    .md-preview h1,.md-preview h2,.md-preview h3 {
-      color: var(--accent-navy);
-      margin: 1.2em 0 0.5em;
-      line-height: 1.4;
-    }
-    body.dark .md-preview h1,
-    body.dark .md-preview h2,
-    body.dark .md-preview h3 { color: var(--accent-gold); }
-    .md-preview h1 { font-size: 1.15rem; }
-    .md-preview h2 { font-size: 1rem; }
-    .md-preview h3 { font-size: 0.92rem; }
-    .md-preview p  { margin-bottom: 0.8em; }
-    .md-preview ul,.md-preview ol { padding-left: 1.4em; margin-bottom: 0.8em; }
-    .md-preview li { margin-bottom: 0.3em; }
-    .md-preview code {
-      font-family: 'Monaco','Consolas',monospace;
-      font-size: 0.85em;
-      background: var(--bg-light-secondary);
-      padding: 0.1em 0.4em;
-      border-radius: 4px;
-      border: 1px solid var(--border-light);
-    }
-    .md-preview pre {
-      background: var(--bg-light-secondary);
-      border: 1px solid var(--border-light);
-      border-radius: 5px;
-      padding: 10px 12px;
-      overflow-x: auto;
-      margin-bottom: 0.8em;
-    }
-    .md-preview pre code { background: none; border: none; padding: 0; }
-    .md-preview blockquote {
-      border-left: 3px solid var(--accent-gold);
-      padding-left: 12px;
-      color: var(--text-light-secondary);
-      margin-bottom: 0.8em;
-    }
-    .md-preview a { color: var(--accent-gold); text-decoration: underline; }
-    .md-preview hr { border: none; border-top: 1px solid var(--border-light); margin: 1em 0; }
-    .md-preview table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 0.8em; }
-    .md-preview th,.md-preview td { padding: 6px 10px; border: 1px solid var(--border-light); }
-    .md-preview th { background: var(--bg-light-secondary); font-weight: 600; }
-    .md-empty { color: var(--text-light-secondary); font-style: italic; font-size: 0.88rem; padding: 8px 0; }
+      .memo-textarea:focus {
+        outline: none;
+        border-color: var(--accent-gold);
+        box-shadow: 0 0 0 3px rgba(229, 170, 112, 0.18);
+      }
 
-    /* シートフッター */
-    .sheet-footer {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      padding: 12px 18px;
-      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-      border-top: 1px solid var(--border-light);
-      flex-shrink: 0;
-      background: var(--bg-light);
-    }
+      .memo-textarea::placeholder {
+        color: var(--text-light-secondary);
+        opacity: 0.6;
+      }
 
-    .btn-clear {
-      background: transparent;
-      border: 2px solid #E74C3C;
-      color: #E74C3C;
-      padding: 9px 16px;
-      border-radius: 5px;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-right: auto;
-      font-family: inherit;
-      transition: background 0.15s;
-    }
+      /* MDプレビュー */
+      .md-preview {
+        min-height: 220px;
+        padding: 2px 0;
+        font-size: 0.9rem;
+        line-height: 1.8;
+        color: var(--text-light);
+      }
 
-    .btn-clear:hover { background: rgba(231,76,60,0.08); }
+      .md-preview h1,
+      .md-preview h2,
+      .md-preview h3 {
+        color: var(--accent-navy);
+        margin: 1.2em 0 0.5em;
+        line-height: 1.4;
+      }
+      body.dark .md-preview h1,
+      body.dark .md-preview h2,
+      body.dark .md-preview h3 {
+        color: var(--accent-gold);
+      }
+      .md-preview h1 {
+        font-size: 1.15rem;
+      }
+      .md-preview h2 {
+        font-size: 1rem;
+      }
+      .md-preview h3 {
+        font-size: 0.92rem;
+      }
+      .md-preview p {
+        margin-bottom: 0.8em;
+      }
+      .md-preview ul,
+      .md-preview ol {
+        padding-left: 1.4em;
+        margin-bottom: 0.8em;
+      }
+      .md-preview li {
+        margin-bottom: 0.3em;
+      }
+      .md-preview code {
+        font-family: "Monaco", "Consolas", monospace;
+        font-size: 0.85em;
+        background: var(--bg-light-secondary);
+        padding: 0.1em 0.4em;
+        border-radius: 4px;
+        border: 1px solid var(--border-light);
+      }
+      .md-preview pre {
+        background: var(--bg-light-secondary);
+        border: 1px solid var(--border-light);
+        border-radius: 5px;
+        padding: 10px 12px;
+        overflow-x: auto;
+        margin-bottom: 0.8em;
+      }
+      .md-preview pre code {
+        background: none;
+        border: none;
+        padding: 0;
+      }
+      .md-preview blockquote {
+        border-left: 3px solid var(--accent-gold);
+        padding-left: 12px;
+        color: var(--text-light-secondary);
+        margin-bottom: 0.8em;
+      }
+      .md-preview a {
+        color: var(--accent-gold);
+        text-decoration: underline;
+      }
+      .md-preview hr {
+        border: none;
+        border-top: 1px solid var(--border-light);
+        margin: 1em 0;
+      }
+      .md-preview table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.85rem;
+        margin-bottom: 0.8em;
+      }
+      .md-preview th,
+      .md-preview td {
+        padding: 6px 10px;
+        border: 1px solid var(--border-light);
+      }
+      .md-preview th {
+        background: var(--bg-light-secondary);
+        font-weight: 600;
+      }
+      .md-empty {
+        color: var(--text-light-secondary);
+        font-style: italic;
+        font-size: 0.88rem;
+        padding: 8px 0;
+      }
 
-    /* トースト */
-    .toast {
-      position: fixed;
-      bottom: 80px;
-      left: 50%;
-      transform: translateX(-50%) translateY(8px);
-      background: var(--accent-navy);
-      color: white;
-      padding: 9px 20px;
-      border-radius: 100px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      z-index: 300;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.22s, transform 0.22s;
-      white-space: nowrap;
-    }
+      /* シートフッター */
+      .sheet-footer {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        padding: 12px 18px;
+        padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+        border-top: 1px solid var(--border-light);
+        flex-shrink: 0;
+        background: var(--bg-light);
+      }
 
-    body.dark .toast { background: var(--accent-gold); color: var(--accent-navy); }
+      .btn-clear {
+        background: transparent;
+        border: 2px solid #e74c3c;
+        color: #e74c3c;
+        padding: 9px 16px;
+        border-radius: 5px;
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        margin-right: auto;
+        font-family: inherit;
+        transition: background 0.15s;
+      }
 
-    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+      .btn-clear:hover {
+        background: rgba(231, 76, 60, 0.08);
+      }
 
-    @media (max-width: 420px) {
-      .memo-page-wrap { padding: 12px 14px 120px; }
-      .memo-toolbar   { padding: 10px 0; }
-      .memo-card      { padding: 12px 13px; gap: 10px; }
-      .sheet-info     { padding: 4px 14px 10px; }
-      .editor-body    { padding: 12px 14px; }
-      .sheet-footer   { padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px)); }
-      .editor-tab     { padding: 9px 14px; }
-    }
-  </style>
-</head>
-<body>
+      /* トースト */
+      .toast {
+        position: fixed;
+        bottom: 80px;
+        left: 50%;
+        transform: translateX(-50%) translateY(8px);
+        background: var(--accent-navy);
+        color: white;
+        padding: 9px 20px;
+        border-radius: 100px;
+        font-size: 0.84rem;
+        font-weight: 600;
+        z-index: 300;
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 0.22s,
+          transform 0.22s;
+        white-space: nowrap;
+      }
 
-  <!-- ヘッダー -->
-  <header>
-    <div class="header-content">
-      <div>
-        <h1>メモ編集</h1>
-        <span class="admin-badge">wh_dates · memo</span>
+      body.dark .toast {
+        background: var(--accent-gold);
+        color: var(--accent-navy);
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      @media (max-width: 420px) {
+        .memo-page-wrap {
+          padding: 12px 14px 120px;
+        }
+        .memo-toolbar {
+          padding: 10px 0;
+        }
+        .memo-card {
+          padding: 12px 13px;
+          gap: 10px;
+        }
+        .sheet-info {
+          padding: 4px 14px 10px;
+        }
+        .editor-body {
+          padding: 12px 14px;
+        }
+        .sheet-footer {
+          padding: 10px 14px calc(10px + env(safe-area-inset-bottom, 0px));
+        }
+        .editor-tab {
+          padding: 9px 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ヘッダー -->
+    <header>
+      <div class="header-content">
+        <div>
+          <h1>メモ編集</h1>
+          <span class="admin-badge">wh_dates · memo</span>
+        </div>
+        <span class="logo-switches">
+          <span id="loggedInUser" class="user-info"></span>
+          <button id="logoutBtn" class="btn-logout" type="button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            ログアウト
+          </button>
+          <a href="main.html" class="btn-logout" style="text-decoration: none"
+            >📋 データ管理</a
+          >
+          <a href="index.html" class="btn-logout" style="text-decoration: none"
+            >← ホーム</a
+          >
+          <button id="theme-toggle" type="button" title="Toggle Theme">
+            <svg
+              id="moon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg
+              id="sun"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5"></circle>
+              <line x1="12" y1="1" x2="12" y2="3"></line>
+              <line x1="12" y1="21" x2="12" y2="23"></line>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+              <line x1="1" y1="12" x2="3" y2="12"></line>
+              <line x1="21" y1="12" x2="23" y2="12"></line>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+            </svg>
+          </button>
+        </span>
       </div>
-      <span class="logo-switches">
-        <span id="loggedInUser" class="user-info"></span>
-        <button id="logoutBtn" class="btn-logout" type="button">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-               fill="none" stroke="currentColor" stroke-width="2"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-            <polyline points="16 17 21 12 16 7"></polyline>
-            <line x1="21" y1="12" x2="9" y2="12"></line>
-          </svg>
-          ログアウト
+    </header>
+
+    <div class="memo-page-wrap">
+      <!-- 統計（.stats / .stat-item 流用） -->
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-number" id="statTotal">-</div>
+          <div class="stat-label">総件数</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="statMemo">-</div>
+          <div class="stat-label">メモあり</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" id="statFiltered">-</div>
+          <div class="stat-label">表示中</div>
+        </div>
+      </div>
+
+      <!-- ツールバー（.search-box / .filter-select 流用） -->
+      <div class="memo-toolbar">
+        <input
+          type="search"
+          id="searchInput"
+          class="search-box"
+          style="flex: 1; width: auto"
+          placeholder="出来事・地域・分野で検索..."
+          autocomplete="off"
+        />
+        <button class="filter-toggle" id="filterMemoBtn">📝 メモあり</button>
+        <select id="fieldFilter" class="filter-select">
+          <option value="">分野: すべて</option>
+          <option value="政治">政治</option>
+          <option value="経済">経済</option>
+          <option value="文化・宗教">文化・宗教</option>
+          <option value="社会">社会</option>
+          <option value="外交・戦争">外交・戦争</option>
+        </select>
+      </div>
+
+      <div id="recordList">
+        <div class="loading">読み込み中...</div>
+      </div>
+    </div>
+
+    <!-- ボトムシート -->
+    <div class="sheet-backdrop" id="sheetBackdrop"></div>
+    <div
+      class="sheet"
+      id="sheet"
+      role="dialog"
+      aria-modal="true"
+      aria-label="メモ編集"
+    >
+      <div class="sheet-drag-bar"><span></span></div>
+
+      <div class="sheet-info">
+        <div class="sheet-info-year" id="sheetYear"></div>
+        <div class="sheet-info-event" id="sheetEvent"></div>
+        <div class="sheet-info-tags" id="sheetTags"></div>
+      </div>
+
+      <div class="editor-tabs">
+        <button
+          class="editor-tab active"
+          id="tabEdit"
+          onclick="switchTab('edit')"
+        >
+          ✏️ 編集
         </button>
-        <a href="main.html" class="btn-logout" style="text-decoration:none;">📋 データ管理</a>
-        <a href="index.html" class="btn-logout" style="text-decoration:none;">← ホーム</a>
-        <button id="theme-toggle" type="button" title="Toggle Theme">
-          <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-          <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="5"></circle>
-            <line x1="12" y1="1" x2="12" y2="3"></line>
-            <line x1="12" y1="21" x2="12" y2="23"></line>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-            <line x1="1" y1="12" x2="3" y2="12"></line>
-            <line x1="21" y1="12" x2="23" y2="12"></line>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-          </svg>
+        <button
+          class="editor-tab"
+          id="tabPreview"
+          onclick="switchTab('preview')"
+        >
+          👁 プレビュー
         </button>
-      </span>
-    </div>
-  </header>
-
-  <div class="memo-page-wrap">
-
-    <!-- 統計（.stats / .stat-item 流用） -->
-    <div class="stats">
-      <div class="stat-item">
-        <div class="stat-number" id="statTotal">-</div>
-        <div class="stat-label">総件数</div>
       </div>
-      <div class="stat-item">
-        <div class="stat-number" id="statMemo">-</div>
-        <div class="stat-label">メモあり</div>
+
+      <div class="editor-body">
+        <textarea
+          class="memo-textarea"
+          id="memoTextarea"
+          placeholder="Markdown で書けます。&#10;&#10;## ポイント&#10;- 東大頻出&#10;- 関連する出来事&#10;&#10;**太字** / *斜体* / `コード`&#10;&#10;> 引用・補足説明"
+        ></textarea>
+        <div class="md-preview" id="mdPreview" style="display: none"></div>
       </div>
-      <div class="stat-item">
-        <div class="stat-number" id="statFiltered">-</div>
-        <div class="stat-label">表示中</div>
+
+      <!-- フッター（.btn-cancel / button 流用） -->
+      <div class="sheet-footer">
+        <button
+          class="btn-clear"
+          id="clearBtn"
+          onclick="clearMemo()"
+          style="display: none"
+        >
+          🗑 削除
+        </button>
+        <button class="btn-cancel" onclick="closeSheet()">キャンセル</button>
+        <button id="saveBtn" onclick="saveMemo()">保存</button>
       </div>
     </div>
 
-    <!-- ツールバー（.search-box / .filter-select 流用） -->
-    <div class="memo-toolbar">
-      <input type="search" id="searchInput" class="search-box"
-             style="flex:1; width:auto;"
-             placeholder="出来事・地域・分野で検索..."
-             autocomplete="off">
-      <button class="filter-toggle" id="filterMemoBtn">📝 メモあり</button>
-      <select id="fieldFilter" class="filter-select">
-        <option value="">分野: すべて</option>
-        <option value="政治">政治</option>
-        <option value="経済">経済</option>
-        <option value="文化・宗教">文化・宗教</option>
-        <option value="社会">社会</option>
-        <option value="外交・戦争">外交・戦争</option>
-      </select>
-    </div>
+    <div class="toast" id="toast"></div>
 
-    <div id="recordList">
-      <div class="loading">読み込み中...</div>
-    </div>
+    <script>
+      // ── テーマ ──────────────────────────────────────────────────
+      (function () {
+        const p = localStorage.getItem("pref-theme");
+        if (
+          p === "dark" ||
+          (!p && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.body.classList.add("dark");
+        }
+      })();
 
-  </div>
+      document.addEventListener("DOMContentLoaded", () => {
+        document
+          .getElementById("theme-toggle")
+          .addEventListener("click", () => {
+            document.body.classList.toggle("dark");
+            localStorage.setItem(
+              "pref-theme",
+              document.body.classList.contains("dark") ? "dark" : "light",
+            );
+          });
+      });
 
-  <!-- ボトムシート -->
-  <div class="sheet-backdrop" id="sheetBackdrop"></div>
-  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-label="メモ編集">
-    <div class="sheet-drag-bar"><span></span></div>
+      // ── セッションチェック ────────────────────────────────────────
+      (async function () {
+        const {
+          data: { session },
+        } = await db.auth.getSession();
+        if (!session) {
+          window.location.replace("index.html");
+          return;
+        }
 
-    <div class="sheet-info">
-      <div class="sheet-info-year"  id="sheetYear"></div>
-      <div class="sheet-info-event" id="sheetEvent"></div>
-      <div class="sheet-info-tags"  id="sheetTags"></div>
-    </div>
+        document.getElementById("loggedInUser").textContent =
+          session.user.email;
+        loadRecords();
 
-    <div class="editor-tabs">
-      <button class="editor-tab active" id="tabEdit"    onclick="switchTab('edit')">✏️ 編集</button>
-      <button class="editor-tab"        id="tabPreview" onclick="switchTab('preview')">👁 プレビュー</button>
-    </div>
+        db.auth.onAuthStateChange((_e, s) => {
+          if (!s) window.location.replace("index.html");
+        });
+      })();
 
-    <div class="editor-body">
-      <textarea class="memo-textarea" id="memoTextarea"
-                placeholder="Markdown で書けます。&#10;&#10;## ポイント&#10;- 東大頻出&#10;- 関連する出来事&#10;&#10;**太字** / *斜体* / `コード`&#10;&#10;> 引用・補足説明"></textarea>
-      <div class="md-preview" id="mdPreview" style="display:none;"></div>
-    </div>
+      document
+        .getElementById("logoutBtn")
+        .addEventListener("click", async () => {
+          await db.auth.signOut();
+          window.location.replace("index.html");
+        });
 
-    <!-- フッター（.btn-cancel / button 流用） -->
-    <div class="sheet-footer">
-      <button class="btn-clear"  id="clearBtn"  onclick="clearMemo()" style="display:none;">🗑 削除</button>
-      <button class="btn-cancel" onclick="closeSheet()">キャンセル</button>
-      <button id="saveBtn"       onclick="saveMemo()">保存</button>
-    </div>
-  </div>
+      // ── State ──────────────────────────────────────────────────
+      let allRecords = [];
+      let filtered = [];
+      let currentRecord = null;
+      let filterMemoOnly = false;
+      let searchQuery = "";
+      let fieldQuery = "";
+      let searchTimer = null;
 
-  <div class="toast" id="toast"></div>
+      // ── Data ───────────────────────────────────────────────────
+      async function loadRecords() {
+        document.getElementById("recordList").innerHTML =
+          '<div class="loading">読み込み中...</div>';
 
-<script>
-  // ── テーマ ──────────────────────────────────────────────────
-  (function() {
-    const p = localStorage.getItem('pref-theme');
-    if (p === 'dark' || (!p && matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.body.classList.add('dark');
-    }
-  })();
+        const { data, error } = await db
+          .from(TABLES.WH_DATES)
+          .select("id, year, year_end, event, region, field, record_type, memo")
+          .order("year", { ascending: true, nullsFirst: false });
 
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('theme-toggle').addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      localStorage.setItem('pref-theme',
-        document.body.classList.contains('dark') ? 'dark' : 'light');
-    });
-  });
-
-  // ── セッションチェック ────────────────────────────────────────
-  (async function() {
-    const { data: { session } } = await db.auth.getSession();
-    if (!session) { window.location.replace('index.html'); return; }
-
-    document.getElementById('loggedInUser').textContent = session.user.email;
-    loadRecords();
-
-    db.auth.onAuthStateChange((_e, s) => {
-      if (!s) window.location.replace('index.html');
-    });
-  })();
-
-  document.getElementById('logoutBtn').addEventListener('click', async () => {
-    await db.auth.signOut();
-    window.location.replace('index.html');
-  });
-
-  // ── State ──────────────────────────────────────────────────
-  let allRecords     = [];
-  let filtered       = [];
-  let currentRecord  = null;
-  let filterMemoOnly = false;
-  let searchQuery    = '';
-  let fieldQuery     = '';
-  let searchTimer    = null;
-
-  // ── Data ───────────────────────────────────────────────────
-  async function loadRecords() {
-    document.getElementById('recordList').innerHTML =
-      '<div class="loading">読み込み中...</div>';
-
-    const { data, error } = await db
-      .from(TABLES.WH_DATES)
-      .select('id, year, year_end, event, region, field, record_type, memo')
-      .order('year', { ascending: true, nullsFirst: false });
-
-    if (error) {
-      document.getElementById('recordList').innerHTML = `
+        if (error) {
+          document.getElementById("recordList").innerHTML = `
         <div class="empty-state">
           <p>⚠️ データの読み込みに失敗しました</p>
           <p style="font-size:0.85rem;margin-top:6px;">${escHtml(error.message)}</p>
         </div>`;
-      return;
-    }
+          return;
+        }
 
-    allRecords = data ?? [];
-    applyFilter();
-  }
+        allRecords = data ?? [];
+        applyFilter();
+      }
 
-  // ── Filter & Render ────────────────────────────────────────
-  function applyFilter() {
-    const q = searchQuery.toLowerCase();
-    filtered = allRecords.filter(r => {
-      if (filterMemoOnly && !r.memo) return false;
-      if (fieldQuery && r.field !== fieldQuery) return false;
-      if (!q) return true;
-      return (r.event ?? '').toLowerCase().includes(q)
-          || (r.region ?? []).join(' ').toLowerCase().includes(q)
-          || (r.field ?? '').toLowerCase().includes(q);
-    });
-    updateStats();
-    renderList();
-  }
+      // ── Filter & Render ────────────────────────────────────────
+      function applyFilter() {
+        const q = searchQuery.toLowerCase();
+        filtered = allRecords.filter((r) => {
+          if (filterMemoOnly && !r.memo) return false;
+          if (fieldQuery && r.field !== fieldQuery) return false;
+          if (!q) return true;
+          return (
+            (r.event ?? "").toLowerCase().includes(q) ||
+            (r.region ?? []).join(" ").toLowerCase().includes(q) ||
+            (r.field ?? "").toLowerCase().includes(q)
+          );
+        });
+        updateStats();
+        renderList();
+      }
 
-  function updateStats() {
-    document.getElementById('statTotal').textContent    = allRecords.length;
-    document.getElementById('statMemo').textContent     = allRecords.filter(r => r.memo).length;
-    document.getElementById('statFiltered').textContent = filtered.length;
-  }
+      function updateStats() {
+        document.getElementById("statTotal").textContent = allRecords.length;
+        document.getElementById("statMemo").textContent = allRecords.filter(
+          (r) => r.memo,
+        ).length;
+        document.getElementById("statFiltered").textContent = filtered.length;
+      }
 
-  function formatYear(r) {
-    const y = r.year;
-    if (y == null) return '年不明';
-    return y < 0 ? `前${Math.abs(y)}年` : `${y}年`;
-  }
+      function formatYear(r) {
+        const y = r.year;
+        if (y == null) return "年不明";
+        return y < 0 ? `前${Math.abs(y)}年` : `${y}年`;
+      }
 
-  function escHtml(s) {
-    const d = document.createElement('div');
-    d.textContent = s ?? '';
-    return d.innerHTML;
-  }
+      function escHtml(s) {
+        const d = document.createElement("div");
+        d.textContent = s ?? "";
+        return d.innerHTML;
+      }
 
-  function renderList() {
-    const el = document.getElementById('recordList');
+      function renderList() {
+        const el = document.getElementById("recordList");
 
-    if (filtered.length === 0) {
-      el.innerHTML = `
+        if (filtered.length === 0) {
+          el.innerHTML = `
         <div class="empty-state">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -650,172 +828,222 @@
           </svg>
           <p>該当するレコードがありません</p>
         </div>`;
-      return;
-    }
+          return;
+        }
 
-    el.innerHTML = filtered.map(r => {
-      const hasMemo = !!r.memo;
-      const preview = hasMemo
-        ? r.memo.replace(/[#*`_>\[\]\n]/g,' ').replace(/\s+/g,' ').trim().slice(0,90)
-        : '';
+        el.innerHTML = filtered
+          .map((r) => {
+            const hasMemo = !!r.memo;
+            const preview = hasMemo
+              ? r.memo
+                  .replace(/[#*`_>\[\]\n]/g, " ")
+                  .replace(/\s+/g, " ")
+                  .trim()
+                  .slice(0, 90)
+              : "";
 
-      const regionTags = (r.region ?? []).map(k =>
-        `<span class="region-tag">${escHtml(k)}</span>`
-      ).join('');
+            const regionTags = (r.region ?? [])
+              .map((k) => `<span class="region-tag">${escHtml(k)}</span>`)
+              .join("");
 
-      const fieldTag = r.field
-        ? `<span class="category-chip" style="font-size:0.75rem;">${escHtml(r.field)}</span>`
-        : '';
+            const fieldTag = r.field
+              ? `<span class="category-chip" style="font-size:0.75rem;">${escHtml(r.field)}</span>`
+              : "";
 
-      const rtLabel = { event:'出来事', period:'期間', person:'人物' }[r.record_type] ?? '';
-      const rtChip  = `<span class="category-chip record-chip record-chip--${escHtml(r.record_type)}"
+            const rtLabel =
+              { event: "出来事", period: "期間", person: "人物" }[
+                r.record_type
+              ] ?? "";
+            const rtChip = `<span class="category-chip record-chip record-chip--${escHtml(r.record_type)}"
                              style="font-size:0.72rem;">${rtLabel}</span>`;
 
-      return `
-        <div class="memo-card ${hasMemo ? 'has-memo' : ''}" onclick="openSheet(${r.id})">
+            return `
+        <div class="memo-card ${hasMemo ? "has-memo" : ""}" onclick="openSheet(${r.id})">
           <div class="card-body">
             <div class="card-year">${formatYear(r)}</div>
             <div class="card-event">${escHtml(r.event)}</div>
             <div class="card-tag-row">${rtChip}${regionTags}${fieldTag}</div>
-            ${hasMemo ? `<div class="card-memo-preview">${escHtml(preview)}</div>` : ''}
+            ${hasMemo ? `<div class="card-memo-preview">${escHtml(preview)}</div>` : ""}
           </div>
           <div class="card-actions">
-            ${hasMemo ? '<div class="memo-indicator" title="メモあり"></div>' : ''}
+            ${hasMemo ? '<div class="memo-indicator" title="メモあり"></div>' : ""}
             <button class="btn-edit"
                     onclick="event.stopPropagation(); openSheet(${r.id})">編集</button>
           </div>
         </div>`;
-    }).join('');
-  }
+          })
+          .join("");
+      }
 
-  // ── Sheet ──────────────────────────────────────────────────
-  function openSheet(id) {
-    currentRecord = allRecords.find(r => r.id === id);
-    if (!currentRecord) return;
+      // ── Sheet ──────────────────────────────────────────────────
+      function openSheet(id) {
+        currentRecord = allRecords.find((r) => r.id === id);
+        if (!currentRecord) return;
 
-    document.getElementById('sheetYear').textContent  = formatYear(currentRecord);
-    document.getElementById('sheetEvent').textContent = currentRecord.event ?? '';
-    document.getElementById('sheetTags').innerHTML    =
-      (currentRecord.region ?? []).map(k =>
-        `<span class="region-tag">${escHtml(k)}</span>`).join('');
-    document.getElementById('memoTextarea').value     = currentRecord.memo ?? '';
-    document.getElementById('clearBtn').style.display = currentRecord.memo ? '' : 'none';
+        document.getElementById("sheetYear").textContent =
+          formatYear(currentRecord);
+        document.getElementById("sheetEvent").textContent =
+          currentRecord.event ?? "";
+        document.getElementById("sheetTags").innerHTML = (
+          currentRecord.region ?? []
+        )
+          .map((k) => `<span class="region-tag">${escHtml(k)}</span>`)
+          .join("");
+        document.getElementById("memoTextarea").value =
+          currentRecord.memo ?? "";
+        document.getElementById("clearBtn").style.display = currentRecord.memo
+          ? ""
+          : "none";
 
-    switchTab('edit');
+        switchTab("edit");
 
-    const bd    = document.getElementById('sheetBackdrop');
-    const sheet = document.getElementById('sheet');
-    bd.classList.add('visible');
-    requestAnimationFrame(() => bd.classList.add('in'));
-    sheet.style.display = 'flex';
-    requestAnimationFrame(() =>
-      requestAnimationFrame(() => sheet.classList.add('open'))
-    );
-    setTimeout(() => document.getElementById('memoTextarea').focus(), 320);
-  }
+        const bd = document.getElementById("sheetBackdrop");
+        const sheet = document.getElementById("sheet");
+        bd.classList.add("visible");
+        requestAnimationFrame(() => bd.classList.add("in"));
+        sheet.style.display = "flex";
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => sheet.classList.add("open")),
+        );
+        setTimeout(() => document.getElementById("memoTextarea").focus(), 320);
+      }
 
-  function closeSheet() {
-    const sheet = document.getElementById('sheet');
-    const bd    = document.getElementById('sheetBackdrop');
-    sheet.classList.remove('open');
-    bd.classList.remove('in');
-    setTimeout(() => {
-      sheet.style.display = 'none';
-      bd.classList.remove('visible');
-      currentRecord = null;
-    }, 300);
-  }
+      function closeSheet() {
+        const sheet = document.getElementById("sheet");
+        const bd = document.getElementById("sheetBackdrop");
+        sheet.classList.remove("open");
+        bd.classList.remove("in");
+        setTimeout(() => {
+          sheet.style.display = "none";
+          bd.classList.remove("visible");
+          currentRecord = null;
+        }, 300);
+      }
 
-  document.getElementById('sheetBackdrop').addEventListener('click', closeSheet);
+      document
+        .getElementById("sheetBackdrop")
+        .addEventListener("click", closeSheet);
 
-  let ty0 = 0;
-  document.getElementById('sheet').addEventListener('touchstart',
-    e => { ty0 = e.touches[0].clientY; }, { passive: true });
-  document.getElementById('sheet').addEventListener('touchend',
-    e => { if (e.changedTouches[0].clientY - ty0 > 80) closeSheet(); },
-    { passive: true });
+      let ty0 = 0;
+      document.getElementById("sheet").addEventListener(
+        "touchstart",
+        (e) => {
+          ty0 = e.touches[0].clientY;
+        },
+        { passive: true },
+      );
+      document.getElementById("sheet").addEventListener(
+        "touchend",
+        (e) => {
+          if (e.changedTouches[0].clientY - ty0 > 80) closeSheet();
+        },
+        { passive: true },
+      );
 
-  // ── Tabs ───────────────────────────────────────────────────
-  function switchTab(tab) {
-    const ta  = document.getElementById('memoTextarea');
-    const pre = document.getElementById('mdPreview');
-    document.getElementById('tabEdit').classList.toggle('active',    tab === 'edit');
-    document.getElementById('tabPreview').classList.toggle('active', tab === 'preview');
-    if (tab === 'edit') {
-      ta.style.display = ''; pre.style.display = 'none'; ta.focus();
-    } else {
-      const md = ta.value.trim();
-      pre.innerHTML = md
-        ? marked.parse(md, { breaks: true, gfm: true })
-        : '<p class="md-empty">まだメモがありません</p>';
-      ta.style.display = 'none'; pre.style.display = '';
-    }
-  }
+      // ── Tabs ───────────────────────────────────────────────────
+      function switchTab(tab) {
+        const ta = document.getElementById("memoTextarea");
+        const pre = document.getElementById("mdPreview");
+        document
+          .getElementById("tabEdit")
+          .classList.toggle("active", tab === "edit");
+        document
+          .getElementById("tabPreview")
+          .classList.toggle("active", tab === "preview");
+        if (tab === "edit") {
+          ta.style.display = "";
+          pre.style.display = "none";
+          ta.focus();
+        } else {
+          const md = ta.value.trim();
+          pre.innerHTML = md
+            ? marked.parse(md, { breaks: true, gfm: true })
+            : '<p class="md-empty">まだメモがありません</p>';
+          ta.style.display = "none";
+          pre.style.display = "";
+        }
+      }
 
-  // ── Save / Clear ───────────────────────────────────────────
-  async function saveMemo() {
-    if (!currentRecord) return;
-    const btn  = document.getElementById('saveBtn');
-    const memo = document.getElementById('memoTextarea').value.trim() || null;
-    btn.disabled = true; btn.textContent = '保存中...';
+      // ── Save / Clear ───────────────────────────────────────────
+      async function saveMemo() {
+        if (!currentRecord) return;
+        const btn = document.getElementById("saveBtn");
+        const memo =
+          document.getElementById("memoTextarea").value.trim() || null;
+        btn.disabled = true;
+        btn.textContent = "保存中...";
 
-    const { error } = await db
-      .from(TABLES.WH_DATES).update({ memo }).eq('id', currentRecord.id);
+        const { error } = await db
+          .from(TABLES.WH_DATES)
+          .update({ memo })
+          .eq("id", currentRecord.id);
 
-    btn.disabled = false; btn.textContent = '保存';
-    if (error) { showToast('⚠️ 保存失敗: ' + error.message, 3500); return; }
+        btn.disabled = false;
+        btn.textContent = "保存";
+        if (error) {
+          showToast("⚠️ 保存失敗: " + error.message, 3500);
+          return;
+        }
 
-    const idx = allRecords.findIndex(r => r.id === currentRecord.id);
-    if (idx !== -1) allRecords[idx].memo = memo;
-    showToast('✓ 保存しました');
-    closeSheet();
-    applyFilter();
-  }
+        const idx = allRecords.findIndex((r) => r.id === currentRecord.id);
+        if (idx !== -1) allRecords[idx].memo = memo;
+        showToast("✓ 保存しました");
+        closeSheet();
+        applyFilter();
+      }
 
-  async function clearMemo() {
-    if (!currentRecord) return;
-    if (!confirm(`「${currentRecord.event}」のメモを削除しますか？`)) return;
-    document.getElementById('memoTextarea').value = '';
+      async function clearMemo() {
+        if (!currentRecord) return;
+        if (!confirm(`「${currentRecord.event}」のメモを削除しますか？`))
+          return;
+        document.getElementById("memoTextarea").value = "";
 
-    const { error } = await db
-      .from(TABLES.WH_DATES).update({ memo: null }).eq('id', currentRecord.id);
+        const { error } = await db
+          .from(TABLES.WH_DATES)
+          .update({ memo: null })
+          .eq("id", currentRecord.id);
 
-    if (error) { showToast('⚠️ 削除失敗: ' + error.message, 3500); return; }
+        if (error) {
+          showToast("⚠️ 削除失敗: " + error.message, 3500);
+          return;
+        }
 
-    const idx = allRecords.findIndex(r => r.id === currentRecord.id);
-    if (idx !== -1) allRecords[idx].memo = null;
-    showToast('🗑 削除しました');
-    closeSheet();
-    applyFilter();
-  }
+        const idx = allRecords.findIndex((r) => r.id === currentRecord.id);
+        if (idx !== -1) allRecords[idx].memo = null;
+        showToast("🗑 削除しました");
+        closeSheet();
+        applyFilter();
+      }
 
-  // ── Controls ───────────────────────────────────────────────
-  document.getElementById('searchInput').addEventListener('input', e => {
-    searchQuery = e.target.value;
-    clearTimeout(searchTimer);
-    searchTimer = setTimeout(applyFilter, 220);
-  });
+      // ── Controls ───────────────────────────────────────────────
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        searchQuery = e.target.value;
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(applyFilter, 220);
+      });
 
-  document.getElementById('filterMemoBtn').addEventListener('click', function() {
-    filterMemoOnly = !filterMemoOnly;
-    this.classList.toggle('active', filterMemoOnly);
-    applyFilter();
-  });
+      document
+        .getElementById("filterMemoBtn")
+        .addEventListener("click", function () {
+          filterMemoOnly = !filterMemoOnly;
+          this.classList.toggle("active", filterMemoOnly);
+          applyFilter();
+        });
 
-  document.getElementById('fieldFilter').addEventListener('change', e => {
-    fieldQuery = e.target.value;
-    applyFilter();
-  });
+      document.getElementById("fieldFilter").addEventListener("change", (e) => {
+        fieldQuery = e.target.value;
+        applyFilter();
+      });
 
-  // ── Toast ──────────────────────────────────────────────────
-  let toastTimer;
-  function showToast(msg, ms = 2000) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), ms);
-  }
-</script>
-</body>
+      // ── Toast ──────────────────────────────────────────────────
+      let toastTimer;
+      function showToast(msg, ms = 2000) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => t.classList.remove("show"), ms);
+      }
+    </script>
+  </body>
 </html>

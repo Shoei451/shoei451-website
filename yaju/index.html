@@ -1,101 +1,127 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Secure Terminal 2025 — YAJU</title>
-  <link rel="icon" type="image/svg+xml" href="images/yaju-favicon.svg">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/index.css">
-</head>
-<body>
-  <!-- HUD: 残機とタイマー -->
-  <div id="lives-panel">
-    <div id="lives-container">
-      <span>LIVES:</span>
-      <div id="lives-bar">
-        <div class="life-block"></div>
-        <div class="life-block"></div>
-        <div class="life-block"></div>
-        <div class="life-block"></div>
-        <div class="life-block"></div>
-      </div>
-    </div>
-  </div>
-
-  <div id="timer-panel">
-    <div class="timer-row">
-      <span>TIMER:</span>
-      <div id="timer-display" aria-label="タイマー">05:00</div>
-    </div>
-    <div class="timer-actions">
-      <button class="timer-btn" id="start-timer">START</button>
-      <button class="timer-btn" id="stop-timer">STOP</button>
-      <button class="timer-btn" id="reset-timer">RESET</button>
-    </div>
-  </div>
-
-  <!-- モバイル: サイドバーオーバーレイ -->
-  <div id="sidebar-overlay"></div>
-
-  <!-- モバイル: INFO トグルボタン -->
-  <button id="info-toggle" aria-label="INFO パネルを開く">INFO</button>
-
-  <!-- レイアウト: PC は左右配置 -->
-  <div id="main">
-    <!-- サイドバー / description -->
-    <div id="description">
-      <!-- モバイル: 閉じるボタン -->
-      <button id="sidebar-close" aria-label="閉じる">✕</button>
-
-      <h2>INTRODUCTION</h2>
-      <p>You barely dodged the laser and made it into the laboratory. Inside, you find a periodic table on the wall, scattered red and blue fragments on the desk, and stacks of books. Your mission is to solve the laboratory's mystery and activate this emergency stop device!!!</p>
-      <p>命からがらレーザーをかいくぐったあなたは、実験室に入った。
-        実験室内には、壁に貼られた周期表と、机の上に散らばる赤・青の小片、そして大量の本。
-        あなたの使命は実験室内の謎を解き、この緊急停止装置を作動させることだ！！！</p>
-      <p>数字キーを押して４桁のパスワードを入力してください。</p>
-    </div>
-
-    <!-- メインコンテンツ -->
-    <div id="container">
-      <div id="terminal">
-        <h1>ENTER PASSWORD</h1>
-        <div id="display" aria-label="入力中のパスコード"></div>
-        <div class="keypad">
-          <div class="btn" tabindex="0" role="button" aria-label="1">1</div>
-          <div class="btn" tabindex="0" role="button" aria-label="2">2</div>
-          <div class="btn" tabindex="0" role="button" aria-label="3">3</div>
-          <div class="btn" tabindex="0" role="button" aria-label="4">4</div>
-          <div class="btn" tabindex="0" role="button" aria-label="5">5</div>
-          <div class="btn" tabindex="0" role="button" aria-label="6">6</div>
-          <div class="btn" tabindex="0" role="button" aria-label="7">7</div>
-          <div class="btn" tabindex="0" role="button" aria-label="8">8</div>
-          <div class="btn" tabindex="0" role="button" aria-label="9">9</div>
-          <div class="btn" tabindex="0" role="button" aria-label="バックスペース">←</div>
-          <div class="btn" tabindex="0" role="button" aria-label="0">0</div>
-          <div class="btn" tabindex="0" role="button" aria-label="クリア">C</div>
-          <div class="btn enter" tabindex="0" role="button" aria-label="決定">ENTER</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Terminal 2025 — YAJU</title>
+    <link rel="icon" type="image/svg+xml" href="images/yaju-favicon.svg" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <!-- HUD: 残機とタイマー -->
+    <div id="lives-panel">
+      <div id="lives-container">
+        <span>LIVES:</span>
+        <div id="lives-bar">
+          <div class="life-block"></div>
+          <div class="life-block"></div>
+          <div class="life-block"></div>
+          <div class="life-block"></div>
+          <div class="life-block"></div>
         </div>
-        <div id="message" role="status" aria-live="polite" aria-atomic="true"></div>
       </div>
     </div>
-  </div>
 
-  <a id="attribution-btn" href="attribution.html" title="Attribution">i</a>
+    <div id="timer-panel">
+      <div class="timer-row">
+        <span>TIMER:</span>
+        <div id="timer-display" aria-label="タイマー">05:00</div>
+      </div>
+      <div class="timer-actions">
+        <button class="timer-btn" id="start-timer">START</button>
+        <button class="timer-btn" id="stop-timer">STOP</button>
+        <button class="timer-btn" id="reset-timer">RESET</button>
+      </div>
+    </div>
 
-  <!-- サウンド -->
-  <audio id="warning-sound" src="audio/warning.mp3" preload="auto"></audio>
-  <audio id="succeed-sound" src="audio/success.mp3" preload="auto"></audio>
-  <audio id="click-sound" src="audio/click.mp3" preload="auto"></audio>
+    <!-- モバイル: サイドバーオーバーレイ -->
+    <div id="sidebar-overlay"></div>
 
-  <div id="loading-bar"></div>
+    <!-- モバイル: INFO トグルボタン -->
+    <button id="info-toggle" aria-label="INFO パネルを開く">INFO</button>
 
-  <div id="specialWarning">
-    <img id="sw-img" src="images/cozy.jpg" alt="BEAST">
-    <h1 id="sw-title">!!! SPECIAL ALERT !!!</h1>
-    <p id="sw-sub">なにを四天王 by岡本</p>
-  </div>
-  <script src="passwords.js"></script>
-  <script src="logic.js"></script>
-</body>
+    <!-- レイアウト: PC は左右配置 -->
+    <div id="main">
+      <!-- サイドバー / description -->
+      <div id="description">
+        <!-- モバイル: 閉じるボタン -->
+        <button id="sidebar-close" aria-label="閉じる">✕</button>
+
+        <h2>INTRODUCTION</h2>
+        <p>
+          You barely dodged the laser and made it into the laboratory. Inside,
+          you find a periodic table on the wall, scattered red and blue
+          fragments on the desk, and stacks of books. Your mission is to solve
+          the laboratory's mystery and activate this emergency stop device!!!
+        </p>
+        <p>
+          命からがらレーザーをかいくぐったあなたは、実験室に入った。
+          実験室内には、壁に貼られた周期表と、机の上に散らばる赤・青の小片、そして大量の本。
+          あなたの使命は実験室内の謎を解き、この緊急停止装置を作動させることだ！！！
+        </p>
+        <p>数字キーを押して４桁のパスワードを入力してください。</p>
+      </div>
+
+      <!-- メインコンテンツ -->
+      <div id="container">
+        <div id="terminal">
+          <h1>ENTER PASSWORD</h1>
+          <div id="display" aria-label="入力中のパスコード"></div>
+          <div class="keypad">
+            <div class="btn" tabindex="0" role="button" aria-label="1">1</div>
+            <div class="btn" tabindex="0" role="button" aria-label="2">2</div>
+            <div class="btn" tabindex="0" role="button" aria-label="3">3</div>
+            <div class="btn" tabindex="0" role="button" aria-label="4">4</div>
+            <div class="btn" tabindex="0" role="button" aria-label="5">5</div>
+            <div class="btn" tabindex="0" role="button" aria-label="6">6</div>
+            <div class="btn" tabindex="0" role="button" aria-label="7">7</div>
+            <div class="btn" tabindex="0" role="button" aria-label="8">8</div>
+            <div class="btn" tabindex="0" role="button" aria-label="9">9</div>
+            <div
+              class="btn"
+              tabindex="0"
+              role="button"
+              aria-label="バックスペース"
+            >
+              ←
+            </div>
+            <div class="btn" tabindex="0" role="button" aria-label="0">0</div>
+            <div class="btn" tabindex="0" role="button" aria-label="クリア">
+              C
+            </div>
+            <div class="btn enter" tabindex="0" role="button" aria-label="決定">
+              ENTER
+            </div>
+          </div>
+          <div
+            id="message"
+            role="status"
+            aria-live="polite"
+            aria-atomic="true"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <a id="attribution-btn" href="attribution.html" title="Attribution">i</a>
+
+    <!-- サウンド -->
+    <audio id="warning-sound" src="audio/warning.mp3" preload="auto"></audio>
+    <audio id="succeed-sound" src="audio/success.mp3" preload="auto"></audio>
+    <audio id="click-sound" src="audio/click.mp3" preload="auto"></audio>
+
+    <div id="loading-bar"></div>
+
+    <div id="specialWarning">
+      <img id="sw-img" src="images/cozy.jpg" alt="BEAST" />
+      <h1 id="sw-title">!!! SPECIAL ALERT !!!</h1>
+      <p id="sw-sub">なにを四天王 by岡本</p>
+    </div>
+    <script src="passwords.js"></script>
+    <script src="logic.js"></script>
+  </body>
 </html>

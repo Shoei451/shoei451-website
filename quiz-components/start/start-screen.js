@@ -29,11 +29,10 @@
 // ============================================================
 
 (function () {
-
   // ── 内部状態 ──────────────────────────────────────────────
-  let _config   = null;
-  let _selected = new Set();   // multi 選択中の range id
-  let _count    = 10;          // 現在の出題数
+  let _config = null;
+  let _selected = new Set(); // multi 選択中の range id
+  let _count = 10; // 現在の出題数
 
   // ── パブリック API ─────────────────────────────────────────
 
@@ -44,7 +43,7 @@
    */
   window.initStartScreen = function (config, mountId = "start-screen") {
     _config = config;
-    _count  = config.countDefault ?? 10;
+    _count = config.countDefault ?? 10;
 
     const el = document.getElementById(mountId);
     if (!el) {
@@ -100,11 +99,15 @@
     const label = cfg.rangeLabel ?? "出題範囲";
 
     if (cfg.rangeMode === "multi") {
-      const chips = (cfg.ranges ?? []).map(r => `
+      const chips = (cfg.ranges ?? [])
+        .map(
+          (r) => `
         <button class="qz-chip" data-range-id="${_esc(r.id)}" type="button">
           ${_esc(r.label)}
         </button>
-      `).join("");
+      `,
+        )
+        .join("");
 
       return `
         <div class="qz-start__block">
@@ -121,11 +124,15 @@
     }
 
     if (cfg.rangeMode === "single") {
-      const items = (cfg.ranges ?? []).map(r => `
+      const items = (cfg.ranges ?? [])
+        .map(
+          (r) => `
         <button class="qz-range-item" data-range-id="${_esc(r.id)}" type="button">
           ${_esc(r.label)}
         </button>
-      `).join("");
+      `,
+        )
+        .join("");
 
       return `
         <div class="qz-start__block">
@@ -140,11 +147,14 @@
 
   function _countHTML(cfg) {
     if (cfg.countMode === "select") {
-      const options = (cfg.countOptions ?? [10, 20, 30, "all"]).map(v =>
-        `<option value="${v}" ${v === (cfg.countDefault ?? 10) ? "selected" : ""}>
+      const options = (cfg.countOptions ?? [10, 20, 30, "all"])
+        .map(
+          (v) =>
+            `<option value="${v}" ${v === (cfg.countDefault ?? 10) ? "selected" : ""}>
           ${v === "all" ? "全問" : `${v}問`}
-        </option>`
-      ).join("");
+        </option>`,
+        )
+        .join("");
 
       return `
         <div class="qz-start__block">
@@ -178,7 +188,7 @@
   function _bindEvents(el, cfg) {
     // ---- 範囲選択 ----
     if (cfg.rangeMode === "multi") {
-      el.querySelectorAll(".qz-chip").forEach(btn => {
+      el.querySelectorAll(".qz-chip").forEach((btn) => {
         btn.addEventListener("click", () => {
           const id = btn.dataset.rangeId;
           if (_selected.has(id)) {
@@ -193,22 +203,28 @@
       });
 
       el.querySelector("#qz-select-all")?.addEventListener("click", () => {
-        (cfg.ranges ?? []).forEach(r => _selected.add(r.id));
-        el.querySelectorAll(".qz-chip").forEach(b => b.classList.add("is-selected"));
+        (cfg.ranges ?? []).forEach((r) => _selected.add(r.id));
+        el.querySelectorAll(".qz-chip").forEach((b) =>
+          b.classList.add("is-selected"),
+        );
         _updateStartBtn(el, cfg);
       });
 
       el.querySelector("#qz-deselect-all")?.addEventListener("click", () => {
         _selected.clear();
-        el.querySelectorAll(".qz-chip").forEach(b => b.classList.remove("is-selected"));
+        el.querySelectorAll(".qz-chip").forEach((b) =>
+          b.classList.remove("is-selected"),
+        );
         _updateStartBtn(el, cfg);
       });
     }
 
     if (cfg.rangeMode === "single") {
-      el.querySelectorAll(".qz-range-item").forEach(btn => {
+      el.querySelectorAll(".qz-range-item").forEach((btn) => {
         btn.addEventListener("click", () => {
-          el.querySelectorAll(".qz-range-item").forEach(b => b.classList.remove("is-selected"));
+          el.querySelectorAll(".qz-range-item").forEach((b) =>
+            b.classList.remove("is-selected"),
+          );
           btn.classList.add("is-selected");
           _selected.clear();
           _selected.add(btn.dataset.rangeId);
@@ -224,7 +240,7 @@
 
     // ---- 出題数 ----
     if (cfg.countMode === "select") {
-      el.querySelector("#qz-count-select")?.addEventListener("change", e => {
+      el.querySelector("#qz-count-select")?.addEventListener("change", (e) => {
         _count = e.target.value === "all" ? "all" : parseInt(e.target.value);
       });
     } else {
@@ -268,9 +284,9 @@
   function _initTutorial(mdUrl) {
     // ボタン・オーバーレイ・パネルを body に追加
     const btn = document.createElement("button");
-    btn.className  = "qz-tutorial-btn";
-    btn.title      = "使い方を見る";
-    btn.innerHTML  = "?";
+    btn.className = "qz-tutorial-btn";
+    btn.title = "使い方を見る";
+    btn.innerHTML = "?";
     btn.setAttribute("aria-label", "チュートリアルを開く");
 
     const overlay = document.createElement("div");
@@ -294,8 +310,8 @@
 
     // Markdown 読み込み（marked.js があれば使う）
     fetch(mdUrl)
-      .then(r => r.text())
-      .then(md => {
+      .then((r) => r.text())
+      .then((md) => {
         const content = document.getElementById("qz-tutorial-content");
         if (!content) return;
         if (typeof marked !== "undefined") {
@@ -307,7 +323,8 @@
       })
       .catch(() => {
         const content = document.getElementById("qz-tutorial-content");
-        if (content) content.innerHTML = `<p style="color:var(--qz-text-sub)">チュートリアルを読み込めませんでした。</p>`;
+        if (content)
+          content.innerHTML = `<p style="color:var(--qz-text-sub)">チュートリアルを読み込めませんでした。</p>`;
       });
 
     // 開閉
@@ -322,8 +339,12 @@
 
     btn.addEventListener("click", open);
     overlay.addEventListener("click", close);
-    panel.querySelector(".qz-tutorial-panel__close")?.addEventListener("click", close);
-    document.addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+    panel
+      .querySelector(".qz-tutorial-panel__close")
+      ?.addEventListener("click", close);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") close();
+    });
   }
 
   // ── ユーティリティ ─────────────────────────────────────────
@@ -335,5 +356,4 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
-
 })();

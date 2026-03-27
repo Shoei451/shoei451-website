@@ -30,8 +30,8 @@
  *   formatYear(null)  → "不明"
  */
 function formatYear(year) {
-    if (year === null || year === undefined) return '不明';
-    return year < 0 ? `前${Math.abs(year)}年` : `${year}年`;
+  if (year === null || year === undefined) return "不明";
+  return year < 0 ? `前${Math.abs(year)}年` : `${year}年`;
 }
 
 /**
@@ -44,11 +44,11 @@ function formatYear(year) {
  *   formatYearRange({ year: 1789, year_end: null })   → "1789年"
  */
 function formatYearRange(row) {
-    const start = formatYear(row.year);
-    if (row.year_end !== null && row.year_end !== undefined) {
-        return `${start} ～ ${formatYear(row.year_end)}`;
-    }
-    return start;
+  const start = formatYear(row.year);
+  if (row.year_end !== null && row.year_end !== undefined) {
+    return `${start} ～ ${formatYear(row.year_end)}`;
+  }
+  return start;
 }
 
 // ── XSSエスケープ ─────────────────────────────────────────────
@@ -59,9 +59,9 @@ function formatYearRange(row) {
  * @returns {string}
  */
 function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = String(text ?? '');
-    return div.innerHTML;
+  const div = document.createElement("div");
+  div.textContent = String(text ?? "");
+  return div.innerHTML;
 }
 
 // ── シャッフル ────────────────────────────────────────────────
@@ -71,17 +71,17 @@ function escapeHtml(text) {
  * @returns {Array}
  */
 function shuffleArray(array) {
-    const arr = [...array];
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
 }
 
 // ── グローバルに公開 ──────────────────────────────────────────
 // window.xxx に代入しているので、どのページからでも参照可能。
-window.formatYear     = formatYear;
+window.formatYear = formatYear;
 window.formatYearRange = formatYearRange;
-window.escapeHtml     = escapeHtml;
-window.shuffleArray   = shuffleArray;
+window.escapeHtml = escapeHtml;
+window.shuffleArray = shuffleArray;

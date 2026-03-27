@@ -25,7 +25,6 @@
 // ============================================================
 
 (function () {
-
   const DEFAULT_ID = "result-screen";
 
   /**
@@ -34,14 +33,14 @@
    */
   window.showResult = function (config) {
     const mountId = config.mountId ?? DEFAULT_ID;
-    const el      = document.getElementById(mountId);
+    const el = document.getElementById(mountId);
     if (!el) {
       console.error(`showResult: #${mountId} が見つかりません`);
       return;
     }
 
-    const pct     = Math.round((config.correct / config.total) * 100);
-    const grade   = _grade(pct);
+    const pct = Math.round((config.correct / config.total) * 100);
+    const grade = _grade(pct);
     const mistakes = config.mistakes ?? [];
 
     el.innerHTML = `
@@ -82,25 +81,33 @@
             </svg>
             ${_esc(config.retryLabel ?? "もう一度挑戦")}
           </button>
-          ${mistakes.length > 0 ? `
+          ${
+            mistakes.length > 0
+              ? `
             <button class="qz-btn qz-btn--primary" id="qz-retry-mistakes-btn" type="button">
               ${_esc(config.retryMistakesLabel ?? "間違えた問題だけ")}
               <span class="qz-result__badge">${mistakes.length}</span>
             </button>
-          ` : ""}
+          `
+              : ""
+          }
         </div>
 
         <!-- 復習リスト -->
-        ${mistakes.length > 0 ? `
+        ${
+          mistakes.length > 0
+            ? `
           <div class="qz-result__review">
             <p class="qz-section-title">復習リスト（${mistakes.length}問）</p>
             <div class="qz-review-list" id="qz-review-list"></div>
           </div>
-        ` : `
+        `
+            : `
           <div class="qz-result__perfect">
             🎉 全問正解！素晴らしいです！
           </div>
-        `}
+        `
+        }
 
       </div>
     `;
@@ -110,7 +117,7 @@
     // 復習リストを描画
     if (mistakes.length > 0) {
       const listEl = el.querySelector("#qz-review-list");
-      mistakes.forEach(item => {
+      mistakes.forEach((item) => {
         const div = document.createElement("div");
         div.className = "qz-review-item";
         if (config.renderMistake) {
@@ -127,9 +134,12 @@
       if (config.onRetry) config.onRetry();
     });
 
-    el.querySelector("#qz-retry-mistakes-btn")?.addEventListener("click", () => {
-      if (config.onRetryMistakes) config.onRetryMistakes(mistakes);
-    });
+    el.querySelector("#qz-retry-mistakes-btn")?.addEventListener(
+      "click",
+      () => {
+        if (config.onRetryMistakes) config.onRetryMistakes(mistakes);
+      },
+    );
   };
 
   // ── デフォルト復習アイテムレンダラー ─────────────────────
@@ -158,9 +168,10 @@
 
   function _grade(pct) {
     if (pct === 100) return { emoji: "🏆", message: "パーフェクト！" };
-    if (pct >= 80)  return { emoji: "🎉", message: "よくできました！" };
-    if (pct >= 60)  return { emoji: "📚", message: "もう少し！復習してみよう。" };
-    return              { emoji: "💪", message: "次は頑張ろう。復習リストを活用して！" };
+    if (pct >= 80) return { emoji: "🎉", message: "よくできました！" };
+    if (pct >= 60)
+      return { emoji: "📚", message: "もう少し！復習してみよう。" };
+    return { emoji: "💪", message: "次は頑張ろう。復習リストを活用して！" };
   }
 
   function _esc(str) {
@@ -170,5 +181,4 @@
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;");
   }
-
 })();

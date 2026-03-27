@@ -15,7 +15,7 @@ function shuffle(arr) {
 
 function updateProgress() {
   const progress = (index / quizList.length) * 100;
-  document.getElementById('progressBar').style.width = progress + '%';
+  document.getElementById("progressBar").style.width = progress + "%";
 }
 
 function startGame() {
@@ -25,9 +25,10 @@ function startGame() {
   questionCount = Number(document.getElementById("questionCount").value);
   const region = document.getElementById("regionSelect").value;
 
-  quizList = region === "all"
-    ? [...countries]
-    : countries.filter(c => c.region === region);
+  quizList =
+    region === "all"
+      ? [...countries]
+      : countries.filter((c) => c.region === region);
 
   shuffle(quizList);
   quizList = quizList.slice(0, questionCount);
@@ -56,7 +57,8 @@ function loadQuestion() {
   currentAnswerJP = q.capitalJP;
 
   document.getElementById("flag").style.display = "block";
-  document.getElementById("flag").src = `https://flagcdn.com/w320/${q.code}.png`;
+  document.getElementById("flag").src =
+    `https://flagcdn.com/w320/${q.code}.png`;
   document.getElementById("country").textContent = q.country;
   document.getElementById("result").textContent = "";
 
@@ -70,8 +72,8 @@ function loadQuestion() {
 
   const box = document.getElementById("options");
   box.innerHTML = "";
-  options.forEach(opt => {
-    const countryObj = countries.find(c => c.capital === opt);
+  options.forEach((opt) => {
+    const countryObj = countries.find((c) => c.capital === opt);
     const btn = document.createElement("button");
     btn.innerHTML = `${countryObj.capital}<br><small>${countryObj.capitalJP}</small>`;
     btn.onclick = () => showAnswer(opt);
@@ -83,7 +85,7 @@ function loadQuestion() {
 
 function showAnswer(sel) {
   const result = document.getElementById("result");
-  
+
   result.classList.remove("correct", "wrong");
   void result.offsetWidth;
 
@@ -94,14 +96,15 @@ function showAnswer(sel) {
     result.textContent = "Correct!";
     result.classList.add("correct");
   } else {
-    result.textContent = "Wrong! Answer: " + currentAnswer + " (" + currentAnswerJP + ")";
+    result.textContent =
+      "Wrong! Answer: " + currentAnswer + " (" + currentAnswerJP + ")";
     result.classList.add("wrong");
   }
 
   document.getElementById("score").textContent = `Score: ${correct} / ${index}`;
 
   // Disable all buttons
-  document.querySelectorAll("#options button").forEach(btn => {
+  document.querySelectorAll("#options button").forEach((btn) => {
     btn.disabled = true;
     btn.style.cursor = "not-allowed";
     btn.style.opacity = "0.6";

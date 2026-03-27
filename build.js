@@ -40,7 +40,8 @@ function walk(dir) {
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
-      if (!["netlify", "node_modules", ".git"].includes(entry.name)) walk(fullPath);
+      if (!["netlify", "node_modules", ".git"].includes(entry.name))
+        walk(fullPath);
     } else if (entry.name.endsWith(".html")) {
       processFile(fullPath);
     }
