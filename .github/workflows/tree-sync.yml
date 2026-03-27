@@ -3,6 +3,10 @@ name: Update Remote Tree MD
 on:
   push:
     branches: [main]
+    # 設定ファイル自体が更新された時もトリガーしたい場合は以下を有効化
+    # paths:
+    #   - '.github/config/config.json'
+    #   - '**'
 
 jobs:
   sync-tree:
@@ -11,17 +15,26 @@ jobs:
       - name: Checkout Source Repo
         uses: actions/checkout@v4
 
-      - name: Read Config and Generate Pattern
+      - name: Read Config from .github/config
         id: config
         run: |
-          # 基本設定の読み込み
-          echo "enabled=$(jq -r '.enabled' config.json)" >> $GITHUB_OUTPUT
-          echo "target_repo=$(jq -r '.target_repo' config.json)" >> $GITHUB_OUTPUT
-          echo "target_branch=$(jq -r '.target_branch' config.json)" >> $GITHUB_OUTPUT
-          echo "output_path=$(jq -r '.output_path' config.json)" >> $GITHUB_OUTPUT
+          # 設定ファイルのパスを変数に定義
+          CONFIG_PATH=".github/config/tree-sync-config.json"
+
+          # ファイルが存在するかチェック
+          if [ ! -f "$CONFIG_PATH" ]; then
+            echo "Config file not found at $CONFIG_PATH"
+            exit 1
+          fi
+
+          # jqで値を読み取る
+          echo "enabled=$(jq -r '.enabled' $CONFIG_PATH)" >> $GITHUB_OUTPUT
+          echo "target_repo=$(jq -r '.target_repo' $CONFIG_PATH)" >> $GITHUB_OUTPUT
+          echo "target_branch=$(jq -r '.target_branch' $CONFIG_PATH)" >> $GITHUB_OUTPUT
+          echo "output_path=$(jq -r '.output_path' $CONFIG_PATH)" >> $GITHUB_OUTPUT
 
           # exclude配列を 'pattern1|pattern2' 形式に変換
-          EXCLUDE_PATTERN=$(jq -r '.exclude | join("|")' config.json)
+          EXCLUDE_PATTERN=$(jq -r '.exclude | join("|")' $CONFIG_PATH)
           echo "exclude_pattern=$EXCLUDE_PATTERN" >> $GITHUB_OUTPUT
 
       - name: Generate Tree Markdown
@@ -30,16 +43,16 @@ jobs:
           sudo apt-get install -y tree
 
           echo "# Repository Tree" > tree.md
-          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> tree.md
+          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S') (JST)" >> tree.md
           echo "" >> tree.md
           echo "\`\`\`" >> tree.md
 
-          # configから取得した除外パターンを適用
+          # 除外設定を適用してツリー生成
           tree -I "${{ steps.config.outputs.exclude_pattern }}" >> tree.md
 
           echo "\`\`\`" >> tree.md
 
-      - name: Checkout Target Repo
+      - name: Checkout Target Repo (Repo2)
         if: steps.config.outputs.enabled == 'true'
         uses: actions/checkout@v4
         with:
@@ -51,7 +64,6 @@ jobs:
       - name: Commit and Push to Repo2
         if: steps.config.outputs.enabled == 'true'
         run: |
-          # 出力先ディレクトリの準備
           TARGET_FILE="target-repo/${{ steps.config.outputs.output_path }}"
           mkdir -p "$(dirname "$TARGET_FILE")"
           cp tree.md "$TARGET_FILE"
@@ -65,5 +77,5 @@ jobs:
             git commit -m "docs: update file tree from ${{ github.repository }}"
             git push origin ${{ steps.config.outputs.target_branch }}
           else
-            echo "No changes in tree structure."
+            echo "No changes in tree structure. Skipping push."
           fi
