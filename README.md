@@ -13,8 +13,9 @@ Production: [shoei451.netlify.app](https://shoei451.netlify.app)
 - Hosting: Netlify
 - Data-backed pages: Supabase Project 1 (`js/supabase_config.js`)
 - Build utility: `build.js` injects access-log beacons into HTML before deploy
+- Note: 現在はbuild.jsを廃止し、Netlify
 
-The old `docs/` viewer and sync flow were removed on 2026-03-26. Project notes now live outside the repo under `../md-contents/shoei451-website`.
+The old `docs/` viewer and sync flow were removed on 2026-03-26. Project notes now live outside the repo under `../md-contents/shoei451-website`(private).
 
 ---
 
