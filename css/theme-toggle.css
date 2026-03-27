@@ -15,9 +15,18 @@
 }
 
 #theme-toggle {
-  background: var(--theme, var(--bg-light, #ffffff));
+  background: var(
+    --theme-toggle-bg,
+    var(--theme, var(--bg-light, var(--qz-surface, #ffffff)))
+  );
   border: 2px solid
-    var(--accent, var(--accent-secondary, var(--accent-gold, #faba40)));
+    var(
+      --theme-toggle-accent,
+      var(
+        --accent,
+        var(--accent-secondary, var(--accent-gold, var(--qz-accent, #faba40)))
+      )
+    );
   border-radius: 50%;
   padding: 12px;
   cursor: pointer;
@@ -25,11 +34,21 @@
   align-items: center;
   justify-content: center;
   transition: all 0.3s;
-  box-shadow: 0 4px 12px var(--shadow, var(--shadow-light, rgba(0, 0, 0, 0.1)));
+  box-shadow: 0 4px 12px
+    var(
+      --theme-toggle-shadow,
+      var(--shadow, var(--shadow-light, var(--qz-shadow-sm, rgba(0, 0, 0, 0.1))))
+    );
 }
 
 #theme-toggle:hover {
-  background: var(--accent, var(--accent-secondary, var(--accent-gold, #faba40)));
+  background: var(
+    --theme-toggle-accent,
+    var(
+      --accent,
+      var(--accent-secondary, var(--accent-gold, var(--qz-accent, #faba40)))
+    )
+  );
   transform: rotate(180deg) scale(1.1);
 }
 
@@ -38,7 +57,10 @@
   display: none;
   width: 24px;
   height: 24px;
-  stroke: var(--primary, var(--text-light, #1f2a3a));
+  stroke: var(
+    --theme-toggle-fg,
+    var(--primary, var(--text-light, var(--qz-text, #1f2a3a)))
+  );
   fill: none;
   stroke-width: 2;
   stroke-linecap: round;
@@ -47,7 +69,13 @@
 
 body.dark #sun {
   display: block;
-  stroke: var(--accent, var(--accent-secondary, var(--accent-gold, #faba40)));
+  stroke: var(
+    --theme-toggle-accent,
+    var(
+      --accent,
+      var(--accent-secondary, var(--accent-gold, var(--qz-accent, #faba40)))
+    )
+  );
 }
 body:not(.dark) #moon {
   display: block;
@@ -55,5 +83,11 @@ body:not(.dark) #moon {
 
 #theme-toggle:hover #moon,
 #theme-toggle:hover #sun {
-  stroke: var(--accent-contrast, var(--text-light, #1a2535));
+  stroke: var(
+    --theme-toggle-hover-fg,
+    var(
+      --accent-contrast,
+      var(--qz-accent-dark, var(--text-light, var(--qz-text, #1a2535)))
+    )
+  );
 }
