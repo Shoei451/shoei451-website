@@ -1,27 +1,3 @@
 [[edge_functions]]
   path = "/api/sw"
   function = "sw"
-
-[build]
-  command = "node build.js"
-
-
-[[redirects]]
-  from   = "/api/posts"
-  to     = "/.netlify/functions/posts"
-  status = 200
-
-[[redirects]]
-  from   = "/api/post"
-  to     = "/.netlify/functions/post"
-  status = 200
-
-[[redirects]]
-  from   = "/api/protected-posts"
-  to     = "/.netlify/functions/protected-posts"
-  status = 200
-
-[[redirects]]
-  from   = "/api/protected-post"
-  to     = "/.netlify/functions/protected-post"
-  status = 200

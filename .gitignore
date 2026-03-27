@@ -1,4 +1,5 @@
 templates/
+build.js
 # Secrets and local env files
 .env
 .env.*
