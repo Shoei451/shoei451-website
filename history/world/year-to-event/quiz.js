@@ -252,15 +252,6 @@ function toDisplayYear(q) {
   return q.is_bc ? -Math.abs(q.year) : q.year;
 }
 
-function shuffleArray(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
 // ── エントリポイント ───────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   initStartScreen(START_CONFIG);

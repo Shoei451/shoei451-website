@@ -137,6 +137,7 @@
 
     <script src="../../js/theme-toggle.js"></script>
     <script src="../../js/quiz.js"></script>
+    <script src="../../js/wh-utils.js"></script>
     <script>
       // Supabase client/table constants are provided by js/supabase_config.js
 
@@ -163,22 +164,6 @@
         "労働問題",
         "社会保障",
       ];
-
-      function escapeHtml(value) {
-        const div = document.createElement("div");
-        div.textContent = String(value ?? "");
-        return div.innerHTML;
-      }
-
-      function shuffleArray(array) {
-        const arr = [...array];
-        for (let i = arr.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
-      }
-
       document.addEventListener("DOMContentLoaded", function () {
         init();
       });

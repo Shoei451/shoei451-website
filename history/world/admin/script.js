@@ -40,31 +40,47 @@ const FIELDS = ["政治", "経済", "文化・宗教", "社会", "外交・戦�
 // Entry point
 // ============================================================
 document.addEventListener("DOMContentLoaded", async () => {
-  document.getElementById("theme-toggle").addEventListener("click", (e) => {
-    e.preventDefault();
-    document.body.classList.toggle("dark");
-    localStorage.setItem(
-      "pref-theme",
-      document.body.classList.contains("dark") ? "dark" : "light",
-    );
-  });
+  const themeToggle = document.getElementById("theme-toggle");
+  if (themeToggle) {
+    themeToggle.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.body.classList.toggle("dark");
+      localStorage.setItem(
+        "pref-theme",
+        document.body.classList.contains("dark") ? "dark" : "light",
+      );
+    });
+  }
 
-  document.getElementById("loginBtn").addEventListener("click", handleLogin);
-  document.getElementById("loginPassword").addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleLogin();
-  });
-  document.getElementById("logoutBtn").addEventListener("click", handleLogout);
+  const loginBtn = document.getElementById("loginBtn");
+  const loginPassword = document.getElementById("loginPassword");
+  if (loginBtn && loginPassword) {
+    loginBtn.addEventListener("click", handleLogin);
+    loginPassword.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") handleLogin();
+    });
+  }
 
-  const {
-    data: { session },
-  } = await db.auth.getSession();
-  if (session) showAdminScreen(session.user);
-  else showLoginScreen();
+  if (
+    document.getElementById("loginScreen") &&
+    document.getElementById("adminScreen")
+  ) {
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", handleLogout);
+    }
 
-  db.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { session },
+    } = await db.auth.getSession();
     if (session) showAdminScreen(session.user);
     else showLoginScreen();
-  });
+
+    db.auth.onAuthStateChange((_event, session) => {
+      if (session) showAdminScreen(session.user);
+      else showLoginScreen();
+    });
+  }
 });
 
 // ============================================================
@@ -357,45 +373,7 @@ function setupEventListeners() {
       resetAndFetch();
     });
   });
-
-  // モーダル
-  document.getElementById("closeModal").addEventListener("click", closeModal);
-  document.getElementById("cancelBtn").addEventListener("click", closeModal);
-  document
-    .getElementById("editForm")
-    .addEventListener("submit", handleFormSubmit);
-  document.getElementById("editModal").addEventListener("click", (e) => {
-    if (e.target.id === "editModal") closeModal();
-  });
-
-  // フォーム内の動的表示切り替え
-  document
-    .getElementById("editRecordType")
-    .addEventListener("change", updateFormVisibility);
-  document
-    .getElementById("editDateType")
-    .addEventListener("change", updateFormVisibility);
-
-  // Wikipedia 検索
-  document
-    .getElementById("wikiSearchBtn")
-    .addEventListener("click", doWikiSearch);
-}
-
-// ============================================================
-// フォーム — 表示切り替え
-// ============================================================
-function updateFormVisibility() {
-  const rt = document.getElementById("editRecordType").value;
-  const dt = document.getElementById("editDateType").value;
-
-  // year_end は period / person のとき表示
-  document.getElementById("yearEndGroup").style.display =
-    rt === "period" || rt === "person" ? "block" : "none";
-
-  // full_date は date_type=full のとき表示
-  document.getElementById("fullDateGroup").style.display =
-    dt === "full" ? "block" : "none";
+  wizBindEvents();
 }
 
 // ============================================================
@@ -464,61 +442,6 @@ function useWikiUrl(url) {
 }
 
 // ============================================================
-// モーダル — 開く / 閉じる
-// ============================================================
-function openAddModal() {
-  document.getElementById("modalTitle").textContent = "新規追加";
-  document.getElementById("editForm").reset();
-  document.getElementById("editEventId").value = "";
-  document.getElementById("wikiResultPanel").style.display = "none";
-  renderRegionCheckboxes([]);
-  updateFormVisibility();
-  document.getElementById("editModal").classList.add("active");
-}
-
-function editEvent(id) {
-  const row = currentPageData.find((r) => r.id === id);
-  if (!row) return;
-
-  document.getElementById("modalTitle").textContent = "編集";
-  document.getElementById("editEventId").value = row.id;
-  document.getElementById("editRecordType").value = row.record_type ?? "event";
-  document.getElementById("editYear").value = row.year ?? "";
-  document.getElementById("editYearEnd").value = row.year_end ?? "";
-  document.getElementById("editDateType").value = row.date_type ?? "year";
-  document.getElementById("editFullDate").value = row.full_date ?? "";
-  document.getElementById("editEvent").value = row.event ?? "";
-  document.getElementById("editDescription").value = row.description ?? "";
-  document.getElementById("editField").value = row.field ?? "";
-  document.getElementById("editWikiUrl").value = row.wiki_url ?? "";
-  document.getElementById("editMemo").value = row.memo ?? "";
-  document.getElementById("wikiResultPanel").style.display = "none";
-
-  renderRegionCheckboxes(row.region ?? []);
-  updateFormVisibility();
-  document.getElementById("editModal").classList.add("active");
-}
-
-function renderRegionCheckboxes(selected) {
-  const container = document.getElementById("regionCheckboxes");
-  container.innerHTML = regions
-    .map(
-      (r) => `
-        <label class="region-checkbox-label">
-            <input type="checkbox" name="region" value="${escapeHtml(r.key)}"
-                ${selected.includes(r.key) ? "checked" : ""}>
-            ${escapeHtml(r.label)}
-        </label>
-    `,
-    )
-    .join("");
-}
-
-function closeModal() {
-  document.getElementById("editModal").classList.remove("active");
-}
-
-// ============================================================
 // CRUD
 // ============================================================
 async function deleteEvent(id) {
@@ -539,65 +462,8 @@ async function deleteEvent(id) {
   await resetAndFetch();
 }
 
-async function handleFormSubmit(e) {
-  e.preventDefault();
-
-  const eventText = document.getElementById("editEvent").value.trim();
-  if (!eventText) {
-    alert("出来事を入力してください");
-    return;
-  }
-
-  const yearRaw = document.getElementById("editYear").value.trim();
-  const yearEndRaw = document.getElementById("editYearEnd").value.trim();
-
-  const selectedRegions = [
-    ...document.querySelectorAll(
-      "#regionCheckboxes input[type=checkbox]:checked",
-    ),
-  ].map((cb) => cb.value);
-
-  const payload = {
-    record_type: document.getElementById("editRecordType").value,
-    year: yearRaw !== "" ? parseInt(yearRaw, 10) : null,
-    year_end: yearEndRaw !== "" ? parseInt(yearEndRaw, 10) : null,
-    date_type: document.getElementById("editDateType").value,
-    full_date: document.getElementById("editFullDate").value || null,
-    event: eventText,
-    description:
-      document.getElementById("editDescription").value.trim() || null,
-    region: selectedRegions,
-    field: document.getElementById("editField").value || null,
-    wiki_url: document.getElementById("editWikiUrl").value.trim() || null,
-    memo: document.getElementById("editMemo").value.trim() || null,
-  };
-
-  const eventId = document.getElementById("editEventId").value;
-  let error;
-
-  if (eventId) {
-    ({ error } = await db.from("wh_dates").update(payload).eq("id", eventId));
-  } else {
-    ({ error } = await db.from("wh_dates").insert([payload]));
-  }
-
-  if (error) {
-    const msg =
-      error.code === "42501"
-        ? "権限エラー：このアカウントには編集権限がありません"
-        : "保存に失敗しました: " + error.message;
-    alert(msg);
-    return;
-  }
-
-  closeModal();
-  await resetAndFetch();
-}
-
 // ============================================================
 // ウィザードモーダル ロジック
-// script.js の末尾に追記（または既存の openAddModal / editEvent /
-// handleFormSubmit を削除してこれで置き換える）
 // ============================================================
 
 // ── ウィザード状態 ──────────────────────────────────────────
@@ -974,6 +840,7 @@ function wizResetModal() {
     "editYearEnd",
     "editYearBirth",
     "editYearDeath",
+    "editFullDate",
     "editEvent",
     "editDescription",
     "editWikiUrl",
@@ -1061,6 +928,9 @@ function editEvent(id) {
 function wizBindEvents() {
   wizInitStep1();
   wizInitStep2();
+  document.getElementById("editForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+  });
 
   document.getElementById("wizardNext").addEventListener("click", wizGoNext);
   document.getElementById("wizardBack").addEventListener("click", wizGoBack);
