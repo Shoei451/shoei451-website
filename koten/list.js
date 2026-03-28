@@ -5,7 +5,7 @@ const sectionItems1 = [
     title: "古文常識クイズ",
     titleEN: "Basic Knowledge of Japanese Classics",
     description: "和歌の修辞法、貴族の階級、日常生活などを理解しよう",
-    link: "joushiki/",
+    link: "https://451-learning-box.netlify.app/flashcard.html?slug=jp-classic-knowledge",
     target: "_blank",
   },
   {

@@ -38,7 +38,4 @@ export const tables = {
 
 // ── クライアント生成 ─────────────────────────────────────────
 export const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-export const db2 = window.supabase.createClient(
-  SUPABASE_URL_2,
-  SUPABASE_KEY_2,
-);
+export const db2 = window.supabase.createClient(SUPABASE_URL_2, SUPABASE_KEY_2);
