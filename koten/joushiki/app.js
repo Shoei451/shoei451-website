@@ -2,7 +2,9 @@
 // app.js — 古典常識カード
 // ═══════════════════════════════════════════════
 
-// ── State ──
+ import { SUPABASE_KEY, SUPABASE_URL } from "../../js/supabase_config.js";
+
+ // ── State ──
 let CAT_LABELS = {}; // { key: label } — Supabase から動的構築
 let allQuestions = [];
 let deck = [];
