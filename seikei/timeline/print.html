@@ -7,7 +7,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../js/wh-utils.js"></script>
-    <script src="../../js/supabase_config.js"></script>
     <link rel="stylesheet" href="../../css/theme-toggle.css" />
     <style>
       @media print {
@@ -239,8 +238,8 @@
       <div class="loading">読み込み中...</div>
     </div>
 
-    <script>
-      // Supabase client/table constants are provided by js/supabase_config.js
+    <script type="module">
+      import { db, tables } from "../../js/supabase_config.js";
 
       let events = [];
       let selectedCategory = "all";
@@ -253,7 +252,7 @@
       async function loadEvents() {
         try {
           const { data, error } = await db
-            .from(TABLES.SEIKEI)
+            .from(tables.SEIKEI)
             .select("*")
             .order("date", { ascending: true });
 

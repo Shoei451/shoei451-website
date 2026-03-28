@@ -12,6 +12,8 @@
 //   text-input, feedback, result
 // ============================================================
 
+import { db, tables } from "../../../js/supabase_config.js";
+
 // ── 章（chapter フィールドと対応） ───────────────────────
 const CHAPTERS = [
   {
@@ -62,7 +64,7 @@ async function loadQuestions() {
 
   while (true) {
     const { data, error } = await db
-      .from(TABLES.WH_QUIZ)
+      .from(tables.WH_QUIZ)
       .select("*")
       .order("is_bc", { ascending: false })
       .order("year", { ascending: true })

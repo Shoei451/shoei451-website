@@ -12,6 +12,8 @@
 //   choice-buttons, feedback, result
 // ============================================================
 
+import { db, tables } from "../../../js/supabase_config.js";
+
 // ── 時代区分（period フィールドと対応） ───────────────────
 const PERIODS = [
   { id: "~0", label: "紀元前" },
@@ -57,7 +59,7 @@ async function loadQuestions() {
 
   while (true) {
     const { data, error } = await db
-      .from(TABLES.WH_QUIZ)
+      .from(tables.WH_QUIZ)
       .select("*")
       .order("is_bc", { ascending: false })
       .order("year", { ascending: true })

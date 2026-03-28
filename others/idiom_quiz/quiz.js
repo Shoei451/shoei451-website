@@ -7,6 +7,8 @@
 // テーブル: english_idioms（db = Supabase Project 1）
 // ============================================================
 
+import { db, tables } from "../../js/supabase_config.js";
+
 // ── 状態 ──────────────────────────────────────────────────
 let allQuestions = [];
 let quizSet = [];
@@ -46,7 +48,7 @@ const START_CONFIG = {
 
 // ── データ読み込み ─────────────────────────────────────────
 async function loadQuestions() {
-  const { data, error } = await db.from("english_idioms").select("*");
+  const { data, error } = await db.from(tables.ENGLISH_IDIOMS).select("*");
 
   if (error) {
     showLoadError(error.message);
@@ -309,7 +311,7 @@ async function submitReport(id) {
 
   try {
     const { error } = await db
-      .from("english_idioms")
+      .from(tables.ENGLISH_IDIOMS)
       .update({ corruption_istrue: true, corruption_reason: reason })
       .eq("id", id);
 
@@ -337,7 +339,7 @@ async function submitReport(id) {
 async function updateQuestionStats(id, isCorrect) {
   try {
     const { data, error } = await db
-      .from("english_idioms")
+      .from(tables.ENGLISH_IDIOMS)
       .select("total_attempts, correct_attempts")
       .eq("id", id)
       .single();
@@ -349,7 +351,7 @@ async function updateQuestionStats(id, isCorrect) {
     const newRate = (newCorrect / newTotal) * 100;
 
     await db
-      .from("english_idioms")
+      .from(tables.ENGLISH_IDIOMS)
       .update({
         total_attempts: newTotal,
         correct_attempts: newCorrect,

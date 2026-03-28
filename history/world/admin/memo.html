@@ -6,7 +6,6 @@
     <title>メモ編集 — wh_dates</title>
     <link rel="icon" href="../../../images/worldhistoryquiz.png" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../../../js/supabase_config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="style.css" />
 
@@ -695,7 +694,9 @@
 
     <div class="toast" id="toast"></div>
 
-    <script>
+    <script type="module">
+      import { db, tables } from "../../../js/supabase_config.js";
+
       // ── テーマ ──────────────────────────────────────────────────
       (function () {
         const p = localStorage.getItem("pref-theme");
@@ -760,7 +761,7 @@
           '<div class="loading">読み込み中...</div>';
 
         const { data, error } = await db
-          .from(TABLES.WH_DATES)
+          .from(tables.WH_DATES)
           .select("id, year, year_end, event, region, field, record_type, memo")
           .order("year", { ascending: true, nullsFirst: false });
 
@@ -974,7 +975,7 @@
         btn.textContent = "保存中...";
 
         const { error } = await db
-          .from(TABLES.WH_DATES)
+          .from(tables.WH_DATES)
           .update({ memo })
           .eq("id", currentRecord.id);
 
@@ -999,7 +1000,7 @@
         document.getElementById("memoTextarea").value = "";
 
         const { error } = await db
-          .from(TABLES.WH_DATES)
+          .from(tables.WH_DATES)
           .update({ memo: null })
           .eq("id", currentRecord.id);
 
@@ -1033,6 +1034,14 @@
       document.getElementById("fieldFilter").addEventListener("change", (e) => {
         fieldQuery = e.target.value;
         applyFilter();
+      });
+
+      Object.assign(window, {
+        switchTab,
+        clearMemo,
+        closeSheet,
+        saveMemo,
+        openSheet,
       });
 
       // ── Toast ──────────────────────────────────────────────────

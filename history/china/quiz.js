@@ -8,6 +8,8 @@
 // 問題文       : 出来事　　回答 : 年号を直接入力
 // ============================================================
 
+import { db, tables } from "../../js/supabase_config.js";
+
 const CHINA_CATEGORIES = [
   "王朝成立",
   "王朝滅亡",
@@ -44,7 +46,7 @@ const START_CONFIG = {
 };
 
 async function loadQuestions() {
-  const { data, error } = await db.from(TABLES.CHINESE).select("*");
+  const { data, error } = await db.from(tables.CHINESE).select("*");
 
   if (error) {
     showLoadError(error.message);

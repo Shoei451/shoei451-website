@@ -6,7 +6,6 @@
     <title>世界史年表 管理画面</title>
     <link rel="icon" href="../../../images/worldhistoryquiz.png" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../../../js/supabase_config.js"></script>
     <link rel="stylesheet" href="style.css" />
 
     <style>
@@ -252,7 +251,9 @@
       </div>
     </div>
 
-    <script>
+    <script type="module">
+      import { db } from "../../../js/supabase_config.js";
+
       // ── テーマ ──────────────────────────────────────────────────
       (function () {
         const p = localStorage.getItem("pref-theme");

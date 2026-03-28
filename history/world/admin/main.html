@@ -6,7 +6,6 @@
     <title>世界史年表 データ管理 (wh_dates)</title>
     <link rel="icon" href="../../../images/worldhistoryquiz.png" />
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../../../js/supabase_config.js"></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -356,8 +355,10 @@
       </div>
     </div>
     <script src="../../../js/wh-utils.js"></script>
-    <script src="script.js"></script>
-    <script>
+    <script type="module" src="script.js"></script>
+    <script type="module">
+      import { db } from "../../../js/supabase_config.js";
+
       // ── セッションチェック（未認証なら index へ） ──────────────
       (async function () {
         const {
@@ -370,10 +371,10 @@
         // 認証済み：既存の showAdminScreen と同等の初期化
         document.getElementById("loggedInUser").textContent =
           session.user.email;
-        await loadRegions();
-        setupEventListeners();
-        await fetchTotalCount();
-        await fetchPage(0);
+        await window.loadRegions();
+        window.setupEventListeners();
+        await window.fetchTotalCount();
+        await window.fetchPage(0);
 
         db.auth.onAuthStateChange((_e, s) => {
           if (!s) window.location.replace("index.html");

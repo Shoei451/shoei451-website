@@ -7,7 +7,6 @@
     <title>中国王朝史年表 — Shoei451</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../js/wh-utils.js"></script>
-    <script src="../../js/supabase_config.js"></script>
     <!-- 変更後 -->
     <link rel="stylesheet" href="../../css/theme-toggle.css" />
     <link rel="stylesheet" href="../styles/theme-chinese.css" />
@@ -128,8 +127,8 @@
     </div>
 
     <script src="../../js/theme-toggle.js"></script>
-    <script>
-      // Supabase client/table constants are provided by js/supabase_config.js
+    <script type="module">
+      import { db, tables } from "../../js/supabase_config.js";
 
       // State
       let events = [];
@@ -163,7 +162,7 @@
       async function loadEvents() {
         try {
           const { data, error } = await db
-            .from(TABLES.CHINESE)
+            .from(tables.CHINESE)
             .select("*")
             .order("year", { ascending: true });
 
@@ -340,7 +339,7 @@
         if (!confirm("このイベントを削除してもよろしいですか?")) return;
 
         try {
-          const { error } = await db.from(TABLES.CHINESE).delete().eq("id", id);
+          const { error } = await db.from(tables.CHINESE).delete().eq("id", id);
 
           if (error) throw error;
           await loadEvents();
@@ -392,13 +391,13 @@
         try {
           if (eventId) {
             const { error } = await db
-              .from(TABLES.CHINESE)
+              .from(tables.CHINESE)
               .update(eventData)
               .eq("id", eventId);
 
             if (error) throw error;
           } else {
-            const { error } = await db.from(TABLES.CHINESE).insert([eventData]);
+            const { error } = await db.from(tables.CHINESE).insert([eventData]);
 
             if (error) throw error;
           }
@@ -410,6 +409,13 @@
           alert("保存に失敗しました");
         }
       }
+
+      Object.assign(window, {
+        openAddModal,
+        editEvent,
+        deleteEvent,
+        closeModal,
+      });
     </script>
   </body>
 </html>

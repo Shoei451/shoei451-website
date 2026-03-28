@@ -1,8 +1,9 @@
 // ============================================================
 // 世界史年表 管理画面 (wh_dates) - script.js
 // Supabase Project 1: gjuqsyaugrsshmjerhme
-// db は js/supabase_config.js から提供される
 // ============================================================
+
+import { db, tables } from "../../../js/supabase_config.js";
 
 // ============================================================
 // State
@@ -144,7 +145,10 @@ async function showAdminScreen(user) {
 // Data — wh_regions
 // ============================================================
 async function loadRegions() {
-  const { data, error } = await db.from("wh_regions").select("*").order("sort");
+  const { data, error } = await db
+    .from(tables.WH_REGIONS)
+    .select("*")
+    .order("sort");
   if (error) {
     console.error("wh_regions 取得失敗:", error.message);
     return;
@@ -180,7 +184,7 @@ function applyFilters(query) {
 }
 
 async function fetchTotalCount() {
-  let q = db.from("wh_dates").select("*", { count: "exact", head: true });
+  let q = db.from(tables.WH_DATES).select("*", { count: "exact", head: true });
   q = applyFilters(q);
   const { count, error } = await q;
   if (error) {
@@ -201,7 +205,7 @@ async function fetchPage(page) {
   const to = from + PAGE_SIZE - 1;
 
   let q = db
-    .from("wh_dates")
+    .from(tables.WH_DATES)
     .select("*")
     .order("year", { ascending: true, nullsFirst: false })
     .range(from, to);
@@ -454,7 +458,7 @@ async function deleteEvent(id) {
   )
     return;
 
-  const { error } = await db.from("wh_dates").delete().eq("id", id);
+  const { error } = await db.from(tables.WH_DATES).delete().eq("id", id);
   if (error) {
     alert("削除に失敗しました: " + error.message);
     return;
@@ -592,7 +596,7 @@ async function wizCheckDuplicate() {
   const selfId = document.getElementById("editEventId").value;
 
   let q = db
-    .from("wh_dates")
+    .from(tables.WH_DATES)
     .select("id, year, year_end, event, record_type")
     .ilike("event", `%${eventText}%`)
     .limit(5);
@@ -810,9 +814,12 @@ async function wizSave() {
   let error;
 
   if (eventId) {
-    ({ error } = await db.from("wh_dates").update(payload).eq("id", eventId));
+    ({ error } = await db
+      .from(tables.WH_DATES)
+      .update(payload)
+      .eq("id", eventId));
   } else {
-    ({ error } = await db.from("wh_dates").insert([payload]));
+    ({ error } = await db.from(tables.WH_DATES).insert([payload]));
   }
 
   saveBtn.textContent = "💾 保存";
@@ -946,3 +953,14 @@ function wizBindEvents() {
 function closeModal() {
   document.getElementById("editModal").classList.remove("active");
 }
+
+Object.assign(window, {
+  loadRegions,
+  fetchTotalCount,
+  fetchPage,
+  setupEventListeners,
+  useWikiUrl,
+  deleteEvent,
+  editEvent,
+  openAddModal,
+});

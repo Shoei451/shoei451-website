@@ -13,8 +13,8 @@
 //
 // 読み込み順:
 //   <script src="../../js/wh-utils.js"></script>
-//   <script src="../../js/supabase_config.js"></script>
-//   <script src="logic.js"></script>
+//   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+//   <script type="module" src="logic.js"></script>
 //
 // ============================================================
 

@@ -801,8 +801,9 @@
       </div>
     </div>
 
-    <script src="../../../js/supabase_config.js"></script>
-    <script>
+    <script type="module">
+      import { db, tables } from "../../../js/supabase_config.js";
+
       /* ===== テーマトグル（インライン・外部依存なし） ===== */
       (function () {
         /* html.dark → body.dark 同期（common.css は body.dark を参照） */
@@ -873,7 +874,7 @@
 
       async function loadRegions() {
         const { data, error } = await db
-          .from("wh_regions")
+          .from(tables.WH_REGIONS)
           .select("*")
           .order("sort");
         if (error) {
@@ -905,7 +906,7 @@
         document.getElementById("loading").style.display = "block";
         document.getElementById("data-table").style.display = "none";
         const { data, error } = await db
-          .from("wh_dates")
+          .from(tables.WH_DATES)
           .select("*")
           .order("year");
         if (error) {
@@ -1073,8 +1074,8 @@
         const btn = document.getElementById("btn-submit");
         btn.disabled = true;
         const op = editingId
-          ? db.from("wh_dates").update(data).eq("id", editingId)
-          : db.from("wh_dates").insert(data);
+          ? db.from(tables.WH_DATES).update(data).eq("id", editingId)
+          : db.from(tables.WH_DATES).insert(data);
         const { error } = await op;
         btn.disabled = false;
         if (error) {
@@ -1098,7 +1099,7 @@
           )
         )
           return;
-        const { error } = await db.from("wh_dates").delete().eq("id", id);
+        const { error } = await db.from(tables.WH_DATES).delete().eq("id", id);
         if (error) {
           alert("削除失敗: " + error.message);
           return;
@@ -1148,6 +1149,12 @@
           .getElementById("filter-field")
           .addEventListener("change", applyFilter);
       }
+
+      Object.assign(window, {
+        closeSidebar,
+        startEdit,
+        deleteRow,
+      });
 
       init();
     </script>

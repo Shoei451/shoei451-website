@@ -8,12 +8,12 @@
 //              で確認して SUPABASE_KEY_2 を更新すること
 //
 // 使い方:
-//   1. supabase CDN の <script> の直後に読み込む
+//   1. supabase CDN の <script> を先に読み込む
 //      <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-//      <script src="../../js/supabase_config.js"></script>  ← パスは深さに合わせて調整
 //
-//   2. ページ側のスクリプトで db / db2 / TABLES をそのまま使う
-//      const { data } = await db.from(TABLES.WH_DATES).select('*');
+//   2. ページ側の module script から import する
+//      import { db, tables } from "../../js/supabase_config.js";
+//      const { data } = await db.from(tables.WH_DATES).select('*');
 //
 // ============================================================
 
@@ -26,15 +26,19 @@ const SUPABASE_URL_2 = "https://qmtlsxuoewdajgnjxfkb.supabase.co";
 const SUPABASE_KEY_2 = "YOUR_PROJECT2_PUBLISHABLE_KEY"; // ← 要更新
 
 // ── テーブル名定数 ───────────────────────────────────────────
-const TABLES = {
+export const tables = {
   WH_QUIZ: "world_history_quiz",
   WH_DATES: "wh_dates",
   WH_REGIONS: "wh_regions",
   CHINESE: "chinese_history",
   SEIKEI: "seikei_events",
   ACCESS_LOG: "access_logs",
+  ENGLISH_IDIOMS: "english_idioms",
 };
 
 // ── クライアント生成 ─────────────────────────────────────────
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const db2 = window.supabase.createClient(SUPABASE_URL_2, SUPABASE_KEY_2);
+export const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+export const db2 = window.supabase.createClient(
+  SUPABASE_URL_2,
+  SUPABASE_KEY_2,
+);

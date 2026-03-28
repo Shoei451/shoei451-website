@@ -8,6 +8,8 @@
 // 問題文       : 出来事　　回答 : 年号を直接入力
 // ============================================================
 
+import { db, tables } from "../../js/supabase_config.js";
+
 const SEIKEI_CATEGORIES = [
   "国際政治",
   "国際経済",
@@ -42,7 +44,7 @@ const START_CONFIG = {
 };
 
 async function loadQuestions() {
-  const { data, error } = await db.from(TABLES.SEIKEI).select("*");
+  const { data, error } = await db.from(tables.SEIKEI).select("*");
 
   if (error) {
     showLoadError(error.message);
