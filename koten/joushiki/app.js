@@ -22,8 +22,8 @@ const CARD_SWAP_IN_MS = 180;
 async function sbFetch(path) {
   const res = await fetch(SUPABASE_URL + path, {
     headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: "Bearer " + SUPABASE_ANON_KEY,
+      apikey: SUPABASE_KEY,
+      Authorization: "Bearer " + SUPABASE_KEY,
     },
   });
   if (!res.ok)
@@ -37,8 +37,8 @@ async function sbPost(path, body) {
   const res = await fetch(SUPABASE_URL + path, {
     method: "POST",
     headers: {
-      apikey: SUPABASE_ANON_KEY,
-      Authorization: "Bearer " + SUPABASE_ANON_KEY,
+      apikey: SUPABASE_KEY,
+      Authorization: "Bearer " + SUPABASE_KEY,
       "Content-Type": "application/json",
       Prefer: "return=representation",
     },
