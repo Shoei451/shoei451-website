@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "target_repo": "Shoei451/md-contents",
   "target_branch": "main",
   "output_path": "shoei451-website",
