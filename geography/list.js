@@ -8,6 +8,15 @@ const sectionItems1 = [
     link: "us-state-location-quiz.html",
   },
   {
+    icon: "🇨🇳",
+    title: "中国地理クイズ",
+    titleEN: "China Geography Quiz & Atlas",
+    description:
+      "中国の省・自治区・直轄市の場所を地図上でクリックして答えるクイズと、学習用のインタラクティブ地図",
+    link: "china/",
+    target: "_blank",
+  },
+  {
     icon: "🏙️",
     title: "首都クイズ",
     titleEN: "World Capitals' Quiz",

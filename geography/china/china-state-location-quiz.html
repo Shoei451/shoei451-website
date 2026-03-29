@@ -1,0 +1,789 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>中国 省・自治区クイズ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #fafaf8;
+        --surface: #ffffff;
+        --border: #e8e8e5;
+        --text: #1a1a1a;
+        --sub: #555555;
+        --accent: #c0392b;
+        --accentL: #fdecea;
+        --correct: #22c55e;
+        --wrong: #ef4444;
+        --sans: "Noto Sans JP", sans-serif;
+        --display: "Zen Kaku Gothic New", sans-serif;
+        --r-sm: 6px;
+        --r-md: 12px;
+        --r-lg: 20px;
+        --sh: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+      body.dark {
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --border: #334155;
+        --text: #f1f5f9;
+        --sub: #94a3b8;
+        --accent: #e57373;
+        --accentL: #4a1010;
+      }
+
+      body {
+        font-family: var(--sans);
+        font-size: 1.05rem;
+        line-height: 1.8;
+        color: var(--text);
+        background: var(--bg);
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 1.25rem 1rem 3rem;
+      }
+
+      /* ── HEADER ── */
+      header {
+        width: 100%;
+        max-width: 900px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+      h1 {
+        font-family: var(--display);
+        font-size: 1.2rem;
+        letter-spacing: 0.02em;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      #score-display {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--accent);
+        min-width: 4.5rem;
+        text-align: right;
+      }
+      .icon-btn {
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: var(--r-sm);
+        color: var(--sub);
+        width: 34px;
+        height: 34px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.95rem;
+        transition: background 0.15s;
+      }
+      .icon-btn:hover {
+        background: var(--accentL);
+      }
+
+      /* ── START SCREEN ── */
+      #start-screen {
+        width: 100%;
+        max-width: 520px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 2.5rem 2rem;
+        box-shadow: var(--sh);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+      }
+      #start-screen h2 {
+        font-family: var(--display);
+        font-size: 1.4rem;
+      }
+      #start-screen p {
+        font-size: 0.95rem;
+        color: var(--sub);
+        line-height: 1.6;
+      }
+      .count-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.5rem;
+        width: 100%;
+      }
+      .count-btn {
+        padding: 0.55rem 0;
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-sm);
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 1rem;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+      .count-btn:hover,
+      .count-btn.selected {
+        border-color: var(--accent);
+        background: var(--accentL);
+        color: var(--accent);
+      }
+      .btn-primary {
+        padding: 0.7rem 2.5rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: var(--r-sm);
+        font-family: var(--display);
+        font-size: 1rem;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: 0.03em;
+        transition: opacity 0.15s;
+      }
+      .btn-primary:hover {
+        opacity: 0.85;
+      }
+      .btn-primary:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+
+      /* ── QUIZ SCREEN ── */
+      #quiz-screen {
+        width: 100%;
+        max-width: 900px;
+        display: none;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      /* Progress */
+      .progress-row {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+      #progress-label {
+        font-size: 0.85rem;
+        color: var(--sub);
+        white-space: nowrap;
+      }
+      .progress-track {
+        flex: 1;
+        height: 6px;
+        background: var(--border);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      #progress-bar {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 99px;
+        transition: width 0.3s ease;
+      }
+
+      /* Question box */
+      #question-box {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 0.75rem 1.5rem;
+        box-shadow: var(--sh);
+        text-align: center;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      #question {
+        font-family: var(--display);
+        font-size: 1.35rem;
+        font-weight: 700;
+      }
+      #reading {
+        font-size: 0.88rem;
+        color: var(--sub);
+      }
+
+      /* Map wrapper */
+      #map-wrapper {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        overflow: hidden;
+        box-shadow: var(--sh);
+        position: relative;
+      }
+      #map {
+        width: 100%;
+        display: block;
+        cursor: grab;
+      }
+      #map:active {
+        cursor: grabbing;
+      }
+
+      /* Zoom controls */
+      .zoom-controls {
+        position: absolute;
+        bottom: 0.75rem;
+        right: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+      .zoom-btn {
+        width: 32px;
+        height: 32px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-sm);
+        color: var(--text);
+        font-size: 1.1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--sh);
+        transition: background 0.1s;
+      }
+      .zoom-btn:hover {
+        background: var(--accentL);
+      }
+
+      /* SVG paths */
+      #map path {
+        fill: #d1d5db;
+        stroke: var(--surface);
+        stroke-width: 0.5;
+        cursor: pointer;
+        transition: fill 0.1s;
+      }
+      body.dark #map path {
+        fill: #374151;
+      }
+      #map path:hover {
+        fill: #9ca3af;
+      }
+      body.dark #map path:hover {
+        fill: #4b5563;
+      }
+      #map path.correct {
+        fill: var(--correct) !important;
+        stroke: #16a34a;
+        stroke-width: 1.2;
+      }
+      #map path.wrong {
+        fill: var(--wrong) !important;
+        stroke: #dc2626;
+        stroke-width: 1.2;
+      }
+      #map path.show-answer {
+        fill: var(--correct) !important;
+        stroke: #16a34a;
+        stroke-width: 1.2;
+      }
+
+      /* Feedback */
+      #feedback {
+        text-align: center;
+        font-size: 0.88rem;
+        color: var(--sub);
+        min-height: 1.4em;
+        transition: color 0.2s;
+      }
+      #feedback.ok {
+        color: var(--correct);
+        font-weight: 600;
+      }
+      #feedback.bad {
+        color: var(--wrong);
+        font-weight: 600;
+      }
+
+      /* ── RESULT SCREEN ── */
+      #result-screen {
+        width: 100%;
+        max-width: 520px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 2.5rem 2rem;
+        box-shadow: var(--sh);
+        text-align: center;
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+        margin-top: 2rem;
+      }
+      #result-screen h2 {
+        font-family: var(--display);
+        font-size: 1.4rem;
+      }
+      #result-score {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1.2;
+      }
+      #result-sub {
+        font-size: 0.95rem;
+        color: var(--sub);
+      }
+
+      /* ── LOADING ── */
+      #loading {
+        margin-top: 3rem;
+        color: var(--sub);
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .spinner {
+        width: 16px;
+        height: 16px;
+        border: 2px solid var(--border);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>中国 省・自治区クイズ</h1>
+      <div class="header-right">
+        <span id="score-display" style="display: none"></span>
+        <button class="icon-btn" id="theme-toggle" title="テーマ切替">
+          <i class="bi bi-moon"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- START -->
+    <div id="start-screen">
+      <h2>出題数を選ぶ</h2>
+      <p>中国の31省・自治区・直轄市の位置を地図上でクリックして答えます。</p>
+      <div class="count-grid">
+        <button class="count-btn" data-n="10">10問</button>
+        <button class="count-btn selected" data-n="20">20問</button>
+        <button class="count-btn" data-n="31">31問</button>
+        <button class="count-btn" data-n="0">∞</button>
+      </div>
+      <button class="btn-primary" id="start-btn" disabled>読み込み中...</button>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz-screen">
+      <div class="progress-row">
+        <span id="progress-label">0 / 0</span>
+        <div class="progress-track">
+          <div id="progress-bar" style="width: 0%"></div>
+        </div>
+        <span
+          id="score-display-inline"
+          style="font-size: 0.85rem; color: var(--sub); white-space: nowrap"
+          >正解 0</span
+        >
+      </div>
+      <div id="question-box">
+        <span id="question">—</span>
+        <span id="reading"></span>
+      </div>
+      <div id="map-wrapper">
+        <svg id="map"></svg>
+        <div class="zoom-controls">
+          <button class="zoom-btn" id="zoom-in" title="ズームイン">
+            <i class="bi bi-plus"></i>
+          </button>
+          <button class="zoom-btn" id="zoom-reset" title="リセット">
+            <i class="bi bi-fullscreen-exit"></i>
+          </button>
+          <button class="zoom-btn" id="zoom-out" title="ズームアウト">
+            <i class="bi bi-dash"></i>
+          </button>
+        </div>
+      </div>
+      <div id="feedback"></div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result-screen">
+      <h2>結果</h2>
+      <div id="result-score"></div>
+      <div id="result-sub"></div>
+      <button class="btn-primary" id="retry-btn">もう一度</button>
+    </div>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      地図データを読み込んでいます...
+    </div>
+
+    <script>
+      // ── 省データ ──────────────────────────────────────────────────────────────
+      // engName は cn-atlas の feature.properties.name と照合する
+      // cn-atlas README によると province.name は英語名（"Hebei" 等）
+      // ページ初回ロード時にコンソールで実値を確認できる
+      const PROVINCES = [
+        { name: "北京市", reading: "ペキン", eng: "Beijing" },
+        { name: "天津市", reading: "テンシン", eng: "Tianjin" },
+        { name: "河北省", reading: "カホク", eng: "Hebei" },
+        { name: "山西省", reading: "サンセイ", eng: "Shanxi" },
+        {
+          name: "内モンゴル自治区",
+          reading: "ないモンゴル",
+          eng: "Inner Mongolia",
+        },
+        { name: "遼寧省", reading: "リョウネイ", eng: "Liaoning" },
+        { name: "吉林省", reading: "キツリン", eng: "Jilin" },
+        { name: "黒竜江省", reading: "コクリュウコウ", eng: "Heilongjiang" },
+        { name: "上海市", reading: "シャンハイ", eng: "Shanghai" },
+        { name: "江蘇省", reading: "コウソ", eng: "Jiangsu" },
+        { name: "浙江省", reading: "セッコウ", eng: "Zhejiang" },
+        { name: "安徽省", reading: "アンキ", eng: "Anhui" },
+        { name: "福建省", reading: "フッケン", eng: "Fujian" },
+        { name: "江西省", reading: "コウセイ", eng: "Jiangxi" },
+        { name: "山東省", reading: "サントウ", eng: "Shandong" },
+        { name: "河南省", reading: "カナン", eng: "Henan" },
+        { name: "湖北省", reading: "コホク", eng: "Hubei" },
+        { name: "湖南省", reading: "コナン", eng: "Hunan" },
+        { name: "広東省", reading: "カントン", eng: "Guangdong" },
+        {
+          name: "広西チワン族自治区",
+          reading: "コウセイチワン",
+          eng: "Guangxi",
+        },
+        { name: "海南省", reading: "カイナン", eng: "Hainan" },
+        { name: "重慶市", reading: "チョンチン", eng: "Chongqing" },
+        { name: "四川省", reading: "シセン", eng: "Sichuan" },
+        { name: "貴州省", reading: "キシュウ", eng: "Guizhou" },
+        { name: "雲南省", reading: "ウンナン", eng: "Yunnan" },
+        { name: "チベット自治区", reading: "チベット", eng: "Tibet" },
+        { name: "陝西省", reading: "センセイ", eng: "Shaanxi" },
+        { name: "甘粛省", reading: "カンシュク", eng: "Gansu" },
+        { name: "青海省", reading: "セイカイ", eng: "Qinghai" },
+        { name: "寧夏回族自治区", reading: "ネイカ", eng: "Ningxia" },
+        { name: "新疆ウイグル自治区", reading: "シンキョウ", eng: "Xinjiang" },
+      ];
+
+      // 実際のGeoJSONのname値と差異があった場合にここで上書きできる
+      // { geoName: "実際の値" → PROVINCES.eng } の形で補正マップ
+      const NAME_FIX = {
+        // cn-atlasで確認次第追記
+      };
+
+      const byEng = Object.fromEntries(PROVINCES.map((p) => [p.eng, p]));
+
+      // ── 状態 ──────────────────────────────────────────────────────────────────
+      let topoData = null;
+      let totalQ = 20; // 出題数 (0 = 無限)
+      let asked = 0; // 出題済み数
+      let correct = 0;
+      let current = null;
+      let busy = false;
+      let zoomBehavior = null;
+      let selectedCount = 20;
+
+      // ── DOM refs ──────────────────────────────────────────────────────────────
+      const startScreen = document.getElementById("start-screen");
+      const quizScreen = document.getElementById("quiz-screen");
+      const resultScreen = document.getElementById("result-screen");
+      const loadingEl = document.getElementById("loading");
+      const questionEl = document.getElementById("question");
+      const readingEl = document.getElementById("reading");
+      const feedbackEl = document.getElementById("feedback");
+      const progressBar = document.getElementById("progress-bar");
+      const progressLabel = document.getElementById("progress-label");
+      const scoreInline = document.getElementById("score-display-inline");
+      const mapSvg = document.getElementById("map");
+      const startBtn = document.getElementById("start-btn");
+
+      // ── 出題数ボタン ──────────────────────────────────────────────────────────
+      document.querySelectorAll(".count-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document
+            .querySelectorAll(".count-btn")
+            .forEach((b) => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          selectedCount = parseInt(btn.dataset.n);
+        });
+      });
+
+      // ── スタートボタン ────────────────────────────────────────────────────────
+      startBtn.addEventListener("click", () => {
+        if (!topoData) return;
+        totalQ = selectedCount;
+        asked = 0;
+        correct = 0;
+        startScreen.style.display = "none";
+        resultScreen.style.display = "none";
+        quizScreen.style.display = "flex";
+        renderMap();
+        pickProvince();
+      });
+
+      document.getElementById("retry-btn").addEventListener("click", () => {
+        resultScreen.style.display = "none";
+        startScreen.style.display = "flex";
+      });
+
+      // ── ゲームロジック ────────────────────────────────────────────────────────
+      function pickProvince() {
+        mapSvg
+          .querySelectorAll("path")
+          .forEach((p) =>
+            p.classList.remove("correct", "wrong", "show-answer"),
+          );
+        feedbackEl.textContent = "";
+        feedbackEl.className = "";
+
+        // 無限モードまたは出題数未達
+        if (totalQ !== 0 && asked >= totalQ) {
+          showResult();
+          return;
+        }
+
+        current = PROVINCES[Math.floor(Math.random() * PROVINCES.length)];
+        questionEl.textContent = current.name;
+        readingEl.textContent = `（${current.reading}）`;
+        asked++;
+        updateProgress();
+        busy = false;
+      }
+
+      function handleClick(eng, el) {
+        if (busy || !current) return;
+        const clicked = byEng[eng];
+        if (!clicked) return;
+        busy = true;
+
+        const correctEl = mapSvg.querySelector(`[data-eng="${current.eng}"]`);
+
+        if (eng === current.eng) {
+          el.classList.add("correct");
+          correct++;
+          feedbackEl.textContent = "正解！";
+          feedbackEl.className = "ok";
+        } else {
+          el.classList.add("wrong");
+          correctEl?.classList.add("show-answer");
+          feedbackEl.textContent = `不正解 — 正解は ${current.name}（${current.reading}）`;
+          feedbackEl.className = "bad";
+        }
+
+        updateProgress();
+        const delay = totalQ !== 0 && asked >= totalQ ? 1200 : 1600;
+        setTimeout(pickProvince, delay);
+      }
+
+      function updateProgress() {
+        const total = totalQ === 0 ? asked : totalQ;
+        const done = Math.min(asked, total);
+        progressLabel.textContent = `${done} / ${total === asked && totalQ === 0 ? "∞" : total}`;
+        progressBar.style.width =
+          totalQ === 0 ? "0%" : `${(done / total) * 100}%`;
+        scoreInline.textContent = `正解 ${correct}`;
+      }
+
+      function showResult() {
+        quizScreen.style.display = "none";
+        resultScreen.style.display = "flex";
+        const pct = totalQ > 0 ? Math.round((correct / totalQ) * 100) : 0;
+        document.getElementById("result-score").textContent =
+          `${correct} / ${totalQ}`;
+        document.getElementById("result-sub").textContent =
+          pct >= 90
+            ? "素晴らしい！"
+            : pct >= 70
+              ? "よくできました"
+              : pct >= 50
+                ? "もう少し頑張ろう"
+                : "復習して再挑戦！";
+      }
+
+      // ── 地図描画 ──────────────────────────────────────────────────────────────
+      function renderMap() {
+        const wrapper = document.getElementById("map-wrapper");
+        const w = wrapper.clientWidth;
+        const h = Math.round(w * 0.6);
+        mapSvg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+        mapSvg.innerHTML = "";
+
+        // 中国全土が収まる投影: geoConicEqualArea が最適
+        // 中国の範囲: 経度73°〜135°E, 緯度18°〜53°N
+        // 中心: 経度104°, 緯度36°
+        const projection = d3
+          .geoConicEqualArea()
+          .parallels([25, 47]) // 2本の標準緯線（中国の南北端の中間）
+          .rotate([-104, 0]) // 経度中心を104°Eに
+          .center([0, 36]) // 緯度中心を36°Nに
+          .scale(w * 1.05)
+          .translate([w / 2, h / 2]);
+
+        const pathGen = d3.geoPath().projection(projection);
+
+        const features = topojson.feature(
+          topoData,
+          topoData.objects.provinces,
+        ).features;
+
+        // デバッグ: 実際のname値をコンソールに出力
+        console.log(
+          "cn-atlas province names:",
+          features.map((f) => f.properties),
+        );
+
+        // ズームグループ
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.id = "zoom-group";
+        mapSvg.appendChild(g);
+
+        features.forEach((feat) => {
+          const rawName =
+            feat.properties.name ||
+            feat.properties.NAME ||
+            feat.properties.地名 ||
+            "";
+          // NAME_FIX による補正
+          const eng = NAME_FIX[rawName] || rawName;
+          const prov = byEng[eng];
+
+          const el = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path",
+          );
+          el.setAttribute("d", pathGen(feat));
+          el.dataset.eng = eng;
+          el.dataset.raw = rawName;
+
+          const title = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "title",
+          );
+          title.textContent = prov ? prov.name : rawName;
+          el.appendChild(title);
+
+          if (prov) {
+            el.addEventListener("click", () => handleClick(eng, el));
+          } else {
+            el.style.cursor = "default";
+            el.style.opacity = "0.5"; // クイズ外の地域（台湾等）は薄く表示
+          }
+
+          g.appendChild(el);
+        });
+
+        // D3 zoom
+        zoomBehavior = d3
+          .zoom()
+          .scaleExtent([1, 8])
+          .on("zoom", (event) => {
+            g.setAttribute("transform", event.transform.toString());
+          });
+
+        d3.select(mapSvg).call(zoomBehavior);
+
+        // ズームボタン
+        document.getElementById("zoom-in").onclick = () =>
+          d3
+            .select(mapSvg)
+            .transition()
+            .duration(250)
+            .call(zoomBehavior.scaleBy, 1.6);
+        document.getElementById("zoom-out").onclick = () =>
+          d3
+            .select(mapSvg)
+            .transition()
+            .duration(250)
+            .call(zoomBehavior.scaleBy, 0.625);
+        document.getElementById("zoom-reset").onclick = () =>
+          d3
+            .select(mapSvg)
+            .transition()
+            .duration(300)
+            .call(zoomBehavior.transform, d3.zoomIdentity);
+      }
+
+      // ── ライブラリ & データ読み込み ───────────────────────────────────────────
+      function loadScript(src) {
+        return new Promise((res, rej) => {
+          const s = document.createElement("script");
+          s.src = src;
+          s.onload = res;
+          s.onerror = rej;
+          document.body.appendChild(s);
+        });
+      }
+
+      (async () => {
+        try {
+          await loadScript("https://d3js.org/d3.v7.min.js");
+          await loadScript("https://unpkg.com/topojson-client@3");
+
+          const res = await fetch("https://unpkg.com/cn-atlas/cn-atlas.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          topoData = await res.json();
+
+          loadingEl.style.display = "none";
+          startBtn.textContent = "スタート";
+          startBtn.disabled = false;
+        } catch (e) {
+          loadingEl.innerHTML = `<span style="color:var(--wrong)">読み込み失敗: ${e.message}</span>`;
+          console.error(e);
+        }
+      })();
+
+      // ── テーマ ────────────────────────────────────────────────────────────────
+      const saved = localStorage.getItem("theme");
+      if (
+        saved === "dark" ||
+        (!saved && matchMedia("(prefers-color-scheme:dark)").matches)
+      )
+        document.body.classList.add("dark");
+
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const isDark = document.body.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>学習モード — 中国地理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      padding: 1.25rem 1rem 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-wrap {
+      width: 100%;
+      max-width: 1100px;
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    .page-title {
+      font-family: var(--display);
+      font-size: 1.1rem;
+      color: var(--sub);
+    }
+
+    /* ── Layout: map + panel side by side ── */
+    .learn-layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 1rem;
+      align-items: start;
+    }
+
+    @media (max-width: 820px) {
+      .learn-layout { grid-template-columns: 1fr; }
+    }
+
+    /* Map */
+    #map-wrapper { position: relative; overflow: hidden; }
+    #map { cursor: grab; }
+    #map:active { cursor: grabbing; }
+
+    /* Province list sidebar (mobile: below map) */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: .75rem;
+    }
+
+    /* Detail panel */
+    .detail-panel {
+      padding: 1.5rem;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .detail-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      min-height: 200px;
+      color: var(--sub);
+      font-size: .9rem;
+      text-align: center;
+      gap: .5rem;
+    }
+    .detail-empty i { font-size: 2rem; opacity: .4; }
+
+    .detail-header {
+      display: flex;
+      align-items: baseline;
+      gap: .6rem;
+      flex-wrap: wrap;
+    }
+    .detail-name {
+      font-family: var(--display);
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+    .detail-reading {
+      font-size: .9rem;
+      color: var(--sub);
+    }
+    .detail-region {
+      font-size: .75rem;
+      padding: .2rem .55rem;
+      background: var(--accentL);
+      color: var(--accent);
+      border-radius: 99px;
+      font-weight: 700;
+      letter-spacing: .05em;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5rem;
+    }
+    .stat-box {
+      padding: .65rem .85rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+    }
+    .stat-box-label { font-size: .72rem; color: var(--sub); letter-spacing: .06em; }
+    .stat-box-val   { font-family: var(--display); font-size: 1.05rem; font-weight: 700; margin-top: .1rem; }
+
+    /* Neighbors */
+    .neighbors-row {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem;
+    }
+    .neighbors-label { font-size: .78rem; color: var(--sub); letter-spacing: .08em; text-transform: uppercase; font-weight: 700; }
+    .neighbor-chips  { display: flex; flex-wrap: wrap; gap: .35rem; }
+    .neighbor-chip {
+      padding: .22rem .6rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      font-size: .82rem;
+      cursor: pointer;
+      transition: border-color .12s, background .12s, color .12s;
+    }
+    .neighbor-chip:hover { border-color: var(--accent); background: var(--accentL); color: var(--accent); }
+    .neighbor-chip.none  { cursor: default; color: var(--sub); }
+
+    /* Region list */
+    .region-list { padding: 1rem 1.25rem; }
+    .region-list h3 {
+      font-family: var(--display);
+      font-size: .85rem;
+      color: var(--sub);
+      margin-bottom: .6rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+    .region-group { margin-bottom: .75rem; }
+    .region-group-name {
+      font-size: .72rem;
+      font-weight: 700;
+      color: var(--sub);
+      letter-spacing: .1em;
+      margin-bottom: .3rem;
+      text-transform: uppercase;
+    }
+    .province-chips { display: flex; flex-wrap: wrap; gap: .3rem; }
+    .province-chip {
+      padding: .2rem .55rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--r-sm);
+      font-size: .82rem;
+      cursor: pointer;
+      transition: all .12s;
+      white-space: nowrap;
+    }
+    .province-chip:hover   { border-color: var(--accent); background: var(--accentL); color: var(--accent); }
+    .province-chip.active  { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+    /* Loading */
+    #loading {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      margin: 3rem auto;
+      color: var(--sub);
+      font-size: .9rem;
+    }
+
+    /* Mobile: map fills width */
+    @media (max-width: 640px) {
+      body { padding: .75rem .5rem 2rem; }
+      #map-wrapper { border-radius: 0; border-left: none; border-right: none; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="china-nav">
+  <a class="nav-brand" href="index.html">中国地理</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html"><i class="bi bi-house"></i>ホーム</a>
+    <a class="nav-link" href="quiz.html"><i class="bi bi-geo-alt"></i>クイズ</a>
+    <a class="nav-link active" href="learn.html"><i class="bi bi-book"></i>学習</a>
+  </div>
+  <div class="nav-spacer"></div>
+  <button class="icon-btn" id="theme-toggle"><i class="bi bi-moon"></i></button>
+</nav>
+
+<div id="loading"><div class="spinner"></div>地図データを読み込んでいます...</div>
+
+<div class="page-wrap" id="main-content" style="display:none;">
+  <p class="page-title">省・自治区・直轄市をクリックして詳細を確認</p>
+
+  <div class="learn-layout">
+    <!-- Map -->
+    <div id="map-wrapper" class="card">
+      <svg id="map" class="china-map"></svg>
+      <div class="zoom-controls">
+        <button class="zoom-btn" id="zoom-in"><i class="bi bi-plus"></i></button>
+        <button class="zoom-btn" id="zoom-reset"><i class="bi bi-fullscreen-exit"></i></button>
+        <button class="zoom-btn" id="zoom-out"><i class="bi bi-dash"></i></button>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Detail panel -->
+      <div class="detail-panel card" id="detail-panel">
+        <div class="detail-empty" id="detail-empty">
+          <i class="bi bi-map"></i>
+          <span>地図上の省をクリックしてください</span>
+        </div>
+        <div id="detail-content" style="display:none; flex-direction:column; gap:1rem;">
+          <div class="detail-header">
+            <span class="detail-name" id="d-name"></span>
+            <span class="detail-reading" id="d-reading"></span>
+            <span class="detail-region" id="d-region"></span>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-box-label">省都・首府</div>
+              <div class="stat-box-val" id="d-capital"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-label">人口 (2020年)</div>
+              <div class="stat-box-val" id="d-pop"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-label">面積</div>
+              <div class="stat-box-val" id="d-area"></div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-label">地区</div>
+              <div class="stat-box-val" id="d-regionval"></div>
+            </div>
+          </div>
+          <div class="neighbors-row">
+            <div class="neighbors-label">隣接する省・自治区</div>
+            <div class="neighbor-chips" id="d-neighbors"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Province list -->
+      <div class="region-list card" id="region-list"></div>
+    </div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+let topoData    = null;
+let selectedEng = null;
+let zoomB       = null;
+
+const $map = document.getElementById("map");
+
+// Region display names
+const REGION_NAMES = {
+  "华北": "華北", "东北": "東北", "华东": "華東",
+  "华中": "華中", "华南": "華南", "西南": "西南", "西北": "西北",
+};
+
+// ── Select province ────────────────────────────────────────────────────────
+function selectProvince(eng) {
+  selectedEng = eng;
+  const prov  = BY_ENG[eng];
+  if (!prov) return;
+
+  // Map highlight
+  $map.querySelectorAll("path").forEach(p => {
+    p.classList.remove("highlighted","neighbor");
+  });
+  $map.querySelector(`[data-eng="${eng}"]`)?.classList.add("highlighted");
+  prov.neighbors.forEach(n => {
+    $map.querySelector(`[data-eng="${n}"]`)?.classList.add("neighbor");
+  });
+
+  // Province chips in sidebar
+  document.querySelectorAll(".province-chip").forEach(c => {
+    c.classList.toggle("active", c.dataset.eng === eng);
+  });
+
+  // Detail panel
+  document.getElementById("detail-empty").style.display   = "none";
+  const dc = document.getElementById("detail-content");
+  dc.style.display = "flex";
+
+  document.getElementById("d-name").textContent     = prov.name;
+  document.getElementById("d-reading").textContent  = `（${prov.reading}）`;
+  document.getElementById("d-region").textContent   = REGION_NAMES[prov.region] || prov.region;
+  document.getElementById("d-capital").textContent  = prov.capital;
+  document.getElementById("d-pop").textContent      = `${prov.population.toLocaleString()} 万人`;
+  document.getElementById("d-area").textContent     = `${prov.area.toLocaleString()} 万km²`;
+  document.getElementById("d-regionval").textContent = REGION_NAMES[prov.region] || prov.region;
+
+  const nc = document.getElementById("d-neighbors");
+  if (prov.neighbors.length === 0) {
+    nc.innerHTML = `<span class="neighbor-chip none">なし（島）</span>`;
+  } else {
+    nc.innerHTML = prov.neighbors
+      .map(n => BY_ENG[n])
+      .filter(Boolean)
+      .map(p => `<button class="neighbor-chip" data-eng="${p.eng}">${p.name}</button>`)
+      .join("");
+    nc.querySelectorAll(".neighbor-chip").forEach(btn =>
+      btn.addEventListener("click", () => selectProvince(btn.dataset.eng))
+    );
+  }
+}
+
+// ── Build province list ────────────────────────────────────────────────────
+function buildRegionList() {
+  const el = document.getElementById("region-list");
+  el.innerHTML = "<h3>一覧</h3>";
+
+  const byRegion = {};
+  PROVINCES.forEach(p => {
+    (byRegion[p.region] = byRegion[p.region] || []).push(p);
+  });
+
+  const order = ["华北","东北","华东","华中","华南","西南","西北"];
+  order.forEach(reg => {
+    if (!byRegion[reg]) return;
+    const grp = document.createElement("div");
+    grp.className = "region-group";
+    grp.innerHTML = `<div class="region-group-name">${REGION_NAMES[reg]}</div>`;
+    const chips = document.createElement("div");
+    chips.className = "province-chips";
+    byRegion[reg].forEach(p => {
+      const btn = document.createElement("button");
+      btn.className  = "province-chip";
+      btn.dataset.eng = p.eng;
+      btn.textContent = p.name;
+      btn.addEventListener("click", () => selectProvince(p.eng));
+      chips.appendChild(btn);
+    });
+    grp.appendChild(chips);
+    el.appendChild(grp);
+  });
+}
+
+// ── Map rendering ──────────────────────────────────────────────────────────
+function makeProjection(w, h) {
+  return d3.geoConicEqualArea()
+    .parallels([25, 47]).rotate([-104, 0]).center([0, 36])
+    .scale(w * 1.05).translate([w / 2, h / 2]);
+}
+
+function renderMap() {
+  const wrap = document.getElementById("map-wrapper");
+  const w = wrap.clientWidth;
+  const h = Math.round(w * 0.62);
+  $map.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  $map.innerHTML = "";
+
+  const proj    = makeProjection(w, h);
+  const pathGen = d3.geoPath().projection(proj);
+  const feats   = topojson.feature(topoData, topoData.objects.provinces).features;
+
+  const g = document.createElementNS("http://www.w3.org/2000/svg","g");
+  g.id = "zg"; $map.appendChild(g);
+
+  feats.forEach(feat => {
+    const raw  = feat.properties.name || "";
+    const prov = resolveProvince(raw);
+    const el   = document.createElementNS("http://www.w3.org/2000/svg","path");
+    el.setAttribute("d", pathGen(feat));
+    el.dataset.eng = prov ? prov.eng : raw;
+    // NO <title> — no browser tooltip
+    if (prov) {
+      el.classList.add("interactive");
+      el.addEventListener("click", () => selectProvince(prov.eng));
+    } else {
+      el.style.opacity = ".4";
+    }
+    g.appendChild(el);
+  });
+
+  zoomB = d3.zoom().scaleExtent([1,10])
+    .on("zoom", e => g.setAttribute("transform", e.transform));
+  d3.select($map).call(zoomB);
+
+  document.getElementById("zoom-in").onclick    = () => d3.select($map).transition().duration(220).call(zoomB.scaleBy, 1.7);
+  document.getElementById("zoom-out").onclick   = () => d3.select($map).transition().duration(220).call(zoomB.scaleBy, 0.6);
+  document.getElementById("zoom-reset").onclick = () => d3.select($map).transition().duration(280).call(zoomB.transform, d3.zoomIdentity);
+
+  window.addEventListener("resize", () => {
+    const nw = wrap.clientWidth;
+    $map.setAttribute("viewBox", `0 0 ${nw} ${Math.round(nw*.62)}`);
+  });
+}
+
+// ── Load ───────────────────────────────────────────────────────────────────
+function loadScript(src) {
+  return new Promise((res,rej)=>{
+    const s=document.createElement("script");
+    s.src=src; s.onload=res; s.onerror=rej; document.body.appendChild(s);
+  });
+}
+
+(async () => {
+  try {
+    await loadScript("https://d3js.org/d3.v7.min.js");
+    await loadScript("https://unpkg.com/topojson-client@3");
+    const res = await fetch("https://unpkg.com/cn-atlas/cn-atlas.json");
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    topoData = await res.json();
+
+    document.getElementById("loading").style.display    = "none";
+    document.getElementById("main-content").style.display = "flex";
+
+    renderMap();
+    buildRegionList();
+  } catch(e) {
+    document.getElementById("loading").innerHTML =
+      `<span style="color:var(--wrong)">読み込み失敗: ${e.message}</span>`;
+  }
+})();
+
+// ── Theme ──────────────────────────────────────────────────────────────────
+const saved = localStorage.getItem("theme");
+if (saved==="dark"||(!saved&&matchMedia("(prefers-color-scheme:dark)").matches))
+  document.body.classList.add("dark");
+document.getElementById("theme-toggle").addEventListener("click", () => {
+  const d = document.body.classList.toggle("dark");
+  localStorage.setItem("theme", d?"dark":"light");
+  document.querySelector("#theme-toggle i").className = d?"bi bi-sun":"bi bi-moon";
+});
+if (document.body.classList.contains("dark"))
+  document.querySelector("#theme-toggle i").className = "bi bi-sun";
+</script>
+</body>
+</html>
