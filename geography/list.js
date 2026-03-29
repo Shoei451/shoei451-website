@@ -12,7 +12,7 @@ const sectionItems1 = [
     title: "首都クイズ",
     titleEN: "World Capitals' Quiz",
     description: "世界各国・地域の首都名を答えるクイズです",
-    link: "capitals_quiz/",
+    link: "capitals-quiz/",
     target: "_blank",
   },
   {
