@@ -21,9 +21,9 @@ const sectionItems1 = [
 
 // ── PAGE_CONFIG（sub-index.html?slug=history/world から参照） ──
 window.PAGE_CONFIG = {
-  title: "世界史年代クイズ — Shoei451",
-  h1: "📅 世界史年代クイズ",
-  headerDesc: "出題形式を選んでください",
+  title: "World History Era Quiz — Shoei451",
+  h1: "World History Era Quiz",
+  headerDesc: "connect years and events in world history with this quiz app",
   backLink: "../sub-index.html?slug=history",
-  sections: [{ title: "出題形式", desc: "" }],
+  sections: [{ title: "出題形式", desc: "出題形式を選んでください" }],
 };
