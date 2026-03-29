@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Links for Learning — Shoei451</title>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ===== Layout ===== */
+      .links-wrapper {
+        max-width: 860px;
+        margin: 48px auto 100px;
+        padding: 0 20px;
+      }
+
+      /* ===== Search ===== */
+      .search-wrap {
+        margin-bottom: 32px;
+        position: relative;
+      }
+      .search-wrap svg {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        stroke: var(--secondary);
+        fill: none;
+        pointer-events: none;
+      }
+      .search-wrap input {
+        width: 100%;
+        padding: 10px 16px 10px 40px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        background: var(--card-bg);
+        color: var(--content);
+        outline: none;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .search-wrap input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.15);
+      }
+      .search-wrap input::placeholder {
+        color: var(--secondary);
+        opacity: 0.7;
+      }
+
+      /* ===== Folder (details/summary) ===== */
+      .folder {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 14px;
+        background: var(--card-bg);
+        box-shadow: 0 2px 8px var(--shadow);
+        transition: box-shadow 0.2s;
+      }
+      .folder:hover {
+        box-shadow: 0 4px 16px var(--shadow);
+      }
+
+      .folder summary {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 16px 20px;
+        cursor: pointer;
+        list-style: none;
+        user-select: none;
+        transition: background 0.15s;
+      }
+      .folder summary::-webkit-details-marker {
+        display: none;
+      }
+      .folder[open] summary {
+        background: var(--entry);
+        border-bottom: 1px solid var(--border);
+      }
+      .folder summary:hover {
+        background: var(--entry);
+      }
+
+      .folder-chevron {
+        width: 15px;
+        height: 15px;
+        stroke: var(--secondary);
+        fill: none;
+        flex-shrink: 0;
+        transition: transform 0.2s ease;
+      }
+      .folder[open] .folder-chevron {
+        transform: rotate(90deg);
+      }
+
+      .folder-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+        color: var(--primary);
+        flex: 1;
+      }
+
+      .folder-count {
+        font-size: 0.7rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--secondary);
+        background: var(--theme);
+        padding: 2px 8px;
+        border-radius: 100px;
+        border: 1px solid var(--border);
+      }
+
+      /* ===== Link List ===== */
+      .link-list {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .link-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 13px 20px;
+        text-decoration: none;
+        color: inherit;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.15s;
+        animation: fadeInUp 0.25s ease-out forwards;
+        opacity: 0;
+      }
+      .link-item:last-child {
+        border-bottom: none;
+      }
+      .link-item:hover {
+        background: var(--entry);
+      }
+
+      .link-favicon {
+        width: 18px;
+        height: 18px;
+        border-radius: 3px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .link-favicon-placeholder {
+        width: 18px;
+        height: 18px;
+        border-radius: 3px;
+        flex-shrink: 0;
+        background: var(--border);
+        margin-top: 2px;
+      }
+
+      .link-body {
+        flex: 1;
+        min-width: 0;
+      }
+
+      .link-title {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: var(--primary);
+        line-height: 1.4;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: color 0.15s;
+      }
+      .link-item:hover .link-title {
+        color: var(--accent-text);
+      }
+
+      /* highlight from search */
+      .link-title mark {
+        background: rgba(250, 186, 64, 0.35);
+        color: inherit;
+        border-radius: 2px;
+        padding: 0 1px;
+      }
+
+      .link-meta {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-top: 3px;
+      }
+      .link-domain {
+        font-size: 0.7rem;
+        font-family: "JetBrains Mono", monospace;
+        color: var(--secondary);
+        flex-shrink: 0;
+      }
+      .link-note {
+        font-size: 0.75rem;
+        color: var(--secondary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        opacity: 0.8;
+      }
+
+      .link-tags {
+        display: flex;
+        gap: 4px;
+        flex-wrap: wrap;
+        margin-top: 5px;
+      }
+      .link-tag {
+        font-size: 0.62rem;
+        padding: 1px 7px;
+        border-radius: 100px;
+        background: var(--entry);
+        color: var(--accent-text);
+        border: 1px solid var(--border);
+        font-weight: 500;
+      }
+
+      .link-arrow {
+        width: 13px;
+        height: 13px;
+        stroke: var(--secondary);
+        fill: none;
+        flex-shrink: 0;
+        opacity: 0;
+        transition:
+          opacity 0.15s,
+          transform 0.15s;
+        align-self: center;
+      }
+      .link-item:hover .link-arrow {
+        opacity: 0.6;
+        transform: translate(2px, -2px);
+      }
+
+      /* ===== Skeleton ===== */
+      .skeleton-folder {
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        overflow: hidden;
+        margin-bottom: 14px;
+        background: var(--card-bg);
+        box-shadow: 0 2px 8px var(--shadow);
+      }
+      .skeleton-header {
+        padding: 16px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .sk {
+        background: var(--entry);
+        border-radius: 6px;
+        animation: shimmer 1.4s infinite;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0.45;
+        }
+        50% {
+          opacity: 0.9;
+        }
+      }
+
+      /* ===== States ===== */
+      .state-box {
+        text-align: center;
+        padding: 64px 20px;
+        color: var(--secondary);
+        font-size: 0.9rem;
+      }
+      .state-icon {
+        font-size: 2.5rem;
+        display: block;
+        margin-bottom: 12px;
+      }
+
+      .no-results {
+        padding: 18px 20px;
+        text-align: center;
+        font-size: 0.82rem;
+        color: var(--secondary);
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .link-note {
+          display: none;
+        }
+        .folder summary,
+        .link-item {
+          padding-left: 14px;
+          padding-right: 14px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <span class="logo-switches">
+      <button id="theme-toggle" title="Toggle Theme">
+        <svg
+          id="moon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg
+          id="sun"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+      </button>
+    </span>
+
+    <header>
+      <h1>Links for Learning</h1>
+      <p>Raindrop.io に保存したリンク一覧</p>
+    </header>
+
+    <main class="intro">
+      <a href="index.html" class="back-link">Back to Home</a>
+      <h2>Bookmark Collection</h2>
+      <p>
+        学習に役立つ外部ウェブサイトのリンク集です。<br />
+        Raindrop.io で管理・更新しています。
+      </p>
+    </main>
+
+    <section class="links-wrapper">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="コレクション内を検索…"
+          aria-label="ブックマーク検索"
+        />
+      </div>
+
+      <div id="folder-list">
+        <div id="skeleton"></div>
+        <div id="state-error" class="state-box" style="display: none">
+          <span class="state-icon">⚠️</span>
+          <span id="error-msg">データの取得に失敗しました</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Curated by Shoei451</p>
+    </footer>
+
+    <script src="js/theme-toggle.js"></script>
+    <script>
+      // ============================================================
+      //  Config — ここだけ編集
+      // ============================================================
+      const CONFIG = {
+        // Token はここに書かない。
+        // Netlify → Site configuration → Environment variables に
+        // RAINDROP_TOKEN = <test token> を設定すること。
+
+        // 公開するコレクションIDのホワイトリスト
+        // RaindropのコレクションURL末尾の数字、またはAPIの _id
+        // 空配列 [] にすると全コレクション表示（非推奨）
+        ALLOWED_COLLECTIONS: [
+          // 12345678,
+          // 87654321,
+        ],
+
+        // 各コレクションから取得する最大件数（API上限50）
+        PER_PAGE: 50,
+      };
+
+      // ============================================================
+      //  API（Netlify Functionプロキシ経由）
+      // ============================================================
+      async function apiFetch(path, extraParams = {}) {
+        const params = new URLSearchParams({ path, ...extraParams });
+        const res = await fetch(`/.netlify/functions/raindrop?${params}`);
+        if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+        return res.json();
+      }
+
+      async function fetchCollections() {
+        const data = await apiFetch("/collections");
+        return data.items || [];
+      }
+
+      async function fetchRaindrops(collectionId) {
+        const data = await apiFetch(`/raindrops/${collectionId}`, {
+          perpage: CONFIG.PER_PAGE,
+        });
+        return data.items || [];
+      }
+
+      // ============================================================
+      //  Helpers
+      // ============================================================
+      function getDomain(url) {
+        try {
+          return new URL(url).hostname.replace(/^www\./, "");
+        } catch {
+          return url;
+        }
+      }
+
+      function getFaviconUrl(url) {
+        try {
+          return `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`;
+        } catch {
+          return "";
+        }
+      }
+
+      function escapeHtml(str) {
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function highlight(text, query) {
+        if (!query) return escapeHtml(text);
+        const safe = escapeHtml(text);
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        return safe.replace(
+          new RegExp(`(${escaped})`, "gi"),
+          "<mark>$1</mark>",
+        );
+      }
+
+      // ============================================================
+      //  Build DOM
+      // ============================================================
+      function buildLinkItem(item, index, query) {
+        const a = document.createElement("a");
+        a.className = "link-item";
+        a.href = item.link;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.style.animationDelay = `${Math.min(index, 20) * 25}ms`;
+
+        const domain = getDomain(item.link);
+        const favicon = getFaviconUrl(item.link);
+        const tags = (item.tags || []).slice(0, 5);
+        const rawTitle = item.title || domain;
+        const noteText = item.note
+          ? escapeHtml(item.note.slice(0, 70)) +
+            (item.note.length > 70 ? "…" : "")
+          : "";
+
+        const faviconHtml = favicon
+          ? `<img class="link-favicon" src="${favicon}" alt="" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'link-favicon-placeholder'}))">`
+          : `<div class="link-favicon-placeholder"></div>`;
+
+        const tagsHtml = tags.length
+          ? `<div class="link-tags">${tags.map((t) => `<span class="link-tag">${escapeHtml(t)}</span>`).join("")}</div>`
+          : "";
+
+        a.innerHTML = `
+      ${faviconHtml}
+      <div class="link-body">
+        <p class="link-title">${highlight(rawTitle, query)}</p>
+        <div class="link-meta">
+          <span class="link-domain">${escapeHtml(domain)}</span>
+          ${noteText ? `<span class="link-note">— ${noteText}</span>` : ""}
+        </div>
+        ${tagsHtml}
+      </div>
+      <svg class="link-arrow" viewBox="0 0 24 24" stroke-width="2">
+        <path d="M7 17 17 7M7 7h10v10"/>
+      </svg>
+    `;
+        return a;
+      }
+
+      function buildFolder(collection, items, query) {
+        const q = query.toLowerCase();
+        const filtered = q
+          ? items.filter(
+              (item) =>
+                (item.title || "").toLowerCase().includes(q) ||
+                (item.note || "").toLowerCase().includes(q) ||
+                (item.tags || []).some((t) => t.toLowerCase().includes(q)) ||
+                getDomain(item.link).toLowerCase().includes(q),
+            )
+          : items;
+
+        const details = document.createElement("details");
+        details.className = "folder";
+        // 検索中は結果のあるフォルダだけ開く、通常は全部閉じた状態
+        if (query && filtered.length > 0) details.open = true;
+
+        const countLabel = query
+          ? `${filtered.length} / ${items.length}`
+          : String(items.length);
+
+        details.innerHTML = `
+      <summary>
+        <svg class="folder-chevron" viewBox="0 0 24 24" stroke-width="2.5">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+        <span class="folder-title">${escapeHtml(collection.title)}</span>
+        <span class="folder-count">${countLabel}</span>
+      </summary>
+    `;
+
+        const list = document.createElement("div");
+        list.className = "link-list";
+
+        if (!filtered.length) {
+          list.innerHTML = `<p class="no-results">該当するリンクがありません</p>`;
+        } else {
+          filtered.forEach((item, i) =>
+            list.appendChild(buildLinkItem(item, i, query)),
+          );
+        }
+
+        details.appendChild(list);
+        return details;
+      }
+
+      // ============================================================
+      //  Skeleton
+      // ============================================================
+      function showSkeleton(count = 3) {
+        document.getElementById("skeleton").innerHTML = Array.from(
+          { length: count },
+          () => `
+      <div class="skeleton-folder">
+        <div class="skeleton-header">
+          <div class="sk" style="width:15px;height:15px;border-radius:3px;flex-shrink:0;"></div>
+          <div class="sk" style="width:130px;height:13px;"></div>
+          <div class="sk" style="width:24px;height:13px;margin-left:auto;border-radius:100px;"></div>
+        </div>
+      </div>
+    `,
+        ).join("");
+      }
+
+      function hideSkeleton() {
+        const el = document.getElementById("skeleton");
+        el.innerHTML = "";
+        el.style.display = "none";
+      }
+
+      // ============================================================
+      //  Render
+      // ============================================================
+      let collectionData = []; // [{ collection, items }]
+
+      function renderFolders(query = "") {
+        document.querySelectorAll(".folder").forEach((f) => f.remove());
+        const list = document.getElementById("folder-list");
+        collectionData.forEach(({ collection, items }) => {
+          list.appendChild(buildFolder(collection, items, query));
+        });
+      }
+
+      // ============================================================
+      //  Init
+      // ============================================================
+      async function init() {
+        showSkeleton();
+
+        // Search (debounced)
+        let timer;
+        document
+          .getElementById("search-input")
+          .addEventListener("input", (e) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => renderFolders(e.target.value.trim()), 280);
+          });
+
+        try {
+          let collections = await fetchCollections();
+
+          // ホワイトリストフィルタ
+          if (CONFIG.ALLOWED_COLLECTIONS.length > 0) {
+            collections = collections.filter((c) =>
+              CONFIG.ALLOWED_COLLECTIONS.includes(c._id),
+            );
+          }
+
+          if (!collections.length) {
+            hideSkeleton();
+            document.getElementById("state-error").style.display = "";
+            document.getElementById("error-msg").textContent =
+              "表示するコレクションが見つかりません。ALLOWED_COLLECTIONS を確認してください。";
+            return;
+          }
+
+          // 各コレクションのブックマークを並列取得
+          const results = await Promise.all(
+            collections.map(async (col) => ({
+              collection: col,
+              items: await fetchRaindrops(col._id),
+            })),
+          );
+
+          collectionData = results;
+          hideSkeleton();
+          renderFolders();
+        } catch (err) {
+          hideSkeleton();
+          document.getElementById("state-error").style.display = "";
+          document.getElementById("error-msg").textContent =
+            `データの取得に失敗しました（${err.message}）`;
+          console.error(err);
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>
