@@ -5,7 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="../../images/hex-quiz.svg" />
     <title>16進法クイズ — Shoei451</title>
+
+    <!-- quiz-components base -->
+    <link rel="stylesheet" href="../../quiz-components/quiz-shell.css" />
+    <link
+      rel="stylesheet"
+      href="../../quiz-components/start/start-screen.css"
+    />
+    <link rel="stylesheet" href="../../quiz-components/progress/progress.css" />
+    <link
+      rel="stylesheet"
+      href="../../quiz-components/question/question-area.css"
+    />
+    <link rel="stylesheet" href="../../quiz-components/answer/answer.css" />
+    <link rel="stylesheet" href="../../quiz-components/feedback/feedback.css" />
+    <link rel="stylesheet" href="../../quiz-components/result/result.css" />
+
+    <!-- theme toggle -->
     <link rel="stylesheet" href="../../css/theme-toggle.css" />
+
+    <!-- hex-quiz固有スタイル -->
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -13,195 +32,90 @@
     <span class="logo-switches" id="theme-toggle-container"></span>
 
     <!-- Header -->
-    <header>
-      <h1>16進法クイズ</h1>
-      <p>
-        Hexadecimal Quiz — Master binary, decimal, and hexadecimal conversions
-      </p>
+    <header class="qz-header">
+      <div class="qz-header__inner">
+        <span class="qz-header__title">16進法クイズ</span>
+        <a
+          href="../../sub-index.html?slug=informatics"
+          class="qz-btn qz-btn--ghost qz-btn--sm"
+        >
+          ← Informatics
+        </a>
+      </div>
     </header>
 
-    <!-- Quiz Container -->
-    <div class="quiz-wrapper">
-      <!-- Back to Home Link -->
-      <div style="text-align: center; margin-bottom: 30px">
-        <a href="../../sub-index.html?slug=informatics" class="back-link"
-          >Back to informatics top</a
-        >
-      </div>
-
+    <!-- Main -->
+    <main class="qz-container">
       <!-- Start Screen -->
-      <div id="startScreen" class="screen">
-        <h2>出題分野を選択</h2>
-
-        <div class="category-selection">
-          <div class="category-group">
-            <h3>【基本編】</h3>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="conversion_dec_hex"
-                checked
-              />
-              <span>基数変換（10進⇔16進）</span>
-            </label>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="conversion_bin_hex"
-                checked
-              />
-              <span>基数変換（2進⇔16進）</span>
-            </label>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="calc_hex_hex"
-                checked
-              />
-              <span>16進数同士の四則演算</span>
-            </label>
-          </div>
-
-          <div class="category-group">
-            <h3>【応用編】</h3>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="calc_mixed_base"
-                checked
-              />
-              <span>複数基数混合計算</span>
-            </label>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="calc_negative"
-                checked
-              />
-              <span>負の数を含む計算</span>
-            </label>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="color_code"
-                checked
-              />
-              <span>カラーコード → RGB値</span>
-            </label>
-            <label class="checkbox-label">
-              <input
-                type="checkbox"
-                name="category"
-                value="ascii_binary"
-                checked
-              />
-              <span>ASCII文字コード（2進数変換）</span>
-            </label>
-          </div>
-        </div>
-
-        <div class="selection-controls">
-          <button onclick="selectAll()" class="ghost">すべて選択</button>
-          <button onclick="deselectAll()" class="ghost">すべて解除</button>
-        </div>
-
-        <div class="field">
-          <label for="countSelect">問題数:</label>
-          <select id="countSelect">
-            <option value="10">10問</option>
-            <option value="20">20問</option>
-            <option value="50">50問</option>
-            <option value="all">全問</option>
-          </select>
-        </div>
-
-        <button onclick="startQuiz()" class="primary">クイズを開始</button>
-        <div id="errorMessage" class="error-message"></div>
-      </div>
+      <div id="start-screen" class="qz-screen hidden"></div>
 
       <!-- Quiz Screen -->
-      <div id="quizScreen" class="screen hidden">
-        <div class="quiz-layout">
-          <!-- Left: Question Area -->
-          <div class="question-area">
-            <div class="top-bar">
-              <div id="progressInfo">問題 1 / 10</div>
-              <div id="score">正解数: 0</div>
-            </div>
+      <div id="quiz-screen" class="qz-screen hidden">
+        <div id="qz-progress-bar"></div>
+        <div id="qz-question-area"></div>
 
-            <div id="progressOuter">
-              <div id="progressBar"></div>
-            </div>
+        <!-- カラーコードプレビュー（カラーコード問題のみ表示） -->
+        <div id="hex-color-preview" class="hex-color-preview hidden"></div>
 
-            <div id="questionCard" class="question-card">
-              <div id="categoryBadge" class="category-badge"></div>
-              <div id="question" class="question-text"></div>
-              <div id="colorPreview" class="color-preview hidden"></div>
-            </div>
+        <div id="qz-choices"></div>
+        <div id="qz-text-input"></div>
+        <div id="qz-feedback" class="hidden"></div>
+        <div id="qz-nav-buttons"></div>
 
-            <div id="choices" class="choices"></div>
-
-            <div id="explanation" class="explanation hidden"></div>
-
-            <div class="navigation-buttons">
-              <button
-                onclick="showASCIITable()"
-                id="asciiTableBtn"
-                class="ghost hidden"
-              >
-                ASCII表を見る
-              </button>
-              <button onclick="previousQuestion()" id="prevBtn" class="ghost">
-                ← 前へ
-              </button>
-              <button onclick="nextQuestion()" id="nextBtn" class="primary">
-                次へ →
-              </button>
-            </div>
-          </div>
-
-          <!-- Right: Mark Sheet -->
-          <div class="mark-sheet">
-            <h3>解答状況</h3>
-            <div id="markSheetGrid" class="mark-sheet-grid"></div>
-            <div class="mark-sheet-controls">
-              <button onclick="showResult()" class="primary">結果を見る</button>
-              <button onclick="backToStart()" class="ghost">中断</button>
-            </div>
-          </div>
+        <!-- ASCII表ボタン（ASCII問題のみ表示） -->
+        <div id="hex-ascii-btn-wrap" class="hex-ascii-btn-wrap hidden">
+          <button
+            class="qz-btn qz-btn--ghost qz-btn--sm"
+            id="hex-ascii-btn"
+            type="button"
+          >
+            ASCII表を見る
+          </button>
         </div>
       </div>
 
       <!-- Result Screen -->
-      <div id="resultScreen" class="screen hidden">
-        <h2>クイズ終了！</h2>
-        <div id="resultSummary" class="result-summary"></div>
-        <div id="categoryBreakdown" class="category-breakdown"></div>
-        <button onclick="backToStart()" class="primary">最初に戻る</button>
-      </div>
-    </div>
+      <div id="result-screen" class="qz-screen hidden"></div>
+    </main>
 
     <!-- ASCII Table Modal -->
-    <div id="asciiModal" class="modal hidden">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>ASCII文字コード表</h3>
-          <button onclick="closeASCIITable()" class="close-btn">✕</button>
+    <div
+      id="hex-ascii-modal"
+      class="hex-modal hidden"
+      role="dialog"
+      aria-modal="true"
+      aria-label="ASCII文字コード表"
+    >
+      <div class="hex-modal__content">
+        <div class="hex-modal__header">
+          <span class="hex-modal__title">ASCII 文字コード表</span>
+          <button
+            class="qz-btn qz-btn--ghost qz-btn--sm"
+            id="hex-ascii-close"
+            type="button"
+            aria-label="閉じる"
+          >
+            ✕
+          </button>
         </div>
-        <div class="modal-body">
-          <div id="asciiTableContainer"></div>
+        <div class="hex-modal__body">
+          <div id="hex-ascii-table-container"></div>
         </div>
       </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- quiz-components JS -->
+    <script src="../../quiz-components/start/start-screen.js"></script>
+    <script src="../../quiz-components/progress/progress.js"></script>
+    <script src="../../quiz-components/question/question-area.js"></script>
+    <script src="../../quiz-components/answer/choice-buttons.js"></script>
+    <script src="../../quiz-components/feedback/feedback.js"></script>
+    <script src="../../quiz-components/result/result.js"></script>
+
+    <!-- Theme Toggle -->
     <script src="../../js/theme-toggle.js"></script>
+
+    <!-- Hex Quiz Logic -->
     <script src="logic.js"></script>
   </body>
 </html>
