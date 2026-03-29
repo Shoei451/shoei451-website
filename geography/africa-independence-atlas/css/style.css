@@ -531,6 +531,24 @@ nav {
     padding: 4px 8px;
   }
 }
+/* ── LANG TAGS ───────────────────────── */
+.lang-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding-top: 2px;
+}
+.lang-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--sub);
+  white-space: nowrap;
+}
 
 /* q-btn */
 .q-btn {

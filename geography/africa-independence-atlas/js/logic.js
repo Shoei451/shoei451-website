@@ -158,6 +158,12 @@ function renderPanel(iso) {
   const colLabel = COL_LABELS[d.colonial] || "—";
   const yearDisp = d.indYear ? `${d.indYear}年` : "植民地化されず";
 
+  // 言語リスト
+  const langsHtml =
+    d.langs && d.langs.length
+      ? d.langs.map((l) => `<span class="lang-tag">${l}</span>`).join("")
+      : `<span class="lang-tag">—</span>`;
+
   // 国旗：flagcdn画像、失敗時は絵文字にフォールバック
   const url = flagUrl(iso);
   const flagHtml = url
@@ -207,6 +213,10 @@ function renderPanel(iso) {
               ${colLabel}
             </span>
           </div>
+        </div>
+        <div class="info-card full">
+          <div class="ic-label">公用語</div>
+          <div class="ic-value lang-list">${langsHtml}</div>
         </div>
       </div>
       ${
