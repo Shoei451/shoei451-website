@@ -19,8 +19,8 @@ const sectionItems1 = [
 ];
 // ── PAGE_CONFIG（sub-index.html?slug=Informatics から参照） ──
 window.PAGE_CONFIG = {
-  title: "Informatics_1 — Shoei451",
-  h1: "💻 Informatics_1",
+  title: "Informatics-1 — Shoei451",
+  h1: "💻 Informatics-1",
   headerDesc: '"Informatics one" learning tools',
   sections: [
     {
