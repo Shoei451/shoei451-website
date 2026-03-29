@@ -53,7 +53,7 @@ const sectionItems2 = [
     title: "中国文化史クイズ",
     titleEN: "Chinese Culture History Quiz",
     description: "中国の文化史に関するクイズアプリ",
-    link: "china/culture_quiz/",
+    link: "china/culture-quiz/",
     target: "_blank",
   },
 ];

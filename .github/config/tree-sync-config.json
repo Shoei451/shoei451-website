@@ -8,5 +8,5 @@
   "dist", 
   "*.log", 
   "templates", 
-  "home-economics/care-symbols/icons"]
+  "/home-economics/care-symbols/icons"]
 }

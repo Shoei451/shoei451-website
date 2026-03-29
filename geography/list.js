@@ -27,7 +27,7 @@ const sectionItems1 = [
     title: "戦後アフリカ史地図",
     titleEN: "Africa Independence Atlas",
     description: "戦後のアフリカの独立と国境の変遷を示すインタラクティブな地図",
-    link: "africa_independence_atlas/",
+    link: "africa-independence-atlas/",
     target: "_blank",
   },
   {
@@ -35,7 +35,7 @@ const sectionItems1 = [
     title: "アフリカ独立クイズ",
     titleEN: "Africa Independence Quiz",
     description: "戦後のアフリカの独立と旧宗主国に関するクイズ",
-    link: "africa_independence_atlas/quiz.html",
+    link: "africa-independence-atlas/quiz.html",
     target: "_blank",
   },
 ];
