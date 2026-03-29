@@ -333,15 +333,17 @@ function showScreen(id) {
 
 function startQuiz(selectedRanges, count) {
   // 問題生成
-  const perCategory =
-    count === "all" ? 20 : Math.ceil(parseInt(count) / selectedRanges.length);
+  const total = count === "all" ? Infinity : parseInt(count);
+  const perCategory = isFinite(total)
+    ? Math.ceil(total / selectedRanges.length)
+    : 30; // "all" 時は各カテゴリ30問生成してそのまま使う
 
   let pool = [];
   for (const rangeId of selectedRanges) {
     pool.push(...generateQuestions(rangeId, perCategory));
   }
   pool = shuffle(pool);
-  if (count !== "all") pool = pool.slice(0, parseInt(count));
+  if (isFinite(total)) pool = pool.slice(0, total);
 
   quizQ = pool;
   currentIndex = 0;

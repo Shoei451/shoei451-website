@@ -8,7 +8,7 @@
 /* ===== アクセントカラー上書き ===== */
 :root {
   --qz-accent: #148b9d;
-  --qz-accent-dark: #0d6b7a;
+  --qz-accent-dark: #0b343a;
   --qz-accent-light: rgba(20, 139, 157, 0.1);
   --qz-accent-ring: rgba(20, 139, 157, 0.25);
 }
