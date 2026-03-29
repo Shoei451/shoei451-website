@@ -16,7 +16,7 @@ const sectionItems2 = [
     title: "世界史年代クイズ",
     titleEN: "World History Era Quiz",
     description: "世界史の年代と出来事を結び付けて覚えるクイズアプリ",
-    link: "world/",
+    link: "../sub-index.html?slug=history/world",
     target: "_blank",
   },
   {
@@ -29,6 +29,9 @@ const sectionItems2 = [
     link: "world/timeline.html",
     target: "_blank",
   },
+];
+
+const sectionItems3 = [
   {
     icon: "../images/chinese-history.svg", // Using image
     iconType: "image",
@@ -58,17 +61,6 @@ const sectionItems2 = [
   },
 ];
 
-const sectionItems3 = [
-  {
-    icon: "../images/worldhistoryquiz.png", // Using image
-    iconType: "image",
-    title: "世界史年代クイズ（移行版）",
-    titleEN: "World History Era Quiz",
-    description: "世界史の年代と出来事を結び付けて覚えるクイズアプリ",
-    link: "../sub-index.html?slug=history/world",
-  },
-];
-
 // ── PAGE_CONFIG（sub-index.html?slug=history から参照） ──
 window.PAGE_CONFIG = {
   title: "History tools — Shoei451",
@@ -77,12 +69,9 @@ window.PAGE_CONFIG = {
   sections: [
     { title: "歴史総合", desc: "歴史総合の学習ツールです。" },
     {
-      title: "世界史",
-      desc: "世界史探究・世界史応用・世界史発展の学習ツールです。",
+      title: "世界史年代クイズ",
+      desc: "世界史の年代と出来事を結び付けて覚えるクイズアプリです。",
     },
-    {
-      title: "世界史クイズ改良版(beta)",
-      desc: "世界史年代クイズを改良したバージョンです（現在移行中）",
-    },
+    { title: "中国史関連", desc: "中国史の年代や文化に関する学習ツールです。" },
   ],
 };
