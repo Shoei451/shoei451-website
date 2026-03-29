@@ -1,5 +1,6 @@
 templates/
 build.js
+learning-links/
 # Secrets and local env files
 .env
 .env.*
