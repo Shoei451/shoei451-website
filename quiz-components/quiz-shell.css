@@ -111,6 +111,23 @@ body {
   gap: 12px;
   flex-wrap: wrap;
 }
+.qz-header__title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.qz-header__subtitle {
+  font-size: 0.85rem;
+  color: var(--qz-text-sub);
+}
+
+.qz-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
 .qz-header__title {
   font-size: 1.2rem;
