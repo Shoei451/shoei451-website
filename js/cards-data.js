@@ -55,6 +55,6 @@ const cardsList = [
     title: "Links for Learning",
     titleJP: "学習リンク集",
     text: "おすすめの学習サイトのリンク集です",
-    link: "learning-links.html",
+    link: "learning-links/",
   },
 ];

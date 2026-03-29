@@ -206,7 +206,11 @@
                   />
                   <small>紀元前は負の数。不明なら空白。</small>
                 </div>
-                <div class="form-group" id="s2-yearend-wrap" style="display: none">
+                <div
+                  class="form-group"
+                  id="s2-yearend-wrap"
+                  style="display: none"
+                >
                   <label for="editYearEnd">終了年</label>
                   <input
                     type="number"
@@ -339,9 +343,7 @@
             >
               戻る
             </button>
-            <button type="button" class="btn-next" id="wizardNext">
-              次へ
-            </button>
+            <button type="button" class="btn-next" id="wizardNext">次へ</button>
             <button
               type="button"
               class="btn-save"
@@ -354,7 +356,7 @@
         </form>
       </div>
     </div>
-    <script src="../../../js/wh-utils.js"></script>
+    <script src="../../../quiz-components/wh-utils.js"></script>
     <script type="module" src="script.js"></script>
     <script type="module">
       import { db } from "../../../js/supabase_config.js";
