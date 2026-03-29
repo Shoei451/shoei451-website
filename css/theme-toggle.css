@@ -37,7 +37,10 @@
   box-shadow: 0 4px 12px
     var(
       --theme-toggle-shadow,
-      var(--shadow, var(--shadow-light, var(--qz-shadow-sm, rgba(0, 0, 0, 0.1))))
+      var(
+        --shadow,
+        var(--shadow-light, var(--qz-shadow-sm, rgba(0, 0, 0, 0.1)))
+      )
     );
 }
 

@@ -88,9 +88,7 @@ async function onStart(selectedCategories, count) {
 
   const total = parseInt(count, 10);
   if (filtered.length < total) {
-    alert(
-      `選択したカテゴリには${filtered.length}個のイベントしかありません`,
-    );
+    alert(`選択したカテゴリには${filtered.length}個のイベントしかありません`);
     return;
   }
 
