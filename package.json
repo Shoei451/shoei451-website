@@ -14,7 +14,6 @@
     "tree-node-cli": "^1.6.0"
   },
   "dependencies": {
-    "bootstrap": "^5.3.8",
     "bootstrap-icons": "^1.13.1",
     "glob": "^13.0.6",
     "rimraf": "^6.1.3"
