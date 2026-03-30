@@ -2,11 +2,6 @@
 // supabase_config.js は ESモジュールのため直接 import 不可。
 // CDN グローバルから直接生成して window._db に置き、
 // timeline-config.js から参照できるようにする。
-(function () {
-  const SUPABASE_URL = "https://gjuqsyaugrsshmjerhme.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU";
-  window._db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-})();
 
 // ── slug からコンフィグをロード ──────────────────────────────
 const slug = new URLSearchParams(location.search).get("slug");
