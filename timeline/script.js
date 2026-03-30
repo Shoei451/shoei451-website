@@ -15,7 +15,7 @@ if (!slug) {
     "slug パラメータが指定されていません（例: ?slug=history/china）";
 } else {
   const script = document.createElement("script");
-  script.src = slug + "/timeline-config.js";
+  script.src = "config/" + slug + ".js";
   script.onerror = () => {
     document.getElementById("state-msg").textContent =
       slug + "/timeline-config.js が見つかりません。";
