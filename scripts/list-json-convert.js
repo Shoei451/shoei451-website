@@ -45,8 +45,8 @@ function evalListJs(filePath) {
       "collectedVars",
       src.replace(
         /(?:const|let|var)\s+(sectionItems\w+)\s*=/g,
-        "collectedVars.$1 ="
-      )
+        "collectedVars.$1 =",
+      ),
     );
     fn(mockWindow, collectedVars);
   } catch (e) {
@@ -139,5 +139,5 @@ for (const filePath of listFiles) {
 }
 
 console.log(
-  `\nDone: ${successCount} converted, ${errorCount} failed.${DRY_RUN ? " (dry-run)" : ""}`
+  `\nDone: ${successCount} converted, ${errorCount} failed.${DRY_RUN ? " (dry-run)" : ""}`,
 );

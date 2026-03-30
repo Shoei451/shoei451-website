@@ -1,10 +1,8 @@
-// history/china/timeline-config.js
-// timeline.html?slug=history/china 用設定
 // window._db は timeline.html が CDN Supabase から生成して設定済み。
 
 window.TIMELINE_CONFIG = {
   title: "中国王朝史年表",
-  backLink: "../../sub-index.html?slug=history",
+  backLink: "../sub-index.html?slug=history",
   backLabel: "歴史ホーム",
   accentColor: "#d73c37",
   accentColorRgb: "215, 60, 55",
