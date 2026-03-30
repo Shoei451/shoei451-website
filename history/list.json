@@ -47,7 +47,7 @@
       "items": [
         {
           "title": "中国王朝史年表",
-          "link": "china/timeline.html",
+          "link": "../../timeline/?slug=china-history",
           "titleEN": "Chinese Dynasities Timeline",
           "description": "中国史のオンライン年表",
           "icon": "../images/chinese-history.svg",
