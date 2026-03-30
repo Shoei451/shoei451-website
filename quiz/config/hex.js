@@ -68,6 +68,42 @@ window.QUIZ_CONFIG = {
     }
   },
 
+  renderQuestionExtras(el, row) {
+    const parts = [];
+
+    if (row.colorCode) {
+      parts.push(`
+        <div
+          class="hex-color-preview"
+          title="${_esc(row.colorCode)}"
+          style="background-color:${_esc(row.colorCode)};"
+        ></div>
+      `);
+    }
+
+    if (row.showASCII) {
+      parts.push(`
+        <div class="hex-ascii-btn-wrap">
+          <button class="qz-btn qz-btn--ghost qz-btn--sm" id="hex-ascii-btn" type="button">
+            ASCII表を見る
+          </button>
+        </div>
+      `);
+    }
+
+    el.innerHTML = parts.join("");
+
+    if (row.showASCII) {
+      el.querySelector("#hex-ascii-btn")?.addEventListener("click", () => {
+        window.openQuizModal({
+          title: "ASCII 文字コード表",
+          html: _buildASCIITableHTML(),
+          className: "hex-ascii-modal",
+        });
+      });
+    }
+  },
+
   renderMistake: null,
   renderChoice: null,
 
@@ -290,6 +326,7 @@ function _genAscii() {
       correct: binary,
       options: _binChoices(binary),
       explanation: `'${char}' = ${code} = ${binary}`,
+      showASCII: true,
     };
   } else {
     const set = new Set([char]);
@@ -300,8 +337,73 @@ function _genAscii() {
       correct: char,
       options: _shuffle([...set]),
       explanation: `${binary} = ${code} = '${char}'`,
+      showASCII: true,
     };
   }
+}
+
+function _buildASCIITableHTML() {
+  const controlChars = [
+    "NUL",
+    "SOH",
+    "STX",
+    "ETX",
+    "EOT",
+    "ENQ",
+    "ACK",
+    "BEL",
+    "BS",
+    "HT",
+    "LF",
+    "VT",
+    "FF",
+    "CR",
+    "SO",
+    "SI",
+    "DLE",
+    "DC1",
+    "DC2",
+    "DC3",
+    "DC4",
+    "NAK",
+    "SYN",
+    "ETB",
+    "CAN",
+    "EM",
+    "SUB",
+    "ESC",
+    "FS",
+    "GS",
+    "RS",
+    "US",
+  ];
+
+  let html = '<table class="hex-ascii-table">';
+  html +=
+    '<tr><th class="hex-ascii-corner">下位4ビット →<br>上位4ビット ↓</th>';
+  for (let i = 0; i < 16; i++) {
+    html += `<th>${i.toString(16).toUpperCase()}</th>`;
+  }
+  html += "</tr>";
+
+  for (let row = 0; row < 8; row++) {
+    html += `<tr><th>${row}</th>`;
+    for (let col = 0; col < 16; col++) {
+      const code = row * 16 + col;
+      if (code < 32) {
+        html += `<td class="hex-ascii-ctrl">${controlChars[code]}</td>`;
+      } else if (code === 32) {
+        html += "<td>SP</td>";
+      } else if (code === 127) {
+        html += '<td class="hex-ascii-ctrl">DEL</td>';
+      } else {
+        html += `<td>${String.fromCharCode(code)}</td>`;
+      }
+    }
+    html += "</tr>";
+  }
+  html += "</table>";
+  return html;
 }
 
 function _esc(str) {

@@ -139,6 +139,7 @@ function _renderQuestion(i) {
   const row = _quizSet[i];
   const qData = _cfg.formatQuestion(row);
   showQuestion(qData);
+  _renderQuestionExtras(row, i);
 
   // 回答エリアをクリア
   document.getElementById("qz-choices").innerHTML = "";
@@ -233,6 +234,22 @@ function _renderTextInput(row, i) {
       });
     },
   });
+}
+
+function _renderQuestionExtras(row, i) {
+  const el = document.getElementById("qz-question-extras");
+  if (!el) return;
+
+  el.innerHTML = "";
+
+  if (_cfg.renderQuestionExtras) {
+    _cfg.renderQuestionExtras(el, row, {
+      index: i,
+      total: _quizSet.length,
+      allData: _allData,
+      quizSet: _quizSet,
+    });
+  }
 }
 
 // ── 次の問題 / 結果 ───────────────────────────────────────

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/quiz-components/answer/answer.css" />
     <link rel="stylesheet" href="/quiz-components/feedback/feedback.css" />
     <link rel="stylesheet" href="/quiz-components/result/result.css" />
+    <link rel="stylesheet" href="/quiz-components/modal/modal.css" />
     <style>
       /* quiz.html 固有の最小スタイル。コンポーネントスタイルは /quiz-components/ 以下に集約済み。*/
       .qz-state-msg {
@@ -21,6 +22,72 @@
         color: var(--qz-text-sub);
         font-size: 0.95rem;
         min-height: 80px;
+      }
+
+      .hex-color-preview {
+        width: 100%;
+        max-width: 320px;
+        height: 80px;
+        margin: var(--qz-space-xs) auto;
+        border: 1.5px solid var(--qz-border);
+        border-radius: var(--qz-radius-md);
+        transition: background-color 0.2s;
+      }
+
+      .hex-ascii-btn-wrap {
+        display: flex;
+        justify-content: flex-start;
+        margin-top: var(--qz-space-xs);
+      }
+
+      .hex-ascii-table {
+        border-collapse: collapse;
+        font-size: 0.82rem;
+        white-space: nowrap;
+      }
+
+      .hex-ascii-table th {
+        padding: 8px 10px;
+        text-align: center;
+        font-weight: 700;
+        color: #fff;
+        background: var(--qz-accent);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+      }
+
+      .hex-ascii-table td {
+        padding: 7px 10px;
+        text-align: center;
+        color: var(--qz-text);
+        background: var(--qz-surface);
+        border: 1px solid var(--qz-border);
+        transition: background 0.1s;
+      }
+
+      .hex-ascii-table tr:hover td {
+        background: var(--qz-accent-light);
+      }
+
+      .hex-ascii-corner {
+        font-size: 0.72rem;
+        line-height: 1.4;
+        background: var(--qz-accent-dark) !important;
+      }
+
+      .hex-ascii-ctrl {
+        font-size: 0.72rem;
+        color: var(--qz-text-sub);
+      }
+
+      @media (max-width: 600px) {
+        .hex-ascii-table {
+          font-size: 0.72rem;
+        }
+
+        .hex-ascii-table th,
+        .hex-ascii-table td {
+          padding: 5px 6px;
+        }
       }
     </style>
   </head>
@@ -48,6 +115,7 @@
       <div id="quiz-screen" class="qz-screen hidden">
         <div id="qz-progress-bar"></div>
         <div id="qz-question-area"></div>
+        <div id="qz-question-extras"></div>
         <div id="qz-choices"></div>
         <div id="qz-text-input"></div>
         <div id="qz-feedback" class="hidden"></div>
@@ -75,6 +143,7 @@
     <script src="/quiz-components/question/question-area.js"></script>
     <script src="/quiz-components/feedback/feedback.js"></script>
     <script src="/quiz-components/result/result.js"></script>
+    <script src="/quiz-components/modal/modal.js"></script>
     <script src="/js/theme-toggle.js"></script>
 
     <script>
