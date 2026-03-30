@@ -1,6 +1,6 @@
-const { formatJapaneseYear, fetchWhDates } = window.TIMELINE_CONFIG_HELPERS;
+import { formatJapaneseYear, fetchWhDates } from "./common.js";
 
-window.TIMELINE_CONFIG = {
+const timelineConfig = {
   title: "中国王朝史年表",
   backLink: "../sub-index.html?slug=history",
   backLabel: "歴史ホーム",
@@ -44,3 +44,5 @@ window.TIMELINE_CONFIG = {
     return row.field || "その他";
   },
 };
+
+export default timelineConfig;

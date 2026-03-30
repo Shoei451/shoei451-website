@@ -1,8 +1,8 @@
 // timeline/config/seikei.js
 
-const { fetchRows } = window.TIMELINE_CONFIG_HELPERS;
+import { fetchRows } from "./common.js";
 
-window.TIMELINE_CONFIG = {
+const timelineConfig = {
   title: "Politics & Economics Timeline",
   backLink: "../sub-index.html?slug=seikei",
   backLabel: "政経ホーム",
@@ -53,3 +53,5 @@ window.TIMELINE_CONFIG = {
     return row.category;
   },
 };
+
+export default timelineConfig;

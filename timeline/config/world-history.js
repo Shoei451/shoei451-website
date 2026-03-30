@@ -1,9 +1,9 @@
 // NOTE: world_history_quiz → wh_dates 移行完了後に有効になる。
 //       現状は wh_dates の世界史データが1件のみのため動作確認用。
 
-const { formatJapaneseYear, fetchWhDates } = window.TIMELINE_CONFIG_HELPERS;
+import { formatJapaneseYear, fetchWhDates } from "./common.js";
 
-window.TIMELINE_CONFIG = {
+const timelineConfig = {
   title: "世界史年表",
   backLink: "../sub-index.html?slug=history",
   backLabel: "歴史ホーム",
@@ -42,3 +42,5 @@ window.TIMELINE_CONFIG = {
     return row.field || "その他";
   },
 };
+
+export default timelineConfig;

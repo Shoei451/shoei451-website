@@ -1,27 +1,20 @@
 // ── Supabase クライアント（timeline.html 専用）────────────────
 // 共通設定はルートの /js/supabase_config.js から読み込む。
 
+import { db } from "/js/supabase_config.js";
+
+window._db = db;
+
 // _db がセットされてから slug ロードを開始する
 // （module は defer 相当なので DOMContentLoaded 後に実行される）
 const slug = new URLSearchParams(location.search).get("slug");
 if (slug) {
-  loadScript("config/common.js")
-    .then(() => loadScript("config/" + slug + ".js"))
-    .then(() => initTimeline(window.TIMELINE_CONFIG))
+  import(`./config/${slug}.js`)
+    .then((module) => initTimeline(module.default))
     .catch(() => {
       document.getElementById("state-msg").textContent =
         "config/" + slug + ".js が見つかりません。";
     });
-}
-
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const script = document.createElement("script");
-    script.src = src;
-    script.onload = resolve;
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
 }
 
 // ── メインロジック ─────────────────────────────────────────
