@@ -32,9 +32,9 @@
         },
         {
           "title": "世界史年代クイズ 年表版",
-          "link": "world/timeline.html",
+          "link": "world/",
           "titleEN": "World History Time table",
-          "description": "世界史年代クイズのデータが、インタラクティブな年表になりました",
+          "description": "世界史年代クイズのデータが、インタラクティブな年表になりました。",
           "icon": "../images/worldhistoryquiz.png",
           "iconType": "image",
           "target": "_blank"
