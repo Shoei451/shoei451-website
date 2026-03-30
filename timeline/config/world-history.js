@@ -1,6 +1,8 @@
 // NOTE: world_history_quiz → wh_dates 移行完了後に有効になる。
 //       現状は wh_dates の世界史データが1件のみのため動作確認用。
 
+const { formatJapaneseYear, fetchWhDates } = window.TIMELINE_CONFIG_HELPERS;
+
 window.TIMELINE_CONFIG = {
   title: "世界史年表",
   backLink: "../sub-index.html?slug=history",
@@ -18,25 +20,16 @@ window.TIMELINE_CONFIG = {
   ],
 
   async fetchData() {
-    // region が china を含まない全レコードを取得
-    // world_history_quiz 移行後は大量データが入る
-    const { data, error } = await window._db
-      .from("wh_dates")
-      .select(
-        "id, year, year_end, date_type, full_date, event, description, wiki_url, field, region",
-      )
-      .not("region", "cs", '{"china"}')
-      .order("year", { ascending: true, nullsFirst: false });
-    if (error) throw new Error(error.message);
-    return data;
+    return fetchWhDates(
+      // region が china を含まない全レコードを取得
+      // world_history_quiz 移行後は大量データが入る
+      "id, year, year_end, date_type, full_date, event, description, wiki_url, field, region",
+      (query) => query.not("region", "cs", '{"china"}'),
+    );
   },
 
   formatYear(row) {
-    if (row.date_type === "full" && row.full_date) return row.full_date;
-    const y = row.year;
-    if (y == null) return "不明";
-    const base = y < 0 ? `前${Math.abs(y)}年` : `${y}年`;
-    return row.date_type === "circa" ? base + "頃" : base;
+    return formatJapaneseYear(row);
   },
 
   getEvent(row) {

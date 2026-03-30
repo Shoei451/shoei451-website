@@ -18,7 +18,6 @@
 const SUPABASE_URL = "https://gjuqsyaugrsshmjerhme.supabase.co";
 const SUPABASE_KEY = "sb_publishable_K-TVhPlOAGY7cLhanI9Tag_kKIDoIGU";
 
-
 // ── テーブル名定数 ───────────────────────────────────────────
 export const tables = {
   WH_QUIZ: "world_history_quiz",
@@ -33,4 +32,6 @@ export const tables = {
 // ── クライアント生成 ─────────────────────────────────────────
 export const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-window._db = db; // timeline・quiz から参照できるようにする
+// 非 module の設定スクリプトからも参照できるようにする
+window.SUPABASE_TABLES = tables;
+window._db = db;

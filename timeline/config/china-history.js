@@ -1,4 +1,4 @@
-// window._db は timeline.html が CDN Supabase から生成して設定済み。
+const { formatJapaneseYear, fetchWhDates } = window.TIMELINE_CONFIG_HELPERS;
 
 window.TIMELINE_CONFIG = {
   title: "中国王朝史年表",
@@ -21,23 +21,14 @@ window.TIMELINE_CONFIG = {
   ],
 
   async fetchData() {
-    const { data, error } = await window._db
-      .from("wh_dates")
-      .select(
-        "id, year, year_end, date_type, full_date, event, description, wiki_url, field",
-      )
-      .contains("region", ["china"])
-      .order("year", { ascending: true, nullsFirst: false });
-    if (error) throw new Error(error.message);
-    return data;
+    return fetchWhDates(
+      "id, year, year_end, date_type, full_date, event, description, wiki_url, field",
+      (query) => query.contains("region", ["china"]),
+    );
   },
 
   formatYear(row) {
-    if (row.date_type === "full" && row.full_date) return row.full_date;
-    const y = row.year;
-    if (y == null) return "不明";
-    const base = y < 0 ? `前${Math.abs(y)}年` : `${y}年`;
-    return row.date_type === "circa" ? base + "頃" : base;
+    return formatJapaneseYear(row);
   },
 
   getEvent(row) {

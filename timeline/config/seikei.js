@@ -1,5 +1,7 @@
 // timeline/config/seikei.js
 
+const { fetchRows } = window.TIMELINE_CONFIG_HELPERS;
+
 window.TIMELINE_CONFIG = {
   title: "Politics & Economics Timeline",
   backLink: "../sub-index.html?slug=seikei",
@@ -25,14 +27,10 @@ window.TIMELINE_CONFIG = {
   ],
 
   async fetchData() {
-    const { data, error } = await window._db
-      .from("seikei_events")
-      .select(
-        "id, year, year_end, date_type, full_date, title, description, category",
-      )
-      .order("year", { ascending: true, nullsFirst: false });
-    if (error) throw new Error(error.message);
-    return data;
+    return fetchRows(
+      window.SUPABASE_TABLES.SEIKEI,
+      "id, year, year_end, date_type, full_date, title, description, category",
+    );
   },
 
   formatYear(row) {
