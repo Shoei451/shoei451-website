@@ -3,6 +3,9 @@
 // CDN グローバルから直接生成して window._db に置き、
 // timeline-config.js から参照できるようにする。
 
+import { db } from "../js/supabase_config.js";
+window._db = db; // timeline-config.js から参照できるようにする
+
 // ── slug からコンフィグをロード ──────────────────────────────
 const slug = new URLSearchParams(location.search).get("slug");
 if (!slug) {
