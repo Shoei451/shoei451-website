@@ -8,6 +8,7 @@ window.QUIZ_CONFIG = {
   backLabel: "歴史ホーム",
   accentColor: "#dfbc5e",
   answerType: "text",
+  image: "/images/chinese-history.svg",
 
   rangeMode: "multi",
   rangeLabel: "出題カテゴリ",

@@ -8,6 +8,7 @@ window.QUIZ_CONFIG = {
   backLabel: "Informatics",
   accentColor: "#148b9d",
   answerType: "choice",
+  image: "/images/hex-quiz.svg",
 
   rangeMode: "multi",
   rangeLabel: "出題分野",

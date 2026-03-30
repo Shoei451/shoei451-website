@@ -7,6 +7,7 @@ window.QUIZ_CONFIG = {
   backLink: "/sub-index.html?slug=history/world",
   backLabel: "World History",
   answerType: "text",
+  image: "/images/worldhistoryquiz.png",
 
   rangeMode: "single",
   rangeLabel: "章",
