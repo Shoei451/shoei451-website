@@ -152,21 +152,25 @@ function _renderQuestion(i) {
 }
 
 function _renderChoices(row, i) {
-  // distractor生成
   const correctLabel = _cfg.formatCorrectLabel(row);
 
-  let distractors;
-  if (_cfg.buildDistractors) {
-    distractors = _cfg.buildDistractors(row, _allData);
+  // row.options が定義されている場合はそれをそのまま使う（hex-quiz 等）
+  let options;
+  if (row.options) {
+    options = row.options;
   } else {
-    distractors = _shuffle(
-      _allData.filter((r) => _cfg.formatCorrectLabel(r) !== correctLabel),
-    ).slice(0, 3);
+    let distractors;
+    if (_cfg.buildDistractors) {
+      distractors = _cfg.buildDistractors(row, _allData);
+    } else {
+      distractors = _shuffle(
+        _allData.filter((r) => _cfg.formatCorrectLabel(r) !== correctLabel),
+      ).slice(0, 3);
+    }
+    options = _shuffle([row, ...distractors]).map((r) =>
+      _cfg.formatCorrectLabel(r),
+    );
   }
-
-  const options = _shuffle([row, ...distractors]).map((r) =>
-    _cfg.formatCorrectLabel(r),
-  );
 
   showChoices({
     options,
