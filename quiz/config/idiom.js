@@ -117,7 +117,7 @@ window.QUIZ_CONFIG = {
 
   extraRenderer(el, row, isCorrect) {
     el.innerHTML = _buildFeedbackCard(row, isCorrect);
-    _bindReportForm(el, row);
+    _bindReportButton(el, row);
   },
 
   renderMistake(item) {
@@ -171,68 +171,118 @@ async function _updateStats(id, isCorrect) {
 // ── フィードバックカード ───────────────────────────────────
 
 function _buildFeedbackCard(row, isCorrect) {
+  const headerClass = isCorrect ? "is-correct" : "is-incorrect";
+  const headerText = isCorrect ? "✓ Correct!" : "✗ Incorrect";
   const tipsHtml = row.tips
-    ? `<div class="idiom-field"><div class="idiom-field__label">Tips</div><div class="idiom-field__value">${_esc(row.tips)}</div></div>`
+    ? `
+      <div class="idiom-field">
+        <div class="idiom-field__label">💡 Tips</div>
+        <div class="idiom-field__value">${_esc(row.tips)}</div>
+      </div>
+    `
     : "";
 
   return `
     <div class="idiom-feedback-card">
+      <div class="idiom-feedback-card__header ${headerClass}">${headerText}</div>
       <div class="idiom-feedback-card__body">
         <div class="idiom-field">
-          <div class="idiom-field__label">Idiom</div>
-          <div class="idiom-field__value idiom-field__value--idiom">${_esc(row.idiom)}</div>
+          <div class="idiom-field__label">ID</div>
+          <div class="idiom-field__value">#${_esc(String(row.id))}</div>
         </div>
         <div class="idiom-field">
-          <div class="idiom-field__label">意味</div>
+          <div class="idiom-field__label">Idiom</div>
+          <div class="idiom-field__value is-idiom">${_esc(row.idiom)}</div>
+        </div>
+        <div class="idiom-field">
+          <div class="idiom-field__label">意味 (Meaning)</div>
           <div class="idiom-field__value">${_esc(row.definition_jp)}</div>
         </div>
         <div class="idiom-field">
-          <div class="idiom-field__label">Example</div>
-          <div class="idiom-field__value idiom-field__value--example">${_esc(row.example)}</div>
+          <div class="idiom-field__label">Example Sentence</div>
+          <div class="idiom-field__value is-example">${_esc(row.example)}</div>
         </div>
         ${tipsHtml}
-        <div class="idiom-report" id="idiom-report-${row.id}">
-          <button class="idiom-report__btn" type="button" onclick="document.getElementById('idiom-report-form-${row.id}').classList.toggle('hidden')">
+        <div class="report-section">
+          <div class="report-section__title">⚠️ データに誤りがありますか？</div>
+          <button class="report-btn idiom-report-open" type="button" data-id="${row.id}">
             データの誤りを報告
           </button>
-          <div class="idiom-report__form hidden" id="idiom-report-form-${row.id}">
-            <select id="idiom-report-reason-${row.id}">
-              <option value="">-- 理由を選択 --</option>
-              <option value="空欄とイディオムが合っていない">空欄とイディオムが合っていない</option>
-              <option value="誤った例文">誤った例文</option>
-              <option value="誤った日本語訳">誤った日本語訳</option>
-              <option value="スペルミス">スペルミス</option>
-              <option value="その他">その他</option>
-            </select>
-            <div class="idiom-report__actions">
-              <button type="button" class="idiom-report__submit" data-id="${row.id}">送信</button>
-            </div>
-            <p class="idiom-report__msg" id="idiom-report-msg-${row.id}"></p>
-          </div>
         </div>
       </div>
     </div>
   `;
 }
 
-function _bindReportForm(el, row) {
-  const submitBtn = el.querySelector(
-    `.idiom-report__submit[data-id="${row.id}"]`,
-  );
-  if (!submitBtn) return;
+function _bindReportButton(el, row) {
+  const btn = el.querySelector(`.idiom-report-open[data-id="${row.id}"]`);
+  if (!btn) return;
 
-  submitBtn.addEventListener("click", async () => {
-    const reasonEl = document.getElementById(`idiom-report-reason-${row.id}`);
-    const msgEl = document.getElementById(`idiom-report-msg-${row.id}`);
+  btn.addEventListener("click", () => {
+    window.openQuizModal({
+      title: "データの誤りを報告",
+      html: _buildReportModalHTML(row),
+      className: "idiom-report-modal",
+    });
+    _bindReportModal(row);
+  });
+}
+
+function _buildReportModalHTML(row) {
+  return `
+    <div class="report-form" id="idiom-report-form-${row.id}">
+      <div class="idiom-field">
+        <div class="idiom-field__label">Question</div>
+        <div class="idiom-field__value">${_esc(row.fill_in_the_blanks)}</div>
+      </div>
+      <div class="idiom-field">
+        <div class="idiom-field__label">Idiom</div>
+        <div class="idiom-field__value is-idiom">${_esc(row.idiom)}</div>
+      </div>
+      <select id="idiom-report-reason-${row.id}">
+        <option value="">-- 理由を選択してください --</option>
+        <option value="空欄とイディオムが合っていない">空欄とイディオムが合っていない</option>
+        <option value="誤った例文">誤った例文</option>
+        <option value="誤った日本語訳">誤った日本語訳</option>
+        <option value="誤ったイディオム">誤ったイディオム</option>
+        <option value="誤った意味">誤った意味</option>
+        <option value="スペルミス">スペルミス</option>
+        <option value="その他">その他</option>
+      </select>
+      <div class="report-form-actions">
+        <button class="report-submit-btn" id="idiom-report-submit-${row.id}" type="button">送信</button>
+        <button class="report-cancel-btn" id="idiom-report-cancel-${row.id}" type="button">キャンセル</button>
+      </div>
+      <div class="report-message" id="idiom-report-msg-${row.id}"></div>
+    </div>
+  `;
+}
+
+function _bindReportModal(row) {
+  const submitBtn = document.getElementById(`idiom-report-submit-${row.id}`);
+  const cancelBtn = document.getElementById(`idiom-report-cancel-${row.id}`);
+  const reasonEl = document.getElementById(`idiom-report-reason-${row.id}`);
+  const msgEl = document.getElementById(`idiom-report-msg-${row.id}`);
+
+  cancelBtn?.addEventListener("click", () => window.closeQuizModal());
+
+  submitBtn?.addEventListener("click", async () => {
     const reason = reasonEl?.value;
 
     if (!reason) {
-      if (msgEl) msgEl.textContent = "理由を選択してください";
+      if (msgEl) {
+        msgEl.textContent = "理由を選択してください";
+        msgEl.className = "report-message is-error";
+      }
       return;
     }
 
     submitBtn.disabled = true;
-    if (msgEl) msgEl.textContent = "送信中...";
+    if (cancelBtn) cancelBtn.disabled = true;
+    if (msgEl) {
+      msgEl.textContent = "送信中...";
+      msgEl.className = "report-message";
+    }
 
     try {
       const { error } = await window._db
@@ -241,10 +291,19 @@ function _bindReportForm(el, row) {
         .eq("id", row.id);
 
       if (error) throw error;
-      if (msgEl) msgEl.textContent = "報告ありがとうございました。";
+
+      if (msgEl) {
+        msgEl.textContent = "報告ありがとうございました！";
+        msgEl.className = "report-message is-success";
+      }
+      if (reasonEl) reasonEl.disabled = true;
     } catch (_) {
-      if (msgEl) msgEl.textContent = "送信に失敗しました。";
+      if (msgEl) {
+        msgEl.textContent = "送信に失敗しました。もう一度お試しください。";
+        msgEl.className = "report-message is-error";
+      }
       submitBtn.disabled = false;
+      if (cancelBtn) cancelBtn.disabled = false;
     }
   });
 }

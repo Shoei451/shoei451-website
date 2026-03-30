@@ -3,8 +3,6 @@
    ============================================================ */
 
 .qz-feedback {
-  border-radius: var(--qz-radius-md);
-  padding: var(--qz-space-sm) var(--qz-space-md);
   margin: var(--qz-space-sm) 0;
   animation: qzFeedbackIn 0.2s ease both;
 }
@@ -24,13 +22,18 @@
   }
 }
 
-.qz-feedback--correct {
+.qz-feedback__panel {
+  border-radius: var(--qz-radius-md);
+  padding: var(--qz-space-sm) var(--qz-space-md);
+}
+
+.qz-feedback--correct .qz-feedback__panel {
   background: var(--qz-correct-bg);
   border: 1.5px solid var(--qz-correct);
   color: var(--qz-correct);
 }
 
-.qz-feedback--incorrect {
+.qz-feedback--incorrect .qz-feedback__panel {
   background: var(--qz-incorrect-bg);
   border: 1.5px solid var(--qz-incorrect);
   color: var(--qz-incorrect);

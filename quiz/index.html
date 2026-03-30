@@ -40,6 +40,168 @@
         margin-top: var(--qz-space-xs);
       }
 
+      .idiom-feedback-card {
+        background: var(--qz-surface-2);
+        border-radius: var(--qz-radius-md);
+        overflow: hidden;
+        box-shadow: var(--qz-shadow-sm);
+        margin-top: 10px;
+      }
+
+      .idiom-feedback-card__header {
+        padding: 14px 18px;
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .idiom-feedback-card__header.is-correct {
+        background: linear-gradient(135deg, var(--qz-correct), #22c55e);
+      }
+
+      .idiom-feedback-card__header.is-incorrect {
+        background: linear-gradient(135deg, var(--qz-incorrect), #ef4444);
+      }
+
+      .idiom-feedback-card__body {
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .idiom-field {
+        background: var(--qz-surface);
+        border-left: 3px solid var(--qz-accent);
+        border-radius: 0 var(--qz-radius-sm) var(--qz-radius-sm) 0;
+        padding: 10px 14px;
+      }
+
+      .idiom-field__label {
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--qz-accent);
+        margin-bottom: 4px;
+      }
+
+      body.dark .idiom-field__label {
+        color: var(--qz-accent);
+      }
+
+      .idiom-field__value {
+        font-size: 0.95rem;
+        color: var(--qz-text);
+        line-height: 1.6;
+      }
+
+      .idiom-field__value.is-idiom {
+        font-size: 1.15rem;
+        font-weight: 700;
+      }
+
+      .idiom-field__value.is-example {
+        font-style: italic;
+        font-weight: 600;
+        background: rgba(250, 186, 64, 0.08);
+        padding: 6px 10px;
+        border-radius: var(--qz-radius-sm);
+        margin-top: 4px;
+      }
+
+      .report-section {
+        margin-top: 14px;
+        padding: 12px 14px;
+        background: var(--qz-surface);
+        border: 1.5px solid #f97316;
+        border-radius: var(--qz-radius-sm);
+      }
+
+      .report-section__title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #f97316;
+        margin-bottom: 10px;
+      }
+
+      .report-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 6px 14px;
+        background: #f97316;
+        color: #fff;
+        border: none;
+        border-radius: var(--qz-radius-sm);
+        font-family: inherit;
+        font-size: 0.82rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.15s;
+      }
+
+      .report-btn:hover {
+        opacity: 0.85;
+      }
+
+      .report-form {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .report-form select {
+        padding: 8px 10px;
+        border: 1.5px solid var(--qz-border);
+        border-radius: var(--qz-radius-sm);
+        background: var(--qz-surface-2);
+        color: var(--qz-text);
+        font-family: inherit;
+        font-size: 0.85rem;
+      }
+
+      .report-form-actions {
+        display: flex;
+        gap: 8px;
+      }
+
+      .report-form-actions button {
+        padding: 6px 14px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        border: none;
+        border-radius: var(--qz-radius-sm);
+        cursor: pointer;
+        font-family: inherit;
+      }
+
+      .report-submit-btn {
+        background: #f97316;
+        color: #fff;
+      }
+
+      .report-cancel-btn {
+        background: var(--qz-surface-2);
+        color: var(--qz-text-sub);
+        border: 1px solid var(--qz-border);
+      }
+
+      .report-message {
+        font-size: 0.82rem;
+        font-weight: 600;
+        text-align: center;
+        min-height: 1.2em;
+      }
+
+      .report-message.is-success {
+        color: var(--qz-correct);
+      }
+
+      .report-message.is-error {
+        color: var(--qz-incorrect);
+      }
+
       .hex-ascii-table {
         border-collapse: collapse;
         font-size: 0.82rem;

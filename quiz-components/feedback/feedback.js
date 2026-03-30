@@ -58,12 +58,14 @@
 
     el.className = `qz-feedback qz-feedback--${modifier}`;
     el.innerHTML = `
-      <div class="qz-feedback__main">
-        <span class="qz-feedback__icon">${icon}</span>
-        <span class="qz-feedback__headline">${headline}</span>
+      <div class="qz-feedback__panel">
+        <div class="qz-feedback__main">
+          <span class="qz-feedback__icon">${icon}</span>
+          <span class="qz-feedback__headline">${headline}</span>
+        </div>
+        ${correctLine}
+        ${userLine}
       </div>
-      ${correctLine}
-      ${userLine}
       <div class="qz-feedback__extra" id="qz-feedback-extra"></div>
     `;
     el.classList.remove("hidden");
