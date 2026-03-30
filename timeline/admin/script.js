@@ -3,7 +3,7 @@
 // Supabase Project 1: gjuqsyaugrsshmjerhme
 // ============================================================
 
-import { db, tables } from "../../../js/supabase_config.js";
+import { db, tables } from "../../js/supabase_config.js";
 
 // ============================================================
 // State
