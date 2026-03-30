@@ -117,7 +117,7 @@ window.QUIZ_CONFIG = {
 
   extraRenderer(el, row, isCorrect) {
     el.innerHTML = _buildFeedbackCard(row, isCorrect);
-    _bindReportButton(el, row);
+    _bindReportForm(el, row);
   },
 
   renderMistake(item) {
@@ -203,68 +203,46 @@ function _buildFeedbackCard(row, isCorrect) {
           <div class="idiom-field__value is-example">${_esc(row.example)}</div>
         </div>
         ${tipsHtml}
-        <div class="report-section">
+        <div class="report-section" id="report-${row.id}">
           <div class="report-section__title">⚠️ データに誤りがありますか？</div>
-          <button class="report-btn idiom-report-open" type="button" data-id="${row.id}">
+          <button class="report-btn" type="button" data-action="toggle-report" data-id="${row.id}">
             データの誤りを報告
           </button>
+          <div class="report-form hidden" id="report-form-${row.id}">
+            <select id="report-reason-${row.id}">
+              <option value="">-- 理由を選択してください --</option>
+              <option value="空欄とイディオムが合っていない">空欄とイディオムが合っていない</option>
+              <option value="誤った例文">誤った例文</option>
+              <option value="誤った日本語訳">誤った日本語訳</option>
+              <option value="誤ったイディオム">誤ったイディオム</option>
+              <option value="誤った意味">誤った意味</option>
+              <option value="スペルミス">スペルミス</option>
+              <option value="その他">その他</option>
+            </select>
+            <div class="report-form-actions">
+              <button class="report-submit-btn" type="button" data-action="submit-report" data-id="${row.id}">送信</button>
+              <button class="report-cancel-btn" type="button" data-action="toggle-report" data-id="${row.id}">キャンセル</button>
+            </div>
+            <div class="report-message" id="report-msg-${row.id}"></div>
+          </div>
         </div>
       </div>
     </div>
   `;
 }
 
-function _bindReportButton(el, row) {
-  const btn = el.querySelector(`.idiom-report-open[data-id="${row.id}"]`);
-  if (!btn) return;
+function _bindReportForm(el, row) {
+  const form = el.querySelector(`#report-form-${row.id}`);
+  const reasonEl = el.querySelector(`#report-reason-${row.id}`);
+  const msgEl = el.querySelector(`#report-msg-${row.id}`);
+  const submitBtn = el.querySelector(`[data-action="submit-report"][data-id="${row.id}"]`);
+  const toggleButtons = el.querySelectorAll(`[data-action="toggle-report"][data-id="${row.id}"]`);
 
-  btn.addEventListener("click", () => {
-    window.openQuizModal({
-      title: "データの誤りを報告",
-      html: _buildReportModalHTML(row),
-      className: "idiom-report-modal",
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      form?.classList.toggle("hidden");
     });
-    _bindReportModal(row);
   });
-}
-
-function _buildReportModalHTML(row) {
-  return `
-    <div class="report-form" id="idiom-report-form-${row.id}">
-      <div class="idiom-field">
-        <div class="idiom-field__label">Question</div>
-        <div class="idiom-field__value">${_esc(row.fill_in_the_blanks)}</div>
-      </div>
-      <div class="idiom-field">
-        <div class="idiom-field__label">Idiom</div>
-        <div class="idiom-field__value is-idiom">${_esc(row.idiom)}</div>
-      </div>
-      <select id="idiom-report-reason-${row.id}">
-        <option value="">-- 理由を選択してください --</option>
-        <option value="空欄とイディオムが合っていない">空欄とイディオムが合っていない</option>
-        <option value="誤った例文">誤った例文</option>
-        <option value="誤った日本語訳">誤った日本語訳</option>
-        <option value="誤ったイディオム">誤ったイディオム</option>
-        <option value="誤った意味">誤った意味</option>
-        <option value="スペルミス">スペルミス</option>
-        <option value="その他">その他</option>
-      </select>
-      <div class="report-form-actions">
-        <button class="report-submit-btn" id="idiom-report-submit-${row.id}" type="button">送信</button>
-        <button class="report-cancel-btn" id="idiom-report-cancel-${row.id}" type="button">キャンセル</button>
-      </div>
-      <div class="report-message" id="idiom-report-msg-${row.id}"></div>
-    </div>
-  `;
-}
-
-function _bindReportModal(row) {
-  const submitBtn = document.getElementById(`idiom-report-submit-${row.id}`);
-  const cancelBtn = document.getElementById(`idiom-report-cancel-${row.id}`);
-  const reasonEl = document.getElementById(`idiom-report-reason-${row.id}`);
-  const msgEl = document.getElementById(`idiom-report-msg-${row.id}`);
-
-  cancelBtn?.addEventListener("click", () => window.closeQuizModal());
 
   submitBtn?.addEventListener("click", async () => {
     const reason = reasonEl?.value;
@@ -278,7 +256,6 @@ function _bindReportModal(row) {
     }
 
     submitBtn.disabled = true;
-    if (cancelBtn) cancelBtn.disabled = true;
     if (msgEl) {
       msgEl.textContent = "送信中...";
       msgEl.className = "report-message";
@@ -297,13 +274,13 @@ function _bindReportModal(row) {
         msgEl.className = "report-message is-success";
       }
       if (reasonEl) reasonEl.disabled = true;
+      toggleButtons.forEach((btn) => (btn.disabled = true));
     } catch (_) {
       if (msgEl) {
         msgEl.textContent = "送信に失敗しました。もう一度お試しください。";
         msgEl.className = "report-message is-error";
       }
       submitBtn.disabled = false;
-      if (cancelBtn) cancelBtn.disabled = false;
     }
   });
 }
