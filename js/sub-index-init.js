@@ -2,12 +2,12 @@
 //
 // ルートの sub-index.html から呼ばれる共通エンジン。
 // URL の ?slug=history のように slug を受け取り、
-//   1. {slug}/list.js を動的ロード（PAGE_CONFIG + カードデータを取得）
+//   1. {slug}/list.json を取得
 //   2. DOM を構築
 //   3. カードの link / icon パスをルート基準に補正
 //   4. カードを生成
 //
-// list.js 側は従来通りフォルダ内相対パスで書いてよい。
+// list.json 側は従来通りフォルダ内相対パスで書いてよい。
 
 (function () {
   // ── slug を URL から取得 ──────────────────────────────────
@@ -18,22 +18,25 @@
     return;
   }
 
-  // ── list.js をロード → PAGE_CONFIG を取得 ────────────────
-  const listScript = document.createElement("script");
-  listScript.src = slug + "/list.js";
-  listScript.onerror = () => {
-    document.body.textContent = slug + "/list.js が見つかりません。";
-  };
-  listScript.onload = () => {
-    const cfg = window.PAGE_CONFIG;
-    if (!cfg) {
-      document.body.textContent =
-        slug + "/list.js に PAGE_CONFIG が定義されていません。";
-      return;
-    }
-    buildPage(cfg, slug);
-  };
-  document.head.appendChild(listScript);
+  // ── list.json を取得 ───────────────────────────────────
+  fetch(slug + "/list.json")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("not_found");
+      }
+      return response.json();
+    })
+    .then((cfg) => {
+      if (!cfg || !Array.isArray(cfg.sections)) {
+        document.body.textContent =
+          slug + "/list.json の形式が正しくありません。";
+        return;
+      }
+      buildPage(cfg, slug);
+    })
+    .catch(() => {
+      document.body.textContent = slug + "/list.json が見つかりません。";
+    });
 
   // ── パス補正ユーティリティ ───────────────────────────────
   function isAbsolute(s) {
@@ -77,7 +80,7 @@
       .replace(/\s+/g, " ")
       .trim();
     document.title = cfg.title || plainH1 + " — Shoei451";
-    // list.jsの内容を読み取り、ページに注入
+    // list.jsonの内容を読み取り、ページに注入
     const sectionsHTML = (cfg.sections || [])
       .map(
         (s, i) => `
@@ -123,18 +126,9 @@
     let i = 0;
     function loadNext() {
       if (i >= scripts.length) {
-        // 変更後
         (cfg.sections || []).forEach((s, i) => {
-          const itemsVar = s.itemsVar ?? `sectionItems${i + 1}`;
           const id = s.id ?? `container${i + 1}`;
-          let items;
-          try {
-            items = Function(
-              `return (typeof ${itemsVar} !== "undefined") ? ${itemsVar} : undefined`,
-            )();
-          } catch (_) {
-            items = undefined;
-          }
+          const items = s.items;
           if (Array.isArray(items)) {
             generateCards(fixItems(items, slug), id);
           }

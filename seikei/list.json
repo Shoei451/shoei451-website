@@ -1,0 +1,60 @@
+{
+  "title": "政治・経済ツール集 — Shoei451",
+  "h1": "🏛️ Politics & Economics Tools",
+  "headerDesc": "政治・経済に関する学習ツール集",
+  "sections": [
+    {
+      "title": "日本国憲法",
+      "desc": "日本国憲法に関する学習ツール",
+      "id": "container1",
+      "items": [
+        {
+          "title": "日本国憲法クイズ",
+          "link": "japan-constitution-quiz.html",
+          "titleEN": "Japan Constituion Quiz",
+          "description": "日本国憲法の条文番号と内容を対応させて覚えるクイズアプリ",
+          "icon": "📜",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "title": "戦後経済史年表",
+      "desc": "印刷対応のオンライン年表",
+      "id": "container2",
+      "items": [
+        {
+          "title": "政治・経済 学習用年表",
+          "link": "timeline/",
+          "titleEN": "Political and Economic Timeline for Learning",
+          "description": "戦後経済史の年表です",
+          "icon": "💰",
+          "target": "_blank"
+        },
+        {
+          "title": "政治・経済 学習用年表 クイズ版",
+          "link": "timeline/quiz.html",
+          "titleEN": "Political and Economic Timeline for Learning - Quiz Version",
+          "description": "戦後経済史についてのクイズです",
+          "icon": "💰",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "title": "3学期期末試験対策用 一問一答",
+      "desc": "3学期期末試験の対策用クイズです",
+      "id": "container3",
+      "items": [
+        {
+          "title": "3学期期末試験対策用 一問一答",
+          "link": "https://451-learning-box.netlify.app/flashcard.html?slug=seikei-3-exam",
+          "titleEN": "Politics and Economics Flashcards for 3rd Final Exam",
+          "description": "3学期期末試験対策用 政治経済の一問一答",
+          "icon": "🗒️",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}
