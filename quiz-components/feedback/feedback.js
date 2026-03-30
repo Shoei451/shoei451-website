@@ -35,6 +35,7 @@
       console.error(`showFeedback: #${mountId} が見つかりません`);
       return;
     }
+    const extraEl = _ensureExtraMount(el);
 
     const modifier = data.isCorrect ? "correct" : "incorrect";
     const icon = data.isCorrect ? "✓" : "✗";
@@ -58,25 +59,28 @@
 
     el.className = `qz-feedback qz-feedback--${modifier}`;
     el.innerHTML = `
-      <div class="qz-feedback__panel">
-        <div class="qz-feedback__main">
-          <span class="qz-feedback__icon">${icon}</span>
-          <span class="qz-feedback__headline">${headline}</span>
-        </div>
-        ${correctLine}
-        ${userLine}
+      <div class="qz-feedback__main">
+        <span class="qz-feedback__icon">${icon}</span>
+        <span class="qz-feedback__headline">${headline}</span>
       </div>
-      <div class="qz-feedback__extra" id="qz-feedback-extra"></div>
+      ${correctLine}
+      ${userLine}
     `;
     el.classList.remove("hidden");
+    extraEl.className = "qz-feedback__extra";
+    extraEl.innerHTML = "";
 
     // extraRenderer があれば DOM 操作で追記
     if (data.extraRenderer) {
-      const extraEl = el.querySelector("#qz-feedback-extra");
-      if (extraEl) data.extraRenderer(extraEl);
+      data.extraRenderer(extraEl);
     } else if (data.extraHtml) {
-      const extraEl = el.querySelector("#qz-feedback-extra");
-      if (extraEl) extraEl.innerHTML = data.extraHtml;
+      extraEl.innerHTML = data.extraHtml;
+    }
+
+    if (!extraEl.innerHTML.trim()) {
+      extraEl.classList.add("hidden");
+    } else {
+      extraEl.classList.remove("hidden");
     }
 
     // スムーズスクロール（フィードバックが画面外のとき）
@@ -90,7 +94,24 @@
   window.hideFeedback = function (mountId = DEFAULT_ID) {
     const el = document.getElementById(mountId);
     if (el) el.classList.add("hidden");
+    const extraEl = document.getElementById(`${mountId}-extra`);
+    if (extraEl) {
+      extraEl.classList.add("hidden");
+      extraEl.innerHTML = "";
+    }
   };
+
+  function _ensureExtraMount(el) {
+    const extraId = `${el.id}-extra`;
+    let extraEl = document.getElementById(extraId);
+    if (extraEl) return extraEl;
+
+    extraEl = document.createElement("div");
+    extraEl.id = extraId;
+    extraEl.className = "qz-feedback__extra hidden";
+    el.insertAdjacentElement("afterend", extraEl);
+    return extraEl;
+  }
 
   function _esc(str) {
     return String(str ?? "")
