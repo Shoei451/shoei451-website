@@ -2,29 +2,21 @@
 // quiz-components/answer/choice-buttons.js
 //
 // 4択ボタンの描画・正誤判定・コールバック注入エンジン。
-// 正解発表後の追加表示など、クイズ固有の処理はコールバックで外から渡す。
-//
-// 使い方:
-//   1. HTML に <div id="qz-choices"></div> を置く
-//   2. showChoices(choiceConfig) を呼ぶたびに選択肢が再描画される
 //
 // @typedef {Object} ChoiceConfig
-// @property {string[]}  options        - 選択肢テキストの配列（2〜6個）
-// @property {string}    correct        - 正解テキスト（options の中の1つ）
-// @property {string}    [mountId]      - マウント先 id（デフォルト: "qz-choices"）
-// @property {Function}  [onAnswer]     - 回答後コールバック
-//                                        ({ selected, correct, isCorrect, buttons }) => void
-//                                        ページ固有の追加表示はここで行う
+// @property {string[]|Object[]} options  - 選択肢の配列
+//                                          プレーン文字列 or { value: string, ... } のオブジェクト
+// @property {string}    correct          - 正解の value 文字列
+// @property {string}    [mountId]        - マウント先 id（デフォルト: "qz-choices"）
+// @property {Function}  [renderChoice]   - (opt, index) => string
+//                                          HTML文字列を返す。未定義時はプレーンテキスト表示。
+// @property {Function}  [onAnswer]       - ({ selected, correct, isCorrect, buttons }) => void
 //
 // ============================================================
 
 (function () {
   const DEFAULT_ID = "qz-choices";
 
-  /**
-   * 選択肢ボタンを描画する。
-   * @param {ChoiceConfig} config
-   */
   window.showChoices = function (config) {
     const mountId = config.mountId ?? DEFAULT_ID;
     const el = document.getElementById(mountId);
@@ -34,14 +26,21 @@
     }
 
     el.innerHTML = config.options
-      .map(
-        (opt, i) => `
-      <button class="qz-choice" data-index="${i}" type="button">
-        <span class="qz-choice__letter">${_letter(i)}</span>
-        <span class="qz-choice__text">${_esc(opt)}</span>
-      </button>
-    `,
-      )
+      .map((opt, i) => {
+        // opt がオブジェクトの場合は opt.value、文字列の場合はそのまま value として使う
+        const value = typeof opt === "object" ? opt.value : opt;
+
+        const inner = config.renderChoice
+          ? config.renderChoice(opt, i)
+          : `<span class="qz-choice__text">${_esc(value)}</span>`;
+
+        return `
+          <button class="qz-choice" data-index="${i}" data-value="${_esc(value)}" type="button">
+            <span class="qz-choice__letter">${_letter(i)}</span>
+            ${inner}
+          </button>
+        `;
+      })
       .join("");
 
     el.querySelectorAll(".qz-choice").forEach((btn) => {
@@ -52,30 +51,25 @@
   // ── 回答処理 ──────────────────────────────────────────────
 
   function _handleAnswer(clicked, config, container) {
-    // 全ボタンを即座に無効化
     const buttons = container.querySelectorAll(".qz-choice");
     buttons.forEach((b) => {
       b.disabled = true;
       b.classList.add("is-locked");
     });
 
-    const selected = clicked.querySelector(".qz-choice__text").textContent;
+    const selected = clicked.dataset.value;
     const isCorrect = selected === config.correct;
 
-    // 正解・不正解の色付け
     buttons.forEach((b) => {
-      const text = b.querySelector(".qz-choice__text").textContent;
-      if (text === config.correct) {
+      if (b.dataset.value === config.correct) {
         b.classList.add("is-correct");
       } else if (b === clicked && !isCorrect) {
         b.classList.add("is-incorrect");
       }
     });
 
-    // 「次へ」ボタンを有効化
     window.enableNextButton?.();
 
-    // ページ固有のコールバック（追加表示など）
     if (config.onAnswer) {
       config.onAnswer({
         selected,
