@@ -60,7 +60,15 @@
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="/js/supabase_config.js"></script>
+    <script>
+      window.__supabaseConfigReady = import("/js/supabase_config.js").then(
+        ({ db, tables }) => {
+          window.db = db;
+          window._db = db;
+          window.SUPABASE_TABLES = tables;
+        },
+      );
+    </script>
     <script src="/quiz-components/wh-utils.js"></script>
     <script src="/quiz-components/start/start-screen.js"></script>
     <script src="/quiz-components/progress/progress.js"></script>
@@ -83,6 +91,8 @@
       }
 
       async function boot() {
+        await window.__supabaseConfigReady;
+
         const slug = new URLSearchParams(location.search).get("slug");
         if (!slug) {
           document.getElementById("state-msg").textContent =
