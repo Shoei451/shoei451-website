@@ -5,33 +5,64 @@
     <title>U.S. State Location Quiz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <!-- 共通CSS -->
-    <link rel="stylesheet" href="../css/common.css" />
+    <!-- フラッシュ防止 -->
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
 
-    <!-- クイズ専用CSS（最小限） -->
+    <link rel="stylesheet" href="../css/base.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
     <style>
-      main.quiz-container {
-        max-width: 1000px;
-        margin: 60px auto;
-        padding: 0 20px;
-        text-align: center;
+      html.dark body {
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
       }
 
-      main.quiz-container h1 {
-        margin-bottom: 10px;
-        color: var(--primary);
+      .quiz-header {
+        padding: 2rem 0 1.5rem;
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 1.5rem;
+      }
+
+      .quiz-header h1 {
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin-bottom: 0.25rem;
+      }
+
+      .quiz-header p {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        margin: 0;
       }
 
       #question {
-        font-size: clamp(1.1rem, 3vw, 1.6rem);
-        margin-top: 10px;
-        color: var(--secondary);
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
+        font-weight: 700;
+        margin-top: 0.5rem;
+        color: var(--color-text-primary);
       }
 
       #score {
-        margin-top: 6px;
+        margin-top: 0.4rem;
         font-weight: 600;
-        color: var(--primary);
+        color: var(--color-text-secondary);
       }
 
       /* SVG map */
@@ -39,16 +70,21 @@
         width: 100%;
         max-width: 900px;
         aspect-ratio: 959 / 593;
-        margin: 20px auto;
+        margin: 1.25rem auto;
         display: block;
       }
 
       #map path {
         fill: #f4e2b8;
-        stroke: var(--theme);
+        stroke: var(--color-accent);
         stroke-width: 0.8;
         cursor: pointer;
         transition: fill 0.25s;
+      }
+
+      body.dark #map path {
+        fill: #2a3a1e;
+        stroke: var(--color-accent);
       }
 
       #map path.correct {
@@ -68,28 +104,37 @@
   </head>
 
   <body>
-    <!-- Theme Toggle -->
-    <span class="logo-switches" id="theme-toggle-container"></span>
-    <!-- 必要なら共通ヘッダーをここに置ける -->
-    <!-- <header>...</header> -->
-    <!-- Header -->
-    <header>
-      <h1>U.S. State Location Quiz</h1>
-      <p>アメリカの州をクリックして位置を当てよう</p>
-    </header>
+    <div id="nav-container"></div>
 
-    <main class="quiz-container">
-      <a href="../sub-index.html?slug=geography" class="back-link"
-        >Back to Geography Top</a
+    <main class="container py-4">
+      <a
+        href="../sub-index.html?slug=geography"
+        class="back-link mb-3 d-inline-flex"
       >
+        <i class="bi bi-chevron-left me-1"></i> Geography
+      </a>
+
+      <div class="quiz-header">
+        <h1>U.S. State Location Quiz</h1>
+        <p>アメリカの州をクリックして位置を当てよう</p>
+      </div>
 
       <div id="question">Loading…</div>
       <div id="score">Score: 0</div>
       <svg id="map"></svg>
     </main>
 
-    <!-- クイズロジック -->
+    <footer id="site-footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/nav.js"></script>
+    <script src="../js/theme-toggle.js"></script>
+
     <script>
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
+
       const states = [
         { name: "Alabama", abbr: "AL" },
         { name: "Alaska", abbr: "AK" },
@@ -190,7 +235,6 @@
           .translate([width / 2, height / 2]);
 
         const path = d3.geoPath().projection(projection);
-
         const features = topojson.feature(
           topoData,
           topoData.objects.states,
@@ -288,6 +332,5 @@
       };
       document.body.appendChild(d3Script);
     </script>
-    <script src="../js/theme-toggle.js"></script>
   </body>
 </html>

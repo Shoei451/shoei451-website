@@ -5,60 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Links for Learning — Shoei451</title>
     <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
-    <link rel="stylesheet" href="../css/common.css" />
+
+    <!-- フラッシュ防止 -->
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="../css/base.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
+
+    <style>
+      html.dark body {
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
+      }
+    </style>
   </head>
 
   <body>
-    <span class="logo-switches" id="theme-toggle-container"></span>
+    <div id="nav-container"></div>
 
-    <header>
-      <h1>Links for Learning</h1>
-      <p>Raindrop.io に保存したリンク一覧</p>
-    </header>
+    <main class="container py-4">
+      <div class="page-header">
+        <a href="../index.html" class="back-link mb-2">
+          <i class="bi bi-chevron-left"></i> ホーム
+        </a>
+        <h1 class="page-header__title">Links for Learning</h1>
+        <p class="page-header__desc">
+          Raindrop.io
+          に保存したリンク一覧です。学習に役立つ外部サイトをまとめています。
+        </p>
+      </div>
 
-    <main class="intro">
-      <a href="../index.html" class="back-link">Back to Home</a>
-      <h2>Bookmark Collection</h2>
-      <p>
-        学習に役立つ外部ウェブサイトのリンク集です。<br />
-        Raindrop.io で管理・更新しています。
-      </p>
+      <section class="links-wrapper">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.35-4.35" />
+          </svg>
+          <input
+            type="search"
+            id="search-input"
+            placeholder="コレクション内を検索…"
+            aria-label="ブックマーク検索"
+          />
+        </div>
+
+        <div id="folder-list">
+          <div id="skeleton"></div>
+          <div id="state-error" class="state-box" style="display: none">
+            <span class="state-icon">⚠️</span>
+            <span id="error-msg">データの取得に失敗しました</span>
+          </div>
+        </div>
+      </section>
     </main>
 
-    <section class="links-wrapper">
-      <div class="search-wrap">
-        <svg viewBox="0 0 24 24" stroke-width="2">
-          <circle cx="11" cy="11" r="8" />
-          <path d="m21 21-4.35-4.35" />
-        </svg>
-        <input
-          type="search"
-          id="search-input"
-          placeholder="コレクション内を検索…"
-          aria-label="ブックマーク検索"
-        />
-      </div>
+    <footer id="site-footer"></footer>
 
-      <div id="folder-list">
-        <div id="skeleton"></div>
-        <div id="state-error" class="state-box" style="display: none">
-          <span class="state-icon">⚠️</span>
-          <span id="error-msg">データの取得に失敗しました</span>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <p>Curated by Shoei451</p>
-    </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/nav.js"></script>
     <script src="../js/theme-toggle.js"></script>
+
+    <script>
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
+    </script>
+
     <script src="config.js"></script>
     <script src="script.js"></script>
   </body>
