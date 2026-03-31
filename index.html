@@ -45,7 +45,7 @@
         border: 1px solid var(--color-border);
         border-radius: 8px;
         padding: 1.25rem 1.5rem;
-        margin-bottom: 2rem;
+        margin: 2rem 2.5rem 2.5rem 2.5rem;
       }
 
       .countdown-toggle {
@@ -194,31 +194,6 @@
         </p>
       </div>
 
-      <!-- カウントダウン -->
-      <div class="countdown-section" id="countdown-section">
-        <div
-          class="countdown-toggle"
-          data-bs-toggle="collapse"
-          data-bs-target="#countdownBody"
-          aria-expanded="true"
-          aria-controls="countdownBody"
-        >
-          <span class="countdown-toggle__title">
-            <i class="bi bi-calendar3 me-1"></i> 入試カウントダウン
-          </span>
-          <i
-            class="bi bi-chevron-up"
-            id="countdown-chevron"
-            style="font-size: 0.85rem; color: var(--color-text-secondary)"
-          ></i>
-        </div>
-        <div class="collapse show" id="countdownBody">
-          <div class="countdown-grid" id="countdown-grid">
-            <!-- js/countdown-widget.js が inject -->
-          </div>
-        </div>
-      </div>
-
       <!-- 歴史 -->
       <div class="section-header">
         <h2 class="section-header__title">歴史</h2>
@@ -261,6 +236,31 @@
         id="cards-others"
       ></div>
     </div>
+    <!-- カウントダウン -->
+    <div class="countdown-section" id="countdown-section">
+      <div
+        class="countdown-toggle"
+        data-bs-toggle="collapse"
+        data-bs-target="#countdownBody"
+        aria-expanded="true"
+        aria-controls="countdownBody"
+      >
+        <span class="countdown-toggle__title">
+          <i class="bi bi-calendar3 me-1"></i> 入試カウントダウン
+        </span>
+        <i
+          class="bi bi-chevron-up"
+          id="countdown-chevron"
+          style="font-size: 0.85rem; color: var(--color-text-secondary)"
+        ></i>
+      </div>
+      <div class="collapse show" id="countdownBody">
+        <div class="countdown-grid" id="countdown-grid">
+          <!-- js/countdown-widget.js が inject -->
+        </div>
+      </div>
+    </div>
+
     <!-- /container -->
 
     <!-- フッター -->
@@ -388,16 +388,6 @@
     ></script>
     <script>
       tryRenderAll();
-    </script>
-
-    <!-- アクセスログ -->
-    <script>
-      navigator.sendBeacon(
-        "/api/sw?path=" +
-          encodeURIComponent(location.pathname + location.search) +
-          "&ref=" +
-          encodeURIComponent(document.referrer),
-      );
     </script>
   </body>
 </html>
