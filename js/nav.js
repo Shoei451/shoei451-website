@@ -39,7 +39,10 @@
               <a class="nav-link" href="/sub-index.html?slug=geography">地理</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/sub-index.html?slug=others">その他</a>
+              <a class="nav-link" href="/sub-index.html?slug=seikei">政治・経済</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/sub-index.html?slug=miscellaneous">その他</a>
             </li>
           </ul>
 

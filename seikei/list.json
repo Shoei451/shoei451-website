@@ -5,8 +5,7 @@
   "sections": [
     {
       "title": "日本国憲法",
-      "desc": "日本国憲法に関する学習ツール",
-      "id": "container1",
+      "desc": "Quiz app for learning the articles of the Constitution of Japan",
       "items": [
         {
           "title": "日本国憲法クイズ",
@@ -19,22 +18,21 @@
       ]
     },
     {
-      "title": "戦後経済史年表",
-      "desc": "印刷対応のオンライン年表",
-      "id": "container2",
+      "title": "戦後経済史",
+      "desc": "Learning tools for postwar economic history of Japan",
       "items": [
         {
           "title": "政治・経済 学習用年表",
-          "link": "../timeline/?slug=seikei",
+          "link": "/timeline/?slug=seikei",
           "titleEN": "Political and Economic Timeline for Learning",
           "description": "戦後経済史の年表です",
           "icon": "bi-bank",
           "target": "_blank"
         },
         {
-          "title": "政治・経済 学習用年表 クイズ版",
-          "link": "timeline/quiz.html",
-          "titleEN": "Political and Economic Timeline for Learning - Quiz Version",
+          "title": "戦後経済史 年代クイズ",
+          "link": "/quiz/?slug=seikei",
+          "titleEN": "Political and Economic Timeline - Quiz Version",
           "description": "戦後経済史についてのクイズです",
           "icon": "bi-coin",
           "target": "_blank"

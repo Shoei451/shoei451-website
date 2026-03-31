@@ -1,0 +1,81 @@
+{
+  "title": "Miscellaneous — Shoei451",
+  "h1": "🗂️ Miscellaneous",
+  "headerDesc": "Miscellaneous: A collection of various educational tools and resources for students, covering a wide range of subjects and topics.",
+  "sections": [
+    {
+      "title": "理科基礎",
+      "desc": "生物基礎・地学基礎の知識を確認",
+      "items": [
+        {
+          "title": "生物基礎語句確認用 Forms",
+          "link": "biology-quiz-forms/",
+          "titleEN": "Biology Quiz Forms",
+          "description": "2024年度生物基礎の語句確認用フォーム",
+          "icon": "/images/biology.png",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "地質年代クイズ",
+          "link": "geology-quiz/",
+          "titleEN": "Geological Eras & Life",
+          "description": "生物の進化と地質年代の変遷を、インタラクティブな年表とクイズで学ぶ",
+          "icon": "bi-leaf",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "title": "論理・表現",
+      "desc": "論理・表現（英語）の学習ツールです。",
+      "items": [
+        {
+          "title": "Vintage イディオムクイズ",
+          "link": "/quiz?slug=idiom",
+          "titleEN": "English Idiom Quiz",
+          "description": "Vintage 冬季課題範囲の暗記用クイズです。",
+          "icon": "bi-chat-dots",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "title": "情報I + programming",
+      "desc": "情報Ⅰ 共通テスト対策 + プログラミング学習",
+      "items": [
+        {
+          "title": "16進数クイズ",
+          "link": "/quiz?slug=hex",
+          "titleEN": "Hexadecimal Quiz",
+          "description": "16進数/2進数についての計算クイズです",
+          "icon": "/images/hex-quiz.svg",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "Sudoku JS note",
+          "link": "sudoku-programming-guide/",
+          "titleEN": "Sudoku JS note",
+          "description": "数独ソルバーのロジックから、Javascriptを学ぶ",
+          "icon": "bi-puzzle",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "title": "家庭基礎",
+      "desc": "Tool(s) for the final exam of the third term. For more tools, visit <a href=\"https://451-learning-box.netlify.app\" target=\"_blank\">Learning Box</a> section.",
+      "items": [
+        {
+          "title": "衣類の取り扱い表示クイズ",
+          "link": "care-symbols/",
+          "titleEN": "Care Symbols Quiz",
+          "description": "衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。",
+          "icon": "bi-shirt",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}
