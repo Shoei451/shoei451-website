@@ -1,4 +1,4 @@
-archives/old-scripts/
+archives/
 # Secrets and local env files
 .env
 .env.*

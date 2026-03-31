@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/quiz/components/result/result.css" />
     <link rel="stylesheet" href="/quiz/components/modal/modal.css" />
     <style>
-      /* quiz.html 固有の最小スタイル。コンポーネントスタイルは /quiz-components/ 以下に集約済み。*/
+      /* quiz.html 固有の最小スタイル。コンポーネントスタイルは /quiz/components/ 以下に集約済み。*/
       .qz-state-msg {
         text-align: center;
         padding: var(--qz-space-lg) var(--qz-space-sm);
@@ -363,8 +363,8 @@
         // Load answer component based on answerType
         const answerScript =
           cfg.answerType === "text"
-            ? BASE + "quiz-components/answer/text-input.js"
-            : BASE + "quiz-components/answer/choice-buttons.js";
+            ? BASE + "quiz/components/answer/text-input.js"
+            : BASE + "quiz/components/answer/choice-buttons.js";
         await loadScript(answerScript);
 
         // Load quiz logic and start

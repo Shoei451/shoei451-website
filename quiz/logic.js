@@ -4,7 +4,7 @@
 // 全クイズ共通エンジン。QUIZ_CONFIG の内容を知らない。
 // config が渡す関数を呼ぶだけ。
 //
-// 依存: quiz-components/* (index.html 側でロード済み)
+// 依存: quiz/components/* (index.html 側でロード済み)
 //       /js/supabase_config.js → window.db, window.SUPABASE_TABLES
 // ============================================================
 

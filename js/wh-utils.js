@@ -3,16 +3,12 @@
 // wh_dates ベースのページで共有するユーティリティ関数
 //
 // 対象ページ:
-//   history/worldhistory/index.html
-//   history/worldhistory/timeline.html
-//   history/worldhistory/admin/script.js
-//   history/china/index.html
-//   history/china/timeline.html
-//   seikei/timeline/index.html      ← escapeHtml のみ
-//   seikei/timeline/print.html      ← escapeHtml のみ
+//   /history/index.html
+//   /timeline/admin/script.js
+
 //
 // 読み込み順:
-//   <script src="../../js/wh-utils.js"></script>
+//   <script src="/js/wh-utils.js"></script>
 //   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 //   <script type="module" src="logic.js"></script>
 //
