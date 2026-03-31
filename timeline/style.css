@@ -12,9 +12,11 @@
   --color-border: #e8e8e5;
   --color-text-primary: #1a1a1a;
   --color-text-secondary: #555555;
-  --color-accent: #1a2b3c;
-  --color-accent-light: rgba(26, 43, 60, 0.08);
-  --color-accent-rgb: 26, 43, 60;
+  /* timeline 固有のアクセントカラー。base.css の --color-accent とは独立。
+     script.js が config の accentColor でこの変数を上書きする。        */
+  --timeline-accent: #1a2b3c;
+  --timeline-accent-light: rgba(26, 43, 60, 0.08);
+  --timeline-accent-rgb: 26, 43, 60;
   --font-sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
   --font-display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
   --space-xs: 0.5rem;
@@ -33,7 +35,9 @@ body.dark {
   --color-text-primary: #f1f5f9;
   --color-text-secondary: #94a3b8;
   --color-border: #334155;
-  --color-accent-light: rgba(var(--color-accent-rgb), 0.15);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --timeline-accent-light: rgba(var(--timeline-accent-rgb), 0.15);
 }
 
 body {
@@ -51,7 +55,7 @@ body {
 /* ===== Header ===== */
 .site-header {
   background: var(--color-surface);
-  border-bottom: 2px solid var(--color-accent);
+  border-bottom: 2px solid var(--timeline-accent);
   padding: 0 var(--space-md);
   height: 56px;
   display: flex;
@@ -84,15 +88,15 @@ body {
 }
 
 .back-link:hover {
-  color: var(--color-accent);
-  background: var(--color-accent-light);
+  color: var(--timeline-accent);
+  background: var(--timeline-accent-light);
 }
 
 .header-title {
   font-family: var(--font-display);
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--timeline-accent);
 }
 
 .header-right {
@@ -129,8 +133,8 @@ body {
 
 .search-input:focus {
   outline: none;
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-light);
+  border-color: var(--timeline-accent);
+  box-shadow: 0 0 0 3px var(--timeline-accent-light);
 }
 
 .search-input::placeholder {
@@ -150,7 +154,7 @@ body {
 }
 
 .stat-item strong {
-  color: var(--color-accent);
+  color: var(--timeline-accent);
   font-weight: 700;
 }
 
@@ -192,8 +196,8 @@ body {
 }
 
 .tab-btn.is-active {
-  color: var(--color-accent);
-  border-bottom-color: var(--color-accent);
+  color: var(--timeline-accent);
+  border-bottom-color: var(--timeline-accent);
   font-weight: 700;
 }
 
@@ -215,7 +219,7 @@ body {
 }
 
 .timeline-table thead {
-  background: var(--color-accent);
+  background: var(--timeline-accent);
   color: #fff;
 }
 
@@ -242,12 +246,12 @@ body {
 }
 
 .timeline-table tbody tr:hover {
-  background: var(--color-accent-light);
+  background: var(--timeline-accent-light);
 }
 
 .cell-year {
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--timeline-accent);
   white-space: nowrap;
   font-size: 0.95rem;
 }
@@ -262,7 +266,7 @@ body {
 }
 
 .wiki-link {
-  color: var(--color-accent);
+  color: var(--timeline-accent);
   text-decoration: none;
   font-size: 0.85rem;
   opacity: 0.8;
