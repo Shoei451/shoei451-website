@@ -113,11 +113,5 @@
       // 通常パス：パスが前方一致
       if (path.startsWith(href)) link.classList.add("active");
     });
-
-    // トップページ
-    if (path === "/" || path === "/index.html") {
-      const brand = document.querySelector("#site-nav .navbar-brand");
-      if (brand) brand.style.color = "var(--color-accent-text)";
-    }
   }
 })();
