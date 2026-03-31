@@ -1,12 +1,12 @@
 # DODGE — Survive
 
-A browser-based action survival game built with vanilla HTML/CSS/JS and the Web Audio API. No frameworks, no build tools, no external dependencies.
+A browser-based action survival game built with vanilla HTML/CSS/JS, Canvas, and the Web Audio API. The current version is split into ES modules with no frameworks or build tools.
 
 ---
 
 ## Play
 
-Open `dodge-game.html` directly in a browser. No server required.
+Open `index.html` directly in a browser. No server required.
 
 ---
 
@@ -95,19 +95,28 @@ Killing enemies within 2.5 seconds chains a combo multiplier (×2, ×3…). Kill
 
 ## File Structure
 
-```
-dodge-game-v10.html   ← single self-contained file
+```text
+index.html
+style.css
+js/
+  logic.js
+  modules/
+    audio.js
+    canvas.js
+    constants.js
+    input.js
 README.md
-PROGRESS.md
+progress.md
 ```
 
 ---
 
 ## Technical Notes
 
-- Canvas-based rendering, `requestAnimationFrame` loop
-- Web Audio API for all sound effects (synthesized, no audio files)
-- Touch input: drag-anywhere virtual joystick (invisible, no UI buttons)
-- `localStorage` for high score persistence
-- Screen shake via canvas `translate` with exponential decay
-- No frameworks, no build step — open and play
+- Main loop and gameplay state live in `js/logic.js`
+- Shared constants, input, canvas setup, and audio are split across `js/modules/`
+- Canvas-based rendering with a `requestAnimationFrame` loop
+- Web Audio API synthesizes all sound effects at runtime
+- Touch input uses a drag-anywhere virtual joystick (no visible D-pad)
+- `localStorage` stores the high score
+- Screen shake is implemented via canvas `translate` with exponential decay

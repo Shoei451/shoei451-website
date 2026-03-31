@@ -189,10 +189,24 @@
 
 ---
 
+## v11 — ファイル整理とモジュール分割
+
+**1ファイル構成から、保守しやすい複数ファイル構成へ整理**
+
+- エントリーポイントを `index.html` に整理
+- スタイルを `style.css` に分離
+- メインロジックを `js/logic.js` に移動
+- `js/modules/constants.js` にゲーム定数と武器定義を分離
+- `js/modules/input.js` にキーボード / タッチ入力処理を分離
+- `js/modules/canvas.js` にCanvas初期化を分離
+- `js/modules/audio.js` にWeb Audio APIの効果音処理を分離
+- リポジトリ内ドキュメントを `README.md` / `progress.md` に整理
+
+---
+
 ## 既知の課題 / 今後の候補
 
 - [ ] ローカルランキング（上位5件）
-- [ ] モジュール分割（ES Modules）
 - [ ] ボス専用BGM
 - [ ] チュートリアル / ドロップ説明
 - [ ] ゲームオーバー画面に生存時間を表示

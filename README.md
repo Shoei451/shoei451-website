@@ -7,60 +7,59 @@ Production: [shoei451.netlify.app](https://shoei451.netlify.app)
 
 ## Overview
 
-`shoei451-website` is a static HTML/CSS/JS repository with a mix of fully static pages and Supabase-backed study tools.
+`shoei451-website` is a static HTML/CSS/JS repository for study tools, category landing pages, and site-wide utility pages.
 
 - Frontend: Vanilla HTML/CSS/JS
 - Hosting: Netlify
-- Data-backed pages: Supabase Project 1 (`js/supabase_config.js`)
-- Build utility: `build.js` injects access-log beacons into HTML before deploy
-- Note: 現在はbuild.jsを廃止し、Netlifyでの[Snippet injection](https://docs.netlify.com/build/post-processing/snippet-injection/)機能を利用
-
-The old `docs/` viewer and sync flow were removed on 2026-03-26. Project notes now live outside the repo under `../md-contents/shoei451-website`(private). You can view docs on [my another website](https://451-docs.netlify.app/?site=shoei451-website)
+- Shared category routing: `sub-index.html?slug=...` + `js/sub-index-init.js`
+- Shared runtimes: `quiz/` for quizzes, `timeline/` for timelines
+- Data-backed pages: Supabase (`js/supabase_config.js`)
+- Repo checks: `scripts/check-js.mjs`, `scripts/check-links.mjs`
+- Deploy model: static site + Netlify functions/edge functions, no checked-in site build step required
 
 ---
 
-## Current Status (2026-03-27)
+## Current Status (2026-03-31)
 
 ### Working now
 
 - Shared sub-index routing via `sub-index.html?slug=...` + `js/sub-index-init.js`
+- Shared quiz runtime under `quiz/` with configs in `quiz/config/`
+- Shared timeline runtime under `timeline/` with configs in `timeline/config/`
 - Access logging via `sendBeacon('/api/sw?...')` -> `netlify/edge-functions/sw.js`
-- `history/world/admin/` manages `wh_dates`
-- `quiz-components/` is in use for:
-  - `history/world/year-to-event/`
-  - `history/world/event-to-year/`
-  - `history/china/`
-  - `seikei/timeline/quiz.html`
-  - `others/idiom_quiz/`
+- Top-level site pages include `404.html`, `privacy-policy.html`, `sitemap.html`, and `about/`
+- Active category/content roots are `history/`, `geography/`, `seikei/`, `miscellaneous/`, `projects/`, `learning-links/`, and `playground/`
 
-### Still open
+### Legacy / transitional areas
 
-- `history/world/timeline.html` and the split world quizzes still read `TABLES.WH_QUIZ`
-- `history/china/index.html` and `history/china/timeline.html` still read `TABLES.CHINESE`
-- `templates/` still contains archived tooling and HTML templates that are not part of the active runtime
+- `history/index.html` remains the legacy world-history timeline alongside `timeline/?slug=world-history`
+- `history/list.json` still describes the new world-history timeline as "旧データ移行中"
+- `timeline/admin/wh-admin-legacy.html` is still kept as a legacy admin page
+- `archives/` stores retired scripts/assets that are no longer part of the active runtime
 
 ---
 
 ## Repository Layout
 
-- `history/` - world history, China history, admin tools
-- `geography/`
-- `home-economics/`
-- `informatics/`
-- `koten/`
-- `seikei/`
-- `others/`
-- `projects/`
-- `quiz-components/` - reusable quiz UI modules
-- `netlify/edge-functions/` - Edge handlers
-- `scripts/` - repo checks and utility scripts
+- `about/` - profile page, structured bio data, and styles
+- `archives/` - archived scripts/assets kept for reference
+- `history/`, `geography/`, `seikei/`, `miscellaneous/` - category content and `list.json` data
+- `quiz/` - reusable quiz runtime and configs
+- `timeline/` - shared timeline runtime and admin pages
+- `learning-links/` - curated external learning links
+- `playground/` - standalone experiments and mini-apps
+- `projects/` - external project listing data
+- `js/`, `css/` - shared site assets
+- `netlify/` - Edge Functions and Netlify Functions
+- `scripts/` - local repository checks
 
 Root pages:
 
 - `index.html`
 - `sub-index.html`
-- `learning-links.html`
 - `404.html`
+- `privacy-policy.html`
+- `sitemap.html`
 
 ---
 
@@ -81,12 +80,7 @@ npm run check
 Other useful commands:
 
 ```bash
-# Replace legacy theme-toggle blocks where needed
-npm run inject:theme
-
-# Regenerate the repository tree snapshot
 npm run tree
-
 ```
 
 ---
@@ -97,11 +91,13 @@ Defined in `js/supabase_config.js`:
 
 - `WH_QUIZ`
 - `WH_DATES`
+- `WH_REGIONS`
 - `CHINESE`
 - `SEIKEI`
 - `ACCESS_LOG`
+- `ENGLISH_IDIOMS`
 
-`db2` remains in the config, but Project 2 is not wired into the current checked-in pages.
+The checked-in client exports both module bindings and `window.SUPABASE_TABLES` / `window._db` for non-module scripts.
 
 ---
 
