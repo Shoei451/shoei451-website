@@ -1,235 +1,273 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>404 - Page Not Found</title>
-    <link rel="stylesheet" href="/css/common.css" />
+    <title>404 — Page Not Found | Shoei451</title>
     <link rel="icon" href="/images/favicon.ico" />
+
+    <!-- フラッシュ防止 -->
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
     <style>
-      .error-container {
-        min-height: 80vh;
+      html.dark body {
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
+      }
+
+      /* ── 404 Layout ── */
+      .error-page {
+        flex: 1;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 4rem 1.5rem;
+      }
+
+      .error-inner {
+        max-width: 520px;
+        width: 100%;
         text-align: center;
-        padding: 40px 20px;
       }
 
+      /* ── 404 Number ── */
       .error-code {
-        font-size: 10rem;
-        font-weight: 900;
-        background: linear-gradient(135deg, #313a49 0%, #faba40 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        margin: 0;
+        font-family: "Zen Kaku Gothic New", sans-serif;
+        font-size: clamp(6rem, 20vw, 10rem);
+        font-weight: 700;
         line-height: 1;
-        animation: glitch 2s infinite;
+        color: var(--color-border);
+        letter-spacing: -0.04em;
+        margin-bottom: 0.5rem;
+        user-select: none;
       }
 
-      @keyframes glitch {
-        0%,
-        100% {
-          transform: translate(0);
-        }
-        20% {
-          transform: translate(-2px, 2px);
-        }
-        40% {
-          transform: translate(-2px, -2px);
-        }
-        60% {
-          transform: translate(2px, 2px);
-        }
-        80% {
-          transform: translate(2px, -2px);
-        }
+      body.dark .error-code {
+        color: var(--color-border);
       }
 
+      /* ── Message ── */
       .error-title {
-        font-size: 2.5rem;
-        color: var(--primary);
-        margin: 20px 0;
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--color-text-primary);
       }
 
-      .error-message {
-        font-size: 1 rem;
-        color: var(--secondary);
-        max-width: 600px;
-        margin: 0 auto 40px;
-        line-height: 1.8;
+      .error-desc {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+        margin-bottom: 2.5rem;
       }
 
-      .error-emoji {
-        font-size: 5rem;
-        margin-bottom: 20px;
-        animation: float 3s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
+      /* ── Actions ── */
       .error-actions {
         display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
+        gap: 0.75rem;
         justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 3rem;
       }
 
-      .error-button {
-        padding: 15px 35px;
-        border-radius: 30px;
+      .btn-home {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.7rem 1.75rem;
+        background: var(--color-accent);
+        color: var(--color-accent-text);
+        border: none;
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 700;
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          opacity 0.15s,
+          transform 0.15s;
+      }
+
+      .btn-home:hover {
+        opacity: 0.88;
+        transform: translateY(-1px);
+        color: var(--color-accent-text);
+        text-decoration: none;
+      }
+
+      body.dark .btn-home {
+        color: #1a1d23;
+      }
+
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.7rem 1.75rem;
+        background: transparent;
+        color: var(--color-text-secondary);
+        border: 1.5px solid var(--color-border);
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 0.95rem;
         font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px var(--shadow);
+        text-decoration: none;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          color 0.15s;
       }
 
-      .btn-primary {
-        background: var(--accent);
-        color: #ffffff;
+      .btn-back:hover {
+        border-color: var(--color-accent);
+        color: var(--color-text-primary);
+        text-decoration: none;
       }
 
-      .btn-primary:hover {
-        background: var(--primary);
-        color: #afafa7;
-        transform: translateY(-3px);
-        box-shadow: 0 6px 20px rgba(49, 58, 73, 0.4);
+      /* ── Quick Links ── */
+      .quick-links {
+        border-top: 1px solid var(--color-border);
+        padding-top: 2rem;
       }
 
-      .btn-secondary {
-        background: var(--card-bg);
-        color: var(--primary);
+      .quick-links__label {
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--color-text-secondary);
+        margin-bottom: 1rem;
       }
 
-      .btn-secondary:hover {
-        background: var(--primary);
-        color: #afafa7;
-        transform: translateY(-3px);
-      }
-
-      .suggested-links {
-        margin-top: 60px;
-        max-width: 800px;
-      }
-
-      .suggested-links h3 {
-        font-size: 1.5rem;
-        color: var(--primary);
-        margin-bottom: 30px;
-      }
-
-      .links-grid {
+      .quick-links__grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
       }
 
-      .link-card {
-        background: var(--card-bg);
-        padding: 20px;
-        border-radius: 15px;
-        transition: all 0.3s;
-        box-shadow: 0 4px 15px var(--shadow);
+      .quick-link {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.6rem 0.9rem;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        color: var(--color-text-secondary);
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition:
+          border-color 0.15s,
+          color 0.15s,
+          background 0.15s;
       }
 
-      .link-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 25px var(--shadow);
-        background: linear-gradient(135deg, #faba40, #313a49);
-        color: #ffffff;
+      .quick-link:hover {
+        border-color: var(--color-accent);
+        color: var(--color-text-primary);
+        background: var(--color-surface);
+        text-decoration: none;
       }
 
-      .link-card span {
-        font-size: 2rem;
-        display: block;
-        margin-bottom: 10px;
+      .quick-link i {
+        font-size: 1rem;
+        color: var(--color-accent-text);
+        flex-shrink: 0;
       }
 
-      .link-card h4 {
-        margin: 0;
-        font-size: 1.1rem;
-        color: var(--primary);
-        transition: color 0.3s;
+      body.dark .quick-link i {
+        color: var(--color-accent);
       }
 
-      .link-card:hover h4 {
-        color: #ffffff;
-      }
-
-      @media (max-width: 768px) {
-        .error-code {
-          font-size: 6rem;
-        }
-
-        .error-title {
-          font-size: 1.8rem;
-        }
-
-        .error-actions {
-          flex-direction: column;
-          width: 100%;
-        }
-
-        .error-button {
-          width: 100%;
+      @media (max-width: 400px) {
+        .quick-links__grid {
+          grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Theme Toggle -->
-    <span class="logo-switches" id="theme-toggle-container"></span>
+    <div id="nav-container"></div>
 
-    <!-- Error Container -->
-    <div class="error-container">
-      <div class="error-emoji">🤔</div>
-      <h1 class="error-code">404</h1>
-      <h2 class="error-title">Page Not Found</h2>
-      <p class="error-message">
-        お探しのページが見つかりませんでした。<br />
-        URLが間違っているか、ページが移動・削除された可能性があります。
-      </p>
+    <main class="error-page">
+      <div class="error-inner">
+        <div class="error-code">404</div>
+        <h1 class="error-title">Page Not Found</h1>
+        <p class="error-desc">
+          お探しのページが見つかりませんでした。<br />
+          URLが間違っているか、ページが移動・削除された可能性があります。
+        </p>
 
-      <div class="error-actions">
-        <a href="/index.html" class="error-button btn-primary">
-          Go back to home
-        </a>
-        <a href="javascript:history.back()" class="error-button btn-secondary">
-          Return to previous page
-        </a>
+        <div class="error-actions">
+          <a href="/index.html" class="btn-home">
+            <i class="bi bi-house"></i>
+            ホームに戻る
+          </a>
+          <a href="javascript:history.back()" class="btn-back">
+            <i class="bi bi-arrow-left"></i>
+            前のページへ
+          </a>
+        </div>
+
+        <div class="quick-links">
+          <p class="quick-links__label">Quick Links</p>
+          <div class="quick-links__grid">
+            <a href="/sub-index.html?slug=history" class="quick-link">
+              <i class="bi bi-book"></i>
+              History
+            </a>
+            <a href="/sub-index.html?slug=geography" class="quick-link">
+              <i class="bi bi-globe"></i>
+              Geography
+            </a>
+            <a href="/sub-index.html?slug=seikei" class="quick-link">
+              <i class="bi bi-bank"></i>
+              Politics & Economics
+            </a>
+            <a href="/timeline/?slug=china-history" class="quick-link">
+              <i class="bi bi-calendar3"></i>
+              China History Timeline
+            </a>
+            <a href="/sub-index.html?slug=miscellaneous" class="quick-link">
+              <i class="bi bi-question-circle"></i>
+              Miscellaneous
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
+    </main>
 
-    <!-- Footer -->
-    <footer>
-      <p>
-        Get in touch:
-        <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a>
-      </p>
-    </footer>
+    <footer id="site-footer"></footer>
 
-    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/nav.js"></script>
     <script src="/js/theme-toggle.js"></script>
-    <script>
-      // Easter egg: change emoji on click
-      const errorEmoji = document.querySelector(".error-emoji");
-      const emojis = ["🤔", "😅", "🙈", "🔍", "🗺️", "🚀", "💡"];
-      let emojiIndex = 0;
 
-      errorEmoji.addEventListener("click", () => {
-        emojiIndex = (emojiIndex + 1) % emojis.length;
-        errorEmoji.textContent = emojis[emojiIndex];
-      });
+    <script>
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
     </script>
   </body>
 </html>
