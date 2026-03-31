@@ -245,9 +245,26 @@ body.dark .site-card:hover {
 #site-nav {
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
+  --bs-navbar-color: var(--color-text-secondary);
+  --bs-navbar-hover-color: var(--color-text-primary);
+  --bs-navbar-active-color: var(--color-accent-text);
+  --bs-navbar-brand-color: var(--color-text-primary);
+  --bs-navbar-brand-hover-color: var(--color-accent-text);
+  --bs-navbar-toggler-border-color: var(--color-border);
+  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2826,29,35,0.82%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
   transition:
     background 0.2s,
     border-color 0.2s;
+}
+
+body.dark #site-nav {
+  --bs-navbar-color: var(--color-text-secondary);
+  --bs-navbar-hover-color: var(--color-text-primary);
+  --bs-navbar-active-color: var(--color-accent);
+  --bs-navbar-brand-color: var(--color-text-primary);
+  --bs-navbar-brand-hover-color: var(--color-accent);
+  --bs-navbar-toggler-border-color: var(--color-border);
+  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28241,243,245,0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 
 #site-nav .navbar-brand {
@@ -305,6 +322,16 @@ body.dark #site-nav .nav-link.active {
 
 #site-nav .navbar-toggler:focus {
   box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.25);
+}
+
+@media (max-width: 767.98px) {
+  #site-nav .navbar-collapse {
+    margin-top: 0.75rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    background: var(--color-surface);
+  }
 }
 
 /* ===== Theme Toggle ===== */
@@ -375,6 +402,12 @@ body:not(.dark) #theme-toggle #moon {
 /* ===== Utilities ===== */
 .hidden {
   display: none !important;
+}
+
+/* ===== Bootstrap Icons ===== */
+/* Bootstrap Icons は currentColor 前提なので、dark 時も親要素の文字色を確実に継承させる */
+.bi {
+  color: inherit;
 }
 
 /* ===== Bootstrap variables bridge ===== */

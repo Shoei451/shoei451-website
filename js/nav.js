@@ -65,9 +65,9 @@
           <div class="col-md-8">
             <span class="text-secondary" style="font-size:0.85rem;">
               © 2026 Shoei Okamoto &nbsp;·&nbsp;
-              <a href="/privacy-policy.html">プライバシーポリシー</a> &nbsp;·&nbsp;
+              <a href="/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
               <a href="/about.html">About</a> &nbsp;·&nbsp;
-              <a href="/sitemap.html">サイトマップ</a>
+              <a href="/sitemap.html">Site Map</a>
             </span>
           </div>
           <div class="col-md-4 text-md-end">
