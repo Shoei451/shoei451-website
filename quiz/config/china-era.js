@@ -6,7 +6,7 @@ window.QUIZ_CONFIG = {
   subtitle: "出来事 → 年号",
   backLink: "/sub-index.html?slug=history",
   backLabel: "歴史ホーム",
-  accentColor: "#dfbc5e",
+  accentColor: "#df7c5e",
   answerType: "text",
   image: "/images/chinese-history.svg",
 
