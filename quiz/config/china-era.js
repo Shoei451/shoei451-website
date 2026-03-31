@@ -1,5 +1,8 @@
 // quiz/config/china-era.js
 // 中国王朝史 年代クイズ【出来事 → 年号】
+// データソース: wh_dates (region @> '{"china"}', record_type = 'event')
+// field が付与されたレコードからカテゴリフィルタが有効になる。
+// 未付与 (field = null) のレコードは「すべて」選択時のみヒットする。
 
 window.QUIZ_CONFIG = {
   title: "中国王朝史 年代クイズ",
@@ -13,15 +16,16 @@ window.QUIZ_CONFIG = {
   rangeMode: "multi",
   rangeLabel: "出題カテゴリ",
   ranges: [
+    { id: "all",      label: "すべて" },
     { id: "王朝成立", label: "王朝成立" },
     { id: "王朝滅亡", label: "王朝滅亡" },
-    { id: "反乱", label: "反乱" },
-    { id: "戦争", label: "戦争" },
-    { id: "外交", label: "外交" },
-    { id: "内政", label: "内政" },
-    { id: "経済", label: "経済" },
-    { id: "文化", label: "文化" },
-    { id: "その他", label: "その他" },
+    { id: "反乱",     label: "反乱" },
+    { id: "戦争",     label: "戦争" },
+    { id: "外交",     label: "外交" },
+    { id: "内政",     label: "内政" },
+    { id: "経済",     label: "経済" },
+    { id: "文化",     label: "文化" },
+    { id: "その他",   label: "その他" },
   ],
   countMode: "slider",
   countMin: 5,
@@ -34,24 +38,45 @@ window.QUIZ_CONFIG = {
   inputMaxLength: 6,
 
   async fetchData(selectedCategories, count) {
-    const { data, error } = await window._db
-      .from(window.SUPABASE_TABLES.CHINESE)
-      .select("*")
-      .in("category", selectedCategories);
+    const wantsAll = selectedCategories.includes("all");
 
+    // ベースクエリ
+    let q = window._db
+      .from(window.SUPABASE_TABLES.WH_DATES)
+      .select("id, year, event, field, description")
+      .contains("region", ["china"])
+      .eq("record_type", "event");
+
+    // "all" が含まれていなければ field フィルタを適用
+    if (!wantsAll) {
+      q = q.in("field", selectedCategories);
+    }
+
+    const { data, error } = await q;
     if (error) throw new Error(error.message);
-    if (!data || data.length === 0) return [];
 
-    const shuffled = window._quizShuffle(data);
+    // field フィルタ適用後にヒット0件 → 全件フォールバック
+    let rows = data ?? [];
+    if (rows.length === 0 && !wantsAll) {
+      const { data: all, error: e2 } = await window._db
+        .from(window.SUPABASE_TABLES.WH_DATES)
+        .select("id, year, event, field, description")
+        .contains("region", ["china"])
+        .eq("record_type", "event");
+      if (e2) throw new Error(e2.message);
+      rows = all ?? [];
+    }
+
+    const shuffled = window._quizShuffle(rows);
     const total = parseInt(count);
     return isNaN(total) ? shuffled : shuffled.slice(0, total);
   },
 
   formatQuestion(row) {
     return {
-      text: row.title,
-      category: row.category,
-      sub: row.description || null,
+      text: row.event,
+      category: row.field ?? null,
+      sub: row.description ?? null,
     };
   },
 
