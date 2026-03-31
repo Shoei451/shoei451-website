@@ -67,7 +67,7 @@
               © 2026 Shoei Okamoto &nbsp;·&nbsp;
               <a href="/privacy-policy.html">Privacy Policy</a> &nbsp;·&nbsp;
               <a href="/about.html">About</a> &nbsp;·&nbsp;
-              <a href="/sitemap.html">Site Map</a>
+              <a href="/sitemap.html">Site Map</a> &nbsp;·&nbsp;
               <a href="https://451-docs.netlify.app/?site=shoei451-website" target="_blank" rel="noopener">
                 Docs
               </a>
