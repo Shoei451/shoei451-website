@@ -31,16 +31,17 @@ async function initTimeline(cfg) {
   document.getElementById("back-link").href = cfg.backLink || "index.html";
   document.getElementById("back-label").textContent = cfg.backLabel || "ホーム";
 
-  // アクセントカラーを適用
+  // timeline 固有のアクセントカラーを適用
+  // base.css の --color-accent（ゴールド）とは独立した --timeline-accent を上書きする
   if (cfg.accentColor) {
     document.documentElement.style.setProperty(
-      "--color-accent",
+      "--timeline-accent",
       cfg.accentColor,
     );
   }
   if (cfg.accentColorRgb) {
     document.documentElement.style.setProperty(
-      "--color-accent-rgb",
+      "--timeline-accent-rgb",
       cfg.accentColorRgb,
     );
   }
