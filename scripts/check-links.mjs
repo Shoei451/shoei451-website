@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, extname, join, resolve, relative } from "node:path";
 
 const ROOT = process.cwd();
-const IGNORE_DIRS = new Set([".git", "node_modules", "templates"]);
+const IGNORE_DIRS = new Set([".git", "node_modules", "archives"]);
 const ATTR_PATTERN = /(href|src)\s*=\s*["']([^"']+)["']/gi;
 const KNOWN_IGNORES = new Set([]);
 

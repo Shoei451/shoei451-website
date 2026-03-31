@@ -32,7 +32,7 @@
       "items": [
         {
           "title": "Vintage イディオムクイズ",
-          "link": "idiom-quiz",
+          "link": "/quiz?slug=idiom",
           "titleEN": "English Idiom Quiz",
           "description": "Vintage 冬季課題範囲の暗記用クイズです。",
           "icon": "bi-chat-dots",
