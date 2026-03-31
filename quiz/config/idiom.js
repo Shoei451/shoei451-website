@@ -4,7 +4,7 @@
 window.QUIZ_CONFIG = {
   title: "Vintage イディオムクイズ",
   subtitle: "Fill-in-the-blank idiom questions",
-  tutorialMd: "/quiz/tutorial/idiom.md",
+  tutorialMd: "../quiz/tutorial/idiom.md",
   backLink: "/sub-index.html?slug=others",
   backLabel: "Others",
   answerType: "choice",
@@ -235,8 +235,12 @@ function _bindReportForm(el, row) {
   const form = el.querySelector(`#report-form-${row.id}`);
   const reasonEl = el.querySelector(`#report-reason-${row.id}`);
   const msgEl = el.querySelector(`#report-msg-${row.id}`);
-  const submitBtn = el.querySelector(`[data-action="submit-report"][data-id="${row.id}"]`);
-  const toggleButtons = el.querySelectorAll(`[data-action="toggle-report"][data-id="${row.id}"]`);
+  const submitBtn = el.querySelector(
+    `[data-action="submit-report"][data-id="${row.id}"]`,
+  );
+  const toggleButtons = el.querySelectorAll(
+    `[data-action="toggle-report"][data-id="${row.id}"]`,
+  );
 
   toggleButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
