@@ -10,7 +10,7 @@
       "desc": "歴史総合の学習ツールです。",
       "items": [
         {
-          "icon": "../images/google-forms.png",
+          "icon": "/images/google-forms.png",
           "title": "歴史総合語句確認用 Google Forms",
           "titleEN": "Rekisou Google Forms",
           "description": "歴史総合の語句確認用 Google Forms 一覧です。",
@@ -23,24 +23,32 @@
       "desc": "世界史の年代と出来事を結び付けて覚えるクイズです。",
       "items": [
         {
-          "icon": "../images/worldhistoryquiz.png",
+          "icon": "../images/wh-quiz.png",
           "title": "年号 → 出来事",
           "titleEN": "Year to Event",
           "description": "表示された年号に対応する出来事を4択で選ぶ。フィルタ：時代区分",
           "link": "/quiz/?slug=wh-year-to-event"
         },
         {
-          "icon": "../images/worldhistoryquiz.png",
+          "icon": "../images/wh-quiz.png",
           "title": "出来事 → 年号",
           "titleEN": "Event to Year",
           "description": "表示された出来事の年号を直接入力する。フィルタ：章（第1〜11章）",
           "link": "/quiz/?slug=wh-event-to-year"
         },
         {
-          "icon": "../images/worldhistoryquiz.png",
-          "title": "世界史年表",
+          "icon": "/images/wh-quiz.png",
+          "title": "世界史年表 (legacy)",
+          "titleEN": "World History Timeline (Legacy)",
+          "description": "世界史年表の旧バージョン。Supabase から直接データを取得して表示",
+          "link": "/history/index.html",
+          "target": "_blank"
+        },
+        {
+          "icon": "/images/wh-quiz.png",
+          "title": "世界史年表（新版）",
           "titleEN": "World History Timeline",
-          "description": "世界史年代クイズのデータをインタラクティブな年表で閲覧",
+          "description": "世界史年代クイズのデータをインタラクティブな年表で閲覧（旧データ移行中）",
           "link": "/timeline/?slug=world-history",
           "target": "_blank"
         }
@@ -51,14 +59,14 @@
       "desc": "中国史の年代・文化に関する学習ツールです。",
       "items": [
         {
-          "icon": "../images/chinese-history.svg",
+          "icon": "/images/chinese-history.svg",
           "title": "中国史年代クイズ",
           "titleEN": "Chinese History Era Quiz",
           "description": "中国史における出来事の西暦をマスター",
           "link": "/quiz/?slug=chna-era"
         },
         {
-          "icon": "../images/chinese-history.svg",
+          "icon": "/images/chinese-history.svg",
           "title": "中国王朝史年表",
           "titleEN": "Chinese Dynasties Timeline",
           "description": "中国史のインタラクティブ年表",
@@ -66,7 +74,7 @@
           "target": "_blank"
         },
         {
-          "icon": "../images/chinese-history.svg",
+          "icon": "/images/chinese-history.svg",
           "title": "中国文化史クイズ",
           "titleEN": "Chinese Culture History Quiz",
           "description": "中国の文化史に関する多形式クイズ",

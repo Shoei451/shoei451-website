@@ -7,7 +7,7 @@ window.QUIZ_CONFIG = {
   backLink: "/sub-index.html?slug=history/world",
   backLabel: "World History",
   answerType: "choice",
-  image: "/images/worldhistoryquiz.png",
+  image: "/images/wh-quiz.png",
 
   rangeMode: "single",
   rangeLabel: "時代区分",
