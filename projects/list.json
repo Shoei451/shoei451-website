@@ -44,7 +44,7 @@
           "link": "https://451-schedule-tracker.netlify.app/",
           "titleEN": "Schedule Tracker",
           "description": "A tool for tracking and managing schedules.",
-          "icon": "https://451-schedule-tracker.netlify.app/schedule_tracker.svg",
+          "icon": "https://451-schedule-tracker.netlify.app/schedule-tracker.svg",
           "iconType": "image"
         }
       ]

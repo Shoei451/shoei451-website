@@ -1,0 +1,100 @@
+{
+  "name": "Shoei451",
+  "name_en": "Shoei Okamoto",
+  "location": "@Yokohama, Kanagawa, Japan",
+  "stack": "Vanilla JS, Supabase, Netlify",
+  "philosophy": "Design the environment, trust the process.",
+  "style": "logical tightness over stylistic flair",
+
+  "academic_topics": [
+    "歴史の定量・科学的分析",
+    "Exploring the intersection of history, language, and technology",
+    "multilingual thinking",
+    "AI for learning and productivity",
+    "hallucination-resistant thinking habits"
+  ],
+  "tech_topics": [
+    "Vibe Coding with Claude.ai",
+    "Supabase RLS と認証設計",
+    "クイズ・学習ツールのUX設計"
+  ],
+  "life_topics": [
+    "Putting my ideas into the world through web development",
+    "Creating a vibe and flow in my work and life",
+    "Automating good habits and systems for learning and productivity"
+  ],
+  "tags": [
+    "Student",
+    "Vibe coder",
+    "web developer",
+    "Vanilla JS",
+    "Supabase",
+    "Netlify",
+    "World History",
+    "English"
+  ],
+  "social": [
+    {
+      "label": "GitHub",
+      "icon": "bi-github",
+      "url": "https://github.com/shoei451",
+      "display": "@shoei451"
+    },
+    {
+      "label": "Email",
+      "icon": "bi-envelope",
+      "url": "mailto:okamotoshoei451@gmail.com",
+      "display": "okamotoshoei451@gmail.com"
+    },
+    {
+      "label": "Note(note.com)",
+      "icon": "bi-journal",
+      "url": "https://note.com/shoei451",
+      "display": "shoei_451｜note"
+    },
+    {
+      "label": "Docs",
+      "icon": "bi-journal-text",
+      "url": "https://451-docs.netlify.app",
+      "display": "451-docs.netlify.app"
+    },
+    {
+      "label": "Reddit",
+      "icon": "bi-reddit",
+      "url": "https://www.reddit.com/user/Apprehensive_Fun3214/",
+      "display": "/u/Apprehensive_Fun3214"
+    }
+  ],
+  "interests": [
+    {
+      "icon": "bi-clock-history",
+      "title": "歴史研究",
+      "desc": "定量・科学的手法と歴史叙述の接合: Integrating quantitative, scientific methods with historical narrative"
+    },
+    {
+      "icon": "bi-code-slash",
+      "title": "Web開発",
+      "desc": "Vanilla JS + Supabase + Netlify。フレームワーク不要のシンプルな構成をAIと設計"
+    },
+    {
+      "icon": "bi-robot",
+      "title": "AI活用",
+      "desc": "AIを学習と生産性向上のためのツールとして活用。Claude.aiとCodexを使ってコードを書いています"
+    },
+    {
+      "icon": "bi-translate",
+      "title": "英語",
+      "desc": "Studying English for the University entrance exam. Practicing multilingal-thinking between Japanese and English in order to broaden the perspective and express myself more precisely."
+    },
+    {
+      "icon": "bi-luggage",
+      "title": "旅",
+      "desc": "I believe that traveling and experiencing different cultures is essential for broadening one's perspective and fostering creativity. I enjoy exploring new places, trying local cuisines, learning history in a immersive way, and placing myself in different ways of life.  "
+    },
+    {
+      "icon": "bi-leaf",
+      "title": "Outdoors",
+      "desc": "I love spending time in nature, hiking, and exploring the great outdoors."
+    }
+  ]
+}

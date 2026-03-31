@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Privacy Policy — Shoei451</title>
+    <link rel="icon" href="/images/favicon.ico" />
+
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
+    <style>
+      html.dark body {
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
+      }
+
+      .policy-body {
+        max-width: 720px;
+      }
+
+      .policy-section {
+        margin-bottom: 2.5rem;
+      }
+
+      .policy-section h2 {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--color-border);
+        color: var(--color-text-primary);
+      }
+
+      .policy-section p,
+      .policy-section li {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        line-height: 1.85;
+      }
+
+      .policy-section ul {
+        padding-left: 1.3rem;
+        margin-top: 0.5rem;
+      }
+
+      .policy-section ul li {
+        margin-bottom: 0.3rem;
+      }
+
+      .data-table {
+        width: 100%;
+        font-size: 0.875rem;
+        border-collapse: collapse;
+        margin-top: 0.75rem;
+      }
+
+      .data-table th {
+        background: var(--color-surface);
+        font-weight: 600;
+        color: var(--color-text-primary);
+        padding: 0.6rem 0.9rem;
+        text-align: left;
+        border: 1px solid var(--color-border);
+        font-size: 0.82rem;
+      }
+
+      .data-table td {
+        padding: 0.6rem 0.9rem;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-secondary);
+        vertical-align: top;
+        line-height: 1.6;
+      }
+
+      .policy-updated {
+        font-size: 0.8rem;
+        color: var(--color-text-secondary);
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="nav-container"></div>
+
+    <main class="container py-5">
+      <div class="policy-body">
+        <div
+          class="page-header mb-5"
+          style="padding-top: 1rem; padding-bottom: 1.5rem"
+        >
+          <h1 class="page-header__title">プライバシーポリシー</h1>
+          <p class="page-header__desc">
+            Shoei451 におけるデータの取り扱いについて
+          </p>
+          <p class="policy-updated mt-2">最終更新: 2026年3月</p>
+        </div>
+
+        <div class="policy-section">
+          <h2>1. はじめに</h2>
+          <p>
+            本サイト（Shoei451、以下「当サイト」）は、個人が運営する学習・開発ポートフォリオサイトです。
+            当サイトへのアクセスにあたり、以下のとおりアクセスログを取得・保存しています。
+            個人を特定する情報は収集しません。
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>2. 収集するデータ（アクセスログ）</h2>
+          <p>
+            当サイトでは、サービス改善と利用状況の把握を目的として、ページ閲覧時に以下のデータを自動的に記録しています。
+            記録は Supabase（米国）のデータベース（テーブル名:
+            <code>access_logs</code>）に保存されます。
+          </p>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>項目</th>
+                <th>内容</th>
+                <th>用途</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>path</code></td>
+                <td>
+                  閲覧したページのパス（例: <code>/quiz/?slug=capitals</code>）
+                </td>
+                <td>人気コンテンツの把握</td>
+              </tr>
+              <tr>
+                <td><code>referrer</code></td>
+                <td>直前に閲覧していたURL（流入元）</td>
+                <td>流入経路の分析</td>
+              </tr>
+              <tr>
+                <td><code>user_agent</code></td>
+                <td>ブラウザ・OSの種別（例: Chrome on Windows）</td>
+                <td>対応環境の確認</td>
+              </tr>
+              <tr>
+                <td><code>country</code></td>
+                <td>アクセス元の国コード（例: <code>JP</code>）</td>
+                <td>利用地域の把握</td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="mt-3">
+            IPアドレス・氏名・メールアドレスなど、個人を直接特定できる情報は収集しません。
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>3. 収集方法</h2>
+          <p>
+            アクセスログの送信には
+            <code>navigator.sendBeacon()</code> を使用しています。
+            送信先は当サイト独自の Netlify Edge
+            Function（<code>/api/sw</code>）であり、
+            第三者のトラッキングスクリプト（Google Analytics
+            等）は使用していません。
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>4. データの保管と管理</h2>
+          <ul>
+            <li>
+              データは
+              <a href="https://supabase.com" target="_blank" rel="noopener"
+                >Supabase</a
+              >（米国）のサーバーに保存されます。
+            </li>
+            <li>
+              アクセスログは当サイト管理者のみが参照できます。第三者への販売・提供は行いません。
+            </li>
+            <li>
+              データの保存期間に明示的な上限は設けていませんが、定期的に不要なデータを削除します。
+            </li>
+          </ul>
+        </div>
+
+        <div class="policy-section">
+          <h2>5. Cookie・ローカルストレージ</h2>
+          <p>
+            当サイトはトラッキング目的の Cookie を使用しません。
+            ダークモードの設定保存のみを目的として、<code>localStorage</code> に
+            <code>pref-theme</code>
+            キーを保存しています。この値は当サイトの外部に送信されません。
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>6. 外部サービスへのリンク</h2>
+          <p>
+            当サイトは外部サイトへのリンクを含む場合があります。
+            リンク先のプライバシー慣行については、各サービスのポリシーをご確認ください。
+          </p>
+        </div>
+
+        <div class="policy-section">
+          <h2>7. お問い合わせ</h2>
+          <p>
+            本ポリシーに関するご質問は
+            <a href="mailto:okamotoshoei451@gmail.com"
+              >okamotoshoei451@gmail.com</a
+            >
+            までご連絡ください。
+          </p>
+        </div>
+      </div>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+    <script>
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
+    </script>
+  </body>
+</html>

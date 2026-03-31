@@ -9,7 +9,7 @@
       "items": [
         {
           "title": "日本国憲法クイズ",
-          "link": "japan-constitution-quiz.html",
+          "link": "/seikei/japan-constitution-quiz.html",
           "titleEN": "Japan Constituion Quiz",
           "description": "日本国憲法の条文番号と内容を対応させて覚えるクイズアプリ",
           "icon": "bi-file-earmark-text",

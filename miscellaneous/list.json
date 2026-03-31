@@ -9,7 +9,7 @@
       "items": [
         {
           "title": "生物基礎語句確認用 Forms",
-          "link": "biology-quiz-forms/",
+          "link": "/miscellaneous/biology-quiz-forms/",
           "titleEN": "Biology Quiz Forms",
           "description": "2024年度生物基礎の語句確認用フォーム",
           "icon": "/images/biology.png",
@@ -18,7 +18,7 @@
         },
         {
           "title": "地質年代クイズ",
-          "link": "geology-quiz/",
+          "link": "/miscellaneous/geology-quiz/",
           "titleEN": "Geological Eras & Life",
           "description": "生物の進化と地質年代の変遷を、インタラクティブな年表とクイズで学ぶ",
           "icon": "bi-leaf",
@@ -55,7 +55,7 @@
         },
         {
           "title": "Sudoku JS note",
-          "link": "sudoku-programming-guide/",
+          "link": "/miscellaneous/sudoku-programming-guide/",
           "titleEN": "Sudoku JS note",
           "description": "数独ソルバーのロジックから、Javascriptを学ぶ",
           "icon": "bi-puzzle",
@@ -69,7 +69,7 @@
       "items": [
         {
           "title": "衣類の取り扱い表示クイズ",
-          "link": "care-symbols/",
+          "link": "/miscellaneous/care-symbols/",
           "titleEN": "Care Symbols Quiz",
           "description": "衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。",
           "icon": "bi-house-heart-fill",

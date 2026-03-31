@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Shoei451</title>
+    <link rel="icon" href="/images/favicon.ico" />
+
+    <!-- フラッシュ防止 -->
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/base.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="/about/style.css" />
+  </head>
+  <body>
+    <div id="nav-container"></div>
+
+    <main class="container py-4">
+      <!-- HERO -->
+      <div class="about-hero">
+        <div class="d-flex align-items-start gap-4">
+          <div class="hero-avatar" id="hero-avatar">
+            <img
+              id="hero-avatar-img"
+              class="hero-avatar__img"
+              src="/images/favicon.png"
+              alt="Shoei451 avatar"
+            />
+            <i
+              class="bi bi-person hero-avatar__fallback"
+              id="hero-avatar-fallback"
+              aria-hidden="true"
+            ></i>
+          </div>
+          <div>
+            <p class="hero-eyebrow">Profile</p>
+            <h1 class="hero-name">Shoei451</h1>
+            <p class="hero-name-en mb-3">Shoei Okamoto</p>
+            <div id="hero-tags" class="d-flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BIO -->
+      <section class="mb-5">
+        <p class="section-label">Bio</p>
+        <div class="bio-block">
+          <!-- titlebar + tabs -->
+          <div class="bio-block__titlebar">
+            <span class="bio-dot"></span>
+            <span class="bio-dot"></span>
+            <span class="bio-dot"></span>
+            <div class="bio-tabs" role="tablist">
+              <button
+                class="bio-tab is-active"
+                id="tab-json"
+                role="tab"
+                aria-selected="true"
+                aria-controls="panel-json"
+              >
+                shoei451.json
+              </button>
+              <button
+                class="bio-tab"
+                id="tab-md"
+                role="tab"
+                aria-selected="false"
+                aria-controls="panel-md"
+              >
+                bio.md
+              </button>
+            </div>
+          </div>
+
+          <!-- JSON panel -->
+          <div
+            class="bio-panel is-active"
+            id="panel-json"
+            role="tabpanel"
+            aria-labelledby="tab-json"
+          >
+            <div class="bio-panel-inner" id="json-inner">
+              <div class="bio-json-body" id="json-body">
+                <span style="color: var(--color-text-secondary)"
+                  >Loading...</span
+                >
+              </div>
+            </div>
+            <div class="bio-toggle-footer" id="json-toggle-footer">
+              <button
+                class="bio-toggle-btn"
+                id="json-toggle-btn"
+                aria-expanded="false"
+              >
+                // show more ▼
+              </button>
+            </div>
+          </div>
+
+          <!-- MD panel -->
+          <div
+            class="bio-panel"
+            id="panel-md"
+            role="tabpanel"
+            aria-labelledby="tab-md"
+          >
+            <div class="bio-panel-inner" id="md-inner">
+              <pre
+                class="bio-md-body"
+                id="md-body"
+              ><span style="color:var(--color-text-secondary);">Loading...</span></pre>
+            </div>
+            <div class="bio-toggle-footer" id="md-toggle-footer">
+              <button
+                class="bio-toggle-btn"
+                id="md-toggle-btn"
+                aria-expanded="false"
+              >
+                // show more ▼
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section class="mb-5">
+        <p class="section-label">Contact</p>
+        <div id="social-list" class="social-list">
+          <div class="load-placeholder">Loading...</div>
+        </div>
+      </section>
+
+      <!-- INTERESTS -->
+      <section class="mb-5">
+        <p class="section-label">Interests</p>
+        <div
+          id="interests-grid"
+          class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-3"
+        >
+          <div class="col"><div class="load-placeholder">Loading...</div></div>
+        </div>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="mb-5">
+        <p class="section-label">Projects</p>
+        <div id="projects-list" class="d-flex flex-column gap-3">
+          <div class="load-placeholder">Loading...</div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+
+    <script>
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
+
+      // ── Utility ────────────────────────────────────────────────
+      function esc(s) {
+        return String(s ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function initHeroAvatar() {
+        const avatar = document.getElementById("hero-avatar");
+        const img = document.getElementById("hero-avatar-img");
+        if (!avatar || !img) return;
+
+        const showFallback = () => avatar.classList.add("is-fallback");
+        const showImage = () => avatar.classList.remove("is-fallback");
+
+        img.addEventListener("load", showImage);
+        img.addEventListener("error", showFallback);
+
+        if (!img.getAttribute("src")) {
+          showFallback();
+          return;
+        }
+
+        if (img.complete) {
+          if (img.naturalWidth > 0) showImage();
+          else showFallback();
+        }
+      }
+
+      // ── Tab switching ──────────────────────────────────────────
+      ["json", "md"].forEach((name) => {
+        document.getElementById("tab-" + name).addEventListener("click", () => {
+          ["json", "md"].forEach((t) => {
+            const active = t === name;
+            document
+              .getElementById("tab-" + t)
+              .classList.toggle("is-active", active);
+            document
+              .getElementById("tab-" + t)
+              .setAttribute("aria-selected", active);
+            document
+              .getElementById("panel-" + t)
+              .classList.toggle("is-active", active);
+          });
+        });
+      });
+
+      // ── Collapsible panel ─────────────────────────────────────
+      // COLLAPSED_PX: visible height when collapsed
+      const COLLAPSED_PX = 260;
+
+      function initToggle(innerId, btnId, footerId) {
+        const inner = document.getElementById(innerId);
+        const btn = document.getElementById(btnId);
+        const footer = document.getElementById(footerId);
+        let expanded = false;
+
+        function refresh() {
+          // Measure full height with no constraint
+          inner.classList.add("is-expanded");
+          const fullH = inner.scrollHeight;
+          inner.classList.remove("is-expanded");
+
+          if (fullH <= COLLAPSED_PX + 20) {
+            // Content fits — hide toggle
+            footer.style.display = "none";
+            inner.classList.add("is-expanded"); // show all
+            return;
+          }
+          // Apply collapsed height
+          inner.style.maxHeight = COLLAPSED_PX + "px";
+        }
+
+        btn.addEventListener("click", () => {
+          expanded = !expanded;
+          if (expanded) {
+            inner.style.maxHeight = inner.scrollHeight + "px";
+            btn.textContent = "// show less ▲";
+            btn.setAttribute("aria-expanded", "true");
+          } else {
+            inner.style.maxHeight = COLLAPSED_PX + "px";
+            btn.textContent = "// show more ▼";
+            btn.setAttribute("aria-expanded", "false");
+          }
+        });
+
+        return { refresh };
+      }
+
+      const jsonToggle = initToggle(
+        "json-inner",
+        "json-toggle-btn",
+        "json-toggle-footer",
+      );
+      const mdToggle = initToggle(
+        "md-inner",
+        "md-toggle-btn",
+        "md-toggle-footer",
+      );
+
+      // ── JSON renderer ─────────────────────────────────────────
+      function renderJSON(data) {
+        function v(val) {
+          if (typeof val === "string")
+            return `<span class="bio-string">"${esc(val)}"</span>`;
+          if (typeof val === "number")
+            return `<span class="bio-num">${val}</span>`;
+          if (typeof val === "boolean")
+            return `<span class="bio-bool">${val}</span>`;
+          if (val === null) return `<span class="bio-bool">null</span>`;
+          return esc(String(val));
+        }
+        function k(key) {
+          return `<span class="bio-key">"${esc(key)}"</span>`;
+        }
+        function renderVal(val, depth) {
+          const pad = "  ".repeat(depth);
+          if (Array.isArray(val)) {
+            if (!val.length) return "[]";
+            const items = val
+              .map((item) => `${pad}  ${renderVal(item, depth + 1)}`)
+              .join(",\n");
+            return `[\n${items}\n${pad}]`;
+          }
+          if (val !== null && typeof val === "object") {
+            const entries = Object.entries(val)
+              .map(
+                ([ek, ev]) => `${pad}  ${k(ek)}: ${renderVal(ev, depth + 1)}`,
+              )
+              .join(",\n");
+            return `{\n${entries}\n${pad}}`;
+          }
+          return v(val);
+        }
+
+        const body = Object.entries(data)
+          .map(([ek, ev]) => `  ${k(ek)}: ${renderVal(ev, 1)}`)
+          .join(",\n\n");
+
+        return `<span class="bio-comment">// shoei451.json</span>\n{\n${body}\n}`;
+      }
+
+      // ── Load shoei451.json ────────────────────────────────────────
+      async function loadShoeiJSON() {
+        let data;
+        try {
+          const res = await fetch("/about/shoei451.json");
+          if (!res.ok) throw new Error(res.status);
+          data = await res.json();
+        } catch (e) {
+          document.getElementById("json-body").textContent =
+            "// Failed to load shoei451.json: " + e;
+          jsonToggle.refresh();
+          return;
+        }
+
+        // Hero tags
+        document.getElementById("hero-tags").innerHTML = (data.tags ?? [])
+          .map((t) => `<span class="hero-tag">${esc(t)}</span>`)
+          .join("");
+
+        // JSON panel
+        document.getElementById("json-body").innerHTML = renderJSON(data);
+        jsonToggle.refresh();
+
+        // Social
+        const socialEl = document.getElementById("social-list");
+        if (data.social?.length) {
+          socialEl.innerHTML = data.social
+            .map(
+              (s) => `
+            <a href="${esc(s.url)}" class="social-link"
+               ${s.url.startsWith("http") ? 'target="_blank" rel="noopener"' : ""}>
+              <i class="bi ${esc(s.icon)} social-link__icon"></i>
+              <span class="social-link__label">${esc(s.label)}</span>
+              <span class="social-link__display">${esc(s.display)}</span>
+              ${
+                s.url.startsWith("http")
+                  ? '<i class="bi bi-box-arrow-up-right ms-auto" style="font-size:0.7rem;opacity:0.45;color:var(--color-text-secondary);"></i>'
+                  : ""
+              }
+            </a>
+          `,
+            )
+            .join("");
+        } else {
+          socialEl.innerHTML = "";
+        }
+
+        // Interests
+        const interestsEl = document.getElementById("interests-grid");
+        if (data.interests?.length) {
+          interestsEl.innerHTML = data.interests
+            .map(
+              (item) => `
+            <div class="col">
+              <div class="interest-card">
+                <div class="interest-card__icon"><i class="bi ${esc(item.icon)}"></i></div>
+                <div class="interest-card__title">${esc(item.title)}</div>
+                <p class="interest-card__desc">${esc(item.desc)}</p>
+              </div>
+            </div>
+          `,
+            )
+            .join("");
+        } else {
+          interestsEl.innerHTML = "";
+        }
+      }
+
+      // ── Load bio.md (raw, no parsing) ─────────────────────────
+      async function loadBioMD() {
+        const el = document.getElementById("md-body");
+        try {
+          const res = await fetch("/about/bio.md");
+          if (!res.ok) throw new Error(res.status);
+          const text = await res.text();
+          // textContent auto-escapes HTML — safe and raw
+          el.textContent = text;
+        } catch (e) {
+          el.textContent = "// Failed to load bio.md: " + e;
+        }
+        mdToggle.refresh();
+      }
+
+      // ── Load projects/list.json ────────────────────────────────
+      async function loadProjects() {
+        const el = document.getElementById("projects-list");
+        let data;
+        try {
+          const res = await fetch("/projects/list.json");
+          if (!res.ok) throw new Error(res.status);
+          data = await res.json();
+        } catch (e) {
+          el.innerHTML = `<p style="color:var(--color-text-secondary);font-size:0.875rem;">プロジェクトデータを読み込めませんでした。</p>`;
+          return;
+        }
+
+        const items = (data.sections ?? []).flatMap((s) => s.items ?? []);
+        if (!items.length) {
+          el.innerHTML = `<p style="color:var(--color-text-secondary);font-size:0.875rem;">プロジェクトなし</p>`;
+          return;
+        }
+
+        el.innerHTML = items
+          .map(
+            (item) => `
+          <a href="${esc(item.link)}" target="_blank" rel="noopener" class="project-item">
+            ${
+              item.icon
+                ? `<img src="${esc(item.icon)}" alt=""
+                      style="width:28px;height:28px;object-fit:contain;border-radius:4px;flex-shrink:0;">`
+                : `<i class="bi bi-box-arrow-up-right" style="font-size:1.1rem;color:var(--color-text-secondary);flex-shrink:0;margin-top:0.1rem;"></i>`
+            }
+            <div style="flex:1;min-width:0;">
+              <div class="project-item__name">${esc(item.title)}</div>
+              ${item.titleEN ? `<div class="project-item__en">${esc(item.titleEN)}</div>` : ""}
+              ${item.description ? `<p class="project-item__desc">${esc(item.description)}</p>` : ""}
+            </div>
+            <i class="bi bi-box-arrow-up-right"
+               style="font-size:0.72rem;color:var(--color-text-secondary);opacity:0.4;flex-shrink:0;margin-top:0.25rem;"></i>
+          </a>
+        `,
+          )
+          .join("");
+      }
+
+      // ── Boot ──────────────────────────────────────────────────
+      initHeroAvatar();
+      loadShoeiJSON();
+      loadBioMD();
+      loadProjects();
+    </script>
+  </body>
+</html>
