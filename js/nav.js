@@ -42,9 +42,6 @@
               <a class="nav-link" href="/sub-index.html?slug=geography">地理</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/sub-index.html?slug=koten">古典</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="/sub-index.html?slug=others">その他</a>
             </li>
           </ul>
