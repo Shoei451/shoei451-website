@@ -130,6 +130,16 @@
         margin-bottom: 0.35rem;
       }
 
+      .site-card__bi-icon {
+        display: inline-block;
+        font-size: 1.5rem;
+        color: var(--color-accent-text);
+      }
+
+      body.dark .site-card__bi-icon {
+        color: var(--color-accent);
+      }
+
       .site-card .card-text {
         font-size: 0.875rem;
         line-height: 1.6;
@@ -333,7 +343,9 @@
         container.innerHTML = items
           .map((item) => {
             const icon = item.icon
-              ? `<img src="${item.icon}" class="site-card__icon mb-3" alt="" loading="lazy">`
+              ? /^bi-[\w-]+$/.test(item.icon)
+                ? `<i class="bi ${item.icon} site-card__bi-icon mb-3" aria-hidden="true"></i>`
+                : `<img src="${item.icon}" class="site-card__icon mb-3" alt="" loading="lazy">`
               : "";
             const target = item.target
               ? `target="${item.target}" rel="noopener"`
@@ -360,18 +372,19 @@
         renderCards("cards-history", CARDS_DATA.history);
         renderCards("cards-seikei", CARDS_DATA.seikei);
         renderCards("cards-geography", CARDS_DATA.geography);
-        renderCards("cards-others", CARDS_DATA.others);
+        renderCards("cards-others", CARDS_DATA.miscellaneous);
       }
 
       // cards-data.js が後からロードされる場合に備えて遅延チェック
       tryRenderAll();
       window.addEventListener("load", tryRenderAll);
+      document.addEventListener("cards-data-ready", tryRenderAll);
     </script>
 
     <!-- カードデータ（存在する場合） -->
     <script
-      src="/js/cards-data.js"
-      onerror="console.info('cards-data.js not found')"
+      src="/js/lists-loader.js"
+      onerror="console.info('lists-loader.js not found')"
     ></script>
     <script>
       tryRenderAll();
