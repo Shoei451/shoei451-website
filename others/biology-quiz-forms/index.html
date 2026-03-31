@@ -36,17 +36,19 @@
 
       .forms-search {
         max-width: 760px;
+        position: relative;
+        display: flex;
+        align-items: center;
       }
 
       .forms-search__icon {
         position: absolute;
-        top: 50%;
         left: 0.9rem;
-        transform: translateY(-50%);
         color: #6c757d;
-        pointer-events: none;
       }
-
+      .forms-search input {
+        display: block;
+      }
       .forms-search .form-control {
         padding-left: 2.5rem;
       }
@@ -154,7 +156,7 @@
         <i class="bi bi-search forms-search__icon"></i>
         <input
           id="search"
-          class="form-control form-control-lg"
+          class="form-control"
           type="text"
           placeholder="キーワード検索（例：DNA / 免疫 / タンパク質）"
           aria-label="フォームを検索"
@@ -163,8 +165,13 @@
         <div class="forms-search__count" id="search-count"></div>
       </div>
 
-      <div id="no-results" class="alert alert-light border d-none" role="status">
-        「<span id="no-results-q"></span>」に一致するフォームが見つかりませんでした。
+      <div
+        id="no-results"
+        class="alert alert-light border d-none"
+        role="status"
+      >
+        「<span id="no-results-q"></span
+        >」に一致するフォームが見つかりませんでした。
       </div>
 
       <div id="forms-container" class="row g-4">
@@ -175,7 +182,8 @@
         <div class="card-body">
           <h2 class="h5 mb-3">Note</h2>
           <p class="mb-2">
-            生物教師 Y.T 先生による語句確認用フォームを、サイト制作者が集めたものです。
+            生物教師 Y.T
+            先生による語句確認用フォームを、サイト制作者が集めたものです。
           </p>
           <p class="mb-2">学習目的以外での利用はお控えください。</p>
           <p class="mb-2">
@@ -200,7 +208,7 @@
       }
     </script>
 
-    <script src="list.js"></script>
+    <script src="forms-data.js"></script>
     <script>
       const container = document.getElementById("forms-container");
       const noResults = document.getElementById("no-results");
