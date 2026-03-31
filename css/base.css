@@ -125,6 +125,17 @@ body.dark a:hover {
   margin-bottom: 0;
 }
 
+.section-header {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: var(--color-text-primary);
+}
+.section-header__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-top: -0.5rem;
+}
 /* ===== Site Card ===== */
 /* Bootstrap card の上書き。sub-index.html のカードグリッドに使用。 */
 .site-card {
