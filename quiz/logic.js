@@ -274,14 +274,15 @@ function _advanceQuestion(idx) {
     onRetry: _resetToStart,
     onRetryMistakes(ms) {
       const ids = new Set(ms.map((m) => m._rowId));
-      _quizSet = _allData.filter((r) => ids.has(_rowId(r)));
+      const retrySet = _allData.filter((r) => ids.has(_rowId(r)));
 
-      if (!_quizSet.length) {
+      if (!retrySet.length) {
         _resetToStart();
         return;
       }
 
       _resetState();
+      _quizSet = retrySet;
 
       initProgress({
         total: _quizSet.length,

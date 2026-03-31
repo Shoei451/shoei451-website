@@ -36,9 +36,6 @@
               <a class="nav-link" href="/sub-index.html?slug=history">歴史</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/sub-index.html?slug=seikei">政経</a>
-            </li>
-            <li class="nav-item">
               <a class="nav-link" href="/sub-index.html?slug=geography">地理</a>
             </li>
             <li class="nav-item">
