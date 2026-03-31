@@ -1,0 +1,903 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>数独ソルバーで学ぶ JavaScript プログラミング</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- ナビ -->
+    <nav class="navbar" style="position: sticky; top: 0">
+      <div class="navbar__inner" style="position: relative">
+        <a href="#" class="navbar__logo">
+          🧩 Sudoku JS Study
+          <span class="navbar__badge">JavaScript</span>
+        </a>
+        <button class="nav-toggle" id="navToggle" aria-label="メニュー">
+          <span></span><span></span><span></span>
+        </button>
+        <ul class="navbar__links" id="navLinks">
+          <li><a href="#s1">状態管理</a></li>
+          <li><a href="#s2">関数</a></li>
+          <li><a href="#s3">配列</a></li>
+          <li><a href="#s4">DOM</a></li>
+          <li><a href="#s5">アルゴリズム</a></li>
+          <li><a href="#quiz">クイズ</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ヒーロー -->
+    <header class="hero">
+      <p class="hero__eyebrow">// programming study material</p>
+      <h1 class="hero__title">
+        数独ソルバーで学ぶ<br /><span>JavaScript の基礎</span>
+      </h1>
+      <p class="hero__desc">
+        実際に動くアプリのコードを題材に、プログラミングの核心概念を体系的に学ぶ。
+        状態管理・関数設計・配列操作・DOM・アルゴリズムまで一通りカバー。
+      </p>
+      <div class="hero__tags">
+        <span class="tag tag--accent">State Management</span>
+        <span class="tag">Array Methods</span>
+        <span class="tag">DOM Manipulation</span>
+        <span class="tag">Algorithm Design</span>
+        <span class="tag">Event-Driven</span>
+        <span class="tag">Set / Data Structures</span>
+      </div>
+    </header>
+
+    <!-- メイン -->
+    <div class="note-layout">
+      <!-- 目次 -->
+      <aside class="toc">
+        <p class="toc__title">Contents</p>
+        <ul class="toc__list">
+          <li><a href="#s1">§1 状態管理</a></li>
+          <li class="sub"><a href="#s1-state">state オブジェクト</a></li>
+          <li class="sub"><a href="#s1-flat">フラット配列</a></li>
+          <li><a href="#s2">§2 関数設計</a></li>
+          <li class="sub"><a href="#s2-pure">純粋関数</a></li>
+          <li class="sub"><a href="#s2-set">Set の活用</a></li>
+          <li><a href="#s3">§3 配列メソッド</a></li>
+          <li class="sub"><a href="#s3-methods">主要メソッド一覧</a></li>
+          <li><a href="#s4">§4 DOM 操作</a></li>
+          <li class="sub"><a href="#s4-render">レンダリング</a></li>
+          <li class="sub"><a href="#s4-event">イベント</a></li>
+          <li><a href="#s5">§5 アルゴリズム</a></li>
+          <li class="sub"><a href="#s5-constraint">制約伝播</a></li>
+          <li class="sub"><a href="#s5-loop">反復ループ</a></li>
+          <li><a href="#quiz">✏️ 確認クイズ</a></li>
+        </ul>
+      </aside>
+
+      <!-- コンテンツ -->
+      <main class="note-content">
+        <!-- § 1 状態管理 -->
+        <section class="section" id="s1">
+          <div class="section__header">
+            <span class="section__num">§ 1</span>
+            <h2 class="section__title">状態管理 — State Management</h2>
+          </div>
+
+          <p>
+            プログラムが「今どんな状況か」を記憶するのが
+            <strong>状態（State）</strong>。
+            数独ソルバーはゲームの盤面を記憶し続ける必要があるため、状態管理が設計の核心になる。
+          </p>
+
+          <div class="definition" id="s1-state">
+            <div class="definition__term">
+              state オブジェクト <span class="en">Single Source of Truth</span>
+            </div>
+            <div class="definition__body">
+              <p>
+                アプリの状態をひとつのオブジェクトにまとめる設計パターン。
+                バラバラな変数より管理しやすく、バグを減らせる。
+              </p>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label">state management</span>
+            </div>
+            <pre><span class="kw">const</span> state <span class="op">=</span> {
+  grid:           <span class="cls">Array</span>(<span class="num">81</span>).<span class="fn">fill</span>(<span class="kw">null</span>),       <span class="cmt">// 盤面の値（null = 空）</span>
+  initial:        <span class="cls">Array</span>(<span class="num">81</span>).<span class="fn">fill</span>(<span class="kw">false</span>),     <span class="cmt">// 初期値かどうか</span>
+  candidates:     <span class="cls">Array</span>(<span class="num">81</span>).<span class="fn">fill</span>(<span class="kw">null</span>).<span class="fn">map</span>(() <span class="op">=></span> [<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>,<span class="num">7</span>,<span class="num">8</span>,<span class="num">9</span>]),
+  showCandidates: <span class="kw">false</span>                     <span class="cmt">// UI の表示モード</span>
+};</pre>
+          </div>
+
+          <div class="callout callout--info">
+            <span class="callout__icon">💡</span>
+            <div class="callout__body">
+              <strong>なぜ1つにまとめるのか？</strong>
+              <code>let grid = …</code>
+              <code>let initial = …</code> と別々に書くこともできるが、
+              オブジェクトにまとめると「状態のリセット」や「渡し回し」が簡単になる。
+              React・Vue など現代のフレームワークも同じ発想を持つ。
+            </div>
+          </div>
+
+          <h3 class="sub-title" id="s1-flat">9×9 をフラット配列で表す</h3>
+
+          <p>
+            2次元グリッドを
+            <strong>1次元配列（長さ 81）</strong>
+            で表現するのはよくあるテクニック。 行と列は計算で求める。
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label">index conversion</span>
+            </div>
+            <pre><span class="cmt">// 1次元インデックス → 行・列・ブロックの変換</span>
+<span class="kw">function</span> <span class="fn">getRow</span>(idx)   { <span class="kw">return</span> <span class="cls">Math</span>.<span class="fn">floor</span>(idx <span class="op">/</span> <span class="num">9</span>); }
+<span class="kw">function</span> <span class="fn">getCol</span>(idx)   { <span class="kw">return</span> idx <span class="op">%</span> <span class="num">9</span>; }
+<span class="kw">function</span> <span class="fn">getBlock</span>(idx) {
+  <span class="kw">const</span> row <span class="op">=</span> <span class="fn">getRow</span>(idx);
+  <span class="kw">const</span> col <span class="op">=</span> <span class="fn">getCol</span>(idx);
+  <span class="kw">return</span> <span class="cls">Math</span>.<span class="fn">floor</span>(row <span class="op">/</span> <span class="num">3</span>) <span class="op">*</span> <span class="num">3</span> <span class="op">+</span> <span class="cls">Math</span>.<span class="fn">floor</span>(col <span class="op">/</span> <span class="num">3</span>);
+}
+
+<span class="cmt">// 例: idx=40（中央）→ row=4, col=4, block=4</span>
+<span class="cmt">// 式: 40 / 9 = 4.44... → floor → 4</span>
+<span class="cmt">// 式: 40 % 9 = 4</span></pre>
+          </div>
+
+          <div class="callout callout--tip">
+            <span class="callout__icon">✅</span>
+            <div class="callout__body">
+              <strong>% (余り) と Math.floor の組み合わせ</strong>
+              2次元→1次元変換は
+              <code>index = row * 9 + col</code>、逆変換は上の式。
+              画像処理・ゲーム開発など多くの場面で登場する基本パターン。
+            </div>
+          </div>
+        </section>
+
+        <!-- § 2 関数設計 -->
+        <section class="section" id="s2">
+          <div class="section__header">
+            <span class="section__num">§ 2</span>
+            <h2 class="section__title">関数設計 — Function Design</h2>
+          </div>
+
+          <div class="definition" id="s2-pure">
+            <div class="definition__term">
+              純粋関数 <span class="en">Pure Function</span>
+            </div>
+            <div class="definition__body">
+              <p>
+                同じ入力を与えれば必ず同じ出力を返し、外部の状態を変更しない関数。
+                テストしやすく、バグが見つけやすい。
+              </p>
+            </div>
+          </div>
+
+          <div class="point-grid">
+            <div class="point-card">
+              <div class="point-card__icon">✅</div>
+              <div class="point-card__title">純粋関数の例</div>
+              <div class="point-card__desc">
+                <code>getRow()</code> <code>getCol()</code>
+                <code>getBlock()</code><br />引数だけを使い、<code>state</code>
+                を読み書きしない。
+              </div>
+            </div>
+            <div class="point-card">
+              <div class="point-card__icon">⚠️</div>
+              <div class="point-card__title">副作用がある関数</div>
+              <div class="point-card__desc">
+                <code>eliminateCandidates()</code><br />外部の
+                <code>state.candidates</code>
+                を書き換える。意図的だが、そのことを意識する必要がある。
+              </div>
+            </div>
+            <div class="point-card">
+              <div class="point-card__icon">🔁</div>
+              <div class="point-card__title">戻り値の設計</div>
+              <div class="point-card__desc">
+                <code>eliminateCandidates()</code> は
+                <code>true/false/changed</code>
+                を返す。呼び出し側がその結果で分岐できる設計。
+              </div>
+            </div>
+          </div>
+
+          <h3 class="sub-title" id="s2-set">Set で重複なしの集合を作る</h3>
+          <p>
+            <code>getRelatedIndices()</code>
+            は「同じ行・列・ブロックのマス」をまとめて返す関数。
+            行・列・ブロックで重複するインデックスが出るため
+            <code>Set</code> を使う。
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label">Set — 重複を自動除去</span>
+            </div>
+            <pre><span class="kw">function</span> <span class="fn">getRelatedIndices</span>(idx) {
+  <span class="kw">const</span> related <span class="op">=</span> <span class="kw">new</span> <span class="cls">Set</span>();  <span class="cmt">// 重複なしコレクション</span>
+
+  <span class="cmt">// 同じ行の 9 マス</span>
+  <span class="kw">for</span> (<span class="kw">let</span> c <span class="op">=</span> <span class="num">0</span>; c <span class="op">&lt;</span> <span class="num">9</span>; c<span class="op">++</span>) related.<span class="fn">add</span>(row <span class="op">*</span> <span class="num">9</span> <span class="op">+</span> c);
+
+  <span class="cmt">// 同じ列の 9 マス（行と列の角は重複するが Set が自動で除く）</span>
+  <span class="kw">for</span> (<span class="kw">let</span> r <span class="op">=</span> <span class="num">0</span>; r <span class="op">&lt;</span> <span class="num">9</span>; r<span class="op">++</span>) related.<span class="fn">add</span>(r <span class="op">*</span> <span class="num">9</span> <span class="op">+</span> col);
+
+  <span class="cmt">// 同じ 3×3 ブロックの 9 マス</span>
+  <span class="kw">const</span> bRow <span class="op">=</span> <span class="cls">Math</span>.<span class="fn">floor</span>(row <span class="op">/</span> <span class="num">3</span>) <span class="op">*</span> <span class="num">3</span>;
+  <span class="kw">const</span> bCol <span class="op">=</span> <span class="cls">Math</span>.<span class="fn">floor</span>(col <span class="op">/</span> <span class="num">3</span>) <span class="op">*</span> <span class="num">3</span>;
+  <span class="kw">for</span> (<span class="kw">let</span> r <span class="op">=</span> bRow; r <span class="op">&lt;</span> bRow<span class="op">+</span><span class="num">3</span>; r<span class="op">++</span>)
+    <span class="kw">for</span> (<span class="kw">let</span> c <span class="op">=</span> bCol; c <span class="op">&lt;</span> bCol<span class="op">+</span><span class="num">3</span>; c<span class="op">++</span>)
+      related.<span class="fn">add</span>(r <span class="op">*</span> <span class="num">9</span> <span class="op">+</span> c);
+
+  related.<span class="fn">delete</span>(idx);              <span class="cmt">// 自分自身は除外</span>
+  <span class="kw">return</span> <span class="cls">Array</span>.<span class="fn">from</span>(related);       <span class="cmt">// Set → Array に変換</span>
+}</pre>
+          </div>
+
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <div class="callout__body">
+              <strong>配列ではダメなのか？</strong>
+              配列に <code>push()</code> し続けると同じインデックスが複数入る。
+              後で手動で <code>filter()</code> して重複除去もできるが、<code
+                >Set</code
+              >
+              を使う方がシンプル。 最後に
+              <code>Array.from()</code> で配列に戻すことで
+              <code>for...of</code> や配列メソッドが使える。
+            </div>
+          </div>
+        </section>
+
+        <!-- § 3 配列メソッド -->
+        <section class="section" id="s3">
+          <div class="section__header">
+            <span class="section__num">§ 3</span>
+            <h2 class="section__title">配列メソッド — Array Methods</h2>
+          </div>
+
+          <p>
+            このコードには JavaScript の重要な配列メソッドが多数登場する。
+            <strong>「元の配列を変えずに新しい配列を返す」</strong
+            >メソッドと、<strong>「元の配列を変える」</strong>メソッドの違いに注目。
+          </p>
+
+          <div id="s3-methods" class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>メソッド</th>
+                  <th>何をするか</th>
+                  <th>コードでの使用例</th>
+                  <th>元の配列</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>.fill(v)</code></td>
+                  <td>全要素を値 <code>v</code> で埋める</td>
+                  <td><code>Array(81).fill(null)</code></td>
+                  <td>変える</td>
+                </tr>
+                <tr>
+                  <td><code>.map(fn)</code></td>
+                  <td>各要素を変換した新配列を返す</td>
+                  <td><code>example.map(v => v !== null)</code></td>
+                  <td>変えない ✅</td>
+                </tr>
+                <tr>
+                  <td><code>.filter(fn)</code></td>
+                  <td>条件を満たす要素だけ残した新配列</td>
+                  <td><code>candidates.filter(c => c !== value)</code></td>
+                  <td>変えない ✅</td>
+                </tr>
+                <tr>
+                  <td><code>.every(fn)</code></td>
+                  <td>全要素が条件を満たすか（真偽値）</td>
+                  <td><code>state.grid.every(v => v !== null)</code></td>
+                  <td>変えない ✅</td>
+                </tr>
+                <tr>
+                  <td><code>.includes(v)</code></td>
+                  <td>値 <code>v</code> が含まれるか（真偽値）</td>
+                  <td><code>candidates[idx].includes(num)</code></td>
+                  <td>変えない ✅</td>
+                </tr>
+                <tr>
+                  <td><code>.push(v)</code></td>
+                  <td>末尾に追加（長さが変わる）</td>
+                  <td><code>possibleCells.push(idx)</code></td>
+                  <td>変える</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label"
+                >filter の活用 — 候補数字の削除</span
+              >
+            </div>
+            <pre><span class="cmt">// ❌ これは「元の配列に数字が残ったまま」</span>
+state.candidates[relIdx].<span class="fn">splice</span>(...);  <span class="cmt">// splice は難しく副作用あり</span>
+
+<span class="cmt">// ✅ filter で「value を含まない新配列」を作って上書き</span>
+state.candidates[relIdx] <span class="op">=</span> state.candidates[relIdx]
+  .<span class="fn">filter</span>(c <span class="op">=></span> c <span class="op">!==</span> value);
+<span class="cmt">// 例: [1,2,3,5,7] から value=3 を消す → [1,2,5,7]</span>
+
+<span class="cmt">// 変化があったかどうかを「長さの比較」で検出</span>
+<span class="kw">const</span> before <span class="op">=</span> state.candidates[relIdx].length;
+state.candidates[relIdx] <span class="op">=</span> state.candidates[relIdx].<span class="fn">filter</span>(...);
+<span class="kw">const</span> after <span class="op">=</span> state.candidates[relIdx].length;
+<span class="kw">if</span> (before <span class="op">!==</span> after) changed <span class="op">=</span> <span class="kw">true</span>;</pre>
+          </div>
+
+          <div class="callout callout--tip">
+            <span class="callout__icon">✅</span>
+            <div class="callout__body">
+              <strong>なぜ filter が好まれるか</strong>
+              <code>filter</code> は「元を壊さない」ため安全。 実際のコードでは
+              <code>before !== after</code>
+              で「何か変化があったか」を検知するのにも使われている。 これは
+              <strong>変化検知（change detection）</strong> の基本パターン。
+            </div>
+          </div>
+        </section>
+
+        <!-- § 4 DOM 操作 -->
+        <section class="section" id="s4">
+          <div class="section__header">
+            <span class="section__num">§ 4</span>
+            <h2 class="section__title">DOM 操作 — Rendering & Events</h2>
+          </div>
+
+          <div class="definition" id="s4-render">
+            <div class="definition__term">
+              DOM <span class="en">Document Object Model</span>
+            </div>
+            <div class="definition__body">
+              <p>
+                HTML をプログラムから操作するための API。<code
+                  >document.getElementById()</code
+                >
+                などで HTML 要素を取得・変更できる。
+              </p>
+            </div>
+          </div>
+
+          <h3 class="sub-title">renderGrid() の設計：毎回全部描き直す</h3>
+
+          <div class="flow">
+            <div class="flow-step">
+              <div class="flow-step__num">1</div>
+              <div class="flow-step__body">
+                <h4><code>gridEl.innerHTML = ''</code></h4>
+                <p>既存の HTML をすべて消す。前回の描画を一掃する。</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step__num">2</div>
+              <div class="flow-step__body">
+                <h4><code>for (let i = 0; i &lt; 81; i++)</code></h4>
+                <p>81 マス分ループして、各マスの要素を新しく生成する。</p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step__num">3</div>
+              <div class="flow-step__body">
+                <h4><code>document.createElement('div')</code></h4>
+                <p>
+                  JavaScript で HTML 要素を動的に作成。クラスや属性も JS
+                  から設定できる。
+                </p>
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step__num">4</div>
+              <div class="flow-step__body">
+                <h4><code>cell.appendChild(input)</code></h4>
+                <p>
+                  親要素に子要素を追加する。最終的に
+                  <code>gridEl.appendChild(cell)</code> で画面に表示される。
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label">DOM 操作パターン</span>
+            </div>
+            <pre><span class="cmt">// 要素の取得</span>
+<span class="kw">const</span> gridEl <span class="op">=</span> document.<span class="fn">getElementById</span>(<span class="str">'sudokuGrid'</span>);
+
+<span class="cmt">// 要素の作成と属性設定</span>
+<span class="kw">const</span> cell <span class="op">=</span> document.<span class="fn">createElement</span>(<span class="str">'div'</span>);
+cell.className <span class="op">=</span> <span class="str">'sudoku-cell'</span>;
+cell.classList.<span class="fn">add</span>(<span class="str">'initial'</span>);    <span class="cmt">// クラスを追加</span>
+
+<span class="cmt">// input 要素の作成</span>
+<span class="kw">const</span> input <span class="op">=</span> document.<span class="fn">createElement</span>(<span class="str">'input'</span>);
+input.type <span class="op">=</span> <span class="str">'text'</span>;
+input.maxLength <span class="op">=</span> <span class="num">1</span>;
+input.value <span class="op">=</span> state.grid[i] <span class="op">||</span> <span class="str">''</span>;   <span class="cmt">// null なら空文字</span>
+input.dataset.index <span class="op">=</span> i;             <span class="cmt">// カスタムデータ属性</span>
+
+<span class="cmt">// 親子関係の構築</span>
+cell.<span class="fn">appendChild</span>(input);
+gridEl.<span class="fn">appendChild</span>(cell);</pre>
+          </div>
+
+          <h3 class="sub-title" id="s4-event">イベント駆動プログラミング</h3>
+          <p>
+            ユーザーの操作（クリック・入力）に反応してコードを実行する設計を
+            <strong>イベント駆動</strong> という。
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label"
+                >addEventListener — イベントリスナー</span
+              >
+            </div>
+            <pre><span class="cmt">// ボタンのクリックに反応</span>
+document.<span class="fn">getElementById</span>(<span class="str">'solveBtn'</span>)
+  .<span class="fn">addEventListener</span>(<span class="str">'click'</span>, () <span class="op">=></span> {
+    <span class="fn">solveSudoku</span>();
+  });
+
+<span class="cmt">// テキスト入力に反応（アロー関数 + e でイベントオブジェクトを受け取る）</span>
+input.<span class="fn">addEventListener</span>(<span class="str">'input'</span>, (e) <span class="op">=></span> {
+  <span class="kw">const</span> val <span class="op">=</span> e.target.value;        <span class="cmt">// 入力された値</span>
+
+  <span class="kw">if</span> (<span class="op">/</span><span class="str">^[1-9]$</span><span class="op">/</span>.<span class="fn">test</span>(val)) {          <span class="cmt">// 正規表現で 1-9 か判定</span>
+    state.grid[i] <span class="op">=</span> <span class="cls">parseInt</span>(val);
+  } <span class="kw">else</span> {
+    e.target.value <span class="op">=</span> <span class="str">''</span>;             <span class="cmt">// 無効な入力をリセット</span>
+  }
+  <span class="fn">updateStats</span>();
+});</pre>
+          </div>
+
+          <div class="callout callout--info">
+            <span class="callout__icon">💡</span>
+            <div class="callout__body">
+              <strong>正規表現 <code>/^[1-9]$/</code> の読み方</strong>
+              <code>^</code> = 先頭、<code>[1-9]</code> =
+              1から9のいずれか1文字、<code>$</code> = 末尾。
+              つまり「1文字で1〜9のいずれか」であることを確認している。
+              <code>.test()</code> は真偽値を返す。
+            </div>
+          </div>
+        </section>
+
+        <!-- § 5 アルゴリズム -->
+        <section class="section" id="s5">
+          <div class="section__header">
+            <span class="section__num">§ 5</span>
+            <h2 class="section__title">アルゴリズム — Solving Logic</h2>
+          </div>
+
+          <div class="definition" id="s5-constraint">
+            <div class="definition__term">
+              制約伝播 <span class="en">Constraint Propagation</span>
+            </div>
+            <div class="definition__body">
+              <p>
+                あるマスに数字が確定したら、同じ行・列・ブロックの他のマスからその数字の候補を消す。
+                この「制約の波及」を繰り返すことで解が求まる。数独ソルバーが使う核心的な手法。
+              </p>
+            </div>
+          </div>
+
+          <h3 class="sub-title">2つの確定テクニック</h3>
+
+          <div class="point-grid">
+            <div class="point-card">
+              <div class="point-card__icon">1️⃣</div>
+              <div class="point-card__title">Naked Single（裸の単一候補）</div>
+              <div class="point-card__desc">
+                あるマスの候補が <strong>1つだけ</strong> になった →
+                その数字に確定。 最もシンプルな推論。 <br /><br /><code
+                  >candidates[i].length === 1</code
+                >
+                を検査する。
+              </div>
+            </div>
+            <div class="point-card">
+              <div class="point-card__icon">🔍</div>
+              <div class="point-card__title">
+                Hidden Single（隠れた単一候補）
+              </div>
+              <div class="point-card__desc">
+                ある数字が特定の行・列・ブロックの中で
+                <strong>1つのマスにしか入れない</strong> → 確定。
+                候補数は複数あっても使える。
+              </div>
+            </div>
+          </div>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label"
+                >Hidden Single — 行のチェック</span
+              >
+            </div>
+            <pre><span class="kw">for</span> (<span class="kw">let</span> row <span class="op">=</span> <span class="num">0</span>; row <span class="op">&lt;</span> <span class="num">9</span>; row<span class="op">++</span>) {
+  <span class="kw">for</span> (<span class="kw">let</span> num <span class="op">=</span> <span class="num">1</span>; num <span class="op">&lt;=</span> <span class="num">9</span>; num<span class="op">++</span>) {
+
+    <span class="kw">const</span> possibleCells <span class="op">=</span> [];
+
+    <span class="kw">for</span> (<span class="kw">let</span> col <span class="op">=</span> <span class="num">0</span>; col <span class="op">&lt;</span> <span class="num">9</span>; col<span class="op">++</span>) {
+      <span class="kw">const</span> idx <span class="op">=</span> row <span class="op">*</span> <span class="num">9</span> <span class="op">+</span> col;
+      <span class="kw">if</span> (state.grid[idx] <span class="op">===</span> <span class="kw">null</span>
+          <span class="op">&&</span> state.candidates[idx].<span class="fn">includes</span>(num)) {
+        possibleCells.<span class="fn">push</span>(idx);      <span class="cmt">// num を置けるマスを集める</span>
+      }
+    }
+
+    <span class="kw">if</span> (possibleCells.length <span class="op">===</span> <span class="num">1</span>) {  <span class="cmt">// ← 唯一のマス → 確定！</span>
+      state.grid[possibleCells[<span class="num">0</span>]] <span class="op">=</span> num;
+      state.candidates[possibleCells[<span class="num">0</span>]] <span class="op">=</span> [];
+    }
+  }
+}</pre>
+          </div>
+
+          <h3 class="sub-title" id="s5-loop">反復ループで収束させる</h3>
+
+          <p>
+            1回のパスで全部解けるとは限らない。そのため
+            <code>while</code> ループで「変化がなくなるまで」繰り返す。 これを
+            <strong>不動点反復（Fixed-point iteration）</strong> という。
+          </p>
+
+          <div class="code-block">
+            <div class="code-block__header">
+              <div class="code-block__dots">
+                <span></span><span></span><span></span>
+              </div>
+              <span class="code-block__label">反復ループの構造</span>
+            </div>
+            <pre><span class="kw">while</span> (iteration <span class="op">&lt;</span> maxIterations) {
+  iteration<span class="op">++</span>;
+
+  <span class="kw">const</span> changed <span class="op">=</span> <span class="fn">solveStep</span>();  <span class="cmt">// 1ステップ実行</span>
+
+  <span class="kw">if</span> (changed <span class="op">===</span> <span class="kw">false</span>) <span class="kw">break</span>;  <span class="cmt">// エラー → 即中断</span>
+
+  <span class="kw">if</span> (!changed) {               <span class="cmt">// 変化なし → 手詰まり</span>
+    <span class="fn">log</span>(<span class="str">'⚠️ 基本テクニックで解決不可'</span>);
+    <span class="kw">break</span>;
+  }
+
+  <span class="kw">if</span> (state.grid.<span class="fn">every</span>(v <span class="op">=></span> v <span class="op">!==</span> <span class="kw">null</span>)) {  <span class="cmt">// 全マス埋まった？</span>
+    <span class="fn">log</span>(<span class="str">'🎉 完成！'</span>);
+    <span class="kw">break</span>;
+  }
+}
+
+<span class="cmt">// 3つの終了条件：①エラー ②手詰まり ③完成</span></pre>
+          </div>
+
+          <div class="callout callout--warn">
+            <span class="callout__icon">⚠️</span>
+            <div class="callout__body">
+              <strong>maxIterations = 100 の意味</strong>
+              無限ループを防ぐための安全弁。理論上、数独の基本テクニックなら数十回で収束するが、
+              バグで <code>changed</code> が常に
+              <code>true</code> を返すケースに備えている。
+              実用コードではこうした「保険」を入れる習慣が大切。
+            </div>
+          </div>
+        </section>
+
+        <!-- クイズ -->
+        <section class="quiz-section" id="quiz">
+          <h2>
+            ✏️ 確認クイズ
+            <span
+              style="
+                font-size: 0.8rem;
+                font-weight: 400;
+                color: var(--color-text-secondary);
+                font-family: var(--font-mono);
+              "
+              >Check Your Understanding</span
+            >
+          </h2>
+
+          <div class="quiz-item" data-answer="1">
+            <p class="quiz-item__q">
+              <span class="q-num">Q1.</span>
+              <code>Array(81).fill(null)</code> が作るのは何か？
+            </p>
+            <div class="quiz-options">
+              <label class="quiz-opt"
+                ><input type="radio" name="q1" value="0" /> 長さ 9 の配列（null
+                で埋まっている）</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q1" value="1" /> 長さ 81
+                の配列（全要素が null）</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q1" value="2" /> 空の配列</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q1" value="3" /> 長さ 81 の配列（0
+                で埋まっている）</label
+              >
+            </div>
+            <div class="quiz-explain" id="explain-q1">
+              ✅ <code>Array(81)</code> で長さ 81 の空の配列を作り、<code
+                >.fill(null)</code
+              >
+              で全要素を <code>null</code> に初期化する。
+            </div>
+          </div>
+
+          <div class="quiz-item" data-answer="2">
+            <p class="quiz-item__q">
+              <span class="q-num">Q2.</span> インデックス
+              <code>idx = 20</code> のマスの行番号は？（0始まり）
+            </p>
+            <div class="quiz-options">
+              <label class="quiz-opt"
+                ><input type="radio" name="q2" value="0" /> 行 1</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q2" value="1" /> 行 1（0始まり）→
+                実は行 2</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q2" value="2" /> 行 2（=
+                Math.floor(20/9) ）</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q2" value="3" /> 行 3</label
+              >
+            </div>
+            <div class="quiz-explain" id="explain-q2">
+              ✅
+              <code>Math.floor(20 / 9) = Math.floor(2.22…) = 2</code
+              >。0始まりなので画面上は「3行目」に見える。
+            </div>
+          </div>
+
+          <div class="quiz-item" data-answer="0">
+            <p class="quiz-item__q">
+              <span class="q-num">Q3.</span> <code>Set</code> を使う主な理由は？
+            </p>
+            <div class="quiz-options">
+              <label class="quiz-opt"
+                ><input type="radio" name="q3" value="0" />
+                重複する値を自動で排除できるから</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q3" value="1" />
+                配列より検索が速いから</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q3" value="2" />
+                要素の順序が保証されるから</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q3" value="3" /> JSON
+                に変換しやすいから</label
+              >
+            </div>
+            <div class="quiz-explain" id="explain-q3">
+              ✅ 行・列・ブロックのインデックスを集めると重複が生じる。<code
+                >Set.add()</code
+              >
+              は同じ値を無視するため、手動で重複除去する必要がない。
+            </div>
+          </div>
+
+          <div class="quiz-item" data-answer="1">
+            <p class="quiz-item__q">
+              <span class="q-num">Q4.</span>
+              <code>array.filter(c => c !== 3)</code> が返すのは？
+            </p>
+            <div class="quiz-options">
+              <label class="quiz-opt"
+                ><input type="radio" name="q4" value="0" /> 元の配列から 3
+                を取り除いたもの（元の配列が変わる）</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q4" value="1" /> 3
+                を除いた新しい配列（元は変わらない）</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q4" value="2" /> true / false
+                の配列</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q4" value="3" /> 3
+                だけを含む配列</label
+              >
+            </div>
+            <div class="quiz-explain" id="explain-q4">
+              ✅
+              <code>filter</code> は元の配列を変更せず、条件を満たす要素だけの
+              <strong>新しい配列</strong>
+              を返す。これは「非破壊的（immutable）」な操作と呼ばれる。
+            </div>
+          </div>
+
+          <div class="quiz-item" data-answer="3">
+            <p class="quiz-item__q">
+              <span class="q-num">Q5.</span>
+              <code>state.grid.every(v => v !== null)</code> が
+              <code>true</code> を返すのはどんな状態？
+            </p>
+            <div class="quiz-options">
+              <label class="quiz-opt"
+                ><input type="radio" name="q5" value="0" /> grid の最初の要素が
+                null でないとき</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q5" value="1" /> grid に null
+                が1つでもあるとき</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q5" value="2" /> grid の長さが 81
+                のとき</label
+              >
+              <label class="quiz-opt"
+                ><input type="radio" name="q5" value="3" /> grid
+                のすべての要素が null でないとき（数独完成）</label
+              >
+            </div>
+            <div class="quiz-explain" id="explain-q5">
+              ✅ <code>every</code> は
+              <strong>全要素</strong> が条件を満たすとき
+              <code>true</code>。1つでも <code>null</code> があれば
+              <code>false</code>。これで数独が解けたか判定している。
+            </div>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              gap: var(--space-sm);
+              margin-top: var(--space-lg);
+              flex-wrap: wrap;
+            "
+          >
+            <button class="btn btn--primary" onclick="checkQuiz()">
+              採点する
+            </button>
+            <button class="btn btn--ghost" onclick="resetQuiz()">
+              リセット
+            </button>
+          </div>
+          <div class="score-display" id="scoreDisplay"></div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <p>
+        数独ソルバーで学ぶ JavaScript プログラミング &nbsp;|&nbsp; Made with 🧩
+      </p>
+    </footer>
+
+    <script>
+      // ── ハンバーガーメニュー ──
+      const navToggle = document.getElementById("navToggle");
+      const navLinks = document.getElementById("navLinks");
+      navToggle.addEventListener("click", () => {
+        navToggle.classList.toggle("open");
+        navLinks.classList.toggle("open");
+      });
+      // リンクをタップしたら閉じる
+      navLinks.querySelectorAll("a").forEach((a) => {
+        a.addEventListener("click", () => {
+          navToggle.classList.remove("open");
+          navLinks.classList.remove("open");
+        });
+      });
+
+      // ── クイズ採点 ──
+      function checkQuiz() {
+        const questions = document.querySelectorAll(".quiz-item");
+        let correct = 0;
+
+        questions.forEach((q, qi) => {
+          const correctAns = q.dataset.answer;
+          const selected = q.querySelector('input[type="radio"]:checked');
+          const opts = q.querySelectorAll(".quiz-opt");
+          const explain = document.getElementById(`explain-q${qi + 1}`);
+
+          opts.forEach((opt) => {
+            opt.classList.remove("correct", "wrong");
+            const radio = opt.querySelector("input");
+            if (radio.value === correctAns) opt.classList.add("correct");
+          });
+
+          if (selected) {
+            if (selected.value === correctAns) {
+              correct++;
+            } else {
+              selected.closest(".quiz-opt").classList.add("wrong");
+            }
+          }
+
+          if (explain) explain.classList.add("show");
+        });
+
+        const score = document.getElementById("scoreDisplay");
+        const pct = Math.round((correct / questions.length) * 100);
+        const msg =
+          pct === 100
+            ? "🎉 満点！完璧です！"
+            : pct >= 80
+              ? "✅ よくできました！"
+              : pct >= 60
+                ? "💪 もう少し復習しよう"
+                : "📚 コードを読み直してみよう";
+        score.textContent = `${correct} / ${questions.length}  (${pct}%)  ${msg}`;
+        score.classList.add("show");
+      }
+
+      function resetQuiz() {
+        document
+          .querySelectorAll('.quiz-item input[type="radio"]')
+          .forEach((r) => (r.checked = false));
+        document
+          .querySelectorAll(".quiz-opt")
+          .forEach((o) => o.classList.remove("correct", "wrong"));
+        document
+          .querySelectorAll(".quiz-explain")
+          .forEach((e) => e.classList.remove("show"));
+        document.getElementById("scoreDisplay").classList.remove("show");
+      }
+
+      // ── スムーズスクロール ──
+      document.querySelectorAll('a[href^="#"]').forEach((a) => {
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const target = document.querySelector(a.getAttribute("href"));
+          if (target) target.scrollIntoView({ behavior: "smooth" });
+        });
+      });
+    </script>
+  </body>
+</html>

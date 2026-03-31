@@ -1,0 +1,94 @@
+name: Update Remote Tree MD
+
+on:
+  push:
+    branches: [main]
+    # 設定ファイル自体が更新された時もトリガーしたい場合は以下を有効化
+    # paths:
+    #   - '.github/config/config.json'
+    #   - '**'
+
+jobs:
+  sync-tree:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source Repo
+        uses: actions/checkout@v4
+
+      - name: Read Config and Generate Pattern
+        id: config
+        run: |
+          CONFIG_PATH=".github/config/tree-sync-config.json"
+
+          echo "enabled=$(jq -r '.enabled' $CONFIG_PATH)" >> $GITHUB_OUTPUT
+          echo "target_repo=$(jq -r '.target_repo' $CONFIG_PATH)" >> $GITHUB_OUTPUT
+          echo "target_branch=$(jq -r '.target_branch' $GITHUB_OUTPUT)" >> $GITHUB_OUTPUT # 修正
+          echo "output_path=$(jq -r '.output_path' $CONFIG_PATH)" >> $GITHUB_OUTPUT
+
+          # 【修正ポイント】パターンを | で繋ぎ、前後に引用符がつかないように出力
+          EXCLUDE_PATTERN=$(jq -r '.exclude | join("|")' $CONFIG_PATH)
+          echo "exclude_pattern=$EXCLUDE_PATTERN" >> $GITHUB_OUTPUT
+
+      - name: Generate Tree Markdown
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          sudo apt-get install -y tree
+
+          # デバッグ用：実際に渡されるパターンを表示
+          echo "Applying pattern: ${{ steps.config.outputs.exclude_pattern }}"
+
+          echo "# Repository Tree" > /tmp/working_tree.md
+          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> /tmp/working_tree.md
+          echo "" >> /tmp/working_tree.md
+          echo "\`\`\`" >> /tmp/working_tree.md
+
+          # 【修正ポイント】パターンをダブルクォートで囲み、-I に渡す
+          # また、icons内のsvgを消すために末尾に |*.svg を強制追加しても良いです
+          tree -I "${{ steps.config.outputs.exclude_pattern }}" --prune >> /tmp/working_tree.md
+
+          echo "\`\`\`" >> /tmp/working_tree.md
+          mv /tmp/working_tree.md tree.md
+
+      - name: Generate Tree Markdown
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          sudo apt-get install -y tree
+
+          echo "# Repository Tree" > /tmp/working_tree.md
+          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> /tmp/working_tree.md
+          echo "" >> /tmp/working_tree.md
+          echo "\`\`\`" >> /tmp/working_tree.md
+
+          # --prune を追加すると、中身が空のディレクトリを整理してくれます
+          tree -I "${{ steps.config.outputs.exclude_pattern }}" --prune >> /tmp/working_tree.md
+
+          echo "\`\`\`" >> /tmp/working_tree.md
+          mv /tmp/working_tree.md tree.md
+
+      - name: Checkout Target Repo (Repo2)
+        if: steps.config.outputs.enabled == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ steps.config.outputs.target_repo }}
+          token: ${{ secrets.REPO_SYNC_PAT }}
+          path: target-repo
+          ref: ${{ steps.config.outputs.target_branch }}
+
+      - name: Commit and Push to Repo2
+        if: steps.config.outputs.enabled == 'true'
+        run: |
+          TARGET_FILE="target-repo/${{ steps.config.outputs.output_path }}"
+          mkdir -p "$(dirname "$TARGET_FILE")"
+          cp tree.md "$TARGET_FILE"
+
+          cd target-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update file tree from ${{ github.repository }}"
+            git push origin ${{ steps.config.outputs.target_branch }}
+          else
+            echo "No changes in tree structure. Skipping push."
+          fi

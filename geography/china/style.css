@@ -1,0 +1,303 @@
+/* china-shared.css */
+
+/* ── Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Variables ── */
+:root {
+  --bg: #fafaf8;
+  --surface: #ffffff;
+  --border: #e8e8e5;
+  --text: #1a1a1a;
+  --sub: #555555;
+  --accent: #c0392b;
+  --accentL: #fdecea;
+  --correct: #22c55e;
+  --wrong: #ef4444;
+  --map-fill: #d1d5db;
+  --map-hover: #9ca3af;
+
+  --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+  --display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+
+  --r-sm: 6px;
+  --r-md: 12px;
+  --r-lg: 20px;
+  --sh: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+  --nav-h: 52px;
+}
+
+body.dark {
+  --bg: #0f172a;
+  --surface: #1e293b;
+  --border: #334155;
+  --text: #f1f5f9;
+  --sub: #94a3b8;
+  --accent: #e57373;
+  --accentL: #4a1010;
+  --map-fill: #374151;
+  --map-hover: #4b5563;
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--sans);
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  padding-top: var(--nav-h);
+}
+
+/* ── Navbar ── */
+.china-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--nav-h);
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  padding: 0 1.25rem;
+  gap: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.nav-brand {
+  font-family: var(--display);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  margin-right: 1.5rem;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--r-sm);
+  color: var(--sub);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  white-space: nowrap;
+}
+.nav-link i {
+  font-size: 0.95rem;
+}
+.nav-link:hover {
+  background: var(--accentL);
+  color: var(--accent);
+}
+.nav-link.active {
+  background: var(--accentL);
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.nav-spacer {
+  flex: 1;
+}
+
+.icon-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--sub);
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.icon-btn:hover {
+  background: var(--accentL);
+  color: var(--accent);
+}
+
+/* ── Map SVG shared styles ── */
+.china-map {
+  width: 100%;
+  display: block;
+}
+
+.china-map path {
+  fill: var(--map-fill);
+  stroke: var(--surface);
+  stroke-width: 0.5;
+  transition: fill 0.12s;
+}
+.china-map path.interactive {
+  cursor: pointer;
+}
+.china-map path.interactive:hover {
+  fill: var(--map-hover);
+}
+
+/* Quiz states */
+.china-map path.correct {
+  fill: var(--correct) !important;
+  stroke: #16a34a;
+  stroke-width: 1.2;
+}
+.china-map path.wrong {
+  fill: var(--wrong) !important;
+  stroke: #dc2626;
+  stroke-width: 1.2;
+}
+.china-map path.show-answer {
+  fill: var(--correct) !important;
+  stroke: #16a34a;
+  stroke-width: 1.2;
+}
+
+/* Learn states */
+.china-map path.highlighted {
+  fill: var(--accent) !important;
+  stroke: #922b21;
+  stroke-width: 1.5;
+}
+.china-map path.neighbor {
+  fill: #fb923c !important;
+  stroke: #c2410c;
+  stroke-width: 1;
+}
+
+/* ── Zoom controls ── */
+.zoom-controls {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.zoom-btn {
+  width: 34px;
+  height: 34px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  color: var(--text);
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--sh);
+  transition: background 0.1s;
+}
+.zoom-btn:hover {
+  background: var(--accentL);
+  color: var(--accent);
+}
+
+/* ── Cards / surfaces ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--sh);
+}
+
+/* ── Button primary ── */
+.btn-primary {
+  padding: 0.65rem 2rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.btn-primary:hover {
+  opacity: 0.85;
+}
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.btn-ghost {
+  padding: 0.55rem 1.5rem;
+  background: none;
+  color: var(--sub);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+.btn-ghost:hover {
+  background: var(--accentL);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ── Spinner ── */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Utility ── */
+.text-sub {
+  color: var(--sub);
+}
+.text-accent {
+  color: var(--accent);
+}
+.font-display {
+  font-family: var(--display);
+}

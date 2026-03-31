@@ -1,0 +1,44 @@
+<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景グラデーション -->
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d6b7a;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#148b9d;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1aa3b8;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- テキストシャドウ用フィルター -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  
+  <!-- 背景（角丸） -->
+  <rect width="512" height="512" rx="80" ry="80" fill="url(#bgGradient)"/>
+  
+  <!-- "0x" テキスト（上部） -->
+  <text x="256" y="200" 
+        font-family="monospace, 'Courier New', Courier" 
+        font-size="140" 
+        font-weight="bold" 
+        fill="rgba(255, 255, 255, 0.85)" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        filter="url(#shadow)">0x</text>
+  
+  <!-- "FF" テキスト（下部・メイン） -->
+  <text x="256" y="360" 
+        font-family="monospace, 'Courier New', Courier" 
+        font-size="200" 
+        font-weight="bold" 
+        fill="#ffffff" 
+        text-anchor="middle" 
+        dominant-baseline="middle"
+        filter="url(#shadow)">FF</text>
+  
+  <!-- 装飾的なドット（16進数っぽさ） -->
+  <circle cx="100" cy="100" r="8" fill="rgba(255, 255, 255, 0.3)"/>
+  <circle cx="412" cy="100" r="8" fill="rgba(255, 255, 255, 0.3)"/>
+  <circle cx="100" cy="412" r="8" fill="rgba(255, 255, 255, 0.3)"/>
+  <circle cx="412" cy="412" r="8" fill="rgba(255, 255, 255, 0.3)"/>
+</svg>

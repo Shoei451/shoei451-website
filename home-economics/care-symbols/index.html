@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="../../images/favicon.ico" />
+    <title>衣類取り扱い表示クイズ — Shoei451</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Theme Toggle -->
+    <button id="theme-toggle" aria-label="Toggle theme">
+      <svg id="moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+      <svg id="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+    </button>
+
+    <div class="quiz-wrapper">
+      <!-- Site Header -->
+      <header class="site-header">
+        <span class="site-header__eyebrow">JIS L 0001</span>
+        <h1 class="site-header__title">衣類取り扱い表示</h1>
+        <p class="site-header__sub">洗濯表示マークの意味を覚える確認テスト</p>
+      </header>
+
+      <!-- ===== Start Screen ===== -->
+      <div id="startScreen" class="screen">
+        <div class="start-info">
+          <div class="start-info__heading">出題範囲</div>
+          <p class="start-info__text">
+            以下5カテゴリー、全28記号を収録。記号を見て正しい意味を4択から選ぼう。
+          </p>
+          <div class="category-pills">
+            <span class="pill pill--washing">🧺 洗濯処理</span>
+            <span class="pill pill--bleach">🧴 漂白処理</span>
+            <span class="pill pill--drying">🌤️ 乾燥処理</span>
+            <span class="pill pill--ironing">🔥 アイロン</span>
+            <span class="pill pill--cleaning">🧼 クリーニング</span>
+          </div>
+        </div>
+
+        <div class="start-cta">
+          <span class="start-cta__label">クイズを始める</span>
+          <button
+            class="btn btn--primary"
+            onclick="
+              document.getElementById('startScreen').classList.add('hidden');
+              document
+                .getElementById('basicSettings')
+                .classList.remove('hidden');
+            "
+          >
+            設定へ進む →
+          </button>
+        </div>
+      </div>
+
+      <!-- ===== Settings Screen ===== -->
+      <div id="basicSettings" class="screen hidden">
+        <div class="settings-card">
+          <h2>クイズ設定</h2>
+
+          <div class="field">
+            <label for="categorySelect">カテゴリー</label>
+            <select id="categorySelect">
+              <option value="all">全カテゴリー（28問）</option>
+              <option value="washing">洗濯処理</option>
+              <option value="bleaching">漂白処理</option>
+              <option value="drying">乾燥処理</option>
+              <option value="ironing">アイロン仕上げ</option>
+              <option value="cleaning">クリーニング</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="questionCount">出題数</label>
+            <select id="questionCount">
+              <option value="5">5問</option>
+              <option value="10" selected>10問</option>
+              <option value="20">20問</option>
+              <option value="all">全問</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="quizMode">学習モード</label>
+            <select id="quizMode">
+              <option value="random">ランダム練習</option>
+              <option value="difficult">弱点克服（正答率50%未満）</option>
+              <option value="unattempted">未学習問題</option>
+            </select>
+          </div>
+
+          <button id="startBasicBtn" class="btn btn--primary">
+            クイズ開始 →
+          </button>
+        </div>
+
+        <button class="btn btn--back" onclick="backToStart()">
+          スタートに戻る
+        </button>
+      </div>
+
+      <!-- ===== Quiz Screen ===== -->
+      <div id="quizScreen" class="screen hidden">
+        <div class="top-bar">
+          <button id="homeBtn" class="btn btn--back">中断</button>
+          <div id="score" class="score-display">0 / 0</div>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-meta">
+            <span id="progressLabel">1 / 10</span>
+            <span>進捗</span>
+          </div>
+          <div class="progress-track">
+            <div id="progressBar"></div>
+          </div>
+        </div>
+
+        <div id="categoryBadge" class="category-badge"></div>
+
+        <div class="symbol-display">
+          <img id="symbolImage" src="" alt="洗濯表示記号" />
+        </div>
+
+        <div id="question">この記号の意味は？</div>
+        <div id="choices"></div>
+
+        <div id="feedback" class="feedback hidden"></div>
+        <button id="nextBtn" class="hidden">次の問題 →</button>
+      </div>
+
+      <!-- ===== Results Screen ===== -->
+      <div id="resultsScreen" class="screen hidden">
+        <div class="results-card">
+          <div id="finalScore"></div>
+        </div>
+
+        <div id="categoryBreakdown"></div>
+
+        <div class="results-actions">
+          <button id="restartBtn" class="btn btn--primary">もう一度</button>
+          <button id="reviewBtn" class="btn btn--ghost" style="display: none">
+            間違いを復習
+          </button>
+        </div>
+      </div>
+
+      <div id="loading" class="loading hidden">読み込み中…</div>
+      <div id="error" class="error hidden"></div>
+    </div>
+    <!-- /.quiz-wrapper -->
+
+    <script src="data.js"></script>
+    <script src="logic.js"></script>
+  </body>
+</html>

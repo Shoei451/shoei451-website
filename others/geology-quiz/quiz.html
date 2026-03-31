@@ -1,0 +1,1250 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クイズ｜地質年代クイズ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Cinzel:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="data.js"></script>
+    <style>
+      /* ─── Reset & Base ─── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        font-size: 16px;
+      }
+
+      body {
+        min-height: 100vh;
+        background:
+          repeating-linear-gradient(
+            180deg,
+            transparent 0,
+            transparent 79px,
+            rgba(160, 120, 60, 0.05) 79px,
+            rgba(160, 120, 60, 0.05) 81px
+          ),
+          linear-gradient(180deg, #fdf6e3 0%, #f7edd0 50%, #faf3e0 100%);
+        font-family: "Noto Serif JP", Georgia, serif;
+        color: #2a1f0a;
+      }
+
+      ::-webkit-scrollbar {
+        width: 5px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f7edd0;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #c8a060;
+        border-radius: 3px;
+      }
+
+      /* ─── Header ─── */
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(253, 246, 227, 0.92);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(180, 130, 40, 0.22);
+        padding: 12px 20px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+      }
+      .header-btn {
+        background: rgba(180, 130, 30, 0.12);
+        border: 1px solid rgba(180, 130, 30, 0.4);
+        color: #7a5008;
+        border-radius: 8px;
+        padding: 7px 14px;
+        font-size: 13px;
+        cursor: pointer;
+        font-family: inherit;
+        transition: background 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        font-weight: 600;
+      }
+      .header-btn:hover {
+        background: rgba(180, 130, 30, 0.22);
+      }
+      .header-btn.blue {
+        background: rgba(60, 120, 200, 0.1);
+        border-color: rgba(60, 120, 200, 0.35);
+        color: #1a5a9a;
+      }
+      .header-btn.blue:hover {
+        background: rgba(60, 120, 200, 0.2);
+      }
+
+      .progress-wrap {
+        flex: 1;
+        min-width: 0;
+      }
+      .progress-label {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #9a7840;
+        margin-bottom: 6px;
+      }
+      .progress-label span.gold {
+        color: #8b6010;
+        font-weight: 700;
+      }
+      .progress-label span.green {
+        color: #1a7a40;
+        font-weight: 700;
+      }
+      .progress-bar-bg {
+        height: 5px;
+        background: rgba(180, 130, 40, 0.18);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .progress-bar-fill {
+        height: 100%;
+        border-radius: 3px;
+        background: linear-gradient(90deg, #b8900a, #e0b830);
+        transition: width 0.5s ease;
+      }
+
+      /* ─── Main Quiz Area ─── */
+      .quiz-main {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 28px 16px 40px;
+      }
+
+      .q-chip {
+        display: inline-block;
+        padding: 4px 14px;
+        border-radius: 20px;
+        background: rgba(180, 130, 30, 0.12);
+        border: 1px solid rgba(180, 130, 30, 0.35);
+        font-size: 12px;
+        color: #7a5008;
+        letter-spacing: 0.12em;
+        margin-bottom: 20px;
+        font-weight: 600;
+      }
+
+      /* Organism card */
+      .org-card {
+        background: rgba(255, 252, 240, 0.9);
+        border: 1px solid rgba(180, 130, 40, 0.25);
+        border-radius: 16px;
+        padding: 28px 24px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        animation: fadeUp 0.45s ease both;
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(14px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .org-image-wrap {
+        width: 190px;
+        height: 190px;
+        margin: 0 auto 20px;
+        border-radius: 14px;
+        background: #efe8d4;
+        border: 1px solid rgba(180, 130, 40, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        animation: float 4s ease-in-out infinite;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-7px) rotate(1deg);
+        }
+      }
+      .org-image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 14px;
+      }
+      .org-emoji-fallback {
+        font-size: 72px;
+        line-height: 1;
+      }
+
+      .org-name {
+        font-size: clamp(20px, 5vw, 26px);
+        font-weight: 700;
+        color: #2a1f0a;
+        margin-bottom: 6px;
+      }
+      .org-name-en {
+        font-size: 13px;
+        color: #9a7840;
+        font-style: italic;
+        margin-bottom: 10px;
+      }
+      .index-badge {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 10px;
+        background: rgba(180, 130, 30, 0.15);
+        border: 1px solid rgba(180, 130, 30, 0.45);
+        font-size: 11px;
+        color: #8b6010;
+        letter-spacing: 0.08em;
+        margin-bottom: 12px;
+        font-weight: 700;
+      }
+      .org-hint {
+        font-size: 13px;
+        color: #6a5030;
+        line-height: 1.85;
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      /* Feedback box */
+      .feedback-box {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border-radius: 12px;
+        animation: fadeUp 0.4s ease both;
+        text-align: left;
+      }
+      .feedback-box.correct {
+        background: rgba(0, 160, 80, 0.08);
+        border: 1px solid rgba(0, 160, 80, 0.3);
+      }
+      .feedback-box.wrong {
+        background: rgba(200, 50, 0, 0.08);
+        border: 1px solid rgba(200, 50, 0, 0.25);
+      }
+      .feedback-title {
+        font-size: 17px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .feedback-box.correct .feedback-title {
+        color: #0a8040;
+      }
+      .feedback-box.wrong .feedback-title {
+        color: #c03010;
+      }
+      .feedback-correct-label {
+        font-size: 13px;
+        color: #8b6010;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .feedback-hint {
+        font-size: 12px;
+        color: #6a5030;
+        line-height: 1.75;
+      }
+
+      /* Open drawer button */
+      .open-drawer-btn {
+        display: block;
+        width: 100%;
+        margin-top: 20px;
+        padding: 14px;
+        background: linear-gradient(
+          135deg,
+          rgba(180, 130, 30, 0.18),
+          rgba(180, 130, 30, 0.1)
+        );
+        border: 1px solid rgba(180, 130, 30, 0.5);
+        border-radius: 12px;
+        color: #6a4808;
+        font-family: inherit;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: all 0.2s;
+        animation: pulseGlow 2.5s ease-in-out infinite;
+      }
+      .open-drawer-btn:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(180, 130, 30, 0.3),
+          rgba(180, 130, 30, 0.18)
+        );
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(180, 130, 30, 0.2);
+        animation: none;
+      }
+      @keyframes pulseGlow {
+        0%,
+        100% {
+          box-shadow: 0 0 0 rgba(180, 130, 30, 0);
+        }
+        50% {
+          box-shadow: 0 0 18px rgba(180, 130, 30, 0.2);
+        }
+      }
+
+      /* Next button */
+      .next-btn-wrap {
+        text-align: center;
+        margin: 20px 0 8px;
+      }
+      .next-btn {
+        padding: 13px 44px;
+        background: linear-gradient(135deg, #b8900a, #d8b030);
+        border: none;
+        border-radius: 24px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+        cursor: pointer;
+        font-family: inherit;
+        letter-spacing: 0.08em;
+        box-shadow: 0 4px 18px rgba(180, 130, 30, 0.35);
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+      }
+      .next-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 26px rgba(180, 130, 30, 0.4);
+      }
+
+      /* ─── Drawer Overlay ─── */
+      .drawer-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 140;
+        background: rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(3px);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .drawer-overlay.visible {
+        display: block;
+      }
+      .drawer-overlay.open {
+        opacity: 1;
+      }
+
+      /* ─── Answer Drawer ─── */
+      .answer-drawer {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 150;
+        width: min(360px, 90vw);
+        background: rgba(253, 246, 227, 0.98);
+        backdrop-filter: blur(16px);
+        border-right: 1px solid rgba(180, 130, 40, 0.3);
+        box-shadow: 6px 0 40px rgba(0, 0, 0, 0.15);
+        transform: translateX(-100%);
+        transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      .answer-drawer.open {
+        transform: translateX(0);
+      }
+
+      .drawer-header {
+        padding: 16px 18px 12px;
+        border-bottom: 1px solid rgba(180, 130, 40, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-shrink: 0;
+        background: rgba(255, 250, 235, 0.8);
+      }
+      .drawer-header-title {
+        font-size: 13px;
+        color: #7a5008;
+        letter-spacing: 0.12em;
+        font-weight: 700;
+      }
+      .drawer-close-btn {
+        width: 30px;
+        height: 30px;
+        background: rgba(180, 130, 30, 0.12);
+        border: 1px solid rgba(180, 130, 30, 0.35);
+        border-radius: 6px;
+        color: #7a5008;
+        font-size: 16px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.18s;
+      }
+      .drawer-close-btn:hover {
+        background: rgba(180, 130, 30, 0.25);
+      }
+
+      .drawer-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 14px 16px 28px;
+      }
+      .drawer-body::-webkit-scrollbar {
+        width: 4px;
+      }
+      .drawer-body::-webkit-scrollbar-thumb {
+        background: #c8a060;
+        border-radius: 2px;
+      }
+
+      .answer-instruction {
+        font-size: 10px;
+        color: #9a7840;
+        letter-spacing: 0.18em;
+        margin-bottom: 14px;
+        text-align: center;
+      }
+
+      /* Era group */
+      .era-group {
+        margin-bottom: 14px;
+      }
+      .era-group-label {
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        padding: 3px 10px 3px 8px;
+        border-left: 3px solid;
+        margin-bottom: 7px;
+      }
+
+      /* Precambrian */
+      .era-group.precambrian .era-group-label {
+        color: #8b4010;
+        border-color: #c87830;
+        background: rgba(180, 100, 40, 0.08);
+      }
+      .era-group.precambrian .period-btn {
+        background: rgba(180, 100, 40, 0.1);
+        color: #6a2e08;
+        border-color: rgba(180, 100, 40, 0.3);
+      }
+      .era-group.precambrian .period-btn:hover:not(:disabled) {
+        background: rgba(180, 100, 40, 0.22);
+      }
+      /* Paleozoic */
+      .era-group.paleozoic .era-group-label {
+        color: #0a6030;
+        border-color: #1a8a50;
+        background: rgba(30, 140, 80, 0.08);
+      }
+      .era-group.paleozoic .period-btn {
+        background: rgba(30, 140, 80, 0.1);
+        color: #0a5028;
+        border-color: rgba(30, 140, 80, 0.3);
+      }
+      .era-group.paleozoic .period-btn:hover:not(:disabled) {
+        background: rgba(30, 140, 80, 0.22);
+      }
+      /* Mesozoic */
+      .era-group.mesozoic .era-group-label {
+        color: #1a4a9a;
+        border-color: #2a70cc;
+        background: rgba(40, 100, 200, 0.08);
+      }
+      .era-group.mesozoic .period-btn {
+        background: rgba(40, 100, 200, 0.1);
+        color: #1a3a7a;
+        border-color: rgba(40, 100, 200, 0.3);
+      }
+      .era-group.mesozoic .period-btn:hover:not(:disabled) {
+        background: rgba(40, 100, 200, 0.2);
+      }
+      /* Cenozoic */
+      .era-group.cenozoic .era-group-label {
+        color: #8b4a08;
+        border-color: #c87020;
+        background: rgba(200, 100, 20, 0.08);
+      }
+      .era-group.cenozoic .period-btn {
+        background: rgba(200, 100, 20, 0.1);
+        color: #6a3008;
+        border-color: rgba(200, 100, 20, 0.3);
+      }
+      .era-group.cenozoic .period-btn:hover:not(:disabled) {
+        background: rgba(200, 100, 20, 0.22);
+      }
+
+      .period-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .period-btn {
+        flex: 1 1 auto;
+        min-width: 76px;
+        padding: 8px 6px;
+        border-radius: 8px;
+        border: 1px solid;
+        font-size: clamp(11px, 2.5vw, 13px);
+        font-family: inherit;
+        font-weight: 700;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.18s ease;
+        line-height: 1.3;
+      }
+      .period-btn:disabled {
+        cursor: default;
+      }
+      .period-btn.state-correct {
+        background: rgba(0, 160, 80, 0.2) !important;
+        border-color: rgba(0, 160, 80, 0.6) !important;
+        color: #0a6030 !important;
+        box-shadow: 0 0 10px rgba(0, 160, 80, 0.2);
+      }
+      .period-btn.state-wrong {
+        background: rgba(200, 50, 0, 0.15) !important;
+        border-color: rgba(200, 50, 0, 0.5) !important;
+        color: #9a2010 !important;
+      }
+      .period-btn.state-dim {
+        opacity: 0.3;
+      }
+      .period-btn:hover:not(:disabled) {
+        transform: scale(1.04);
+      }
+
+      /* ─── Results Screen ─── */
+      #results-screen {
+        display: none;
+      }
+      .results-wrap {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 36px 16px 60px;
+      }
+      .results-title {
+        text-align: center;
+        font-family: "Cinzel", serif;
+        font-size: clamp(22px, 5vw, 30px);
+        margin-bottom: 8px;
+      }
+      .score-ring-wrap {
+        width: 150px;
+        height: 150px;
+        margin: 24px auto;
+        position: relative;
+      }
+      .score-ring-wrap svg {
+        transform: rotate(-90deg);
+      }
+      .score-ring-inner {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .score-num {
+        font-family: "Cinzel", serif;
+        font-size: 38px;
+        font-weight: 700;
+        line-height: 1;
+      }
+      .score-denom {
+        font-size: 14px;
+        color: #9a7840;
+      }
+      .score-pct {
+        font-size: 16px;
+        color: #6a5030;
+        text-align: center;
+        margin-bottom: 32px;
+      }
+      .score-pct strong {
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .era-breakdown {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+        margin-bottom: 36px;
+      }
+      .era-score-card {
+        padding: 14px 18px;
+        border-radius: 10px;
+        text-align: center;
+        min-width: 110px;
+      }
+      .era-score-label {
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+      }
+      .era-score-num {
+        font-size: 24px;
+        font-weight: 700;
+      }
+      .era-score-num span {
+        font-size: 14px;
+        opacity: 0.6;
+      }
+
+      .history-title {
+        font-size: 13px;
+        color: #9a7840;
+        letter-spacing: 0.18em;
+        text-align: center;
+        margin-bottom: 14px;
+        text-transform: uppercase;
+      }
+      .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 40px;
+      }
+      .history-item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 12px 14px;
+        border-radius: 10px;
+      }
+      .history-item.correct {
+        background: rgba(0, 160, 80, 0.06);
+        border: 1px solid rgba(0, 160, 80, 0.2);
+      }
+      .history-item.wrong {
+        background: rgba(200, 50, 0, 0.06);
+        border: 1px solid rgba(200, 50, 0, 0.18);
+      }
+      .history-icon {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        flex-shrink: 0;
+      }
+      .history-item.correct .history-icon {
+        background: rgba(0, 160, 80, 0.15);
+        color: #0a7a38;
+      }
+      .history-item.wrong .history-icon {
+        background: rgba(200, 50, 0, 0.15);
+        color: #b02808;
+      }
+      .history-emoji {
+        font-size: 32px;
+        flex-shrink: 0;
+      }
+      .history-body {
+        flex: 1;
+        min-width: 0;
+      }
+      .history-name {
+        font-size: 14px;
+        font-weight: 700;
+      }
+      .history-item.correct .history-name {
+        color: #0a6030;
+      }
+      .history-item.wrong .history-name {
+        color: #9a2010;
+      }
+      .history-answer {
+        font-size: 11px;
+        color: #9a7840;
+        margin-top: 3px;
+      }
+      .history-answer .wrong-ans {
+        color: #c03010;
+      }
+      .history-index-badge {
+        flex-shrink: 0;
+        padding: 2px 8px;
+        border-radius: 8px;
+        background: rgba(180, 130, 30, 0.12);
+        border: 1px solid rgba(180, 130, 30, 0.3);
+        font-size: 9px;
+        color: #8b6010;
+        font-weight: 700;
+      }
+
+      .result-actions {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .result-btn {
+        padding: 12px 30px;
+        border-radius: 24px;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: inherit;
+        cursor: pointer;
+        letter-spacing: 0.06em;
+        transition: all 0.18s;
+      }
+      .result-btn.primary {
+        background: linear-gradient(135deg, #b8900a, #d8b030);
+        border: none;
+        color: #fff;
+        box-shadow: 0 4px 18px rgba(180, 130, 30, 0.35);
+      }
+      .result-btn.primary:hover {
+        transform: translateY(-2px);
+      }
+      .result-btn.secondary {
+        background: rgba(180, 130, 30, 0.08);
+        border: 1px solid rgba(180, 130, 30, 0.35);
+        color: #7a5008;
+      }
+      .result-btn.secondary:hover {
+        background: rgba(180, 130, 30, 0.16);
+      }
+
+      /* ─── Flash overlay ─── */
+      .flash-overlay {
+        pointer-events: none;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        opacity: 0;
+        transition: opacity 0.15s;
+      }
+      .flash-overlay.correct-flash {
+        background: rgba(0, 160, 80, 0.12);
+      }
+      .flash-overlay.wrong-flash {
+        background: rgba(200, 50, 0, 0.12);
+      }
+
+      /* ─── Responsive ─── */
+      @media (max-width: 480px) {
+        .org-image-wrap {
+          width: 150px;
+          height: 150px;
+        }
+        .period-btn {
+          min-width: 64px;
+          font-size: 11px;
+          padding: 7px 4px;
+        }
+        .header {
+          padding: 10px 12px;
+          gap: 10px;
+        }
+        .quiz-main {
+          padding: 20px 14px 40px;
+        }
+        .answer-drawer {
+          width: 94vw;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- ════════════ QUIZ SCREEN ════════════ -->
+    <div id="quiz-screen">
+      <header class="header">
+        <a href="index.html" class="header-btn">← ホーム</a>
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span
+              >問題 <span class="gold" id="qCurrent">1</span> /
+              <span id="qTotal">15</span></span
+            >
+            <span
+              >正解 <span class="green" id="qScore">0</span> /
+              <span id="qAnswered">0</span></span
+            >
+          </div>
+          <div class="progress-bar-bg">
+            <div
+              class="progress-bar-fill"
+              id="progressBar"
+              style="width: 0%"
+            ></div>
+          </div>
+        </div>
+        <a href="timeline.html" class="header-btn blue">年表 →</a>
+      </header>
+
+      <div class="quiz-main" id="quizMain">
+        <div style="text-align: center">
+          <span class="q-chip">この生物が主に活躍した時代はどれ？</span>
+        </div>
+
+        <div class="org-card" id="orgCard">
+          <div class="org-image-wrap" id="orgImageWrap">
+            <img
+              id="orgImg"
+              src=""
+              alt=""
+              onerror="
+                this.style.display = 'none';
+                document.getElementById('orgEmoji').style.display = 'block';
+              "
+            />
+            <div
+              class="org-emoji-fallback"
+              id="orgEmoji"
+              style="display: none"
+            ></div>
+          </div>
+          <div class="org-name" id="orgName"></div>
+          <div class="org-name-en" id="orgNameEn"></div>
+          <div id="indexBadgeWrap"></div>
+          <p class="org-hint" id="orgHint"></p>
+          <div id="feedbackBox"></div>
+
+          <button
+            class="open-drawer-btn"
+            id="openDrawerBtn"
+            onclick="openDrawer()"
+          >
+            年代を選ぶ　→
+          </button>
+
+          <div class="next-btn-wrap" id="nextBtnWrap" style="display: none">
+            <button class="next-btn" id="nextBtn">次の問題 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #quiz-screen -->
+
+    <!-- Overlay -->
+    <div
+      class="drawer-overlay"
+      id="drawerOverlay"
+      onclick="closeDrawer()"
+    ></div>
+
+    <!-- Answer Drawer -->
+    <div class="answer-drawer" id="answerDrawer">
+      <div class="drawer-header">
+        <div class="drawer-header-title">年代を選択</div>
+        <button class="drawer-close-btn" onclick="closeDrawer()">✕</button>
+      </div>
+      <div class="drawer-body">
+        <div class="answer-instruction" id="answerInstruction">
+          ─── 時代を選んでください ───
+        </div>
+        <div id="answerButtons"></div>
+      </div>
+    </div>
+
+    <!-- ════════════ RESULTS SCREEN ════════════ -->
+    <div id="results-screen">
+      <div class="results-wrap">
+        <div
+          style="text-align: center; margin-bottom: 4px; font-size: 52px"
+          id="resultsIcon"
+        >
+          🏆
+        </div>
+        <div class="results-title" id="resultsTitle"></div>
+        <div class="score-ring-wrap">
+          <svg width="150" height="150" viewBox="0 0 150 150">
+            <circle
+              cx="75"
+              cy="75"
+              r="62"
+              fill="none"
+              stroke="rgba(180,130,40,.15)"
+              stroke-width="11"
+            />
+            <circle
+              id="scoreRingArc"
+              cx="75"
+              cy="75"
+              r="62"
+              fill="none"
+              stroke="#b8900a"
+              stroke-width="11"
+              stroke-linecap="round"
+              stroke-dasharray="0 390"
+              style="transition: stroke-dasharray 1.2s ease"
+            />
+          </svg>
+          <div class="score-ring-inner">
+            <div class="score-num" id="scoreBig"></div>
+            <div class="score-denom" id="scoreDenom"></div>
+          </div>
+        </div>
+        <div class="score-pct" id="scorePct"></div>
+        <div
+          style="
+            font-size: 13px;
+            color: #9a7840;
+            letter-spacing: 0.18em;
+            text-align: center;
+            margin-bottom: 14px;
+            text-transform: uppercase;
+          "
+        >
+          ── 時代別スコア ──
+        </div>
+        <div class="era-breakdown" id="eraBreakdown"></div>
+        <div class="history-title">── 解答一覧 ──</div>
+        <div class="history-list" id="historyList"></div>
+        <div class="result-actions">
+          <button class="result-btn primary" onclick="restartQuiz()">
+            もう一度挑戦
+          </button>
+          <a href="timeline.html" class="result-btn secondary">年表で復習</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── Drawer ──
+      function openDrawer() {
+        const overlay = document.getElementById("drawerOverlay");
+        const drawer = document.getElementById("answerDrawer");
+        overlay.classList.add("visible");
+        void overlay.offsetWidth;
+        overlay.classList.add("open");
+        drawer.classList.add("open");
+        drawer.querySelector(".drawer-body").scrollTop = 0;
+      }
+      function closeDrawer() {
+        const overlay = document.getElementById("drawerOverlay");
+        const drawer = document.getElementById("answerDrawer");
+        overlay.classList.remove("open");
+        drawer.classList.remove("open");
+        setTimeout(() => overlay.classList.remove("visible"), 320);
+      }
+
+      // ── Quiz State ──
+      let quizList = [],
+        current = 0,
+        score = 0,
+        answered = false,
+        history = [];
+
+      function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function init() {
+        quizList = shuffle(ORGANISMS);
+        current = 0;
+        score = 0;
+        answered = false;
+        history = [];
+        document.getElementById("quiz-screen").style.display = "";
+        document.getElementById("results-screen").style.display = "none";
+        renderQuestion();
+      }
+
+      // ── Render Question ──
+      function renderQuestion() {
+        answered = false;
+        const org = quizList[current];
+        const total = quizList.length;
+
+        document.getElementById("qCurrent").textContent = current + 1;
+        document.getElementById("qTotal").textContent = total;
+        document.getElementById("qScore").textContent = score;
+        document.getElementById("qAnswered").textContent = current;
+        document.getElementById("progressBar").style.width =
+          (current / total) * 100 + "%";
+
+        const card = document.getElementById("orgCard");
+        card.style.animation = "none";
+        void card.offsetWidth;
+        card.style.animation = "";
+
+        const img = document.getElementById("orgImg");
+        const emoji = document.getElementById("orgEmoji");
+        img.style.display = "";
+        emoji.style.display = "none";
+        img.dataset.organismId = org.id;
+        img.dataset.fallbackTried = "0";
+        img.onerror = function () {
+          if (this.dataset.fallbackTried !== "1") {
+            this.dataset.fallbackTried = "1";
+            this.src = getImageFallbackPath(this.dataset.organismId, this.src);
+            return;
+          }
+          this.style.display = "none";
+          document.getElementById("orgEmoji").style.display = "block";
+        };
+        img.src = getImagePath(org.id);
+        img.alt = org.name;
+        emoji.textContent = org.emoji;
+
+        document.getElementById("orgName").textContent = org.name;
+        document.getElementById("orgNameEn").textContent = org.nameEn;
+        document.getElementById("orgHint").textContent = org.hint;
+        document.getElementById("indexBadgeWrap").innerHTML = org.isIndexFossil
+          ? '<span class="index-badge">示準化石</span>'
+          : "";
+
+        document.getElementById("feedbackBox").innerHTML = "";
+        document.getElementById("nextBtnWrap").style.display = "none";
+        document.getElementById("answerInstruction").textContent =
+          "─── 時代を選んでください ───";
+
+        const openBtn = document.getElementById("openDrawerBtn");
+        if (openBtn) openBtn.style.display = "";
+
+        renderAnswerButtons(null, null);
+      }
+
+      // ── Render Answer Buttons ──
+      function renderAnswerButtons(selectedId, correctId) {
+        const container = document.getElementById("answerButtons");
+        container.innerHTML = "";
+        ERA_GROUPS.forEach((group) => {
+          const div = document.createElement("div");
+          div.className = "era-group " + group.id;
+
+          const label = document.createElement("div");
+          label.className = "era-group-label";
+          label.textContent = group.name;
+          div.appendChild(label);
+
+          const btnRow = document.createElement("div");
+          btnRow.className = "period-buttons";
+
+          group.periods.forEach((pid) => {
+            const period = getPeriodById(pid);
+            if (!period) return;
+            const btn = document.createElement("button");
+            btn.className = "period-btn";
+            btn.dataset.periodId = pid;
+            btn.textContent = period.name;
+
+            if (selectedId !== null) {
+              btn.disabled = true;
+              if (pid === correctId) btn.classList.add("state-correct");
+              else if (pid === selectedId) btn.classList.add("state-wrong");
+              else btn.classList.add("state-dim");
+            } else {
+              btn.addEventListener("click", () => handleAnswer(pid));
+            }
+            btnRow.appendChild(btn);
+          });
+
+          div.appendChild(btnRow);
+          container.appendChild(div);
+        });
+      }
+
+      // ── Handle Answer ──
+      function handleAnswer(selectedPeriodId) {
+        if (answered) return;
+        answered = true;
+
+        const org = quizList[current];
+        const correct = selectedPeriodId === org.correctPeriod;
+        if (correct) score++;
+        history.push({ org, correct, selected: selectedPeriodId });
+
+        // Flash
+        const flashOv = document.getElementById("flashOverlay");
+        flashOv.className =
+          "flash-overlay " + (correct ? "correct-flash" : "wrong-flash");
+        flashOv.style.opacity = "1";
+        setTimeout(() => {
+          flashOv.style.opacity = "0";
+          flashOv.className = "flash-overlay";
+        }, 600);
+
+        // Close drawer
+        setTimeout(() => closeDrawer(), 600);
+
+        // Update buttons
+        renderAnswerButtons(selectedPeriodId, org.correctPeriod);
+
+        // Feedback
+        const correctPeriod = getPeriodById(org.correctPeriod);
+        document.getElementById("feedbackBox").innerHTML = `
+    <div class="feedback-box ${correct ? "correct" : "wrong"}">
+      <div class="feedback-title">${correct ? "✓　正解！" : "✗　不正解"}</div>
+      <div class="feedback-correct-label">正解：${correctPeriod ? correctPeriod.name : ""}（${org.periodLabel}）</div>
+      <div class="feedback-hint">${org.description.slice(0, 100)}…</div>
+    </div>
+  `;
+
+        document.getElementById("qScore").textContent = score;
+        document.getElementById("qAnswered").textContent = current + 1;
+        document.getElementById("progressBar").style.width =
+          ((current + 1) / quizList.length) * 100 + "%";
+        document.getElementById("answerInstruction").textContent =
+          "─── 確認後、次の問題へ ───";
+
+        const openBtn = document.getElementById("openDrawerBtn");
+        if (openBtn) openBtn.style.display = "none";
+        const nextWrap = document.getElementById("nextBtnWrap");
+        const nextBtn = document.getElementById("nextBtn");
+        nextWrap.style.display = "";
+        const isLast = current + 1 >= quizList.length;
+        nextBtn.textContent = isLast ? "結果を見る →" : "次の問題 →";
+        nextBtn.onclick = isLast ? showResults : nextQuestion;
+      }
+
+      function nextQuestion() {
+        current++;
+        renderQuestion();
+        document
+          .getElementById("orgCard")
+          .scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      // ── Results ──
+      function showResults() {
+        document.getElementById("quiz-screen").style.display = "none";
+        document.getElementById("results-screen").style.display = "block";
+
+        const total = quizList.length;
+        const pct = Math.round((score / total) * 100);
+
+        const grade =
+          pct >= 90
+            ? { label: "地質博士！", icon: "🏆", color: "#8b6010" }
+            : pct >= 70
+              ? { label: "よくできました", icon: "🌟", color: "#1a7a40" }
+              : pct >= 50
+                ? { label: "まずまずです", icon: "📚", color: "#1a4a9a" }
+                : { label: "もう一度挑戦！", icon: "🦴", color: "#9a3010" };
+
+        document.getElementById("resultsIcon").textContent = grade.icon;
+        const titleEl = document.getElementById("resultsTitle");
+        titleEl.textContent = grade.label;
+        titleEl.style.color = grade.color;
+        const bigEl = document.getElementById("scoreBig");
+        bigEl.textContent = score;
+        bigEl.style.color = grade.color;
+        document.getElementById("scoreDenom").textContent = "/ " + total;
+        document.getElementById("scorePct").innerHTML =
+          `正解率 <strong style="color:${grade.color}">${pct}%</strong>`;
+
+        const circ = 2 * Math.PI * 62;
+        const arc = document.getElementById("scoreRingArc");
+        arc.style.stroke = grade.color;
+        setTimeout(() => {
+          arc.style.strokeDasharray = `${(circ * pct) / 100} ${circ}`;
+        }, 100);
+
+        // Era colors for result cards (light theme)
+        const eraResultStyles = {
+          precambrian: {
+            bg: "rgba(180,100,40,.1)",
+            border: "rgba(180,100,40,.3)",
+            text: "#8b4010",
+          },
+          paleozoic: {
+            bg: "rgba(30,140,80,.1)",
+            border: "rgba(30,140,80,.3)",
+            text: "#0a6030",
+          },
+          mesozoic: {
+            bg: "rgba(40,100,200,.1)",
+            border: "rgba(40,100,200,.3)",
+            text: "#1a4a9a",
+          },
+          cenozoic: {
+            bg: "rgba(200,100,20,.1)",
+            border: "rgba(200,100,20,.3)",
+            text: "#8b4a08",
+          },
+        };
+
+        const eb = document.getElementById("eraBreakdown");
+        eb.innerHTML = "";
+        ERA_GROUPS.forEach((group) => {
+          const groupHistory = history.filter((h) => {
+            const p = getPeriodById(h.org.correctPeriod);
+            return p && p.era === group.id;
+          });
+          if (groupHistory.length === 0) return;
+          const gs = groupHistory.filter((h) => h.correct).length;
+          const gt = groupHistory.length;
+          const s = eraResultStyles[group.id] || {};
+          const card = document.createElement("div");
+          card.className = "era-score-card";
+          card.style.cssText = `background:${s.bg};border:1px solid ${s.border};`;
+          card.innerHTML = `<div class="era-score-label" style="color:${s.text}">${group.name}</div><div class="era-score-num" style="color:${s.text}">${gs}<span>/${gt}</span></div>`;
+          eb.appendChild(card);
+        });
+
+        const hl = document.getElementById("historyList");
+        hl.innerHTML = "";
+        history.forEach((h) => {
+          const selPeriod = getPeriodById(h.selected);
+          const corrPeriod = getPeriodById(h.org.correctPeriod);
+          const item = document.createElement("div");
+          item.className = "history-item " + (h.correct ? "correct" : "wrong");
+          item.innerHTML = `
+      <div class="history-icon">${h.correct ? "✓" : "✗"}</div>
+      <div class="history-emoji">${h.org.emoji}</div>
+      <div class="history-body">
+        <div class="history-name">${h.org.name}</div>
+        <div class="history-answer">
+          正解：${corrPeriod ? corrPeriod.name : ""}（${h.org.periodLabel}）
+          ${!h.correct ? `<span class="wrong-ans"> ／ あなたの回答：${selPeriod ? selPeriod.name : "？"}</span>` : ""}
+        </div>
+      </div>
+      ${h.org.isIndexFossil ? '<div class="history-index-badge">示準化石</div>' : ""}
+    `;
+          hl.appendChild(item);
+        });
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function restartQuiz() {
+        init();
+        window.scrollTo({ top: 0 });
+      }
+
+      init();
+    </script>
+  </body>
+</html>

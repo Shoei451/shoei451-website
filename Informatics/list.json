@@ -1,0 +1,30 @@
+{
+  "title": "Informatics-1 — Shoei451",
+  "h1": "💻 Informatics-1",
+  "headerDesc": "\"Informatics one\" learning tools",
+  "sections": [
+    {
+      "title": "共通テスト対策",
+      "desc": "情報Ⅰ 共通テスト対策のための学習ツール集です",
+      "items": [
+        {
+          "title": "16進数クイズ",
+          "link": "hex-quiz/",
+          "titleEN": "Hexadecimal Quiz",
+          "description": "16進数/2進数についての計算クイズです",
+          "icon": "../images/hex-quiz.svg",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "Sudoku JS note",
+          "link": "sudoku-programming-guide/",
+          "titleEN": "Sudoku JS note",
+          "description": "数独ソルバーのロジックから、Javascriptを学ぶ",
+          "icon": "🧩",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}

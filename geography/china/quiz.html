@@ -1,0 +1,739 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>クイズ — 中国地理</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 100vh;
+        padding: 1.25rem 1rem 3rem;
+      }
+
+      /* ── START SCREEN ── */
+      #start-screen {
+        width: 100%;
+        max-width: 900px;
+        display: none;
+      }
+
+      .start-layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        align-items: stretch;
+      }
+
+      .start-map-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      #start-map {
+        width: 100%;
+        display: block;
+      }
+      #start-map path {
+        fill: var(--map-fill);
+        stroke: var(--surface);
+        stroke-width: 0.5;
+      }
+
+      .start-panel {
+        padding: 1.75rem 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+      .start-panel h2 {
+        font-family: var(--display);
+        font-size: 1.3rem;
+      }
+
+      .setting-label {
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--sub);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .count-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.4rem;
+      }
+      .count-btn {
+        padding: 0.55rem 0;
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-sm);
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--sans);
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition:
+          border-color 0.15s,
+          background 0.15s,
+          color 0.15s;
+      }
+      .count-btn:hover {
+        border-color: var(--accent);
+        background: var(--accentL);
+        color: var(--accent);
+      }
+      .count-btn.selected {
+        border-color: var(--accent);
+        background: var(--accentL);
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .hint-text {
+        font-size: 0.83rem;
+        color: var(--sub);
+        line-height: 1.6;
+      }
+
+      .start-panel .btn-primary {
+        width: 100%;
+        padding: 0.8rem;
+        font-size: 1rem;
+      }
+
+      @media (max-width: 640px) {
+        .start-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── QUIZ SCREEN ── */
+      #quiz-screen {
+        display: none;
+        width: 100%;
+        max-width: 900px;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .progress-row {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .progress-label {
+        font-size: 0.82rem;
+        color: var(--sub);
+        white-space: nowrap;
+        min-width: 4.5rem;
+      }
+      .progress-track {
+        flex: 1;
+        height: 6px;
+        background: var(--border);
+        border-radius: 99px;
+        overflow: hidden;
+      }
+      #progress-bar {
+        height: 100%;
+        background: var(--accent);
+        border-radius: 99px;
+        transition: width 0.3s ease;
+      }
+      .score-chip {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: var(--accent);
+        white-space: nowrap;
+      }
+
+      #round-badge {
+        display: none;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.65rem;
+        background: #fef3c7;
+        color: #92400e;
+        border-radius: 99px;
+        font-size: 0.78rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      body.dark #round-badge {
+        background: #451a03;
+        color: #fbbf24;
+      }
+      #round-badge.show {
+        display: inline-flex;
+      }
+
+      #question-box {
+        padding: 0.75rem 1.5rem;
+        text-align: center;
+        min-height: 52px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      #question {
+        font-family: var(--display);
+        font-size: 1.4rem;
+        font-weight: 700;
+      }
+      #reading {
+        font-size: 0.88rem;
+        color: var(--sub);
+      }
+
+      #map-wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+      #map {
+        cursor: grab;
+      }
+      #map:active {
+        cursor: grabbing;
+      }
+
+      /* Suppress browser tooltip on SVG paths */
+      #map path {
+        pointer-events: all;
+      }
+
+      #feedback {
+        text-align: center;
+        font-size: 0.9rem;
+        color: var(--sub);
+        min-height: 1.5em;
+      }
+      #feedback.ok {
+        color: var(--correct);
+        font-weight: 600;
+      }
+      #feedback.bad {
+        color: var(--wrong);
+        font-weight: 600;
+      }
+
+      /* ── RESULT SCREEN ── */
+      #result-screen {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        max-width: 500px;
+        margin: 1rem auto 0;
+      }
+
+      .result-card {
+        width: 100%;
+        padding: 2.25rem 2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+      .result-card h2 {
+        font-family: var(--display);
+        font-size: 1.2rem;
+      }
+      .result-score-big {
+        font-family: var(--display);
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .result-sub {
+        font-size: 0.9rem;
+        color: var(--sub);
+      }
+      .result-msg {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      .result-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        justify-content: center;
+      }
+
+      .wrong-section {
+        width: 100%;
+        padding: 1.25rem 1.5rem;
+      }
+      .wrong-section h3 {
+        font-family: var(--display);
+        font-size: 0.9rem;
+        color: var(--wrong);
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.35rem;
+      }
+      .wrong-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .wrong-chip {
+        padding: 0.25rem 0.65rem;
+        background: var(--accentL);
+        color: var(--accent);
+        border-radius: 99px;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      /* Loading */
+      #loading {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 3rem auto;
+        color: var(--sub);
+        font-size: 0.9rem;
+      }
+
+      /* Mobile: map fills width */
+      @media (max-width: 640px) {
+        body {
+          padding: 0.75rem 0.5rem 2rem;
+        }
+        #quiz-screen {
+          gap: 0.5rem;
+        }
+        #question-box {
+          padding: 0.6rem 1rem;
+        }
+        #question {
+          font-size: 1.25rem;
+        }
+        #map-wrapper {
+          border-radius: 0;
+          border-left: none;
+          border-right: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="china-nav">
+      <a class="nav-brand" href="index.html">CN geography</a>
+      <div class="nav-links">
+        <a class="nav-link active" href="index.html"
+          ><i class="bi bi-house"></i>Home</a
+        >
+        <a class="nav-link" href="quiz.html"
+          ><i class="bi bi-geo-alt"></i>Quiz</a
+        >
+        <a class="nav-link" href="learn.html"
+          ><i class="bi bi-book"></i>Learn</a
+        >
+      </div>
+      <div class="nav-spacer"></div>
+      <button class="icon-btn" id="theme-toggle">
+        <i class="bi bi-moon"></i>
+      </button>
+    </nav>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      地図データを読み込んでいます...
+    </div>
+
+    <!-- START -->
+    <div id="start-screen">
+      <div class="start-layout">
+        <div class="start-map-wrap card">
+          <svg id="start-map" class="china-map"></svg>
+        </div>
+        <div class="start-panel card">
+          <h2>クイズ設定</h2>
+          <div>
+            <p class="setting-label">出題数</p>
+            <div class="count-grid">
+              <button class="count-btn" data-n="10">10問</button>
+              <button class="count-btn selected" data-n="20">20問</button>
+              <button class="count-btn" data-n="31">全31問</button>
+            </div>
+          </div>
+          <p class="hint-text">
+            同じ省は1セッション中1度だけ出題。<br />
+            間違えた省はセッション末に復習ラウンドで再出題されます。
+          </p>
+          <button class="btn-primary" id="start-btn">スタート</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="quiz-screen">
+      <div class="progress-row">
+        <span class="progress-label" id="progress-label">0 / 0</span>
+        <div class="progress-track">
+          <div id="progress-bar" style="width: 0%"></div>
+        </div>
+        <span class="score-chip" id="score-chip">正解 0</span>
+        <span id="round-badge"><i class="bi bi-arrow-repeat"></i> 復習</span>
+      </div>
+
+      <div id="question-box" class="card">
+        <span id="question">—</span>
+        <span id="reading"></span>
+      </div>
+
+      <div id="map-wrapper" class="card">
+        <svg id="map" class="china-map"></svg>
+        <div class="zoom-controls">
+          <button class="zoom-btn" id="zoom-in">
+            <i class="bi bi-plus"></i>
+          </button>
+          <button class="zoom-btn" id="zoom-reset">
+            <i class="bi bi-fullscreen-exit"></i>
+          </button>
+          <button class="zoom-btn" id="zoom-out">
+            <i class="bi bi-dash"></i>
+          </button>
+        </div>
+      </div>
+
+      <div id="feedback"></div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result-screen">
+      <div class="result-card card">
+        <h2>クイズ結果</h2>
+        <div class="result-score-big" id="result-score"></div>
+        <div class="result-sub" id="result-pct"></div>
+        <div class="result-msg" id="result-msg"></div>
+        <div class="result-actions">
+          <button class="btn-primary" id="retry-btn">もう一度</button>
+          <a class="btn-ghost" href="learn.html">学習モードへ</a>
+        </div>
+      </div>
+      <div class="wrong-section card" id="wrong-section" style="display: none">
+        <h3><i class="bi bi-exclamation-circle-fill"></i> 間違えた省</h3>
+        <div class="wrong-chips" id="wrong-chips"></div>
+      </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script>
+      let topoData = null;
+      let totalQ = 20;
+      let queue = [];
+      let reviewQueue = [];
+      let qIdx = 0;
+      let correctCount = 0;
+      let wrongEngs = [];
+      let current = null;
+      let busy = false;
+      let isReview = false;
+      let zoomB = null;
+
+      const $start = document.getElementById("start-screen");
+      const $quiz = document.getElementById("quiz-screen");
+      const $result = document.getElementById("result-screen");
+      const $loading = document.getElementById("loading");
+      const $q = document.getElementById("question");
+      const $r = document.getElementById("reading");
+      const $fb = document.getElementById("feedback");
+      const $pbar = document.getElementById("progress-bar");
+      const $plabel = document.getElementById("progress-label");
+      const $chip = document.getElementById("score-chip");
+      const $badge = document.getElementById("round-badge");
+      const $map = document.getElementById("map");
+
+      // Count buttons
+      let selectedCount = 20;
+      document.querySelectorAll(".count-btn").forEach((b) => {
+        b.addEventListener("click", () => {
+          document
+            .querySelectorAll(".count-btn")
+            .forEach((x) => x.classList.remove("selected"));
+          b.classList.add("selected");
+          selectedCount = +b.dataset.n;
+        });
+      });
+
+      document.getElementById("start-btn").addEventListener("click", startQuiz);
+      document.getElementById("retry-btn").addEventListener("click", () => {
+        $result.style.display = "none";
+        $start.style.display = "block";
+      });
+
+      function startQuiz() {
+        totalQ = selectedCount;
+        correctCount = 0;
+        wrongEngs = [];
+        isReview = false;
+        $badge.classList.remove("show");
+
+        const shuffled = [...PROVINCES].sort(() => Math.random() - 0.5);
+        queue = shuffled.slice(0, totalQ).map((p) => p.eng);
+        qIdx = 0;
+
+        $start.style.display = "none";
+        $result.style.display = "none";
+        $quiz.style.display = "flex";
+        renderMap();
+        nextQ();
+      }
+
+      function nextQ() {
+        clearStates();
+        $fb.textContent = "";
+        $fb.className = "";
+
+        if (qIdx >= queue.length) {
+          if (!isReview && wrongEngs.length > 0) {
+            isReview = true;
+            queue = [...wrongEngs].sort(() => Math.random() - 0.5);
+            qIdx = 0;
+            wrongEngs = [];
+            $badge.classList.add("show");
+            updateProgress();
+          } else {
+            showResult();
+            return;
+          }
+        }
+
+        current = BY_ENG[queue[qIdx++]];
+        $q.textContent = current.name;
+        $r.textContent = `（${current.reading}）`;
+        updateProgress();
+        busy = false;
+      }
+
+      function handleClick(eng, el) {
+        if (busy || !current) return;
+        const prov = resolveProvince(eng) || BY_ENG[eng];
+        if (!prov) return;
+        busy = true;
+
+        const correctEl = $map.querySelector(`[data-eng="${current.eng}"]`);
+
+        if (eng === current.eng) {
+          el.classList.add("correct");
+          correctCount++;
+          $fb.textContent = "正解！";
+          $fb.className = "ok";
+        } else {
+          el.classList.add("wrong");
+          correctEl?.classList.add("show-answer");
+          $fb.textContent = `不正解 — 正解は ${current.name}（${current.reading}）`;
+          $fb.className = "bad";
+          if (!wrongEngs.includes(current.eng)) wrongEngs.push(current.eng);
+        }
+
+        $chip.textContent = `正解 ${correctCount}`;
+        setTimeout(nextQ, 1750);
+      }
+
+      function updateProgress() {
+        const total = queue.length;
+        const done = Math.min(qIdx, total);
+        $plabel.textContent = `${done} / ${total}`;
+        $pbar.style.width = `${(done / total) * 100}%`;
+      }
+
+      function clearStates() {
+        $map
+          .querySelectorAll("path")
+          .forEach((p) =>
+            p.classList.remove("correct", "wrong", "show-answer"),
+          );
+      }
+
+      function showResult() {
+        $quiz.style.display = "none";
+        $result.style.display = "flex";
+
+        const pct = Math.round((correctCount / totalQ) * 100);
+        document.getElementById("result-score").textContent =
+          `${correctCount} / ${totalQ}`;
+        document.getElementById("result-pct").textContent = `正答率 ${pct}%`;
+        document.getElementById("result-msg").textContent =
+          pct >= 90
+            ? "完璧！"
+            : pct >= 70
+              ? "よくできました"
+              : pct >= 50
+                ? "もう少し！"
+                : "復習して再挑戦！";
+
+        const allWrong = [...new Set(wrongEngs)];
+        if (allWrong.length > 0) {
+          document.getElementById("wrong-section").style.display = "block";
+          document.getElementById("wrong-chips").innerHTML = allWrong
+            .map((e) => BY_ENG[e])
+            .filter(Boolean)
+            .map((p) => `<span class="wrong-chip">${p.name}</span>`)
+            .join("");
+        }
+      }
+
+      // ── Map rendering ──────────────────────────────────────────────────────────
+      function makeProjection(w, h) {
+        return d3
+          .geoConicEqualArea()
+          .parallels([25, 47])
+          .rotate([-104, 0])
+          .center([0, 36])
+          .scale(w * 1.05)
+          .translate([w / 2, h / 2]);
+      }
+
+      function renderMap() {
+        const wrap = document.getElementById("map-wrapper");
+        const w = wrap.clientWidth;
+        const h = Math.round(w * 0.62);
+        $map.setAttribute("viewBox", `0 0 ${w} ${h}`);
+        $map.innerHTML = "";
+
+        const proj = makeProjection(w, h);
+        const pathGen = d3.geoPath().projection(proj);
+        const feats = topojson.feature(
+          topoData,
+          topoData.objects.provinces,
+        ).features;
+
+        const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        g.id = "zg";
+        $map.appendChild(g);
+
+        feats.forEach((feat) => {
+          const raw = feat.properties.name || "";
+          const prov = resolveProvince(raw);
+          const el = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "path",
+          );
+          el.setAttribute("d", pathGen(feat));
+          el.dataset.eng = prov ? prov.eng : raw;
+          // NO <title> element — prevents browser tooltip
+          if (prov) {
+            el.classList.add("interactive");
+            el.addEventListener("click", () => handleClick(prov.eng, el));
+          } else {
+            el.style.opacity = ".4";
+          }
+          g.appendChild(el);
+        });
+
+        zoomB = d3
+          .zoom()
+          .scaleExtent([1, 10])
+          .on("zoom", (e) => g.setAttribute("transform", e.transform));
+        d3.select($map).call(zoomB);
+
+        document.getElementById("zoom-in").onclick = () =>
+          d3.select($map).transition().duration(220).call(zoomB.scaleBy, 1.7);
+        document.getElementById("zoom-out").onclick = () =>
+          d3.select($map).transition().duration(220).call(zoomB.scaleBy, 0.6);
+        document.getElementById("zoom-reset").onclick = () =>
+          d3
+            .select($map)
+            .transition()
+            .duration(280)
+            .call(zoomB.transform, d3.zoomIdentity);
+
+        window.addEventListener("resize", () => {
+          const nw = wrap.clientWidth;
+          $map.setAttribute("viewBox", `0 0 ${nw} ${Math.round(nw * 0.62)}`);
+        });
+      }
+
+      function renderStartMap() {
+        const svg = document.getElementById("start-map");
+        const W = 500,
+          H = 310;
+        svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+        const proj = makeProjection(W, H);
+        const pathGen = d3.geoPath().projection(proj);
+        topojson
+          .feature(topoData, topoData.objects.provinces)
+          .features.forEach((feat) => {
+            const el = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "path",
+            );
+            el.setAttribute("d", pathGen(feat));
+            svg.appendChild(el);
+          });
+      }
+
+      // ── Load ───────────────────────────────────────────────────────────────────
+      function loadScript(src) {
+        return new Promise((res, rej) => {
+          const s = document.createElement("script");
+          s.src = src;
+          s.onload = res;
+          s.onerror = rej;
+          document.body.appendChild(s);
+        });
+      }
+
+      (async () => {
+        try {
+          await loadScript("https://d3js.org/d3.v7.min.js");
+          await loadScript("https://unpkg.com/topojson-client@3");
+          const res = await fetch("https://unpkg.com/cn-atlas/cn-atlas.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          topoData = await res.json();
+
+          // Debug: actual property names
+          const names = topojson
+            .feature(topoData, topoData.objects.provinces)
+            .features.map((f) => f.properties.name);
+          console.log("cn-atlas province names:", names);
+
+          $loading.style.display = "none";
+          $start.style.display = "block";
+          renderStartMap();
+        } catch (e) {
+          $loading.innerHTML = `<span style="color:var(--wrong)">読み込み失敗: ${e.message}</span>`;
+        }
+      })();
+
+      // ── Theme ──────────────────────────────────────────────────────────────────
+      const saved = localStorage.getItem("theme");
+      if (
+        saved === "dark" ||
+        (!saved && matchMedia("(prefers-color-scheme:dark)").matches)
+      )
+        document.body.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const d = document.body.classList.toggle("dark");
+        localStorage.setItem("theme", d ? "dark" : "light");
+        document.querySelector("#theme-toggle i").className = d
+          ? "bi bi-sun"
+          : "bi bi-moon";
+      });
+      if (document.body.classList.contains("dark"))
+        document.querySelector("#theme-toggle i").className = "bi bi-sun";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,78 @@
+{
+  "title": "History tools — Shoei451",
+  "h1": "📚 History",
+  "headerDesc": "世界史/歴史総合の学習ツール（Google Forms 確認問題など）",
+  "sections": [
+    {
+      "title": "歴史総合",
+      "desc": "歴史総合の学習ツールです。",
+      "items": [
+        {
+          "title": "歴史総合語句確認用 Google Forms",
+          "link": "rekisou-forms",
+          "titleEN": "Rekisou Google Forms",
+          "description": "歴史総合の語句確認用 Google Forms 一覧です。",
+          "icon": "../images/google-forms.png",
+          "iconType": "image"
+        }
+      ]
+    },
+    {
+      "title": "世界史年代クイズ",
+      "desc": "世界史の年代と出来事を結び付けて覚えるクイズアプリです。",
+      "items": [
+        {
+          "title": "世界史年代クイズ",
+          "link": "../sub-index.html?slug=history/world",
+          "titleEN": "World History Era Quiz",
+          "description": "世界史の年代と出来事を結び付けて覚えるクイズアプリ",
+          "icon": "../images/worldhistoryquiz.png",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "世界史年代クイズ 年表版",
+          "link": "world/",
+          "titleEN": "World History Time table",
+          "description": "世界史年代クイズのデータが、インタラクティブな年表になりました。",
+          "icon": "../images/worldhistoryquiz.png",
+          "iconType": "image",
+          "target": "_blank"
+        }
+      ]
+    },
+    {
+      "title": "中国史関連",
+      "desc": "中国史の年代や文化に関する学習ツールです。",
+      "items": [
+        {
+          "title": "中国王朝史年表",
+          "link": "../../timeline/?slug=china-history",
+          "titleEN": "Chinese Dynasities Timeline",
+          "description": "中国史のオンライン年表",
+          "icon": "../images/chinese-history.svg",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "中国史年代クイズ",
+          "link": "china/",
+          "titleEN": "Chinese History Era quiz",
+          "description": "中国史における出来事の、西暦をマスター",
+          "icon": "../images/chinese-history.svg",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "中国文化史クイズ",
+          "link": "china/culture-quiz/",
+          "titleEN": "Chinese Culture History Quiz",
+          "description": "中国の文化史に関するクイズアプリ",
+          "icon": "../images/chinese-history.svg",
+          "iconType": "image",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}

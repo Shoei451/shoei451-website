@@ -1,0 +1,21 @@
+{
+  "title": "Home Economics — Shoei451",
+  "h1": "🍳 Home Economics",
+  "headerDesc": "家庭基礎のテスト対策ツール集です。",
+  "sections": [
+    {
+      "title": "3学期期末試験対策",
+      "desc": "Tool(s) for the final exam of the third term.",
+      "items": [
+        {
+          "title": "衣類の取り扱い表示クイズ",
+          "link": "care-symbols",
+          "titleEN": "Care Symbols Quiz",
+          "description": "衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。",
+          "icon": "👔",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}

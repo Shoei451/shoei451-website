@@ -1,0 +1,31 @@
+{
+  "title": "Japanese & Chinese Classics — Shoei451",
+  "h1": "🍙 Japanese & Chinese Classics",
+  "headerDesc": "古文・漢文の知識を確認しよう",
+  "sections": [
+    {
+      "title": "古文",
+      "desc": "古文クイズ（古文常識、助動詞表の穴埋めなど）",
+      "items": [
+        {
+          "title": "古文常識クイズ",
+          "link": "https://451-learning-box.netlify.app/flashcard.html?slug=jp-classic-knowledge",
+          "titleEN": "Basic Knowledge of Japanese Classics",
+          "description": "和歌の修辞法、貴族の階級、日常生活などを理解しよう",
+          "icon": "../images/ougi.svg",
+          "iconType": "image",
+          "target": "_blank"
+        },
+        {
+          "title": "助動詞表クイズ",
+          "link": "jodoushi/",
+          "titleEN": "Quiz on Japanese Auxiliary Verbs",
+          "description": "助動詞の使い方を確認しよう",
+          "icon": "../images/ougi.svg",
+          "iconType": "image",
+          "target": "_blank"
+        }
+      ]
+    }
+  ]
+}

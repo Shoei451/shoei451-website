@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>歴史総合｜Google Forms — Shoei451</title>
+    <link rel="icon" type="image/x-icon" href="../../images/favicon.ico" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="rekisou-forms.css" />
+  </head>
+
+  <body>
+    <!-- Theme Toggle -->
+    <span class="logo-switches" id="theme-toggle-container"></span>
+    <header>
+      <h1>歴史総合 Google Forms</h1>
+      <p>歴史総合の語句確認用 Google Forms 一覧です。</p>
+    </header>
+    <main class="intro">
+      <a href="../../sub-index.html?slug=history" class="back-link"
+        >Back to History Top</a
+      >
+      <h2>語句確認用フォーム</h2>
+      <p></p>
+    </main>
+
+    <section class="tools" style="max-width: 900px">
+      <!-- ===== Folder 1 ===== -->
+      <div class="folder">
+        <div class="folder-header">
+          19世紀のヨーロッパ・アメリカ・アジア
+          <span>▶</span>
+        </div>
+        <div class="folder-content" data-folder="folder1"></div>
+      </div>
+
+      <!-- ===== Folder 2 ===== -->
+      <div class="folder">
+        <div class="folder-header">
+          明治初期の日本
+          <span>▶</span>
+        </div>
+        <div class="folder-content" data-folder="folder2"></div>
+      </div>
+
+      <!-- ===== Folder 3 ===== -->
+      <div class="folder">
+        <div class="folder-header">
+          第二次産業革命と帝国主義
+          <span>▶</span>
+        </div>
+        <div class="folder-content" data-folder="folder3"></div>
+      </div>
+
+      <!-- ===== Folder 4 ===== -->
+      <div class="folder">
+        <div class="folder-header">
+          日清戦争・日露戦争
+          <span>▶</span>
+        </div>
+        <div class="folder-content" data-folder="folder4"></div>
+      </div>
+
+      <!-- ===== Folder 5 ===== -->
+      <div class="folder">
+        <div class="folder-header">
+          戦後世界・冷戦
+          <span>▶</span>
+        </div>
+        <div class="folder-content" data-folder="folder5"></div>
+      </div>
+
+      <!-- ===== Folder 6 ===== 
+     <div class="folder">
+      <div class="folder-header">
+        <span>▶</span>
+      </div>
+      <div class="folder-content" data-folder="folder6"></div>
+    </div>
+    -->
+
+      <!-- ===== Folder 7 ===== -->
+      <div class="folder">
+        <div class="folder-header">
+          その他・番外編
+          <span>▶</span>
+        </div>
+        <div class="folder-content" data-folder="folder7"></div>
+      </div>
+    </section>
+
+    <footer>
+      <p>History Forms Portal</p>
+    </footer>
+
+    <script src="../../js/theme-toggle.js"></script>
+    <script src="forms-data.js"></script>
+    <script>
+      document.querySelectorAll(".folder-header").forEach((header) => {
+        header.addEventListener("click", () => {
+          header.parentElement.classList.toggle("open");
+        });
+      });
+
+      document.querySelectorAll(".folder-content").forEach((content) => {
+        const key = content.dataset.folder;
+        const forms = formData[key];
+        if (!forms) return;
+
+        forms.forEach((form) => {
+          const a = document.createElement("a");
+          a.className = "form-link";
+          a.href = form.url;
+          a.target = "_blank";
+          a.textContent = form.title;
+          content.appendChild(a);
+        });
+      });
+    </script>
+  </body>
+</html>

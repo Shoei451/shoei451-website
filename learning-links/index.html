@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Links for Learning — Shoei451</title>
+    <link rel="icon" type="image/x-icon" href="../images/favicon.ico" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <span class="logo-switches" id="theme-toggle-container"></span>
+
+    <header>
+      <h1>Links for Learning</h1>
+      <p>Raindrop.io に保存したリンク一覧</p>
+    </header>
+
+    <main class="intro">
+      <a href="../index.html" class="back-link">Back to Home</a>
+      <h2>Bookmark Collection</h2>
+      <p>
+        学習に役立つ外部ウェブサイトのリンク集です。<br />
+        Raindrop.io で管理・更新しています。
+      </p>
+    </main>
+
+    <section class="links-wrapper">
+      <div class="search-wrap">
+        <svg viewBox="0 0 24 24" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.35-4.35" />
+        </svg>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="コレクション内を検索…"
+          aria-label="ブックマーク検索"
+        />
+      </div>
+
+      <div id="folder-list">
+        <div id="skeleton"></div>
+        <div id="state-error" class="state-box" style="display: none">
+          <span class="state-icon">⚠️</span>
+          <span id="error-msg">データの取得に失敗しました</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Curated by Shoei451</p>
+    </footer>
+
+    <script src="../js/theme-toggle.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,144 @@
+/* ============================================================
+   Informatics/hex-quiz/style.css
+   hex-quiz 固有スタイル。
+   ベース: quiz-shell.css（qz-* CSS変数を継承）
+   アクセントカラーをティール系に上書き。
+   ============================================================ */
+
+/* ===== アクセントカラー上書き ===== */
+:root {
+  --qz-accent: #148b9d;
+  --qz-accent-dark: #0b343a;
+  --qz-accent-light: rgba(20, 139, 157, 0.1);
+  --qz-accent-ring: rgba(20, 139, 157, 0.25);
+}
+
+/* ===== カラーコードプレビュー ===== */
+.hex-color-preview {
+  width: 100%;
+  max-width: 320px;
+  height: 80px;
+  border-radius: var(--qz-radius-md);
+  border: 1.5px solid var(--qz-border);
+  margin: var(--qz-space-xs) auto;
+  display: block;
+  transition: background-color 0.2s;
+}
+
+.hex-color-preview.hidden {
+  display: none;
+}
+
+/* ===== ASCII表ボタンラッパー ===== */
+.hex-ascii-btn-wrap {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: var(--qz-space-xs);
+}
+
+.hex-ascii-btn-wrap.hidden {
+  display: none;
+}
+
+/* ===== ASCII表モーダル ===== */
+.hex-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+  padding: var(--qz-space-sm);
+}
+
+.hex-modal.hidden {
+  display: none;
+}
+
+.hex-modal__content {
+  background: var(--qz-surface);
+  border: 1px solid var(--qz-border);
+  border-radius: var(--qz-radius-lg);
+  box-shadow: var(--qz-shadow-md);
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.hex-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--qz-space-sm) var(--qz-space-md);
+  border-bottom: 1px solid var(--qz-border);
+  background: var(--qz-surface);
+  flex-shrink: 0;
+}
+
+.hex-modal__title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--qz-text);
+}
+
+.hex-modal__body {
+  overflow: auto;
+  padding: var(--qz-space-sm) var(--qz-space-md);
+  flex: 1;
+}
+
+/* ===== ASCII表 ===== */
+.hex-ascii-table {
+  border-collapse: collapse;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.hex-ascii-table th {
+  background: var(--qz-accent);
+  color: #fff;
+  padding: 8px 10px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+}
+
+.hex-ascii-table td {
+  padding: 7px 10px;
+  text-align: center;
+  border: 1px solid var(--qz-border);
+  color: var(--qz-text);
+  background: var(--qz-surface);
+  transition: background 0.1s;
+}
+
+.hex-ascii-table tr:hover td {
+  background: var(--qz-accent-light);
+}
+
+.hex-ascii-corner {
+  font-size: 0.72rem;
+  line-height: 1.4;
+  background: var(--qz-accent-dark) !important;
+}
+
+.hex-ascii-ctrl {
+  color: var(--qz-text-sub);
+  font-size: 0.72rem;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .hex-ascii-table {
+    font-size: 0.72rem;
+  }
+
+  .hex-ascii-table th,
+  .hex-ascii-table td {
+    padding: 5px 6px;
+  }
+}

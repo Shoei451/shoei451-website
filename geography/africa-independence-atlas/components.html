@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Toggle & Button Components</title>
+    <style>
+      /* ── BASE ── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      :root {
+        --bg: #f6f6f4;
+        --surface: #ffffff;
+        --border: #e2e2de;
+        --text: #1a1a1a;
+        --sub: #6b6b6b;
+        --accent: #4eca14;
+        --font: system-ui, "Noto Sans JP", sans-serif;
+        --mono: "JetBrains Mono", "Courier New", monospace;
+        --r: 8px;
+      }
+      body {
+        font-family: var(--font);
+        background: var(--bg);
+        color: var(--text);
+        padding: 40px 24px 80px;
+        display: flex;
+        flex-direction: column;
+        gap: 48px;
+      }
+      .section {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+      .section-title {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--sub);
+        border-bottom: 1px solid var(--border);
+        padding-bottom: 6px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* ════════════════════════════════════════
+       1. PILL TOGGLE (mode-toggle)
+       用途: 排他的な選択肢（表示モード切替など）
+       ════════════════════════════════════════ */
+      .pill-toggle {
+        display: flex;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 100px;
+        padding: 3px;
+        gap: 2px;
+      }
+      .pill-toggle__btn {
+        padding: 5px 16px;
+        border-radius: 100px;
+        border: none;
+        background: transparent;
+        font-family: var(--font);
+        font-size: 0.78rem;
+        font-weight: 500;
+        color: var(--sub);
+        cursor: pointer;
+        transition: all 0.2s;
+        white-space: nowrap;
+      }
+      .pill-toggle__btn:hover {
+        color: var(--text);
+      }
+      .pill-toggle__btn.active {
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+      /* モノスペースフォント版（数値・コード向け） */
+      .pill-toggle--mono .pill-toggle__btn {
+        font-family: var(--mono);
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+      .pill-toggle--mono .pill-toggle__btn.active {
+        color: var(--accent);
+      }
+
+      /* ════════════════════════════════════════
+       2. PUSH BUTTON
+       用途: アクション実行
+       ════════════════════════════════════════ */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 9px 20px;
+        border-radius: 100px;
+        border: none;
+        font-family: var(--font);
+        font-size: 0.88rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.18s;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      /* primary */
+      .btn--primary {
+        background: var(--accent);
+        color: #fff;
+      }
+      .btn--primary:hover {
+        filter: brightness(1.08);
+      }
+      /* ghost */
+      .btn--ghost {
+        background: var(--surface);
+        border: 1.5px solid var(--border);
+        color: var(--text);
+      }
+      .btn--ghost:hover {
+        background: var(--bg);
+      }
+      .btn--ghost:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      /* danger */
+      .btn--danger {
+        background: #fee2e2;
+        border: 1.5px solid #fca5a5;
+        color: #991b1b;
+      }
+      .btn--danger:hover {
+        background: #fecaca;
+      }
+      /* size variants */
+      .btn--sm {
+        padding: 6px 14px;
+        font-size: 0.78rem;
+      }
+      .btn--lg {
+        padding: 12px 28px;
+        font-size: 1rem;
+      }
+
+      /* ════════════════════════════════════════
+       3. BADGE (付随情報の数値表示)
+       用途: ボタン内カウンター・ステータス
+       ════════════════════════════════════════ */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--accent);
+        color: #fff;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        font-weight: 700;
+        border-radius: 100px;
+        padding: 1px 7px;
+        min-width: 20px;
+      }
+      .badge--neutral {
+        background: var(--bg);
+        border: 1px solid var(--border);
+        color: var(--sub);
+      }
+      /* カラーバッジ（era / colonial など） */
+      .badge--colored {
+        /* --badge-color をインラインで渡す */
+        background: color-mix(in srgb, var(--badge-color) 15%, transparent);
+        color: var(--badge-color);
+        border: 1px solid
+          color-mix(in srgb, var(--badge-color) 35%, transparent);
+        font-size: 0.7rem;
+        font-weight: 600;
+        padding: 2px 9px;
+        border-radius: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ── 1. PILL TOGGLE ── -->
+    <div class="section">
+      <p class="section-title">1. Pill Toggle — テキスト</p>
+      <div class="row">
+        <!-- 標準（テキスト選択） -->
+        <div class="pill-toggle" id="demo1">
+          <button
+            class="pill-toggle__btn active"
+            onclick="activate(this, 'demo1')"
+          >
+            独立年
+          </button>
+          <button class="pill-toggle__btn" onclick="activate(this, 'demo1')">
+            旧宗主国
+          </button>
+        </div>
+
+        <!-- 3択 -->
+        <div class="pill-toggle" id="demo2">
+          <button
+            class="pill-toggle__btn active"
+            onclick="activate(this, 'demo2')"
+          >
+            場所→国名
+          </button>
+          <button class="pill-toggle__btn" onclick="activate(this, 'demo2')">
+            独立年代
+          </button>
+          <button class="pill-toggle__btn" onclick="activate(this, 'demo2')">
+            旧宗主国
+          </button>
+        </div>
+      </div>
+
+      <p class="section-title">
+        1b. Pill Toggle — モノスペース（数値・コード）
+      </p>
+      <div class="row">
+        <div class="pill-toggle pill-toggle--mono" id="demo3">
+          <button class="pill-toggle__btn" onclick="activate(this, 'demo3')">
+            10問
+          </button>
+          <button class="pill-toggle__btn" onclick="activate(this, 'demo3')">
+            20問
+          </button>
+          <button
+            class="pill-toggle__btn active"
+            onclick="activate(this, 'demo3')"
+          >
+            30問
+          </button>
+          <button class="pill-toggle__btn" onclick="activate(this, 'demo3')">
+            全問
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 2. PUSH BUTTON ── -->
+    <div class="section">
+      <p class="section-title">2. Push Button</p>
+      <div class="row">
+        <button class="btn btn--primary">スタート</button>
+        <button class="btn btn--primary btn--lg">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          >
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          大きいボタン
+        </button>
+      </div>
+      <div class="row">
+        <button class="btn btn--ghost">
+          復習モード <span class="badge">3</span>
+        </button>
+        <button class="btn btn--ghost btn--sm">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="1 4 1 10 7 10" />
+            <path d="M3.51 15a9 9 0 1 0 .49-4.95" />
+          </svg>
+          リセット
+        </button>
+        <button class="btn btn--ghost btn--sm">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <polyline points="9 22 9 12 15 12 15 22" />
+          </svg>
+        </button>
+        <button class="btn btn--ghost" disabled>使用不可</button>
+      </div>
+      <div class="row">
+        <button class="btn btn--danger btn--sm">
+          <svg
+            width="13"
+            height="13"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.2"
+            stroke-linecap="round"
+          >
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14H6L5 6" />
+            <path d="M10 11v6M14 11v6" />
+            <path d="M9 6V4h6v2" />
+          </svg>
+          削除
+        </button>
+      </div>
+    </div>
+
+    <!-- ── 3. BADGE ── -->
+    <div class="section">
+      <p class="section-title">3. Badge</p>
+      <div class="row">
+        <span class="badge">5</span>
+        <span class="badge--neutral badge">未選択</span>
+        <!-- --badge-color をインラインで指定 -->
+        <span class="badge badge--colored" style="--badge-color: #4eca14"
+          >1960年</span
+        >
+        <span class="badge badge--colored" style="--badge-color: #2563a8"
+          >イギリス</span
+        >
+        <span class="badge badge--colored" style="--badge-color: #c0392b"
+          >フランス</span
+        >
+      </div>
+    </div>
+
+    <script>
+      // pill-toggle の排他制御（汎用）
+      function activate(btn, groupId) {
+        document
+          .getElementById(groupId)
+          .querySelectorAll(".pill-toggle__btn")
+          .forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+      }
+    </script>
+  </body>
+</html>

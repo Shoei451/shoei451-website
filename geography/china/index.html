@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>China Geography Quiz & Atlas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* ── Hero ── */
+      .hero {
+        position: relative;
+        flex: 1;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        min-height: calc(100vh - var(--nav-h));
+      }
+
+      /* Map fills the entire hero as background */
+      .hero-map-bg {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 3%;
+        pointer-events: none;
+        opacity: 0.18;
+      }
+      body.dark .hero-map-bg {
+        opacity: 0.12;
+      }
+
+      #bg-map {
+        width: min(90vw, 860px);
+        height: auto;
+        display: block;
+      }
+
+      /* Overlay content */
+      .hero-content {
+        position: relative;
+        z-index: 1;
+        padding: 3rem 5vw 3rem max(2rem, 6vw);
+        max-width: 560px;
+      }
+
+      .hero-eyebrow {
+        font-size: 0.78rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+      }
+
+      .hero-title {
+        font-family: var(--display);
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+        color: var(--text);
+        margin-bottom: 1rem;
+      }
+
+      .hero-title span {
+        color: var(--accent);
+      }
+
+      .hero-desc {
+        font-size: 1rem;
+        color: var(--sub);
+        line-height: 1.7;
+        margin-bottom: 2rem;
+        max-width: 38ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        align-items: center;
+      }
+
+      .btn-hero {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.8rem 1.75rem;
+        background: var(--accent);
+        color: #fff;
+        border: none;
+        border-radius: var(--r-sm);
+        font-family: var(--display);
+        font-size: 1rem;
+        font-weight: 700;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+        transition:
+          opacity 0.15s,
+          transform 0.15s;
+        cursor: pointer;
+      }
+      .btn-hero:hover {
+        opacity: 0.88;
+        transform: translateY(-1px);
+      }
+
+      .btn-hero-ghost {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        background: none;
+        color: var(--sub);
+        border: 1.5px solid var(--border);
+        border-radius: var(--r-sm);
+        font-family: var(--sans);
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition:
+          border-color 0.15s,
+          color 0.15s,
+          background 0.15s;
+      }
+      .btn-hero-ghost:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        background: var(--accentL);
+      }
+
+      /* Stats strip */
+      .stats-strip {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-top: 2.5rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+      }
+
+      .stat-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+      .stat-num {
+        font-family: var(--display);
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
+      .stat-label {
+        font-size: 0.8rem;
+        color: var(--sub);
+      }
+
+      /* Loading overlay */
+      #map-loading {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        font-size: 0.8rem;
+        color: var(--sub);
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+      }
+
+      /* Mobile */
+      @media (max-width: 640px) {
+        .hero-map-bg {
+          justify-content: center;
+          padding: 0;
+          opacity: 0.1;
+        }
+        #bg-map {
+          width: 95vw;
+        }
+        .hero-content {
+          padding: 2rem 1.25rem;
+          max-width: 100%;
+        }
+        .hero-title {
+          font-size: 2rem;
+        }
+        .stats-strip {
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <nav class="china-nav">
+      <a class="nav-brand" href="index.html">CN geography</a>
+      <div class="nav-links">
+        <a class="nav-link active" href="index.html"
+          ><i class="bi bi-house"></i>Home</a
+        >
+        <a class="nav-link" href="quiz.html"
+          ><i class="bi bi-geo-alt"></i>Quiz</a
+        >
+        <a class="nav-link" href="learn.html"
+          ><i class="bi bi-book"></i>Learn</a
+        >
+      </div>
+      <div class="nav-spacer"></div>
+      <button class="icon-btn" id="theme-toggle" title="テーマ切替">
+        <i class="bi bi-moon"></i>
+      </button>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-map-bg">
+        <svg id="bg-map"></svg>
+      </div>
+
+      <div class="hero-content">
+        <p class="hero-eyebrow">中国 地理学習ツール</p>
+        <h1 class="hero-title">
+          31の省・自治区・<br />直轄市を<span>覚えよう</span>
+        </h1>
+        <p class="hero-desc">
+          地図クリック式のクイズと、各省の詳細情報を確認できる学習モード。東大地理・世界史の準備に。
+        </p>
+
+        <div class="hero-actions">
+          <a class="btn-hero" href="quiz.html">
+            <i class="bi bi-geo-alt-fill"></i>クイズを始める
+          </a>
+          <a class="btn-hero-ghost" href="learn.html">
+            <i class="bi bi-book"></i>学習モード
+          </a>
+        </div>
+
+        <div class="stats-strip">
+          <div class="stat-item">
+            <span class="stat-num">31</span>
+            <span class="stat-label">省・自治区・直轄市</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">4</span>
+            <span class="stat-label">直轄市</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">5</span>
+            <span class="stat-label">自治区</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">22</span>
+            <span class="stat-label">省</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="map-loading">
+        <div class="spinner"></div>
+        地図を読み込み中...
+      </div>
+    </section>
+
+    <script src="data.js"></script>
+    <script>
+      // ── テーマ ──
+      const saved = localStorage.getItem("theme");
+      if (
+        saved === "dark" ||
+        (!saved && matchMedia("(prefers-color-scheme:dark)").matches)
+      )
+        document.body.classList.add("dark");
+      document.getElementById("theme-toggle").addEventListener("click", () => {
+        const d = document.body.classList.toggle("dark");
+        localStorage.setItem("theme", d ? "dark" : "light");
+        document.querySelector("#theme-toggle i").className = d
+          ? "bi bi-sun"
+          : "bi bi-moon";
+      });
+      if (document.body.classList.contains("dark"))
+        document.querySelector("#theme-toggle i").className = "bi bi-sun";
+
+      // ── 背景地図 ──
+      function loadScript(src) {
+        return new Promise((res, rej) => {
+          const s = document.createElement("script");
+          s.src = src;
+          s.onload = res;
+          s.onerror = rej;
+          document.body.appendChild(s);
+        });
+      }
+
+      (async () => {
+        try {
+          await loadScript("https://d3js.org/d3.v7.min.js");
+          await loadScript("https://unpkg.com/topojson-client@3");
+
+          const res = await fetch("https://unpkg.com/cn-atlas/cn-atlas.json");
+          const topo = await res.json();
+
+          const svg = document.getElementById("bg-map");
+          const W = 860,
+            H = 540;
+          svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+
+          const proj = d3
+            .geoConicEqualArea()
+            .parallels([25, 47])
+            .rotate([-104, 0])
+            .center([0, 36])
+            .scale(W * 1.05)
+            .translate([W / 2, H / 2]);
+
+          const pathGen = d3.geoPath().projection(proj);
+          const features = topojson.feature(
+            topo,
+            topo.objects.provinces,
+          ).features;
+
+          features.forEach((feat) => {
+            const el = document.createElementNS(
+              "http://www.w3.org/2000/svg",
+              "path",
+            );
+            el.setAttribute("d", pathGen(feat));
+            el.setAttribute("fill", "currentColor");
+            el.setAttribute("stroke", "var(--bg)");
+            el.setAttribute("stroke-width", "0.8");
+            svg.appendChild(el);
+          });
+
+          document.getElementById("map-loading").style.display = "none";
+        } catch (e) {
+          document.getElementById("map-loading").innerHTML =
+            '<span style="color:var(--wrong)">地図の読み込みに失敗しました</span>';
+        }
+      })();
+    </script>
+  </body>
+</html>

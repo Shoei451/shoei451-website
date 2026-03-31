@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="icon" href="../../images/favicon.ico" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Capitals Quiz — Shoei451</title>
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <!-- Theme Toggle -->
+    <span class="logo-switches" id="theme-toggle-container"></span>
+
+    <!-- Header -->
+    <header>
+      <h1>🏛️ World Capitals Quiz</h1>
+      <p>Test your knowledge of world capitals</p>
+    </header>
+
+    <div class="quiz-wrapper">
+      <a
+        href="../../sub-index.html?slug=geography"
+        class="back-link"
+        style="
+          margin: 20px auto 20px auto;
+          display: flex;
+          justify-content: center; /* 横 */
+          align-items: center; /* 縦 */
+        "
+        >Back to Geography</a
+      >
+      <!-- Start Screen -->
+      <div class="quiz-box" id="startScreen">
+        <h2>World Capitals Quiz</h2>
+        <img
+          src="../../images/capital-quiz.webp"
+          alt="World Capitals"
+          class="quiz-image"
+        />
+
+        <div class="field">
+          <label for="questionCount">出題数：</label>
+          <select id="questionCount">
+            <option value="5">5問</option>
+            <option value="10" selected>10問</option>
+            <option value="20">20問</option>
+            <option value="30">30問</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="regionSelect">地域：</label>
+          <select id="regionSelect">
+            <option value="all">全世界</option>
+            <option value="asia">アジア</option>
+            <option value="europe">ヨーロッパ</option>
+            <option value="africa">アフリカ</option>
+            <option value="americas">アメリカ大陸</option>
+            <option value="oceania">オセアニア</option>
+          </select>
+        </div>
+
+        <button onclick="startGame()">START</button>
+
+        <p class="note">
+          ※画像は下記サイトより使わせていただきました<br />
+          <a
+            href="https://visit-idea.com/en/quiz/quiz-capital-medium"
+            target="_blank"
+            rel="noopener"
+            >https://visit-idea.com/en/quiz/quiz-capital-medium</a
+          >
+        </p>
+      </div>
+
+      <!-- Quiz Screen -->
+      <div class="quiz-box" id="quizScreen" style="display: none">
+        <div id="score">Score: 0 / 0</div>
+        <div id="progressOuter">
+          <div id="progressBar"></div>
+        </div>
+
+        <img id="flag" class="flag" alt="Flag" />
+        <div id="country"></div>
+        <div class="options" id="options"></div>
+        <div id="result"></div>
+
+        <button onclick="goToTop()">Go Back to the Top</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>
+        Get in touch:
+        <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a>
+      </p>
+    </footer>
+
+    <script src="countries_data.js"></script>
+    <script src="../../js/theme-toggle.js"></script>
+    <script src="logic.js"></script>
+  </body>
+</html>
