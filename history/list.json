@@ -1,75 +1,76 @@
 {
-  "title": "History tools — Shoei451",
-  "h1": "📚 History",
-  "headerDesc": "世界史/歴史総合の学習ツール（Google Forms 確認問題など）",
+  "title": "History — Shoei451",
+  "h1": "歴史",
+  "headerDesc": "世界史・中国史の年代クイズ・年表ツール",
+  "backLink": "/index.html",
+  "backLabel": "ホーム",
   "sections": [
     {
       "title": "歴史総合",
       "desc": "歴史総合の学習ツールです。",
       "items": [
         {
+          "icon": "../images/google-forms.png",
           "title": "歴史総合語句確認用 Google Forms",
-          "link": "rekisou-forms",
           "titleEN": "Rekisou Google Forms",
           "description": "歴史総合の語句確認用 Google Forms 一覧です。",
-          "icon": "../images/google-forms.png",
-          "iconType": "image"
+          "link": "history/rekisou-forms/"
         }
       ]
     },
     {
       "title": "世界史年代クイズ",
-      "desc": "世界史の年代と出来事を結び付けて覚えるクイズアプリです。",
+      "desc": "世界史の年代と出来事を結び付けて覚えるクイズです。",
       "items": [
         {
-          "title": "世界史年代クイズ",
-          "link": "../sub-index.html?slug=history/world",
-          "titleEN": "World History Era Quiz",
-          "description": "世界史の年代と出来事を結び付けて覚えるクイズアプリ",
           "icon": "../images/worldhistoryquiz.png",
-          "iconType": "image",
-          "target": "_blank"
+          "title": "年号 → 出来事",
+          "titleEN": "Year to Event",
+          "description": "表示された年号に対応する出来事を4択で選ぶ。フィルタ：時代区分",
+          "link": "/quiz/?slug=history/world/year-to-event"
         },
         {
-          "title": "世界史年代クイズ 年表版",
-          "link": "world/",
-          "titleEN": "World History Time table",
-          "description": "世界史年代クイズのデータが、インタラクティブな年表になりました。",
           "icon": "../images/worldhistoryquiz.png",
-          "iconType": "image",
+          "title": "出来事 → 年号",
+          "titleEN": "Event to Year",
+          "description": "表示された出来事の年号を直接入力する。フィルタ：章（第1〜11章）",
+          "link": "/quiz/?slug=history/world/event-to-year"
+        },
+        {
+          "icon": "../images/worldhistoryquiz.png",
+          "title": "世界史年表",
+          "titleEN": "World History Timeline",
+          "description": "世界史年代クイズのデータをインタラクティブな年表で閲覧",
+          "link": "/timeline/?slug=world-history",
           "target": "_blank"
         }
       ]
     },
     {
-      "title": "中国史関連",
-      "desc": "中国史の年代や文化に関する学習ツールです。",
+      "title": "中国史",
+      "desc": "中国史の年代・文化に関する学習ツールです。",
       "items": [
         {
-          "title": "中国王朝史年表",
-          "link": "../../timeline/?slug=china-history",
-          "titleEN": "Chinese Dynasities Timeline",
-          "description": "中国史のオンライン年表",
           "icon": "../images/chinese-history.svg",
-          "iconType": "image",
-          "target": "_blank"
-        },
-        {
           "title": "中国史年代クイズ",
-          "link": "china/",
-          "titleEN": "Chinese History Era quiz",
-          "description": "中国史における出来事の、西暦をマスター",
+          "titleEN": "Chinese History Era Quiz",
+          "description": "中国史における出来事の西暦をマスター",
+          "link": "/quiz/?slug=history/china/era-quiz"
+        },
+        {
           "icon": "../images/chinese-history.svg",
-          "iconType": "image",
+          "title": "中国王朝史年表",
+          "titleEN": "Chinese Dynasties Timeline",
+          "description": "中国史のインタラクティブ年表",
+          "link": "/timeline/?slug=china-history",
           "target": "_blank"
         },
         {
-          "title": "中国文化史クイズ",
-          "link": "china/culture-quiz/",
-          "titleEN": "Chinese Culture History Quiz",
-          "description": "中国の文化史に関するクイズアプリ",
           "icon": "../images/chinese-history.svg",
-          "iconType": "image",
+          "title": "中国文化史クイズ",
+          "titleEN": "Chinese Culture History Quiz",
+          "description": "中国の文化史に関する多形式クイズ",
+          "link": "/history/china/culture-quiz/",
           "target": "_blank"
         }
       ]

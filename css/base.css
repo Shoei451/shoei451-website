@@ -1,0 +1,392 @@
+/* ============================================================
+   css/base.css
+   全ページ共通の基盤CSS。common.css を置き換える。
+
+   読み込み方（各ページの <head>）:
+     <link rel="stylesheet" href="/css/base.css">
+     <!-- Bootstrap CSS (CDN) -->
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+   CSS変数の移行マップ（common.css → base.css）:
+     --theme         → --color-bg
+     --entry         → --color-surface
+     --primary       → --color-text-primary
+     --secondary     → --color-text-secondary
+     --accent        → --color-accent
+     --accent-text   → --color-accent-text
+     --border        → --color-border
+     --shadow        → Bootstrap shadow utilities
+
+   注意:
+     - --qz-* 変数はクイズ専用として quiz-shell.css で管理。変更しない。
+     - theme-toggle.css はこのファイルに統合済み。個別読み込み不要。
+   ============================================================ */
+
+/* ===== Google Fonts ===== */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap");
+
+/* ===== CSS Variables ===== */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-border: #dee2e6;
+  --color-text-primary: #1a1d23;
+  --color-text-secondary: #6c757d;
+  --color-accent: #faba40;
+  --color-accent-dark: #e0a030;
+  --color-accent-text: #7a5000;
+}
+
+body.dark {
+  --color-bg: #1a1d23;
+  --color-surface: #242830;
+  --color-border: #373d47;
+  --color-text-primary: #f1f3f5;
+  --color-text-secondary: #9aa0a8;
+  --color-accent: #faba40;
+  --color-accent-dark: #ffc958;
+  --color-accent-text: #1a1d23;
+}
+
+/* ===== Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* ===== Base ===== */
+body {
+  font-family:
+    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-feature-settings: "pkna";
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+a {
+  color: var(--color-accent-text);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+a:hover {
+  color: var(--color-accent-dark);
+  text-decoration: underline;
+}
+
+body.dark a {
+  color: var(--color-accent);
+}
+
+body.dark a:hover {
+  color: var(--color-accent-dark);
+}
+
+/* ===== Page Header ===== */
+/* コンパクトなページタイトルエリア。大ヘッダーを廃止。 */
+.page-header {
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 2rem;
+  background: var(--color-bg);
+}
+
+.page-header__title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.page-header__desc {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 0;
+}
+
+/* ===== Site Card ===== */
+/* Bootstrap card の上書き。sub-index.html のカードグリッドに使用。 */
+.site-card {
+  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  transition:
+    border-color 0.15s,
+    transform 0.15s,
+    box-shadow 0.15s;
+}
+
+.site-card:hover {
+  border-color: var(--color-accent);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+body.dark .site-card {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+body.dark .site-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.site-card__icon {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+}
+
+/* ===== Section Divider ===== */
+/* sub-index ページ内のセクション区切り */
+.section-divider {
+  margin: 2.5rem 0 1rem;
+}
+
+.section-divider__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+}
+
+.section-divider__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* ===== Back Link ===== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: 0.4rem 0;
+  transition: color 0.15s;
+}
+
+.back-link:hover {
+  color: var(--color-text-primary);
+  text-decoration: none;
+}
+
+/* ===== Site Footer ===== */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+  margin-top: auto;
+}
+
+.site-footer a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--color-text-primary);
+  text-decoration: underline;
+}
+
+/* ===== Navbar (Bootstrap override) ===== */
+#site-nav {
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+#site-nav .navbar-brand {
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-text-primary);
+  letter-spacing: 0.02em;
+}
+
+#site-nav .navbar-brand:hover {
+  color: var(--color-accent-text);
+  text-decoration: none;
+}
+
+body.dark #site-nav .navbar-brand:hover {
+  color: var(--color-accent);
+}
+
+#site-nav .nav-link {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: 4px;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+#site-nav .nav-link:hover,
+#site-nav .nav-link.active {
+  color: var(--color-text-primary);
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.dark #site-nav .nav-link:hover,
+body.dark #site-nav .nav-link.active {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--color-text-primary);
+}
+
+#site-nav .nav-link.active {
+  color: var(--color-accent-text);
+  font-weight: 600;
+}
+
+body.dark #site-nav .nav-link.active {
+  color: var(--color-accent);
+}
+
+#site-nav .navbar-toggler {
+  border-color: var(--color-border);
+}
+
+#site-nav .navbar-toggler:focus {
+  box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.25);
+}
+
+/* ===== Theme Toggle ===== */
+/* theme-toggle.js が inject する #theme-toggle のスタイル。
+   旧 css/theme-toggle.css を置き換え。
+   #theme-toggle-container は nav.js が navbar 右端に配置する。 */
+
+.logo-switches {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* fixed 配置は廃止。ナビバー内に収める。
+   既存ページからの移行期間中のみ fixed を残す互換クラスを用意。 */
+.logo-switches--fixed {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 1000;
+}
+
+#theme-toggle {
+  background: transparent;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
+  padding: 0;
+  line-height: 1;
+}
+
+#theme-toggle:hover {
+  border-color: var(--color-accent);
+  color: var(--color-text-primary);
+  background: rgba(250, 186, 64, 0.08);
+}
+
+#theme-toggle #moon,
+#theme-toggle #sun {
+  display: none;
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+body.dark #theme-toggle #sun {
+  display: block;
+}
+body:not(.dark) #theme-toggle #moon {
+  display: block;
+}
+
+/* ===== Utilities ===== */
+.hidden {
+  display: none !important;
+}
+
+/* ===== Bootstrap variables bridge ===== */
+/* Bootstrap の CSS変数を上書きして site の色体系に合わせる */
+:root {
+  --bs-body-bg: var(--color-bg);
+  --bs-body-color: var(--color-text-primary);
+  --bs-border-color: var(--color-border);
+  --bs-card-bg: var(--color-surface);
+  --bs-card-border-color: var(--color-border);
+}
+
+body.dark {
+  --bs-body-bg: var(--color-bg);
+  --bs-body-color: var(--color-text-primary);
+  --bs-border-color: var(--color-border);
+  --bs-card-bg: var(--color-surface);
+  --bs-card-border-color: var(--color-border);
+}
+
+/* ===== Print ===== */
+@media print {
+  #site-nav,
+  #site-footer,
+  #theme-toggle {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+}

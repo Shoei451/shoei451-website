@@ -1,45 +1,138 @@
+// ============================================================
 // js/sub-index-init.js
 //
-// ルートの sub-index.html から呼ばれる共通エンジン。
-// URL の ?slug=history のように slug を受け取り、
-//   1. {slug}/list.json を取得
-//   2. DOM を構築
-//   3. カードの link / icon パスをルート基準に補正
-//   4. カードを生成
+// sub-index.html から呼ばれる共通エンジン（リデザイン版）。
+// URL の ?slug=history などから slug を受け取り:
+//   1. {slug}/list.json を fetch
+//   2. #page-content だけを書き換える（body 全体を書き換えない）
+//   3. カードを Bootstrap グリッドで生成
 //
-// list.json 側は従来通りフォルダ内相対パスで書いてよい。
+// list.json の構造:
+// {
+//   "title": "History — Shoei451",
+//   "h1": "📚 History",
+//   "headerDesc": "世界史・中国史の学習ツール",
+//   "backLink": "/index.html",
+//   "sections": [
+//     {
+//       "title": "セクション名",
+//       "desc": "説明文（省略可）",
+//       "items": [
+//         {
+//           "title": "ページ名",
+//           "description": "説明",
+//           "link": "worldhistory/",
+//           "icon": "../images/worldhistoryquiz.png",
+//           "target": "_blank"   // 省略可
+//         }
+//       ]
+//     }
+//   ]
+// }
+// ============================================================
 
 (function () {
-  // ── slug を URL から取得 ──────────────────────────────────
   const slug = new URLSearchParams(location.search).get("slug");
   if (!slug) {
-    document.body.textContent =
-      "slug パラメータが指定されていません（例: ?slug=history）";
+    _showError("slug パラメータが指定されていません（例: ?slug=history）");
     return;
   }
 
-  // ── list.json を取得 ───────────────────────────────────
-  fetch(slug + "/list.json")
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error("not_found");
-      }
-      return response.json();
-    })
-    .then((cfg) => {
-      if (!cfg || !Array.isArray(cfg.sections)) {
-        document.body.textContent =
-          slug + "/list.json の形式が正しくありません。";
-        return;
-      }
-      buildPage(cfg, slug);
-    })
-    .catch(() => {
-      document.body.textContent = slug + "/list.json が見つかりません。";
-    });
+  _fetchAndBuild(slug);
 
-  // ── パス補正ユーティリティ ───────────────────────────────
-  function isAbsolute(s) {
+  async function _fetchAndBuild(slug) {
+    let cfg;
+    try {
+      const res = await fetch(slug + "/list.json");
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      cfg = await res.json();
+    } catch (err) {
+      _showError(`${slug}/list.json の読み込みに失敗しました: ${err.message}`);
+      return;
+    }
+
+    // ページタイトル更新
+    const plainH1 = (cfg.h1 || "").replace(/<[^>]+>/g, "").trim();
+    document.title = cfg.title || plainH1 + " — Shoei451";
+
+    // #page-content だけを書き換える
+    const main = document.getElementById("page-content");
+    if (!main) return;
+    main.innerHTML = _buildHTML(cfg, slug);
+
+    // アクセスログ
+    navigator.sendBeacon(
+      "/api/sw?path=" +
+        encodeURIComponent(location.pathname + location.search) +
+        "&ref=" +
+        encodeURIComponent(document.referrer),
+    );
+  }
+
+  // ── HTML 生成 ──────────────────────────────────────────────
+  function _buildHTML(cfg, slug) {
+    const backLink = cfg.backLink || "/index.html";
+    const sectionsHTML = (cfg.sections || [])
+      .map((section) => {
+        const cardsHTML = (section.items || [])
+          .map((item) => _cardHTML(item, slug))
+          .join("");
+        return `
+        <div class="section-header">
+          <h2 class="section-header__title">${_esc(section.title)}</h2>
+          ${section.desc ? `<span class="section-header__desc">${_esc(section.desc)}</span>` : ""}
+        </div>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-4">
+          ${cardsHTML}
+        </div>
+      `;
+      })
+      .join("");
+
+    return `
+      <div class="page-header">
+        <a href="${_esc(backLink)}" class="back-link mb-2">
+          <i class="bi bi-chevron-left"></i>
+          ${cfg.backLabel || "ホーム"}
+        </a>
+        <h1 class="page-header__title">${cfg.h1 || ""}</h1>
+        ${cfg.headerDesc ? `<p class="page-header__desc">${_esc(cfg.headerDesc)}</p>` : ""}
+      </div>
+      ${sectionsHTML}
+    `;
+  }
+
+  function _cardHTML(item, slug) {
+    const link = _fixLink(item.link || "#", slug);
+    const icon = _fixIcon(item.icon || "");
+    const target = item.target
+      ? `target="${_esc(item.target)}" rel="noopener"`
+      : "";
+
+    const iconHTML = icon
+      ? `<img src="${_esc(icon)}" class="site-card__icon mb-3" alt="" loading="lazy">`
+      : "";
+
+    const titleEN = item.titleEN
+      ? `<div class="en-label mb-1">${_esc(item.titleEN)}</div>`
+      : "";
+
+    return `
+      <div class="col">
+        <a href="${_esc(link)}" ${target} class="card h-100 text-decoration-none site-card">
+          <div class="card-body">
+            ${iconHTML}
+            ${titleEN}
+            <h5 class="card-title">${_esc(item.title)}</h5>
+            ${item.description ? `<p class="card-text text-secondary" style="font-size:0.875rem;">${_esc(item.description)}</p>` : ""}
+          </div>
+        </a>
+      </div>
+    `;
+  }
+
+  // ── パス補正 ───────────────────────────────────────────────
+  function _isAbsolute(s) {
     return (
       !s ||
       s.startsWith("http://") ||
@@ -50,99 +143,36 @@
     );
   }
 
-  // カードの link: "worldhistory/" → "history/worldhistory/"
-  function fixLink(link, slug) {
-    if (isAbsolute(link)) return link;
-    if (link.startsWith(slug + "/")) return link; // 二重付与防止
-    return slug + "/" + link;
+  function _fixLink(link, slug) {
+    if (_isAbsolute(link)) return link;
+    if (link.startsWith(slug + "/")) return "/" + link;
+    return "/" + slug + "/" + link;
   }
 
-  // カードの icon: "../images/x.svg" → "images/x.svg"
-  function fixIcon(icon) {
-    if (isAbsolute(icon)) return icon;
-    if (icon.startsWith("../")) return icon.slice(3);
-    return icon;
+  function _fixIcon(icon) {
+    if (_isAbsolute(icon)) return icon;
+    // "../images/x.png" → "/images/x.png"
+    return "/" + icon.replace(/^(\.\.\/)+/, "");
   }
 
-  function fixItems(items, slug) {
-    return items.map((item) =>
-      Object.assign({}, item, {
-        link: fixLink(item.link || "", slug),
-        icon: fixIcon(item.icon || ""),
-      }),
-    );
-  }
-
-  // ── DOM 構築 ─────────────────────────────────────────────
-  function buildPage(cfg, slug) {
-    const plainH1 = cfg.h1
-      .replace(/<[^>]+>/g, "")
-      .replace(/\s+/g, " ")
-      .trim();
-    document.title = cfg.title || plainH1 + " — Shoei451";
-    // list.jsonの内容を読み取り、ページに注入
-    const sectionsHTML = (cfg.sections || [])
-      .map(
-        (s, i) => `
-    <div class="section-divider">
-    <h2 class="section-title">${s.title}</h2>
-    <p class="section-description">${s.desc || ""}</p>
-    </div>
-    <section class="cards-container" id="${s.id ?? `container${i + 1}`}"></section>
-    `,
-      )
-      .join("");
-
-    document.body.innerHTML = `
-      <span class="logo-switches" id="theme-toggle-container"></span>
-      <header>
-        <h1>${cfg.h1}</h1>
-        <p>${cfg.headerDesc || ""}</p>
-      </header>
-      <section class="intro">
-        <a href="${cfg.backLink || "index.html"}" class="back-link">Back to Home</a>
-      </section>
-      ${sectionsHTML}
-      <footer>
-        <p>Get in touch: <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a></p>
-      </footer>
-    `;
-
-    // sendBeacon
-    navigator.sendBeacon(
-      "/api/sw?path=" +
-        encodeURIComponent(location.pathname + location.search) +
-        "&ref=" +
-        encodeURIComponent(document.referrer),
-    );
-
-    // ── 依存スクリプトを順次ロード → カード生成 ──────────────
-    // ルート直下から参照するので js/ 固定
-    const scripts = [
-      "js/theme-toggle.js",
-      "js/card-generator.js",
-      "js/cards-page-init.js",
-    ];
-    let i = 0;
-    function loadNext() {
-      if (i >= scripts.length) {
-        (cfg.sections || []).forEach((s, i) => {
-          const id = s.id ?? `container${i + 1}`;
-          const items = s.items;
-          if (Array.isArray(items)) {
-            generateCards(fixItems(items, slug), id);
-          }
-        });
-        animateCardsOnScroll();
-        return;
-      }
-      const el = document.createElement("script");
-      el.src = scripts[i++];
-      el.onload = loadNext;
-      el.onerror = () =>
-        console.error("sub-index-init.js: ロード失敗:", el.src);
-      document.body.appendChild(el);
+  // ── エラー表示 ─────────────────────────────────────────────
+  function _showError(msg) {
+    const main = document.getElementById("page-content");
+    if (main) {
+      main.innerHTML = `
+        <div class="alert alert-warning mt-4" role="alert">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          ${_esc(msg)}
+        </div>
+      `;
     }
-    loadNext();
+  }
+
+  function _esc(str) {
+    return String(str ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 })();

@@ -1,163 +1,391 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
-    <link rel="icon" href="images/favicon.ico" />
-    <link rel="icon" href="images/favicon.png" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Shoei451 — Home</title>
-    <link rel="stylesheet" href="css/common.css" />
-    <link rel="stylesheet" href="css/countdown.css" />
+    <title>Shoei451 — 東大文科 学習ツール</title>
+    <link rel="icon" href="/images/favicon.png" />
+
+    <!-- フラッシュ防止：テーマをCSSより前に適用 -->
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <!-- Base CSS -->
+    <link rel="stylesheet" href="/css/base.css" />
+
+    <!-- Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+
+    <style>
+      /* html.dark → body.dark 同期 */
+      html.dark body {
+        background-color: var(--color-bg);
+        color: var(--color-text-primary);
+      }
+
+      /* ── Countdown Section ── */
+      .countdown-section {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .countdown-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .countdown-toggle__title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--color-text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .countdown-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 0.75rem;
+        margin-top: 1rem;
+      }
+
+      .countdown-item {
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+      }
+
+      .countdown-item__label {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        margin-bottom: 4px;
+      }
+
+      .countdown-item__days {
+        font-size: 1.4rem;
+        font-weight: 700;
+        color: var(--color-accent-text);
+        font-feature-settings: "tnum";
+      }
+
+      body.dark .countdown-item__days {
+        color: var(--color-accent);
+      }
+
+      .countdown-item__date {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        margin-top: 2px;
+      }
+
+      /* ── Section header ── */
+      .section-header {
+        display: flex;
+        align-items: baseline;
+        gap: 0.75rem;
+        margin: 2.5rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--color-accent);
+      }
+
+      .section-header__title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .section-header__desc {
+        font-size: 0.85rem;
+        color: var(--color-text-secondary);
+        margin: 0;
+      }
+
+      /* ── Card ── */
+      .site-card .card-title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-bottom: 0.35rem;
+      }
+
+      .site-card .card-text {
+        font-size: 0.875rem;
+        line-height: 1.6;
+      }
+
+      /* ── Hero ── */
+      .site-hero {
+        padding: 2.5rem 0 1.5rem;
+        border-bottom: 1px solid var(--color-border);
+        margin-bottom: 2rem;
+      }
+
+      .site-hero__eyebrow {
+        font-size: 0.78rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-accent-text);
+        margin-bottom: 0.5rem;
+      }
+
+      body.dark .site-hero__eyebrow {
+        color: var(--color-accent);
+      }
+
+      .site-hero__title {
+        font-size: clamp(1.6rem, 4vw, 2.2rem);
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        line-height: 1.3;
+      }
+
+      .site-hero__desc {
+        font-size: 0.95rem;
+        color: var(--color-text-secondary);
+        max-width: 560px;
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
-    <!-- Theme Toggle -->
-    <span class="logo-switches" id="theme-toggle-container"></span>
+    <!-- ナビバー -->
+    <div id="nav-container"></div>
 
-    <!-- Hero Section -->
-    <header>
-      <img src="images/favicon.ico" width="300" height="300" />
-      <h1>Shoei451</h1>
-      <p>
-        Welcome to my website — I build / write / create some learning tools.
-      </p>
-    </header>
+    <div class="container py-4">
+      <!-- Hero -->
+      <div class="site-hero">
+        <p class="site-hero__eyebrow">東大文科三類 2027</p>
+        <h1 class="site-hero__title">Shoei451 学習ツール</h1>
+        <p class="site-hero__desc">
+          世界史・政経・地理・古典など、東大二次試験に向けた学習ツール集です。
+        </p>
+      </div>
 
-    <!-- Introduction -->
-    <section class="intro">
-      <h2>About Me & my web pages</h2>
-      <p>
-        I'm a learner / reader / writer / high school student based in Kanagawa,
-        Japan. I love building web pages, learning new things, and sharing what
-        I learn.
-      </p>
-    </section>
-
-    <!-- Toolbox -->
-    <section class="tools">
-      <h2>My Learning Tools</h2>
-      <p>
-        Choose a category to explore the tools.<br />カテゴリーを選んでツールを探してください。
-      </p>
-    </section>
-
-    <!-- Cards Section -->
-    <section class="cards-container" id="cards-container">
-      <!-- Cards will be generated by JavaScript -->
-    </section>
-
-    <!-- Countdown Widget -->
-    <section
-      class="cards-container"
-      style="max-width: 1200px; margin: 40px auto; padding: 0 20px"
-    >
-      <div class="countdown-card">
-        <div class="countdown-content">
-          <h3>⏳ Countdown widget</h3>
-
-          <div class="countdown-grid">
-            <div class="exam-countdown">
-              <h4>📝 大学入試共通テスト</h4>
-              <div class="countdown-time" id="count-kyotsu">計算中...</div>
-            </div>
-
-            <div class="exam-countdown">
-              <h4>🎓 東大入試</h4>
-              <div class="countdown-time" id="count-todai">計算中...</div>
-            </div>
+      <!-- カウントダウン -->
+      <div class="countdown-section" id="countdown-section">
+        <div
+          class="countdown-toggle"
+          data-bs-toggle="collapse"
+          data-bs-target="#countdownBody"
+          aria-expanded="true"
+          aria-controls="countdownBody"
+        >
+          <span class="countdown-toggle__title">
+            <i class="bi bi-calendar3 me-1"></i> 入試カウントダウン
+          </span>
+          <i
+            class="bi bi-chevron-up"
+            id="countdown-chevron"
+            style="font-size: 0.85rem; color: var(--color-text-secondary)"
+          ></i>
+        </div>
+        <div class="collapse show" id="countdownBody">
+          <div class="countdown-grid" id="countdown-grid">
+            <!-- js/countdown-widget.js が inject -->
           </div>
-
-          <div class="progress-section">
-            <div class="progress-label">
-              <span>開始日からの進捗</span>
-              <span id="progress-text">0%</span>
-            </div>
-            <div class="progress-bar-container">
-              <div class="progress-bar" id="progress-bar"></div>
-            </div>
-          </div>
-
-          <div class="quote-section" id="quote">
-            努力は裏切らない。ただし、サボれば確実に裏切る。
-          </div>
-
-          <div class="today-info" id="today"></div>
         </div>
       </div>
-    </section>
 
-    <!-- Navigation Menu -->
-    <nav>
-      <ul>
-        <li><a href="sub-index.html?slug=projects">My Other Websites</a></li>
-        <li>
-          <a href="https://linktr.ee/shoei451" target="_blank"
-            >Contact via Linktree</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://451-docs.netlify.app/?site=shoei451-website"
-            target="_blank"
-            >Documentation</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://451-docs.netlify.app/post.html?slug=attributions&site=shoei451-website"
-            target="_blank"
-            >attributions</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://github.com/shoei451"
-            target="_blank"
-            class="github-btn-simple"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              fill="currentColor"
-              viewBox="0 0 16 16"
-            >
-              <path
-                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
-              />
-            </svg>
-            GitHub
-          </a>
-        </li>
-      </ul>
-    </nav>
+      <!-- 歴史 -->
+      <div class="section-header">
+        <h2 class="section-header__title">歴史</h2>
+        <span class="section-header__desc"
+          >世界史・中国史の年代クイズ・年表</span
+        >
+      </div>
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
+        id="cards-history"
+      ></div>
 
-    <!-- Footer -->
-    <footer>
-      <p>
-        Get in touch:
-        <a href="mailto:okamotoshoei451@gmail.com">okamotoshoei451@gmail.com</a>
-      </p>
-    </footer>
+      <!-- 政治・経済 -->
+      <div class="section-header">
+        <h2 class="section-header__title">政治・経済</h2>
+        <span class="section-header__desc">政経年代クイズ・憲法クイズ</span>
+      </div>
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
+        id="cards-seikei"
+      ></div>
 
-    <!-- Scripts -->
-    <script src="js/cards-data.js"></script>
-    <script src="js/theme-toggle.js"></script>
-    <script src="js/card-generator.js"></script>
-    <script src="js/cards-page-init.js"></script>
-    <script src="js/countdown-widget.js"></script>
+      <!-- 地理 -->
+      <div class="section-header">
+        <h2 class="section-header__title">地理</h2>
+        <span class="section-header__desc">地図・首都クイズ</span>
+      </div>
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
+        id="cards-geography"
+      ></div>
+
+      <!-- その他 -->
+      <div class="section-header">
+        <h2 class="section-header__title">その他</h2>
+        <span class="section-header__desc">英語・情報・古典など</span>
+      </div>
+      <div
+        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
+        id="cards-others"
+      ></div>
+    </div>
+    <!-- /container -->
+
+    <!-- フッター -->
+    <footer id="site-footer"></footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Nav / Theme -->
+    <script src="/js/nav.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const normalizedCards = cardsList.map((card) => ({
-          icon: card.icon,
-          title: card.titleJP || card.title,
-          titleEN: card.title || "",
-          description: card.text || "",
-          link: card.link,
-        }));
+      // html.dark → body.dark 同期（フラッシュ防止スクリプトが html に付けた class を body に移す）
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
 
-        generateCards(normalizedCards, "cards-container");
-        animateCardsOnScroll();
-      });
+      // ── カウントダウン chevron 更新 ──────────────────────────
+      document
+        .getElementById("countdownBody")
+        ?.addEventListener("hide.bs.collapse", () => {
+          document
+            .getElementById("countdown-chevron")
+            ?.classList.replace("bi-chevron-up", "bi-chevron-down");
+        });
+      document
+        .getElementById("countdownBody")
+        ?.addEventListener("show.bs.collapse", () => {
+          document
+            .getElementById("countdown-chevron")
+            ?.classList.replace("bi-chevron-down", "bi-chevron-up");
+        });
+
+      // ── カウントダウン描画 ────────────────────────────────────
+      const EXAMS = [
+        { label: "東大二次（文科）", date: "2027-02-25" },
+        { label: "共通テスト", date: "2027-01-17" },
+        { label: "東大二次 Day 2", date: "2027-02-26" },
+      ];
+
+      function renderCountdown() {
+        const grid = document.getElementById("countdown-grid");
+        if (!grid) return;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        grid.innerHTML = EXAMS.map((exam) => {
+          const target = new Date(exam.date);
+          const diff = Math.ceil((target - today) / 86400000);
+          const label =
+            diff > 0
+              ? `あと ${diff} 日`
+              : diff === 0
+                ? "本日"
+                : `${Math.abs(diff)} 日経過`;
+          const dateStr = target.toLocaleDateString("ja-JP", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          });
+          return `
+            <div class="countdown-item">
+              <div class="countdown-item__label">${exam.label}</div>
+              <div class="countdown-item__days">${label}</div>
+              <div class="countdown-item__date">${dateStr}</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      renderCountdown();
+
+      // ── カードデータ読み込み（cards-data.js に依存） ─────────
+      // cards-data.js が CARDS_DATA を定義していることを前提とする。
+      // 定義がない場合は何も描画しない（graceful degradation）。
+      function renderCards(sectionId, items) {
+        const container = document.getElementById(sectionId);
+        if (!container || !items?.length) return;
+
+        container.innerHTML = items
+          .map((item) => {
+            const icon = item.icon
+              ? `<img src="${item.icon}" class="site-card__icon mb-3" alt="" loading="lazy">`
+              : "";
+            const target = item.target
+              ? `target="${item.target}" rel="noopener"`
+              : "";
+            return `
+            <div class="col">
+              <a href="${item.link}" ${target} class="card h-100 text-decoration-none site-card">
+                <div class="card-body">
+                  ${icon}
+                  <h5 class="card-title">${item.title}</h5>
+                  ${item.description ? `<p class="card-text text-secondary">${item.description}</p>` : ""}
+                </div>
+              </a>
+            </div>
+          `;
+          })
+          .join("");
+      }
+
+      // CARDS_DATA が利用可能になったら描画
+      // cards-data.js を動的ロードするか、script タグで先行ロードする場合はそのまま参照
+      function tryRenderAll() {
+        if (typeof CARDS_DATA === "undefined") return;
+        renderCards("cards-history", CARDS_DATA.history);
+        renderCards("cards-seikei", CARDS_DATA.seikei);
+        renderCards("cards-geography", CARDS_DATA.geography);
+        renderCards("cards-others", CARDS_DATA.others);
+      }
+
+      // cards-data.js が後からロードされる場合に備えて遅延チェック
+      tryRenderAll();
+      window.addEventListener("load", tryRenderAll);
+    </script>
+
+    <!-- カードデータ（存在する場合） -->
+    <script
+      src="/js/cards-data.js"
+      onerror="console.info('cards-data.js not found')"
+    ></script>
+    <script>
+      tryRenderAll();
+    </script>
+
+    <!-- アクセスログ -->
+    <script>
+      navigator.sendBeacon(
+        "/api/sw?path=" +
+          encodeURIComponent(location.pathname + location.search) +
+          "&ref=" +
+          encodeURIComponent(document.referrer),
+      );
     </script>
   </body>
 </html>
