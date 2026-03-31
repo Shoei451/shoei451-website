@@ -12,7 +12,7 @@
           "link": "biology-quiz-forms/",
           "titleEN": "Biology Quiz Forms",
           "description": "2024年度生物基礎の語句確認用フォーム",
-          "icon": "../images/bio-favicon.png",
+          "icon": "/images/biology.png",
           "iconType": "image",
           "target": "_blank"
         },

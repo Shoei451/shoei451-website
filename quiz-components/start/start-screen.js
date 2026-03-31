@@ -33,6 +33,7 @@
   let _config = null;
   let _selected = new Set(); // multi 選択中の range id
   let _count = 10; // 現在の出題数
+  let _tutorialUI = null;
 
   // ── パブリック API ─────────────────────────────────────────
 
@@ -43,6 +44,7 @@
    */
   window.initStartScreen = function (config, mountId = "start-screen") {
     _config = config;
+    _selected = new Set();
     _count = config.countDefault ?? 10;
 
     const el = document.getElementById(mountId);
@@ -55,6 +57,8 @@
     el.classList.remove("hidden");
 
     _bindEvents(el, config);
+
+    _destroyTutorial();
 
     // チュートリアルがある場合のみボタンを表示
     if (config.tutorialMd) {
@@ -281,6 +285,17 @@
 
   // ── チュートリアル ─────────────────────────────────────────
 
+  function _destroyTutorial() {
+    if (!_tutorialUI) return;
+
+    const { btn, overlay, panel, onKeydown } = _tutorialUI;
+    document.removeEventListener("keydown", onKeydown);
+    btn?.remove();
+    overlay?.remove();
+    panel?.remove();
+    _tutorialUI = null;
+  }
+
   function _initTutorial(mdUrl) {
     // ボタン・オーバーレイ・パネルを body に追加
     const btn = document.createElement("button");
@@ -299,7 +314,7 @@
         <span class="qz-tutorial-panel__title">使い方</span>
         <button class="qz-tutorial-panel__close" aria-label="閉じる">×</button>
       </div>
-      <div class="qz-tutorial-content" id="qz-tutorial-content">
+      <div class="qz-tutorial-content">
         <p style="color:var(--qz-text-sub); font-size:0.85rem;">読み込み中...</p>
       </div>
     `;
@@ -308,11 +323,12 @@
     document.body.appendChild(overlay);
     document.body.appendChild(panel);
 
+    const content = panel.querySelector(".qz-tutorial-content");
+
     // Markdown 読み込み（marked.js があれば使う）
     fetch(mdUrl)
       .then((r) => r.text())
       .then((md) => {
-        const content = document.getElementById("qz-tutorial-content");
         if (!content) return;
         if (typeof marked !== "undefined") {
           content.innerHTML = marked.parse(md);
@@ -322,7 +338,6 @@
         }
       })
       .catch(() => {
-        const content = document.getElementById("qz-tutorial-content");
         if (content)
           content.innerHTML = `<p style="color:var(--qz-text-sub)">チュートリアルを読み込めませんでした。</p>`;
       });
@@ -342,9 +357,12 @@
     panel
       .querySelector(".qz-tutorial-panel__close")
       ?.addEventListener("click", close);
-    document.addEventListener("keydown", (e) => {
+    const onKeydown = (e) => {
       if (e.key === "Escape") close();
-    });
+    };
+    document.addEventListener("keydown", onKeydown);
+
+    _tutorialUI = { btn, overlay, panel, onKeydown };
   }
 
   // ── ユーティリティ ─────────────────────────────────────────

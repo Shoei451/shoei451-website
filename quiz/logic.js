@@ -68,6 +68,7 @@ function _renderStartScreen() {
     title: _cfg.title,
     subtitle: _cfg.subtitle ?? null,
     image: _cfg.image ?? null,
+    tutorialMd: _cfg.tutorialMd ?? null,
     rangeMode: _cfg.rangeMode,
     rangeLabel: _cfg.rangeLabel ?? "出題範囲",
     ranges: _cfg.ranges ?? [],
