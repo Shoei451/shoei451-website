@@ -65,14 +65,14 @@
     },
     {
       "title": "家庭基礎",
-      "desc": "Tool(s) for the final exam of the third term. For more tools, visit <a href=\"https://451-learning-box.netlify.app\" target=\"_blank\">Learning Box</a> section.",
+      "desc": "Tool(s) for the final exam of the third term.",
       "items": [
         {
           "title": "衣類の取り扱い表示クイズ",
           "link": "care-symbols/",
           "titleEN": "Care Symbols Quiz",
           "description": "衣類の取り扱い表示記号（JIS L 0001）を学習します。マークを見て、正しい意味を選びましょう。",
-          "icon": "bi-shirt",
+          "icon": "bi-house-heart-fill",
           "target": "_blank"
         }
       ]
