@@ -21,7 +21,7 @@
           "link": "geology-quiz",
           "titleEN": "Geological Eras & Life",
           "description": "生物の進化と地質年代の変遷を、インタラクティブな年表とクイズで学ぶ",
-          "icon": "🦴",
+          "icon": "bi-leaf",
           "target": "_blank"
         }
       ]
@@ -35,7 +35,7 @@
           "link": "idiom-quiz",
           "titleEN": "English Idiom Quiz",
           "description": "Vintage 冬季課題範囲の暗記用クイズです。",
-          "icon": "💬",
+          "icon": "bi-chat-dots",
           "target": "_blank"
         }
       ]

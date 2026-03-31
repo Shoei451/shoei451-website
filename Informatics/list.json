@@ -21,7 +21,7 @@
           "link": "sudoku-programming-guide/",
           "titleEN": "Sudoku JS note",
           "description": "数独ソルバーのロジックから、Javascriptを学ぶ",
-          "icon": "🧩",
+          "icon": "bi-puzzle",
           "target": "_blank"
         }
       ]

@@ -10,7 +10,7 @@
 // list.json の構造:
 // {
 //   "title": "History — Shoei451",
-//   "h1": "📚 History",
+//   "h1": "History Tools",
 //   "headerDesc": "世界史・中国史の学習ツール",
 //   "backLink": "/index.html",
 //   "sections": [
@@ -104,14 +104,10 @@
 
   function _cardHTML(item, slug) {
     const link = _fixLink(item.link || "#", slug);
-    const icon = _fixIcon(item.icon || "");
     const target = item.target
       ? `target="${_esc(item.target)}" rel="noopener"`
       : "";
-
-    const iconHTML = icon
-      ? `<img src="${_esc(icon)}" class="site-card__icon mb-3" alt="" loading="lazy">`
-      : "";
+    const iconHTML = _resolveIcon(item.icon || "", slug);
 
     const titleEN = item.titleEN
       ? `<div class="en-label mb-1">${_esc(item.titleEN)}</div>`
@@ -129,6 +125,28 @@
         </a>
       </div>
     `;
+  }
+
+  // ── アイコン種別判定 ───────────────────────────────────────
+  // "bi-book"        → Bootstrap Icon <i>
+  // "*.png" etc.     → <img>
+  // 絵文字・その他   → 非表示（空文字列を返す）
+  function _resolveIcon(raw, slug) {
+    if (!raw) return "";
+
+    // Bootstrap Icons: "bi-xxx" 形式
+    if (/^bi-[\w-]+$/.test(raw)) {
+      return `<i class="bi ${_esc(raw)} site-card__bi-icon mb-3" aria-hidden="true"></i>`;
+    }
+
+    // 画像パス: 拡張子で判定
+    if (/\.(png|jpg|jpeg|svg|webp|gif)$/i.test(raw) || _isAbsolute(raw)) {
+      const src = _fixIcon(raw);
+      return `<img src="${_esc(src)}" class="site-card__icon mb-3" alt="" loading="lazy">`;
+    }
+
+    // 絵文字・その他は表示しない
+    return "";
   }
 
   // ── パス補正 ───────────────────────────────────────────────

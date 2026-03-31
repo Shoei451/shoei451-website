@@ -13,7 +13,7 @@
           "link": "japan-constitution-quiz.html",
           "titleEN": "Japan Constituion Quiz",
           "description": "日本国憲法の条文番号と内容を対応させて覚えるクイズアプリ",
-          "icon": "📜",
+          "icon": "bi-file-earmark-text",
           "target": "_blank"
         }
       ]
@@ -28,7 +28,7 @@
           "link": "../timeline/?slug=seikei",
           "titleEN": "Political and Economic Timeline for Learning",
           "description": "戦後経済史の年表です",
-          "icon": "💰",
+          "icon": "bi-bank",
           "target": "_blank"
         },
         {
@@ -36,7 +36,7 @@
           "link": "timeline/quiz.html",
           "titleEN": "Political and Economic Timeline for Learning - Quiz Version",
           "description": "戦後経済史についてのクイズです",
-          "icon": "💰",
+          "icon": "bi-coin",
           "target": "_blank"
         }
       ]

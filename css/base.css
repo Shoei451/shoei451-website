@@ -162,6 +162,13 @@ body.dark .site-card:hover {
   object-fit: contain;
 }
 
+/* Bootstrap Icon をカードアイコンとして使う場合のサイズ */
+.site-card__bi-icon {
+  font-size: 2.5rem;
+  color: var(--color-accent-text);
+  display: block;
+}
+
 /* ===== Section Divider ===== */
 /* sub-index ページ内のセクション区切り */
 .section-divider {

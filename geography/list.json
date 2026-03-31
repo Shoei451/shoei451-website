@@ -12,14 +12,14 @@
           "link": "us-state-location-quiz.html",
           "titleEN": "US state location quiz",
           "description": "アメリカ各州の正しい場所を地図上でクリックして答えるクイズです。",
-          "icon": "🗽"
+          "icon": "bi-globe-americas"
         },
         {
           "title": "中国地理クイズ",
           "link": "china/",
           "titleEN": "China Geography Quiz & Atlas",
           "description": "中国の省・自治区・直轄市の場所を地図上でクリックして答えるクイズと、学習用のインタラクティブ地図",
-          "icon": "🇨🇳",
+          "icon": "bi-map",
           "target": "_blank"
         },
         {
@@ -27,7 +27,7 @@
           "link": "capitals-quiz/",
           "titleEN": "World Capitals' Quiz",
           "description": "世界各国・地域の首都名を答えるクイズです",
-          "icon": "🏙️",
+          "icon": "bi-geo",
           "target": "_blank"
         },
         {
@@ -35,7 +35,7 @@
           "link": "africa-independence-atlas/",
           "titleEN": "Africa Independence Atlas",
           "description": "戦後のアフリカの独立と国境の変遷を示すインタラクティブな地図",
-          "icon": "🌍",
+          "icon": "bi-globe-europe-africa",
           "target": "_blank"
         },
         {
@@ -43,7 +43,7 @@
           "link": "africa-independence-atlas/quiz.html",
           "titleEN": "Africa Independence Quiz",
           "description": "戦後のアフリカの独立と旧宗主国に関するクイズ",
-          "icon": "❓",
+          "icon": "bi-compass",
           "target": "_blank"
         }
       ]
