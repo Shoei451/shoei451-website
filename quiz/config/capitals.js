@@ -8,7 +8,7 @@ window.QUIZ_CONFIG = {
   backLabel: "Geography",
   answerType: "choice",
   startLabel: "START",
-  image: "/images/capitals-quiz.webp",
+  image: "/images/capital-quiz.webp",
 
   rangeMode: "single",
   rangeLabel: "地域",
