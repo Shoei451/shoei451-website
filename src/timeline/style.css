@@ -241,7 +241,6 @@ body:not(.dark) #theme-toggle #moon {
 
 .tl-tab.is-active {
   color: var(--tl-accent-ui);
-  border-bottom-color: var(--tl-accent-ui);
   font-weight: 700;
 }
 
