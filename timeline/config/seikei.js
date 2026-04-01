@@ -13,19 +13,18 @@ const timelineConfig = {
   showPeriodLines: false, // seikei はラインなし・ドットのみ
 
   categories: [
-    { id: "国際政治", label: "国際政治", bg: "#dbeafe", fg: "#1e40af" },
-    { id: "国際経済", label: "国際経済", bg: "#fef9c3", fg: "#854d0e" },
-    { id: "国内政治", label: "国内政治", bg: "#bfdbfe", fg: "#1e3a8a" },
-    { id: "日銀金融政策", label: "日銀金融政策", bg: "#d1fae5", fg: "#065f46" },
-    { id: "農業", label: "農業", bg: "#dcfce7", fg: "#166534" },
+    { id: "国際政治", label: "国際政治", fg: "#1e40af" },
+    { id: "国際経済", label: "国際経済", fg: "#854d0e" },
+    { id: "国内政治", label: "国内政治", fg: "#1e3a8a" },
+    { id: "日銀金融政策", label: "日銀金融政策", fg: "#065f46" },
+    { id: "農業", label: "農業", fg: "#166534" },
     {
       id: "消費者生活・公害対策",
       label: "消費者・公害",
-      bg: "#e0f2fe",
       fg: "#0c4a6e",
     },
-    { id: "労働問題", label: "労働問題", bg: "#fce7f3", fg: "#9d174d" },
-    { id: "社会保障", label: "社会保障", bg: "#fff7ed", fg: "#9a3412" },
+    { id: "労働問題", label: "労働問題", fg: "#9d174d" },
+    { id: "社会保障", label: "社会保障", fg: "#9a3412" },
   ],
 
   async fetchData() {

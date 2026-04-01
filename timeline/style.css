@@ -14,6 +14,22 @@
   padding: 0;
 }
 
+:root {
+  --tl-accent-ui: var(--tl-accent, var(--color-accent));
+  --tl-accent-ring: color-mix(in srgb, var(--tl-accent-ui) 20%, transparent);
+  --tl-chip-text: #cccccc;
+}
+
+body.dark {
+  --tl-accent-ui: color-mix(
+    in srgb,
+    var(--tl-accent, var(--color-accent)) 42%,
+    white
+  );
+  --tl-accent-ring: color-mix(in srgb, var(--tl-accent-ui) 28%, transparent);
+  --tl-chip-text: #888888;
+}
+
 body {
   font-family:
     "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
@@ -31,7 +47,7 @@ body {
 /* ===== Header ===== */
 .tl-header {
   background: var(--color-bg);
-  border-bottom: 2px solid var(--tl-accent, var(--color-accent));
+  border-bottom: 2px solid var(--tl-accent-ui);
   position: sticky;
   top: 0;
   z-index: 100;
@@ -78,7 +94,7 @@ body.dark .tl-back-link:hover {
   font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--tl-accent, var(--color-accent));
+  color: var(--tl-accent-ui);
   white-space: nowrap;
 }
 
@@ -107,9 +123,8 @@ body.dark .tl-back-link:hover {
 
 .tl-search:focus {
   outline: none;
-  border-color: var(--tl-accent, var(--color-accent));
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--tl-accent, var(--color-accent)) 20%, transparent);
+  border-color: var(--tl-accent-ui);
+  box-shadow: 0 0 0 3px var(--tl-accent-ring);
 }
 
 .tl-search::placeholder {
@@ -137,7 +152,7 @@ body.dark .tl-back-link:hover {
 }
 
 #theme-toggle:hover {
-  border-color: var(--tl-accent, var(--color-accent));
+  border-color: var(--tl-accent-ui);
   color: var(--color-text-primary);
 }
 
@@ -177,7 +192,7 @@ body:not(.dark) #theme-toggle #moon {
 }
 
 .tl-stat strong {
-  color: var(--tl-accent, var(--color-accent));
+  color: var(--tl-accent-ui);
   font-weight: 700;
 }
 
@@ -222,8 +237,8 @@ body:not(.dark) #theme-toggle #moon {
 }
 
 .tl-tab.is-active {
-  color: var(--tl-accent, var(--color-accent));
-  border-bottom-color: var(--tl-accent, var(--color-accent));
+  color: var(--tl-accent-ui);
+  border-bottom-color: var(--tl-accent-ui);
   font-weight: 700;
 }
 
@@ -234,27 +249,8 @@ body:not(.dark) #theme-toggle #moon {
   flex-shrink: 0;
 }
 
-/* 凡例（カテゴリチップ — ヘッダー下） */
 .tl-legend {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 0.5rem 1.25rem;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  align-items: center;
-}
-
-.tl-legend__chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 10px;
-  border-radius: 100px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
-  border: 1px solid transparent;
+  display: none;
 }
 
 /* ===== Main Content ===== */
@@ -275,6 +271,18 @@ body:not(.dark) #theme-toggle #moon {
   grid-template-columns: 64px var(--tl-lines-width, 40px) 1fr;
   column-gap: 0;
   position: relative;
+}
+
+.tl-axis {
+  grid-column: 1;
+}
+
+.tl-lines-col {
+  grid-column: 2;
+}
+
+.tl-events-col {
+  grid-column: 3;
 }
 
 .tl-layout.no-lines {
@@ -322,7 +330,7 @@ body:not(.dark) #theme-toggle #moon {
   position: absolute;
   width: 3px;
   border-radius: 2px;
-  background: var(--tl-line-color, var(--tl-accent, var(--color-accent)));
+  background: var(--tl-line-color, var(--tl-accent-ui));
   opacity: 0.7;
   cursor: pointer;
   transition:
@@ -403,8 +411,8 @@ body:not(.dark) #theme-toggle #moon {
 
 .tl-dot:hover {
   transform: scale(1.5);
-  border-color: var(--tl-accent, var(--color-accent));
-  background: var(--tl-accent, var(--color-accent));
+  border-color: var(--tl-accent-ui);
+  background: var(--tl-accent-ui);
 }
 
 /* 出来事ラベル */
@@ -423,7 +431,7 @@ body:not(.dark) #theme-toggle #moon {
 }
 
 .tl-dot__label:hover {
-  color: var(--tl-accent, var(--color-accent));
+  color: var(--tl-accent-ui);
 }
 
 /* カテゴリチップ（ラベル内） */
@@ -436,6 +444,7 @@ body:not(.dark) #theme-toggle #moon {
   vertical-align: middle;
   flex-shrink: 0;
   white-space: nowrap;
+  color: var(--tl-chip-text);
 }
 
 /* ===== Empty / Loading ===== */
@@ -449,7 +458,7 @@ body:not(.dark) #theme-toggle #moon {
 /* ===== Modal ===== */
 /* Bootstrap modal の上書き最小限 */
 .tl-modal .modal-header {
-  border-bottom: 2px solid var(--tl-accent, var(--color-accent));
+  border-bottom: 2px solid var(--tl-accent-ui);
   background: var(--color-surface);
   color: var(--color-text-primary);
 }
@@ -491,7 +500,7 @@ body.dark .tl-modal .btn-close {
 .tl-modal__year {
   font-size: 1.4rem;
   font-weight: 700;
-  color: var(--tl-accent, var(--color-accent));
+  color: var(--tl-accent-ui);
   font-variant-numeric: tabular-nums;
   margin-bottom: 0.25rem;
 }
@@ -522,8 +531,9 @@ body.dark .tl-modal .btn-close {
   padding: 2px 8px;
   border-radius: 100px;
   border: 1px solid var(--color-border);
-  color: var(--color-text-secondary);
+  color: var(--tl-chip-text);
   background: var(--color-surface);
+  font-weight: 600;
 }
 
 .tl-modal__wiki {
@@ -531,7 +541,7 @@ body.dark .tl-modal .btn-close {
   align-items: center;
   gap: 5px;
   font-size: 0.85rem;
-  color: var(--tl-accent, var(--color-accent));
+  color: var(--tl-accent-ui);
   text-decoration: none;
 }
 

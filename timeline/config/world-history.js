@@ -16,11 +16,11 @@ const timelineConfig = {
   showPeriodLines: true,
 
   categories: [
-    { id: "政治", label: "政治", bg: "#e8eaf6", fg: "#283593" },
-    { id: "経済", label: "経済", bg: "#e8f5e9", fg: "#1b5e20" },
-    { id: "文化・宗教", label: "文化・宗教", bg: "#fff3e0", fg: "#e65100" },
-    { id: "社会", label: "社会", bg: "#e0f7fa", fg: "#006064" },
-    { id: "外交・戦争", label: "外交・戦争", bg: "#ffebee", fg: "#b71c1c" },
+    { id: "政治", label: "政治", fg: "#283593" },
+    { id: "経済", label: "経済", fg: "#1b5e20" },
+    { id: "文化・宗教", label: "文化・宗教", fg: "#e65100" },
+    { id: "社会", label: "社会", fg: "#006064" },
+    { id: "外交・戦争", label: "外交・戦争", fg: "#b71c1c" },
   ],
 
   async fetchData() {

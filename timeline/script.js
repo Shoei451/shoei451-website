@@ -126,7 +126,7 @@ function makeTabBtn(catId, label, catDef, cfg, events) {
   btn.dataset.cat = catId;
 
   const swatch = catDef
-    ? `<span class="tl-tab__swatch" style="background:${catDef.bg};"></span>`
+    ? `<span class="tl-tab__swatch" style="background:${catDef.fg};"></span>`
     : "";
 
   btn.innerHTML = `${swatch}${esc(label)}`;
@@ -149,15 +149,9 @@ function makeTabBtn(catId, label, catDef, cfg, events) {
 // ============================================================
 function buildLegend(cfg) {
   const wrap = document.getElementById("legend-wrap");
-  (cfg.categories || []).forEach((cat) => {
-    const chip = document.createElement("span");
-    chip.className = "tl-legend__chip";
-    chip.style.background = cat.bg + "33"; // 20% opacity
-    chip.style.color = cat.fg;
-    chip.style.borderColor = cat.bg;
-    chip.textContent = cat.label;
-    wrap.appendChild(chip);
-  });
+  if (!wrap) return;
+  wrap.innerHTML = "";
+  wrap.hidden = true;
 }
 
 // ============================================================
@@ -393,8 +387,8 @@ function renderEvents(sorted, cfg, N) {
     if (catDef) {
       const chip = document.createElement("span");
       chip.className = "tl-dot__cat";
-      chip.style.background = catDef.bg + "33";
-      chip.style.color = catDef.fg;
+      chip.style.background = catDef.fg;
+      chip.style.borderColor = catDef.fg;
       chip.textContent = catDef.label;
       label.appendChild(chip);
     }
@@ -432,7 +426,7 @@ function openModal(row, cfg) {
 
   let tagsHtml = "";
   if (catDef) {
-    tagsHtml += `<span class="tl-modal__tag" style="background:${catDef.bg}22;color:${catDef.fg};border-color:${catDef.bg}">${esc(catDef.label)}</span>`;
+    tagsHtml += `<span class="tl-modal__tag" style="background:${catDef.fg};border-color:${catDef.fg}">${esc(catDef.label)}</span>`;
   }
   if (typeLabel) {
     tagsHtml += `<span class="tl-modal__tag">${esc(typeLabel)}</span>`;
