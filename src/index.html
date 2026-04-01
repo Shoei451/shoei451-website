@@ -27,11 +27,6 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    />
-
     <style>
       /* html.dark → body.dark 同期 */
       html.dark body {
@@ -248,11 +243,10 @@
         <span class="countdown-toggle__title">
           <i class="bi bi-calendar3 me-1"></i> 入試カウントダウン
         </span>
-        <i
-          class="bi bi-chevron-up"
+        <span
           id="countdown-chevron"
           style="font-size: 0.85rem; color: var(--color-text-secondary)"
-        ></i>
+        ></span>
       </div>
       <div class="collapse show" id="countdownBody">
         <div class="countdown-grid" id="countdown-grid">
@@ -270,6 +264,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Nav / Theme -->
+    <script src="/js/icons.js"></script>
     <script src="/js/nav.js"></script>
     <script src="/js/theme-toggle.js"></script>
 
@@ -279,20 +274,18 @@
         document.body.classList.add("dark");
       }
 
+      window.setIcon("#countdown-chevron", "bi-chevron-up");
+
       // ── カウントダウン chevron 更新 ──────────────────────────
       document
         .getElementById("countdownBody")
         ?.addEventListener("hide.bs.collapse", () => {
-          document
-            .getElementById("countdown-chevron")
-            ?.classList.replace("bi-chevron-up", "bi-chevron-down");
+          window.setIcon("#countdown-chevron", "bi-chevron-down");
         });
       document
         .getElementById("countdownBody")
         ?.addEventListener("show.bs.collapse", () => {
-          document
-            .getElementById("countdown-chevron")
-            ?.classList.replace("bi-chevron-down", "bi-chevron-up");
+          window.setIcon("#countdown-chevron", "bi-chevron-up");
         });
 
       // ── カウントダウン描画 ────────────────────────────────────

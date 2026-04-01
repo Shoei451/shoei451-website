@@ -4,10 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>中国 省・自治区クイズ</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
     <style>
       *,
       *::before,
@@ -457,6 +453,7 @@
       地図データを読み込んでいます...
     </div>
 
+    <script src="/js/icons.js"></script>
     <script>
       // ── 省データ ──────────────────────────────────────────────────────────────
       // engName は cn-atlas の feature.properties.name と照合する
@@ -772,6 +769,11 @@
       })();
 
       // ── テーマ ────────────────────────────────────────────────────────────────
+      const themeToggle = document.getElementById("theme-toggle");
+      function syncThemeIcon(isDark) {
+        window.setIcon(themeToggle, isDark ? "bi-sun" : "bi-moon");
+      }
+
       const saved = localStorage.getItem("theme");
       if (
         saved === "dark" ||
@@ -779,9 +781,12 @@
       )
         document.body.classList.add("dark");
 
-      document.getElementById("theme-toggle").addEventListener("click", () => {
+      syncThemeIcon(document.body.classList.contains("dark"));
+
+      themeToggle.addEventListener("click", () => {
         const isDark = document.body.classList.toggle("dark");
         localStorage.setItem("theme", isDark ? "dark" : "light");
+        syncThemeIcon(isDark);
       });
     </script>
   </body>

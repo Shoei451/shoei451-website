@@ -115,7 +115,7 @@ body {
     color 0.15s;
   white-space: nowrap;
 }
-.nav-link i {
+.nav-link :is(i, svg) {
   font-size: 0.95rem;
 }
 .nav-link:hover {
