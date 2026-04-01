@@ -1,14 +1,16 @@
-// timeline/config/seikei.js
-
 import { fetchRows } from "./common.js";
 
 const timelineConfig = {
   title: "Politics & Economics Timeline",
   backLink: "../sub-index.html?slug=seikei",
-  backLabel: "政治・経済",
+  backLabel: "政経ホーム",
   accentColor: "#1a2b3c",
   accentColorRgb: "26, 43, 60",
   showWikiLink: false,
+
+  // ── タイムライン表示設定 ──────────────────────────────────
+  accentLineColor: "#1a2b3c",
+  showPeriodLines: false, // seikei はラインなし・ドットのみ
 
   categories: [
     { id: "国際政治", label: "国際政治", bg: "#dbeafe", fg: "#1e40af" },
@@ -29,7 +31,7 @@ const timelineConfig = {
   async fetchData() {
     return fetchRows(
       window.SUPABASE_TABLES.SEIKEI,
-      "id, year, year_end, date_type, full_date, title, description, category",
+      "id, year, year_end, date_type, full_date, title, description, category, record_type",
     );
   },
 

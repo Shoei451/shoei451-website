@@ -1,15 +1,19 @@
 // NOTE: world_history_quiz → wh_dates 移行完了後に有効になる。
-//       現状は wh_dates の世界史データが1件のみのため動作確認用。
+//       現状は wh_dates の世界史データが少数のためデータ移行待ち。
 
 import { formatJapaneseYear, fetchWhDates } from "./common.js";
 
 const timelineConfig = {
   title: "世界史年表",
   backLink: "../sub-index.html?slug=history",
-  backLabel: "History",
+  backLabel: "歴史ホーム",
   accentColor: "#1a2b3c",
   accentColorRgb: "26, 43, 60",
   showWikiLink: true,
+
+  // ── タイムライン表示設定 ──────────────────────────────────
+  accentLineColor: "#1a2b3c",
+  showPeriodLines: true,
 
   categories: [
     { id: "政治", label: "政治", bg: "#e8eaf6", fg: "#283593" },
@@ -21,9 +25,7 @@ const timelineConfig = {
 
   async fetchData() {
     return fetchWhDates(
-      // region が china を含まない全レコードを取得
-      // world_history_quiz 移行後は大量データが入る
-      "id, year, year_end, date_type, full_date, event, description, wiki_url, field, region",
+      "id, year, year_end, date_type, full_date, event, description, wiki_url, field, region, record_type",
       (query) => query.not("region", "cs", '{"china"}'),
     );
   },

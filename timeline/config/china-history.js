@@ -3,10 +3,14 @@ import { formatJapaneseYear, fetchWhDates } from "./common.js";
 const timelineConfig = {
   title: "中国王朝史年表",
   backLink: "../sub-index.html?slug=history",
-  backLabel: "History",
+  backLabel: "歴史ホーム",
   accentColor: "#d73c37",
   accentColorRgb: "215, 60, 55",
   showWikiLink: true,
+
+  // ── タイムライン表示設定 ──────────────────────────────────
+  accentLineColor: "#d73c37", // period/person ラインの色
+  showPeriodLines: true,
 
   categories: [
     { id: "王朝成立", label: "王朝成立", bg: "#fef3c7", fg: "#92400e" },
@@ -22,7 +26,7 @@ const timelineConfig = {
 
   async fetchData() {
     return fetchWhDates(
-      "id, year, year_end, date_type, full_date, event, description, wiki_url, field",
+      "id, year, year_end, date_type, full_date, event, description, wiki_url, field, region, record_type",
       (query) => query.contains("region", ["china"]),
     );
   },
@@ -37,9 +41,6 @@ const timelineConfig = {
   getDescription(row) {
     return row.description;
   },
-
-  // chinese_history 移行データは field=null。カテゴリタブは
-  // 今後 admin で field を付与した後に有効になる。暫定で 'その他' 扱い。
   getCategory(row) {
     return row.field || "その他";
   },

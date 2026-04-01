@@ -12,57 +12,118 @@
     />
     <link
       rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
     />
-    <!-- base.css: --color-accent（ゴールド）と #theme-toggle スタイルを提供 -->
-    <link rel="stylesheet" href="/css/base.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="../css/theme-toggle.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="header-left">
-        <a class="back-link" id="back-link" href="#">
+    <!-- ===== Header ===== -->
+    <header class="tl-header">
+      <div class="tl-header__inner">
+        <a class="tl-back-link" id="back-link" href="#">
           <i class="bi bi-chevron-left"></i>
           <span id="back-label">ホーム</span>
         </a>
-        <span class="header-title" id="header-title">年表</span>
+        <span class="tl-header__title" id="header-title">年表</span>
+        <div class="tl-header__controls">
+          <input
+            type="search"
+            class="tl-search"
+            id="search-input"
+            placeholder="キーワード検索..."
+            autocomplete="off"
+          />
+          <span class="logo-switches" id="theme-toggle-container"></span>
+        </div>
       </div>
-      <div class="header-right">
-        <span class="logo-switches" id="theme-toggle-container"></span>
-      </div>
+
+      <!-- カテゴリタブ -->
+      <div class="tl-tabs-wrap" id="tabs-wrap"></div>
+
+      <!-- 凡例 -->
+      <div class="tl-legend" id="legend-wrap"></div>
     </header>
 
-    <div class="controls">
-      <input
-        type="search"
-        class="search-input"
-        id="search-input"
-        placeholder="Search by keyword..."
-        autocomplete="off"
-      />
+    <!-- ===== Stats bar ===== -->
+    <div class="tl-meta-bar">
+      <span class="tl-stat">全 <strong id="stat-total">-</strong> 件</span>
+      <span class="tl-stat">表示中 <strong id="stat-shown">-</strong> 件</span>
     </div>
 
-    <div class="stats-bar">
-      <span class="stat-item">全 <strong id="stat-total">-</strong> 件</span>
-      <span class="stat-item"
-        >表示中 <strong id="stat-shown">-</strong> 件</span
-      >
+    <!-- ===== Main ===== -->
+    <div class="tl-main">
+      <div class="tl-state-msg" id="state-msg">Loading...</div>
+
+      <!-- タイムラインレイアウト（JS が生成） -->
+      <div class="tl-layout" id="tl-layout" style="display: none">
+        <!-- [年代軸] -->
+        <div class="tl-axis" id="tl-axis">
+          <div class="tl-axis__line"></div>
+        </div>
+        <!-- [ラインカラム] -->
+        <div class="tl-lines-col" id="tl-lines-col"></div>
+        <!-- [出来事列] -->
+        <div class="tl-events-col" id="tl-events-col"></div>
+      </div>
     </div>
 
-    <div class="tabs-wrap" id="tabs-wrap"></div>
-
-    <div class="table-wrap">
-      <div class="state-msg" id="state-msg">Loading...</div>
-      <table class="timeline-table" id="timeline-table" style="display: none">
-        <thead>
-          <tr id="table-head"></tr>
-        </thead>
-        <tbody id="table-body"></tbody>
-      </table>
+    <!-- ===== Detail Modal (Bootstrap) ===== -->
+    <div
+      class="modal fade tl-modal"
+      id="tl-detail-modal"
+      tabindex="-1"
+      aria-labelledby="tl-modal-label"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tl-modal-label">詳細</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="閉じる"
+            ></button>
+          </div>
+          <div class="modal-body" id="tl-modal-body">
+            <!-- JS が inject -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary"
+              data-bs-dismiss="modal"
+            >
+              閉じる
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- ===== Scripts ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script type="module" src="/js/theme-toggle.js"></script>
+    <script type="module" src="../js/theme-toggle.js"></script>
     <script type="module" src="script.js"></script>
+
+    <!-- フラッシュ防止 -->
+    <script>
+      (function () {
+        const p = localStorage.getItem("pref-theme");
+        if (
+          p === "dark" ||
+          (!p && window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.body.classList.add("dark");
+        }
+      })();
+    </script>
   </body>
 </html>

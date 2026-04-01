@@ -1,117 +1,176 @@
-// ── Supabase クライアント（timeline.html 専用）────────────────
-// 共通設定はルートの /js/supabase_config.js から読み込む。
+// ============================================================
+// timeline/script.js
+// 縦軸タイムライン + Bootstrap モーダル
+//
+// データフロー:
+//   slug → config.fetchData() → 全レコード（event/period/person混在）
+//   → script.js 内で record_type ごとに分岐
+//   → renderTimeline(events, periods, catId, searchVal)
+// ============================================================
 
 import { db } from "/js/supabase_config.js";
 
 window._db = db;
 
-// _db がセットされてから slug ロードを開始する
-// （module は defer 相当なので DOMContentLoaded 後に実行される）
+// ── Bootstrap Modal インスタンス（遅延初期化） ────────────────
+let _bsModal = null;
+
+function getModal() {
+  if (!_bsModal) {
+    const el = document.getElementById("tl-detail-modal");
+    if (el) _bsModal = new bootstrap.Modal(el);
+  }
+  return _bsModal;
+}
+
+// ── slug ロード ───────────────────────────────────────────────
 const slug = new URLSearchParams(location.search).get("slug");
 if (slug) {
   import(`./config/${slug}.js`)
     .then((module) => initTimeline(module.default))
     .catch(() => {
-      document.getElementById("state-msg").textContent =
-        "config/" + slug + ".js が見つかりません。";
+      setStateMsg("config/" + slug + ".js が見つかりません。");
     });
 }
 
-// ── メインロジック ─────────────────────────────────────────
+// ============================================================
+// initTimeline
+// ============================================================
 async function initTimeline(cfg) {
   if (!cfg) {
-    document.getElementById("state-msg").textContent =
-      "TIMELINE_CONFIG が定義されていません。";
+    setStateMsg("TIMELINE_CONFIG が定義されていません。");
     return;
   }
 
-  // ページ情報を適用
+  // ── ページ情報を適用 ──────────────────────────────────────
   document.title = cfg.title + " — Shoei451";
   document.getElementById("header-title").textContent = cfg.title;
-  document.getElementById("back-link").href = cfg.backLink || "index.html";
+  document.getElementById("back-link").href = cfg.backLink || "/index.html";
   document.getElementById("back-label").textContent = cfg.backLabel || "ホーム";
 
-  // timeline 固有のアクセントカラーを適用
-  // base.css の --color-accent（ゴールド）とは独立した --timeline-accent を上書きする
   if (cfg.accentColor) {
+    document.documentElement.style.setProperty("--tl-accent", cfg.accentColor);
     document.documentElement.style.setProperty(
-      "--timeline-accent",
+      "--color-accent",
       cfg.accentColor,
     );
   }
-  if (cfg.accentColorRgb) {
-    document.documentElement.style.setProperty(
-      "--timeline-accent-rgb",
-      cfg.accentColorRgb,
-    );
-  }
 
-  // テーブルヘッダ
-  const head = document.getElementById("table-head");
-  head.innerHTML = `
-          <th style="width:110px;">年代</th>
-          <th>出来事</th>
-          <th style="width:120px;">カテゴリ</th>
-          <th class="col-desc">説明</th>
-          ${cfg.showWikiLink ? '<th style="width:60px;">Wiki</th>' : ""}
-        `;
-
-  // データ取得
-  let data = [];
+  // ── データ取得 ────────────────────────────────────────────
+  let rawData = [];
   try {
-    data = await cfg.fetchData();
+    rawData = await cfg.fetchData();
   } catch (e) {
-    document.getElementById("state-msg").textContent =
-      "データの読み込みに失敗しました: " + e.message;
+    setStateMsg("データの読み込みに失敗しました: " + e.message);
     return;
   }
 
-  // タブ生成
-  buildTabs(cfg, data);
+  // record_type で分岐
+  const events = rawData.filter(
+    (r) => r.record_type === "event" || !r.record_type,
+  );
+  const lines =
+    cfg.showPeriodLines !== false
+      ? rawData.filter(
+          (r) => r.record_type === "period" || r.record_type === "person",
+        )
+      : [];
 
-  // 初期レンダリング
-  renderTable(cfg, data, "all", "");
+  // ── カテゴリタブ ──────────────────────────────────────────
+  buildTabs(cfg, events);
 
-  // 検索
+  // ── 凡例 ─────────────────────────────────────────────────
+  buildLegend(cfg);
+
+  // ── no-lines クラス ──────────────────────────────────────
+  if (cfg.showPeriodLines === false) {
+    document.getElementById("tl-layout").classList.add("no-lines");
+    document.getElementById("tl-lines-col").style.display = "none";
+  }
+
+  // ── 初期レンダリング ──────────────────────────────────────
+  renderTimeline(cfg, events, lines, "all", "");
+
+  // ── 検索 ─────────────────────────────────────────────────
   document.getElementById("search-input").addEventListener("input", (e) => {
-    const activeTab = document.querySelector(".tab-btn.is-active");
-    renderTable(cfg, data, activeTab?.dataset.cat || "all", e.target.value);
+    const activeTab = document.querySelector(".tl-tab.is-active");
+    renderTimeline(
+      cfg,
+      events,
+      lines,
+      activeTab?.dataset.cat || "all",
+      e.target.value,
+    );
   });
 }
 
-function buildTabs(cfg, data) {
+// ============================================================
+// buildTabs
+// ============================================================
+function buildTabs(cfg, events) {
   const wrap = document.getElementById("tabs-wrap");
   const cats = cfg.categories || [];
 
-  const allBtn = document.createElement("button");
-  allBtn.className = "tab-btn is-active";
-  allBtn.dataset.cat = "all";
-  allBtn.textContent = "すべて";
-  allBtn.addEventListener("click", () => switchTab("all", cfg, data));
+  const allBtn = makeTabBtn("all", "すべて", null, cfg, events);
+  allBtn.classList.add("is-active");
   wrap.appendChild(allBtn);
 
   cats.forEach((cat) => {
-    const btn = document.createElement("button");
-    btn.className = "tab-btn";
-    btn.dataset.cat = cat.id;
-    btn.textContent = cat.label;
-    btn.addEventListener("click", () => switchTab(cat.id, cfg, data));
-    wrap.appendChild(btn);
+    wrap.appendChild(makeTabBtn(cat.id, cat.label, cat, cfg, events));
   });
 }
 
-function switchTab(catId, cfg, data) {
-  document
-    .querySelectorAll(".tab-btn")
-    .forEach((b) => b.classList.toggle("is-active", b.dataset.cat === catId));
-  const searchVal = document.getElementById("search-input").value;
-  renderTable(cfg, data, catId, searchVal);
+function makeTabBtn(catId, label, catDef, cfg, events) {
+  const btn = document.createElement("button");
+  btn.className = "tl-tab";
+  btn.dataset.cat = catId;
+
+  const swatch = catDef
+    ? `<span class="tl-tab__swatch" style="background:${catDef.bg};"></span>`
+    : "";
+
+  btn.innerHTML = `${swatch}${esc(label)}`;
+
+  btn.addEventListener("click", () => {
+    document
+      .querySelectorAll(".tl-tab")
+      .forEach((b) => b.classList.remove("is-active"));
+    btn.classList.add("is-active");
+    const search = document.getElementById("search-input").value;
+    const lines = cfg.showPeriodLines !== false ? window._tlLines || [] : [];
+    renderTimeline(cfg, events, lines, catId, search);
+  });
+
+  return btn;
 }
 
-function renderTable(cfg, data, catId, searchVal) {
+// ============================================================
+// buildLegend
+// ============================================================
+function buildLegend(cfg) {
+  const wrap = document.getElementById("legend-wrap");
+  (cfg.categories || []).forEach((cat) => {
+    const chip = document.createElement("span");
+    chip.className = "tl-legend__chip";
+    chip.style.background = cat.bg + "33"; // 20% opacity
+    chip.style.color = cat.fg;
+    chip.style.borderColor = cat.bg;
+    chip.textContent = cat.label;
+    wrap.appendChild(chip);
+  });
+}
+
+// ============================================================
+// renderTimeline
+// ============================================================
+function renderTimeline(cfg, allEvents, allLines, catId, searchVal) {
+  // キャッシュ（タブクリック時の lines 参照用）
+  window._tlLines = allLines;
+
   const q = searchVal.trim().toLowerCase();
 
-  const filtered = data.filter((row) => {
+  // フィルタ
+  const filtered = allEvents.filter((row) => {
     const catMatch = catId === "all" || cfg.getCategory(row) === catId;
     const searchMatch =
       !q ||
@@ -120,55 +179,315 @@ function renderTable(cfg, data, catId, searchVal) {
     return catMatch && searchMatch;
   });
 
-  document.getElementById("stat-total").textContent = data.length;
+  // 統計更新
+  document.getElementById("stat-total").textContent = allEvents.length;
   document.getElementById("stat-shown").textContent = filtered.length;
 
-  const tbody = document.getElementById("table-body");
-  const table = document.getElementById("timeline-table");
-  const msg = document.getElementById("state-msg");
+  const layout = document.getElementById("tl-layout");
+  const stateMsg = document.getElementById("state-msg");
 
   if (filtered.length === 0) {
-    table.style.display = "none";
-    msg.textContent = "該当するデータがありません。";
-    msg.style.display = "";
+    layout.style.display = "none";
+    setStateMsg("該当するデータがありません。");
     return;
   }
 
-  msg.style.display = "none";
-  table.style.display = "";
+  stateMsg.style.display = "none";
+  layout.style.display = "grid";
 
-  tbody.innerHTML = filtered
-    .map((row) => {
-      const year = cfg.formatYear(row);
-      const event = esc(cfg.getEvent(row));
-      const desc = esc(cfg.getDescription(row) || "");
-      const cat = cfg.getCategory(row);
-      const catDef = (cfg.categories || []).find((c) => c.id === cat);
-      const chipStyle = catDef
-        ? `background:${catDef.bg};color:${catDef.fg};`
-        : "background:#e8e8e5;color:#555;";
-      const chipLabel = catDef ? catDef.label : esc(cat || "");
-      const wikiUrl = cfg.showWikiLink ? row.wiki_url || "" : "";
+  // 年代でソート
+  const sorted = [...filtered].sort((a, b) => {
+    const ya = getYear(a, cfg);
+    const yb = getYear(b, cfg);
+    if (ya === null && yb === null) return 0;
+    if (ya === null) return 1;
+    if (yb === null) return -1;
+    return ya - yb;
+  });
 
-      return `<tr>
-            <td class="cell-year">${year}</td>
-            <td class="cell-event">${event}</td>
-            <td><span class="cat-chip" style="${chipStyle}">${chipLabel}</span></td>
-            <td class="cell-desc col-desc">${desc}</td>
-            ${
-              cfg.showWikiLink
-                ? `<td>${
-                    wikiUrl
-                      ? `<a class="wiki-link" href="${esc(wikiUrl)}" target="_blank" rel="noopener">
-                       <i class="bi bi-box-arrow-up-right"></i>
-                     </a>`
-                      : ""
-                  }</td>`
-                : ""
-            }
-          </tr>`;
-    })
-    .join("");
+  const N = sorted.length;
+
+  // ── 年代軸を構築 ──────────────────────────────────────────
+  renderAxis(sorted, cfg, N);
+
+  // ── ライン（period/person）を構築 ────────────────────────
+  if (cfg.showPeriodLines !== false) {
+    renderLines(allLines, sorted, cfg, N);
+  }
+
+  // ── 出来事ドットを構築 ───────────────────────────────────
+  renderEvents(sorted, cfg, N);
+}
+
+// ============================================================
+// renderAxis — 年代ラベルを等間隔で間引いて表示
+// ============================================================
+function renderAxis(sorted, cfg, N) {
+  const axisEl = document.getElementById("tl-axis");
+  // 既存ラベルをクリア（.tl-axis__line は残す）
+  axisEl.querySelectorAll(".tl-axis__label").forEach((el) => el.remove());
+
+  // 行の高さ（CSS .tl-row の min-height: 40px と合わせる）
+  const ROW_H = 40;
+  const totalH = N * ROW_H;
+  axisEl.style.height = totalH + "px";
+
+  // ラベルを間引く（最大20件程度）
+  const step = Math.max(1, Math.ceil(N / 20));
+
+  for (let i = 0; i < N; i += step) {
+    const row = sorted[i];
+    const y = i * ROW_H + ROW_H / 2; // 行の中央
+    const yearStr = cfg.formatYear(row);
+    if (!yearStr) continue;
+
+    const label = document.createElement("span");
+    label.className = "tl-axis__label";
+    label.style.top = y + "px";
+    label.textContent = yearStr;
+    axisEl.appendChild(label);
+  }
+}
+
+// ============================================================
+// renderLines — period/person の縦ライン
+// ============================================================
+function renderLines(lines, sorted, cfg, N) {
+  const col = document.getElementById("tl-lines-col");
+  col.innerHTML = "";
+
+  if (!lines.length) return;
+
+  const ROW_H = 40;
+  const totalH = N * ROW_H;
+  col.style.height = totalH + "px";
+  col.style.position = "relative";
+
+  // イベント行の年代インデックス（行番号を年代へのマップ）
+  const yearToIndex = new Map();
+  sorted.forEach((row, i) => {
+    const y = getYear(row, cfg);
+    if (y !== null && !yearToIndex.has(y)) yearToIndex.set(y, i);
+  });
+
+  // 最小・最大年代（index用）
+  const minYear = getYear(sorted[0], cfg) ?? 0;
+  const maxYear = getYear(sorted[N - 1], cfg) ?? 0;
+  const yearRange = maxYear - minYear || 1;
+
+  // ラインを横に並べるため、重なりチェック（簡易）
+  const slots = []; // [{start, end}] 各スロットの使用済み範囲
+
+  function findSlot(startY, endY) {
+    for (let s = 0; s < slots.length; s++) {
+      const used = slots[s];
+      const overlaps = used.some((r) => r.end > startY && r.start < endY);
+      if (!overlaps) {
+        used.push({ start: startY, end: endY });
+        return s;
+      }
+    }
+    slots.push([{ start: startY, end: endY }]);
+    return slots.length - 1;
+  }
+
+  const lineColor =
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--tl-accent")
+      .trim() ||
+    getComputedStyle(document.documentElement)
+      .getPropertyValue("--color-accent")
+      .trim() ||
+    "#faba40";
+
+  lines.forEach((line) => {
+    const startYear = line.year;
+    const endYear = line.year_end ?? line.year;
+    if (startYear === null || startYear === undefined) return;
+
+    // ピクセル位置をインデックスベースで計算
+    const startIdx = yearToRowIndex(startYear, sorted, cfg, N);
+    const endIdx = yearToRowIndex(endYear, sorted, cfg, N);
+
+    const startY = startIdx * ROW_H;
+    const endY = Math.max((endIdx + 1) * ROW_H, startY + ROW_H);
+    const height = endY - startY;
+
+    const slot = findSlot(startY, endY);
+    const leftOffset = 4 + slot * 8; // スロットごとに右にずらす
+
+    const lineEl = document.createElement("div");
+    lineEl.className = "tl-line";
+    lineEl.style.top = startY + "px";
+    lineEl.style.height = height + "px";
+    lineEl.style.left = leftOffset + "px";
+    lineEl.style.setProperty("--tl-line-color", lineColor);
+
+    const label = cfg.getEvent(line) || "";
+    lineEl.setAttribute("data-label", label);
+
+    // モバイル用タップ → モーダル
+    lineEl.addEventListener("click", () => openModal(line, cfg));
+
+    col.appendChild(lineEl);
+  });
+
+  // ライン帯の幅を動的に調整
+  const neededWidth = Math.max(24, slots.length * 12 + 8);
+  document.documentElement.style.setProperty(
+    "--tl-lines-width",
+    neededWidth + "px",
+  );
+}
+
+// year → 行インデックス（最近傍で検索）
+function yearToRowIndex(year, sorted, cfg, N) {
+  if (N === 0) return 0;
+  let bestIdx = 0;
+  let bestDiff = Infinity;
+  for (let i = 0; i < N; i++) {
+    const y = getYear(sorted[i], cfg);
+    if (y === null) continue;
+    const diff = Math.abs(y - year);
+    if (diff < bestDiff) {
+      bestDiff = diff;
+      bestIdx = i;
+    }
+  }
+  return bestIdx;
+}
+
+// ============================================================
+// renderEvents — 出来事ドット列
+// ============================================================
+function renderEvents(sorted, cfg, N) {
+  const col = document.getElementById("tl-events-col");
+  col.innerHTML = "";
+
+  const ROW_H = 40;
+  col.style.minHeight = N * ROW_H + "px";
+
+  const cats = cfg.categories || [];
+
+  sorted.forEach((row) => {
+    const row_el = document.createElement("div");
+    row_el.className = "tl-row";
+    row_el.style.height = ROW_H + "px";
+
+    const dot = document.createElement("div");
+    dot.className = "tl-dot";
+
+    // カテゴリで色付け
+    const cat = cfg.getCategory(row);
+    const catDef = cats.find((c) => c.id === cat);
+    if (catDef) {
+      dot.style.setProperty("--tl-dot-color", catDef.fg);
+      dot.style.borderColor = catDef.fg;
+    }
+
+    const label = document.createElement("span");
+    label.className = "tl-dot__label";
+    label.textContent = cfg.getEvent(row) || "";
+
+    // カテゴリチップ（デスクトップのみ）
+    if (catDef) {
+      const chip = document.createElement("span");
+      chip.className = "tl-dot__cat";
+      chip.style.background = catDef.bg + "33";
+      chip.style.color = catDef.fg;
+      chip.textContent = catDef.label;
+      label.appendChild(chip);
+    }
+
+    // クリックでモーダル
+    const openDetail = () => openModal(row, cfg);
+    dot.addEventListener("click", openDetail);
+    label.addEventListener("click", openDetail);
+
+    row_el.appendChild(dot);
+    row_el.appendChild(label);
+    col.appendChild(row_el);
+  });
+}
+
+// ============================================================
+// openModal — Bootstrap モーダルに詳細を表示
+// ============================================================
+function openModal(row, cfg) {
+  const body = document.getElementById("tl-modal-body");
+  const yearStr = cfg.formatYear(row);
+  const eventStr = cfg.getEvent(row) || "";
+  const descStr = cfg.getDescription(row) || "";
+  const cat = cfg.getCategory(row);
+  const cats = cfg.categories || [];
+  const catDef = cats.find((c) => c.id === cat);
+
+  const recordType = row.record_type;
+  const typeLabel =
+    recordType === "period" ? "期間" : recordType === "person" ? "人物" : "";
+
+  // タグ（地域・分野）
+  const regions = (row.region || []).join(" · ");
+  const field = row.field || "";
+
+  let tagsHtml = "";
+  if (catDef) {
+    tagsHtml += `<span class="tl-modal__tag" style="background:${catDef.bg}22;color:${catDef.fg};border-color:${catDef.bg}">${esc(catDef.label)}</span>`;
+  }
+  if (typeLabel) {
+    tagsHtml += `<span class="tl-modal__tag">${esc(typeLabel)}</span>`;
+  }
+  if (field) {
+    tagsHtml += `<span class="tl-modal__tag">${esc(field)}</span>`;
+  }
+  if (regions) {
+    tagsHtml += `<span class="tl-modal__tag"><i class="bi bi-geo-alt" style="font-size:0.7em;"></i> ${esc(regions)}</span>`;
+  }
+
+  // year_end がある場合は範囲表示
+  let yearDisplay = yearStr;
+  if (row.year_end !== null && row.year_end !== undefined) {
+    const endYear =
+      row.year_end < 0 ? `前${Math.abs(row.year_end)}年` : `${row.year_end}年`;
+    yearDisplay = yearStr + " 〜 " + endYear;
+  }
+
+  body.innerHTML = `
+    <div class="tl-modal__year">${esc(yearDisplay)}</div>
+    <div class="tl-modal__event">${esc(eventStr)}</div>
+    ${tagsHtml ? `<div class="tl-modal__tags">${tagsHtml}</div>` : ""}
+    ${descStr ? `<p class="tl-modal__desc">${esc(descStr)}</p>` : ""}
+    ${
+      row.wiki_url
+        ? `<a class="tl-modal__wiki" href="${esc(row.wiki_url)}" target="_blank" rel="noopener">
+          <i class="bi bi-box-arrow-up-right"></i> Wikipedia
+        </a>`
+        : ""
+    }
+  `;
+
+  document.getElementById("tl-modal-label").textContent = eventStr;
+
+  getModal().show();
+}
+
+// ============================================================
+// Utilities
+// ============================================================
+
+function getYear(row, cfg) {
+  // cfg.formatYear は表示文字列を返すため、数値は row.year から直接取得
+  return row.year !== null && row.year !== undefined ? row.year : null;
+}
+
+function setStateMsg(msg) {
+  const el = document.getElementById("state-msg");
+  if (el) {
+    el.textContent = msg;
+    el.style.display = "";
+  }
+  const layout = document.getElementById("tl-layout");
+  if (layout) layout.style.display = "none";
 }
 
 function esc(s) {

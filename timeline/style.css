@@ -1,3 +1,11 @@
+/* ============================================================
+   timeline/style.css
+   縦軸タイムライン専用スタイル。
+   base.css の --color-* 変数体系を継承。
+   Bootstrap 5 CDN 読み込み後に適用。
+   ============================================================ */
+
+/* ===== Base / Reset ===== */
 *,
 *::before,
 *::after {
@@ -6,46 +14,14 @@
   padding: 0;
 }
 
-:root {
-  --color-bg: #fafaf8;
-  --color-surface: #ffffff;
-  --color-border: #e8e8e5;
-  --color-text-primary: #1a1a1a;
-  --color-text-secondary: #555555;
-  /* timeline 固有のアクセントカラー。base.css の --color-accent とは独立。
-     script.js が config の accentColor でこの変数を上書きする。        */
-  --timeline-accent: #1a2b3c;
-  --timeline-accent-light: rgba(26, 43, 60, 0.08);
-  --timeline-accent-rgb: 26, 43, 60;
-  --font-sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
-  --font-display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
-  --space-xs: 0.5rem;
-  --space-sm: 1rem;
-  --space-md: 1.5rem;
-  --space-lg: 2.5rem;
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
-}
-
-body.dark {
-  --color-bg: #0f172a;
-  --color-surface: #1e293b;
-  --color-text-primary: #f1f5f9;
-  --color-text-secondary: #94a3b8;
-  --color-border: #334155;
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
-  --timeline-accent-light: rgba(var(--timeline-accent-rgb), 0.15);
-}
-
 body {
-  font-family: var(--font-sans);
+  font-family:
+    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
   font-size: 1.05rem;
   line-height: 1.8;
-  color: var(--color-text-primary);
   background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-feature-settings: "pkna";
   -webkit-font-smoothing: antialiased;
   transition:
     background 0.3s,
@@ -53,116 +29,163 @@ body {
 }
 
 /* ===== Header ===== */
-.site-header {
-  background: var(--color-surface);
-  border-bottom: 2px solid var(--timeline-accent);
-  padding: 0 var(--space-md);
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.tl-header {
+  background: var(--color-bg);
+  border-bottom: 2px solid var(--tl-accent, var(--color-accent));
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
 }
 
-.header-left {
+.tl-header__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1.25rem;
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
-.back-link {
+.tl-back-link {
   display: inline-flex;
   align-items: center;
   gap: 4px;
+  font-size: 0.85rem;
   color: var(--color-text-secondary);
   text-decoration: none;
-  font-size: 0.875rem;
   padding: 6px 10px;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   transition:
     color 0.15s,
     background 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
-.back-link:hover {
-  color: var(--timeline-accent);
-  background: var(--timeline-accent-light);
-}
-
-.header-title {
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--timeline-accent);
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-}
-
-/* ===== Controls ===== */
-.controls {
-  display: flex;
-  gap: var(--space-sm);
-  align-items: center;
-  flex-wrap: wrap;
-  padding: var(--space-md);
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.search-input {
-  flex: 1;
-  min-width: 200px;
-  padding: 10px 14px;
-  border: 1.5px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface);
+.tl-back-link:hover {
   color: var(--color-text-primary);
-  font-family: var(--font-sans);
-  font-size: 0.95rem;
+  background: rgba(0, 0, 0, 0.04);
+  text-decoration: none;
+}
+
+body.dark .tl-back-link:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.tl-header__title {
+  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--tl-accent, var(--color-accent));
+  white-space: nowrap;
+}
+
+.tl-header__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+/* 検索 */
+.tl-search {
+  padding: 7px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  width: 200px;
   transition:
     border-color 0.15s,
     box-shadow 0.15s;
 }
 
-.search-input:focus {
+.tl-search:focus {
   outline: none;
-  border-color: var(--timeline-accent);
-  box-shadow: 0 0 0 3px var(--timeline-accent-light);
+  border-color: var(--tl-accent, var(--color-accent));
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--tl-accent, var(--color-accent)) 20%, transparent);
 }
 
-.search-input::placeholder {
+.tl-search::placeholder {
   color: var(--color-text-secondary);
 }
 
-/* ===== Stats ===== */
-.stats-bar {
+/* テーマトグル */
+#theme-toggle {
+  background: transparent;
+  border: 1.5px solid var(--color-border);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
+  flex-shrink: 0;
+}
+
+#theme-toggle:hover {
+  border-color: var(--tl-accent, var(--color-accent));
+  color: var(--color-text-primary);
+}
+
+#theme-toggle #moon,
+#theme-toggle #sun {
+  display: none;
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+body.dark #theme-toggle #sun {
+  display: block;
+}
+body:not(.dark) #theme-toggle #moon {
+  display: block;
+}
+
+/* ===== Stats / Tabs bar ===== */
+.tl-meta-bar {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.5rem 1.25rem;
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: 0 var(--space-md) var(--space-sm);
-  max-width: 1200px;
-  margin: 0 auto;
-  font-size: 0.875rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tl-stat {
+  font-size: 0.82rem;
   color: var(--color-text-secondary);
 }
 
-.stat-item strong {
-  color: var(--timeline-accent);
+.tl-stat strong {
+  color: var(--tl-accent, var(--color-accent));
   font-weight: 700;
 }
 
-/* ===== Tabs ===== */
-.tabs-wrap {
-  padding: 0 var(--space-md);
-  max-width: 1200px;
+/* カテゴリタブ */
+.tl-tabs-wrap {
+  max-width: 1100px;
   margin: 0 auto;
+  padding: 0 1.25rem;
   border-bottom: 1.5px solid var(--color-border);
   display: flex;
   gap: 0;
@@ -170,172 +193,394 @@ body {
   scrollbar-width: none;
 }
 
-.tabs-wrap::-webkit-scrollbar {
+.tl-tabs-wrap::-webkit-scrollbar {
   display: none;
 }
 
-.tab-btn {
-  padding: 10px 18px;
+.tl-tab {
+  padding: 8px 16px;
   border: none;
   background: transparent;
   color: var(--color-text-secondary);
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
+  font-family: inherit;
+  font-size: 0.88rem;
   font-weight: 500;
   cursor: pointer;
   border-bottom: 2.5px solid transparent;
   margin-bottom: -1.5px;
   white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   transition:
     color 0.15s,
     border-color 0.15s;
 }
 
-.tab-btn:hover {
+.tl-tab:hover {
   color: var(--color-text-primary);
 }
 
-.tab-btn.is-active {
-  color: var(--timeline-accent);
-  border-bottom-color: var(--timeline-accent);
+.tl-tab.is-active {
+  color: var(--tl-accent, var(--color-accent));
+  border-bottom-color: var(--tl-accent, var(--color-accent));
   font-weight: 700;
 }
 
-/* ===== Table ===== */
-.table-wrap {
-  padding: var(--space-md);
-  max-width: 1200px;
+.tl-tab__swatch {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 凡例（カテゴリチップ — ヘッダー下） */
+.tl-legend {
+  max-width: 1100px;
   margin: 0 auto;
-  overflow-x: auto;
+  padding: 0.5rem 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
 }
 
-.timeline-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--color-surface);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: var(--shadow-md);
-}
-
-.timeline-table thead {
-  background: var(--timeline-accent);
-  color: #fff;
-}
-
-.timeline-table th {
-  padding: 13px 16px;
-  text-align: left;
-  font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.03em;
-}
-
-.timeline-table td {
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--color-border);
-  vertical-align: top;
-}
-
-.timeline-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.timeline-table tbody tr {
-  transition: background 0.15s;
-}
-
-.timeline-table tbody tr:hover {
-  background: var(--timeline-accent-light);
-}
-
-.cell-year {
-  font-weight: 700;
-  color: var(--timeline-accent);
-  white-space: nowrap;
-  font-size: 0.95rem;
-}
-
-.cell-event {
-  font-weight: 500;
-}
-
-.cell-desc {
-  color: var(--color-text-secondary);
-  font-size: 0.9rem;
-}
-
-.wiki-link {
-  color: var(--timeline-accent);
-  text-decoration: none;
-  font-size: 0.85rem;
-  opacity: 0.8;
-  transition: opacity 0.15s;
-}
-
-.wiki-link:hover {
-  opacity: 1;
-  text-decoration: underline;
-}
-
-/* ===== Category chip ===== */
-.cat-chip {
-  display: inline-block;
-  padding: 2px 10px;
+.tl-legend__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
   border-radius: 100px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
-  /* 色は JS で style 属性から注入 */
+  border: 1px solid transparent;
+}
+
+/* ===== Main Content ===== */
+.tl-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 4rem;
+}
+
+/* ===== Timeline Layout ===== */
+/*
+  3カラム構成（CSS Grid）:
+    [年代軸 64px] [ライン帯 可変] [出来事列 1fr]
+  showPeriodLines=false のときはライン帯を 0 にする。
+*/
+.tl-layout {
+  display: grid;
+  grid-template-columns: 64px var(--tl-lines-width, 40px) 1fr;
+  column-gap: 0;
+  position: relative;
+}
+
+.tl-layout.no-lines {
+  grid-template-columns: 64px 0 1fr;
+  --tl-lines-width: 0px;
+}
+
+/* ===== 年代軸 ===== */
+.tl-axis {
+  position: relative;
+  padding-right: 8px;
+}
+
+.tl-axis__label {
+  position: absolute;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* 年代ラベルの縦線 */
+.tl-axis__line {
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--color-border);
+}
+
+/* ===== Period / Person ラインカラム ===== */
+.tl-lines-col {
+  position: relative;
+  border-right: 1px solid var(--color-border);
+}
+
+/* 個別の縦ライン（period, person） */
+.tl-line {
+  position: absolute;
+  width: 3px;
+  border-radius: 2px;
+  background: var(--tl-line-color, var(--tl-accent, var(--color-accent)));
+  opacity: 0.7;
+  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    width 0.15s;
+}
+
+.tl-line:hover {
+  opacity: 1;
+  width: 5px;
+}
+
+/* ライン上にフロートするラベル（ホバー時） */
+.tl-line::after {
+  content: attr(data-label);
+  position: absolute;
+  left: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+  color: var(--color-text-primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+  z-index: 10;
+}
+
+.tl-line:hover::after {
+  opacity: 1;
+}
+
+/* ===== 出来事列 ===== */
+.tl-events-col {
+  padding-left: 16px;
+}
+
+/* 1行 = 1出来事 */
+.tl-row {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  position: relative;
+}
+
+/* 軸との接続線（横の点線） */
+.tl-row::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 12px;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* 出来事ドット */
+.tl-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 2px solid var(--tl-dot-color, var(--color-text-secondary));
+  flex-shrink: 0;
+  cursor: pointer;
+  transition:
+    transform 0.15s,
+    border-color 0.15s,
+    background 0.15s;
+  position: relative;
+  z-index: 1;
+}
+
+.tl-dot:hover {
+  transform: scale(1.5);
+  border-color: var(--tl-accent, var(--color-accent));
+  background: var(--tl-accent, var(--color-accent));
+}
+
+/* 出来事ラベル */
+.tl-dot__label {
+  margin-left: 10px;
+  font-size: 0.875rem;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+  cursor: pointer;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.15s;
+}
+
+.tl-dot__label:hover {
+  color: var(--tl-accent, var(--color-accent));
+}
+
+/* カテゴリチップ（ラベル内） */
+.tl-dot__cat {
+  font-size: 0.68rem;
+  padding: 1px 6px;
+  border-radius: 100px;
+  font-weight: 600;
+  margin-left: 6px;
+  vertical-align: middle;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* ===== Empty / Loading ===== */
-.state-msg {
+.tl-state-msg {
   text-align: center;
-  padding: var(--space-lg) var(--space-md);
+  padding: 4rem 1.25rem;
   color: var(--color-text-secondary);
   font-size: 0.95rem;
+}
+
+/* ===== Modal ===== */
+/* Bootstrap modal の上書き最小限 */
+.tl-modal .modal-header {
+  border-bottom: 2px solid var(--tl-accent, var(--color-accent));
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.tl-modal .modal-title {
+  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.tl-modal .modal-body {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+}
+
+.tl-modal .modal-footer {
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+}
+
+body.dark .tl-modal .modal-content {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+body.dark .tl-modal .modal-header,
+body.dark .tl-modal .modal-body,
+body.dark .tl-modal .modal-footer {
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+body.dark .tl-modal .btn-close {
+  filter: invert(1);
+}
+
+/* モーダル内詳細レイアウト */
+.tl-modal__year {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--tl-accent, var(--color-accent));
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.25rem;
+}
+
+.tl-modal__event {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 0.75rem;
+}
+
+.tl-modal__desc {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 0.75rem;
+}
+
+.tl-modal__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.tl-modal__tag {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 100px;
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+}
+
+.tl-modal__wiki {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  color: var(--tl-accent, var(--color-accent));
+  text-decoration: none;
+}
+
+.tl-modal__wiki:hover {
+  text-decoration: underline;
 }
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .site-header {
-    padding: 0 var(--space-sm);
+  .tl-header__inner {
+    gap: 0.5rem;
   }
 
-  .header-title {
-    font-size: 0.95rem;
+  .tl-search {
+    width: 140px;
   }
 
-  .controls {
-    padding: var(--space-sm);
+  .tl-layout {
+    grid-template-columns: 52px var(--tl-lines-width, 24px) 1fr;
   }
 
-  .stats-bar {
-    padding: 0 var(--space-sm) var(--space-xs);
-    flex-wrap: wrap;
-    gap: var(--space-sm);
+  .tl-axis__label {
+    font-size: 0.65rem;
   }
 
-  .tabs-wrap {
-    padding: 0 var(--space-sm);
+  .tl-dot__label {
+    font-size: 0.82rem;
   }
 
-  .table-wrap {
-    padding: var(--space-sm);
+  .tl-line {
+    width: 2px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tl-layout.no-lines {
+    grid-template-columns: 48px 0 1fr;
   }
 
-  .timeline-table {
-    font-size: 0.9rem;
+  .tl-layout {
+    grid-template-columns: 48px var(--tl-lines-width, 20px) 1fr;
   }
 
-  .timeline-table th,
-  .timeline-table td {
-    padding: 10px 12px;
+  /* モバイルではdot labelを2行可に */
+  .tl-dot__label {
+    white-space: normal;
   }
 
-  /* モバイルでは説明列を非表示 */
-  .col-desc {
+  .tl-dot__cat {
     display: none;
   }
 }

@@ -115,7 +115,7 @@
                 id="json-toggle-btn"
                 aria-expanded="false"
               >
-                // show more ▼
+                show more ▼
               </button>
             </div>
           </div>
@@ -139,7 +139,7 @@
                 id="md-toggle-btn"
                 aria-expanded="false"
               >
-                // show more ▼
+                show more ▼
               </button>
             </div>
           </div>
@@ -264,11 +264,11 @@
           expanded = !expanded;
           if (expanded) {
             inner.style.maxHeight = inner.scrollHeight + "px";
-            btn.textContent = "// show less ▲";
+            btn.textContent = "show less ▲";
             btn.setAttribute("aria-expanded", "true");
           } else {
             inner.style.maxHeight = COLLAPSED_PX + "px";
-            btn.textContent = "// show more ▼";
+            btn.textContent = "show more ▼";
             btn.setAttribute("aria-expanded", "false");
           }
         });
@@ -325,8 +325,7 @@
         const body = Object.entries(data)
           .map(([ek, ev]) => `  ${k(ek)}: ${renderVal(ev, 1)}`)
           .join(",\n\n");
-
-        return `<span class="bio-comment">// shoei451.json</span>\n{\n${body}\n}`;
+        return `{\n${body}\n}`;
       }
 
       // ── Load shoei451.json ────────────────────────────────────────
