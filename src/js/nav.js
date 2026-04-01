@@ -10,7 +10,7 @@
 //   <footer id="site-footer"></footer>
 //
 //   <!-- body閉じタグ直前 -->
-//   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+//
 //   <script src="/js/nav.js"></script>
 //   <script src="/js/theme-toggle.js"></script>
 // ============================================================
@@ -90,6 +90,8 @@
     navContainer.innerHTML = NAV_HTML;
     _setActiveLink();
   }
+  // Bootstrap JS の Collapse を自前実装（navbar ハンバーガー + Countdown など）
+  _initCollapse();
 
   // ── フッター inject ───────────────────────────────────────
   const footerEl = document.getElementById("site-footer");
@@ -116,5 +118,25 @@
       // 通常パス：パスが前方一致
       if (path.startsWith(href)) link.classList.add("active");
     });
+  }
+
+  // ── Collapse（Bootstrap JS 不要版）─────────────────────────
+  function _initCollapse() {
+    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const target = document.querySelector(btn.dataset.bsTarget);
+        if (!target) return;
+        const isOpen = target.classList.toggle("show");
+        btn.setAttribute("aria-expanded", String(isOpen));
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", _initCollapse, {
+      once: true,
+    });
+  } else {
+    _initCollapse();
   }
 })();

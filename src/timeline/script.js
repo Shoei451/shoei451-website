@@ -12,17 +12,6 @@ import { db } from "/js/supabase_config.js";
 
 window._db = db;
 
-// ── Bootstrap Modal インスタンス（遅延初期化） ────────────────
-let _bsModal = null;
-
-function getModal() {
-  if (!_bsModal) {
-    const el = document.getElementById("tl-detail-modal");
-    if (el) _bsModal = new bootstrap.Modal(el);
-  }
-  return _bsModal;
-}
-
 // ── slug ロード ───────────────────────────────────────────────
 const slug = new URLSearchParams(location.search).get("slug");
 if (slug) {
@@ -101,6 +90,17 @@ async function initTimeline(cfg) {
       activeTab?.dataset.cat || "all",
       e.target.value,
     );
+  });
+
+  // ── dialog 閉じるボタン ─────────────────────────────────────
+  document.querySelectorAll(".tl-dialog__close").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.getElementById("tl-detail-modal").close();
+    });
+  });
+  // backdrop クリックで閉じる
+  document.getElementById("tl-detail-modal")?.addEventListener("click", (e) => {
+    if (e.target === e.currentTarget) e.currentTarget.close();
   });
 }
 
@@ -459,10 +459,10 @@ function openModal(row, cfg) {
         : ""
     }
   `;
-
   document.getElementById("tl-modal-label").textContent = eventStr;
 
-  getModal().show();
+  const dialog = document.getElementById("tl-detail-modal");
+  dialog.showModal();
 }
 
 // ============================================================

@@ -117,7 +117,6 @@ Chromeの Coverage レポートより、Bootstrap JS bundle (+ Popper.js) の内
 
 ```html
 <!-- 削除 -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 ```
 
 対象ファイル: `index.html`, `sub-index.html`, `timeline/index.html`, `history/rekisou-forms/index.html`, `learning-links/index.html`, `404.html`, その他全ページ

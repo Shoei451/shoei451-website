@@ -63,43 +63,23 @@
       </div>
     </div>
 
-    <!-- ===== Detail Modal (Bootstrap) ===== -->
-    <div
-      class="modal fade tl-modal"
-      id="tl-detail-modal"
-      tabindex="-1"
-      aria-labelledby="tl-modal-label"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="tl-modal-label">詳細</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="閉じる"
-            ></button>
-          </div>
-          <div class="modal-body" id="tl-modal-body">
-            <!-- JS が inject -->
-          </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-secondary"
-              data-bs-dismiss="modal"
-            >
-              閉じる
-            </button>
-          </div>
-        </div>
+    <!-- ===== Detail Dialog ===== -->
+    <dialog id="tl-detail-modal" class="tl-dialog">
+      <div class="tl-dialog__header">
+        <h5 id="tl-modal-label">詳細</h5>
+        <button type="button" class="tl-dialog__close" aria-label="閉じる">
+          ✕
+        </button>
       </div>
-    </div>
+      <div class="tl-dialog__body" id="tl-modal-body">
+        <!-- JS が inject -->
+      </div>
+      <div class="tl-dialog__footer">
+        <button type="button" class="tl-dialog__close">閉じる</button>
+      </div>
+    </dialog>
 
     <!-- ===== Scripts ===== -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/icons.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="../js/theme-toggle.js"></script>

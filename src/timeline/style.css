@@ -458,100 +458,74 @@ body:not(.dark) #theme-toggle #moon {
   font-size: 0.95rem;
 }
 
-/* ===== Modal ===== */
-/* Bootstrap modal の上書き最小限 */
-.tl-modal .modal-header {
-  border-bottom: 2px solid var(--tl-accent-ui);
+/* ===== Dialog ===== */
+.tl-dialog {
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 0;
+  max-width: min(520px, 90vw);
+  width: 100%;
   background: var(--color-surface);
   color: var(--color-text-primary);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
 }
 
-.tl-modal .modal-title {
+.tl-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+body.dark .tl-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.tl-dialog__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 2px solid var(--tl-accent-ui);
+}
+
+.tl-dialog__header h5 {
   font-family:
     "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
     "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 1rem;
-}
-
-.tl-modal .modal-body {
-  background: var(--color-bg);
   color: var(--color-text-primary);
+  margin: 0;
 }
 
-.tl-modal .modal-footer {
-  background: var(--color-bg);
+.tl-dialog__body {
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.tl-dialog__footer {
+  padding: 0.75rem 1.25rem;
   border-top: 1px solid var(--color-border);
-}
-
-body.dark .tl-modal .modal-content {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-}
-
-body.dark .tl-modal .modal-header,
-body.dark .tl-modal .modal-body,
-body.dark .tl-modal .modal-footer {
-  background: var(--color-surface);
-  color: var(--color-text-primary);
-  border-color: var(--color-border);
-}
-
-body.dark .tl-modal .btn-close {
-  filter: invert(1);
-}
-
-/* モーダル内詳細レイアウト */
-.tl-modal__year {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: var(--tl-accent-ui);
-  font-variant-numeric: tabular-nums;
-  margin-bottom: 0.25rem;
-}
-
-.tl-modal__event {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 0.75rem;
-}
-
-.tl-modal__desc {
-  font-size: 0.9rem;
-  color: var(--color-text-secondary);
-  line-height: 1.7;
-  margin-bottom: 0.75rem;
-}
-
-.tl-modal__tags {
   display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-bottom: 0.75rem;
+  justify-content: flex-end;
 }
 
-.tl-modal__tag {
-  font-size: 0.72rem;
-  padding: 2px 8px;
-  border-radius: 100px;
+.tl-dialog__close {
+  background: transparent;
   border: 1px solid var(--color-border);
-  color: var(--tl-chip-text);
-  background: var(--color-surface);
-  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 4px 12px;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
 }
 
-.tl-modal__wiki {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 0.85rem;
-  color: var(--tl-accent-ui);
-  text-decoration: none;
-}
-
-.tl-modal__wiki:hover {
-  text-decoration: underline;
+.tl-dialog__close:hover {
+  border-color: var(--tl-accent-ui);
+  color: var(--color-text-primary);
 }
 
 /* ===== Responsive ===== */
