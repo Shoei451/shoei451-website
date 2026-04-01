@@ -5,3 +5,13 @@ command = "npm run build"
 [[edge_functions]]
   path = "/api/sw"
   function = "sw"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
