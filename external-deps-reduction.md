@@ -334,10 +334,7 @@ Bootstrap CSS 全体 (~30 KB gzip) のうち、実際に使っているのはグ
 
 ```html
 <!-- 削除 -->
-<link
-  rel="stylesheet"
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-/>
+<link rel="stylesheet" href="/css/bootstrap-min.css" />
 ```
 
 **4-b. `css/base.css` に最小グリッドを追加する**

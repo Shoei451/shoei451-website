@@ -460,6 +460,8 @@ body:not(.dark) #theme-toggle #moon {
 
 /* ===== Dialog ===== */
 .tl-dialog {
+  inset: 0; /* top, right, bottom, left すべて0と同じ */
+  margin: auto; /* これで中央に吸い寄せられる */
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 0;
@@ -526,6 +528,17 @@ body.dark .tl-dialog::backdrop {
 .tl-dialog__close:hover {
   border-color: var(--tl-accent-ui);
   color: var(--color-text-primary);
+}
+
+.tl-modal__tag {
+  font-size: 0.9rem;
+  padding: 3px 10px;
+  border-radius: 100px;
+  background: var(--color-surface); /* → */
+  border: 1.5px solid var(--color-border); /* border を少し太く */
+  color: var(--color-text-secondary); /* --tl-chip-text より明るく */
+  font-weight: 600;
+  letter-spacing: 0.02em;
 }
 
 /* ===== Responsive ===== */
