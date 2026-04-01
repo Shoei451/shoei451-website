@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { dirname, extname, join, resolve, relative } from "node:path";
 
 const ROOT = process.cwd();
+const SITE_ROOT = resolve(ROOT, "src");
 const IGNORE_DIRS = new Set([".git", "node_modules", "archives"]);
 const ATTR_PATTERN = /(href|src)\s*=\s*["']([^"']+)["']/gi;
 
@@ -57,16 +58,18 @@ function existsAsPath(targetPath) {
   return existsSync(targetPath);
 }
 
-function resolveCandidates(baseDir, rawLink, isAbsoluteBase) {
+function resolveCandidates(baseDir, rawLink) {
   const cleanLink = rawLink.split("#")[0].split("?")[0];
   if (!cleanLink) return [];
 
   const basePath = cleanLink.startsWith("/")
-    ? resolve(ROOT, `.${cleanLink}`)
+    ? resolve(SITE_ROOT, `.${cleanLink}`)
     : resolve(baseDir, cleanLink);
 
   const candidates = [basePath];
-  if (!extname(basePath)) {
+  if (cleanLink.endsWith("/")) {
+    candidates.push(join(basePath, "index.html"));
+  } else if (!extname(basePath)) {
     candidates.push(`${basePath}.html`);
     candidates.push(join(basePath, "index.html"));
   }
@@ -76,7 +79,7 @@ function resolveCandidates(baseDir, rawLink, isAbsoluteBase) {
 // ── HTML チェック ─────────────────────────────────────────────
 
 function checkHtmlFiles(errors) {
-  const htmlFiles = collectFiles(ROOT, [".html"]);
+  const htmlFiles = collectFiles(SITE_ROOT, [".html"]);
 
   for (const htmlFile of htmlFiles) {
     const content = readFileSync(htmlFile, "utf8").replace(
@@ -104,7 +107,7 @@ function checkHtmlFiles(errors) {
 // ── list.json チェック ────────────────────────────────────────
 
 function checkListJsonFiles(errors) {
-  const jsonFiles = collectFiles(ROOT, [".json"]).filter((f) =>
+  const jsonFiles = collectFiles(SITE_ROOT, [".json"]).filter((f) =>
     f.endsWith("list.json"),
   );
 
@@ -128,8 +131,7 @@ function checkListJsonFiles(errors) {
         if (isSkippableLink(link)) continue;
         if (isDynamicSlugLink(link)) continue;
 
-        // list.json 内のリンクはサイトルート基準の絶対パスとして解釈する
-        const candidates = resolveCandidates(ROOT, link);
+        const candidates = resolveCandidates(dirname(jsonFile), link);
         if (!candidates.some(existsAsPath)) {
           errors.push({ source: relativeFile, link });
         }
@@ -142,7 +144,7 @@ function checkListJsonFiles(errors) {
       !isSkippableLink(cfg.backLink) &&
       !isDynamicSlugLink(cfg.backLink)
     ) {
-      const candidates = resolveCandidates(ROOT, cfg.backLink);
+      const candidates = resolveCandidates(dirname(jsonFile), cfg.backLink);
       if (!candidates.some(existsAsPath)) {
         errors.push({ source: relativeFile, link: cfg.backLink });
       }
@@ -162,8 +164,8 @@ if (errors.length) {
   process.exit(1);
 }
 
-const htmlCount = collectFiles(ROOT, [".html"]).length;
-const jsonCount = collectFiles(ROOT, [".json"]).filter((f) =>
+const htmlCount = collectFiles(SITE_ROOT, [".html"]).length;
+const jsonCount = collectFiles(SITE_ROOT, [".json"]).filter((f) =>
   f.endsWith("list.json"),
 ).length;
 

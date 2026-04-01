@@ -1,9 +1,13 @@
-import { readdirSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readdirSync, statSync } from "node:fs";
+import { extname, join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 
 const ROOT = process.cwd();
-const IGNORE_DIRS = new Set([".git", "node_modules"]);
+const TARGET_DIRS = ["scripts", "src", "netlify"]
+  .map((dir) => resolve(ROOT, dir))
+  .filter((dir) => existsSync(dir) && statSync(dir).isDirectory());
+const IGNORE_DIRS = new Set([".git", "node_modules", "archives", "dist"]);
+const JS_EXTENSIONS = new Set([".js", ".mjs"]);
 
 function collectJsFiles(dir) {
   const entries = readdirSync(dir, { withFileTypes: true });
@@ -17,7 +21,8 @@ function collectJsFiles(dir) {
       continue;
     }
 
-    if (entry.isFile() && entry.name.endsWith(".js")) {
+    const extension = extname(entry.name);
+    if (entry.isFile() && JS_EXTENSIONS.has(extension)) {
       files.push(join(dir, entry.name));
     }
   }
@@ -25,7 +30,7 @@ function collectJsFiles(dir) {
   return files;
 }
 
-const jsFiles = collectJsFiles(ROOT);
+const jsFiles = TARGET_DIRS.flatMap((dir) => collectJsFiles(dir));
 if (!jsFiles.length) {
   console.log("No JS files found.");
   process.exit(0);
