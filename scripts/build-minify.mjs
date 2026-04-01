@@ -14,7 +14,7 @@ const css = globSync("dist/**/*.css", {
 
 if (js.length) {
   execSync(
-    `node_modules/.bin/esbuild ${js.join(" ")} --minify --allow-overwrite`,
+    `node_modules/.bin/esbuild ${js.join(" ")} --minify --allow-overwrite --outdir=dist`,
     { stdio: "inherit" },
   );
 }
