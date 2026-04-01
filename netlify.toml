@@ -1,5 +1,6 @@
 [[build]]
-npm run build
+publish = "dist"
+command "npm run compress"
 
 [[edge_functions]]
   path = "/api/sw"
