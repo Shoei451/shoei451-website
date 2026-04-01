@@ -23,9 +23,6 @@
      - theme-toggle.css はこのファイルに統合済み。個別読み込み不要。
    ============================================================ */
 
-/* ===== Google Fonts ===== */
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@400;700&display=swap");
-
 /* ===== CSS Variables ===== */
 :root {
   --color-bg: #ffffff;
@@ -59,7 +56,8 @@ body.dark {
 /* ===== Base ===== */
 body {
   font-family:
-    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-size: 1.05rem;
   line-height: 1.8;
   background-color: var(--color-bg);
@@ -80,7 +78,9 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   line-height: 1.4;
   color: var(--color-text-primary);
 }
@@ -268,7 +268,9 @@ body.dark #site-nav {
 }
 
 #site-nav .navbar-brand {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--color-text-primary);

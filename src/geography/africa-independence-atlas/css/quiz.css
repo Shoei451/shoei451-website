@@ -83,7 +83,9 @@ body.quiz-page {
   color: var(--sub);
 }
 .start-title {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: clamp(1.8rem, 5vw, 2.6rem);
   line-height: 1.25;
@@ -439,7 +441,9 @@ body.quiz-page {
   line-height: 1;
 }
 .result-msg {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--text);

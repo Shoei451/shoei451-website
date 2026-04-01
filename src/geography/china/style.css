@@ -23,8 +23,12 @@
   --map-fill: #d1d5db;
   --map-hover: #9ca3af;
 
-  --sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
-  --display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  --sans:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
+  --display:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
 
   --r-sm: 6px;
   --r-md: 12px;

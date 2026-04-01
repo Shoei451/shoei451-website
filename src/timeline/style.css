@@ -32,7 +32,8 @@ body.dark {
 
 body {
   font-family:
-    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-size: 1.05rem;
   line-height: 1.8;
   background: var(--color-bg);
@@ -91,7 +92,9 @@ body.dark .tl-back-link:hover {
 }
 
 .tl-header__title {
-  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-size: 1.05rem;
   font-weight: 700;
   color: var(--tl-accent-ui);
@@ -464,7 +467,9 @@ body:not(.dark) #theme-toggle #moon {
 }
 
 .tl-modal .modal-title {
-  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 1rem;
 }

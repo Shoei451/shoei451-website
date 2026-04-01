@@ -17,8 +17,10 @@
   --accent: #4eca14;
   --panel-w: 340px;
   --nav-h: 52px;
-  --font: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
-  --mono: "JetBrains Mono", monospace;
+  --font:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
+  --mono: "Courier New", monospace;
   --r: 8px;
 }
 
@@ -54,7 +56,9 @@ nav {
   flex-shrink: 0;
 }
 .nav-title {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
   letter-spacing: 0.04em;
@@ -320,7 +324,9 @@ nav {
   display: block;
 }
 .panel-name {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 1.05rem;
   line-height: 1.3;

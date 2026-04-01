@@ -22,9 +22,13 @@
   --color-info: #0284c7;
   --color-info-light: #e0f2fe;
 
-  --font-sans: "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
-  --font-display: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-sans:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
+  --font-display:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
+  --font-mono: "Courier New", monospace;
 
   --space-xs: 0.5rem;
   --space-sm: 1rem;

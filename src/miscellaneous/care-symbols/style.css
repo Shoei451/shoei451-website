@@ -3,7 +3,7 @@
    Design: Clean Japanese notebook / stationery aesthetic
    =================================================== */
 
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Shrikhand&family=DM+Mono:wght@400;500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Shrikhand&family=DM+Mono:wght@400;500&display=swap");
 
 /* ===== Reset & Base ===== */
 *,
@@ -34,7 +34,9 @@
   --shadow-lg: 0 8px 32px rgba(26, 26, 46, 0.14);
   --radius: 16px;
   --radius-sm: 10px;
-  --font-body: "Noto Sans JP", sans-serif;
+  --font-body:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   --font-mono: "DM Mono", monospace;
   --font-display: "Shrikhand", cursive;
 }

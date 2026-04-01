@@ -94,14 +94,16 @@
 .folder-title {
   font-size: 0.95rem;
   font-weight: 700;
-  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   color: var(--primary);
   flex: 1;
 }
 
 .folder-count {
   font-size: 0.7rem;
-  font-family: "JetBrains Mono", monospace;
+  font-family: "Courier New", monospace;
   color: var(--secondary);
   background: var(--theme);
   padding: 2px 8px;
@@ -185,7 +187,7 @@
 }
 .link-domain {
   font-size: 0.7rem;
-  font-family: "JetBrains Mono", monospace;
+  font-family: "Courier New", monospace;
   color: var(--secondary);
   flex-shrink: 0;
 }

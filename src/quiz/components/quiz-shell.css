@@ -78,7 +78,8 @@ body.dark {
 /* ===== Base ===== */
 body {
   font-family:
-    "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Segoe UI", sans-serif;
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-size: 1rem;
   line-height: 1.7;
   background: var(--qz-bg);

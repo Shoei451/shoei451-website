@@ -4,7 +4,7 @@ html.dark body {
 }
 
 :root {
-  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+  --font-mono: "Courier New", monospace;
 }
 
 /* ── HERO ── */
@@ -52,7 +52,9 @@ body.dark .hero-avatar {
 }
 .hero-eyebrow {
   font-size: 0.75rem;
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent-text);
@@ -62,7 +64,9 @@ body.dark .hero-eyebrow {
   color: var(--color-accent);
 }
 .hero-name {
-  font-family: "Zen Kaku Gothic New", "Noto Sans JP", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 700;
   line-height: 1.2;
@@ -89,7 +93,9 @@ body.dark .hero-eyebrow {
 /* ── SECTION LABEL ── */
 .section-label {
   font-size: 0.72rem;
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-accent-text);
@@ -325,7 +331,9 @@ body.dark .interest-card__icon {
   color: var(--color-accent);
 }
 .interest-card__title {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
   margin-bottom: 0.3rem;
@@ -359,7 +367,9 @@ body.dark .interest-card__icon {
   color: inherit;
 }
 .project-item__name {
-  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
+    "Meiryo", sans-serif;
   font-weight: 700;
   font-size: 0.95rem;
   margin-bottom: 0.15rem;
