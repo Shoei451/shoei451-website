@@ -4,8 +4,8 @@
 window.QUIZ_CONFIG = {
   title: "16進法クイズ",
   subtitle: "Hexadecimal — binary, decimal, and color conversions",
-  backLink: "/sub-index.html?slug=informatics",
-  backLabel: "Informatics",
+  backLink: "/sub-index.html?slug=miscellaneous",
+  backLabel: "Miscellaneous",
   accentColor: "#148b9d",
   answerType: "choice",
   image: "/images/hex-quiz.svg",

@@ -297,7 +297,7 @@
   }
 
   function _initTutorial(mdUrl) {
-    // ボタン・オーバーレイ・パネルを body に追加
+    // ボタンはヘッダー操作群に追加し、オーバーレイ・パネルは body に追加
     const btn = document.createElement("button");
     btn.className = "qz-tutorial-btn";
     btn.title = "使い方を見る";
@@ -319,7 +319,12 @@
       </div>
     `;
 
-    document.body.appendChild(btn);
+    const headerActions = document.querySelector(".qz-header__actions");
+    if (headerActions) {
+      headerActions.appendChild(btn);
+    } else {
+      document.body.appendChild(btn);
+    }
     document.body.appendChild(overlay);
     document.body.appendChild(panel);
 

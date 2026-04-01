@@ -5,7 +5,7 @@ import { fetchRows } from "./common.js";
 const timelineConfig = {
   title: "Politics & Economics Timeline",
   backLink: "../sub-index.html?slug=seikei",
-  backLabel: "政経ホーム",
+  backLabel: "政治・経済",
   accentColor: "#1a2b3c",
   accentColorRgb: "26, 43, 60",
   showWikiLink: false,

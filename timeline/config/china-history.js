@@ -3,7 +3,7 @@ import { formatJapaneseYear, fetchWhDates } from "./common.js";
 const timelineConfig = {
   title: "中国王朝史年表",
   backLink: "../sub-index.html?slug=history",
-  backLabel: "歴史ホーム",
+  backLabel: "History",
   accentColor: "#d73c37",
   accentColorRgb: "215, 60, 55",
   showWikiLink: true,

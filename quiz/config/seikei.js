@@ -5,7 +5,7 @@ window.QUIZ_CONFIG = {
   title: "政治・経済 年代クイズ",
   subtitle: "出来事 → 年号",
   backLink: "/sub-index.html?slug=seikei",
-  backLabel: "政経ホーム",
+  backLabel: "政治・経済",
   answerType: "text",
 
   rangeMode: "multi",

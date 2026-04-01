@@ -8,7 +8,7 @@ window.QUIZ_CONFIG = {
   title: "中国王朝史 年代クイズ",
   subtitle: "出来事 → 年号",
   backLink: "/sub-index.html?slug=history",
-  backLabel: "歴史ホーム",
+  backLabel: "History",
   accentColor: "#df7c5e",
   answerType: "text",
   image: "/images/chinese-history.svg",

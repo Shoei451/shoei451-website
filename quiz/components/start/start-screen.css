@@ -260,25 +260,22 @@ body.dark .qz-count-slider__display {
 
 /* ===== Tutorial Sidebar ===== */
 .qz-tutorial-btn {
-  position: fixed;
-  top: 80px;
-  left: 16px;
-  z-index: 200;
+  position: relative;
   background: var(--qz-surface);
   border: 1.5px solid var(--qz-border);
-  border-radius: 50%;
-  width: 42px;
-  height: 42px;
-  display: flex;
+  border-radius: var(--qz-radius-sm);
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
   cursor: pointer;
-  box-shadow: var(--qz-shadow-md);
   transition:
     border-color 0.15s,
     transform 0.15s;
   color: var(--qz-text-sub);
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .qz-tutorial-btn:hover {
@@ -301,8 +298,8 @@ body.dark .qz-count-slider__display {
 .qz-tutorial-panel {
   position: fixed;
   top: 0;
-  left: -380px;
-  width: 360px;
+  left: -520px;
+  width: 500px;
   max-width: 90vw;
   height: 100%;
   background: var(--qz-surface);
