@@ -181,7 +181,10 @@
       svg.setAttribute(attr.name, attr.value);
     }
 
-    if (!svg.hasAttribute("aria-label") && !svg.hasAttribute("aria-labelledby")) {
+    if (
+      !svg.hasAttribute("aria-label") &&
+      !svg.hasAttribute("aria-labelledby")
+    ) {
       svg.setAttribute("aria-hidden", el.getAttribute("aria-hidden") || "true");
     }
 
@@ -207,7 +210,8 @@
   };
 
   window.setIcon = function (target, name, cls = "") {
-    const el = typeof target === "string" ? document.querySelector(target) : target;
+    const el =
+      typeof target === "string" ? document.querySelector(target) : target;
     if (!el) return;
     el.innerHTML = window.getIcon(name, cls);
   };
@@ -250,7 +254,9 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", startObserver, { once: true });
+    document.addEventListener("DOMContentLoaded", startObserver, {
+      once: true,
+    });
   } else {
     startObserver();
   }

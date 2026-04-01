@@ -42,7 +42,11 @@
       .addEventListener("click", closeQuizModal);
 
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modalEl && !modalEl.classList.contains("hidden")) {
+      if (
+        e.key === "Escape" &&
+        modalEl &&
+        !modalEl.classList.contains("hidden")
+      ) {
         closeQuizModal();
       }
     });
