@@ -21,7 +21,7 @@ if (js.length) {
 
 if (css.length) {
   execSync(
-    `node_modules/.bin/esbuild ${css.join(" ")} --minify --allow-overwrite`,
+    `node_modules/.bin/esbuild ${css.join(" ")} --minify --allow-overwrite --outdir=dist`,
     { stdio: "inherit" },
   );
 }
