@@ -1,10 +1,10 @@
 /* ============================================================
    css/base.css
-   全ページ共通の基盤CSS。common.css を置き換える。
+   全ページ共通の基盤CSS。bootstrap-min.css 非依存版。
 
    読み込み方（各ページの <head>）:
      <link rel="stylesheet" href="/css/base.css">
-     <!-- Bootstrap CSS (CDN) -->
+     <link rel="stylesheet" href="/css/utils.css">
      <!-- アイコンを使うページでは body 終了前に /js/icons.js を読む -->
 
    CSS変数の移行マップ（common.css → base.css）:
@@ -15,7 +15,7 @@
      --accent        → --color-accent
      --accent-text   → --color-accent-text
      --border        → --color-border
-     --shadow        → Bootstrap shadow utilities
+     --shadow        → shadow ユーティリティ
 
    注意:
      - --qz-* 変数はクイズ専用として quiz-shell.css で管理。変更しない。
@@ -32,6 +32,11 @@
   --color-accent: #faba40;
   --color-accent-dark: #e0a030;
   --color-accent-text: #7a5000;
+
+  /* utils.css の .container が参照するレイアウト変数 */
+  --container-max: 1140px;
+  --container-pad: 1rem;
+  --space-page: 1rem;
 }
 
 body.dark {
@@ -104,7 +109,6 @@ body.dark a:hover {
 }
 
 /* ===== Page Header ===== */
-/* コンパクトなページタイトルエリア。大ヘッダーを廃止。 */
 .page-header {
   padding: 2rem 0 1.5rem;
   border-bottom: 1px solid var(--color-border);
@@ -135,10 +139,11 @@ body.dark a:hover {
   color: var(--color-text-secondary);
   margin-top: -0.5rem;
 }
+
 /* ===== Site Card ===== */
-/* Bootstrap card の上書き。sub-index.html のカードグリッドに使用。 */
 .site-card {
-  border-color: var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
   background: var(--color-surface);
   color: var(--color-text-primary);
   transition:
@@ -166,32 +171,76 @@ body.dark .site-card:hover {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* site-card の内部パーツ */
+.site-card__body {
+  padding: 1.25rem;
+}
+
+.site-card__title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  color: var(--color-text-primary);
+}
+
+.site-card__text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
 .site-card__icon {
   width: 56px;
   height: 56px;
   object-fit: contain;
+  display: block;
+  margin-bottom: 0.75rem;
 }
 
-/* Bootstrap Icon をカードアイコンとして使う場合のサイズ */
 .site-card__bi-icon {
   font-size: 2.5rem;
   color: var(--color-text-primary);
   display: block;
+  margin-bottom: 0.75rem;
+}
+
+/* Bootstrap 互換エイリアス（段階的移行用） */
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+}
+
+.card-text {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
 }
 
 /* ===== Section Divider ===== */
-/* sub-index ページ内のセクション区切り */
 .section-divider {
   margin: 2.5rem 0 1rem;
 }
 
 .section-divider__title {
-  font-size: 1.1rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: var(--color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.06em;
-  font-size: 0.8rem;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--color-accent);
   display: inline-block;
@@ -228,6 +277,18 @@ body.dark .site-card:hover {
   color: var(--color-text-secondary);
   font-size: 0.875rem;
   margin-top: auto;
+  padding: 1.5rem 0;
+}
+
+.site-footer__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .site-footer a {
@@ -240,52 +301,86 @@ body.dark .site-card:hover {
   text-decoration: underline;
 }
 
-/* ===== Navbar (Bootstrap override) ===== */
+/* ===== Navbar ===== */
 #site-nav {
   background: var(--color-bg);
   border-bottom: 1px solid var(--color-border);
-  --bs-navbar-color: var(--color-text-secondary);
-  --bs-navbar-hover-color: var(--color-text-primary);
-  --bs-navbar-active-color: var(--color-accent-text);
-  --bs-navbar-brand-color: var(--color-text-primary);
-  --bs-navbar-brand-hover-color: var(--color-accent-text);
-  --bs-navbar-toggler-border-color: var(--color-border);
-  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2826,29,35,0.82%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   transition:
     background 0.2s,
     border-color 0.2s;
 }
 
-body.dark #site-nav {
-  --bs-navbar-color: var(--color-text-secondary);
-  --bs-navbar-hover-color: var(--color-text-primary);
-  --bs-navbar-active-color: var(--color-accent);
-  --bs-navbar-brand-color: var(--color-text-primary);
-  --bs-navbar-brand-hover-color: var(--color-accent);
-  --bs-navbar-toggler-border-color: var(--color-border);
-  --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28241,243,245,0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+.site-nav__inner {
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--container-pad);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 56px;
 }
 
-#site-nav .navbar-brand {
-  font-family:
-    "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "YuGothic",
-    "Meiryo", sans-serif;
+.site-nav__brand {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--color-text-primary);
+  text-decoration: none;
   letter-spacing: 0.02em;
+  flex-shrink: 0;
 }
 
-#site-nav .navbar-brand:hover {
+.site-nav__brand:hover {
   color: var(--color-accent-text);
   text-decoration: none;
 }
 
-body.dark #site-nav .navbar-brand:hover {
+body.dark .site-nav__brand:hover {
   color: var(--color-accent);
 }
 
-#site-nav .nav-link {
+/* ハンバーガーボタン（モバイル） */
+.site-nav__toggle {
+  display: none;
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  transition: border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.site-nav__toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.25);
+}
+
+/* ナビリンク群 */
+.site-nav__menu {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0;
+}
+
+.site-nav__links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+}
+
+.site-nav__link {
   color: var(--color-text-secondary);
   font-size: 0.95rem;
   font-weight: 500;
@@ -294,60 +389,91 @@ body.dark #site-nav .navbar-brand:hover {
   transition:
     color 0.15s,
     background 0.15s;
+  white-space: nowrap;
 }
 
-#site-nav .nav-link:hover,
-#site-nav .nav-link.active {
+.site-nav__link:hover,
+.site-nav__link.active {
   color: var(--color-text-primary);
   background: rgba(0, 0, 0, 0.04);
+  text-decoration: none;
 }
 
-body.dark #site-nav .nav-link:hover,
-body.dark #site-nav .nav-link.active {
+body.dark .site-nav__link:hover,
+body.dark .site-nav__link.active {
   background: rgba(255, 255, 255, 0.06);
   color: var(--color-text-primary);
 }
 
-#site-nav .nav-link.active {
+.site-nav__link.active {
   color: var(--color-accent-text);
   font-weight: 600;
 }
 
-body.dark #site-nav .nav-link.active {
+body.dark .site-nav__link.active {
   color: var(--color-accent);
 }
 
-#site-nav .navbar-toggler {
-  border-color: var(--color-border);
+.site-nav__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
-#site-nav .navbar-toggler:focus {
-  box-shadow: 0 0 0 3px rgba(250, 186, 64, 0.25);
-}
-
+/* モバイル：768px 未満 */
 @media (max-width: 767.98px) {
-  #site-nav .navbar-collapse {
-    margin-top: 0.75rem;
-    padding: 0.9rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
+  .site-nav__toggle {
+    display: flex;
+  }
+
+  .site-nav__menu {
+    display: none;
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
     background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.75rem 1rem;
+    gap: 0.25rem;
+    z-index: 999;
+  }
+
+  /* nav.js _initCollapse() が付け外しする .show クラス */
+  .site-nav__menu.show {
+    display: flex;
+  }
+
+  .site-nav__links {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.25rem;
+  }
+
+  .site-nav__link {
+    padding: 0.6rem 0.75rem;
+    display: block;
+  }
+
+  .site-nav__actions {
+    margin-left: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--color-border);
   }
 }
 
 /* ===== Theme Toggle ===== */
-/* theme-toggle.js が inject する #theme-toggle のスタイル。
-   旧 css/theme-toggle.css を置き換え。
-   #theme-toggle-container は nav.js が navbar 右端に配置する。 */
-
 .logo-switches {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-/* fixed 配置は廃止。ナビバー内に収める。
-   既存ページからの移行期間中のみ fixed を残す互換クラスを用意。 */
 .logo-switches--fixed {
   position: fixed;
   top: 12px;
@@ -406,27 +532,8 @@ body:not(.dark) #theme-toggle #moon {
 }
 
 /* ===== Bootstrap Icons ===== */
-/* Bootstrap Icons は currentColor 前提なので、dark 時も親要素の文字色を確実に継承させる */
 .bi {
   color: inherit;
-}
-
-/* ===== Bootstrap variables bridge ===== */
-/* Bootstrap の CSS変数を上書きして site の色体系に合わせる */
-:root {
-  --bs-body-bg: var(--color-bg);
-  --bs-body-color: var(--color-text-primary);
-  --bs-border-color: var(--color-border);
-  --bs-card-bg: var(--color-surface);
-  --bs-card-border-color: var(--color-border);
-}
-
-body.dark {
-  --bs-body-bg: var(--color-bg);
-  --bs-body-color: var(--color-text-primary);
-  --bs-border-color: var(--color-border);
-  --bs-card-bg: var(--color-surface);
-  --bs-card-border-color: var(--color-border);
 }
 
 /* ===== Print ===== */

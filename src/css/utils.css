@@ -1,0 +1,461 @@
+/* ============================================================
+   css/utils.css
+   Bootstrap 非依存のユーティリティクラス。
+   bootstrap-min.css の削除に伴い、実際に使用しているクラスのみを実装。
+
+   読み込み方（各ページの <head>）:
+     <link rel="stylesheet" href="/css/base.css">
+     <link rel="stylesheet" href="/css/utils.css">
+
+   方針:
+     - base.css の --color-* 変数のみを参照する
+     - Bootstrap と同名のクラスは意図的に互換維持
+     - 使用実績のないクラスは追加しない
+   ============================================================ */
+
+/* ===== Display ===== */
+.d-flex {
+  display: flex;
+}
+.d-block {
+  display: block;
+}
+.d-grid {
+  display: grid;
+}
+.d-none {
+  display: none !important;
+}
+.d-inline {
+  display: inline;
+}
+.d-inline-flex {
+  display: inline-flex;
+}
+
+/* ===== Flex ===== */
+.flex-column {
+  flex-direction: column;
+}
+.flex-row {
+  flex-direction: row;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-nowrap {
+  flex-wrap: nowrap;
+}
+.flex-1 {
+  flex: 1;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+.align-items-center {
+  align-items: center;
+}
+.align-items-end {
+  align-items: flex-end;
+}
+.align-items-stretch {
+  align-items: stretch;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
+}
+.justify-content-center {
+  justify-content: center;
+}
+.justify-content-end {
+  justify-content: flex-end;
+}
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.ms-auto {
+  margin-left: auto;
+}
+.me-auto {
+  margin-right: auto;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.mb-auto {
+  margin-bottom: auto;
+}
+
+/* ===== Gap ===== */
+.gap-1 {
+  gap: 0.25rem;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.gap-3 {
+  gap: 1rem;
+}
+.gap-4 {
+  gap: 1.5rem;
+}
+.gap-5 {
+  gap: 3rem;
+}
+
+/* ===== Sizing ===== */
+.h-100 {
+  height: 100%;
+}
+.w-100 {
+  width: 100%;
+}
+.min-w-0 {
+  min-width: 0;
+}
+
+/* ===== Position ===== */
+.position-relative {
+  position: relative;
+}
+.position-absolute {
+  position: absolute;
+}
+.position-fixed {
+  position: fixed;
+}
+
+/* ===== Overflow ===== */
+.overflow-hidden {
+  overflow: hidden;
+}
+.overflow-auto {
+  overflow: auto;
+}
+
+/* ===== Text ===== */
+.text-center {
+  text-align: center;
+}
+.text-start {
+  text-align: left;
+}
+.text-end {
+  text-align: right;
+}
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+.text-decoration-none {
+  text-decoration: none;
+}
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ===== Font ===== */
+.fw-normal {
+  font-weight: 400;
+}
+.fw-medium {
+  font-weight: 500;
+}
+.fw-semibold {
+  font-weight: 600;
+}
+.fw-bold {
+  font-weight: 700;
+}
+.fs-sm {
+  font-size: 0.875rem;
+}
+.fs-xs {
+  font-size: 0.75rem;
+}
+
+/* ===== Margin — bottom ===== */
+.mb-0 {
+  margin-bottom: 0;
+}
+.mb-1 {
+  margin-bottom: 0.25rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-3 {
+  margin-bottom: 1rem;
+}
+.mb-4 {
+  margin-bottom: 1.5rem;
+}
+.mb-5 {
+  margin-bottom: 3rem;
+}
+
+/* ===== Margin — top ===== */
+.mt-0 {
+  margin-top: 0;
+}
+.mt-1 {
+  margin-top: 0.25rem;
+}
+.mt-2 {
+  margin-top: 0.5rem;
+}
+.mt-3 {
+  margin-top: 1rem;
+}
+.mt-4 {
+  margin-top: 1.5rem;
+}
+.mt-5 {
+  margin-top: 3rem;
+}
+
+/* ===== Margin — inline (left/right) ===== */
+.me-0 {
+  margin-right: 0;
+}
+.me-1 {
+  margin-right: 0.25rem;
+}
+.me-2 {
+  margin-right: 0.5rem;
+}
+.me-3 {
+  margin-right: 1rem;
+}
+
+.ms-0 {
+  margin-left: 0;
+}
+.ms-1 {
+  margin-left: 0.25rem;
+}
+.ms-2 {
+  margin-left: 0.5rem;
+}
+.ms-3 {
+  margin-left: 1rem;
+}
+
+/* ===== Margin — horizontal ===== */
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ===== Padding — vertical ===== */
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+.py-2 {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.py-3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.py-4 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+.py-5 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+/* ===== Padding — horizontal ===== */
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+.px-2 {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+.px-3 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.px-4 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* ===== Grid — container ===== */
+/*
+  Bootstrap の .container と同じ役割。
+  max-width は base.css の --container-max に準拠。
+*/
+.container {
+  width: 100%;
+  max-width: var(--container-max, 1140px);
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--container-pad, 1rem);
+  padding-right: var(--container-pad, 1rem);
+}
+
+/* ===== Grid — row / col ===== */
+/*
+  Bootstrap の .row + .col-* を CSS Grid で再実装。
+  .row は grid コンテナ、.col-* は grid アイテム。
+  Bootstrap の .row-cols-N パターンは使わず、
+  auto-fill grid で代替する（下記の .card-grid を参照）。
+*/
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--row-gap, 0);
+}
+
+.col {
+  grid-column: span 12;
+}
+.col-12 {
+  grid-column: span 12;
+}
+.col-6 {
+  grid-column: span 12;
+} /* mobile: full width → md で2列 */
+.col-4 {
+  grid-column: span 12;
+} /* mobile: full width → lg で3列 */
+.col-8 {
+  grid-column: span 12;
+}
+
+/* gap shortcuts for rows */
+.g-2 {
+  --row-gap: 0.5rem;
+  gap: 0.5rem;
+}
+.g-3 {
+  --row-gap: 1rem;
+  gap: 1rem;
+}
+.g-4 {
+  --row-gap: 1.5rem;
+  gap: 1.5rem;
+}
+
+@media (min-width: 576px) {
+  .col-sm-6 {
+    grid-column: span 6;
+  }
+}
+
+@media (min-width: 768px) {
+  .col-md-6 {
+    grid-column: span 6;
+  }
+  .col-md-8 {
+    grid-column: span 8;
+  }
+  .col-md-4 {
+    grid-column: span 4;
+  }
+  .text-md-end {
+    text-align: right;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-lg-4 {
+    grid-column: span 4;
+  }
+  .col-lg-3 {
+    grid-column: span 3;
+  }
+}
+
+/* ===== Card grid (replaces .row-cols-N pattern) ===== */
+/*
+  Bootstrap の .row.row-cols-1.row-cols-md-2.row-cols-lg-3.g-3 を
+  1クラスで代替する。sub-index-init.js など動的生成箇所に適用。
+*/
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .card-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .card-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* 2列固定バリアント */
+.card-grid--2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .card-grid--2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Alert (forms ページ用・最小実装) ===== */
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+}
+
+.alert-light {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  color: var(--color-text-secondary);
+}
+
+/* ===== Form control (bio ページ用・最小実装) ===== */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-family: inherit;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+.form-control::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.7;
+}

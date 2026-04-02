@@ -5,7 +5,7 @@
 // URL の ?slug=history などから slug を受け取り:
 //   1. {slug}/list.json を fetch
 //   2. #page-content だけを書き換える（body 全体を書き換えない）
-//   3. カードを Bootstrap グリッドで生成
+//   3. カードを .card-grid で生成（Bootstrap 非依存）
 //
 // list.json の構造:
 // {
@@ -82,7 +82,7 @@
           <h2 class="section-header__title">${_esc(section.title)}</h2>
           ${section.desc ? `<span class="section-header__desc">${_esc(section.desc)}</span>` : ""}
         </div>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3 mb-4">
+        <div class="card-grid mb-4">
           ${cardsHTML}
         </div>
       `;
@@ -114,38 +114,31 @@
       : "";
 
     return `
-      <div class="col">
-        <a href="${_esc(link)}" ${target} class="card h-100 text-decoration-none site-card">
-          <div class="card-body">
-            ${iconHTML}
-            ${titleEN}
-            <h5 class="card-title">${_esc(item.title)}</h5>
-            ${item.description ? `<p class="card-text text-secondary" style="font-size:0.875rem;">${_esc(item.description)}</p>` : ""}
-          </div>
-        </a>
-      </div>
+      <a href="${_esc(link)}" ${target} class="site-card text-decoration-none"
+         style="display:flex; flex-direction:column; height:100%;">
+        <div class="site-card__body" style="flex:1;">
+          ${iconHTML}
+          ${titleEN}
+          <h5 class="site-card__title">${_esc(item.title)}</h5>
+          ${item.description ? `<p class="site-card__text">${_esc(item.description)}</p>` : ""}
+        </div>
+      </a>
     `;
   }
 
   // ── アイコン種別判定 ───────────────────────────────────────
-  // "bi-book"        → Bootstrap Icon <i>
-  // "*.png" etc.     → <img>
-  // 絵文字・その他   → 非表示（空文字列を返す）
   function _resolveIcon(raw, slug) {
     if (!raw) return "";
 
-    // Bootstrap Icons: "bi-xxx" 形式
     if (/^bi-[\w-]+$/.test(raw)) {
-      return `<i class="bi ${_esc(raw)} site-card__bi-icon mb-3" aria-hidden="true"></i>`;
+      return `<i class="bi ${_esc(raw)} site-card__bi-icon" aria-hidden="true"></i>`;
     }
 
-    // 画像パス: 拡張子で判定
     if (/\.(png|jpg|jpeg|svg|webp|gif)$/i.test(raw) || _isAbsolute(raw)) {
       const src = _fixIcon(raw);
-      return `<img src="${_esc(src)}" class="site-card__icon mb-3" alt="" loading="lazy">`;
+      return `<img src="${_esc(src)}" class="site-card__icon" alt="" loading="lazy">`;
     }
 
-    // 絵文字・その他は表示しない
     return "";
   }
 
@@ -169,7 +162,6 @@
 
   function _fixIcon(icon) {
     if (_isAbsolute(icon)) return icon;
-    // "../images/x.png" → "/images/x.png"
     return "/" + icon.replace(/^(\.\.\/)+/, "");
   }
 
@@ -178,7 +170,13 @@
     const main = document.getElementById("page-content");
     if (main) {
       main.innerHTML = `
-        <div class="alert alert-warning mt-4" role="alert">
+        <div style="
+          margin-top:2rem; padding:1rem 1.25rem;
+          border:1px solid var(--color-border);
+          border-left:4px solid var(--color-accent);
+          border-radius:6px;
+          background:var(--color-surface);
+          font-size:0.9rem; color:var(--color-text-secondary);">
           <i class="bi bi-exclamation-triangle me-2"></i>
           ${_esc(msg)}
         </div>

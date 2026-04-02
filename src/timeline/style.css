@@ -2,7 +2,6 @@
    timeline/style.css
    縦軸タイムライン専用スタイル。
    base.css の --color-* 変数体系を継承。
-   Bootstrap 5 CDN 読み込み後に適用。
    ============================================================ */
 
 /* ===== Base / Reset ===== */
@@ -459,8 +458,10 @@ body:not(.dark) #theme-toggle #moon {
 
 /* ===== Dialog ===== */
 .tl-dialog {
-  inset: 0 !important; /* top, right, bottom, left すべて0と同じ */
-  margin: auto !important; /* これで中央に吸い寄せられる */
+  /* ここが重要 */
+  display: flex;
+  justify-content: center; /* 左右中央 */
+  align-items: center; /* 上下中央 */
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 0;
