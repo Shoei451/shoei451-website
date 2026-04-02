@@ -1,0 +1,54 @@
+{
+  "title": "英語（学校用）",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "英語（学校用）",
+      "items": [
+        {
+          "title": "共テListening Part1",
+          "url": "https://emile-pub.com/dl/KLB10_CD_A.html"
+        },
+        {
+          "title": "共テListening Part2",
+          "url": "https://emile-pub.com/dl/KLB10_CD_B.html"
+        },
+        {
+          "title": "共テListening Part3",
+          "url": "https://emile-pub.com/dl/KLB10_CD_C.html"
+        },
+        {
+          "title": "共テListening Part4",
+          "url": "https://emile-pub.com/dl/KLB10_CD_D.html"
+        },
+        {
+          "title": "FACTBOOK English Logic and Expression Ⅱ Workbook",
+          "url": "https://www.kirihara.co.jp/-/qrcnts/e_le2_wb#05",
+          "description": "論理表現教科書『FACTBOOK Logic ＆ Expression Ⅱ』の定着を図るワークブック"
+        },
+        {
+          "title": "FACTBOOK English Logic and Expression Ⅱ",
+          "url": "https://www.kirihara.co.jp/-/qrcnts/e_le2/u08.html#ue2",
+          "description": "論理表現教科書『FACTBOOK Logic ＆ Expression Ⅱ』"
+        },
+        {
+          "title": "Vintage 音声DL",
+          "url": "https://www.iizuna-shoten.com/music?id=20995"
+        },
+        {
+          "title": "英文法・語法 Vintage 3rd Edition音声データ | 株式会社いいずな書店",
+          "url": "https://www.iizuna-shoten.com/music?id=693"
+        },
+        {
+          "title": "CNN 音声ストリーミング",
+          "url": "https://www.asahipress.com/streaming/player/index.html?bookcode=260031"
+        },
+        {
+          "title": "ELEMENT2 音声",
+          "url": "https://digi-keirin.com/hs22/ectwo/ectwo3.php#ectwo3a_01401_x"
+        }
+      ]
+    }
+  ]
+}

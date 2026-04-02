@@ -1,0 +1,40 @@
+{
+  "title": "地理",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "地理",
+      "items": [
+        {
+          "title": "世界地図を作ろう",
+          "url": "https://atlas.cdx.jp/index.htm",
+          "description": "世界地図と世界地理の総合サイトです。"
+        },
+        {
+          "title": "地理総合 一問一答 解説",
+          "url": "https://youtube.com/playlist?list=PL9qA0xpuqWuHUs7b20TNRbjZd7LPQsGkP&si=4UexAXqvhIrIedL1",
+          "description": "解説付きの地理総合一問一答です。"
+        },
+        {
+          "title": "アメリカ：50州（イラスト版） - Map Quiz Game - Seterra",
+          "url": "https://www.geoguessr.com/ja/vgp/3285",
+          "description": "Learning the U.S. states has never been so much fun!"
+        },
+        {
+          "title": "中国：地域 - Map Quiz Game - Seterra",
+          "url": "https://www.geoguessr.com/ja/vgp/3206",
+          "description": "China has 33 provincial level administrative units."
+        },
+        {
+          "title": "畔田豊年のホームページ",
+          "url": "http://www.azeta.jp/"
+        },
+        {
+          "title": "あぜっ地理（地理の部屋）",
+          "url": "http://www.azeta.jp/tiri/index.html"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "title": "家庭基礎",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "家庭基礎",
+      "items": [
+        {
+          "title": "洗濯表示記号 – ICOMPO",
+          "url": "https://www.icompo-free-icons.com/?icon_category=laundry-symbol"
+        },
+        {
+          "title": "衣類の取り扱い表示",
+          "url": "https://www.caa.go.jp/policies/policy/representation/household_goods/assets/representation_cms219_240820_14.pdf"
+        },
+        {
+          "title": "What you need to know to stay healthy!",
+          "url": "https://music.youtube.com/watch?si=R-B_L2_vQqIZX6Y7&v=BBa-aVtKBjs"
+        },
+        {
+          "title": "【代謝系疾患】ビタミン欠乏症【理学療法士・作業療法士】",
+          "url": "https://youtu.be/px3UMCHXH2o?si=h9-j-fxbEkLbjwc1"
+        },
+        {
+          "title": "脂溶性ビタミン（作用・過剰症・欠乏症）",
+          "url": "https://youtu.be/V8fjb4S4Gy4?si=qX62oSb2nplJosI7"
+        },
+        {
+          "title": "新しい洗濯表示 ～これさえ覚えれば大丈夫！～",
+          "url": "https://www.youtube.com/watch?authuser=0&v=a0ArxhauvYw",
+          "description": "平成２８年１２月から新しくなった洗濯表示の簡単な覚え方です。"
+        },
+        {
+          "title": "vitamin_ichiran.pdf",
+          "url": "https://alinamin.jp/tired/topics/pdf/vitamin_ichiran.pdf"
+        },
+        {
+          "title": "食品成分データベース",
+          "url": "https://fooddb.mext.go.jp/",
+          "description": "食品成分に関するデータをインターネットを通じて提供しています。"
+        }
+      ]
+    }
+  ]
+}

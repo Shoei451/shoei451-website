@@ -1,0 +1,66 @@
+{
+  "title": "数学",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "数学",
+      "items": [
+        {
+          "title": "中国剰余定理の証明と例題（二元の場合） | 高校数学の美しい物語",
+          "url": "https://manabitimes.jp/math/837",
+          "description": "中国剰余定理の本質的な部分を理解するために二元の場合で解説します。"
+        },
+        {
+          "title": "ペル方程式〜漸化式で考察！〜",
+          "url": "https://www.youtube.com/watch?v=ofYnBr8jPrY"
+        },
+        {
+          "title": "仮想難関大【難関大学を想定した自作問題】",
+          "url": "https://mathclinic314.com/%e4%bb%ae%e6%83%b3%e9%9b%a3%e9%96%a2%e5%a4%a7%e3%80%90%e9%9b%a3%e9%96%a2%e5%a4%a7%e5%ad%a6%e3%82%92%e6%83%b3%e5%ae%9a%e3%81%97%e3%81%9f%e8%87%aa%e4%bd%9c%e5%95%8f%e9%a1%8c%e3%80%91/",
+          "description": "東京大学、京都大学など旧帝大を想定して自作した問題たちです。"
+        },
+        {
+          "title": "ペル方程式に関する基本的な性質まとめ | 高校数学の美しい物語",
+          "url": "https://manabitimes.jp/math/836",
+          "description": "ペル方程式に関する基本的な性質を整理しました。"
+        },
+        {
+          "title": "ペル方程式 第４講【ペル方程式の解と近似】【1984年度 一橋大学】",
+          "url": "https://mathclinic314.com/%E3%83%9A%E3%83%AB%E6%96%B9%E7%A8%8B%E5%BC%8F%E3%80%80%E7%AC%AC%EF%BC%94%E8%AC%9B/"
+        },
+        {
+          "title": "包絡線の求め方と例題",
+          "url": "https://manabitimes.jp/math/1178",
+          "description": "包絡線の定義，求め方，高校数学の問題への応用を解説します。"
+        },
+        {
+          "title": "高校数学 | 独学・ひまわり数学教室",
+          "url": "https://www.himawari-math.com/note"
+        },
+        {
+          "title": "最凶の裏技：必要条件から攻める",
+          "url": "https://examist.jp/mathematics/urawaza/hituyoujyouken",
+          "description": "穴埋め式試験では十分性の確認がいらないことを悪用し、必要条件だけで答えを特定する凶悪な裏技である。"
+        },
+        {
+          "title": "受験の月",
+          "url": "https://examist.jp/",
+          "description": "学校では教えてくれない受験のための数学・物理・化学"
+        },
+        {
+          "title": "令和4（2022）年度用 教科書のご案内 | 数学 | 高等学校 | 啓林館",
+          "url": "https://www.shinko-keirin.co.jp/keirinkan/kou/math2022/subtext/focus1"
+        },
+        {
+          "title": "真・解法への道!/数学IAIIB - 東京出版WEB STORE",
+          "url": "https://ts-webstore.net/?pid=149217880"
+        },
+        {
+          "title": "上級問題精講 シリーズ｜旺文社",
+          "url": "https://www.obunsha.co.jp/product/series/c088"
+        }
+      ]
+    }
+  ]
+}

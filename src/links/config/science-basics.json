@@ -1,0 +1,29 @@
+{
+  "title": "理科基礎",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "理科基礎",
+      "items": [
+        {
+          "title": "R ct final check",
+          "url": "https://okayama-h-t.cocolog-nifty.com/tigaku/files/r01_ct_final_check.pdf"
+        },
+        {
+          "title": "地質時代",
+          "url": "https://finding-geo.info/basic/geologic_time.html"
+        },
+        {
+          "title": "セミナー地学基礎 プラスウェブ",
+          "url": "https://www.daiichi-g.co.jp/srv/plusweb/rika/seminar/ear1wxg/contents"
+        },
+        {
+          "title": "高校【地学基礎】新課程版",
+          "url": "https://youtube.com/playlist?list=PL4BmwiD3jO__WbOlE4kEmwXNHdaUFzVbN&si=ct1kGoGfHJ6CkGe1",
+          "description": "Share your videos with friends, family, and the world"
+        }
+      ]
+    }
+  ]
+}

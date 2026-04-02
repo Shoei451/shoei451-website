@@ -1,0 +1,69 @@
+{
+  "title": "政治・経済",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "政治・経済",
+      "items": [
+        {
+          "title": "政治経済塾 | （主に）高校生のための 政治・経済インターネット塾",
+          "url": "http://www.seijikeizaijuku.com/"
+        },
+        {
+          "title": "倫理政経ドットコム | 大学受験に必要な倫理と政経をこのサイトで完結！",
+          "url": "https://k-koumin.com/",
+          "description": "大学受験に必要な、倫理や政経のポイント講義や過去問演習、一問一答などを掲載しています。"
+        },
+        {
+          "title": "miniいけ先生の倫政チャンネル",
+          "url": "https://www.youtube.com/@miniikesensei"
+        },
+        {
+          "title": "政経①【政治分野】",
+          "url": "https://www.youtube.com/playlist?list=PL1OLlThou5iijWgs9up9IcEalujQVJPwo",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "政経②【国際政治分野】",
+          "url": "https://www.youtube.com/playlist?list=PL1OLlThou5iiyMuXCyaCGYoORgDyc8MUc",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "政経③【経済分野】",
+          "url": "https://www.youtube.com/playlist?list=PL1OLlThou5ijmq5L6sXmG9vgBC1t2TK4-",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "政経④【国際経済分野】",
+          "url": "https://www.youtube.com/playlist?list=PL1OLlThou5igjcymjsaTzC7EZpje817xQ",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "政経⑤【日本政治史・経済史】",
+          "url": "https://www.youtube.com/playlist?list=PL1OLlThou5igAnWyNNCJSJak0ZrGhCLOL",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "政経⑥【社会保障制度・農業問題・消費者問題・労働問題】",
+          "url": "https://www.youtube.com/playlist?list=PL1OLlThou5iiHppBvC4inBU6u-m8cANWG",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "miniいけ先生の公民ブログ",
+          "url": "https://miniikesensei.com/",
+          "description": "どうもminiいけ先生です！公民は塾に行くのはちょっと…でも授業がよく分からないしどうしよ…って人のためのブログです。"
+        },
+        {
+          "title": "政治・経済一問一答",
+          "url": "https://www.jikkyo.co.jp/d1/drill/sha/23sei1#/"
+        },
+        {
+          "title": "詳述政治・経済",
+          "url": "https://www.jikkyo.co.jp/d1/01/sha/23sei1",
+          "description": "教科書公式"
+        }
+      ]
+    }
+  ]
+}

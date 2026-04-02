@@ -1,0 +1,46 @@
+{
+  "title": "情報Ⅰ",
+  "description": "",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "情報Ⅰ",
+      "items": [
+        {
+          "title": "PyPEN",
+          "url": "https://informatics1.jp/PyPEN/"
+        },
+        {
+          "title": "16進法について",
+          "url": "https://www.suzuka-ct.ac.jp/info/lab/tazoe/TE/TE0002_20170413.pdf"
+        },
+        {
+          "title": "PyPEN",
+          "url": "https://watayan.net/prog/PyPEN"
+        },
+        {
+          "title": "高校『情報Ⅰ』動画教科書【総目次】（情報１）｜突破口ドットコム",
+          "url": "https://note.com/toppakou/n/n912601e07a05?magazine_key=mf9571f6f9886",
+          "description": "はじめに  高等学校「情報１」について、教員研修用教材をベースに独自に解説動画作成しています。"
+        },
+        {
+          "title": "高校情報科・情報処理技術者試験対策の突破口ドットコム｜note",
+          "url": "https://note.com/toppakou"
+        },
+        {
+          "title": "高等学校情報科「情報Ⅰ」教員研修用教材（本編）：文部科学省",
+          "url": "https://www.mext.go.jp/a_menu/shotou/zyouhou/detail/1416756.htm"
+        },
+        {
+          "title": "速習！情報 — 速習！情報",
+          "url": "https://info-study.jp/"
+        },
+        {
+          "title": "共通テスト 情報I 対策問題集",
+          "url": "https://it-siken.com/",
+          "description": "共通テスト「情報I」の演習サイト。100問以上の良問で得点アップ！"
+        }
+      ]
+    }
+  ]
+}

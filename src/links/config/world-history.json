@@ -1,0 +1,69 @@
+{
+  "title": "世界史",
+  "description": "世界史の学習に役立つリンク集",
+  "backLabel": "Links",
+  "sections": [
+    {
+      "title": "webサイト",
+      "items": [
+        {
+          "title": "地形 - Wikipedia",
+          "url": "https://ja.wikipedia.org/wiki/%E5%9C%B0%E5%BD%A2",
+          "description": "地球表面の形態"
+        },
+        {
+          "title": "【世界史】年号語呂合わせ一覧！大学入学共通テスト対策の暗記に最適 | Ameba塾探し",
+          "url": "https://juku.ameba.jp/study/a000001599/",
+          "description": "試験前に苦労する暗記科目といえば、なにが思い浮かびますか？"
+        },
+        {
+          "title": "世界史の窓",
+          "url": "https://www.y-history.net/index.html"
+        },
+        {
+          "title": "世界史ノート目次",
+          "url": "https://www.y-history.net/wh_note/21note-mokuji.html"
+        },
+        {
+          "title": "世界史問題集目次 世界史の窓",
+          "url": "https://www.y-history.net/wh_mondai/mondai_mokuji.html"
+        },
+        {
+          "title": "一問一答！ 世界史クエスト",
+          "url": "https://www.stepnet.co.jp/sekaisiquiz"
+        },
+        {
+          "title": "東進Web書店 東進ブックス: 世界史一問一答【完全版】4th edition 朗読音声",
+          "url": "https://www.toshin.com/books/archives/2024/06/4th_edition_1.html"
+        },
+        {
+          "title": "Crash Course",
+          "url": "https://thecrashcourse.com/",
+          "description": "Crash Course is one of the best ways to educate yourself, your classmates, and your family on YouTube!"
+        },
+        {
+          "title": "World History Encyclopedia",
+          "url": "https://www.worldhistory.org/",
+          "description": "The free online history encyclopedia with fact-checked articles, images, videos, maps, timelines and more."
+        },
+        {
+          "title": "世界史講義録",
+          "url": "https://timeway.vivian.jp/index.html"
+        },
+        {
+          "title": "中国歴代王朝表",
+          "url": "https://iida1955.sakura.ne.jp/kazuo/coin/data/china_chronolo.html"
+        },
+        {
+          "title": "世界史年表 第一学習社",
+          "url": "https://www.daiichi-g.co.jp/srv/plusweb/shakai/globalwide/data/PDF/timeline.pdf"
+        },
+        {
+          "title": "映像の世紀バタフライエフェクト | NHK",
+          "url": "https://www.web.nhk/tv/an/butterfly/pl/series-tep-9N81M92LXV",
+          "description": "蝶の羽ばたきのような、ひとりひとりのささやかな営みが、いかに連鎖し、世界を動かしていくのか？"
+        }
+      ]
+    }
+  ]
+}
