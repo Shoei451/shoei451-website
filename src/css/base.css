@@ -531,6 +531,15 @@ body:not(.dark) #theme-toggle #moon {
   display: none !important;
 }
 
+/* Bootstrap .collapse / .show 互換（nav.js _initCollapse が付け外し） */
+.collapse {
+  display: none;
+}
+
+.collapse.show {
+  display: block;
+}
+
 /* ===== Bootstrap Icons ===== */
 .bi {
   color: inherit;

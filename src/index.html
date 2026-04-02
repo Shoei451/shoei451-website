@@ -19,16 +19,20 @@
       })();
     </script>
 
-    <!-- Base CSS -->
     <link rel="stylesheet" href="/css/base.css" />
-
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="/css/utils.css"" />
+    <link rel="stylesheet" href="/css/utils.css" />
     <style>
-      /* html.dark → body.dark 同期 */
       html.dark body {
         background-color: var(--color-bg);
         color: var(--color-text-primary);
+      }
+
+      /* ── Collapse (countdown) ── */
+      .collapse {
+        display: none;
+      }
+      .collapse.show {
+        display: block;
       }
 
       /* ── Countdown Section ── */
@@ -37,7 +41,7 @@
         border: 1px solid var(--color-border);
         border-radius: 8px;
         padding: 1.25rem 1.5rem;
-        margin: 2rem 2.5rem 2.5rem 2.5rem;
+        margin: 0 0 2.5rem;
       }
 
       .countdown-toggle {
@@ -54,6 +58,9 @@
         color: var(--color-text-secondary);
         text-transform: uppercase;
         letter-spacing: 0.06em;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
       }
 
       .countdown-grid {
@@ -93,48 +100,102 @@
         margin-top: 2px;
       }
 
-      /* ── Section header ── */
-      .section-header {
+      /* ── Section header (index 固有) ── */
+      .index-section-header {
         display: flex;
         align-items: baseline;
         gap: 0.75rem;
-        margin: 2.5rem 0 1rem;
+        margin: 2rem 0 0.75rem;
         padding-bottom: 0.5rem;
         border-bottom: 2px solid var(--color-accent);
       }
 
-      .section-header__title {
+      .index-section-header__title {
         font-size: 1rem;
         font-weight: 700;
         margin: 0;
+        color: var(--color-text-primary);
       }
 
-      .section-header__desc {
+      .index-section-header__desc {
         font-size: 0.85rem;
         color: var(--color-text-secondary);
         margin: 0;
       }
 
-      /* ── Card ── */
-      .site-card .card-title {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 0.35rem;
+      /* ── Card grid (index 用: sub-index より少し密) ── */
+      /*
+        sub-index: minmax(280px, 1fr) = ゆったり3列
+        index:     minmax(200px, 1fr) = コンパクト、より多く収まる
+      */
+      .index-card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
       }
 
-      .site-card__bi-icon {
-        display: inline-block;
+      /* ── Index カード (site-card より小さく) ── */
+      .index-card {
+        display: flex;
+        flex-direction: column;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        background: var(--color-surface);
+        color: var(--color-text-primary);
+        text-decoration: none;
+        transition:
+          border-color 0.15s,
+          transform 0.15s,
+          box-shadow 0.15s;
+        padding: 0.9rem 1rem;
+      }
+
+      .index-card:hover {
+        border-color: var(--color-accent);
+        transform: translateY(-2px);
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.07);
+        color: var(--color-text-primary);
+        text-decoration: none;
+      }
+
+      body.dark .index-card:hover {
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+      }
+
+      .index-card__icon {
+        width: 36px;
+        height: 36px;
+        object-fit: contain;
+        margin-bottom: 0.5rem;
+        display: block;
+      }
+
+      .index-card__bi-icon {
         font-size: 1.5rem;
         color: var(--color-accent-text);
+        display: block;
+        margin-bottom: 0.5rem;
+        line-height: 1;
       }
 
-      body.dark .site-card__bi-icon {
+      body.dark .index-card__bi-icon {
         color: var(--color-accent);
       }
 
-      .site-card .card-text {
-        font-size: 0.875rem;
-        line-height: 1.6;
+      .index-card__title {
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 0.2rem;
+        line-height: 1.4;
+        color: var(--color-text-primary);
+      }
+
+      .index-card__desc {
+        font-size: 0.78rem;
+        line-height: 1.5;
+        color: var(--color-text-secondary);
+        margin: 0;
       }
 
       /* ── Hero ── */
@@ -173,7 +234,6 @@
     </style>
   </head>
   <body>
-    <!-- ナビバー -->
     <div id="nav-container"></div>
 
     <div class="container py-4">
@@ -186,91 +246,76 @@
         </p>
       </div>
 
+      <!-- カウントダウン -->
+      <div class="countdown-section">
+        <div
+          class="countdown-toggle"
+          data-bs-toggle="collapse"
+          data-bs-target="#countdownBody"
+          aria-expanded="true"
+          aria-controls="countdownBody"
+        >
+          <span class="countdown-toggle__title">
+            <i class="bi bi-calendar3"></i> 入試カウントダウン
+          </span>
+          <span
+            id="countdown-chevron"
+            style="font-size: 0.85rem; color: var(--color-text-secondary)"
+          ></span>
+        </div>
+        <div class="collapse show" id="countdownBody">
+          <div class="countdown-grid" id="countdown-grid"></div>
+        </div>
+      </div>
+
       <!-- 歴史 -->
-      <div class="section-header">
-        <h2 class="section-header__title">歴史</h2>
-        <span class="section-header__desc"
+      <div class="index-section-header">
+        <h2 class="index-section-header__title">歴史</h2>
+        <span class="index-section-header__desc"
           >世界史・中国史の年代クイズ・年表</span
         >
       </div>
-      <div
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
-        id="cards-history"
-      ></div>
+      <div class="index-card-grid" id="cards-history"></div>
 
       <!-- 政治・経済 -->
-      <div class="section-header">
-        <h2 class="section-header__title">政治・経済</h2>
-        <span class="section-header__desc">政経年代クイズ・憲法クイズ</span>
+      <div class="index-section-header">
+        <h2 class="index-section-header__title">政治・経済</h2>
+        <span class="index-section-header__desc"
+          >政経年代クイズ・憲法クイズ</span
+        >
       </div>
-      <div
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
-        id="cards-seikei"
-      ></div>
+      <div class="index-card-grid" id="cards-seikei"></div>
 
       <!-- 地理 -->
-      <div class="section-header">
-        <h2 class="section-header__title">地理</h2>
-        <span class="section-header__desc">地図・首都クイズ</span>
+      <div class="index-section-header">
+        <h2 class="index-section-header__title">地理</h2>
+        <span class="index-section-header__desc">地図・首都クイズ</span>
       </div>
-      <div
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
-        id="cards-geography"
-      ></div>
+      <div class="index-card-grid" id="cards-geography"></div>
 
       <!-- その他 -->
-      <div class="section-header">
-        <h2 class="section-header__title">その他</h2>
-        <span class="section-header__desc">英語・情報・古典など</span>
+      <div class="index-section-header">
+        <h2 class="index-section-header__title">その他</h2>
+        <span class="index-section-header__desc">英語・情報・古典など</span>
       </div>
-      <div
-        class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3"
-        id="cards-others"
-      ></div>
-    </div>
-    <!-- カウントダウン -->
-    <div class="countdown-section" id="countdown-section">
-      <div
-        class="countdown-toggle"
-        data-bs-toggle="collapse"
-        data-bs-target="#countdownBody"
-        aria-expanded="true"
-        aria-controls="countdownBody"
-      >
-        <span class="countdown-toggle__title">
-          <i class="bi bi-calendar3 me-1"></i> 入試カウントダウン
-        </span>
-        <span
-          id="countdown-chevron"
-          style="font-size: 0.85rem; color: var(--color-text-secondary)"
-        ></span>
-      </div>
-      <div class="collapse show" id="countdownBody">
-        <div class="countdown-grid" id="countdown-grid">
-          <!-- js/countdown-widget.js が inject -->
-        </div>
-      </div>
+      <div class="index-card-grid" id="cards-others"></div>
     </div>
 
-    <!-- /container -->
-
-    <!-- フッター -->
     <footer id="site-footer"></footer>
 
-    <!-- Nav / Theme -->
     <script src="/js/icons.js"></script>
     <script src="/js/nav.js"></script>
     <script src="/js/theme-toggle.js"></script>
 
     <script>
-      // html.dark → body.dark 同期（フラッシュ防止スクリプトが html に付けた class を body に移す）
       if (document.documentElement.classList.contains("dark")) {
         document.body.classList.add("dark");
       }
 
+      // ── アイコン ──────────────────────────────────────────
       window.setIcon("#countdown-chevron", "bi-chevron-up");
 
-      // ── カウントダウン chevron 更新 ──────────────────────────
+      // ── カウントダウン chevron 更新 ─────────────────────────
       document
         .getElementById("countdownBody")
         ?.addEventListener("hide.bs.collapse", () => {
@@ -282,13 +327,13 @@
           window.setIcon("#countdown-chevron", "bi-chevron-up");
         });
 
-      // ── カウントダウン描画 ────────────────────────────────────
+      // ── カウントダウン描画 ──────────────────────────────────
       const EXAMS = [
         { label: "東京大学 二次試験", date: "2027-02-25" },
         { label: "共通テスト", date: "2027-01-17" },
       ];
 
-      function renderCountdown() {
+      (function renderCountdown() {
         const grid = document.getElementById("countdown-grid");
         if (!grid) return;
         const today = new Date();
@@ -313,47 +358,39 @@
               <div class="countdown-item__label">${exam.label}</div>
               <div class="countdown-item__days">${label}</div>
               <div class="countdown-item__date">${dateStr}</div>
-            </div>
-          `;
+            </div>`;
         }).join("");
-      }
+      })();
 
-      renderCountdown();
-
-      // ── カードデータ読み込み（cards-data.js に依存） ─────────
-      // cards-data.js が CARDS_DATA を定義していることを前提とする。
-      // 定義がない場合は何も描画しない（graceful degradation）。
+      // ── カード描画 ─────────────────────────────────────────
+      // sub-index-init.js の _cardHTML と同じパターン。
+      // アイコン・タイトル・説明の構造を統一。
       function renderCards(sectionId, items) {
         const container = document.getElementById(sectionId);
         if (!container || !items?.length) return;
 
         container.innerHTML = items
           .map((item) => {
-            const icon = item.icon
-              ? /^bi-[\w-]+$/.test(item.icon)
-                ? `<i class="bi ${item.icon} site-card__bi-icon mb-3" aria-hidden="true"></i>`
-                : `<img src="${item.icon}" class="site-card__icon mb-3" alt="" loading="lazy">`
-              : "";
+            const iconHtml = (() => {
+              if (!item.icon) return "";
+              if (/^bi-[\w-]+$/.test(item.icon)) {
+                return `<i class="bi ${item.icon} index-card__bi-icon" aria-hidden="true"></i>`;
+              }
+              return `<img src="${item.icon}" class="index-card__icon" alt="" loading="lazy">`;
+            })();
             const target = item.target
               ? `target="${item.target}" rel="noopener"`
               : "";
             return `
-            <div class="col">
-              <a href="${item.link}" ${target} class="card h-100 text-decoration-none site-card">
-                <div class="card-body">
-                  ${icon}
-                  <h5 class="card-title">${item.title}</h5>
-                  ${item.description ? `<p class="card-text text-secondary">${item.description}</p>` : ""}
-                </div>
-              </a>
-            </div>
-          `;
+            <a href="${item.link}" ${target} class="index-card">
+              ${iconHtml}
+              <span class="index-card__title">${item.title}</span>
+              ${item.description ? `<p class="index-card__desc">${item.description}</p>` : ""}
+            </a>`;
           })
           .join("");
       }
 
-      // CARDS_DATA が利用可能になったら描画
-      // cards-data.js を動的ロードするか、script タグで先行ロードする場合はそのまま参照
       function tryRenderAll() {
         if (typeof CARDS_DATA === "undefined") return;
         renderCards("cards-history", CARDS_DATA.history);
@@ -362,13 +399,12 @@
         renderCards("cards-others", CARDS_DATA.miscellaneous);
       }
 
-      // cards-data.js が後からロードされる場合に備えて遅延チェック
       tryRenderAll();
       window.addEventListener("load", tryRenderAll);
       document.addEventListener("cards-data-ready", tryRenderAll);
+      window.tryRenderAll = tryRenderAll;
     </script>
 
-    <!-- カードデータ（存在する場合） -->
     <script
       src="/js/lists-loader.js"
       onerror="console.info('lists-loader.js not found')"
