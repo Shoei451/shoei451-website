@@ -63,7 +63,7 @@ function renderIndex(collections) {
   // header
   document.getElementById("ll-header").innerHTML = `
           <div class="page-header">
-            <a href="/index.html" class="back-link mb-2">
+            <a href="/index.html" class="back-link" style="margin-bottom:0.5rem;">
               <i class="bi bi-chevron-left"></i> ホーム
             </a>
             <h1 class="page-header__title">Links for Learning</h1>
@@ -96,13 +96,10 @@ function renderIndex(collections) {
     .join("");
 
   document.getElementById("ll-content").innerHTML = `
-          <div class="index-section-header mb-3">
+          <div class="index-section-header" style="margin-top:0;">
             <h2 class="index-section-header__title">コレクション</h2>
           </div>
-          <div
-            class="index-card-grid"
-            style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));"
-          >
+          <div class="index-card-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
             ${cardsHTML}
           </div>
         `;
@@ -113,8 +110,8 @@ function renderCollection(collection, items) {
   document.title = `${collection.title} — Links for Learning`;
 
   document.getElementById("ll-header").innerHTML = `
-          <div class="page-header pb-2">
-            <button class="ll-back mb-2" onclick="navigateTo(null)">
+          <div class="page-header" style="padding-bottom:0.75rem;">
+            <button class="ll-back" style="margin-bottom:0.5rem;" onclick="navigateTo(null)">
               <i class="bi bi-chevron-left"></i> コレクション一覧
             </button>
             <h1 class="page-header__title">${esc(collection.title)}</h1>
@@ -126,8 +123,8 @@ function renderCollection(collection, items) {
 
   // search bar
   content.innerHTML = `
-          <div class="d-flex align-items-center gap-3 mb-4 flex-wrap">
-            <div class="ll-search-wrap flex-grow-1">
+          <div class="ll-search-row">
+            <div class="ll-search-wrap">
               <svg viewBox="0 0 24 24" stroke-width="2">
                 <circle cx="11" cy="11" r="8"/>
                 <path d="m21 21-4.35-4.35"/>
@@ -141,7 +138,7 @@ function renderCollection(collection, items) {
               />
             </div>
           </div>
-          <div id="ll-grid" class="row row-cols-1 row-cols-md-2 g-3"></div>
+          <div id="ll-grid" class="ll-grid"></div>
           <div id="ll-empty" class="ll-no-results" style="display:none;">
             該当するリンクがありません。
           </div>
@@ -210,22 +207,20 @@ function renderLinks(items, query) {
         : "";
 
       return `
-              <div class="col">
-                <a
-                  href="${esc(item.link)}"
-                  class="link-card"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ${thumbHTML}
-                  <div class="link-card__body">
-                    <div class="link-card__title">${highlight(item.title || domain, query)}</div>
-                    <span class="link-card__url">${esc(domain)}</span>
-                    ${noteHTML}
-                    ${tagsHTML}
-                  </div>
-                </a>
-              </div>
+              <a
+                href="${esc(item.link)}"
+                class="link-card"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ${thumbHTML}
+                <div class="link-card__body">
+                  <div class="link-card__title">${highlight(item.title || domain, query)}</div>
+                  <span class="link-card__url">${esc(domain)}</span>
+                  ${noteHTML}
+                  ${tagsHTML}
+                </div>
+              </a>
             `;
     })
     .join("");

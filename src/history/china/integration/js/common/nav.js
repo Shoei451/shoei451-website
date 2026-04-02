@@ -18,12 +18,11 @@
    ============================================================ */
 
 const Nav = (() => {
-
   const LINKS = [
-    { id: 'index',    label: '一覧',   href: 'index.html' },
-    { id: 'map',      label: '変遷図', href: 'map.html' },
-    { id: 'timeline', label: '年表',   href: 'timeline.html' },
-    { id: 'quiz',     label: 'クイズ', href: 'culture-quiz.html' },
+    { id: "index", label: "一覧", href: "index.html" },
+    { id: "map", label: "変遷図", href: "map.html" },
+    { id: "timeline", label: "年表", href: "timeline.html" },
+    { id: "quiz", label: "クイズ", href: "culture-quiz.html" },
   ];
 
   /**
@@ -37,14 +36,16 @@ const Nav = (() => {
    */
   function init(activeId, opts = {}) {
     // 既存ヘッダーがあればスキップ（二重注入防止）
-    if (document.querySelector('.site-header')) return;
+    if (document.querySelector(".site-header")) return;
 
-    const navLinks = LINKS.map(l => {
-      const cls = l.id === activeId ? ' class="active"' : '';
+    const navLinks = LINKS.map((l) => {
+      const cls = l.id === activeId ? ' class="active"' : "";
       return `<a href="${l.href}"${cls}>${l.label}</a>`;
-    }).join('');
+    }).join("");
 
-    const extra = opts.extraHTML ? `<div class="header-extra">${opts.extraHTML}</div>` : '';
+    const extra = opts.extraHTML
+      ? `<div class="header-extra">${opts.extraHTML}</div>`
+      : "";
 
     const html = `
 <header class="site-header" id="siteHeader">
@@ -57,7 +58,7 @@ const Nav = (() => {
   </nav>
 </header>`;
 
-    document.body.insertAdjacentHTML('afterbegin', html);
+    document.body.insertAdjacentHTML("afterbegin", html);
   }
 
   return { init };
