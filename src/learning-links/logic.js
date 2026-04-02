@@ -99,7 +99,7 @@ function renderIndex(collections) {
           <div class="index-section-header" style="margin-top:0;">
             <h2 class="index-section-header__title">コレクション</h2>
           </div>
-          <div class="index-card-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));">
+          <div class="index-card-grid">
             ${cardsHTML}
           </div>
         `;
