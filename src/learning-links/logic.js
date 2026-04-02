@@ -85,11 +85,11 @@ function renderIndex(collections) {
     .map(
       (col) => `
           <button
-            class="collection-card"
+            class="index-card"
             onclick="navigateTo(${col._id})"
           >
-            <div class="collection-card__title">${esc(col.title)}</div>
-            <div class="collection-card__count">${col.count ?? "?"} items</div>
+            <div class="index-card__title">${esc(col.title)}</div>
+            <div class="index-card__desc">${col.count ?? "?"} items</div>
           </button>
         `,
     )
@@ -123,8 +123,8 @@ function renderCollection(collection, items) {
 
   // search bar
   content.innerHTML = `
-          <div class="ll-search-row">
-            <div class="ll-search-wrap">
+          <div class="d-flex align-items-center gap-3 flex-wrap mb-3">
+            <div class="ll-search-wrap flex-1 min-w-0">
               <svg viewBox="0 0 24 24" stroke-width="2">
                 <circle cx="11" cy="11" r="8"/>
                 <path d="m21 21-4.35-4.35"/>
@@ -138,7 +138,7 @@ function renderCollection(collection, items) {
               />
             </div>
           </div>
-          <div id="ll-grid" class="ll-grid"></div>
+          <div id="ll-grid" class="card-grid--2"></div>
           <div id="ll-empty" class="ll-no-results" style="display:none;">
             該当するリンクがありません。
           </div>
