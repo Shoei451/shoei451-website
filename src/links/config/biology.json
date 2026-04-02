@@ -6,17 +6,21 @@
   "sections": [
     {
       "title": "代謝・酵素・ATP",
+      "titleEN": "Metabolism, Enzymes, and ATP",
       "items": [
         {
           "title": "代謝とATP",
+          "titleEN": "Metabolism and ATP",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLScX0ODmCN24_z0dCfsKMXkucM7-9B_gsRJPKlryMSMwueKGPw/viewform"
         },
         {
           "title": "呼吸と光合成",
+          "titleEN": "Respiration and Photosynthesis",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSfcV9SuJF0Lfs__DKXUshgJ0Dsm17Sgz12LQsDp3Y6Ref1G6Q/viewform"
         },
         {
           "title": "酵素",
+          "titleEN": "Enzymes",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLScKTyPPPOBYWj8tUqUCyr4Q16pW-1XsW73xYtF41h_eBUQ33Q/viewform"
         }
       ]
@@ -26,60 +30,85 @@
       "items": [
         {
           "title": "遺伝子の本体の証明",
+          "titleEN": "Proof of Genetic Material",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLScJS31fdJf_l6wdU1ehkj_ergP0IfGVHLLpXNbr18VsP0CBuQ/viewform"
         },
         {
           "title": "DNAの構造",
+          "titleEN": "Structure of DNA",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLScMZN7PisMIpYbjGloWoxTFVQBLkkmFA6ckrwH4IjVwzCc-iA/viewform"
         },
         {
           "title": "遺伝情報の複製",
+          "titleEN": "Replication of Genetic Information",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSdX4nUW_dlNDtIeKm1m139At9jDar_BRH9roGL06lXuTDvRCA/viewform"
         },
         {
           "title": "遺伝情報の分配（体細胞分裂）",
+          "titleEN": "Distribution of Genetic Information (Mitosis)",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSdIifmFzYPx0byLtP2qtkgcmqaYa6ivDCivibHmjwBpcqviWQ/viewform"
         }
       ]
     },
     {
       "title": "タンパク質の合成",
+      "titleEN": "Synthesis of Proteins",
       "items": [
         {
           "title": "アミノ酸・タンパク質の構造",
+          "titleEN": "Structure of Amino Acids and Proteins",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSdBXAW1YpmMBkmVamN4XhUCWzZIyqY_6C5a31PAckEIkHRfFQ/viewform"
         },
-        { "title": "転写", "url": "https://forms.gle/hfE5FpKRCxVVz9389" },
-        { "title": "翻訳", "url": "https://forms.gle/278TJirESMsoDRYRA" },
+        {
+          "title": "転写",
+          "titleEN": "Transcription",
+          "url": "https://forms.gle/hfE5FpKRCxVVz9389"
+        },
+        {
+          "title": "翻訳",
+          "titleEN": "Translation",
+          "url": "https://forms.gle/278TJirESMsoDRYRA"
+        },
         {
           "title": "全能性とゲノム",
+          "titleEN": "Pluripotency and Genome",
           "url": "https://forms.gle/7ZwmkFnPFiSKNMcy5"
         }
       ]
     },
     {
       "title": "情報伝達・ホルモン系",
+      "titleEN": "Information Transmission and Hormone System",
       "items": [
         {
           "title": "体内での情報伝達",
+          "titleEN": "Information Transmission in the Body",
           "url": "https://forms.gle/ZV9T7Jjgx32VsfWn9"
         },
-        { "title": "自律神経系", "url": "https://forms.gle/h1tZrBvHzPTEx29Z7" },
+        {
+          "title": "自律神経系",
+          "titleEN": "Autonomic Nervous System",
+          "url": "https://forms.gle/h1tZrBvHzPTEx29Z7"
+        },
         {
           "title": "内分泌腺とホルモン",
+          "titleEN": "Endocrine Glands and Hormones",
           "url": "https://forms.gle/cUDjLfwLR26ea3nHA"
         }
       ]
     },
     {
       "title": "体内環境の維持",
+      "titleEN": "Maintenance of Internal Environment",
       "items": [
         {
           "title": "体内環境維持のしくみ",
+          "titleEN": "Mechanisms of Internal Environment Maintenance",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSeV7NmK7hKWEasM-Zm6hrMFDP2PyS74EinLLyu0IcOpR1AKXA/viewform"
         },
         {
           "title": "糖尿病と腎臓・尿",
+          "titleEN": "Diabetes, Kidneys, and Urine",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSd2xtyZTLmHDt0d7o1JxiX2P_WIeamyQ_bniraeB2RTS7G96w/viewform"
         }
       ]
@@ -89,35 +118,43 @@
       "items": [
         {
           "title": "血液の循環",
+          "titleEN": "Circulation of Blood",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSdKX_NdvGaa3CWA0O_VhIqT1QYCm4FfLc-StaWXDmYikh7ktA/viewform"
         },
         {
           "title": "血液凝固・浸透圧",
+          "titleEN": "Blood Clotting and Osmotic Pressure",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSdboAUni4JBtP55GGYnFqh_MO-Fjdmd-f672NFQenR5pB1uVQ/viewform"
         },
         {
           "title": "免疫",
+          "titleEN": "Immunity",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSfh2fme01hcwpMzsBGXvL2vMWBCpOwANae8DBwI5nBOWoIssw/viewform"
         }
       ]
     },
     {
       "title": "生態系",
+      "titleEN": "Ecosystem",
       "items": [
         {
           "title": "乾性遷移と湿性遷移",
+          "titleEN": "Xerarch Succession and Hydrarch Succession",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSehJzajPNu0PsCTXKL8d0kVvr0HscakZMBbSdcYZjWBQEEY_A/viewform"
         },
         {
           "title": "バイオーム",
+          "titleEN": "Biomes",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLSd1op_ZaNSaqSDjh8IGGgm1VthADwqNKmL2wv2-XT5FJF_J0Q/viewform"
         },
         {
           "title": "生態系と物質の循環",
+          "titleEN": "Ecosystems and Material Cycling",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLScxp8oGm8aI4vSzzR1NHxhEB0udF2pGlaYiX-vNVRmlmexiEQ/viewform"
         },
         {
           "title": "生態系における物質収支",
+          "titleEN": "Material Balance in Ecosystems",
           "url": "https://docs.google.com/forms/d/e/1FAIpQLScNImBuaIHPG_4NcE5GH1aoy_kbGEeyFdcrQCOGYEU7mnJJeg/viewform"
         }
       ]

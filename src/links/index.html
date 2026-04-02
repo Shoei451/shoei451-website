@@ -59,6 +59,7 @@
         {
           slug: "rekisou",
           title: "歴史総合 語句確認フォーム",
+          titleEN: "Comprehensive History Vocabulary Quiz Forms",
           desc: "歴史総合の単元別フォーム集",
           icon: "bi-clock-history",
           category: "forms",
@@ -66,6 +67,7 @@
         {
           slug: "biology",
           title: "生物基礎 語句確認フォーム",
+          titleEN: "Biology Vocabulary Quiz Forms",
           desc: "生物基礎の単元別フォーム集",
           icon: "bi-leaf",
           category: "forms",
@@ -90,6 +92,7 @@
         return `
           <a href="viewer.html?slug=${esc(col.slug)}" class="site-card" style="display:flex;flex-direction:column;padding:1rem;text-decoration:none;">
             ${iconHtml}
+            ${col.titleEN ? `<div class="site-card__title-en">${esc(col.titleEN)}</div>` : ""}
             <div style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;color:var(--color-text-primary);">${esc(col.title)}</div>
             ${col.desc ? `<p style="font-size:0.875rem;color:var(--color-text-secondary);margin:0;">${esc(col.desc)}</p>` : ""}
           </a>
