@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Links — Shoei451</title>
+    <link rel="icon" href="/images/favicon.ico" />
+
+    <script>
+      (function () {
+        const t = localStorage.getItem("pref-theme");
+        if (
+          t === "dark" ||
+          (!t && matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+          document.documentElement.classList.add("dark");
+        }
+      })();
+    </script>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <link rel="stylesheet" href="/css/utils.css" />
+  </head>
+  <body>
+    <div id="nav-container"></div>
+
+    <main class="container py-4">
+      <div class="page-header">
+        <h1 class="page-header__title">Links</h1>
+        <p class="page-header__desc">語句確認フォーム・学習リンク集</p>
+      </div>
+
+      <div class="section-header">
+        <h2 class="section-header__title">語句確認フォーム</h2>
+        <span class="section-header__desc">Google Forms</span>
+      </div>
+      <div class="card-grid" id="forms-grid"></div>
+
+      <div class="section-header" id="learning-header" style="display: none">
+        <h2 class="section-header__title">学習リンク</h2>
+        <span class="section-header__desc">参考サイト・資料</span>
+      </div>
+      <div class="card-grid" id="learning-grid"></div>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="/js/icons.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/theme-toggle.js"></script>
+    <script>
+      if (document.documentElement.classList.contains("dark")) {
+        document.body.classList.add("dark");
+      }
+
+      // コレクション定義
+      // category: "forms" | "learning" で表示先グリッドを分ける
+      const COLLECTIONS = [
+        {
+          slug: "rekisou",
+          title: "歴史総合 語句確認フォーム",
+          desc: "歴史総合の単元別フォーム集",
+          icon: "bi-clock-history",
+          category: "forms",
+        },
+        {
+          slug: "biology",
+          title: "生物基礎 語句確認フォーム",
+          desc: "生物基礎の単元別フォーム集",
+          icon: "bi-leaf",
+          category: "forms",
+        },
+        // Raindrop 移行後はここに追加:
+        // { slug: "study-sites", title: "...", desc: "...", icon: "bi-globe", category: "learning" },
+      ];
+
+      function esc(s) {
+        return String(s ?? "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function buildCard(col) {
+        const iconHtml = /^bi-[\w-]+$/.test(col.icon)
+          ? `<i class="bi ${esc(col.icon)} site-card__bi-icon mb-3" aria-hidden="true"></i>`
+          : `<img src="${esc(col.icon)}" class="site-card__icon mb-3" alt="" loading="lazy">`;
+
+        return `
+          <a href="viewer.html?slug=${esc(col.slug)}" class="site-card" style="display:flex;flex-direction:column;padding:1rem;text-decoration:none;">
+            ${iconHtml}
+            <div style="font-size:1rem;font-weight:700;margin-bottom:0.25rem;color:var(--color-text-primary);">${esc(col.title)}</div>
+            ${col.desc ? `<p style="font-size:0.875rem;color:var(--color-text-secondary);margin:0;">${esc(col.desc)}</p>` : ""}
+          </a>
+        `;
+      }
+
+      const formsGrid = document.getElementById("forms-grid");
+      const learningGrid = document.getElementById("learning-grid");
+      const learningHeader = document.getElementById("learning-header");
+
+      let hasLearning = false;
+
+      COLLECTIONS.forEach((col) => {
+        if (col.category === "learning") {
+          learningGrid.insertAdjacentHTML("beforeend", buildCard(col));
+          hasLearning = true;
+        } else {
+          formsGrid.insertAdjacentHTML("beforeend", buildCard(col));
+        }
+      });
+
+      if (hasLearning) learningHeader.style.display = "";
+    </script>
+  </body>
+</html>
