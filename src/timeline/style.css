@@ -458,10 +458,15 @@ body:not(.dark) #theme-toggle #moon {
 
 /* ===== Dialog ===== */
 .tl-dialog {
-  /* ここが重要 */
-  display: flex;
-  justify-content: center; /* 左右中央 */
-  align-items: center; /* 上下中央 */
+  /* 固定位置の解除と中央寄せ */
+  position: fixed;
+  inset: 0;
+  margin: auto;
+
+  /* ダイアログ内のレイアウト調整 */
+  flex-direction: column; /* 縦に並べる */
+
+  /* 以下、既存のスタイル */
   border: 1px solid var(--color-border);
   border-radius: 12px;
   padding: 0;
@@ -470,6 +475,10 @@ body:not(.dark) #theme-toggle #moon {
   background: var(--color-surface);
   color: var(--color-text-primary);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+
+.tl-dialog[open] {
+  display: flex; /* 開いている時だけ flex にして表示させる */
 }
 
 .tl-dialog::backdrop {
