@@ -50,6 +50,7 @@
             <li><a class="site-nav__link" href="/sub-index.html?slug=geography">地理</a></li>
             <li><a class="site-nav__link" href="/sub-index.html?slug=seikei">政治・経済</a></li>
             <li><a class="site-nav__link" href="/sub-index.html?slug=miscellaneous">その他</a></li>
+            <li><a class="site-nav__link" href="/links/">リンク集</a></li>
           </ul>
 
           <div class="site-nav__actions">
