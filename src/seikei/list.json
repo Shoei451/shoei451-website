@@ -26,16 +26,14 @@
           "link": "/timeline/?slug=seikei",
           "titleEN": "Political and Economic Timeline for Learning",
           "description": "戦後経済史の年表です",
-          "icon": "bi-bank",
-          "target": "_blank"
+          "icon": "bi-bank"
         },
         {
           "title": "戦後経済史 年代クイズ",
           "link": "/quiz/?slug=seikei",
           "titleEN": "Political and Economic Timeline - Quiz Version",
           "description": "戦後経済史についてのクイズです",
-          "icon": "bi-coin",
-          "target": "_blank"
+          "icon": "bi-coin"
         }
       ]
     }

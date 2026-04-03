@@ -12,8 +12,7 @@
           "link": "/links/view.html?slug=biology",
           "titleEN": "Biology Quiz Forms",
           "description": "2024年度生物基礎の語句確認用フォーム",
-          "icon": "bi-leaf",
-          "target": "_blank"
+          "icon": "bi-leaf"
         },
         {
           "title": "地質年代クイズ",
@@ -34,8 +33,7 @@
           "link": "/quiz?slug=idiom",
           "titleEN": "English Idiom Quiz",
           "description": "Vintage 冬季課題範囲の暗記用クイズです。",
-          "icon": "bi-chat-dots",
-          "target": "_blank"
+          "icon": "bi-chat-dots"
         }
       ]
     },
@@ -49,8 +47,7 @@
           "titleEN": "Hexadecimal Quiz",
           "description": "16進数/2進数についての計算クイズです",
           "icon": "/images/hex-quiz.svg",
-          "iconType": "image",
-          "target": "_blank"
+          "iconType": "image"
         },
         {
           "title": "Sudoku JS note",

@@ -27,8 +27,7 @@
           "link": "/quiz/?slug=capitals",
           "titleEN": "World Capitals' Quiz",
           "description": "世界各国・地域の首都名を答えるクイズです",
-          "icon": "bi-geo",
-          "target": "_blank"
+          "icon": "bi-geo"
         },
         {
           "title": "戦後アフリカ史地図",
