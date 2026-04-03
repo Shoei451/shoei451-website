@@ -5,3 +5,9 @@ command = "npm run build"
 [[edge_functions]]
   path = "/api/sw"
   function = "sw"
+
+[[headers]]
+  for = "/service-worker.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+    Service-Worker-Allowed = "/"
