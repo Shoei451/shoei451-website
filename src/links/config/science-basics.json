@@ -4,7 +4,7 @@
   "backLabel": "Links",
   "sections": [
     {
-      "title": "理科基礎",
+      "title": "地学基礎",
       "items": [
         {
           "title": "R ct final check",
@@ -24,6 +24,10 @@
           "description": "Share your videos with friends, family, and the world"
         }
       ]
+    },
+    {
+      "title": "生物基礎",
+      "items": []
     }
   ]
 }

@@ -4,7 +4,7 @@
   "backLabel": "Links",
   "sections": [
     {
-      "title": "英語（学校用）",
+      "title": "共通テストリスニング (emile)",
       "items": [
         {
           "title": "共テListening Part1",
@@ -23,15 +23,25 @@
           "url": "https://emile-pub.com/dl/KLB10_CD_D.html"
         },
         {
-          "title": "FACTBOOK English Logic and Expression Ⅱ Workbook",
-          "url": "https://www.kirihara.co.jp/-/qrcnts/e_le2_wb#05",
-          "description": "論理表現教科書『FACTBOOK Logic ＆ Expression Ⅱ』の定着を図るワークブック"
-        },
+          "title": "Additional Training",
+          "url": "https://emile-pub.com/dl/KLB10_CD_E.html"
+        }
+      ]
+    },
+    {
+      "title": "論理・表現 Ⅱ",
+      "items": [
         {
           "title": "FACTBOOK English Logic and Expression Ⅱ",
           "url": "https://www.kirihara.co.jp/-/qrcnts/e_le2/u08.html#ue2",
           "description": "論理表現教科書『FACTBOOK Logic ＆ Expression Ⅱ』"
         },
+        {
+          "title": "FACTBOOK English Logic and Expression Ⅱ Workbook",
+          "url": "https://www.kirihara.co.jp/-/qrcnts/e_le2_wb#05",
+          "description": "論理表現教科書『FACTBOOK Logic ＆ Expression Ⅱ』の定着を図るワークブック"
+        },
+
         {
           "title": "Vintage 音声DL",
           "url": "https://www.iizuna-shoten.com/music?id=20995"
@@ -39,7 +49,12 @@
         {
           "title": "英文法・語法 Vintage 3rd Edition音声データ | 株式会社いいずな書店",
           "url": "https://www.iizuna-shoten.com/music?id=693"
-        },
+        }
+      ]
+    },
+    {
+      "title": "英語コミュニケーション Ⅱ",
+      "items": [
         {
           "title": "CNN 音声ストリーミング",
           "url": "https://www.asahipress.com/streaming/player/index.html?bookcode=260031"

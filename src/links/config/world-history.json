@@ -7,11 +7,6 @@
       "title": "webサイト",
       "items": [
         {
-          "title": "地形 - Wikipedia",
-          "url": "https://ja.wikipedia.org/wiki/%E5%9C%B0%E5%BD%A2",
-          "description": "地球表面の形態"
-        },
-        {
           "title": "【世界史】年号語呂合わせ一覧！大学入学共通テスト対策の暗記に最適 | Ameba塾探し",
           "url": "https://juku.ameba.jp/study/a000001599/",
           "description": "試験前に苦労する暗記科目といえば、なにが思い浮かびますか？"
@@ -62,6 +57,50 @@
           "title": "映像の世紀バタフライエフェクト | NHK",
           "url": "https://www.web.nhk/tv/an/butterfly/pl/series-tep-9N81M92LXV",
           "description": "蝶の羽ばたきのような、ひとりひとりのささやかな営みが、いかに連鎖し、世界を動かしていくのか？"
+        }
+      ]
+    },
+    {
+      "title": "YouTubeチャンネル",
+      "items": [
+        {
+          "title": "高校 世界史 映像授業 Try IT（トライイット）",
+          "url": "https://youtube.com/playlist?list=PLdG31GUo-My-kgENYDal25CJtarSwk7CD&si=UMLiy1sJmNn8BYpR",
+          "description": "Share your videos with friends, family, and the world"
+        },
+        {
+          "title": "Crash Course World History II",
+          "url": "https://thecrashcourse.com/topic/worldhistory2/",
+          "description": "In 30 episodes, John Green rethinks world history!"
+        },
+        {
+          "title": "Crash Course World History",
+          "url": "https://thecrashcourse.com/topic/worldhistory1/",
+          "description": "In 42 episodes, John Green will begin teaching you the history of the world!"
+        },
+        {
+          "title": "CrashCourse - YouTube",
+          "url": "https://www.youtube.com/user/crashcourse",
+          "description": "At Crash Course, we believe that high-quality educational videos should be available to everyone for free!"
+        },
+        {
+          "title": "【25年度版】#11 西ヨーロッパ中世 重要年代 一問一答 年号 ゴロ合わせ",
+          "url": "https://m.youtube.com/watch?v=qwTCNxHJtPE",
+          "description": "頻出する年代の並び替え問題や、違う地域で同時期に起きた出来事を答える問題に対応"
+        },
+        {
+          "title": "世界史総集編",
+          "url": "https://www.youtube.com/playlist?list=PLvCrW3AgeOhEMegWg_3QYtWokE-WSwVt1",
+          "description": "ユーテラ授業チャンネルの世界史"
+        },
+        {
+          "title": "ゼロから世界史総集編 - YouTube",
+          "url": "https://www.youtube.com/playlist?list=PLvCrW3AgeOhEl77a6pLR1GtebnYJWAZxC",
+          "description": "世界史の通史の総集編"
+        },
+        {
+          "title": "【大幅改良版】世界の歴史をスポーツ風に実況しました【世界史】",
+          "url": "https://youtu.be/KoQg2aguNGw?si=O9jhr_rFlNZ-fdMy"
         }
       ]
     }

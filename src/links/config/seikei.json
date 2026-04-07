@@ -4,16 +4,12 @@
   "backLabel": "Links",
   "sections": [
     {
-      "title": "政治・経済",
+      "title": "mimiいけ先生",
       "items": [
         {
-          "title": "政治経済塾 | （主に）高校生のための 政治・経済インターネット塾",
-          "url": "http://www.seijikeizaijuku.com/"
-        },
-        {
-          "title": "倫理政経ドットコム | 大学受験に必要な倫理と政経をこのサイトで完結！",
-          "url": "https://k-koumin.com/",
-          "description": "大学受験に必要な、倫理や政経のポイント講義や過去問演習、一問一答などを掲載しています。"
+          "title": "miniいけ先生の公民ブログ",
+          "url": "https://miniikesensei.com/",
+          "description": "どうもminiいけ先生です！公民は塾に行くのはちょっと…でも授業がよく分からないしどうしよ…って人のためのブログです。"
         },
         {
           "title": "miniいけ先生の倫政チャンネル",
@@ -48,11 +44,20 @@
           "title": "政経⑥【社会保障制度・農業問題・消費者問題・労働問題】",
           "url": "https://www.youtube.com/playlist?list=PL1OLlThou5iiHppBvC4inBU6u-m8cANWG",
           "description": "Share your videos with friends, family, and the world"
+        }
+      ]
+    },
+    {
+      "title": "その他",
+      "items": [
+        {
+          "title": "政治経済塾 | （主に）高校生のための 政治・経済インターネット塾",
+          "url": "http://www.seijikeizaijuku.com/"
         },
         {
-          "title": "miniいけ先生の公民ブログ",
-          "url": "https://miniikesensei.com/",
-          "description": "どうもminiいけ先生です！公民は塾に行くのはちょっと…でも授業がよく分からないしどうしよ…って人のためのブログです。"
+          "title": "倫理政経ドットコム | 大学受験に必要な倫理と政経をこのサイトで完結！",
+          "url": "https://k-koumin.com/",
+          "description": "大学受験に必要な、倫理や政経のポイント講義や過去問演習、一問一答などを掲載しています。"
         },
         {
           "title": "政治・経済一問一答",

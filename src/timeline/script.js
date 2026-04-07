@@ -423,6 +423,9 @@ function openModal(row, cfg) {
   // タグ（地域・分野）
   const regions = (row.region || []).join(" · ");
   const field = row.field || "";
+  const normalizedField = String(field).trim();
+  const normalizedCatLabel = String(catDef?.label || "").trim();
+  const normalizedCatId = String(catDef?.id || "").trim();
 
   let tagsHtml = "";
   if (catDef) {
@@ -431,7 +434,11 @@ function openModal(row, cfg) {
   if (typeLabel) {
     tagsHtml += `<span class="tl-modal__tag">${esc(typeLabel)}</span>`;
   }
-  if (field) {
+  if (
+    normalizedField &&
+    normalizedField !== normalizedCatLabel &&
+    normalizedField !== normalizedCatId
+  ) {
     tagsHtml += `<span class="tl-modal__tag">${esc(field)}</span>`;
   }
   if (regions) {
@@ -448,7 +455,6 @@ function openModal(row, cfg) {
 
   body.innerHTML = `
     <div class="tl-modal__year">${esc(yearDisplay)}</div>
-    <div class="tl-modal__event">${esc(eventStr)}</div>
     ${tagsHtml ? `<div class="tl-modal__tags">${tagsHtml}</div>` : ""}
     ${descStr ? `<p class="tl-modal__desc">${esc(descStr)}</p>` : ""}
     ${

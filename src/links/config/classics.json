@@ -4,16 +4,21 @@
   "backLabel": "Links",
   "sections": [
     {
+      "title": "古典学習全般",
+      "items": [
+        {
+          "title": "古文・漢文サイトまとめ",
+          "url": "https://juken-supportnav.com/kobun_kanbun_site#index_id1",
+          "description": "高校生だけでなく大人の方も使えるWEBサイトやYouTubeチャンネルをご紹介"
+        }
+      ]
+    },
+    {
       "title": "古文",
       "items": [
         {
           "title": "大鏡「花山院の出家」朗読｜原文・現代語訳｜高校古典",
           "url": "https://www.youtube.com/watch?v=zAeTdyapYlY&t"
-        },
-        {
-          "title": "古文・漢文サイトまとめ",
-          "url": "https://juken-supportnav.com/kobun_kanbun_site#index_id1",
-          "description": "高校生だけでなく大人の方も使えるWEBサイトやYouTubeチャンネルをご紹介"
         },
         {
           "title": "ゴロゴネット | 受験生サポート",
@@ -55,27 +60,15 @@
           "title": "完全マスター古典文法準拠ノート 実力養成",
           "url": "https://www.daiichi-g.co.jp/pr/sb/3/books/35850_2603"
         },
-        {
-          "title": "好漢会・聞き流し漢文朗読 - YouTube",
-          "url": "https://www.youtube.com/@%E5%A5%BD%E6%BC%A2%E4%BC%9A%E8%81%9E%E3%81%8D%E6%B5%81%E3%81%97%E6%BC%A2%E6%96%87%E6%9C%97%E8%AA%AD",
-          "description": "素人の朗読ですが、お役に立てると嬉しいです。"
-        },
+
         {
           "title": "四季の美 - YouTube",
           "url": "https://www.youtube.com/@%E5%9B%9B%E5%AD%A3%E3%81%AE%E7%BE%8E-n2s"
         },
-        {
-          "title": "数研出版 | 古典探究 漢文編",
-          "url": "https://cds.chart.co.jp/books/6xbc2oxu1g/terms?redirectUrl=/books/6xbc2oxu1g"
-        },
+
         {
           "title": "数研出版 | 古典探究 古文編",
           "url": "https://cds.chart.co.jp/books/e5pok87kzm/terms?redirectUrl=/books/e5pok87kzm/sublist/018"
-        },
-        {
-          "title": "Web漢文大系 - 漢詩・漢文訓読サイト",
-          "url": "https://kanbun.info/index.html",
-          "description": "当サイトは漢詩・漢文の訓読サイトです。"
         }
       ]
     },
@@ -83,9 +76,23 @@
       "title": "漢文",
       "items": [
         {
+          "title": "好漢会・聞き流し漢文朗読 - YouTube",
+          "url": "https://www.youtube.com/@%E5%A5%BD%E6%BC%A2%E4%BC%9A%E8%81%9E%E3%81%8D%E6%B5%81%E3%81%97%E6%BC%A2%E6%96%87%E6%9C%97%E8%AA%AD",
+          "description": "素人の朗読ですが、お役に立てると嬉しいです。"
+        },
+        {
           "title": "漢文修験道",
           "url": "https://kanbun-shugendo.com/",
           "description": "大学入試・定期テスト対策・自習に使える無料の漢文学習サイト"
+        },
+        {
+          "title": "数研出版 | 古典探究 漢文編",
+          "url": "https://cds.chart.co.jp/books/6xbc2oxu1g/terms?redirectUrl=/books/6xbc2oxu1g"
+        },
+        {
+          "title": "Web漢文大系 - 漢詩・漢文訓読サイト",
+          "url": "https://kanbun.info/index.html",
+          "description": "当サイトは漢詩・漢文の訓読サイトです。"
         }
       ]
     }
