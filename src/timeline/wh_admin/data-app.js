@@ -21,129 +21,11 @@ let searchDebounce = null;
 let regions = []; // wh_regions から取得
 
 const RECORD_TYPE_LABELS = { event: "出来事", period: "期間", person: "人物" };
-const FIELDS = ["政治", "経済", "文化・宗教", "社会", "外交・戦争"];
-
-// ============================================================
-// Theme（インライン化 — theme-toggle.js に依存しない）
-// ============================================================
-(function initTheme() {
-  const pref = localStorage.getItem("pref-theme");
-  if (
-    pref === "dark" ||
-    (!pref && window.matchMedia("(prefers-color-scheme: dark)").matches)
-  ) {
-    document.body.classList.add("dark");
-  }
-})();
-
-// ============================================================
-// Entry point
-// ============================================================
-document.addEventListener("DOMContentLoaded", async () => {
-  const themeToggle = document.getElementById("theme-toggle");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", (e) => {
-      e.preventDefault();
-      document.body.classList.toggle("dark");
-      localStorage.setItem(
-        "pref-theme",
-        document.body.classList.contains("dark") ? "dark" : "light",
-      );
-    });
-  }
-
-  const loginBtn = document.getElementById("loginBtn");
-  const loginPassword = document.getElementById("loginPassword");
-  if (loginBtn && loginPassword) {
-    loginBtn.addEventListener("click", handleLogin);
-    loginPassword.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") handleLogin();
-    });
-  }
-
-  if (
-    document.getElementById("loginScreen") &&
-    document.getElementById("adminScreen")
-  ) {
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", handleLogout);
-    }
-
-    const {
-      data: { session },
-    } = await db.auth.getSession();
-    if (session) showAdminScreen(session.user);
-    else showLoginScreen();
-
-    db.auth.onAuthStateChange((_event, session) => {
-      if (session) showAdminScreen(session.user);
-      else showLoginScreen();
-    });
-  }
-});
-
-// ============================================================
-// Auth
-// ============================================================
-async function handleLogin() {
-  const email = document.getElementById("loginEmail").value.trim();
-  const password = document.getElementById("loginPassword").value;
-  const btn = document.getElementById("loginBtn");
-
-  if (!email || !password) {
-    showLoginError("メールアドレスとパスワードを入力してください");
-    return;
-  }
-
-  btn.textContent = "ログイン中...";
-  btn.disabled = true;
-  document.getElementById("loginError").style.display = "none";
-
-  const { error } = await db.auth.signInWithPassword({ email, password });
-
-  btn.textContent = "ログイン";
-  btn.disabled = false;
-
-  if (error)
-    showLoginError(
-      "ログインに失敗しました。メールアドレスまたはパスワードが違います。",
-    );
-}
-
-async function handleLogout() {
-  await db.auth.signOut();
-}
-
-function showLoginError(msg) {
-  const el = document.getElementById("loginError");
-  el.textContent = msg;
-  el.style.display = "block";
-}
-
-function showLoginScreen() {
-  document.getElementById("loginScreen").style.display = "flex";
-  document.getElementById("adminScreen").style.display = "none";
-  document.getElementById("loginEmail").value = "";
-  document.getElementById("loginPassword").value = "";
-  document.getElementById("loginError").style.display = "none";
-}
-
-async function showAdminScreen(user) {
-  document.getElementById("loginScreen").style.display = "none";
-  document.getElementById("adminScreen").style.display = "block";
-  document.getElementById("loggedInUser").textContent = user.email;
-
-  await loadRegions();
-  setupEventListeners();
-  await fetchTotalCount();
-  await fetchPage(0);
-}
 
 // ============================================================
 // Data — wh_regions
 // ============================================================
-async function loadRegions() {
+export async function loadRegions() {
   const { data, error } = await db
     .from(tables.WH_REGIONS)
     .select("*")
@@ -182,7 +64,7 @@ function applyFilters(query) {
   return query;
 }
 
-async function fetchTotalCount() {
+export async function fetchTotalCount() {
   let q = db.from(tables.WH_DATES).select("*", { count: "exact", head: true });
   q = applyFilters(q);
   const { count, error } = await q;
@@ -194,7 +76,7 @@ async function fetchTotalCount() {
   document.getElementById("totalEvents").textContent = totalCount;
 }
 
-async function fetchPage(page) {
+export async function fetchPage(page) {
   if (isFetching) return;
   isFetching = true;
   document.getElementById("timelineContainer").innerHTML =
@@ -296,8 +178,8 @@ function renderTimeline() {
                             : "-"
                         }</td>
                         <td class="event-actions">
-                            <button class="btn-edit"   onclick="editEvent(${row.id})">編集</button>
-                            <button class="btn-delete" onclick="deleteEvent(${row.id})">削除</button>
+                            <button class="btn-edit"   data-edit-id="${row.id}">編集</button>
+                            <button class="btn-delete" data-delete-id="${row.id}">削除</button>
                         </td>
                     </tr>
                 `,
@@ -305,6 +187,15 @@ function renderTimeline() {
                   .join("")}
             </tbody>
         </table>`;
+
+  container.querySelectorAll("[data-edit-id]").forEach((btn) => {
+    btn.addEventListener("click", () => editEvent(Number(btn.dataset.editId)));
+  });
+  container.querySelectorAll("[data-delete-id]").forEach((btn) => {
+    btn.addEventListener("click", () =>
+      deleteEvent(Number(btn.dataset.deleteId)),
+    );
+  });
 }
 
 // ============================================================
@@ -347,7 +238,7 @@ function renderPagination() {
 // ============================================================
 // Event listeners
 // ============================================================
-function setupEventListeners() {
+export function setupEventListeners() {
   // 検索（400ms デバウンス）
   document.getElementById("searchBox").addEventListener("input", (e) => {
     searchQuery = e.target.value;
@@ -376,6 +267,10 @@ function setupEventListeners() {
       resetAndFetch();
     });
   });
+
+  // 新規追加ボタン
+  document.getElementById("addBtn").addEventListener("click", openAddModal);
+
   wizBindEvents();
 }
 
@@ -431,12 +326,15 @@ function showWikiResult(data, query = "") {
         <div class="wiki-result">
             <div class="wiki-result__title">${escapeHtml(data.title)}</div>
             <div class="wiki-result__extract">${escapeHtml(extract)}</div>
-            <button type="button" class="wiki-result__use"
-                onclick="useWikiUrl('${escapeHtml(pageUrl)}')">
+            <button type="button" class="wiki-result__use" data-wiki-url="${escapeHtml(pageUrl)}">
                 このURLを使用
             </button>
         </div>`;
   panel.style.display = "block";
+
+  panel.querySelector(".wiki-result__use").addEventListener("click", (e) => {
+    useWikiUrl(e.currentTarget.dataset.wikiUrl);
+  });
 }
 
 function useWikiUrl(url) {
@@ -591,7 +489,6 @@ async function wizCheckDuplicate() {
     return;
   }
 
-  // 編集モードで自分自身のIDは除外
   const selfId = document.getElementById("editEventId").value;
 
   let q = db
@@ -608,7 +505,6 @@ async function wizCheckDuplicate() {
     return;
   }
 
-  // 年まで一致するものを「強警告」、名称だけ類似を「弱警告」
   const yearNum = yearText !== "" ? parseInt(yearText) : null;
   const exactMatch = yearNum !== null && data.some((r) => r.year === yearNum);
 
@@ -769,11 +665,10 @@ function wizGoBack() {
   }
 }
 
-// ── フォームデータ収集 → 既存の handleFormSubmit 互換 ─────────
+// ── フォームデータ収集 ─────────────────────────────────────────
 function wizCollectPayload() {
   const type = document.getElementById("editRecordType").value;
   const isPerson = type === "person";
-  const isPeriod = type === "period";
 
   const yearRaw = isPerson
     ? document.getElementById("editYearBirth").value.trim()
@@ -839,7 +734,6 @@ async function wizSave() {
 
 // ── モーダルの初期化・開閉 ─────────────────────────────────────
 function wizResetModal() {
-  // フォームリセット
   [
     "editEventId",
     "editYear",
@@ -861,20 +755,15 @@ function wizResetModal() {
   document.getElementById("wikiResultPanel").style.display = "none";
   document.getElementById("dupePanel").classList.add("hidden");
 
-  // 種別ボタンの選択解除
   document
     .querySelectorAll(".record-type-btn")
     .forEach((b) => b.classList.remove("selected"));
   WIZ.selectedType = null;
 
-  // 地域トグルリセット
   wizRenderRegionToggles([]);
-
-  // ステップ1へ
   wizShowStep(1);
 }
 
-// ── openAddModal を上書き ─────────────────────────────────────
 function openAddModal() {
   document.getElementById("modalTitle").textContent = "新規追加";
   WIZ.isEdit = false;
@@ -882,7 +771,6 @@ function openAddModal() {
   document.getElementById("editModal").classList.add("active");
 }
 
-// ── editEvent を上書き ────────────────────────────────────────
 function editEvent(id) {
   const row = currentPageData.find((r) => r.id === id);
   if (!row) return;
@@ -891,7 +779,6 @@ function editEvent(id) {
   document.getElementById("modalTitle").textContent = "編集";
   wizResetModal();
 
-  // 値セット
   document.getElementById("editEventId").value = row.id;
   document.getElementById("editRecordType").value = row.record_type ?? "event";
   document.getElementById("editDateType").value = row.date_type ?? "year";
@@ -910,27 +797,22 @@ function editEvent(id) {
     document.getElementById("editYearEnd").value = row.year_end ?? "";
   }
 
-  // 種別ボタンを選択状態にする
   WIZ.selectedType = row.record_type ?? "event";
   document.querySelectorAll(".record-type-btn").forEach((b) => {
     b.classList.toggle("selected", b.dataset.rtype === WIZ.selectedType);
   });
 
-  // 地域
   wizRenderRegionToggles(row.region ?? []);
 
-  // full_date 表示切り替え
   document.getElementById("s2-fulldate-wrap").style.display =
     row.date_type === "full" ? "" : "none";
 
-  // 編集は Step 2 から
   wizUpdateStep2ForType(WIZ.selectedType);
   wizShowStep(2);
 
   document.getElementById("editModal").classList.add("active");
 }
 
-// ── イベントバインド（DOMContentLoaded 後に呼ぶ） ────────────────
 function wizBindEvents() {
   wizInitStep1();
   wizInitStep2();
@@ -948,18 +830,24 @@ function wizBindEvents() {
   });
 }
 
-// ── closeModal（上書き） ─────────────────────────────────────
 function closeModal() {
   document.getElementById("editModal").classList.remove("active");
 }
 
-Object.assign(window, {
-  loadRegions,
-  fetchTotalCount,
-  fetchPage,
-  setupEventListeners,
-  useWikiUrl,
-  deleteEvent,
-  editEvent,
-  openAddModal,
-});
+// ============================================================
+// Utilities
+// ============================================================
+function formatYearRange(row) {
+  if (row.year == null) return "年不明";
+  const start = row.year < 0 ? `前${Math.abs(row.year)}年` : `${row.year}年`;
+  if (row.year_end == null) return start;
+  const end =
+    row.year_end < 0 ? `前${Math.abs(row.year_end)}年` : `${row.year_end}年`;
+  return `${start} 〜 ${end}`;
+}
+
+function escapeHtml(value) {
+  const div = document.createElement("div");
+  div.textContent = value ?? "";
+  return div.innerHTML;
+}
