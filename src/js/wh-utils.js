@@ -4,7 +4,7 @@
 //
 // 対象ページ:
 //   /history/index.html
-//   /timeline/apps/world-history-admin/data-app.js
+//   /timeline/apps/wh_admin/data-app.js
 
 //
 // 読み込み順:
