@@ -550,6 +550,10 @@ body.dark .tl-dialog::backdrop {
   letter-spacing: 0.02em;
 }
 
+.tl-app-root {
+  width: 100%;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .tl-header__inner {

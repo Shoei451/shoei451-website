@@ -36,6 +36,8 @@ async function initTimeline(cfg) {
   document.getElementById("header-title").textContent = cfg.title;
   document.getElementById("back-link").href = cfg.backLink || "/index.html";
   document.getElementById("back-label").textContent = cfg.backLabel || "ホーム";
+  document.getElementById("search-input").hidden = cfg.showSearch === false;
+  document.querySelector(".tl-meta-bar").hidden = cfg.showStats === false;
 
   if (cfg.accentColor) {
     document.documentElement.style.setProperty("--tl-accent", cfg.accentColor);
@@ -43,6 +45,21 @@ async function initTimeline(cfg) {
       "--color-accent",
       cfg.accentColor,
     );
+  }
+
+  if (typeof cfg.renderApp === "function") {
+    try {
+      await cfg.renderApp({
+        cfg,
+        root: document.getElementById("tl-app-root"),
+        tabsWrap: document.getElementById("tabs-wrap"),
+        legendWrap: document.getElementById("legend-wrap"),
+        stateEl: document.getElementById("state-msg"),
+      });
+    } catch (e) {
+      setStateMsg("アプリの読み込みに失敗しました: " + e.message);
+    }
+    return;
   }
 
   // ── データ取得 ────────────────────────────────────────────
