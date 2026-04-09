@@ -7,6 +7,8 @@ window.QUIZ_CONFIG = {
   subtitle: "一問一答モード",
   backLink: "/sub-index.html?slug=classics",
   backLabel: "古典",
+  accentColor: "#c0392b",
+  image: "/image/ougi.svg",
   answerType: "text",
   dataScript: "/quiz/config/jodoushi-data.js",
   // supabaseTable なし（静的データ）

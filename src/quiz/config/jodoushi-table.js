@@ -6,6 +6,8 @@ window.QUIZ_CONFIG = {
   title: "古典 助動詞クイズ",
   subtitle: "表埋めモード",
   backLink: "/sub-index.html?slug=classics",
+  accentColor: "#c0392b",
+  image: "/image/ougi.svg",
   backLabel: "古典",
   answerType: "table",
   dataScript: "/quiz/config/jodoushi-data.js",
