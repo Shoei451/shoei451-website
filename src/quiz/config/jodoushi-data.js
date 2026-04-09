@@ -1,7 +1,8 @@
-// ═══════════════════════════════════════════
-//  DATA
-// ═══════════════════════════════════════════
-const DATA = [
+// quiz/config/jodoushi-data.js
+// 古典助動詞データ（jodoushi-typing / jodoushi-table 共用）
+// quiz/index.html で両 config より先に読み込む。
+
+window.JODOUSHI_DATA = [
   {
     name: "む",
     setsuzoku: "未然形",
@@ -244,17 +245,7 @@ const DATA = [
   },
 ];
 
-const COL_KEYS = [
-  "setsuzoku",
-  "imi",
-  "mizen",
-  "renyo",
-  "shushi",
-  "rentai",
-  "izen",
-  "meirei",
-];
-const COL_LABELS = {
+window.JODOUSHI_COL_LABELS = {
   setsuzoku: "接続",
   katsuyo: "活用の種類",
   imi: "意味",
