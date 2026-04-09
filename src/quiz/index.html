@@ -279,6 +279,7 @@
         <div id="qz-question-extras"></div>
         <div id="qz-choices"></div>
         <div id="qz-text-input"></div>
+        <div id="qz-table-input"></div>
         <div id="qz-feedback" class="hidden"></div>
         <div id="qz-nav-buttons"></div>
       </div>
@@ -290,6 +291,7 @@
 
     <script src="/quiz/components/answer/choice-buttons.js"></script>
     <script src="/quiz/components/answer/text-input.js"></script>
+    <script src="/quiz/components/answer/table-input.js"></script>
     <script src="/js/wh-utils.js"></script>
     <script src="/quiz/components/start/start-screen.js"></script>
     <script src="/quiz/components/progress/progress.js"></script>
@@ -370,6 +372,10 @@
           conditionalLoads.push(
             loadScript("https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
           );
+        }
+
+        if (cfg.dataScript) {
+          await loadScript(cfg.dataScript);
         }
 
         if (conditionalLoads.length > 0) {

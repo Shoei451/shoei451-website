@@ -8,6 +8,7 @@ window.QUIZ_CONFIG = {
   backLink: "/sub-index.html?slug=classics",
   backLabel: "古典",
   answerType: "table",
+  dataScript: "/quiz/config/jodoushi-data.js",
   // supabaseTable なし（静的データ）
 
   rangeMode: "none",

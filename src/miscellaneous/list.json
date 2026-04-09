@@ -4,6 +4,19 @@
   "headerDesc": "Miscellaneous: A collection of various educational tools and resources for students, covering a wide range of subjects and topics.",
   "sections": [
     {
+      "title": "古典",
+      "desc": "古典の知識（古文・漢文）を確認",
+      "items": [
+        {
+          "title": "古文助動詞クイズ 一問一答",
+          "link": "/quiz/index.html?slug=jodoushi-typing",
+          "titleEN": "",
+          "descrption": "古文助動詞の知識を一問一答形式で確認",
+          "icon": "/images/ougi.svg"
+        }
+      ]
+    },
+    {
       "title": "理科基礎",
       "desc": "生物基礎・地学基礎の知識を確認",
       "items": [

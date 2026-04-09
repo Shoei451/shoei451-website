@@ -24,6 +24,7 @@ const QUIZ_CSS_FILES = [
   "dist/quiz/components/progress/progress.css",
   "dist/quiz/components/question/question-area.css",
   "dist/quiz/components/answer/answer.css",
+  "dist/quiz/components/answer/table-input.css",
   "dist/quiz/components/feedback/feedback.css",
   "dist/quiz/components/result/result.css",
   "dist/quiz/components/modal/modal.css",
@@ -67,7 +68,7 @@ execSync(
 
 //console.log("[5/5] Injecting sendBeacon snippets...");
 //if (process.env.NETLIFY === "true") {
-  // sendBeacon 挿入スクリプトがあれば実行
+// sendBeacon 挿入スクリプトがあれば実行
 //  const beaconScript = "scripts/inject-beacon.js";
 //  if (fs.existsSync(beaconScript)) {
 //    execSync(`node ${beaconScript}`, { stdio: "inherit" });
