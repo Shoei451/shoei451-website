@@ -37,6 +37,16 @@ body.dark .qz-category-chip {
   max-width: 640px;
 }
 
+/* template の {{key}} を strong で強調したときのスタイル */
+.qz-question-text .qz-q-em {
+  color: var(--qz-accent-dark);
+  font-style: normal;
+}
+
+body.dark .qz-question-text .qz-q-em {
+  color: var(--qz-accent);
+}
+
 /* ===== Sub Text（日本語訳など） ===== */
 .qz-question-sub {
   font-size: 0.9rem;

@@ -1,5 +1,5 @@
 // ============================================================
-// quiz/quiz-logic.js
+// quiz/logic.js
 //
 // 全クイズ共通エンジン。QUIZ_CONFIG の内容を知らない。
 // config が渡す関数を呼ぶだけ。
@@ -8,7 +8,7 @@
 //       /js/supabase_config.js → window.db, window.SUPABASE_TABLES
 // ============================================================
 
-// ── ユーティリティ（wh-utils.js 非依存でインライン定義） ──
+// ── ユーティリティ ─────────────────────────────────────────
 
 function _shuffle(array) {
   const arr = array.slice();
@@ -48,11 +48,9 @@ window.initQuizLogic = function (cfg) {
   _allData = [];
   _resetState();
 
-  // グローバルに公開（config から参照できるように）
   window._quizFormatYear = _formatYear;
   window._quizShuffle = _shuffle;
 
-  // Supabase を window._db に公開（config の fetchData から参照）
   if (window.db && !window._db) {
     window._db = window.db;
   }
@@ -89,7 +87,6 @@ function _renderStartScreen() {
 // ── クイズ開始 ────────────────────────────────────────────
 
 async function _onStart(selectedRanges, count) {
-  // スタートボタンを無効化してローディング表示
   const btn = document.getElementById("qz-start-btn");
   if (btn) {
     btn.disabled = true;
@@ -117,7 +114,7 @@ async function _onStart(selectedRanges, count) {
   }
 
   _resetState();
-  _quizSet = _allData; // fetchData 側でシャッフル・スライス済み
+  _quizSet = _allData;
 
   initProgress({
     total: _quizSet.length,
@@ -139,24 +136,37 @@ function _renderQuestion(i) {
 
   const row = _quizSet[i];
   const qData = _cfg.formatQuestion(row);
-  showQuestion(qData);
+
+  // table モードは question-area を使わない（表全体が問題）
+  if (_cfg.answerType !== "table") {
+    showQuestion(qData);
+  } else {
+    // table モードでは question-area を空にしておく
+    const qaEl = document.getElementById("qz-question-area");
+    if (qaEl) qaEl.innerHTML = "";
+  }
+
   _renderQuestionExtras(row, i);
 
-  // 回答エリアをクリア
   document.getElementById("qz-choices").innerHTML = "";
   document.getElementById("qz-text-input").innerHTML = "";
+  const tableEl = document.getElementById("qz-table-input");
+  if (tableEl) tableEl.innerHTML = "";
 
   if (_cfg.answerType === "choice") {
     _renderChoices(row, i);
+  } else if (_cfg.answerType === "table") {
+    _renderTable(row, i);
   } else {
     _renderTextInput(row, i);
   }
 }
 
+// ── 4択 ───────────────────────────────────────────────────
+
 function _renderChoices(row, i) {
   const correctLabel = _cfg.formatCorrectLabel(row);
 
-  // row.options が定義されている場合はそれをそのまま使う（hex-quiz 等）
   let options;
   if (row.options) {
     options = row.options;
@@ -199,6 +209,8 @@ function _renderChoices(row, i) {
   });
 }
 
+// ── テキスト入力 ──────────────────────────────────────────
+
 function _renderTextInput(row, i) {
   const correctValue = _cfg.getCorrectValue ? _cfg.getCorrectValue(row) : null;
   const correctLabel = _cfg.formatCorrectLabel(row);
@@ -237,6 +249,46 @@ function _renderTextInput(row, i) {
   });
 }
 
+// ── 表形式入力 ────────────────────────────────────────────
+
+function _renderTable(row, i) {
+  const blankKeys = _cfg.getBlankKeys(row);
+  const isReviewMode = _cfg._reviewMode ?? false;
+
+  // 正解したかどうかのフラグ（revealで完了した場合はfalse）
+  let _completedByCorrect = false;
+
+  showTableInput({
+    row,
+    tableRows: _cfg.tableRows,
+    blankKeys,
+    isCorrect: (key, value, r) => _cfg.isCorrect(key, value, r),
+    formatCell: (key, r) => _cfg.formatCell(key, r),
+    headerKey: _cfg.headerKey ?? "name",
+    onComplete(allCorrect) {
+      _completedByCorrect = allCorrect;
+      if (allCorrect && !isReviewMode) {
+        _correctCount++;
+      } else if (!allCorrect) {
+        // 表示用に mistake を積む（表単位）
+        const qData = _cfg.formatQuestion(row);
+        _mistakes.push({
+          questionText: qData.text ?? _cfg.formatCell(_cfg.headerKey ?? "name", row),
+          category: qData.category ?? null,
+          userAnswer: "（表埋め）",
+          correctAnswer: "（表埋め）",
+          _rowId: _rowId(row),
+          _raw: row,
+          _isTable: true,
+        });
+      }
+      window.enableNextButton?.();
+    },
+  });
+}
+
+// ── question extras ───────────────────────────────────────
+
 function _renderQuestionExtras(row, i) {
   const el = document.getElementById("qz-question-extras");
   if (!el) return;
@@ -273,6 +325,7 @@ function _advanceQuestion(idx) {
     renderMistake: _cfg.renderMistake ?? null,
     onRetry: _resetToStart,
     onRetryMistakes(ms) {
+      // table モードは _raw から quizSet を再構成
       const ids = new Set(ms.map((m) => m._rowId));
       const retrySet = _allData.filter((r) => ids.has(_rowId(r)));
 
@@ -283,6 +336,7 @@ function _advanceQuestion(idx) {
 
       _resetState();
       _quizSet = retrySet;
+      _cfg._reviewMode = true;
 
       initProgress({
         total: _quizSet.length,
@@ -301,6 +355,7 @@ function _advanceQuestion(idx) {
 // ── リセット ──────────────────────────────────────────────
 
 function _resetToStart() {
+  _cfg._reviewMode = false;
   _resetState();
   _showScreen("start-screen");
   _renderStartScreen();
@@ -333,7 +388,7 @@ function _rowId(row) {
 function _buildMistakeItem(row, userAnswer, correctAnswer) {
   const qData = _cfg.formatQuestion(row);
   return {
-    questionText: qData.text,
+    questionText: qData.text ?? "",
     category: qData.category ?? null,
     userAnswer,
     correctAnswer,

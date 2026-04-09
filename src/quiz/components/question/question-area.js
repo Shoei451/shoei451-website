@@ -8,8 +8,14 @@
 //   2. showQuestion(questionData) を呼ぶたびに内容が書き換わる
 //
 // @typedef {Object} QuestionData
-// @property {string}   text          - 問題文（メイン）
-// @property {string}   [sub]         - 補足テキスト（例: 日本語訳）
+// @property {string}   [text]        - 問題文（プレーンテキスト）
+// @property {string}   [template]    - 問題文テンプレート（"{{key}}" 記法）
+//                                      text と排他。template が優先される。
+// @property {Object}   [vars]        - template 内の置換変数
+//                                      例: { name: "む", colLabel: "接続" }
+//                                      キーを <strong> で強調するには vars に
+//                                      { name: { value: "む", strong: true } } と渡す。
+// @property {string}   [sub]         - 補足テキスト（例: 日本語訳・接続情報）
 // @property {string}   [category]    - カテゴリラベル（チップ表示）
 // @property {string}   [imageUrl]    - 問題画像のURL（省略可）
 // @property {string}   [imageAlt]    - 画像の alt テキスト
@@ -44,15 +50,37 @@
       ? `<p class="qz-question-sub">${_esc(data.sub)}</p>`
       : "";
 
+    const questionHTML = data.template
+      ? _renderTemplate(data.template, data.vars ?? {})
+      : `<p class="qz-question-text">${_esc(data.text ?? "")}</p>`;
+
     el.innerHTML = `
       <div class="qz-question">
         ${chip}
         ${img}
-        <p class="qz-question-text">${_esc(data.text)}</p>
+        ${questionHTML}
         ${sub}
       </div>
     `;
   };
+
+  // ── テンプレートレンダラー ────────────────────────────────
+  //
+  // "{{key}}" を vars[key] で置換する。
+  // vars[key] が { value, strong: true } の形式なら <strong class="qz-q-em"> で囲む。
+  // それ以外はプレーンテキストとして HTML エスケープして挿入。
+
+  function _renderTemplate(template, vars) {
+    const html = template.replace(/\{\{(\w+)\}\}/g, (_, key) => {
+      const v = vars[key];
+      if (v == null) return "";
+      if (typeof v === "object" && v.strong) {
+        return `<strong class="qz-q-em">${_esc(String(v.value ?? ""))}</strong>`;
+      }
+      return _esc(String(v));
+    });
+    return `<p class="qz-question-text">${html}</p>`;
+  }
 
   function _esc(str) {
     return String(str ?? "")
