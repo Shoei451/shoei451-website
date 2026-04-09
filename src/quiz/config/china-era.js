@@ -11,6 +11,7 @@ window.QUIZ_CONFIG = {
   backLabel: "History",
   accentColor: "#df7c5e",
   answerType: "text",
+  supabaseTable: "wh_dates",
   image: "/images/chinese-history.svg",
 
   rangeMode: "multi",

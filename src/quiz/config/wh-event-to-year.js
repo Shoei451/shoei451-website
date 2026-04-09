@@ -7,6 +7,7 @@ window.QUIZ_CONFIG = {
   backLink: "/sub-index.html?slug=history",
   backLabel: "History",
   answerType: "text",
+  supabaseTable: "wh_quiz",
   image: "/images/wh-quiz.png",
 
   rangeMode: "single",

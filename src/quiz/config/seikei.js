@@ -7,6 +7,7 @@ window.QUIZ_CONFIG = {
   backLink: "/sub-index.html?slug=seikei",
   backLabel: "政治・経済",
   answerType: "text",
+  supabaseTable: "seikei",
 
   rangeMode: "multi",
   rangeLabel: "出題カテゴリ",

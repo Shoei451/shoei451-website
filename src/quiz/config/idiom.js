@@ -8,6 +8,7 @@ window.QUIZ_CONFIG = {
   backLink: "/sub-index.html?slug=miscellaneous",
   backLabel: "Miscellaneous",
   answerType: "choice",
+  supabaseTable: "english_idioms",
   startLabel: "Start Quiz",
 
   rangeMode: "single",

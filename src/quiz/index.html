@@ -14,24 +14,9 @@
     <meta name="apple-mobile-web-app-title" content="Shoei451" />
     <link rel="apple-touch-icon" href="/images/favicon.png" />
 
-    <link
-      rel="preload"
-      as="script"
-      href="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
-    />
-
-    <!-- base.css: --color-accent（ゴールド）と #theme-toggle スタイルを提供 -->
     <link rel="stylesheet" href="/css/base.css" />
-    <link rel="stylesheet" href="/quiz/components/quiz-shell.css" />
-    <link rel="stylesheet" href="/quiz/components/start/start-screen.css" />
-    <link rel="stylesheet" href="/quiz/components/progress/progress.css" />
-    <link rel="stylesheet" href="/quiz/components/question/question-area.css" />
-    <link rel="stylesheet" href="/quiz/components/answer/answer.css" />
-    <link rel="stylesheet" href="/quiz/components/feedback/feedback.css" />
-    <link rel="stylesheet" href="/quiz/components/result/result.css" />
-    <link rel="stylesheet" href="/quiz/components/modal/modal.css" />
+    <link rel="stylesheet" href="/quiz/components/quiz-bundle.css" />
     <style>
-      /* quiz.html 固有の最小スタイル。コンポーネントスタイルは /quiz/components/ 以下に集約済み。*/
       .qz-state-msg {
         text-align: center;
         padding: var(--qz-space-lg) var(--qz-space-sm);
@@ -270,8 +255,6 @@
     </style>
   </head>
   <body>
-    <!-- theme-toggle.js が #theme-toggle-container-header に inject する -->
-
     <header class="qz-header" id="qz-header">
       <div class="qz-header__inner">
         <div class="qz-header__title-wrap">
@@ -305,20 +288,8 @@
       <div id="state-msg" class="qz-state-msg"></div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script>
-      window.__supabaseConfigReady = import("/js/supabase_config.js").then(
-        ({ db, tables }) => {
-          window.db = db;
-          window._db = db;
-          window.SUPABASE_TABLES = tables;
-        },
-      );
-    </script>
-
-    <script defer src="/quiz/components/answer/choice-buttons.js"></script>
-    <script defer src="/quiz/components/answer/text-input.js"></script>
-
+    <script src="/quiz/components/answer/choice-buttons.js"></script>
+    <script src="/quiz/components/answer/text-input.js"></script>
     <script src="/js/wh-utils.js"></script>
     <script src="/quiz/components/start/start-screen.js"></script>
     <script src="/quiz/components/progress/progress.js"></script>
@@ -331,7 +302,7 @@
     <script>
       const BASE = "/";
 
-      async function loadScript(src) {
+      function loadScript(src) {
         return new Promise((resolve, reject) => {
           const s = document.createElement("script");
           s.src = src;
@@ -339,6 +310,26 @@
           s.onerror = () => reject(new Error("Failed to load: " + src));
           document.head.appendChild(s);
         });
+      }
+
+      function applyHeader(cfg) {
+        document.title = cfg.title + " — Shoei451";
+        document.getElementById("qz-header-title").textContent = cfg.title;
+        if (cfg.subtitle) {
+          document.getElementById("qz-header-subtitle").textContent =
+            cfg.subtitle;
+        }
+        if (cfg.backLink) {
+          const backEl = document.getElementById("qz-back-link");
+          backEl.href = cfg.backLink;
+          backEl.textContent = cfg.backLabel ?? "戻る";
+        }
+        if (cfg.accentColor) {
+          document.documentElement.style.setProperty(
+            "--qz-accent",
+            cfg.accentColor,
+          );
+        }
       }
 
       async function boot() {
@@ -349,15 +340,42 @@
           return;
         }
 
-        // Supabase初期化とconfig読み込みを並列
-        const [cfg] = await Promise.all([
-          loadScript(BASE + "quiz/config/" + slug + ".js").then(
-            () => window.QUIZ_CONFIG,
-          ),
-          window.__supabaseConfigReady,
-        ]);
+        // config読み込みをまず単独で実行（supabaseTable / tutorialMd の有無を確認するため）
+        await loadScript(BASE + "quiz/config/" + slug + ".js");
+        const cfg = window.QUIZ_CONFIG;
+        if (!cfg) {
+          document.getElementById("state-msg").textContent =
+            "QUIZ_CONFIG が定義されていません: " + slug;
+          return;
+        }
 
-        // logicはcfgとSupabaseの両方が揃ってから
+        // supabaseTable があれば Supabase を、tutorialMd があれば marked を並列ロード
+        const conditionalLoads = [];
+
+        if (cfg.supabaseTable) {
+          conditionalLoads.push(
+            loadScript(
+              "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
+            ).then(() =>
+              import("/js/supabase_config.js").then(({ db, tables }) => {
+                window.db = db;
+                window._db = db;
+                window.SUPABASE_TABLES = tables;
+              }),
+            ),
+          );
+        }
+
+        if (cfg.tutorialMd) {
+          conditionalLoads.push(
+            loadScript("https://cdn.jsdelivr.net/npm/marked/marked.min.js"),
+          );
+        }
+
+        if (conditionalLoads.length > 0) {
+          await Promise.all(conditionalLoads);
+        }
+
         await loadScript(BASE + "quiz/logic.js");
         applyHeader(cfg);
         window.initQuizLogic(cfg);
@@ -368,8 +386,6 @@
           "読み込みエラー: " + err.message;
         console.error(err);
       });
-
-      applyHeader(cfg);
     </script>
   </body>
 </html>

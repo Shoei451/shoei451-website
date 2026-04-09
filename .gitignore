@@ -15,7 +15,6 @@ archives/
 # Dependencies and generated artifacts
 node_modules/
 dist/
-build/
 coverage/
 .cache/
 *.log
