@@ -10,8 +10,15 @@
         {
           "title": "古文助動詞クイズ 一問一答",
           "link": "/quiz/index.html?slug=jodoushi-typing",
-          "titleEN": "",
-          "descrption": "古文助動詞の知識を一問一答形式で確認",
+          "titleEN": "Japanese classical aux quiz",
+          "description": "古文助動詞の知識を一問一答形式で確認",
+          "icon": "/images/ougi.svg"
+        },
+        {
+          "title": "古文助動詞クイズ 表形式",
+          "link": "/quiz/index.html?slug=jodoushi-table",
+          "titleEN": "Japanese classical aux quiz",
+          "description": "古文助動詞の知識を表形式で確認",
           "icon": "/images/ougi.svg"
         }
       ]
