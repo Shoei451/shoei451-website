@@ -5,10 +5,10 @@
 window.QUIZ_CONFIG = {
   title: "古典 助動詞クイズ",
   subtitle: "表埋めモード",
-  backLink: "/sub-index.html?slug=classics",
+  backLink: "/sub-index.html?slug=miscellaneous",
   accentColor: "#c0392b",
   image: "/images/ougi.svg",
-  backLabel: "古典",
+  backLabel: "Miscellaneous",
   answerType: "table",
   dataScript: "/quiz/config/jodoushi-data.js",
   // supabaseTable なし（静的データ）
