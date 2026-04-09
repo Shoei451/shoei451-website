@@ -3,6 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Operational checks for the shoei451-website",
+  "type": "module",
   "scripts": {
     "check:js": "node scripts/check-js.mjs",
     "check:links": "node scripts/check-links.mjs",
