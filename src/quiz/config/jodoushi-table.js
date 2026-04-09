@@ -7,7 +7,7 @@ window.QUIZ_CONFIG = {
   subtitle: "表埋めモード",
   backLink: "/sub-index.html?slug=classics",
   accentColor: "#c0392b",
-  image: "/image/ougi.svg",
+  image: "/images/ougi.svg",
   backLabel: "古典",
   answerType: "table",
   dataScript: "/quiz/config/jodoushi-data.js",
