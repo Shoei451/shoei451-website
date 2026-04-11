@@ -299,7 +299,11 @@ function renderDetail() {
     document.body.classList.remove("lock-scroll");
   }
 
-  const detailHref = `dynasty.html?slug=${d.slug}`;
+  const detailHref = window.getDocsUrl ? window.getDocsUrl(d.slug) : null;
+
+  detailHref
+    ? `<a class="link-btn prominent" href="${detailHref}" target="_blank" rel="noopener">まとめノートを開く</a>`
+    : "";
 
   root.innerHTML = `
         <button class="close" id="closeBtn">← 閉じる</button>
