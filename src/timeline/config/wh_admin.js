@@ -1,4 +1,4 @@
-import { initWorldHistoryAdminApp } from "../wh_admin/app.js";
+import { initWorldHistoryAdminApp } from "../../wh_admin/app.js";
 
 const timelineConfig = {
   title: "世界史年表 管理",
