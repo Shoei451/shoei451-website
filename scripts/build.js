@@ -90,20 +90,4 @@ for (const file of htmlFiles) {
   fs.writeFileSync(file, output);
 }
 console.log(`  → ${htmlFiles.length} HTML files minified`);
-
-// ── 5. sendBeacon 挿入（Netlify環境のみ） ────────────────
-
-//console.log("[5/5] Injecting sendBeacon snippets...");
-//if (process.env.NETLIFY === "true") {
-// sendBeacon 挿入スクリプトがあれば実行
-//  const beaconScript = "scripts/inject-beacon.js";
-//  if (fs.existsSync(beaconScript)) {
-//    execSync(`node ${beaconScript}`, { stdio: "inherit" });
-//  } else {
-//    console.log("  (inject-beacon.js not found, skipping)");
-//  }
-//} else {
-//  console.log("  (not Netlify environment, skipping)");
-//}
-
 console.log("\nBuild complete.");
