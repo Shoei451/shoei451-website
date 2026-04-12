@@ -9,10 +9,10 @@
       "items": [
         {
           "title": "東進受講管理ツール",
-          "link": "https://451-toshin-tracker.netlify.app/",
+          "link": "https://451-suite.netlify.app/toshin-tracker",
           "titleEN": "Toshin Tracker",
           "description": "東進の受講管理を支援するツールです。",
-          "icon": "https://451-toshin-tracker.netlify.app/images/favicon.svg",
+          "icon": "https://451-suite.netlify.app/toshin-tracker/images/favicon.svg",
           "iconType": "image"
         },
         {
@@ -21,6 +21,14 @@
           "titleEN": "Study Notes & Updates",
           "description": "Learning notes, thoughts, and update posts(Markdown-based docs).",
           "icon": "https://451-docs.netlify.app/images/s-docs.svg",
+          "iconType": "image"
+        },
+        {
+          "title": "Calendar App",
+          "link": "https://451-suite.netlify.app/calendar",
+          "titleEN": "Mini calendar app for students",
+          "description": "A simple calendar app where students can manage assignments, exams, and classes all in one place and sync them across devices",
+          "icon": "https://451-suite.netlify.app/calendar/favicon/calendar-favicon.svg",
           "iconType": "image"
         },
         {
@@ -41,10 +49,10 @@
         },
         {
           "title": "451-Schedule Tracker",
-          "link": "https://451-schedule-tracker.netlify.app/",
+          "link": "https://451-suite.netlify.app/schedule-tracker",
           "titleEN": "Schedule Tracker",
           "description": "A tool for tracking and managing schedules.",
-          "icon": "https://451-schedule-tracker.netlify.app/schedule-tracker.svg",
+          "icon": "https://451-suite.netlify.app/schedule-tracker/schedule-tracker.svg",
           "iconType": "image"
         }
       ]
