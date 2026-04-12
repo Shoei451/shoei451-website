@@ -64,6 +64,11 @@ execSync(
   { stdio: "inherit" },
 );
 
+// html minify
+
+console.log("[5/5] Minifying HTML...");
+execSync("node scripts/minify-html.mjs", { stdio: "inherit" });
+
 // ── 5. sendBeacon 挿入（Netlify環境のみ） ────────────────
 
 //console.log("[5/5] Injecting sendBeacon snippets...");
