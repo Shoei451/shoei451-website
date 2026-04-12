@@ -634,6 +634,33 @@ body.dark .step-label-wrap.active .step-label {
   border-color: transparent;
 }
 
+/* ===== f-event: prominent input ===== */
+#f-event {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.6rem 0.8rem;
+  border-width: 1.5px;
+  letter-spacing: 0.01em;
+}
+#f-event:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 18%, transparent);
+}
+
+/* ===== f-wiki-url: monospace, clearable ===== */
+#f-wiki-url {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  padding: 0.5rem 0.75rem;
+}
+#f-wiki-url:not(:placeholder-shown) {
+  color: var(--color-text-primary);
+}
+#f-wiki-url:focus {
+  color: var(--color-text-primary);
+}
+
 /* Wiki URL row */
 .wiki-row {
   display: flex;
