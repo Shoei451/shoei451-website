@@ -460,6 +460,10 @@ body.dark .has-memo {
   padding: 1.75rem;
   position: relative;
 }
+#edit-modal .modal {
+  display: flex;
+  flex-direction: column;
+}
 
 .modal__header {
   display: flex;
@@ -551,6 +555,9 @@ body.dark .step-label-wrap.active .step-label {
 }
 
 /* Step panels */
+#edit-form {
+  min-height: 360px;
+}
 .step-panel {
   display: none;
 }
@@ -728,6 +735,9 @@ body.dark .step-label-wrap.active .step-label {
   align-items: start;
 }
 @media (max-width: 767px) {
+  #edit-form {
+    min-height: 300px;
+  }
   .memo-layout {
     grid-template-columns: 1fr;
   }
