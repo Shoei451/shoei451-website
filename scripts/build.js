@@ -80,6 +80,7 @@ for (const file of htmlFiles) {
   const input = fs.readFileSync(file, "utf-8");
   const output = await minify(input, {
     collapseWhitespace: true,
+    conservativeCollapse: false,   // 追加: 連続空白を1つに
     removeComments: true,
     removeRedundantAttributes: true,
     removeEmptyAttributes: false, // alt="" を守る
