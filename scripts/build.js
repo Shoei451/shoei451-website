@@ -66,8 +66,29 @@ execSync(
 
 // html minify
 
+// ── 5. HTML minify ────────────────────────────────────────
 console.log("[5/5] Minifying HTML...");
-execSync("node scripts/minify-html.mjs", { stdio: "inherit" });
+
+import { minify } from "html-minifier-terser";
+
+const htmlFiles = fs
+  .readdirSync("dist", { recursive: true })
+  .filter((f) => f.endsWith(".html"))
+  .map((f) => path.join("dist", f));
+
+for (const file of htmlFiles) {
+  const input = fs.readFileSync(file, "utf-8");
+  const output = await minify(input, {
+    collapseWhitespace: true,
+    removeComments: true,
+    removeRedundantAttributes: true,
+    removeEmptyAttributes: false, // alt="" を守る
+    minifyCSS: true,
+    minifyJS: true,
+  });
+  fs.writeFileSync(file, output);
+}
+console.log(`  → ${htmlFiles.length} HTML files minified`);
 
 // ── 5. sendBeacon 挿入（Netlify環境のみ） ────────────────
 
