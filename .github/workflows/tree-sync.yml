@@ -3,10 +3,6 @@ name: Update Remote Tree MD
 on:
   push:
     branches: [main]
-    # 設定ファイル自体が更新された時もトリガーしたい場合は以下を有効化
-    # paths:
-    #   - '.github/config/config.json'
-    #   - '**'
 
 jobs:
   sync-tree:
@@ -20,13 +16,17 @@ jobs:
         run: |
           CONFIG_PATH=".github/config/tree-sync-config.json"
 
-          echo "enabled=$(jq -r '.enabled' $CONFIG_PATH)" >> $GITHUB_OUTPUT
-          echo "target_repo=$(jq -r '.target_repo' $CONFIG_PATH)" >> $GITHUB_OUTPUT
-          echo "target_branch=$(jq -r '.target_branch' $GITHUB_OUTPUT)" >> $GITHUB_OUTPUT # 修正
-          echo "output_path=$(jq -r '.output_path' $CONFIG_PATH)" >> $GITHUB_OUTPUT
-
-          # 【修正ポイント】パターンを | で繋ぎ、前後に引用符がつかないように出力
+          # jqで値を抽出（target_branchの参照先ミスを修正）
+          ENABLED=$(jq -r '.enabled' $CONFIG_PATH)
+          TARGET_REPO=$(jq -r '.target_repo' $CONFIG_PATH)
+          TARGET_BRANCH=$(jq -r '.target_branch' $CONFIG_PATH)
+          OUTPUT_PATH=$(jq -r '.output_path' $CONFIG_PATH)
           EXCLUDE_PATTERN=$(jq -r '.exclude | join("|")' $CONFIG_PATH)
+
+          echo "enabled=$ENABLED" >> $GITHUB_OUTPUT
+          echo "target_repo=$TARGET_REPO" >> $GITHUB_OUTPUT
+          echo "target_branch=$TARGET_BRANCH" >> $GITHUB_OUTPUT
+          echo "output_path=$OUTPUT_PATH" >> $GITHUB_OUTPUT
           echo "exclude_pattern=$EXCLUDE_PATTERN" >> $GITHUB_OUTPUT
 
       - name: Generate Tree Markdown
@@ -34,35 +34,15 @@ jobs:
         run: |
           sudo apt-get install -y tree
 
-          # デバッグ用：実際に渡されるパターンを表示
-          echo "Applying pattern: ${{ steps.config.outputs.exclude_pattern }}"
-
           echo "# Repository Tree" > /tmp/working_tree.md
-          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> /tmp/working_tree.md
+          # 【重要】日時の出力を削除（これがあると毎回差分が出てしまいます）
           echo "" >> /tmp/working_tree.md
-          echo "\`\`\`" >> /tmp/working_tree.md
+          echo '```' >> /tmp/working_tree.md
 
-          # 【修正ポイント】パターンをダブルクォートで囲み、-I に渡す
-          # また、icons内のsvgを消すために末尾に |*.svg を強制追加しても良いです
+          # ツリー生成
           tree -I "${{ steps.config.outputs.exclude_pattern }}" --prune >> /tmp/working_tree.md
 
-          echo "\`\`\`" >> /tmp/working_tree.md
-          mv /tmp/working_tree.md tree.md
-
-      - name: Generate Tree Markdown
-        if: steps.config.outputs.enabled == 'true'
-        run: |
-          sudo apt-get install -y tree
-
-          echo "# Repository Tree" > /tmp/working_tree.md
-          echo "Generated at: $(date +'%Y-%m-%d %H:%M:%S')" >> /tmp/working_tree.md
-          echo "" >> /tmp/working_tree.md
-          echo "\`\`\`" >> /tmp/working_tree.md
-
-          # --prune を追加すると、中身が空のディレクトリを整理してくれます
-          tree -I "${{ steps.config.outputs.exclude_pattern }}" --prune >> /tmp/working_tree.md
-
-          echo "\`\`\`" >> /tmp/working_tree.md
+          echo '```' >> /tmp/working_tree.md
           mv /tmp/working_tree.md tree.md
 
       - name: Checkout Target Repo (Repo2)
@@ -85,8 +65,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add .
+          # 特定のファイルのみをステージング
+          git add "${{ steps.config.outputs.output_path }}"
+
+          # ステージングされた内容に差分があるか確認
           if ! git diff --cached --quiet; then
+            echo "Tree structure changed. Committing..."
             git commit -m "docs: update file tree from ${{ github.repository }}"
             git push origin ${{ steps.config.outputs.target_branch }}
           else
