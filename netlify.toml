@@ -12,3 +12,34 @@ command = "npm run build"
   [headers.values]
     Cache-Control = "no-cache"
     Service-Worker-Allowed = "/"
+
+
+[[redirects]]
+  from = "/history/"
+  to = "/sub-index.html?slug=history"
+  status = 301
+
+[[redirects]]
+  from = "/geography"
+  to = "/sub-index.html?slug=geography"
+  status = 301
+
+[[redirects]]
+  from = "/geography/"
+  to = "/sub-index.html?slug=geography"
+  status = 301
+
+[[redirects]]
+  from = "/seikei"
+  to = "/sub-index.html?slug=seikei"
+  status = 301
+
+[[redirects]]
+  from = "/seikei/"
+  to = "/sub-index.html?slug=seikei"
+  status = 301
+
+[[redirects]]
+  from = "/miscellaneous"
+  to = "/sub-index.html?slug=miscellaneous"
+  status = 301
